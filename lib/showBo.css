@@ -1,0 +1,168 @@
+/* CSS Document */
+#dvMsgBox h1,#dvMsgBox h2,#dvMsgBox h3,#dvMsgBox h4,#dvMsgBox h5,#dvMsgBox h6,#dvMsgBox p,#dvMsgBox ul,#dvMsgBox ol,#dvMsgBox li,#dvMsgBox form,#dvMsgBox img,#dvMsgBox dl,#dvMsgBox dt,#dvMsgBox dd,#dvMsgBox table,#dvMsgBox th,#dvMsgBox td,#dvMsgBox blockquote,#dvMsgBox fieldset,#dvMsgBox div,#dvMsgBox strong,#dvMsgBox label,#dvMsgBox em{margin:0;padding:0;border:0;}
+/* body{font-family: "FontAwesome"} */
+#dvMsgBox ul,#dvMsgBox ol,#dvMsgBox li{list-style:none;}
+#dvMsgBox input,#dvMsgBox button{margin:0;font-size:12px;vertical-align:middle;}
+/* body{font-size:12px;font-family:Arial, Helvetica, sans-serif; color:#333; margin:0 auto; } */
+#dvMsgBox table{border-collapse:collapse;border-spacing:0;}
+
+#dvMsgBox a{color:#333;text-decoration:none;}
+#dvMsgBox a:hover{color:#c00; text-decoration:underline;}
+
+	#dvMsgBox{
+		display:none;
+		position:fixed;
+		font-size:14px;
+		width: 33.333333%;
+		overflow:hidden;
+		z-index:99999; 
+		border-radius:3px; 
+		font-family:"fa";
+		text-align: center;
+		border-top-left-radius: 10px;
+	    border-top-right-radius: 10px;
+	    border-bottom-left-radius: 10px;
+	    border-bottom-right-radius: 10px;
+	}
+	#dvMsgBox .top{
+	    padding: 5px 0;
+	    text-align: center;
+	    font-weight: normal;
+	    font-size: 2em;
+	    color: #000;
+	    background: #ccccd6;
+	    height: 50px;
+	    border-top-left-radius: 10px;
+	    border-top-right-radius: 10px;
+	} 
+	#dvMsgBox .top .right{
+		height:100%;
+		padding-right:6px;
+	}  
+	#dvMsgBox .top .right .title{
+		font-weight: normal;
+		font-size: 22px;
+		text-align: center;
+		text-align: center;
+		padding-left:11%;
+	} 
+
+	#dvMsgBox .top .right label.lbl-1 {
+		background: #5CBD71;
+		width: 20px;
+		height: 20px;
+		display: block;
+		float: right;
+		border-radius: 50%;
+		margin: 11px 10px 0px 0px;
+	}
+	#dvMsgBox .top .right  label.lbl-2 {
+		background: #ea569a;
+		width: 20px;
+		height: 20px;
+		display: block;
+		float: right;
+		border-radius: 50%;
+		margin: 11px 10px 0px 0px;
+	}
+	#dvMsgBox .top .right  label.lbl-3 {
+		background: #f1c85f;
+		width: 20px;
+		height: 20px;
+		display: block;
+		float: right;
+		border-radius: 50%;
+		margin: 11px 10px 0px 0px;
+	}
+
+	#dvMsgBox .top .right  .avtar{
+		width: 100px;
+	  	margin: 50px auto;
+	} 
+	#dvMsgBox .body{
+		background:#fff;
+		padding-left:10px;
+	}  
+	#dvMsgBox .body .right{
+		background:#fff;
+		padding-right:2px;
+	}  
+	#dvMsgBox .body .right .ct{  
+		line-height: 160px;
+	  	vertical-align: middle;
+	  	width: 100%;
+	  	text-align: center;
+		padding: 5px 0;
+		font-size: 1.5em;
+		font-weight: normal;
+  	}  
+#dvMsgBox .body .right .ct .pro{width:280px;border:solid 1px #6593cf;height:25px;background:#ffffff;line-height:23px;overflow:hidden;font-family: "fa"}  
+#dvMsgBox .body .right .ct .pro .bg{width:0%;height:100%;background:#c9dffc;font-family: "fa"}  
+	
+	#dvMsgBox .bottom{
+		background:#fff;
+		padding-left:6px;
+		height:10%;
+		border-bottom-left-radius: 10px;
+	    border-bottom-right-radius: 10px;
+	}
+	#dvMsgBox .bottom .right{
+		height:100%;
+		padding-right:6px;
+	}  
+
+	#dvMsgBox input.btn{
+		width:60px;   
+		border-radius: 4px; 
+		font-family:fa; 
+		cursor:pointer; 
+		height:40px; 
+		text-align:center;  
+	    font-size: 14px;
+	    font-weight: normal;
+	    white-space: nowrap;
+	    vertical-align: middle;
+	    touch-action: manipulation;
+	    border: 1px solid transparent;
+	    display: block;
+	  	margin-right: auto;
+	  	margin-left: auto;
+	  	color: #fff;
+	    background-color: #5cb85c;
+	    border-color: #4cae4c;
+	}  
+	#dvMsgBox input.btnfocus{ 
+		width:60px;   
+		border-radius: 4px; 
+		font-family:fa; 
+		cursor:pointer; 
+		height:40px; 
+		text-align:center;  
+	    font-size: 14px;
+	    font-weight: normal;
+	    white-space: nowrap;
+	    vertical-align: middle;
+	    touch-action: manipulation;
+	    border: 1px solid transparent;
+	    display: block;
+	  	margin-right: auto;
+	  	margin-left: auto;
+	  	color: #fff;
+	    background-color: #449d44;
+	    border-color: #398439;
+	}  
+#dvMsgBox .icon{width:32px;height:32px;float:left;margin-right:10px;}  
+#dvMsgBox .error{background:url(icon-error.gif) no-repeat;}  
+#dvMsgBox .info{background:url(icon-info.gif) no-repeat;}  
+#dvMsgBox .warning{background:url(icon-warning.gif) no-repeat;}  
+#dvMsgBox .clear{clear:both;}  
+#dvMsgBox .height{height:10px;line-height:10px;}  
+#ShowBolightBox{display:none;-moz-opacity:0.5;filter:alpha(opacity=50);opacity:0.5;background-color:#000000;z-index:5000;position:absolute;left:0px;top:0px;}
+#dvMsgBtns{ text-align:center; width:100%;}
+
+.loginwrap .showcase-form textarea .ng-dirty.ng-invalid, .loginwrap .showcase-form select .ng-dirty.ng-invalid, .loginwrap .showcase-form input.ng-dirty.ng-invalid {
+    border-color: #e9322d;
+    -webkit-box-shadow: 0 0 6px #f8b9b7;
+    -moz-box-shadow: 0 0 6px #f8b9b7;
+    box-shadow: 0 0 6px #f8b9b7;
+}
