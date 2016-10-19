@@ -19,7 +19,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		redirectTo:'/home'
 	})
 }])
-.controller('homeController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore',function($scope,$rootScope,$http,$location,$cookies,$cookieStore){
+.constant('constantUrl','http://114.55.238.82:81/')
+.controller('homeController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
 	$scope.$watch(function(){
 		var str=null;
 		var href=window.location.href;
@@ -36,9 +37,9 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		$location.path('/login');
 	}
 }])
-.controller('queryStrategy',['$scope','strategyResources','strategyResource','$http','$timeout','$cookieStore',function($scope,strategyResourcess,strategyResource,$http,$timeout,$cookieStore){
+.controller('queryStrategy',['$scope','strategyResources','strategyResource','$http','$timeout','$cookieStore','constantUrl',function($scope,strategyResourcess,strategyResource,$http,$timeout,$cookieStore,constantUrl){
 	$scope.queryAll=function(){
-		$http.get("http://114.55.238.82:80/api/strategys/",{
+		$http.get(constantUrl+"api/strategys/",{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(data){
@@ -52,7 +53,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	};
 	getStrategy();
 	function getStrategy(){
-	 $http.get("http://114.55.238.82:80/api/strategys/",{
+	 $http.get(constantUrl+"api/strategys/",{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(data){
@@ -69,7 +70,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			return
 		}
 		var url=$scope.selectedStrategy.name;
-		$http.patch("http://114.55.238.82:80/api/strategys/"+url+'/',{status:0},{
+		$http.patch(constantUrl+"api/strategys/"+url+'/',{status:0},{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(){
@@ -87,7 +88,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			return
 		}
 		var url=$scope.selectedStrategy.name;
-		$http.patch("http://114.55.238.82:80/api/strategys/"+url+'/',{status:1},{
+		$http.patch(constantUrl+"api/strategys/"+url+'/',{status:1},{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(){
@@ -105,7 +106,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			return
 		}
 		var url=$scope.selectedStrategy.name;
-		$http.patch("http://114.55.238.82:80/api/strategys/"+url+'/',{status:2},{
+		$http.patch(constantUrl+"api/strategys/"+url+'/',{status:2},{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(){
@@ -123,7 +124,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			return
 		}
 		var url=$scope.selectedStrategy.name;
-		$http.delete("http://114.55.238.82:80/api/strategys/"+url+'/',{
+		$http.delete(constantUrl+"api/strategys/"+url+'/',{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(){
@@ -162,7 +163,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			formdata.append('file',files);
 		}
 		console.log($scope.item);
-        $http.post("http://114.55.238.82:80/api/strategys/",formdata,{
+        $http.post(constantUrl+"api/strategys/",formdata,{
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined,
 	            	'Authorization':'token '+$cookieStore.get('user').token	
@@ -184,9 +185,9 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		$('.zijin-beta-mask').fadeOut();
 	}
 }])
-.controller('userController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore',function($scope,$rootScope,$http,$location,$cookies,$cookieStore){
+.controller('userController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
 	$scope.adduser=function(){
-		$http.post('http://114.55.238.82:80/users/',$scope.user)
+		$http.post(constantUrl+'users/',$scope.user)
 		.success(function(data){
 			Showbo.Msg.alert('注册成功');
 			$location.path('/login');
@@ -201,7 +202,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	$scope.userlogin=function(){
 		var username=$scope.user.username;
 		var password=$scope.user.password;
-		$http.post('http://114.55.238.82:80/api-token-auth/',$scope.user)
+		$http.post(constantUrl+'api-token-auth/',$scope.user)
 		.success(function(data){
 			
 			$cookieStore.put('user',{
@@ -248,7 +249,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
         	}
     	};
 }])
-.directive('ensureNameunique',function($http){
+.directive('ensureNameunique',function($http,constantUrl){
 	return{
 		require: 'ngModel',
 		link:function(scope,ele,attrs,ngModelCtrl){
@@ -261,7 +262,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				
 				$http({
 					method:'POST',
-					url : 'http://114.55.238.82:80/users/',//undone
+					url : constantUrl+'users/',//undone
 					params:{
 						username : val
 					}
@@ -284,7 +285,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	}
 })
 
-.directive('ensureEmailunique',function($http){
+.directive('ensureEmailunique',function($http,constantUrl){
 	return{
 		require: 'ngModel',
 		link:function(scope,ele,attrs,ngModelCtrl){
@@ -293,7 +294,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				
 				$http({
 					method:'POST',
-					url : 'http://114.55.238.82:80/users/',//undone
+					url : constantUrl+'users/',//undone
 					params:{
 						email : val
 					}
