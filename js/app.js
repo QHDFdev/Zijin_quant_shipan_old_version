@@ -259,25 +259,17 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				if(!val){
 					return;
 				}
-				
 				$http({
-					method:'POST',
-					url : constantUrl+'users/',//undone
-					params:{
-						username : val
-					}
-				}).success(function(data){
-					console.log(data);
-					if(data){
+					method:'get',
+					url : constantUrl+'users/'+val+'/'
+				}).success(function(data,sta){
+					if(sta==200){
 						ngModelCtrl.$setValidity('usernameAvi',false);
-					
-					}else{
-						ngModelCtrl.$setValidity('usernameAvi',true);
-			
 					}
 				}).error(function(err,sta){
-					console.log(err);
-					console.log(sta);
+					if(sta==404){
+						ngModelCtrl.$setValidity('usernameAvi',true);
+					}
 				})
 				return val;
 			})
@@ -285,7 +277,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	}
 })
 
-.directive('ensureEmailunique',function($http,constantUrl){
+/*.directive('ensureEmailunique',function($http,constantUrl){
 	return{
 		require: 'ngModel',
 		link:function(scope,ele,attrs,ngModelCtrl){
@@ -294,10 +286,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				
 				$http({
 					method:'POST',
-					url : constantUrl+'users/',//undone
-					params:{
-						email : val
-					}
+					url : constantUrl+'users/'+val
 				}).success(function(data){
 					console.log(data);
 					if(data){
@@ -313,4 +302,4 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			})
 		}
 	}
-})
+})*/
