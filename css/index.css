@@ -45,7 +45,7 @@ body, html {
 		vertical-align: middle;
 		}
 	.main-navbar .left-nav>li{
-		width: 24%;
+		width: 20%;
 	}
 	.main-navbar .navbar-collapse{
 		text-align: center;
@@ -57,6 +57,7 @@ body, html {
 }
 
 .main-navbar .navbar-brand {
+	padding:0;
 	color: #fff0f5;
 	font-weight: 600;
 }
@@ -86,7 +87,10 @@ body, html {
 	font-weight: 700;
 	color: #ffd700; 
 } */
-
+.zijin-main-wrapper  .navbar-brand img{
+	width: auto;
+	height: 100%;
+}
 @media ( min-width : 768px) {
 	.main-navbar .left-nav>li>a:hover {
 		color: #fff;
@@ -193,14 +197,16 @@ footer {
 	clear:both;
 	position:relative;
 	z-index:50;
-	padding-top: 30px;
+	/* padding-top: 30px; */
 	text-align: center;
 	border-top: 2px solid #dcdcdc;
 }
 
 footer .bill-footer {
+	padding-top: 30px;
 	padding-bottom: 30px;
 	color: #292421;
+	background: #f5f5ff;
 }
 @media (max-width:767px){
 	footer .bill-footer >.col-sm-4{margin-bottom:25px;}	
