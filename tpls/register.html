@@ -12,7 +12,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<input type="email" class="form-control" name="email" ng-model='user.email' placeholder="邮箱" ng-pattern='/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/' required ensure-emailunique="">
+					<input type="email" class="form-control" name="email" ng-model='user.email' placeholder="邮箱" ng-pattern='/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/' required >
 					<div class="error" ng-messages='register_form.email.$error' ng-if='register_form.email.$touched' ng-message-multiple>
 						<small ng-message='required'>邮箱不能为空</small>
 						<small ng-message='useremailAvi'>邮箱已被使用</small>

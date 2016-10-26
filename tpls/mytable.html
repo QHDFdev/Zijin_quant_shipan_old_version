@@ -1,0 +1,90 @@
+<div class="zijin-table">
+    <div class="zijin-table-head">
+        <div class="container">
+            <h1>紫金量化 实盘模拟</h1>
+            <p>无论你使用了MachineLearning，DeepLearning，多因子模型，经典海龟模型，量化择时，情绪指数，统计套利等等各种方法，写出了年化收益最高，最大回撤奇低的各种模型。</p>
+            <p>无论你策略在历史数据上回撤多么优秀，一切见真章，你必须要做实验模拟，来检测你策略真正运行效果。</p>
+        </div> 
+        <div class="zijin-table-bigmask"></div>
+    </div>
+    <div class="zijin-table-body container">
+        <div class="zijin-table-title">
+            <span>我的策略列表</span>
+            <i class="zijin-table-add" ng-click='openMask()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped" strategy-table>
+                <thead class="bg-success">
+                    <tr>
+                        <th class="col-xs-1">代码名</th>
+                        <th class="col-xs-2">类</th>
+                        <th class="col-xs-1">状态</th>
+                        <th class="col-xs-2">作者</th>
+                        <th class="col-xs-2">交易合约</th>
+                        <th class="col-xs-4">策略操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat='d in myStrategy | orderBy: "name"'>
+                        <td ng-bind="d.name"></td>
+                        <td ng-bind="d.class"></td>
+                        <td ng-bind="d.status"></td>
+                        <td ng-bind="d.author"></td>
+                        <td ng-bind="d.symbol"></td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button>
+                                <button  class="btn btn-success strategy-start">启动 <i class=" icon-play"></i></button>
+                                <button class="btn btn-warning strategy-pause">停止 <i class=" icon-pause"></i></button>
+                                <button  class="btn btn-danger strategy-del">删除策略 <i class=" icon-remove-sign"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>    
+    </div>    
+</div>
+
+<!-- mask -->
+<div class="zijin-table-mask">
+    <div class="mask-box container">
+        <div class="row">
+            <div class=" col-sm-8 col-sm-offset-2">
+                <form ng-submit="addStrategy()" name="newStrategy" novalidate="" enctype="multipart/form-data" id="newStrategy">
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model='item.name' placeholder="策略名" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model='item.class' placeholder="类" required>
+                    </div>
+                    <!-- <div class="form-group">
+                        <input type="text" class="form-control" ng-model='item.code' placeholder="code" required>
+                    </div> -->
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model='item.author' placeholder="作者" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model='item.symbol' placeholder="交易合约" required>
+                    </div>
+                    <!-- <div class="form-group">
+                        <input type="text" class="form-control" ng-model='item.code_name' placeholder="code_name" required>
+                    </div> -->
+                    <div class="form-group">
+                        <label>代码文件：</label><input type="file" name="file"  file-model='code' placeholder="代码" required="">
+                    </div>
+                    <div class="form-group">
+                        <label>代码依赖文件：</label><input type="file" name="files" file-model='files' placeholder="代码依赖文件">
+                    </div>
+                    <!-- <div class="form-group">
+                        <input type="text" class="form-control" ng-model='item.file_name' placeholder="filename">
+                    </div>  -->
+                    <div class="btn-group btn-group-lg">
+                        <input class="btn-success btn" type="submit" value="提交">
+                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+                    </div> 
+                </form>
+            </div>  
+        </div>  
+    </div>
+</div>
