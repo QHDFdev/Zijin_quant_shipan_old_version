@@ -19,6 +19,7 @@
 	<link rel="stylesheet" type="text/css" href="css/mytable.css">
 	<link rel="stylesheet" type="text/css" href="css/study.css">
 	<link rel="stylesheet" type="text/css" href="css/actualRes.css">
+	<link href='//cdn.webfont.youziku.com/webfonts/nomal/92956/19518/580b23f5f629d80610855745.css' rel='stylesheet' type='text/css' />
 </head>
 <body ng-controller='homeController'>
 	<div ng-class="{true:'zijin-main-wrapper',false:'transparent'}[isactive]"> 
@@ -48,6 +49,14 @@
 						</li>
 						<li>
 							<a ng-href="#/study" ng-class="{active:natived=='#/study'}">研究</a>
+						</li>
+						<li class="dropdown">
+							<a href="" data-toggle='dropdown' class="dropdown-toggle">
+								研究<span class="caret" ng-show='user.username!=null'></span>
+							</a>
+							<ul class="dropdown-menu dropdown-menu-left" ng-show='user.username!=null'>
+								<li><a ng-href="#/analyse" >从交易记录分析</a></li>
+							</ul>
 						</li>
 						<li>
 							<a ng-href="">帮助</a>
