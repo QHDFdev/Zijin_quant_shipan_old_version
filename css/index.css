@@ -108,6 +108,7 @@ body, html {
 @media (max-width: 767px){
 	.main-navbar .navbar-collapse{
 		background: linear-gradient(to right, #13285F 0%, #1C2C62 33%, #001641 66%, #000A2E 100%);
+		padding-bottom: 50px;
 	}
 }
 @media ( min-width : 768px) {
@@ -120,11 +121,12 @@ body, html {
 		color: #fff;
 	}
 	.main-navbar .navbar-nav>li>a {
-		padding-top: 35px;
-		padding-bottom: 35px;
+		padding-top: 25px;
+		padding-bottom: 25px;
 	}
 	.navbar .navbar-brand {
-		margin-top: 20px;
+		width: 70px;
+		height: 70px;
 	}
 	.navbar>.container-fluid .navbar-brand:hover {
 		color: #fff;
@@ -282,10 +284,10 @@ footer .footer-text-head span {
 #move-box{
 	position: absolute;
 	display: inline-block;
-	top: 20%;
+	top: 10%;
 	left: 10%;
 	width: 80%;
-	height: 60%;
+	height: 80%;
 	background: #E15671;
 	border-radius: 8px;
 	z-index: -1;
@@ -295,6 +297,71 @@ footer .footer-text-head span {
 .infinite{
 	animation: gelatine .5s infinite;
 }
+.main-navbar .list-group{
+	display: none;
+	position: absolute;
+	font-size: 14px;
+	letter-spacing: 2px;
+	width: 120%;
+	min-width: 160px;
+	margin-bottom: 0;
+	position: absolute;
+	right: 0;
+	bottom: -20px;
+	border-radius: 2px;
+	box-shadow: 1px 1px 2px 1px rgba(0,0,0,.5);
+	-webkit-box-shadow: 1px 1px 2px 1px rgba(0,0,0,.5);
+}
+@media (max-width: 767px){
+	.main-navbar .list-group{
+		width: 100%;
+		bottom: -35px;
+	}
+}
+
+.main-navbar .list-group:after{
+	content: '';
+	display: inline-block;
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-width: 0 8px 8px;
+	border-color: transparent transparent #fff;
+	border-style: solid; 
+	top: -8px;
+	right: 30px;
+}
+.main-navbar .list-group i{
+	position: absolute;
+	top: 7px;
+	left: 10px;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: url(../images/icon_v6_03.png) center center no-repeat;
+	vertical-align: middle;
+}
+.main-navbar .list-group span{
+	display: inline-block;
+	vertical-align: middle;
+}
+.main-navbar .list-group-item{
+	position: relative;
+	border:none;
+	text-align: center;
+	padding: 5px 0 ;
+	letter-spacing: 5px;
+}
+/* @media (min-width: 768px){
+	.main-navbar .list-group-item{
+		padding: 5px 15px;
+		text-align: center;
+	}
+	.main-navbar .list-group i{
+		float: left;
+		margin-top: 2px;
+	}
+} */
 @keyframes gelatine {
   from, to {
     -webkit-transform: scale(1, 1);

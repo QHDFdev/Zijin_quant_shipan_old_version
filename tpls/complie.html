@@ -1,0 +1,79 @@
+<div class="zijin-complie">
+	<div class="zijin-complie-head">
+		<span ng-init="newStrategy.name='新策略'" ng-bind='newStrategy.name' class="zijin-complie-name" tooltip new-name data-toggle='tooltip' data-placement='right' title="重命名"></span>
+		<input type="text" ng-model='newStrategy.name' class="zijin-complie-hidname">
+	</div>
+	<div class="zijin-complie-body">
+		
+		<div class="row">
+			<div class="col-lg-7 col-md-8 col-sm-12">
+				<div class="zijin-complie-left">
+					<div class="zijin-complie-top">
+						<button>保存</button>
+						<button>编译策略</button>
+					</div>
+					<div id="editor"><pre id="editor_inner">//Start your Own Quantitative strategy Code!
+public class StrategyName extends Strategy {
+
+	// 初始化参数
+	@StrategyInit
+	public void init() {
+		startDate = "2016-10-03";                 	// 选定的开始日期
+		endDate = "2016-10-12";					    // 选定的结束日期
+		futureName = "DAY_IC1506";                	// 选定的股指期货产品
+		basicAmount = 100000.00;           			// 选定的初始金额
+		logger.log("选定的初始化参数：");
+		logger.log("开始日期："2016-10-03);
+		logger.log("结束日期："2016-10-12);
+		logger.log("股指期货产品："IC1506);
+		logger.log("初始金额："100000.00);
+
+	}
+	@StrategyRun
+	public void run(){                              // 执行回调方法，具体策略编写
+		                                            // 请编写你的策略
+	}
+
+}</pre>
+					</div>
+				</div>	
+			</div>
+			<div class="col-lg-5 col-md-4 col-md-12">
+				<div class="zijin-complie-right">
+					<div class="zijin-complie-top">
+						<span>从</span>
+						<input type="text">
+						<span>至</span>
+						<input type="text">
+						<span>￥</span>
+						<input type="text">
+						<button>运行回测</button>
+					</div>
+					<div class="zijin-complie-highcharts">
+						<div id="complie-highcharts" style="height: 400px; min-width: 300px;"></div>
+						<p class="zijin-complie-placeholder">请编译你的策略</p>
+					</div>
+				</div>
+				<div class="zijin-complie-bottom">
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="" data-toggle='tab' data-target='.zijin-complie-item1'>日志</a>
+						</li>
+						<li>
+							<a href="" data-toggle='tab' data-target='.zijin-complie-item2'>运行时错误</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane fade in active zijin-complie-item1">
+							日志
+						</div>
+						<div class="tab-pane fade  zijin-complie-item2">
+							错误
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>

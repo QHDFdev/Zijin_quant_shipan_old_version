@@ -117,6 +117,12 @@
 	-webkit-transition:all ease 1.5s;
 	transition:all ease 1.5s;
 }
+@media (max-width: 991px){
+	.zijin-index .zijin-index-title .zijin-index-messages{
+		opacity: 1;
+		bottom: -140px;
+	}
+}
 .zijin-index .zijin-index-title .zijin-index-btn:hover .zijin-index-messages{
 	opacity: 1;
 	bottom: -140px;

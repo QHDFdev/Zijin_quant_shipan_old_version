@@ -109,7 +109,6 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 
 }])
 .constant('constantUrl','http://114.55.238.82:81/')
-.value('strategysValue',{"id":123,"author":'abc'})
 .controller('homeController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
 	$scope.$watch(function(){
 		var str=null;
@@ -139,9 +138,9 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		$location.path('/actualRes');
 	}
 }])
-/*.controller('queryStrategy',['$scope','strategyResources','strategyResource','$http','$timeout','$cookieStore','constantUrl',function($scope,strategyResourcess,strategyResource,$http,$timeout,$cookieStore,constantUrl){
+.controller('queryStrategy',['$scope','strategyResources','strategyResource','$http','$timeout','$cookieStore','constantUrl',function($scope,strategyResourcess,strategyResource,$http,$timeout,$cookieStore,constantUrl){
 	$scope.queryAll=function(){
-		$http.get(constantUrl+"strategys/",{
+		$http.get(constantUrl+"api/strategys/",{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(data){
@@ -155,7 +154,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	};
 	getStrategy();
 	function getStrategy(){
-	 $http.get(constantUrl+"strategys/",{
+	 $http.get(constantUrl+"api/strategys/",{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(data){
@@ -172,7 +171,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			return
 		}
 		var url=$scope.selectedStrategy.name;
-		$http.patch(constantUrl+"strategys/"+url+'/',{status:0},{
+		$http.patch(constantUrl+"api/strategys/"+url+'/',{status:0},{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(){
@@ -190,7 +189,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			return
 		}
 		var url=$scope.selectedStrategy.name;
-		$http.patch(constantUrl+"strategys/"+url+'/',{status:1},{
+		$http.patch(constantUrl+"api/strategys/"+url+'/',{status:1},{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(){
@@ -208,7 +207,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			return
 		}
 		var url=$scope.selectedStrategy.name;
-		$http.patch(constantUrl+"strategys/"+url+'/',{status:2},{
+		$http.patch(constantUrl+"api/strategys/"+url+'/',{status:2},{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(){
@@ -226,7 +225,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			return
 		}
 		var url=$scope.selectedStrategy.name;
-		$http.delete(constantUrl+"strategys/"+url+'/',{
+		$http.delete(constantUrl+"api/strategys/"+url+'/',{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(){
@@ -240,8 +239,9 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		});
 	}
 	$scope.openMask=function(){
-		$('.sourcing-mask').fadeIn();
-	};
+		$('.zijin-beta-mask').fadeIn();
+	}
+
 	$scope.addStrategy=function(){
 		var file = $scope.code;
 		var files=$scope.files;
@@ -255,7 +255,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			formdata.append('file',files);
 		}
 		console.log($scope.item);
-        $http.post(constantUrl+"strategys/",formdata,{
+        $http.post(constantUrl+"api/strategys/",formdata,{
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined,
 	            	'Authorization':'token '+$cookieStore.get('user').token	
@@ -276,107 +276,11 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		
 		$('.zijin-beta-mask').fadeOut();
 	}
-}])*/
-.controller('tableController',['$scope','strategyResources','strategyResource','$http','$timeout','$cookieStore','constantUrl','strategysValue',function($scope,strategyResourcess,strategyResource,$http,$timeout,$cookieStore,constantUrl,strategysValue){
-	$scope.func=function(e){
-		return e["status"]!=-3;
-	}
-	$scope.closeMask=function(){
-		$('.zijin-table-mask').fadeOut();
-	}
-	getSourcingStrategys();
-	getFirmStrategys();
-	/* 源策略 */
-	$scope.openMaskSourcing=function(){
-		$('.sourcing-mask').fadeIn();
-	}
-	$scope.addSourcingStrategy=function(){
-		var file = $scope.sourcingCode;
-		var formdata = new FormData();
-		formdata.append('code', file);
-		formdata.append('class_name',$scope.itemSourcing.class_name);
-        $http.post(constantUrl+"classs/",formdata,{
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined,
-	            	'Authorization':'token '+$cookieStore.get('user').token	
-	        	}
-        	})
-        .success(function(data){
-        	$('.zijin-table-mask').fadeOut();
-			console.log(data);
-			getSourcingStrategys()
-			Showbo.Msg.alert('添加成功。');
-        })
-        .error(function(err,st){
-        	console.log(err);
-        	console.log(st);
-        	$('.zijin-table-mask').fadeOut();
-        	Showbo.Msg.alert('添加失败，请稍后再试。');
-        })
-	}
-	function getSourcingStrategys(){
-	 $http.get(constantUrl+"classs/",{
-			headers:{'Authorization':'token '+$cookieStore.get('user').token}
-		})
-		.success(function(data){
-			$scope.mySourcingStrategy=data;
-			console.log(data);
-		})
-		.error(function(err,sta){
-			Showbo.Msg.alert('网络错误，请稍后再试。');
-			console.log(err);
-			console.log(sta);
-		});
-	};
-	/* 创建实盘模拟 */
-	$scope.addFirmStrategy=function(){
-
-		var files = $scope.files;
-		var formdata = new FormData();
-		formdata.append('name', $scope.firmItem.name);
-		formdata.append('symbol', $scope.firmItem.symbol);
-		formdata.append('class_id', strategysValue.id);
-		formdata.append('author', strategysValue.author);
-		if (($scope.files!=undefined)&&($scope.files!=null)) {
-			formdata.append('file',files);
-		}
-        $http.post(constantUrl+"strategys/",formdata,{
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined,
-	            	'Authorization':'token '+$cookieStore.get('user').token	
-	        	}
-        	})
-        .success(function(data){
-        	$('.zijin-table-mask').fadeOut();
-        	$scope.myStrategy=data;
-			console.log(data);
-			getFirmStrategys();
-			Showbo.Msg.alert('添加成功。');
-        })
-        .error(function(err,st){
-        	console.log(err);
-        	console.log(st);
-        	$('.zijin-table-mask').fadeOut();
-        	Showbo.Msg.alert('添加失败，请稍后再试。');
-        })
-	}
-	function getFirmStrategys(){
-	 	$http.get(constantUrl+"strategys/",{
-			headers:{'Authorization':'token '+$cookieStore.get('user').token}
-		})
-		.success(function(data){
-			$scope.myStrategy=data;
-			console.log(data);
-		})
-		.error(function(err,sta){
-			Showbo.Msg.alert('网络错误，请稍后再试。');
-			console.log(err);
-			console.log(sta);
-		});
-	};
-	/*getStrategys();
+}])
+.controller('tableController',['$scope','strategyResources','strategyResource','$http','$timeout','$cookieStore','constantUrl',function($scope,strategyResourcess,strategyResource,$http,$timeout,$cookieStore,constantUrl){
+	getStrategys();
 	function getStrategys(){
-	 $http.get(constantUrl+"strategys/",{
+	 $http.get(constantUrl+"api/strategys/",{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(data){
@@ -403,7 +307,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		if (($scope.files!=undefined)&&($scope.files!=null)) {
 			formdata.append('file',files);
 		}
-        $http.post(constantUrl+"strategys/",formdata,{
+        $http.post(constantUrl+"api/strategys/",formdata,{
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined,
 	            	'Authorization':'token '+$cookieStore.get('user').token	
@@ -423,9 +327,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	$scope.closeMask=function(){
 		
 		$('.zijin-table-mask').fadeOut();
-	}*/
-
-
+	}
 }])
 .controller('userController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
 	$scope.adduser=function(){
@@ -541,11 +443,11 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		$scope.rate2=Math.sqrt(parseFloat(totalRate2)/amount).toFixed(2);
 		$scope.rate3=parseFloat($scope.rate1/$scope.rate2).toFixed(2);
 		$scope.rate4=(Math.max.apply(Math,totalRate4)).toFixed(2);
-		/*Highcharts.setOptions({
+		Highcharts.setOptions({
 			global: {
 			  useUTC: false
 			}
-		});*/
+		});
 		
 		$('#return_map_big').highcharts('StockChart', {
 			plotOptions:{
@@ -594,7 +496,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				y: 100
 			},
 			rangeSelector: {
-				 /* buttons: [  
+				  buttons: [  
 				 {
 					  type: 'minute',
 					  count: 10,
@@ -618,10 +520,9 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				  },{
 					  type: 'all',
 					  text: '所有'
-				  }],*/
+				  }],
 				  selected: 5,
-				 /* buttonSpacing:2,*/
-				  inputDateFormat: '%Y-%m-%d'
+				  buttonSpacing:2
 
 			},
 			/*title: {
@@ -675,35 +576,13 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	}
 }])
 .controller('actualResController',['$scope','$rootScope','$filter',function($scope,$rootScope,$filter){
-	var chartData1=[];
 	$scope.makeChart=function(){
-		if (/{/.test($scope.analyseData)) {
-			chartData1=angular.fromJson($scope.analyseData);
-		}else{
-			var csvArr=($scope.analyseData).split('format: symbol, price, volume, pos, trans_type, time');
-			var csvArr1=csvArr[1].replace(/\s/g,'');
-			var csvArr2=(csvArr1.replace(/IF/g,' IF')).split(' ');
-			angular.forEach(csvArr2,function(data,index){
-				if (index==0) return;
-				var arr=data.split(",");
-				arr[5]=(arr[5]).replace(/(\d{4}-\d{2}-\d{2})(\d{2}:\d{2}:\d{2}\.\d{6})/,"$1 $2");
-				chartData1.push({
-					"name":csvArr[0],
-			        "price": Number(arr[1]),
-			        "time": (new Date(arr[5])).getTime(),
-			        "pos":  Number(arr[3]),
-			        "volume":Number(arr[2]),
-			        "trans_type":  arr[4],
-			        "symbol":  arr[0]
-				})
-			})
-		}
+		var chartData1=angular.fromJson($scope.analyseData);
 		var chartJsonData;
 		var chartJsonDataArr=[];
 		var chartArr=[];
 		var indexShortArr=[];
 		var indexBuyArr=[];
-		$scope.analyseSymbol=" "+chartData1[0].symbol+' '+chartData1[0].name;
 		angular.forEach(chartData1,function(data,index){
 			if (index==0&&((data.trans_type=="cover")||(data.trans_type=="sell")))
 				return;
@@ -726,8 +605,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 										"openprice":chartData1[index].price,
 										"closeprice":chartData1[i].price,
 										"opentime":chartData1[index].time,
-										"closetime":chartData1[i].time,
-										"present":chartData1[i].price,
+										"closetime":chartData1[index+1].price,
+										"present":chartData1[index+1].price,
 										"name":data.name,
 										"symbol":data.symbol
 									});
@@ -743,8 +622,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 								"openprice":chartData1[index].price,
 								"closeprice":chartData1[i].price,
 								"opentime":chartData1[index].time,
-								"closetime":chartData1[i].time,
-								"present":chartData1[i].price,
+								"closetime":chartData1[index+1].price,
+								"present":chartData1[index+1].price,
 								"name":data.name,
 								"symbol":data.symbol
 							});
@@ -771,8 +650,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 										"openprice":chartData1[index].price,
 										"closeprice":chartData1[i].price,
 										"opentime":chartData1[index].time,
-										"closetime":chartData1[i].time,
-										"present":chartData1[i].price,
+										"closetime":chartData1[index+1].price,
+										"present":chartData1[index+1].price,
 										"name":data.name,
 										"symbol":data.symbol
 									});
@@ -788,8 +667,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 								"openprice":chartData1[index].price,
 								"closeprice":chartData1[i].price,
 								"opentime":chartData1[index].time,
-								"closetime":chartData1[i].time,
-								"present":chartData1[i].price,
+								"closetime":chartData1[index+1].price,
+								"present":chartData1[index+1].price,
 								"name":data.name,
 								"symbol":data.symbol
 							});
@@ -799,64 +678,25 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					}
 				}
 			}
-		})
-		/* 1 */
-		/*var chartArr1=[];
-		angular.forEach(chartArr,function(data,index){
-			if (data.closetime>1477411200000&&data.closetime<1477497599000) {
-				console.log($filter('date')(data.closetime,'yyyy-MM-dd hh:mm:ss'));
-				console.log(data.Earn);
-				chartArr1.push(data);
-			}
+			
+			/*if (index%2==1) return;
+			if (index==chartData1.length-1) return;
+			chartArr.push({
+				"volume":data.volume,
+				"direction":data.pos,
+				"Earn":$filter('number')(chartData1[index+1].price-chartData1[index].price,2),
+				"openprice":chartData1[index].price,
+				"closeprice":chartData1[index+1].price,
+				"opentime":chartData1[index].time,
+				"closetime":chartData1[index+1].price,
+				"present":chartData1[index+1].price,
+				"name":data.name,
+				"symbol":data.symbol
+			})*/
 		})
 		if ($scope.analyseData.length>1000) {
 			Showbo.Msg.alert("当前数据长度为"+$scope.analyseData.length+"条,可能加载时间过长，请稍等……")
-		};*/
-		
-		/*var wealth1 = [];
-		var buy1 = [];
-		var totalpal1=0;
-		angular.forEach(chartArr1,function(data,index){
-			totalpal1=totalpal1+Number(data["Earn"]);
-			if (data['direction']>0) {
-				direction='看多';
-			}else{
-				direction='看空';
-			}
-			wealth1.push({
-				"x":data["closetime"],
-				"y":data['closeprice'],
-				"pal":Number(data["Earn"]),
-				"openprice":data['openprice'],
-				"closeprice":data['closeprice'],
-				"direction":direction,
-				"totalpal":Number($filter('number')(parseFloat(totalpal1),2))
-			});	
-			buy1.push({
-				"x":data['closetime'],
-				"y":data['direction']
-			});
-		})
-		wealth1=$filter('orderBy')(wealth1,'x');*/
-		/* 2 */
-		var wealth1 = [];
-		var wealth2=[];
-		angular.forEach(chartData1,function(data,index){
-			if(data.time>1477411200000&&data.time<1477497599000){
-				if(data.trans_type=='short'||data.trans_type=='cover'){
-					wealth1.push({
-						"x":data["time"],
-						"title":data["trans_type"]
-					});	
-				}else if(data.trans_type=='buy'||data.trans_type=='sell'){
-					wealth2.push({
-						"x":data["time"],
-						"title":data["trans_type"]
-					});
-				}
-			}		
-		})
-		wealth1=$filter('orderBy')(wealth1,'x');
+		};
 		var wealth = [];
 		var buy = [];
 		var tradeItem=[];
@@ -925,266 +765,139 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		$scope.rate2=Math.sqrt(parseFloat(totalRate2)/amount).toFixed(2);
 		$scope.rate3=parseFloat($scope.rate1/$scope.rate2).toFixed(2);
 		$scope.rate4=(Math.max.apply(Math,totalRate4)).toFixed(2);
+		if ($scope.analyseJsonData) {
+			chartJsonData=angular.fromJson($scope.analyseJsonData);
+			angular.forEach(chartJsonData,function(data,index){
+				var parseTime=(new Date(data.datetime.replace('T'," "))).getTime()
+				chartJsonDataArr.push({
+					"x":parseTime,
+					"y":data.close
+				})
+			})
+		}
 		Highcharts.setOptions({
 			global: {
 			  useUTC: false
 			}
 		});
-		if ($scope.analyseJsonData) {
-			chartJsonData=angular.fromJson($scope.analyseJsonData);
-			angular.forEach(chartJsonData,function(data,index){
-				var parseTime=(new Date(data.datetime.replace('T'," "))).getTime();
-				chartJsonDataArr.push({
-					"x":parseTime,
-					"y":data.close,
-					'low':data.low,
-					'high':data.high,
-					'close':data.close,
-					'open':data.open,
-					'volume':data.volume
-				});
-			})
-			chartJsonDataArr=$filter('orderBy')(chartJsonDataArr,'x');
-			$('#return_map_big_1').highcharts('StockChart', {
-				credits: {
-            		enabled: false
-        		},
-				exporting:{
-					enabled:false
-				},
-				plotOptions:{
-					series:{
-						turboThreshold:0
-					}
-				},
-				tooltip : {
-					shared : true,
-					useHTML : true,
-					formatter : function() {
+		$('#return_map_big_1').highcharts('StockChart', {
+			plotOptions:{
+				series:{
+					turboThreshold:0
+				}
+			},
+			tooltip : {
+				shared : true,
+				useHTML : true,
+				formatter : function() {
+					if (this.points[1].y==1){
 						var s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
-						s += '<br />high:<b class="red">￥'
-						+Highcharts.numberFormat(this.points[0].point.high,2)
-						+ '</b><br />low:<b class="blue">￥'
-						+Highcharts.numberFormat(this.points[0].point.low,2)
-						+ '</b><br />close:<b class="green">￥'
-						+Highcharts.numberFormat(this.points[0].point.close,2)
-						+ '</b><br />open:<b class="font-black">￥'
-						+Highcharts.numberFormat(this.points[0].point.open,2)
-						+ '</b><br />volume:<b class="orange">笔 '
-						+Highcharts.numberFormat(this.points[0].point.volume,2);
+						s += '<br />总盈亏:<b class="white-blue">￥'
+						+Highcharts.numberFormat(this.y,2)
+						+ '</b><br />盈亏:<b class="font-black">￥'
+						+this.points[0].point.pal
+						+ '</b><br />开仓价:<b class="font-black">￥'
+						+this.points[0].point.openprice
+						+ '</b><br />平仓价:<b class="font-black">￥'
+						+this.points[0].point.closeprice
+						+ '</b><br />方向:<span class="red">看多</span>';
 						return s;
-					},						
-					valueDecimals : 2 
-				},
-				
-				legend: {
-					enabled:true,
-					align: 'right',
-					verticalAlign: 'top',
-					x: 0,
-					y: 100
-				},
-				rangeSelector: {
-					  buttons: [  
-					 {
-						  type: 'minute',
-						  count: 10,
-						  text: '10m'
-					  },  {
-						  type: 'minute',
-						  count: 30,
-						  text: '30m'
-					  },{
-						  type: 'hour',
-						  count: 1,
-						  text: '1h'
-					  }, {
-						  type: 'day',
-						  count: 1,
-						  text: '1d'
-					  },{
-						  type: 'week',
-						  count: 1,
-						  text: '1w'
-					  },{
-						  type: 'all',
-						  text: '所有'
-					  }],
-					  selected: 5,
-					  buttonSpacing:2
-
-				},
-				yAxis: [{
-					labels: {
-						align: 'right',
-						x: -3
-					},
-					title: {
-						text: '股价'
-					},
-					
-					lineWidth: 1
-					}],
-				
-				series: [{
-					type: 'line',
-					name: '股价',
-					data: chartJsonDataArr,
-					lineWidth:2,
-					id: 'dataseries',
-					},{
-					type: 'flags',
-					data: wealth1,
-					onSeries:"dataseries",
-					shape:'circlepin',
-					width:30,
-					color:'#FD2E2E',
-					fillColor:'transparent',
-					style:{
-						color:'#333'
-					},
-					y:20,
-					name:'买入/卖出'
-				},{
-					type: 'flags',
-					data: wealth2,
-					onSeries:"dataseries",
-					shape:'circlepin',
-					width:30,
-					color:"rgb(102,153,255)",
-					fillColor:'transparent',
-					style:{
-						color:'#333'
-					},
-					y:-40,
-					name:'建仓/平仓'
-				}]
-			});
-		}else {
-			$('#return_map_big_1').highcharts('StockChart', {
-				credits: {
-            		enabled: false
-        		},
-				exporting:{
-					enabled:false
-				},
-				plotOptions:{
-					series:{
-						turboThreshold:0
+					}else if(this.points[1].y==-1){
+						var s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
+						s += '<br />总盈亏:<b class="white-blue">￥'
+						+this.y
+						+ '</b><br />盈亏:<b class="font-black">￥'
+						+this.points[0].point.pal
+						+ '</b><br />开仓价:<b class="font-black">￥'
+						+this.points[0].point.openprice
+						+ '</b><br />平仓价:<b class="font-black">￥'
+						+this.points[0].point.closeprice
+						+ '</b><br />方向:<span class="green">看空</span>';
+						return s;
 					}
-				},
-				tooltip : {
-					shared : true,
-					useHTML : true,
-					formatter : function() {
-						if (this.points[1].y==1){
-							var s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
-							s += '<br />总盈亏:<b class="white-blue">￥'
-							+Highcharts.numberFormat(this.y,2)
-							+ '</b><br />盈亏:<b class="font-black">￥'
-							+this.points[0].point.pal
-							+ '</b><br />开仓价:<b class="font-black">￥'
-							+this.points[0].point.openprice
-							+ '</b><br />平仓价:<b class="font-black">￥'
-							+this.points[0].point.closeprice
-							+ '</b><br />方向:<span class="red">看多</span>';
-							return s;
-						}else if(this.points[1].y==-1){
-							var s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
-							s += '<br />总盈亏:<b class="white-blue">￥'
-							+this.y
-							+ '</b><br />盈亏:<b class="font-black">￥'
-							+this.points[0].point.pal
-							+ '</b><br />开仓价:<b class="font-black">￥'
-							+this.points[0].point.openprice
-							+ '</b><br />平仓价:<b class="font-black">￥'
-							+this.points[0].point.closeprice
-							+ '</b><br />方向:<span class="green">看空</span>';
-							return s;
-						}
-					},						
-					valueDecimals : 2 
-				},
-				
-				legend: {
-					enabled:true,
-					align: 'right',
-					verticalAlign: 'top',
-					x: 0,
-					y: 100
-				},
-				rangeSelector: {
-					  buttons: [  
-					 {
-						  type: 'minute',
-						  count: 10,
-						  text: '10m'
-					  },  {
-						  type: 'minute',
-						  count: 30,
-						  text: '30m'
-					  },{
-						  type: 'hour',
-						  count: 1,
-						  text: '1h'
-					  }, {
-						  type: 'day',
-						  count: 1,
-						  text: '1d'
-					  },{
-						  type: 'week',
-						  count: 1,
-						  text: '1w'
-					  },{
-						  type: 'all',
-						  text: '所有'
-					  }],
-					  selected: 5,
-					  buttonSpacing:2
+				},						
+				valueDecimals : 2 
+			},
+			
+			legend: {
+				enabled:true,
+				align: 'right',
+				verticalAlign: 'top',
+				x: 0,
+				y: 100
+			},
+			rangeSelector: {
+				  buttons: [  
+				 {
+					  type: 'minute',
+					  count: 10,
+					  text: '10m'
+				  },  {
+					  type: 'minute',
+					  count: 30,
+					  text: '30m'
+				  },{
+					  type: 'hour',
+					  count: 1,
+					  text: '1h'
+				  }, {
+					  type: 'day',
+					  count: 1,
+					  text: '1d'
+				  },{
+					  type: 'week',
+					  count: 1,
+					  text: '1w'
+				  },{
+					  type: 'all',
+					  text: '所有'
+				  }],
+				  selected: 5,
+				  buttonSpacing:2
 
+			},
+			yAxis: [{
+				labels: {
+					align: 'right',
+					x: -3
 				},
-				yAxis: [{
-					labels: {
-						align: 'right',
-						x: -3
-					},
-					title: {
-						text: '总盈亏'
-					},
-					height: '60%',
-					lineWidth: 1
-					},
-					{
-					labels: {
-						align: 'right',
-						x: -3
-					},
-					title: {
-						text: '交易方向（看多/看空）'
-					},
-					opposite:true,
-					top: '65%',
-					height: '35%',
-					offset: 0,
-					lineWidth: 1,
-				}],
-				
-				series: [{
-					type: 'line',
-					name: '总盈亏',
-					data: wealth,
-					lineWidth:2
-				},{
-					type: 'column',
-					name: '看多/看空',
-					data: buy,
-					yAxis: 1,
-					threshold:0,
-					negativeColor:'green',
-					color:'red'
-				}]
-			});
-		}
+				title: {
+					text: '总盈亏'
+				},
+				height: '60%',
+				lineWidth: 1
+				},
+				{
+				labels: {
+					align: 'right',
+					x: -3
+				},
+				title: {
+					text: '交易方向（看多/看空）'
+				},
+				opposite:true,
+				top: '65%',
+				height: '35%',
+				offset: 0,
+				lineWidth: 1,
+			}],
+			
+			series: [{
+				type: 'line',
+				name: '总盈亏',
+				data: wealth,
+				lineWidth:2
+			},{
+				type: 'column',
+				name: '看多/看空',
+				data: buy,
+				yAxis: 1,
+				threshold:0,
+				negativeColor:'green',
+				color:'red'
+			}]
+		});
+
 	}
 }])
 .controller('complieController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
@@ -1252,40 +965,13 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		}
 	}
 })
-.directive('sourcingTable',function($route,$location,$http,constantUrl,$cookieStore,strategysValue){
-	return {
-		link:function(scope,ele,attrs){
-			ele.on('click','.firm-add',function(){
-				$('.firm-mask').fadeIn();
-
-				strategysValue.id=$(this).closest('tr').children().eq(0).text();
-				strategysValue.author=$(this).closest('tr').children().eq(3).text();
-				console.log(strategysValue);
-			});
-			ele.on('click','.sour-del',function(){
-				var url=$(this).closest('tr').children().eq(0).text();
-				$http.delete(constantUrl+"classs/"+url+'/',{
-					headers:{'Authorization':'token '+$cookieStore.get('user').token}
-				})
-				.success(function(){
-					$route.reload();
-					Showbo.Msg.alert('删除成功。')
-				})
-				.error(function(err,sta){
-					Showbo.Msg.alert('删除失败，请稍后再试。')
-				});
-
-			});
-		}
-	}
-})
 .directive('strategyTable',function($route,$location,$http,constantUrl,$cookieStore){
 	return {
 		link:function(scope,ele,attrs){
-			/*ele.on('click','.strategy-ini',function(){
+			ele.on('click','.strategy-ini',function(){
 				$(this).closest('tr').children().eq(1).text();
 				var url=$(this).closest('tr').children().eq(0).text();
-				$http.patch(constantUrl+"strategys/"+url+'/',{status:0},{
+				$http.patch(constantUrl+"api/strategys/"+url+'/',{status:0},{
 					headers:{'Authorization':'token '+$cookieStore.get('user').token}
 				})
 				.success(function(){
@@ -1295,10 +981,11 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				.error(function(err,sta){
 					Showbo.Msg.alert('初始化失败，请稍后再试。')
 				});
-			});*/
+			});
 			ele.on('click','.strategy-start',function(){
+				$(this).closest('tr').children().eq(1).text();
 				var url=$(this).closest('tr').children().eq(0).text();
-				$http.patch(constantUrl+"strategys/"+url+'/',{status:1},{
+				$http.patch(constantUrl+"api/strategys/"+url+'/',{status:1},{
 					headers:{'Authorization':'token '+$cookieStore.get('user').token}
 				})
 				.success(function(){
@@ -1310,8 +997,9 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				});
 			});
 			ele.on('click','.strategy-pause',function(){
+				$(this).closest('tr').children().eq(1).text();
 				var url=$(this).closest('tr').children().eq(0).text();
-				$http.patch(constantUrl+"strategys/"+url+'/',{status:2},{
+				$http.patch(constantUrl+"api/strategys/"+url+'/',{status:2},{
 					headers:{'Authorization':'token '+$cookieStore.get('user').token}
 				})
 				.success(function(){
@@ -1323,8 +1011,9 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				});
 			});
 			ele.on('click','.strategy-del',function(){
+				$(this).closest('tr').children().eq(1).text();
 				var url=$(this).closest('tr').children().eq(0).text();
-				$http.delete(constantUrl+"strategys/"+url+'/',{
+				$http.delete(constantUrl+"api/strategys/"+url+'/',{
 					headers:{'Authorization':'token '+$cookieStore.get('user').token}
 				})
 				.success(function(){

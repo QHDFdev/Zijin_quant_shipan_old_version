@@ -17,9 +17,15 @@ padding-bottom: 50px; */
 	/* color:#f5f5f5;
 	background: #292421; */
 }
+.actualRes.analyse .analyse-left{
+	height: 800px;
+}
 .analyse .analyse-left .analyse-menu-head{
 	margin-bottom: 50px;
 	padding-left: 40px;
+}
+.actualRes.analyse .analyse-left .analyse-menu-head{
+	margin-bottom: 30px;
 }
 .analyse .analyse-left dl{
 	/* margin:25px auto;
@@ -53,6 +59,9 @@ padding-bottom: 50px; */
 	position: relative;
 	height: 700px;
 	/* overflow-y:auto;  */
+}
+.actualRes.analyse .analyse-right{
+	height: 800px;
 }
 .analyse .analyse-right .analyse-charts-title{
 	margin: 0 0 50px;
@@ -114,11 +123,22 @@ padding-bottom: 50px; */
  .analyse .orange{
 	color:orange;
 }
-#actualRes-modal .modal-box{
+#actualRes-modal .modal-box,#actualRes-modal1 .modal-box,#actualRes-modal2 .modal-box{
 	padding:20px;
 }
+
 #actualRes-modal .modal-box textarea{
 	width: 100%;
 	height:300px;
+	resize: none;
+}
+#actualRes-modal1 .modal-box textarea{
+	width: 100%;
+	height:150px;
+	resize: none;
+}
+#actualRes-modal2 .modal-box textarea{
+	width: 100%;
+	height:150px;
 	resize: none;
 }

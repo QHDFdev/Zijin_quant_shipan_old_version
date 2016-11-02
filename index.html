@@ -19,7 +19,7 @@
 	<link rel="stylesheet" type="text/css" href="css/mytable.css">
 	<link rel="stylesheet" type="text/css" href="css/study.css">
 	<link rel="stylesheet" type="text/css" href="css/actualRes.css">
-	<link href='//cdn.webfont.youziku.com/webfonts/nomal/92956/19518/580b23f5f629d80610855745.css' rel='stylesheet' type='text/css' />
+	<link rel="stylesheet" type="text/css" href="css/complie.css">
 </head>
 <body ng-controller='homeController'>
 	<div ng-class="{true:'zijin-main-wrapper',false:'transparent'}[isactive]"> 
@@ -50,14 +50,6 @@
 						<li>
 							<a ng-href="#/study" ng-class="{active:natived=='#/study'}">研究</a>
 						</li>
-						<!-- <li class="dropdown">
-							<a href="" data-toggle='dropdown' class="dropdown-toggle">
-								研究<span class="caret" ng-show='user.username!=null'></span>
-							</a>
-							<ul class="dropdown-menu dropdown-menu-left" ng-show='user.username!=null'>
-								<li><a ng-href="#/analyse" >从交易记录分析</a></li>
-							</ul>
-						</li> -->
 						<li>
 							<a ng-href="">帮助</a>
 						</li>
@@ -77,13 +69,19 @@
 						<li ng-hide='user.username!=null'>
 							<a ng-href="#/register" class="reg-btn">注册</a>
 						</li>
-						<li class="dropdown" ng-show='user.username!=null'>
+						<!-- <li class="dropdown" ng-show='user.username!=null'>
 							<a ng-href="" class="dropdown-toggle" data-toggle='dropdown'>
 								{{user.username}}<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu dropdown-menu-left">
 								<li><a ng-href="" ng-click='logout()'>退出</a></li>
 							</ul>
+						</li> -->
+						<li ng-show='user.username!=null' mouse-show>
+							<a ng-href="" ng-bind='user.username'></a>
+							<div class="list-group">
+								<a href="" ng-click='logout()' class="list-group-item"><i></i><span>退出</span></a>
+							</div>
 						</li>
 					</ul>
 				</div>
@@ -128,8 +126,8 @@
 				</div>
 			</div>
 			<div class="copyright row">
-				<p>Copyright © 2016 TBC , All Rights Reserved</p>
-				<p>隐私保护 南高所 版权所有 粤ICP备12053986号-7</p>
+				<p>Copyright © 2016 图灵科技集团 , All Rights Reserved</p>
+				<p>隐私保护 图灵科技集团 版权所有 粤ICP备15034414号</p>
 			</div>
 		</div>
 	</footer>
@@ -153,6 +151,7 @@
 	<script src="lib/angularJs/angular-cookies.min.js"></script>
 	<script src='lib/angularJs/angular-resource.min.js'></script>
 	<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+	<script src='lib/ace/ace.js'></script>
 	<script type="text/javascript" src='lib/WOW-master/dist/wow.min.js'></script>
 	<script type="text/javascript" src='lib/showBo.js'></script>
 	<script src="http://cdn.hcharts.cn/highstock/highstock.js"></script>
