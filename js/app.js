@@ -127,7 +127,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		$location.path('/login');
 	}
 	$scope.complie=function(){
-		$location.path('/complie');
+		$location.path('/login');
 	}
 
 }])
