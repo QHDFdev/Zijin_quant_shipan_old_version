@@ -4,7 +4,7 @@
 				<div class="col-sm-2 col-xs-5  analyse-left">
 					<div class="analyse-menu-list">
 						<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal1'>点击输入数据</button></p>
-						<!-- <p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal2'>点击输入CSV数据</button></p> -->
+						<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal2'>点击获取数据</button></p> 
 						<div class="modal fade" id="actualRes-modal1">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -23,24 +23,31 @@
 								</div><!-- /.modal-content -->
 							</div><!-- /.modal-dialog -->
 						</div><!-- /.modal -->
-						<!-- <div class="modal fade" id="actualRes-modal2">
+						<div class="modal fade" id="actualRes-modal2">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-box">
 										<form>
 											<div class="form-group">
-												<textarea placeholder="请在此处粘贴策略CSV数据……" ng-model='analyseData1'></textarea>
-												<textarea placeholder="请在此处粘贴交易行情CSV数据……" ng-model='analyseCsvData'></textarea>
+												策略：
+												<select ng-model='myFirmStrategy' ng-options="x.name for x in myFirmStrategyList | orderBy: 'status': true "></select>
+												<br>
+												<br>
+												时间：
+												<select ng-model='myFirmDate' ng-options="x for x in myFirmDateList"></select>
+												<br>
+												<br>
 											</div>
+											
 											<div class="btn-group btn-group-lg">
 												<input type="button" value="点我生成图表" class="btn btn-success" data-dismiss="modal" ng-click='makeChart1()'>
 												<input type="button" value="关闭" class="btn btn-warnning" data-dismiss="modal">
 											</div>
-										</form>
+										</form>	
 									</div>
-								</div>/.modal-content
-							</div>/.modal-dialog
-						</div>/.modal -->
+								</div>
+							</div>
+						</div>
 						<dl class="analyse-menu-item">
 							<dt slide-toggle><i class="fa fa-line-chart"></i>策略回测图表</dt>
 							<dd>
