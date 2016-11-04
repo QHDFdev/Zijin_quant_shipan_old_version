@@ -1,8 +1,8 @@
 /* analyse */
 .analyse{
 	position: relative;
-	margin-top: 90px;
-	padding: 70px 0;
+	margin-top: 70px;
+	padding: 70px 0 0;
 	width: 100%;
 }
 @media (max-width: 767px){
@@ -10,7 +10,7 @@
 }
 .analyse .analyse-left{
 	position: relative;
-	height: 700px;
+	height: 600px;
 	border-right: 2px dashed #5CB7EE;
 /* 	padding-top: 50px;
 padding-bottom: 50px; */
@@ -18,7 +18,7 @@ padding-bottom: 50px; */
 	background: #292421; */
 }
 .actualRes.analyse .analyse-left{
-	height: 800px;
+	height: 650px;
 }
 .analyse .analyse-left .analyse-menu-head{
 	margin-bottom: 50px;
@@ -57,11 +57,11 @@ padding-bottom: 50px; */
 }
 .analyse .analyse-right{
 	position: relative;
-	height: 700px;
+	height: 600px;
 	/* overflow-y:auto;  */
 }
 .actualRes.analyse .analyse-right{
-	height: 800px;
+	height: 650px;
 }
 .analyse .analyse-right .analyse-charts-title{
 	margin: 0 0 50px;
@@ -73,7 +73,7 @@ padding-bottom: 50px; */
 	margin-bottom: 0;
 }
 .analyse .analyse-right .table-responsive{
-	height: 600px;
+	height: 650px;
 	overflow-y:auto; 
 }
 /* .analyse .analyse-right .analyse-charts-title:after{
@@ -137,13 +137,39 @@ padding-bottom: 50px; */
 	height:150px;
 	resize: none;
 }
-#actualRes-modal2 .modal-box textarea{
+/* #actualRes-modal2 .modal-box textarea{
 	width: 100%;
 	height:150px;
 	resize: none;
-}
+} */
 #analyse-modal .modal-box textarea{
 	width: 100%;
 	height:300px;
 	resize: none;
+}
+.analyse-modal-big{
+	position: fixed;
+	top:0;
+	bottom:0;
+	left: 0;
+	right: 0;
+	background:rgba(0,0,0,.7);
+	z-index: 999;
+}
+.analyse-modal-big .analyse-select-box{
+	margin:150px auto 0;
+	padding: 70px 0;
+	max-width: 500px;
+	border-radius:10px; 
+	background: rgba(245,245,255,.8);
+	box-shadow: 5px 5px 4px rgba(0,0,0,.9);
+}
+.analyse-modal-big .analyse-select-box p{
+	margin-bottom: 0;
+}
+.analyse-modal-big .analyse-select-box p+p{
+	margin-top: 20px;
+}
+.analyse-modal-big .analyse-select-box p button{
+	box-shadow: 2px 2px 1px rgba(0,0,0,.2);
 }
