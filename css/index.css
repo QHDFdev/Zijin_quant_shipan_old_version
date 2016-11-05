@@ -189,7 +189,7 @@ body, html {
 
 /* footer */
 .zijin-ngview{
-	padding-bottom:254px
+	padding-bottom:309px
 }
 .main-navbar .navbar-nav>li>.dropdown-menu{
 	background: transparent;
@@ -224,10 +224,11 @@ footer {
 }
 
 footer .bill-footer {
+	position: relative;
 	padding-top: 30px;
 	padding-bottom: 30px;
-	color: #292421;
-	background: #bfc4ce;
+	color: #f5f5ff;
+	background: #292421;
 }
 @media (max-width:767px){
 	footer .bill-footer >.col-sm-4{margin-bottom:25px;}	
@@ -250,11 +251,34 @@ footer .copyright p{
 }
 footer .footer-text-head {
 	margin-bottom: 30px;
-	color: #000;
+	color: #fff;
 	font-size: 20px;
 }
-
-footer .footer-text-head .glyphicon {
+footer .bill-footer p{
+	text-align: left;
+}
+@media (max-width: 767px){
+	footer .bill-footer p{text-align: center;}
+	footer .bill-footer .col-sm-2{margin-bottom: 30px;}
+}
+footer .bill-footer p a{
+	color: #ccc;
+}
+footer .bill-footer p a:hover{
+	color:#fff;
+	text-decoration:none;
+}
+footer .bill-footer .zijin-footer-itembox{
+	display: inline-block;
+}
+footer .bill-footer .zijin-footer-logo{
+	position: absolute;
+	top: 20px;
+	left: 50px;
+	width: 150px;
+	height: auto;
+}
+/* footer .footer-text-head .glyphicon {
 	font-size: 30px;
 	color: #0b1746;
 	margin-right: 20px;
@@ -263,7 +287,7 @@ footer .footer-text-head .glyphicon {
 
 footer .footer-text-head span {
 	vertical-align: middle;
-}
+} */
 /* 弹出框 */
 #zijin-modal{
 	display: none; 

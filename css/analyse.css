@@ -173,3 +173,10 @@ padding-bottom: 50px; */
 .analyse-modal-big .analyse-select-box p button{
 	box-shadow: 2px 2px 1px rgba(0,0,0,.2);
 }
+.mr30{
+	margin-right: 30px;
+}
+.highstock-item{
+	width: 96%;
+	margin: 20px auto 0;
+}

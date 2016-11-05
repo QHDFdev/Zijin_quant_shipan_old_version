@@ -122,3 +122,10 @@ padding-bottom: 50px; */
 	height:300px;
 	resize: none;
 }
+.mr30{
+	margin-right: 30px;
+}
+.highstock-item{
+	width: 90%;
+	margin: 0 auto 10px;
+}

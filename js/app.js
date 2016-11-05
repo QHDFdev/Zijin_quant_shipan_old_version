@@ -256,7 +256,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		if (($scope.files!=undefined)&&($scope.files!=null)) {
 			formdata.append('file',files);
 		}
-		console.log($scope.item);
+		//console.log($scope.item);
         $http.post(constantUrl+"strategys/",formdata,{
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined,
@@ -269,8 +269,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			Showbo.Msg.alert('添加成功。');
         })
         .error(function(err,st){
-        	console.log(err);
-        	console.log(st);
+        	//console.log(err);
+        	//console.log(st);
         	Showbo.Msg.alert('添加失败，请稍后再试。');
         })
 	}
@@ -305,13 +305,13 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
         	})
         .success(function(data){
         	$('.zijin-table-mask').fadeOut();
-			console.log(data);
+			//console.log(data);
 			getSourcingStrategys()
 			Showbo.Msg.alert('添加成功。');
         })
         .error(function(err,st){
-        	console.log(err);
-        	console.log(st);
+        	//console.log(err);
+        	//console.log(st);
         	$('.zijin-table-mask').fadeOut();
         	Showbo.Msg.alert('添加失败，请稍后再试。');
         })
@@ -325,8 +325,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		})
 		.error(function(err,sta){
 			Showbo.Msg.alert('网络错误，请稍后再试。');
-			console.log(err);
-			console.log(sta);
+			//console.log(err);
+			//console.log(sta);
 		});
 	};
 	/* 创建实盘模拟 */
@@ -350,13 +350,13 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
         .success(function(data){
         	$('.zijin-table-mask').fadeOut();
         	$scope.myStrategy=data;
-			console.log(data);
+			//console.log(data);
 			getFirmStrategys();
 			Showbo.Msg.alert('添加成功。');
         })
         .error(function(err,st){
-        	console.log(err);
-        	console.log(st);
+        	//console.log(err);
+        	//console.log(st);
         	$('.zijin-table-mask').fadeOut();
         	Showbo.Msg.alert('添加失败，请稍后再试。');
         })
@@ -370,8 +370,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		})
 		.error(function(err,sta){
 			Showbo.Msg.alert('网络错误，请稍后再试。');
-			console.log(err);
-			console.log(sta);
+			//console.log(err);
+			//console.log(sta);
 		});
 	};
 	/*getStrategys();
@@ -415,8 +415,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			Showbo.Msg.alert('添加成功。');
         })
         .error(function(err,st){
-        	console.log(err);
-        	console.log(st);
+        	//console.log(err);
+        	//console.log(st);
         	Showbo.Msg.alert('添加失败，请稍后再试。');
         })
 	}
@@ -435,8 +435,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			$location.path('/login');
 		})
 		.error(function(err,sta){
-			console.log(err);
-			console.log(sta);
+			//console.log(err);
+			//console.log(sta);
 			Showbo.Msg.alert('注册失败，请联系管理员。');
 		})
 	}
@@ -454,11 +454,11 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			$rootScope.user=$cookieStore.get('user');
 			Showbo.Msg.alert('登录成功');
 			$location.path('/home');
-			console.log($cookieStore.get('user'));
+			//console.log($cookieStore.get('user'));
 		})
 		.error(function(err,sta){
-			console.log(err);
-			console.log(sta);
+			//console.log(err);
+			//console.log(sta);
 			Showbo.Msg.alert('登录失败，请联系管理员。');
 		})
 	}
@@ -480,7 +480,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		var totalRate3=0;
 		var totalRate4=[];
 		var yeildAbs;
-		console.log($scope.analyseData.length);
+		//console.log($scope.analyseData.length);
 		if ($scope.analyseData.length>1000) {
 			Showbo.Msg.alert("当前数据长度为"+$scope.analyseData.length+"条,可能加载时间过长，请稍等……")
 		};
@@ -512,7 +512,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				tradeItem.push({
 					"openprice":$filter('number')(data['orders'][0]['cose'],2),
 					"closeprice":$filter('number')(data['orders'][0]['present'],2),
-					"time":$filter('date')(data['orders'][0]["time"],"yyyy-MM-dd hh:mm:ss"),
+					"time":$filter('date')(data['orders'][0]["time"],"yyyy-MM-dd H:mm:ss"),
 					"pal":$filter('number')(data["pals"][0],2),
 					"totalpal":$filter('number')(data['totalpal'],2),
 					'direction':direction,
@@ -526,8 +526,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				totalRate4.push(yeildAbs);
 			}
 		});
-		console.log(wealth);
-		console.log(buy);
+		//console.log(wealth);
+		//console.log(buy);
 		amount=tradeItem.length;
 		$scope.analyseDataArr=tradeItem;
 		$scope.annualized_return=parseFloat((Math.pow((1+total/100/amount),252/amount)-1)*100).toFixed(2);
@@ -701,7 +701,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				        "symbol":  arr[0]
 					})
 				})
-				console.log(chartData1);
+				//console.log(chartData1);
 			}
 			var chartJsonData;
 			var chartJsonDataArr=[];
@@ -727,10 +727,10 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 										chartArr.push({
 											"volume":data.volume,
 											"direction":data.pos,
-											"Earn":$filter('number')(chartData1[i].price-chartData1[index].price,2),
-											"openprice":chartData1[index].price,
+											"Earn":$filter('number')(chartData1[i].price-data.price,2),
+											"openprice":data.price,
 											"closeprice":chartData1[i].price,
-											"opentime":chartData1[index].datetime,
+											"opentime":data.datetime,
 											"closetime":chartData1[i].datetime,
 											"present":chartData1[i].price,
 											"name":data.name,
@@ -744,10 +744,10 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 								chartArr.push({
 									"volume":data.volume,
 									"direction":-1,
-									"Earn":$filter('number')(chartData1[i].price-chartData1[index].price,2),
-									"openprice":chartData1[index].price,
+									"Earn":$filter('number')(chartData1[i].price-data.price,2),
+									"openprice":data.price,
 									"closeprice":chartData1[i].price,
-									"opentime":chartData1[index].datetime,
+									"opentime":data.datetime,
 									"closetime":chartData1[i].datetime,
 									"present":chartData1[i].price,
 									"name":data.name,
@@ -772,10 +772,10 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 										chartArr.push({
 											"volume":data.volume,
 											"direction":1,
-											"Earn":$filter('number')(chartData1[i].price-chartData1[index].price,2),
-											"openprice":chartData1[index].price,
+											"Earn":$filter('number')(chartData1[i].price-data.price,2),
+											"openprice":data.price,
 											"closeprice":chartData1[i].price,
-											"opentime":chartData1[index].datetime,
+											"opentime":data.datetime,
 											"closetime":chartData1[i].datetime,
 											"present":chartData1[i].price,
 											"name":data.name,
@@ -789,10 +789,10 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 								chartArr.push({
 									"volume":data.volume,
 									"direction":data.pos,
-									"Earn":$filter('number')(chartData1[i].price-chartData1[index].price,2),
-									"openprice":chartData1[index].price,
+									"Earn":$filter('number')(chartData1[i].price-data.price,2),
+									"openprice":data.price,
 									"closeprice":chartData1[i].price,
-									"opentime":chartData1[index].datetime,
+									"opentime":data.datetime,
 									"closetime":chartData1[i].datetime,
 									"present":chartData1[i].price,
 									"name":data.name,
@@ -809,8 +809,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			/*var chartArr1=[];
 			angular.forEach(chartArr,function(data,index){
 				if (data.closetime>1477411200000&&data.closetime<1477497599000) {
-					console.log($filter('date')(data.closetime,'yyyy-MM-dd hh:mm:ss'));
-					console.log(data.Earn);
+					//console.log($filter('date')(data.closetime,'yyyy-MM-dd H:mm:ss'));
+					//console.log(data.Earn);
 					chartArr1.push(data);
 				}
 			})
@@ -905,7 +905,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				tradeItem.push({
 					"openprice":$filter('number')(data['openprice'],2),
 					"closeprice":data['closeprice'],
-					"time":$filter('date')(data["opentime"],"yyyy-MM-dd hh:mm:ss"),
+					"time":$filter('date')(data["opentime"],"yyyy-MM-dd H:mm:ss"),
 					"pal":$filter('number')(Number(data["Earn"]),2),
 					"totalpal":$filter('number')(totalpal,2),
 					'direction':direction,
@@ -1255,7 +1255,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					headers:{'Authorization':'token '+$cookieStore.get('user').token}	
 				})
 				.success(function(data){
-					//console.log(data);
+					////console.log(data);
 					//var arr=[];
 					//angular.forEach(data,function(info,index){
 					//	var num=((new Date(info[1])).getTime()-(new Date(info[0])).getTime())/(24*3600000);
@@ -1314,12 +1314,13 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		};
 		getFirmTime().then(function(data){
 			var chartData1=data;
-			console.log(data);
+			//console.log(data);
 			getTransTime().then(function(data){
 				var	chartJsonData=data;
-				console.log(data);
+				//console.log(data);
 				draws();
 				function  draws(){
+					/*$('#return_mapping_1').css('display','block').siblings().css('display','none');*/
 					var chartJsonDataArr=[];
 					var chartArr=[];
 					var indexShortArr=[];
@@ -1327,23 +1328,14 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					var buySellNum=0;
 					var buyYArr=[];
 					var shortYArr=[];
-					$scope.analyseSymbol=" "+chartData1[0].symbol+' '+chartData1[0].name;
+					$scope.highstockAnalyseanalyseSymbol=chartData1[0].symbol+' '+chartData1[0].name;
 					angular.forEach(chartData1,function(data,index){
 						if (index==0&&((data.trans_type=="cover")||(data.trans_type=="sell")))
 							return;
 						if (index==chartData1.length-1) return;
 						if ((data.trans_type=="cover")||(data.trans_type=="sell")) return;
 						if (data.trans_type=="short") {
-							buySellNum++;
-							buyYArr.push({
-								"volume":data.volume,
-								"pos":data.pos,
-								"price":data.price,
-								"x":data.datetime,
-								"name":data.name,
-								"symbol":data.symbol,
-								"title":data.trans_type+' '+buySellNum
-							})
+							
 							outer:
 							for(var i=0;i<chartData1.length;i++){
 								if (chartData1[i].trans_type=="cover") {
@@ -1353,10 +1345,25 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											if (indexShortArr[j]==i) {
 												break inter;
 											}else if((j==indexShortArr.length-1)&&(indexShortArr[j]!=i)){
+												buySellNum++;
+												buyYArr.push({
+													"short":"short",
+													"text":'时间：'+$filter('date')(data.datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+data.price+'<br>成交量：'+data.volume,
+													"volume":data.volume,
+													"pos":data.pos,
+													"price":data.price,
+													"x":data.datetime,
+													"name":data.name,
+													"symbol":data.symbol,
+													"title":data.trans_type+' '+buySellNum
+												})
 												chartArr.push({
+
+													"x":chartData1[i].datetime,
+													"y":Number($filter('number')(data.price-chartData1[i].price,2)),
 													"volume":data.volume,
 													"direction":data.pos,
-													"Earn":$filter('number')(data.price-chartData1[i].price,2),
+													"Earn":Number($filter('number')(data.price-chartData1[i].price,2)),
 													"openprice":data.price,
 													"closeprice":chartData1[i].price,
 													"opentime":data.datetime,
@@ -1365,7 +1372,11 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 													"name":data.name,
 													"symbol":data.symbol
 												});
+
 												buyYArr.push({
+													"short":"short",
+													"text":'时间：'+$filter('date')(chartData1[i].datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+chartData1[i].price
+													+'<br>成交量：'+chartData1[i].volume,
 													"volume":chartData1[i].volume,
 													"pos":chartData1[i].pos,
 													"price":chartData1[i].price,
@@ -1379,19 +1390,36 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											}
 										}
 									}else{
+										buySellNum++;
+										buyYArr.push({
+											"short":"short",
+											"text":'时间：'+$filter('date')(data.datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+data.price+'<br>成交量：'+data.volume,
+											"volume":data.volume,
+											"pos":data.pos,
+											"price":data.price,
+											"x":data.datetime,
+											"name":data.name,
+											"symbol":data.symbol,
+											"title":data.trans_type+' '+buySellNum
+										})
 										chartArr.push({
+
+											"x":chartData1[i].datetime,
+											"y":Number($filter('number')(data.price-chartData1[i].price,2)),
 											"volume":data.volume,
 											"direction":-1,
-											"Earn":$filter('number')(data.price-chartData1[i].price,2),
-											"openprice":chartData1[index].price,
+											"Earn":Number($filter('number')(data.price-chartData1[i].price,2)),
+											"openprice":data.price,
 											"closeprice":chartData1[i].price,
-											"opentime":chartData1[index].datetime,
+											"opentime":data.datetime,
 											"closetime":chartData1[i].datetime,
 											"present":chartData1[i].price,
 											"name":data.name,
 											"symbol":data.symbol
 										});
 										buyYArr.push({
+											"short":"short",
+											"text":'时间：'+$filter('date')(chartData1[i].datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+chartData1[i].price+'<br>成交量：'+chartData1[i].volume,
 											"volume":chartData1[i].volume,
 											"pos":chartData1[i].pos,
 											"price":chartData1[i].price,
@@ -1407,16 +1435,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							}
 						}
 						if (data.trans_type=="buy") {
-							buySellNum++;
-							shortYArr.push({
-								"volume":data.volume,
-								"pos":data.pos,
-								"price":data.price,
-								"x":data.datetime,
-								"name":data.name,
-								"symbol":data.symbol,
-								"title":data.trans_type+' '+buySellNum
-							})
+							
 							outer1:
 							for(var i=0;i<chartData1.length;i++){
 								if (chartData1[i].trans_type=="sell") {
@@ -1426,19 +1445,36 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											if (indexShortArr[j]==i) {
 												break inter1;
 											}else if((j==indexShortArr.length-1)&&(indexShortArr[j]!=i)){
+												buySellNum++;
+												shortYArr.push({
+													"buy":'buy',
+													"text":'时间：'+$filter('date')(data.datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+data.price+'<br>成交量：'+data.volume,
+													"volume":data.volume,
+													"pos":data.pos,
+													"price":data.price,
+													"x":data.datetime,
+													"name":data.name,
+													"symbol":data.symbol,
+													"title":data.trans_type+' '+buySellNum
+												})
 												chartArr.push({
+
+													"x":chartData1[i].datetime,
+													"y":Number($filter('number')(chartData1[i].price-data.price,2)),
 													"volume":data.volume,
 													"direction":1,
-													"Earn":$filter('number')(chartData1[i].price-data.price,2),
-													"openprice":chartData1[index].price,
+													"Earn":Number($filter('number')(chartData1[i].price-data.price,2)),
+													"openprice":data.price,
 													"closeprice":chartData1[i].price,
-													"opentime":chartData1[index].datetime,
+													"opentime":data.datetime,
 													"closetime":chartData1[i].datetime,
 													"present":chartData1[i].price,
 													"name":data.name,
 													"symbol":data.symbol
 												});
 												shortYArr.push({
+													"buy":'buy',
+													"text":'时间：'+$filter('date')(chartData1[i].datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+chartData1[i].price+'<br>成交量：'+chartData1[i].volume,
 													"volume":chartData1[i].volume,
 													"pos":chartData1[i].pos,
 													"price":chartData1[i].price,
@@ -1452,19 +1488,36 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											}
 										}
 									}else{
+										buySellNum++;
+										shortYArr.push({
+											"buy":'buy',
+											"text":'时间：'+$filter('date')(data.datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+data.price+'<br>成交量：'+data.volume,
+											"volume":data.volume,
+											"pos":data.pos,
+											"price":data.price,
+											"x":data.datetime,
+											"name":data.name,
+											"symbol":data.symbol,
+											"title":data.trans_type+' '+buySellNum
+										})
 										chartArr.push({
+
+											"x":chartData1[i].datetime,
+											"y":Number($filter('number')(chartData1[i].price-data.price,2)),
 											"volume":data.volume,
 											"direction":data.pos,
-											"Earn":$filter('number')(chartData1[i].price-data.price,2),
-											"openprice":chartData1[index].price,
+											"Earn":Number($filter('number')(chartData1[i].price-data.price,2)),
+											"openprice":data.price,
 											"closeprice":chartData1[i].price,
-											"opentime":chartData1[index].datetime,
+											"opentime":data.datetime,
 											"closetime":chartData1[i].datetime,
 											"present":chartData1[i].price,
 											"name":data.name,
 											"symbol":data.symbol
 										});
 										shortYArr.push({
+											"buy":'buy',
+											"text":'时间：'+$filter('date')(chartData1[i].datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+chartData1[i].price+'<br>成交量：'+chartData1[i].volume,
 											"volume":chartData1[i].volume,
 											"pos":chartData1[i].pos,
 											"price":chartData1[i].price,
@@ -1480,9 +1533,12 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							}
 						}
 					})
-					shortYArr=$filter('orderBy')(shortYArr,'time');
-					buyYArr=$filter('orderBy')(buyYArr,'time');
-					var wealth1 = [];
+					/*console.log(chartArr);
+					console.log($filter('date')(1477897077000,'yyyy-MM-dd H:mm:ss'));*/
+					shortYArr=$filter('orderBy')(shortYArr,'x');
+					buyYArr=$filter('orderBy')(buyYArr,'x');
+					chartArr=$filter('orderBy')(chartArr,'x');
+					/*var wealth1 = [];
 					var wealth2=[];
 					angular.forEach(chartData1,function(data,index){
 						if(data.trans_type=='short'||data.trans_type=='cover'){
@@ -1497,7 +1553,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							});
 						}
 					})
-					wealth1=$filter('orderBy')(wealth1,'x');
+					wealth1=$filter('orderBy')(wealth1,'x');*/
 					var wealth = [];
 					var buy = [];
 					var tradeItem=[];
@@ -1544,13 +1600,15 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						tradeItem.push({
 							"openprice":data['openprice'],
 							"closeprice":data['closeprice'],
-							"time":$filter('date')(data["opentime"],"yyyy-MM-dd hh:mm:ss"),
+							"time":$filter('date')(data["opentime"],"yyyy-MM-dd H:mm:ss"),
 							"pal":$filter('number')(Number(data["Earn"]),2),
 							"totalpal":$filter('number')(totalpal,2),
 							'direction':direction,
 							'yeild': (Number(data["Earn"])*100/data['openprice']).toFixed(2),
 							'winrate':winrate,
-							'yeildAbs':yeildAbs
+							'yeildAbs':yeildAbs,
+							'closetime':$filter('date')(data["closetime"],"yyyy-MM-dd H:mm:ss"),
+							"opentime":$filter('date')(data["opentime"],"yyyy-MM-dd H:mm:ss")
 						});
 						totalWinrate=totalWinrate+winrate;
 						total=total+Number(data["Earn"])*100/data['openprice'];
@@ -1571,8 +1629,6 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					$scope.rate3=parseFloat($scope.rate1/$scope.rate2).toFixed(2);
 					$scope.rate4=(Math.max.apply(Math,totalRate4)).toFixed(2);
 					$scope.allTotalpal=allTotalpal;
-					console.log(allTotalyeild);
-					console.log(amount);
 					$scope.allTotalyeild=(allTotalyeild/amount).toFixed(2);
 					Highcharts.setOptions({
 						global: {
@@ -1606,29 +1662,42 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 								turboThreshold:0
 							}
 						},
-						tooltip : {
+						/*tooltip : {
 							shared : true,
 							useHTML : true,
-							/*formatter : function() {
-								var s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
-								s += '<br />high:<b class="red">￥'
-								+Highcharts.numberFormat(this.points[0].point.high,2)
-								+ '</b><br />low:<b class="blue">￥'
-								+Highcharts.numberFormat(this.points[0].point.low,2)
-								+ '</b><br />close:<b class="green">￥'
-								+Highcharts.numberFormat(this.points[0].point.close,2)
-								+ '</b><br />open:<b class="font-black">￥'
-								+Highcharts.numberFormat(this.points[0].point.open,2)
-								+ '</b><br />volume:<b class="orange">笔 '
-								+Highcharts.numberFormat(this.points[0].point.volume,2);
-								return s;
-							},*/						
 							valueDecimals : 2 ,
 							backgroundColor: 'white',
 				            borderWidth: 0,
 				            borderRadius: 0,
 				            formatter : function() {
-								var s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
+				            	
+				            	var s;
+				            	if(this.points[0].point.high){
+				            		$scope.highstockAnalysetime=$filter('date')(this.x,'yyyy-MM-dd H:mm:ss');
+				            		$scope.highstockAnalysehigh=$filter('number')(this.points[0].point.high,2);
+				            		$scope.highstockAnalyselow=$filter('number')(this.points[0].point.low,2);
+				            		$scope.highstockAnalyseopen=$filter('number')(this.points[0].point.open,2);
+				            		$scope.highstockAnalyseclose=$filter('number')(this.points[0].point.close,2);
+				            		$scope.$apply();
+				            	}
+				            	if(this.points[0].point.direction&&this.point.text){
+				            		s=this.point.text;
+				            	}else if(this.points[0].point.direction&&!this.point){
+				            		var dir=(this.points[0].point.direction>0)?'看多':'看空';
+				            		s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
+									s+= '<br />volume：<b class="red">'
+									+Highcharts.numberFormat(this.points[0].point.volume,2)
+									+'</b><br />Earn：<b class="font-black">￥'
+									+Highcharts.numberFormat(this.points[0].point.Earn,2)
+									+ '</b><br />openprice：<b class="font-black">￥'
+									+Highcharts.numberFormat(this.points[0].point.openprice,2)
+									+ '</b><br />closeprice<b class="font-black">￥'
+									+Highcharts.numberFormat(this.points[0].point.closeprice,2)
+									+ '</b><br />direction：<b class="font-black">'
+									+dir;
+				            	}
+				            	return s;*/
+								/*var s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
 								s += '<br />high：<b class="red">￥'
 								+Highcharts.numberFormat(this.points[0].point.high,2)
 								+'</b>&nbsp;&nbsp;|&nbsp;&nbsp;low：<b class="blue">￥'
@@ -1640,19 +1709,23 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 								+ '</b>&nbsp;&nbsp;|&nbsp;&nbsp;volume：<b class="orange">'
 								+Highcharts.numberFormat(this.points[0].point.volume,2)+'笔';
 								return s;
-							},		
+							},	
 				            positioner: function () {
-				                return { x: 10, y: 120 };
+				                return { x: 0, y: 20 };
 				            },
 				            shadow: false
+						},*/
+						tooltip:{
+							useHTML:true,
+							xDateFormat:"%Y-%m-%d %H:%M:%S",
+							valueDecimals:2
 						},
-						
 						legend: {
 							enabled:true,
 							align: 'right',
 							verticalAlign: 'top',
 							x: 0,
-							y: 50
+							y: 0
 						},
 						rangeSelector: {
 							  buttons: [  
@@ -1692,16 +1765,27 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							title: {
 								text: '股价'
 							},
-							
-							lineWidth: 1
-							}],
-						
+							lineWidth: 1,
+							height:'60%'
+							},{
+							labels:{
+								align:'right',
+								x:-3
+							},
+							title:{
+								text:'盈亏'
+							},
+							opposite:true,
+							offset:0,
+							height:'35%',
+							top:'65%'
+						}],
 						series: [{
 							type: 'line',
 							name: '股价',
 							data: chartJsonDataArr,
 							lineWidth:2,
-							id: 'dataseries',
+							id: 'dataseries'
 							},{
 							type: 'flags',
 							data: buyYArr,
@@ -1714,7 +1798,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 								color:'#333'
 							},
 							y:30,
-							name:'买入/卖出'
+							name:'买入/卖出',
 						},{
 							type: 'flags',
 							data: shortYArr,
@@ -1727,7 +1811,23 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 								color:'#333'
 							},
 							y:-50,
-							name:'建仓/平仓'
+							name:'建仓/平仓',
+						},{
+							type:'column',
+							data:chartArr,
+							name:'盈亏',
+							lineWidth:2,
+							yAxis:1,
+							threshold:0,
+							negativeColor:'red',
+							color:'green'
+							/*color:'#e3170d',*/
+							/*marker:{
+								enabled:true,
+								symbol:'circle',
+								fillColor:'#0b1746',
+								radius:5
+							}*/
 						}]
 					});
 				}
@@ -1751,11 +1851,11 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			return defer2.promise;
 		};*/
 		/*$q.all([getFirmTime(), getTransTime()]).then(function(dataArr){
-			console.log(dataArr[0]);
+			//console.log(dataArr[0]);
 		},function(err){
-			console.log(2);
+			//console.log(2);
 		},function(up){
-			console.log(3);
+			//console.log(3);
 		})*/
 	}
 	
@@ -1834,7 +1934,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 
 				strategysValue.id=$(this).closest('tr').children().eq(0).text();
 				strategysValue.author=$(this).closest('tr').children().eq(3).text();
-				console.log(strategysValue);
+				//console.log(strategysValue);
 			});
 			ele.on('click','.sour-del',function(){
 				var url=$(this).closest('tr').children().eq(0).text();
@@ -1985,7 +2085,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					method:'POST',
 					url : constantUrl+'users/'+val
 				}).success(function(data){
-					console.log(data);
+					//console.log(data);
 					if(data){
 						ngModelCtrl.$setValidity('useremailAvi',false);
 					
