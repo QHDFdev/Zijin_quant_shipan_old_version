@@ -30,9 +30,9 @@
                         <td ng-bind="d.author"></td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <button class="btn btn-info firm-add">创建实盘模拟策略</button>
-                                <button class="btn btn-success his-add">创建历史回测策略</button>
-                                <button class="btn btn-danger sour-del">删除策略</button>
+                                <button class="btn btn-info firm-add">创建实盘模拟策略 <i class="fa fa-plus"></i></button>
+                                <button class="btn btn-success his-add">创建历史回测策略 <i class="fa fa-plus"></i></button>
+                                <button class="btn btn-danger sour-del">删除策略 <i class="fa fa-remove"></i></button>
                             </div>
                         </td>
 
@@ -67,7 +67,43 @@
                         <td>
                             <div class="btn-group btn-group-sm">
                                <!--  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> -->
-                                <button  class="btn btn-success strategy-start">启动 <i class=" icon-play"></i></button>
+                                <button  class="btn btn-success strategy-start">启动 <i class="fa fa-play"></i></button>
+                                <button class="btn btn-warning strategy-pause">停止 <i class="fa fa-pause"></i></button>
+                                <button  class="btn btn-danger strategy-del">删除策略 <i class="fa fa-remove"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>    
+    </div>
+    <div class="zijin-table-body container his-strategy">
+        <div class="zijin-table-title">
+            <span>历史回测</span>
+            <!-- <i class="zijin-table-add" ng-click='openMask()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i> -->
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped" his-table>
+                <thead class="bg-success">
+                    <tr>
+                        <th class="col-xs-1">策略名字</th>
+                        <th class="col-xs-1">mode</th>
+                        <th class="col-xs-2">开始时间</th>
+                        <th class="col-xs-2">结束时间</th>
+                        <th class="col-xs-2">状态</th>
+                        <th class="col-xs-4">策略操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat='d in myHisStrategy | orderBy: "name"'>
+                        <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
+                        <td ng-bind="d.name"></td>
+                        <td ng-bind="d.mode"></td>
+                        <td ng-bind="d.start"></td>
+                        <td ng-bind="d.end"></td>
+                        <td ng-bind="d.status"></td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
                                 <button class="btn btn-warning strategy-pause">停止 <i class=" icon-pause"></i></button>
                                 <button  class="btn btn-danger strategy-del">删除策略 <i class=" icon-remove-sign"></i></button>
                             </div>
@@ -77,7 +113,36 @@
             </table>
         </div>    
     </div>
-
+    <div class="zijin-table-body container rec-strategy">
+        <div class="row">
+            <div class="col-lg-6 col-md-8 col-sm-12">
+                <div class="zijin-table-title" slide-toggle>
+                    <span><i class="fa fa-trash"></i>&nbsp;回收站&nbsp;<span class="caret"></span></span>
+                </div>
+                <div class="table-responsive" style="display: none;">
+                    <table class="table table-bordered table-hover table-striped" strategy-table>
+                        <thead class="bg-success">
+                            <tr>
+                                <th class="col-xs-1">策略名字</th>
+                                <th class="col-xs-1">策略操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat='d in myStrategy | orderBy: "name" | filter:{status:-3}'>
+                                <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
+                                <td ng-bind="d.name"></td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <button  class="btn btn-danger strategy-del">删除策略 <i class="fa fa-remove"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> 
+                
+        </div>      
+    </div>
 
 </div>
 
@@ -118,6 +183,57 @@
                     </div>
                     <div class="form-group">
                         <label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">
+                    </div>
+                    <div class="btn-group btn-group-lg">
+                        <input class="btn-success btn" type="submit" value="提交">
+                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+                    </div> 
+                </form>
+            </div>  
+        </div>  
+    </div>
+</div> 
+
+
+<!-- his mask -->
+<div class="zijin-table-mask his-mask">
+    <div class="mask-box container">
+        <div class="row">
+            <div class=" col-sm-8 col-sm-offset-2">
+                <form ng-submit="addHisStrategy()" name="newHisStrategy" novalidate="" enctype="multipart/form-data" id="newHisStrategy">
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model='hisItem.name' placeholder="策略名" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model='hisItem.start' placeholder="开始时间，例如2016-10-11" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model='hisItem.end' placeholder="结束时间，例如2016-10-12" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="radio" ng-init="timeItems=['bar','tick']">
+                            <!-- <label for="modeOptions1">
+                                <input type="radio" id="modeOptions1" ng-modal='hisItem.mode' value='bar' name="modeOptions" checked="true">
+                                bar
+                            </label>
+                             &nbsp;&nbsp;&nbsp;
+                            <label for="modeOptions2">
+                                <input type="radio" id="modeOptions2" ng-modal='hisItem.mode' value='tick' name="modeOptions">
+                                tick
+                            </label> -->
+                            <label ng-repeat='x in timeItems' for="{{x}}">
+                                <input type="radio"
+                                        name='modeOptions'
+                                        ng-value='x'
+                                        ng-model='hisItem.mode'
+                                        id="{{x}}">
+                                {{x}}&nbsp;&nbsp;&nbsp;&nbsp;
+                            </label>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>代码依赖文件：</label><input type="file" name="hisFile" file-model='files' placeholder="代码依赖文件">
                     </div>
                     <div class="btn-group btn-group-lg">
                         <input class="btn-success btn" type="submit" value="提交">

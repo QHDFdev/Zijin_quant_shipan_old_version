@@ -66,7 +66,7 @@
 	font-size: 30px;
 	color: #b22;	
 }
-.zijin-table .zijin-table-body .zijin-table-title i{
+.zijin-table .zijin-table-body .zijin-table-title .zijin-table-add{
 	display: inline-block;
 	margin-left: 10px;
 	vertical-align: -60%;
@@ -95,4 +95,16 @@
 .zijin-table-mask form input[type='file']{
 	padding-top:0;
 	padding-bottom: 0; 
+}
+.rec-strategy .zijin-table-title{
+	cursor: pointer;
+}
+.rec-strategy .zijin-table-title .caret{
+	border-top: 10px solid;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+
+}
+.zijin-table .rec-strategy .zijin-table-title span{
+	color:#222;
 }

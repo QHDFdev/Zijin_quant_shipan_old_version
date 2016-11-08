@@ -148,11 +148,11 @@
 				<div class="tab-content" id="tab-content-1">
 					<div role="tabpanel" class="tab-pane active" id="return_mapping_1">
 						<h2 class="analyse-charts-title mb0">实盘模拟</small></h2>
-						<p class="highstock-item"><strong ng-bind='highstockAnalyseanalyseSymbol' class='mr30'></strong><span>时间：</span><span class="mr30" ng-bind='highstockAnalysetime'></span><span>最高：</span><span class="mr30" ng-bind='highstockAnalysehigh'></span><span>最低：</span><span class="mr30" ng-bind='highstockAnalyselow'></span><span>开盘：</span><span class="mr30" ng-bind='highstockAnalyseopen'></span><span>收盘：</span><span class="mr30" ng-bind='highstockAnalyseclose'></span></p>
+						<!-- <p class="highstock-item"><strong ng-bind='highstockAnalyseanalyseSymbol' class='mr30'></strong><span>时间：</span><span class="mr30" ng-bind='highstockAnalysetime'></span><span>最高：</span><span class="mr30" ng-bind='highstockAnalysehigh'></span><span>最低：</span><span class="mr30" ng-bind='highstockAnalyselow'></span><span>开盘：</span><span class="mr30" ng-bind='highstockAnalyseopen'></span><span>收盘：</span><span class="mr30" ng-bind='highstockAnalyseclose'></span></p> -->
 						<div id="return_map_big_1" style="height:600px;width: 96%;margin: 0 auto;">
 						</div>
 					</div>
-					<div role="tabpanel" class="tab-pane" id="total_revenue_rate_1">
+					<!-- <div role="tabpanel" class="tab-pane" id="total_revenue_rate_1">
 						<h2 class="analyse-charts-title">策略得分</h2>
 						<ul class="list-unstyled">
 							<li>您的总得分为：<span class="red"></span></li>
@@ -160,7 +160,7 @@
 							<li>您的系统评分：<span class="red"></span></li>
 						</ul>
 						<p class="text-center"><a ng-href="" class="btn btn-danger">加入竞赛</a></p>
-					</div>
+					</div> -->
 					<div role="tabpanel" class="tab-pane" id="transaction_details_1">
 						<h2 class="analyse-charts-title">交易详细输出</h2>
 						<div class="table-responsive">
@@ -228,8 +228,8 @@
 									<tr class='warning'>
 										<td>总收益率</td>
 										<td>{{allTotalyeild}}%</td>
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
+										<td>平均收益率</td>
+										<td>{{averTotalyeild}}%</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
 									</tr>
@@ -423,7 +423,7 @@
 						<p class="text-center">用来测量资产的风险性，波动越大代表策略风险越高。具体计算方法为: 策略每日收益的年化标准差 。</p>
 					</div>
 					
-					<div role="tabpanel" class="tab-pane" id="open_conditions_suggest_1">
+					<!-- <div role="tabpanel" class="tab-pane" id="open_conditions_suggest_1">
 						<h2 class="analyse-charts-title">开仓条件建议</h2>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="position_conditions_suggest_1">
@@ -437,7 +437,7 @@
 					</div>
 					<div role="tabpanel" class="tab-pane" id="strategy_algorithm_optimization_1">
 						<h2 class="analyse-charts-title">策略算法优化建议</h2>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
