@@ -2,14 +2,43 @@
 	background: #fafafa;
 }
 .zijin-study-head{
-	padding-top: 350px;
-	width: 100%;
-	height: 650px;
-	background:#fff url(../images/57bbc5e7ea07a_01.jpg) 0 0 no-repeat;
-	background-size: 100% 100%;
+	position: relative;
+	padding:150px 0;
 	text-align: center;
+	color: #f5f5ff;
+	background: url(../images/53bd5bd8cd9ed.jpg) center 45% no-repeat;
+	background-size: 100% auto;
 }
-.zijin-study-head p.zijin-study-text1{
+.zijin-study .zijin-study-head .zijin-study-bigmask{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 5;
+	background: rgba(0,0,0,.3);
+	-moz-transition: all ease 1.5s;
+	-o-transition: all ease 1.5s;
+	-webkit-transition: all ease 1.5s;
+	transition: all ease 1.5s;
+}
+.zijin-study .zijin-study-head:hover .zijin-study-bigmask{
+	background: rgba(0,0,0,.5);
+}
+.zijin-study .zijin-study-head h1{
+	position: relative;
+	z-index: 10;
+	margin-bottom: 50px;
+	letter-spacing: 2px;
+	color: #fff;
+	text-shadow: 1px 1px 2px rgba(0,0,0,.9);
+}
+.zijin-study .zijin-study-head p{
+	position: relative;
+	z-index: 10;
+	font-size: 18px;
+}
+/* .zijin-study-head p.zijin-study-text1{
 	margin-bottom:10px;
 	font-size: 26px;
 	font-weight: 700;
@@ -46,7 +75,7 @@
 	.zijin-study-head p.zijin-study-text2{
 		font-size: 16px;
 	}
-}
+} */
 .zijin-study-body{
 	padding:60px 0 0;
 	background: url(../images/about-section-bg.jpg);

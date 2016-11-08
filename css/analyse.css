@@ -2,11 +2,16 @@
 .analyse{
 	position: relative;
 	margin-top: 70px;
-	padding: 70px 0 0;
 	width: 100%;
 }
 @media (max-width: 767px){
 	.analyse{margin-top: 50px;}
+}
+.analyse .analyse-top-title{
+	margin: 0;
+	height: 70px;
+	line-height: 70px;
+	font-size: 22px;
 }
 .analyse .analyse-left{
 	position: relative;
@@ -64,7 +69,7 @@ padding-bottom: 50px; */
 	margin-bottom: 0;
 }
 .analyse .analyse-right .table-responsive{
-	height: 650px;
+	height: 550px;
 	overflow-y:auto; 
 }
 /* .analyse .analyse-right .analyse-charts-title:after{

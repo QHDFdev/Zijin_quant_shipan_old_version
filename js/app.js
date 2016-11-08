@@ -1177,6 +1177,10 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			getHisTransTime().then(function(data){
 				var	chartJsonData=data;
 				//console.log(data);
+				$scope.analyse_title={
+					'name':$scope.myFirmStrategy.name,
+					'time':$scope.myFirmStartDate+' 至 '+$scope.myFirmEndDate
+				};
 				draws1();
 				function  draws1(){
 					/*$('#return_mapping_1').css('display','block').siblings().css('display','none');*/
@@ -2267,7 +2271,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				this.push({
 					"name":x["name"],
 					'_id':x["_id"],
-					'status':x["status"]
+					'status':x["status"],
+					'symbol':x["symbol"]
 				});
 			},$scope.myFirmStrategyList)
 		})
@@ -2384,6 +2389,11 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			getTransTime().then(function(data){
 				var	chartJsonData=data;
 				//console.log(data);
+				$scope.analyse_title={
+					'time':$filter('date')($scope.myFirmDate,'yyyy-MM-dd'),
+					'name':$scope.myFirmStrategy.name,
+					'symbol':$scope.myFirmStrategy.symbol
+				}
 				draws();
 				function  draws(){
 					/*$('#return_mapping_1').css('display','block').siblings().css('display','none');*/
