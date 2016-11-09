@@ -42,13 +42,16 @@
 							<i id="move-box" class="hidden-xs"></i>
 						</li>
 						<li>
-							<a ng-href="#/complie" ng-class="{active:natived=='#/complie'}">策略回测</a>
+							<a >量化模型</a>
 						</li>
 						<li>
-							<a ng-href="#/mytable" ng-class="{active:natived=='#/mytable'}">实盘模拟</a>
+							<a ng-click='hashLocation("/complie")' ng-class="{active:natived=='#/complie'}">策略开发</a>
 						</li>
 						<li>
-							<a ng-href="#/study" ng-class="{active:natived=='#/study'}" >交易复盘</a>
+							<a ng-click='hashLocation("/mytable")' ng-class="{active:natived=='#/mytable'}">实盘模拟</a>
+						</li>
+						<li>
+							<a ng-href='#/study'  ng-class="{active:natived=='#/study'}" >交易复盘</a>
 						</li>
 						<li>
 							<a ng-href="">帮助</a>
@@ -93,7 +96,7 @@
 		<div class="container-fluid">
 			<div class='bill-footer row'>
 				<img src="images/footer_logo_3.png" alt="" class="visible-lg zijin-footer-logo">
-				<div class="col-sm-2 col-sm-offset-2 ">
+				<div class="col-sm-2 col-sm-offset-2 col-xs-6">
 					<div class="zijin-footer-itembox">
 						<p class="footer-text-head">关于</p>
 						<p><a href="">关于紫金量化</a></p>
@@ -101,7 +104,7 @@
 						<p><a href="">联系我们</a></p>
 					</div>	
 				</div>
-				<div class="col-sm-2">
+				<div class="col-sm-2 col-xs-6">
 					<div class="zijin-footer-itembox">
 						<p class="footer-text-head">数据</p>
 						<p><a href="">数据研究</a></p>
@@ -109,7 +112,7 @@
 						<p><a href="">行业研究数据</a></p>
 					</div>	
 				</div>
-				<div class="col-sm-2">
+				<div class="col-sm-2 col-xs-6">
 					<div class="zijin-footer-itembox">
 						<p class="footer-text-head">帮助</p>
 						<p><a href="">新手指南</a></p>
@@ -118,7 +121,7 @@
 						<p><a href="">版本更新</a></p>
 					</div>	
 				</div>
-				<div class="col-sm-2">
+				<div class="col-sm-2 col-xs-6">
 					<div class="zijin-footer-itembox">
 						<p class="footer-text-head">友情链接</p>
 						<p><a href="">图灵金融</a></p>

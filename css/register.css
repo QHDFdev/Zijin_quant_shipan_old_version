@@ -85,3 +85,7 @@
 .zijin-login-register .zijin-reglog-box input:-moz-placeholder { color: #fff!important;}
 .zijin-login-register .zijin-reglog-box input:-ms-input-placeholder { color: #fff!important;}
 .zijin-login-register .zijin-reglog-box input::-webkit-input-placeholder { color: #fff!important; }
+.zijin-login-register .btn-link{
+    padding: 0;
+    color:#e3170d;
+}

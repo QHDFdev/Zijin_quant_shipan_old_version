@@ -169,10 +169,15 @@
 	position: relative;
 	background: #4d6f8a;
 }
+.zijin-index .zijin-index-top .top_five{
+	position: relative;
+	background: #8a2be2;
+}
 .zijin-index .zijin-index-top .top_one .top-one-top,.zijin-index .zijin-index-top .top_one .top-one-bottom,
 .zijin-index .zijin-index-top .top_two .top-two-top,.zijin-index .zijin-index-top .top_two .top-two-bottom,
 .zijin-index .zijin-index-top .top_three .top-three-top,.zijin-index .zijin-index-top .top_three .top-three-bottom,
-.zijin-index .zijin-index-top .top_four .top-four-top,.zijin-index .zijin-index-top .top_four .top-four-bottom{
+.zijin-index .zijin-index-top .top_four .top-four-top,.zijin-index .zijin-index-top .top_four .top-four-bottom,
+.zijin-index .zijin-index-top .top_five .top-five-top,.zijin-index .zijin-index-top .top_five .top-five-bottom{
 	content:'';
 	display: inline-block;
 	position: absolute;
@@ -213,21 +218,31 @@
 	background: #4d6f8a;
 	bottom: 0;
 }
-@media (min-width:768px){
+.zijin-index .zijin-index-top .top_five .top-five-top{
+	background: #8a2be2;
+	top: 0;
+}
+.zijin-index .zijin-index-top .top_five .top-five-bottom{
+	background: #8a2be2;
+	bottom: 0;
+}
+@media (min-width:992px){
 	.zijin-index .zijin-index-top .top_one:hover .top-one-top,
 	.zijin-index .zijin-index-top .top_two:hover .top-two-top,
 	.zijin-index .zijin-index-top .top_three:hover .top-three-top,
-	.zijin-index .zijin-index-top .top_four:hover .top-four-top
+	.zijin-index .zijin-index-top .top_four:hover .top-four-top,
+	.zijin-index .zijin-index-top .top_five:hover .top-five-top
 	{
 		height: 50px;
 		top:-50px;
 	}
 }
-@media (min-width: 768px){
+@media (min-width: 992px){
 	.zijin-index .zijin-index-top .top_one:hover .top-one-bottom,
 	.zijin-index .zijin-index-top .top_two:hover .top-two-bottom,
 	.zijin-index .zijin-index-top .top_three:hover .top-three-bottom,
-	.zijin-index .zijin-index-top .top_four:hover .top-four-bottom{
+	.zijin-index .zijin-index-top .top_four:hover .top-four-bottom,
+	.zijin-index .zijin-index-top .top_five:hover .top-five-bottom{
 		height: 50px;
 		bottom:-50px;
 	}
@@ -250,16 +265,19 @@
 	font-size: 16px;
 }
 .zijin-index .zijin-index-top .top_one .needbgi{
-	background: url(../images/sprite.png) 0px -72px no-repeat
+	background: url(../images/sprite_2.png) 0px -72px no-repeat;
 }
 .zijin-index .zijin-index-top .top_two .needbgi{
-	background: url(../images/sprite.png) 0px 0px no-repeat
+	background: url(../images/sprite_2.png) 0px 0px no-repeat;
 }
 .zijin-index .zijin-index-top .top_three .needbgi{
-	background: url(../images/sprite.png)  0px -228px no-repeat
+	background: url(../images/sprite_2.png)  0px -228px no-repeat;
 }
 .zijin-index .zijin-index-top .top_four .needbgi{
-	background: url(../images/sprite.png) 0px -152px  no-repeat
+	background: url(../images/sprite_2.png) 0px -152px  no-repeat;
+}
+.zijin-index .zijin-index-top .top_five .needbgi{
+	background:url(../images/sprite_2.png) 0px -360px no-repeat;
 }
 .zijin-index .zijin-index-top .top-box a{
 	margin: 20px auto;

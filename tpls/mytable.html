@@ -104,8 +104,8 @@
                         <td ng-bind="d.status"></td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <button class="btn btn-warning strategy-pause">停止 <i class=" icon-pause"></i></button>
-                                <button  class="btn btn-danger strategy-del">删除策略 <i class=" icon-remove-sign"></i></button>
+                                <button class="btn btn-warning strategy-pause">停止 <i class="fa fa-pause"></i></button>
+                                <button  class="btn btn-danger strategy-del">删除策略 <i class="fa fa-remove"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -128,7 +128,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat='d in myStrategy | orderBy: "name" | filter:{status:-3}'>
+                            <tr ng-repeat='d in allStrategys | orderBy: "name" | filter:{status:-3}'>
                                 <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
                                 <td ng-bind="d.name"></td>
                                 <td>
@@ -204,34 +204,51 @@
                     <div class="form-group">
                         <input type="text" class="form-control" ng-model='hisItem.name' placeholder="策略名" required>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <input type="text" class="form-control" ng-model='hisItem.start' placeholder="开始时间，例如2016-10-11" required>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" ng-model='hisItem.end' placeholder="结束时间，例如2016-10-12" required>
-                    </div>
-                    <div class="form-group">
-                        <div class="radio" ng-init="timeItems=['bar','tick']">
-                            <!-- <label for="modeOptions1">
-                                <input type="radio" id="modeOptions1" ng-modal='hisItem.mode' value='bar' name="modeOptions" checked="true">
+                    </div> -->
+                   <!--  <div class="form-group">
+                       <div class="radio" ng-init="timeItems=['bar','tick']">
+                           <label ng-repeat='x in timeItems' for="{{x}}">
+                               <input type="radio"
+                                       name='modeOptions'
+                                       ng-value='x'
+                                       ng-model='hisItem.mode'
+                                       id="{{x}}" '>
+                               {{x}}&nbsp;&nbsp;&nbsp;&nbsp;
+                           </label>
+                       </div>
+                   </div> -->
+                   <div class='form-group'>
+                        <div class="checkbox">
+                            <label for="barLable">
+                                <input type="checkbox"
+                                        name="modeOptions1"
+                                        ng-model='modeBarOptions'
+                                        id="barLable" ng-change='getBarList()' checked="true">
                                 bar
                             </label>
-                             &nbsp;&nbsp;&nbsp;
-                            <label for="modeOptions2">
-                                <input type="radio" id="modeOptions2" ng-modal='hisItem.mode' value='tick' name="modeOptions">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <label for="tickLable">
+                                <input type="checkbox"
+                                        name="modeOptions2"
+                                        ng-model='modeTickOptions'
+                                        id="tickLable" ng-change='getTickList()'>
                                 tick
-                            </label> -->
-                            <label ng-repeat='x in timeItems' for="{{x}}">
-                                <input type="radio"
-                                        name='modeOptions'
-                                        ng-value='x'
-                                        ng-model='hisItem.mode'
-                                        id="{{x}}">
-                                {{x}}&nbsp;&nbsp;&nbsp;&nbsp;
                             </label>
-
-                        </div>
-                    </div>
+                        </div>    
+                   </div>
+                   <div class="form-group">
+                        <label for="">开始时间</label>
+                        <select ng-model='hisItem.start' ng-options='x for x in hisItem.time'></select>
+                   </div>
+                   <div class="form-group">
+                        <label for="">结束时间</label>
+                        <select ng-model='hisItem.end' ng-options='x for x in hisItem.time'></select>
+                   </div>
                     <div class="form-group">
                         <label>代码依赖文件：</label><input type="file" name="hisFile" file-model='files' placeholder="代码依赖文件">
                     </div>

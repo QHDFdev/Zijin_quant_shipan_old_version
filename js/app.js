@@ -130,15 +130,23 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	$scope.complie=function(){
 		$location.path('/register');
 	}
+	$scope.hashLocation=function(x){
+		if ($rootScope.user){
+			$location.path(x)
+		} else{
+			$location.path('/login');
+		}
+	}
 
 }])
-.controller('studyController',['$scope','strategyResources','strategyResource','$http','$timeout','$cookieStore','constantUrl','$location',function($scope,strategyResourcess,strategyResource,$http,$timeout,$cookieStore,constantUrl,$location){
-	$scope.historyRes=function(){
-		$location.path('/analyse');
-	}
-	$scope.actualRes=function(){
-		$location.path('/actualRes');
-		$('.analyse-modal-big').show();
+.controller('studyController',['$scope','strategyResources','strategyResource','$http','$timeout','$cookieStore','constantUrl','$location','$rootScope',function($scope,strategyResourcess,strategyResource,$http,$timeout,$cookieStore,constantUrl,$location,$rootScope){
+	$scope.hisActtoryRes=function(x){
+		if ($rootScope.user){
+			$location.path(x);
+			$('.analyse-modal-big').show();
+		} else{
+			$location.path('/login');
+		}
 	}
 }])
 /*.controller('queryStrategy',['$scope','strategyResources','strategyResource','$http','$timeout','$cookieStore','constantUrl',function($scope,strategyResourcess,strategyResource,$http,$timeout,$cookieStore,constantUrl){
@@ -362,12 +370,16 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
         	Showbo.Msg.alert('添加失败，请稍后再试。');
         })
 	}
+	$scope.allStrategys=[];
 	function getFirmStrategys(){
 	 	$http.get(constantUrl+"strategys/",{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(data){
 			$scope.myStrategy=data;
+			angular.forEach(data,function(item,index){
+				$scope.allStrategys.push(item);
+			})
 		})
 		.error(function(err,sta){
 			Showbo.Msg.alert('网络错误，请稍后再试。');
@@ -376,19 +388,50 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		});
 	};
 	/* 创建历史回测 */
+	$scope.hisItem={};
+	$scope.modeTickOptions=false;
+	$scope.modeBarOptions=false;
+	$scope.getBarList=function(){
+		$scope.modeTickOptions=!$scope.modeBarOptions;
+		if (!$scope.modeBarOptions) return;
+		getModeList('bar');
+	}
+	$scope.getTickList=function(){
+		$scope.modeBarOptions=!$scope.modeTickOptions;
+		if (!$scope.modeTickOptions) return;
+		getModeList('tick');
+	}
+	function getModeList(ty){
+		$http.get(constantUrl+"dates/",{
+			params:{type:ty,date_type:'data'},
+			headers:{'Authorization':'token '+$cookieStore.get('user').token}
+		})
+		.success(function(data){
+			$scope.hisItem.time=data;
+			
+		})
+		.error(function(err,sta){
+			console.log(err);
+			console.log(sta);
+			/*Showbo.Msg.alert('没有数据');*/
+		})
+	}
 	$scope.addHisStrategy=function(){
 
 		var files = $scope.files;
 		var formdata = new FormData();
+		if ($scope.modeBarOptions) {
+			formdata.append('mode', 'bar');
+		}else{
+			formdata.append('mode', 'tick');
+		};
 		formdata.append('name', $scope.hisItem.name);
 		formdata.append('start',$scope.hisItem.start);
 		formdata.append('end', $scope.hisItem.end);
 		formdata.append('class_id', strategysValue.id);
-		formdata.append('mode', $scope.hisItem.mode);
 		if (($scope.files!=undefined)&&($scope.files!=null)) {
 			formdata.append('file',files);
 		}
-		console.log($scope.hisItem.mode);
         $http.post(constantUrl+"btstrategys/",formdata,{
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined,
@@ -416,7 +459,9 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		})
 		.success(function(data){
 			$scope.myHisStrategy=data;
-			console.log(data);
+			angular.forEach(data,function(item,index){
+				$scope.allStrategys.push(item);
+			})
 		})
 		.error(function(err,sta){
 			Showbo.Msg.alert('网络错误，请稍后再试。');
@@ -903,7 +948,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						onSeries:"dataseries",
 						shape:'circlepin',
 						width:30,
-						color:'#FD2E2E',
+						color:'#ff9912',
 						fillColor:'transparent',
 						style:{
 							color:'#333'
@@ -916,7 +961,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						onSeries:"dataseries",
 						shape:'circlepin',
 						width:30,
-						color:"rgb(102,153,255)",
+						color:"#4169e1",
 						fillColor:'transparent',
 						style:{
 							color:'#333'
@@ -1045,8 +1090,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						data: buy,
 						yAxis: 1,
 						threshold:0,
-						negativeColor:'green',
-						color:'red'
+						negativeColor:'red',
+						color:'green'
 					}]
 				});
 			}
@@ -1069,18 +1114,30 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	}	
 	getHisSelect();
 	$scope.selecteStrategy=function(){
-		$http.get(constantUrl+'btstrategys/'+$scope.myFirmStrategy._id+'/',{
+		/*$http.get(constantUrl+'btstrategys/'+$scope.myFirmStrategy._id+'/',{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}	
 		})
 		.success(function(data){
-			$scope.myFirmStartDate=data.start;
-			$scope.myFirmEndDate=data.end;
+			console.log(data);
 		})
 		.error(function(err,sta){
 			if (sta==400) {
 				Showbo.Msg.alert('没有数据');
-				$scope.myFirmStartDate='没有数据';
-				$scope.myFirmEndDate='没有数据';
+			}
+		});*/
+		$http.get(constantUrl+'dates/',{
+			params:{
+				"date_type":'transaction',
+				"sty_id":$scope.myFirmStrategy._id
+			},
+			headers:{'Authorization':'token '+$cookieStore.get('user').token}	
+		})
+		.success(function(data){
+			$scope.myFirmDateList=data;
+		})
+		.error(function(err,sta){
+			if (sta==400) {
+				Showbo.Msg.alert('没有数据');
 			}
 		});
 	}
@@ -1660,7 +1717,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							onSeries:"dataseries",
 							shape:'squarepin',
 							width:36,
-							color:'#FD2E2E',
+							color:'#ff9912',
 							fillColor:'transparent',
 							style:{
 								color:'#333'
@@ -1673,7 +1730,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							onSeries:"dataseries",
 							shape:'squarepin',
 							width:36,
-							color:"#00c957",
+							color:"#4169e1",
 							fillColor:'transparent',
 							style:{
 								color:'#333'
@@ -1687,8 +1744,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							/*lineWidth:2,*/
 							yAxis:1,
 							threshold:0,
-							negativeColor:'red',
-							color:'green'
+							negativeColor:'green',
+							color:'red'
 							/*color:'#e3170d',*/
 							/*marker:{
 								enabled:true,
@@ -2112,7 +2169,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						onSeries:"dataseries",
 						shape:'circlepin',
 						width:30,
-						color:'#FD2E2E',
+						color:'#ff9912',
 						fillColor:'transparent',
 						style:{
 							color:'#333'
@@ -2125,7 +2182,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						onSeries:"dataseries",
 						shape:'circlepin',
 						width:30,
-						color:"rgb(102,153,255)",
+						color:"#4169e1",
 						fillColor:'transparent',
 						style:{
 							color:'#333'
@@ -2254,8 +2311,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						data: buy,
 						yAxis: 1,
 						threshold:0,
-						negativeColor:'green',
-						color:'red'
+						negativeColor:'red',
+						color:'green'
 					}]
 				});
 			}
@@ -2294,6 +2351,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				Showbo.Msg.alert('没有数据');
 			}
 		});
+
 	}
 	/*function getSelect(){
 		var defer=$q.defer();
@@ -2353,7 +2411,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				params:{
 					"sty_id":$scope.myFirmStrategy._id,
 					"start":$scope.myFirmDate,
-					"end":mydate
+					"end":$scope.myFirmDate_end
 				},
 				headers:{'Authorization':'token '+$cookieStore.get('user').token}
 			})
@@ -2371,7 +2429,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				params:{
 					"type":'bar',
 					"start":$scope.myFirmDate,
-					"end":mydate
+					"end":$scope.myFirmDate_end
 				},
 				headers:{'Authorization':'token '+$cookieStore.get('user').token}
 			})
@@ -2873,7 +2931,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							onSeries:"dataseries",
 							shape:'squarepin',
 							width:36,
-							color:'#FD2E2E',
+							color:'#ff9912',
 							fillColor:'transparent',
 							style:{
 								color:'#333'
@@ -2886,7 +2944,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							onSeries:"dataseries",
 							shape:'squarepin',
 							width:36,
-							color:"#00c957",
+							color:"#4169e1",
 							fillColor:'transparent',
 							style:{
 								color:'#333'
@@ -2900,8 +2958,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							/*lineWidth:2,*/
 							yAxis:1,
 							threshold:0,
-							negativeColor:'red',
-							color:'green'
+							negativeColor:'green',
+							color:'red'
 							/*color:'#e3170d',*/
 							/*marker:{
 								enabled:true,
@@ -3093,7 +3151,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					Showbo.Msg.alert('删除成功。')
 				})
 				.error(function(err,sta){
-					Showbo.Msg.alert('删除失败，请稍后再试。')
+					console.log(err,sta);
+					if(sta==400){
+						$http.delete(constantUrl+"btstrategys/"+url+'/',{
+							headers:{'Authorization':'token '+$cookieStore.get('user').token}
+						})
+						.success(function(){
+							$route.reload();
+							Showbo.Msg.alert('删除成功。')
+						})
+						.error(function(err,sta){
+							Showbo.Msg.alert('删除失败，请稍后再试。')
+						});
+					}	
 				});
 			})
 		}
