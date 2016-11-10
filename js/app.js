@@ -298,13 +298,28 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	$scope.closeMask=function(){
 		$('.zijin-table-mask').fadeOut();
 	}
-	getSourcingStrategys();
-	getFirmStrategys();
-	getHisStrategys();
+	$scope.allStrategys=[];
+	
 	/* 源策略 */
 	$scope.openMaskSourcing=function(){
 		$('.sourcing-mask').fadeIn();
 	}
+	$scope.getSourcingStrategys=function(){
+	 $http.get(constantUrl+"classs/",{
+			headers:{'Authorization':'token '+$cookieStore.get('user').token}
+		})
+		.success(function(data){
+			$scope.mySourcingStrategy=data;
+		})
+		.error(function(err,sta){
+			Showbo.Msg.alert('网络错误，请稍后再试。');
+			//console.log(err);
+			//console.log(sta);
+		});
+	};
+	$scope.getSourcingStrategys();
+	
+
 	$scope.addSourcingStrategy=function(){
 		var file = $scope.sourcingCode;
 		var formdata = new FormData();
@@ -319,7 +334,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
         .success(function(data){
         	$('.zijin-table-mask').fadeOut();
 			//console.log(data);
-			getSourcingStrategys()
+			$scope.getSourcingStrategys();
 			Showbo.Msg.alert('添加成功。');
         })
         .error(function(err,st){
@@ -329,12 +344,17 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
         	Showbo.Msg.alert('添加失败，请稍后再试。');
         })
 	}
-	function getSourcingStrategys(){
-	 $http.get(constantUrl+"classs/",{
+
+	/* 创建实盘模拟 */
+	$scope.getFirmStrategys=function(){
+	 	$http.get(constantUrl+"strategys/",{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
 		.success(function(data){
-			$scope.mySourcingStrategy=data;
+			$scope.myStrategy=data;
+			angular.forEach(data,function(item,index){
+				$scope.allStrategys.push(item);
+			})
 		})
 		.error(function(err,sta){
 			Showbo.Msg.alert('网络错误，请稍后再试。');
@@ -342,7 +362,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			//console.log(sta);
 		});
 	};
-	/* 创建实盘模拟 */
+	$scope.getFirmStrategys();
 	$scope.addFirmStrategy=function(){
 
 		var files = $scope.files;
@@ -364,7 +384,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
         	$('.zijin-table-mask').fadeOut();
         	$scope.myStrategy=data;
 			//console.log(data);
-			getFirmStrategys();
+			$scope.getFirmStrategys();
 			Showbo.Msg.alert('添加成功。');
         })
         .error(function(err,st){
@@ -374,23 +394,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
         	Showbo.Msg.alert('添加失败，请稍后再试。');
         })
 	}
-	$scope.allStrategys=[];
-	function getFirmStrategys(){
-	 	$http.get(constantUrl+"strategys/",{
-			headers:{'Authorization':'token '+$cookieStore.get('user').token}
-		})
-		.success(function(data){
-			$scope.myStrategy=data;
-			angular.forEach(data,function(item,index){
-				$scope.allStrategys.push(item);
-			})
-		})
-		.error(function(err,sta){
-			Showbo.Msg.alert('网络错误，请稍后再试。');
-			//console.log(err);
-			//console.log(sta);
-		});
-	};
+	
+	
 	/* 创建历史回测 */
 	$scope.hisItem={};
 	$scope.modeTickOptions=false;
@@ -446,7 +451,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
         	$('.zijin-table-mask').fadeOut();
         	$scope.myHisStrategy=data;
 			//console.log(data);
-			getHisStrategys();
+			$scope.getHisStrategys();
 			console.log(data);
 			Showbo.Msg.alert('添加成功。');
         })
@@ -457,7 +462,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
         	Showbo.Msg.alert('添加失败，请稍后再试。');
         })
 	}
-	function getHisStrategys(){
+	$scope.getHisStrategys=function(){
 	 	$http.get(constantUrl+"btstrategys/",{
 			headers:{'Authorization':'token '+$cookieStore.get('user').token}
 		})
@@ -473,6 +478,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			//console.log(sta);
 		});
 	};
+	$scope.getHisStrategys();
 
 
 
@@ -3009,7 +3015,93 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 
 }])
 .controller('modalResController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
-
+	$scope.modalResObjList1=[
+	{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	}];
+	$scope.modalResObjList2=[
+	{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},
+	{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	}];
+	$scope.modalResObjList3=[
+	{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	}];
+	$scope.modalResObjList4=[
+	{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	},{
+		"title":123,
+		"text":'aaaaa'
+	}];
 }])
 .directive('slideupDown',function(){
 	return{
@@ -3095,7 +3187,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					headers:{'Authorization':'token '+$cookieStore.get('user').token}
 				})
 				.success(function(){
-					$route.reload();
+					/*$route.reload();*/
+					scope.getSourcingStrategys();
 					Showbo.Msg.alert('删除成功。')
 				})
 				.error(function(err,sta){
@@ -3129,7 +3222,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					headers:{'Authorization':'token '+$cookieStore.get('user').token}
 				})
 				.success(function(){
-					$route.reload();
+					/*$route.reload();*/
+					scope.getFirmStrategys();
 					
 				})
 				.error(function(err,sta){
@@ -3142,7 +3236,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					headers:{'Authorization':'token '+$cookieStore.get('user').token}
 				})
 				.success(function(){
-					$route.reload();
+					/*$route.reload();*/
+					scope.getFirmStrategys();
 					
 				})
 				.error(function(err,sta){
@@ -3155,7 +3250,10 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					headers:{'Authorization':'token '+$cookieStore.get('user').token}
 				})
 				.success(function(){
-					$route.reload();
+					/*$route.reload();*/
+					scope.allStrategys=[];
+					scope.getFirmStrategys();
+					scope.getHisStrategys();
 					Showbo.Msg.alert('删除成功。')
 				})
 				.error(function(err,sta){
@@ -3165,7 +3263,10 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							headers:{'Authorization':'token '+$cookieStore.get('user').token}
 						})
 						.success(function(){
-							$route.reload();
+							/*$route.reload();*/
+							scope.allStrategys=[];
+							scope.getFirmStrategys();
+							scope.getHisStrategys();
 							Showbo.Msg.alert('删除成功。')
 						})
 						.error(function(err,sta){
@@ -3186,7 +3287,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					headers:{'Authorization':'token '+$cookieStore.get('user').token}
 				})
 				.success(function(){
-					$route.reload();
+					scope.getHisStrategys();
 					
 				})
 				.error(function(err,sta){
@@ -3199,7 +3300,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					headers:{'Authorization':'token '+$cookieStore.get('user').token}
 				})
 				.success(function(){
-					$route.reload();
+					/*$route.reload();*/
+					scope.getHisStrategys();
 					Showbo.Msg.alert('删除成功。')
 				})
 				.error(function(err,sta){
@@ -3267,6 +3369,32 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			ele.siblings('input').on('blur',function(){
 				ele.show();
 				ele.siblings('input').hide();
+			})
+		}
+	}
+})
+.directive('box',function(){
+	return {
+		restrict:'E',
+		replace:'true',
+		scope:{
+			mydata:'='
+		},
+		templateUrl:'tpls/modalResTemp.html',
+		link:function(scope,ele,attr){
+			ele.on('mouseenter mouseover mouseout',function(ev){
+				 if(ev.type=='mouseenter'||ev.type=='mouseover') {
+					ele.find('.modalRes-box-top').addClass('w100');
+					ele.find('.modalRes-box-right').addClass('h100');
+					ele.find('.modalRes-box-bottom').addClass('w100');
+					ele.find('.modalRes-box-left').addClass('h100');
+				}else if(ev.type=='mouseout'){
+					ele.find('.modalRes-box-top').removeClass('w100');
+					ele.find('.modalRes-box-right').removeClass('h100');
+					ele.find('.modalRes-box-bottom').removeClass('w100');
+					ele.find('.modalRes-box-left').removeClass('h100');
+				}
+				ev.stopPropagation();
 			})
 		}
 	}
