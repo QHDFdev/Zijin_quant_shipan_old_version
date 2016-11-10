@@ -33,6 +33,10 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		templateUrl:'tpls/complie.html',
 		controller:'complieController'
 	})
+	.when('/modalRes',{
+		templateUrl:'tpls/modalRes.html',
+		controller:'modalResController'
+	})
 	.otherwise({
 		redirectTo:'/home'
 	})
@@ -62,7 +66,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 
 		}
 	})
-	if(($location.url()=='/analyse')||($location.url()=='/complie')){
+	if(($location.url()=='/analyse')||($location.url()=='/complie')||($location.url()=='/modalRes')){
 		$rootScope.isactive=true;
 	}
 	$rootScope.$on('$routeChangeStart',function(next,cur){
@@ -102,7 +106,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				
 			}
 		})
-		if(($location.url()=='/analyse')||($location.url()=='/complie')){
+		if(($location.url()=='/analyse')||($location.url()=='/complie')||($location.url()=='/modalRes')){
 			$rootScope.isactive=true;
 		}
 	})
@@ -1192,13 +1196,14 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	})*/
 
 	$scope.makeChart1=function(){
+		var mydate=$filter('date')(new Date((new Date($scope.myFirmEndDate)).setDate((new Date($scope.myFirmEndDate)).getDate()+1)),'yyyy-MM-dd');
 		function getHisTime(){
 			var defer1=$q.defer();
 			$http.get(constantUrl+'transactions/',{
 				params:{
 					"sty_id":$scope.myFirmStrategy._id,
 					"start":$scope.myFirmStartDate,
-					"end":$scope.myFirmEndDate
+					"end":mydate
 				},
 				headers:{'Authorization':'token '+$cookieStore.get('user').token}
 			})
@@ -1216,7 +1221,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				params:{
 					"type":'bar',
 					"start":$scope.myFirmStartDate,
-					"end":$scope.myFirmEndDate
+					"end":mydate
 				},
 				headers:{'Authorization':'token '+$cookieStore.get('user').token}
 			})
@@ -2404,14 +2409,14 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	})*/
 
 	$scope.makeChart1=function(){
-		var mydate=$filter('date')(new Date((new Date($scope.myFirmDate)).setDate((new Date($scope.myFirmDate)).getDate()+1)),'yyyy-MM-dd');
+		var mydate=$filter('date')(new Date((new Date($scope.myFirmDate_end)).setDate((new Date($scope.myFirmDate_end)).getDate()+1)),'yyyy-MM-dd');
 		function getFirmTime(){
 			var defer1=$q.defer();
 			$http.get(constantUrl+'transactions/',{
 				params:{
 					"sty_id":$scope.myFirmStrategy._id,
 					"start":$scope.myFirmDate,
-					"end":$scope.myFirmDate_end
+					"end":mydate
 				},
 				headers:{'Authorization':'token '+$cookieStore.get('user').token}
 			})
@@ -2429,7 +2434,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				params:{
 					"type":'bar',
 					"start":$scope.myFirmDate,
-					"end":$scope.myFirmDate_end
+					"end":mydate
 				},
 				headers:{'Authorization':'token '+$cookieStore.get('user').token}
 			})
@@ -3001,6 +3006,9 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	
 }])
 .controller('complieController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
+
+}])
+.controller('modalResController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
 
 }])
 .directive('slideupDown',function(){

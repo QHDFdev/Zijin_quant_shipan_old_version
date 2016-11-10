@@ -20,6 +20,7 @@
 	<link rel="stylesheet" type="text/css" href="css/study.css">
 	<!-- <link rel="stylesheet" type="text/css" href="css/actualRes.css"> -->
 	<link rel="stylesheet" type="text/css" href="css/complie.css">
+	<link rel="stylesheet" type="text/css" href="css/modalRes.css">
 </head>
 <body ng-controller='homeController'>
 	<div ng-class="{true:'zijin-main-wrapper',false:'transparent'}[isactive]"> 
@@ -42,7 +43,7 @@
 							<i id="move-box" class="hidden-xs"></i>
 						</li>
 						<li>
-							<a >量化模型</a>
+							<a ng-click='hashLocation("/modalRes")' ng-class="{active:natived=='#/modalRes'}">量化模型</a>
 						</li>
 						<li>
 							<a ng-click='hashLocation("/complie")' ng-class="{active:natived=='#/complie'}">策略开发</a>

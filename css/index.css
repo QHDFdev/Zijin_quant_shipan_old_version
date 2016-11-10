@@ -376,6 +376,29 @@ footer .footer-text-head span {
 	padding: 5px 0 ;
 	letter-spacing: 5px;
 }
+
+/* scrollbar */
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+	background: transparent
+}
+
+::-webkit-scrollbar-thumb {
+	background: #999
+}
+::-webkit-scrollbar-thumb{height: 50px; background-color: #666; -webkit-border-radius: 3px;}  
+HTML {   
+scrollbar-base-color: #C0C0C0;   
+scrollbar-base-color: #C0C0C0;   
+scrollbar-3dlight-color: #C0C0C0;   
+scrollbar-highlight-color: #C0C0C0;   
+scrollbar-track-color: #EBEBEB;   
+scrollbar-arrow-color: black;   
+scrollbar-shadow-color: #C0C0C0;   
+scrollbar-dark-shadow-color: #C0C0C0;   
+}  
+
 /* @media (min-width: 768px){
 	.main-navbar .list-group-item{
 		padding: 5px 15px;

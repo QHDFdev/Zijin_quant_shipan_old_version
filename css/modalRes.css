@@ -1,0 +1,6 @@
+.modalRes{
+	margin-top: 70px;
+}
+@media (max-width: 767px ){
+	.modalRes{margin-top: 50px;}
+}
