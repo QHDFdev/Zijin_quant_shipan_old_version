@@ -649,7 +649,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 										chartArr.push({
 											"volume":data.volume,
 											"direction":data.pos,
-											"Earn":$filter('number')(chartData1[i].price-data.price,2),
+											"Earn":(chartData1[i].price-data.price).toFixed(2),
 											"openprice":data.price,
 											"closeprice":chartData1[i].price,
 											"opentime":data.datetime,
@@ -873,9 +873,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			if ($scope.analyseJsonData) {
 				chartJsonData=angular.fromJson($scope.analyseJsonData);
 				angular.forEach(chartJsonData,function(data,index){
-					var parseTime=(new Date(data.datetime.replace('T'," "))).getTime();
 					chartJsonDataArr.push({
-						"x":parseTime,
+						"x":date.datetime,
 						"y":data.close,
 						'low':data.low,
 						'high':data.high,
@@ -1593,7 +1592,6 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					
 					/*chartJsonData=angular.fromJson($scope.analyseJsonData);*/
 					angular.forEach(chartJsonData,function(data,index){
-						/*var parseTime=(new Date(data.datetime.replace('T'," "))).getTime();*/
 						chartJsonDataArr.push({
 							"x":data.datetime,
 							"y":data.close,
@@ -2095,9 +2093,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			if ($scope.analyseJsonData) {
 				chartJsonData=angular.fromJson($scope.analyseJsonData);
 				angular.forEach(chartJsonData,function(data,index){
-					var parseTime=(new Date(data.datetime.replace('T'," "))).getTime();
 					chartJsonDataArr.push({
-						"x":parseTime,
+						"x":data.datetime,
 						"y":data.close,
 						'low':data.low,
 						'high':data.high,
@@ -2528,7 +2525,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 													"y":Number($filter('number')(data.price-chartData1[i].price,2)),
 													"volume":data.volume,
 													"direction":data.pos,
-													"Earn":Number($filter('number')(data.price-chartData1[i].price,2)),
+													/*"Earn":Number($filter('number')(data.price-chartData1[i].price,2)),*/
+													"Earn":(data.price-chartData1[i].price).toFixed(2),
 													"openprice":data.price,
 													"closeprice":chartData1[i].price,
 													"opentime":data.datetime,
@@ -2573,7 +2571,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											"y":Number($filter('number')(data.price-chartData1[i].price,2)),
 											"volume":data.volume,
 											"direction":-1,
-											"Earn":Number($filter('number')(data.price-chartData1[i].price,2)),
+											/*"Earn":Number($filter('number')(data.price-chartData1[i].price,2)),*/
+											"Earn":(data.price-chartData1[i].price).toFixed(2),
 											"openprice":data.price,
 											"closeprice":chartData1[i].price,
 											"opentime":data.datetime,
@@ -2628,7 +2627,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 													"y":Number($filter('number')(chartData1[i].price-data.price,2)),
 													"volume":data.volume,
 													"direction":1,
-													"Earn":Number($filter('number')(chartData1[i].price-data.price,2)),
+													/*"Earn":Number($filter('number')(chartData1[i].price-data.price,2)),*/
+													"Earn":(chartData1[i].price-data.price).toFixed(2),
 													"openprice":data.price,
 													"closeprice":chartData1[i].price,
 													"opentime":data.datetime,
@@ -2671,7 +2671,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											"y":Number($filter('number')(chartData1[i].price-data.price,2)),
 											"volume":data.volume,
 											"direction":data.pos,
-											"Earn":Number($filter('number')(chartData1[i].price-data.price,2)),
+											/*"Earn":Number($filter('number')(chartData1[i].price-data.price,2)),*/
+											"Earn":(chartData1[i].price-data.price).toFixed(2),
 											"openprice":data.price,
 											"closeprice":chartData1[i].price,
 											"opentime":data.datetime,
@@ -2738,6 +2739,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					var allTotalyeild=0;
 					var prof=0;
 					var loss=0;
+					console.log(chartArr);
 					angular.forEach(chartArr,function(data,index){
 						totalpal=totalpal+Number(data["Earn"]);
 						allTotalpal=allTotalpal+Number(data["Earn"]);
@@ -2808,7 +2810,6 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					
 					/*chartJsonData=angular.fromJson($scope.analyseJsonData);*/
 					angular.forEach(chartJsonData,function(data,index){
-						/*var parseTime=(new Date(data.datetime.replace('T'," "))).getTime();*/
 						chartJsonDataArr.push({
 							"x":data.datetime,
 							"y":data.close,
@@ -2819,7 +2820,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							'volume':data.volume
 						});
 					})
-					/*chartJsonDataArr=$filter('orderBy')(chartJsonDataArr,'x');*/
+					chartJsonDataArr=$filter('orderBy')(chartJsonDataArr,'x');
 					$('#return_map_big_1').highcharts('StockChart', {
 						credits: {
 			        		enabled: false
