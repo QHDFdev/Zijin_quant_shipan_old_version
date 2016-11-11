@@ -785,7 +785,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			var loss=0;
 			angular.forEach(chartArr,function(data,index){
 				totalpal=totalpal+Number(data["Earn"]);
-				allTotalpal=totalpal+Number(data["Earn"]);
+				allTotalpal=allTotalpal+Number(data["Earn"]);
 				if (data['direction']>0) {
 					direction='看多';
 				}else{
@@ -1505,7 +1505,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					var loss=0;
 					angular.forEach(chartArr,function(data,index){
 						totalpal=totalpal+Number(data["Earn"]);
-						allTotalpal=totalpal+Number(data["Earn"]);
+						allTotalpal=allTotalpal+Number(data["Earn"]);
 						if (data['direction']>0) {
 							direction='看多';
 						}else{
@@ -2007,7 +2007,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			var loss=0;
 			angular.forEach(chartArr,function(data,index){
 				totalpal=totalpal+Number(data["Earn"]);
-				allTotalpal=totalpal+Number(data["Earn"]);
+				allTotalpal=allTotalpal+Number(data["Earn"]);
 				if (data['direction']>0) {
 					direction='看多';
 				}else{
@@ -2720,7 +2720,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					var loss=0;
 					angular.forEach(chartArr,function(data,index){
 						totalpal=totalpal+Number(data["Earn"]);
-						allTotalpal=totalpal+Number(data["Earn"]);
+						allTotalpal=allTotalpal+Number(data["Earn"]);
 						if (data['direction']>0) {
 							direction='看多';
 						}else{
