@@ -158,11 +158,11 @@
 	height: 650px;
 }
 .carImg1{
-	background: url(../images/index_car_2.jpg) center center no-repeat;
+	background: url(../images/index_car_1.jpg) center center no-repeat;
 	background-size: auto 100%;
 }
 .carImg2{
-	background: url(../images/index_car_1.jpg) center center no-repeat;
+	background: url(../images/index_car_2.jpg) center center no-repeat;
 	background-size: auto 100%;
 }
 .carImg3{
