@@ -1,4 +1,4 @@
-angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResource','myService'])
+angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResource','myService','ngSanitize'])
 .config(['$routeProvider',function($routeProvider){
 	$routeProvider
 	.when('/home',{
@@ -36,6 +36,22 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	.when('/modalRes',{
 		templateUrl:'tpls/modalRes.html',
 		controller:'modalResController'
+	})
+	.when('/modalRes/study_object/:id',{
+		templateUrl:'tpls/modalResTemplate.html',
+		controller:'modalResItemController'
+	})
+	.when('/modalRes/study_method/:id',{
+		templateUrl:'tpls/modalResTemplate.html',
+		controller:'modalResItemController'
+	})
+	.when('/modalRes/study_case/:id',{
+		templateUrl:'tpls/modalResTemplate.html',
+		controller:'modalResItemController'
+	})
+	.when('/modalRes/study_data/:id',{
+		templateUrl:'tpls/modalResTemplate.html',
+		controller:'modalResItemController'
 	})
 	.otherwise({
 		redirectTo:'/home'
@@ -115,6 +131,10 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 .constant('constantUrl','http://114.55.238.82:81/')
 .value('strategysValue',{"id":123,"author":'abc'})
 .value('myStrategysValue',[])
+.value('modalResObjList1',[])
+.value('modalResObjList2',[])
+.value('modalResObjList3',[])
+.value('modalResObjList4',[])
 .controller('homeController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
 	$scope.$watch(function(){
 		var str=null;
@@ -2799,7 +2819,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							'volume':data.volume
 						});
 					})
-					chartJsonDataArr=$filter('orderBy')(chartJsonDataArr,'x');
+					/*chartJsonDataArr=$filter('orderBy')(chartJsonDataArr,'x');*/
 					$('#return_map_big_1').highcharts('StockChart', {
 						credits: {
 			        		enabled: false
@@ -3014,95 +3034,541 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 .controller('complieController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
 
 }])
-.controller('modalResController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
-	$scope.modalResObjList1=[
-	{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	}];
-	$scope.modalResObjList2=[
-	{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},
-	{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	}];
-	$scope.modalResObjList3=[
-	{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	}];
-	$scope.modalResObjList4=[
-	{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	},{
-		"title":123,
-		"text":'aaaaa'
-	}];
+.controller('modalResController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','modalResObjList1','modalResObjList2','modalResObjList3','modalResObjList4','storageModalRes',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,modalResObjList1,modalResObjList2,modalResObjList3,modalResObjList4,storageModalRes){
+	var str1=[ 
+	 {	"classify":"study_object",
+	    "index" :0,
+	    "params_id":"a001",
+		"name": "金融数据微观结构",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+		"text_content" : "金融数据作为时间序列数据，具有独特微观结构#动态可增加内容"
+	  },{
+	  	"classify":"study_object",
+	    "index" :1,
+	    "params_id":"a002",
+	    "name": "高频金融数据微观结构及特征",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "高频金融数据其微观结构#动态可增加内容"
+	  },{
+	  	"classify":"study_object",
+	    "index" :2,
+	    "params_id":"a003",
+	    "name": "证券市场微观机构",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "证券市场微观机构#动态可增加内容"
+	  },{
+	  	"classify":"study_object",
+	    "index" :3,
+	    "params_id":"a003",
+	    "name": "股指期货数据微观机构",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "股指期货数据微观机构#动态可增加内容"
+	  },{
+	  	"classify":"study_object",
+	    "index" :4,
+	    "params_id":"a004",
+	    "name": "紫金量化数据围观结构分析",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "紫金量化数据围观结构分析#动态可增加内容"
+	  }
+	 ];
+	var str2=[  
+	 {
+	 	"classify":"study_method",
+	    "index" :0,
+	    "params_id":"b001",
+	    "name": "金融量化模型方法论",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "金融量化模型方法论#动态可增加内容"
+	  },{
+	  	"classify":"study_method",
+	    "index" :1,
+	    "params_id":"b002",
+	    "name": "经典量化交易模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "典量化交易模型#动态可增加内容"
+	  },{
+	  	"classify":"study_method",
+	    "index" :2,
+	    "params_id":"b003",
+	    "name": "行情趋势识别",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "行情趋势识别#动态可增加内容"
+	  },{
+	  	"classify":"study_method",
+	    "index" :3,
+	    "params_id":"b003",
+	    "name": "多因子分析模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "多因子分析模型#动态可增加内容"
+	  },{
+	  	"classify":"study_method",
+	    "index" :4,
+	    "params_id":"b004",
+	    "name": "量化择时模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "量化择时模型#动态可增加内容"
+	  },{
+	  	"classify":"study_method",
+	    "index" :5,
+	    "params_id":"b005",
+	    "name": "时间序列模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "时间序列模型#动态可增加内容"
+	  },{
+	  	"classify":"study_method",
+	    "index" :6,
+	    "params_id":"b006",
+	    "name": "仿生与另类量化模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "仿生与另类量化模型#动态可增加内容"
+	  },{
+	  	"classify":"study_method",
+	    "index" :7,
+	    "params_id":"b007",
+	    "name": "基于技术分析的量化模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "基于技术分析的量化模型#动态可增加内容"
+	  },{
+	  	"classify":"study_method",
+	    "index" :8,
+	    "params_id":"b008",
+	    "name": "套利保期模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "套利保期模型#动态可增加内容"
+	  },{
+	  	"classify":"study_method",
+	    "index" :9,
+	    "params_id":"b009",
+	    "name": "应用深度学习模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "应用深度学习模型#动态可增加内容"
+	  }
+	 ];    
+	var str3=[  
+	 {
+	 	"classify":"study_case",
+	 	"classify":"study_case",
+	    "index" :0,
+	    "params_id":"c001",
+	    "name": "BBI_PVI模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "BBI_PVI模型#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :1,
+	    "params_id":"c002",
+	    "name": "DAE模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "DAE模型#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :2,
+	    "params_id":"c003",
+	    "name": "XgBoos模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "XgBoos模型#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :3,
+	    "params_id":"c003",
+	    "name": "HMM模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "HMM模型#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :4,
+	    "params_id":"c004",
+	    "name": "K线模式识别",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "K线模式识别#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :5,
+	    "params_id":"c005",
+	    "name": "时间序列模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "时间序列模型#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :6,
+	    "params_id":"c006",
+	    "name": "灰色模型检测",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "灰色模型检测#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :7,
+	    "params_id":"c007",
+	    "name": "基于单向波动差值<br/>和遗传算法的动态择时交易模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "基于单向波动差值和遗传算法的动态择时交易模型#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :8,
+	    "params_id":"c008",
+	    "name": "RBM+SVM",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "RBM+SVM#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :9,
+	    "params_id":"c009",
+	    "name": "DL+抄底逃顶",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "DL+抄底逃顶#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :10,
+	    "params_id":"c010",
+	    "name": "小波去噪+SVM",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "小波去噪+SVM#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :11,
+	    "params_id":"c011",
+	    "name": "量化特征提取",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "量化特征提取#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :12,
+	    "params_id":"c012",
+	    "name": "KMEANS聚类择时模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "KMEANS聚类择时模型#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :13,
+	    "params_id":"c013",
+	    "name": "AffinityPropagation<br/>聚类择时模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "AffinityPropagation聚类择时模型#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :14,
+	    "params_id":"c014",
+	    "name": "MeansShift聚类择时模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "MeansShift聚类择时模型#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :15,
+	    "params_id":"c015",
+	    "name": "WPRM模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "WPRM模型#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :16,
+	    "params_id":"c016",
+	    "name": "SVM+多指标",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "SVM+多指标#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :17,
+	    "params_id":"c017",
+	    "name": "BMD（经验模态分解）交易模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "BMD（经验模态分解）交易模型#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :18,
+	    "params_id":"c018",
+	    "name": "GTFD（修正TD指标）量化择时",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "GTFD（修正TD指标）量化择时#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :19,
+	    "params_id":"c019",
+	    "name": "基于LSTM预测模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "基于LSTM预测模型#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :20,
+	    "params_id":"c020",
+	    "name": "ARIMD模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "ARIMD模型#动态可增加内容"
+	  },{
+	  	"classify":"study_case",
+	    "index" :21,
+	    "params_id":"c021",
+	    "name": "决策树预测模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "决策树预测模型#动态可增加内容"
+	  }
+	 ];     
+	var str4=[  
+	 {
+	 	"classify":"study_data",
+	    "index" :0,
+	    "params_id":"c001",
+	    "name": "BBI_PVI模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "BBI_PVI模型#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :1,
+	    "params_id":"c002",
+	    "name": "DAE模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "DAE模型#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :2,
+	    "params_id":"c003",
+	    "name": "XgBoos模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "XgBoos模型#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :3,
+	    "params_id":"c003",
+	    "name": "HMM模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "HMM模型#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :4,
+	    "params_id":"c004",
+	    "name": "K线模式识别",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "K线模式识别#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :5,
+	    "params_id":"c005",
+	    "name": "时间序列模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "时间序列模型#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :6,
+	    "params_id":"c006",
+	    "name": "灰色模型检测",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "灰色模型检测#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :7,
+	    "params_id":"c007",
+	    "name": "基于单向波动差值和<br>遗传算法的动态择时交易模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "基于单向波动差值和遗传算法的动态择时交易模型#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :8,
+	    "params_id":"c008",
+	    "name": "RBM+SVM",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "RBM+SVM#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :9,
+	    "params_id":"c009",
+	    "name": "DL+抄底逃顶",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "DL+抄底逃顶#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :10,
+	    "params_id":"c010",
+	    "name": "小波去噪+SVM",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "小波去噪+SVM#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :11,
+	    "params_id":"c011",
+	    "name": "量化特征提取",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "量化特征提取#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :12,
+	    "params_id":"c012",
+	    "name": "KMEANS聚类择时模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "KMEANS聚类择时模型#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :13,
+	    "params_id":"c013",
+	    "name": "AffinityPropagation<br/>聚类择时模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "AffinityPropagation>聚类择时模型#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :14,
+	    "params_id":"c014",
+	    "name": "MeansShift聚类择时模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "MeansShift聚类择时模型#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :15,
+	    "params_id":"c015",
+	    "name": "WPRM模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "WPRM模型#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :16,
+	    "params_id":"c016",
+	    "name": "SVM+多指标",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "SVM+多指标#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :17,
+	    "params_id":"c017",
+	    "name": "BMD（经验模态分解）交易模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "BMD（经验模态分解）交易模型#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :18,
+	    "params_id":"c018",
+	    "name": "GTFD（修正TD指标）量化择时",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "GTFD（修正TD指标）量化择时#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :19,
+	    "params_id":"c019",
+	    "name": "基于LSTM预测模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "基于LSTM预测模型#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :20,
+	    "params_id":"c020",
+	    "name": "ARIMD模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "ARIMD模型#动态可增加内容"
+	  },{
+	  	"classify":"study_data",
+	    "index" :21,
+	    "params_id":"c021",
+	    "name": "决策树预测模型",
+	    "creator": "admin",
+	    "createtime": "2016-11-10",
+	    "text_content" : "决策树预测模型#动态可增加内容"
+	  }
+	 ];
+	modalResObjList1=[];
+	modalResObjList2=[];
+	modalResObjList3=[];
+	modalResObjList4=[];
+	angular.forEach(str1,function(data,index){
+		this.push(data);
+	},modalResObjList1); 
+	angular.forEach(str2,function(data,index){
+		this.push(data);
+	},modalResObjList2); 
+	angular.forEach(str3,function(data,index){
+		this.push(data);
+	},modalResObjList3); 
+	angular.forEach(str4,function(data,index){
+		this.push(data);
+	},modalResObjList4); 
+	storageModalRes.storage(str1);
+	console.log(storageModalRes.data);
+	$scope.modalResObjList1=modalResObjList1;   
+	$scope.modalResObjList2=modalResObjList2; 
+	$scope.modalResObjList3=modalResObjList3; 
+	$scope.modalResObjList4=modalResObjList4; 
 }])
+.controller('modalResItemController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','$routeParams','modalResObjList1','modalResObjList2','modalResObjList3','modalResObjList4','storageModalRes',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,$routeParams,modalResObjList1,modalResObjList2,modalResObjList3,modalResObjList4,storageModalRes){
+	/(\/modalRes\/)(\w+)\//i.exec($location.url());
+	var str=RegExp.$2;
+	switch(str){
+		case 'study_object':
+		$scope.title=storageModalRes.data[$routeParams.id]["name"];
+		break;
+		case 'study_method':
+		$scope.title=modalResObjList2[$routeParams.id]["name"];
+		break;
+		case 'study_case':
+		$scope.title=modalResObjList3[$routeParams.id]["name"];
+		break;
+		case 'study_data':
+		$scope.title=modalResObjList4[$routeParams.id]["name"];
+		break;
+	}
+	console.log(modalResObjList1);
+}])
+.factory('storageModalRes',function(){
+	return{
+		data:[],
+		storage:function(x){
+			this.data=x;
+		}
+	}
+})
 .directive('slideupDown',function(){
 	return{
 		restrict:'AE',

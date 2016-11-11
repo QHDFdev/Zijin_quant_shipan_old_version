@@ -1,0 +1,7 @@
+.modalResDis{
+	margin-top: 70px;
+	text-align: center;
+}
+@media screen and(max-width: 767px){
+	.modalResDis{margin-top: 50px;}
+}
