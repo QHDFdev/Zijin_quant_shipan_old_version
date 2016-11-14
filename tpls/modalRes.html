@@ -1,7 +1,7 @@
 <div class="modalRes">
 	<div class="modalRes-head">
 		<div class="container">
-			<i class="modalRes-head-icon fa fa-star fa-3x"></i>
+			<i class="modalRes-head-icon"></i>
 			<h2 class="modalRes-head-title">量化模型研究</h2>
 			<span class="modalRes-head-text">紫金量化平台量化模型研究着重于从数据这一最原始资源中去挖掘数据本身固有的规律。结合机器学习，Deeplearning等多种手段来构建预测模型。基于预测模型编写交易策略，从而实现全自动量化交易过程。而我们的重点则是量化模型。</span>
 		</div>
@@ -12,16 +12,16 @@
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<h3 class="modalRes-list-title">
-							<i class="modalRes-list-icon fa fa-tag fa-lg"></i>
+							<i class="modalRes-list-icon modalRes-list-icon1"></i>
 							<span class="modalRes-list-text">研究对象-金融数据</span>
-							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="right" tooltip title="增加模型">+</i>
+							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="right" tooltip title="增加模型" ng-click='openModalResObj()'>+</i>
 						</h3>
 					</div>	
 				</div>		
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class="row">
-							<box mydata='x' ng-repeat='x in modalResObjList1'></box>	
+							<box mydata='x' ng-repeat='x in modalResObjList1' username='username'  myitem='modalResObjItem'></box>	
 						</div>
 					</div>
 				</div>
@@ -32,16 +32,16 @@
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<h3 class="modalRes-list-title">
-							<i class="modalRes-list-icon fa fa-tag fa-lg"></i>
+							<i class="modalRes-list-icon modalRes-list-icon2"></i>
 							<span class="modalRes-list-text">研究方法-量化模型</span>
-							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="right" tooltip title="增加模型">+</i>
+							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="right" tooltip title="增加模型" ng-click='openModalResMet()'>+</i>
 						</h3>
 					</div>	
 				</div>		
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class="row">
-							<box mydata='x' ng-repeat='x in modalResObjList2'></box>	
+							<box mydata='x' ng-repeat='x in modalResObjList2' username='username'></box>	
 						</div>
 					</div>
 				</div>
@@ -52,27 +52,27 @@
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<h3 class="modalRes-list-title">
-							<i class="modalRes-list-icon fa fa-tag fa-lg"></i>
-							<span class="modalRes-list-text">研究实例-量化模型</span>
-							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="right" tooltip title="增加模型">+</i>
+							<i class="modalRes-list-icon modalRes-list-icon3"></i>
+							<span class="modalRes-list-text">量化模型-实例研究</span>
+							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="right" tooltip title="增加模型" ng-click='openModalResExa()'>+</i>
 						</h3>
 					</div>	
 				</div>		
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class="row">
-							<box mydata='x' ng-repeat='x in modalResObjList3'></box>	
+							<box mydata='x' ng-repeat='x in modalResObjList3' username='username'></box>	
 						</div>
 					</div>
 				</div>
 			</div>	
 		</div>
-		<div class="modalRes-data modalRes-list">
+		<!-- <div class="modalRes-data modalRes-list">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<h3 class="modalRes-list-title">
-							<i class="modalRes-list-icon fa fa-tag fa-lg"></i>
+							<i class="modalRes-list-icon modalRes-list-icon4"></i>
 							<span class="modalRes-list-text">研究资料-金融数据</span>
 							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="right" tooltip title="增加模型">+</i>
 						</h3>
@@ -86,6 +86,105 @@
 					</div>
 				</div>
 			</div>	
+		</div> -->
+	</div>
+	<!-- mask-obj -->
+	<div class="modalRes-mask modalRes-mask-obj">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2">
+					<form ng-submit='addModalResObj()' name='modalResObjForm' novalidate="">
+						<h3 class="text-center">研究对象-金融数据</h3>
+						<div class="form-group">
+							<input type="text" class="form-control" ng-model='modalResObj.title' placeholder="主题" required="">
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" ng-model='modalResObj.content' placeholder="内容" required=""></textarea>
+						</div>
+						<div class="btn-group btn-group-lg">
+	                        <input class="btn-success btn" type="submit" value="创建">
+	                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+	                    </div> 
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
+
+	<!-- mask-met -->
+	<div class="modalRes-mask modalRes-mask-met">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2">
+					<form ng-submit='addModalResMet()' name='modalResMetForm' novalidate="">
+						<h3 class="text-center">研究方法-量化模型</h3>
+						<div class="form-group">
+							<input type="text" class="form-control" ng-model='modalResMet.title' placeholder="主题" required="">
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" ng-model='modalResMet.content' placeholder="内容" required=""></textarea>
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" ng-model='modalResMet.code' placeholder="代码" required=""></textarea>
+						</div>
+						<div class="btn-group btn-group-lg">
+	                        <input class="btn-success btn" type="submit" value="创建">
+	                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+	                    </div> 
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- mask-exa -->
+	<div class="modalRes-mask modalRes-mask-exa">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2">
+					<form ng-submit='addModalResExa()' name='modalResExaForm' novalidate="">
+						<h3 class="text-center">量化模型-实例研究</h3>
+						<div class="form-group">
+							<input type="text" class="form-control" ng-model='modalResExa.title' placeholder="主题" required="">
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" ng-model='modalResExa.content' placeholder="内容" required=""></textarea>
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" ng-model='modalResExa.code' placeholder="代码" required=""></textarea>
+						</div>
+						<div class="btn-group btn-group-lg">
+	                        <input class="btn-success btn" type="submit" value="创建">
+	                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+	                    </div> 
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- mask-obj-item -->
+	<div class="modalRes-mask modalRes-mask-objItem">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2">
+					<form ng-submit='addModalResObj()' name='modalResObjForm' novalidate="">
+						<h3 class="text-center">研究对象-金融数据</h3>
+						<div class="form-group">
+							<input type="text" class="form-control" ng-model='modalResObjItem.title' placeholder="主题" required="">
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" ng-model='modalResObjItem.content' placeholder="内容" required=""></textarea>
+						</div>
+						<div class="btn-group btn-group-lg">
+	                        <input class="btn-success btn" type="submit" value="提交修改">
+	                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+	                    </div> 
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 </div>
