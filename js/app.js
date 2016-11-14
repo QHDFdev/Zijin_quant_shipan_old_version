@@ -1,4 +1,4 @@
-angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResource','myService','ngSanitize'])
+angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResource','myService'])
 .config(['$routeProvider',function($routeProvider){
 	$routeProvider
 	.when('/home',{
@@ -3833,8 +3833,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		scope:{
 			mydata:'=',
 			username:'=',
-			revise:'&',
-			myitem:'='
+			revise:'&'
 		},
 		templateUrl:'tpls/modalResTemp.html',
 		link:function(scope,ele,attr){
@@ -3854,13 +3853,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			});
 			ele.on('click','i',function(){
 				$('.modalRes-mask-objItem').fadeIn();
-				/*var url='model_objects'+'/'+scope.mydata._id;
-				getModalResList.getList(url).then(function(data){
-					
-				})*/
 				scope.$apply(function(){
-					scope.mytitle=scope.mydata.title;
-					console.log(scope.mytitle);
+					console.log(scope.myitem);
 				})
 				
 			})

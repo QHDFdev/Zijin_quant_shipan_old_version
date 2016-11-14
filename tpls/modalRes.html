@@ -21,7 +21,7 @@
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class="row">
-							<box mydata='x' ng-repeat='x in modalResObjList1' username='username'  myitem='modalResObjItem'></box>	
+							<box mydata='x' ng-repeat='x in modalResObjList1' username='username'></box>	
 						</div>
 					</div>
 				</div>
@@ -176,6 +176,8 @@
 						<div class="form-group">
 							<textarea class="form-control" ng-model='modalResObjItem.content' placeholder="内容" required=""></textarea>
 						</div>
+						<br>
+						{{modalResObjItem}}
 						<div class="btn-group btn-group-lg">
 	                        <input class="btn-success btn" type="submit" value="提交修改">
 	                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
