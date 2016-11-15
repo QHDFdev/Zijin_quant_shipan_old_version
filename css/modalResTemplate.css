@@ -1,7 +1,26 @@
 .modalResDis{
 	margin-top: 70px;
-	text-align: center;
+	text-align: left;
 }
 @media screen and(max-width: 767px){
 	.modalResDis{margin-top: 50px;}
 }
+.modalResDis h3{
+	margin: 50px 0 30px;
+	color: #333;
+}
+.modalResDis p{
+	margin-bottom: 30px;
+	text-indent: 20px;
+	color: #333;
+}
+.modalResDis pre{
+	margin-bottom: 30px;
+	padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+	background-color: #d9edf7;
+    border-color: #bce8f1;
+	color: #31708f;
+}
+
