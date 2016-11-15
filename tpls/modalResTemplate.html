@@ -1,6 +1,7 @@
-<div class='modalResDis' style="margin-top: 70px;">
-	<div class="container">
-		<h3>{{title}}</h3>
-		<img src="images/557a62e4869a0.jpg" alt="">
+<div class='modalResDis' style="margin-top: 90px;">
+	<div class="container text-center">
+		<h3 ng-bind='mydata.title'></h3>
+		<p ng-bind='mydata.content'></p>
+		<pre ng-show='mydata.code!=undefined' ng-bind='mydata.code'></pre>
 	</div>	
 </div>

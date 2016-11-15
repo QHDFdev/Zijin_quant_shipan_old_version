@@ -37,19 +37,15 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		templateUrl:'tpls/modalRes.html',
 		controller:'modalResController'
 	})
-	.when('/modalRes/study_object/:id',{
+	.when('/model_objects/:id',{
 		templateUrl:'tpls/modalResTemplate.html',
 		controller:'modalResItemController'
 	})
-	.when('/modalRes/study_method/:id',{
+	.when('/model_methods/:id',{
 		templateUrl:'tpls/modalResTemplate.html',
 		controller:'modalResItemController'
 	})
-	.when('/modalRes/study_case/:id',{
-		templateUrl:'tpls/modalResTemplate.html',
-		controller:'modalResItemController'
-	})
-	.when('/modalRes/study_data/:id',{
+	.when('/model_examples/:id',{
 		templateUrl:'tpls/modalResTemplate.html',
 		controller:'modalResItemController'
 	})
@@ -135,6 +131,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 .value('modalResObjList2',[])
 .value('modalResObjList3',[])
 .value('modalResObjList4',[])
+.value('modalResObjItems',{"title":'',"content":''})
 .controller('homeController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
 	$scope.$watch(function(){
 		var str=null;
@@ -2297,6 +2294,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			}
 		}
 	}
+
 	$scope.myFirmStrategyList=[];
 	function getSelect(){
 	 	$http.get(constantUrl+"strategys/",{
@@ -2905,7 +2903,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 .controller('complieController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
 
 }])
-.controller('modalResController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','modalResObjList1','modalResObjList2','modalResObjList3','modalResObjList4','storageModalRes','getModalResList',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,modalResObjList1,modalResObjList2,modalResObjList3,modalResObjList4,storageModalRes,getModalResList){
+.controller('modalResController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','modalResObjList1','modalResObjList2','modalResObjList3','modalResObjList4','storageModalRes','getModalResList','modalResObjItems',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,modalResObjList1,modalResObjList2,modalResObjList3,modalResObjList4,storageModalRes,getModalResList,modalResObjItems){
 	/*var str1=[ 
 	 {	"classify":"study_object",
 	    "index" :0,
@@ -3390,11 +3388,13 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	    "text_content" : "决策树预测模型#动态可增加内容"
 	  }
 	 ];*/
+	$scope.modalResObjItem=modalResObjItems;
 	$scope.username=$cookieStore.get('user').username;
 	$scope.getObj=function(){
 		getModalResList.getList('model_objects').then(function(data){
 			modalResObjList1=[];
 			angular.forEach(data,function(data,index){
+				angular.extend(data,{"classify":'model_objects'});
 				this.push(data);
 			},modalResObjList1); 
 			$scope.modalResObjList1=modalResObjList1; 
@@ -3405,6 +3405,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		getModalResList.getList('model_methods').then(function(data){
 			modalResObjList2=[];
 			angular.forEach(data,function(data,index){
+				angular.extend(data,{"classify":'model_methods'});
 				this.push(data);
 			},modalResObjList2);
 			$scope.modalResObjList2=modalResObjList2;   
@@ -3414,6 +3415,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		getModalResList.getList('model_examples').then(function(data){
 			modalResObjList3=[];
 			angular.forEach(data,function(data,index){
+				angular.extend(data,{"classify":'model_examples'});
 				this.push(data);
 			},modalResObjList3); 
 			$scope.modalResObjList3=modalResObjList3;  
@@ -3490,16 +3492,25 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			console.log(err);
 		})
 	}
-	$scope.revise=function(x){
-		$('.modalRes-mask-obj').fadeIn();
-		console.log(x);
-	}
-	$scope.mytitle='1234';
+	/*$scope.revModalResObj=function(x){
+		var url=x.classify+'/'+x._id
+		if(x.code){
+			var str='title='+$scope.mydata.title+'content='+$scope.mydata.content+'code'+$scope.mydata.code
+		}
+		console.log($scope.mydata);
+	}*/
 }])
-.controller('modalResItemController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','$routeParams','modalResObjList1','modalResObjList2','modalResObjList3','modalResObjList4','storageModalRes',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,$routeParams,modalResObjList1,modalResObjList2,modalResObjList3,modalResObjList4,storageModalRes){
-	/(\/modalRes\/)(\w+)\//i.exec($location.url());
-	var str=RegExp.$2;
-	switch(str){
+.controller('modalResItemController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','$routeParams','modalResObjList1','modalResObjList2','modalResObjList3','modalResObjList4','storageModalRes','getModalResList',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,$routeParams,modalResObjList1,modalResObjList2,modalResObjList3,modalResObjList4,storageModalRes,getModalResList){
+	/\/(\w*)\/(\w*)/i.exec($location.url());
+	console.log($location.url());
+	var id=RegExp.$2;
+	var str=RegExp.$1;
+	var url=str+'/'+id;
+	getModalResList.getList(url).then(function(data){
+		$scope.mydata=data;
+		console.log(data);
+	})
+	/*switch(str){
 		case 'study_object':
 		$scope.title=storageModalRes.data[$routeParams.id]["name"];
 		break;
@@ -3513,7 +3524,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		$scope.title=modalResObjList4[$routeParams.id]["name"];
 		break;
 	}
-	console.log(modalResObjList1);
+	console.log(modalResObjList1);*/
 }])
 .factory('storageModalRes',function(){
 	return{
@@ -3545,6 +3556,35 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					'Authorization':'token '+$cookieStore.get('user').token,
 					'Content-Type':  'application/x-www-form-urlencoded'
 				}
+			})
+			.success(function(data){
+				defer.resolve(data);
+			})
+			.error(function(err,sta){
+				defer.reject(err);
+			})
+			return defer.promise;
+		},
+		reviseItem:function(obj,url){
+			var defer=$q.defer();
+			$http.patch(constantUrl+url+'/',obj,{
+				headers:{
+					'Authorization':'token '+$cookieStore.get('user').token,
+					'Content-Type':  'application/x-www-form-urlencoded'
+				}
+			})
+			.success(function(data){
+				defer.resolve(data);
+			})
+			.error(function(err,sta){
+				defer.reject(err);
+			})
+			return defer.promise;
+		},
+		del:function(url){
+			var defer=$q.defer();
+			$http.delete(constantUrl+url+'/',{
+				headers:{'Authorization':'token '+$cookieStore.get('user').token}
 			})
 			.success(function(data){
 				defer.resolve(data);
@@ -3826,14 +3866,15 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		}
 	}
 })
-.directive('box',function($http,constantUrl,$cookieStore){
+.directive('box',function($http,constantUrl,$cookieStore,modalResObjItems,getModalResList){
 	return {
 		restrict:'E',
 		replace:'true',
 		scope:{
 			mydata:'=',
 			username:'=',
-			revise:'&'
+			revModalResObj:'&',
+			closeMask:'&'
 		},
 		templateUrl:'tpls/modalResTemp.html',
 		link:function(scope,ele,attr){
@@ -3851,12 +3892,40 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				}
 				ev.stopPropagation();
 			});
-			ele.on('click','i',function(){
-				$('.modalRes-mask-objItem').fadeIn();
-				scope.$apply(function(){
-					console.log(scope.myitem);
+			ele.on('click','.modalRes-box-plus',function(){
+				ele.find('.modalRes-mask-objItem').fadeIn();
+			});
+			ele.on('click','.modalRes-box-del',function(){
+				var a=confirm('确认删除吗！');
+				if(a){
+					var url=scope.mydata.classify+'/'+scope.mydata._id;
+					getModalResList.del(url).then(function(){
+						ele.remove()
+					})
+				}	
+			})
+			ele.on('click','.btn-success',function(){
+				var url=scope.mydata.classify+'/'+scope.mydata._id;
+				if(scope.mydata.code!=undefined){
+					var str='title='+scope.mydata.title+'&content='+scope.mydata.content+'&code='+scope.mydata.code;
+					getModalResList.reviseItem(str,url).then(function(){
+						ele.find('.modalRes-mask-objItem').fadeOut();
+					})
+				}else{
+					var str='title='+scope.mydata.title+'&content='+scope.mydata.content;
+					getModalResList.reviseItem(str,url).then(function(){
+						ele.find('.modalRes-mask-objItem').fadeOut();
+					})
+				}
+			})
+			ele.on('click','.btn-warning',function(){
+				var url=scope.mydata.classify+'/'+scope.mydata._id;
+				var str=scope.mydata.classify;
+				getModalResList.getList(url).then(function(data){
+					scope.mydata=data;
+					angular.extend(scope.mydata,{"classify":str});
+					console.log(scope.mydata);
 				})
-				
 			})
 		}
 	}
