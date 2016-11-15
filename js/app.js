@@ -1,4 +1,4 @@
-angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResource','myService'])
+angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResource','myService','hljs'])
 .config(['$routeProvider',function($routeProvider){
 	$routeProvider
 	.when('/home',{
@@ -53,6 +53,11 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		redirectTo:'/home'
 	})
 }])
+/*.config(function(hljsServiceProvider){
+	hljsServiceProvider.setOptions({
+    	tabReplace: '    '
+  	});
+})*/
 .run(['$rootScope','$location','$window',function($rootScope,$location,$window){
 	var wow = new WOW({
 		boxClass : 'wow',
@@ -970,19 +975,6 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						id: 'dataseries',
 						},{
 						type: 'flags',
-						data: wealth1,
-						onSeries:"dataseries",
-						shape:'circlepin',
-						width:30,
-						color:'#ff9912',
-						fillColor:'transparent',
-						style:{
-							color:'#333'
-						},
-						y:20,
-						name:'买入/卖出'
-					},{
-						type: 'flags',
 						data: wealth2,
 						onSeries:"dataseries",
 						shape:'circlepin',
@@ -992,8 +984,21 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						style:{
 							color:'#333'
 						},
+						y:24,
+						name:'看多'
+					},{
+						type: 'flags',
+						data: wealth1,
+						onSeries:"dataseries",
+						shape:'circlepin',
+						width:30,
+						color:'#ff9912',
+						fillColor:'transparent',
+						style:{
+							color:'#333'
+						},
 						y:-40,
-						name:'建仓/平仓'
+						name:'看空'
 					}]
 				});
 			}else {
@@ -1690,19 +1695,6 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							id: 'dataseries'
 							},{
 							type: 'flags',
-							data: buyYArr,
-							onSeries:"dataseries",
-							shape:'squarepin',
-							width:36,
-							color:'#ff9912',
-							fillColor:'transparent',
-							style:{
-								color:'#333'
-							},
-							y:30,
-							name:'买入/卖出',
-						},{
-							type: 'flags',
 							data: shortYArr,
 							onSeries:"dataseries",
 							shape:'squarepin',
@@ -1712,8 +1704,21 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							style:{
 								color:'#333'
 							},
-							y:-50,
-							name:'建仓/平仓',
+							y:-40,
+							name:'看多',
+						},{
+							type: 'flags',
+							data: buyYArr,
+							onSeries:"dataseries",
+							shape:'squarepin',
+							width:36,
+							color:'#ff9912',
+							fillColor:'transparent',
+							style:{
+								color:'#333'
+							},
+							y:20,
+							name:'看空',
 						},{
 							type:'column',
 							data:chartArr,
@@ -2141,19 +2146,6 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						id: 'dataseries',
 						},{
 						type: 'flags',
-						data: wealth1,
-						onSeries:"dataseries",
-						shape:'circlepin',
-						width:30,
-						color:'#ff9912',
-						fillColor:'transparent',
-						style:{
-							color:'#333'
-						},
-						y:20,
-						name:'买入/卖出'
-					},{
-						type: 'flags',
 						data: wealth2,
 						onSeries:"dataseries",
 						shape:'circlepin',
@@ -2163,8 +2155,21 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						style:{
 							color:'#333'
 						},
+						y:24,
+						name:'看多'
+					},{
+						type: 'flags',
+						data: wealth1,
+						onSeries:"dataseries",
+						shape:'circlepin',
+						width:30,
+						color:'#ff9912',
+						fillColor:'transparent',
+						style:{
+							color:'#333'
+						},
 						y:-40,
-						name:'建仓/平仓'
+						name:'看空'
 					}]
 				});
 			}else {
@@ -2631,7 +2636,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					var allTotalpal=0;
 					var allTotalyeild=0;
 					var prof=0;
-					var loss=0;
+					var loss=0;   [{},{},{}]
 					angular.forEach(chartArr,function(data,index){
 						totalpal=totalpal+Number(data["Earn"]);
 						allTotalpal=allTotalpal+Number(data["Earn"]);
@@ -2851,19 +2856,6 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							id: 'dataseries'
 							},{
 							type: 'flags',
-							data: buyYArr,
-							onSeries:"dataseries",
-							shape:'squarepin',
-							width:36,
-							color:'#ff9912',
-							fillColor:'transparent',
-							style:{
-								color:'#333'
-							},
-							y:30,
-							name:'买入/卖出',
-						},{
-							type: 'flags',
 							data: shortYArr,
 							onSeries:"dataseries",
 							shape:'squarepin',
@@ -2873,8 +2865,21 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							style:{
 								color:'#333'
 							},
-							y:-50,
-							name:'建仓/平仓',
+							y:-40,
+							name:'看多',
+						},{
+							type: 'flags',
+							data: buyYArr,
+							onSeries:"dataseries",
+							shape:'squarepin',
+							width:36,
+							color:'#ff9912',
+							fillColor:'transparent',
+							style:{
+								color:'#333'
+							},
+							y:20,
+							name:'看空',
 						},{
 							type:'column',
 							data:chartArr,
@@ -3930,6 +3935,14 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		}
 	}
 })
+/*.directive('initHighlight',function(){
+	return {
+		link:function(scope,ele,attr){
+			hljs.initHighlightingOnLoad();
+			console.log(321);
+		}
+	}
+})*/
 /*.directive('ensureEmailunique',function($http,constantUrl){
 	return{
 		require: 'ngModel',

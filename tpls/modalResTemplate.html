@@ -1,7 +1,16 @@
-<div class='modalResDis'">
+<div class='modalResDis'>
 	<div class="container ">
-		<h3 ng-bind='mydata.title' class='text-center'></h3>
-		<p ng-bind='mydata.content'></p>
-		<pre ng-show='mydata.code!=undefined' ng-bind='mydata.code'></pre>
+		<a ng-href='#/modalRes' class='back'>
+			<i class='fa fa-angle-double-left fa-lg'></i>
+			<span>返回模型列表</span>
+		</a>
+		<h2 ng-bind='mydata.title' class='title'></h2>
+		<div ng-cloak class='time'>
+			<span class="author" ng-bind='mydata.author'></span>
+			<span class='text'>&nbsp;发布于</span>
+			<span class="date" ng-bind='mydata.date'></span>
+		</div>
+		<p class='content'>{{mydata.content}}</p>
+		<pre ng-show='mydata.code!=undefined' hljs-source='mydata.code' hljs hljs-no-escape></pre>
 	</div>	
 </div>
