@@ -5,12 +5,13 @@
 	<title>紫金量化</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+	<!-- <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"> -->
 	<link rel="stylesheet"	href="lib/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="lib/animate.css">
-	<link rel="stylesheet" href="css/style.min.css">
-	<link rel="stylesheet" type="text/css" href="lib/showBo.css">
 	<link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/8.3/styles/monokai_sublime.min.css">
+	<link rel="stylesheet" type="text/css" href="lib/animate.css">
+	<link rel="stylesheet" type="text/css" href="lib/showBo.css">
+	<link rel="stylesheet" type="text/css" href="css/style.min.css">
 </head>
 <body ng-controller='homeController'>
 	<div ng-class="{true:'zijin-main-wrapper',false:'transparent'}[isactive]"> 
@@ -74,7 +75,8 @@
 						<li ng-show='user.username!=null' mouse-show>
 							<a ng-href="" ng-bind='user.username'></a>
 							<div class="list-group">
-								<a href="" ng-click='logout()' class="list-group-item"><i></i><span>退出</span></a>
+								<a ng-href="#/adminCenter"  ng-show='user.is_admin==true' class="list-group-item"><i class='info-icon'></i><span>个人中心</span></a>
+								<a href="" ng-click='logout()' class="list-group-item"><i class="logout-icon"></i><span>退出</span></a>
 							</div>
 						</li>
 					</ul>

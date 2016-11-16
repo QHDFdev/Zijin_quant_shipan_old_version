@@ -1,0 +1,31 @@
+<div class="admincenter">
+	<div class="container">
+		<h2 class='adminCenter-title'>控制台</h2>
+		<div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped" admin-table>
+                <thead class="bg-info">
+                    <tr>
+                        <th class="col-xs-3">用户账号</th>
+                        <th class="col-xs-3">用户邮箱</th>
+                        <th class="col-xs-2">用户权限</th>
+                        <th class="col-xs-4">权限操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat='d in allUsers | orderBy: "is_zijin" | filter: {is_admin:"false"} '>
+                        <td ng-bind="d.username"></td>
+                        <td ng-bind="d.email"></td>
+                        <td ng-bind="d.is_zijin"></td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-info user-pro"><i class="fa fa-plus"></i> 赋予权限</button>
+                                <button class="btn btn-warning user-min"><i class="fa fa-minus"></i> 回收权限</button>
+                                <button class="btn btn-danger user-del"><i class="fa fa-trash-o"></i> 删除用户</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>    
+	</div>
+</div>

@@ -1,0 +1,157 @@
+[  
+ {
+    "index" :0,
+    "params_id":"c001",
+    "name": "BBI_PVI模型",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "BBI_PVI模型#动态可增加内容"
+  },{
+    "index" :1,
+    "params_id":"c002",
+    "name": "DAE模型",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "DAE模型#动态可增加内容"
+  },{
+    "index" :2,
+    "params_id":"c003",
+    "name": "XgBoos模型t",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "XgBoos模型t#动态可增加内容"
+  },{
+    "index" :3,
+    "params_id":"c003",
+    "name": "HMM模型",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "HMM模型#动态可增加内容"
+  },{
+    "index" :4,
+    "params_id":"c004",
+    "name": "K线模式识别",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "K线模式识别#动态可增加内容"
+  },{
+    "index" :5,
+    "params_id":"c005",
+    "name": "时间序列模型",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "时间序列模型#动态可增加内容"
+  },{
+    "index" :6,
+    "params_id":"c006",
+    "name": "灰色模型检测",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "灰色模型检测#动态可增加内容"
+  },{
+    "index" :7,
+    "params_id":"c007",
+    "name": "基于单向波动差值和遗传算法的动态择时交易模型",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "基于单向波动差值和遗传算法的动态择时交易模型#动态可增加内容"
+  },{
+    "index" :8,
+    "params_id":"c008",
+    "name": "RBM+SVM",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "RBM+SVM#动态可增加内容"
+  },{
+    "index" :9,
+    "params_id":"c009",
+    "name": "DL+抄底逃顶",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "DL+抄底逃顶#动态可增加内容"
+  },{
+    "index" :10,
+    "params_id":"c010",
+    "name": "小波去噪+SVM",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "小波去噪+SVM#动态可增加内容"
+  },{
+    "index" :11,
+    "params_id":"c011",
+    "name": "量化特征提取",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "量化特征提取#动态可增加内容"
+  },{
+    "index" :12,
+    "params_id":"c012",
+    "name": "KMEANS聚类择时模型",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "KMEANS聚类择时模型#动态可增加内容"
+  },{
+    "index" :13,
+    "params_id":"c013",
+    "name": "AffinityPropagation聚类择时模型",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "AffinityPropagation聚类择时模型#动态可增加内容"
+  },{
+    "index" :14,
+    "params_id":"c014",
+    "name": "MeansShift聚类择时模型",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "MeansShift聚类择时模型#动态可增加内容"
+  },{
+    "index" :15,
+    "params_id":"c015",
+    "name": "WPRM模型",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "WPRM模型#动态可增加内容"
+  },{
+    "index" :16,
+    "params_id":"c016",
+    "name": "SVM+多指标",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "SVM+多指标#动态可增加内容"
+  },{
+    "index" :17,
+    "params_id":"c017",
+    "name": "BMD（经验模态分解）交易模型",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "BMD（经验模态分解）交易模型#动态可增加内容"
+  },{
+    "index" :18,
+    "params_id":"c018",
+    "name": "GTFD（修正TD指标）量化择时",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "GTFD（修正TD指标）量化择时#动态可增加内容"
+  },{
+    "index" :19,
+    "params_id":"c019",
+    "name": "基于LSTM预测模型",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "基于LSTM预测模型#动态可增加内容"
+  },{
+    "index" :20,
+    "params_id":"c020",
+    "name": "ARIMD模型",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "ARIMD模型#动态可增加内容"
+  },{
+    "index" :21,
+    "params_id":"c021",
+    "name": "决策树预测模型",
+    "creator": "admin",
+    "createtime": "2016-11-10",
+    "text_content" : "决策树预测模型#动态可增加内容"
+  }
+ ]     
