@@ -1,4 +1,4 @@
-<div class="modalRes-box col-md-3 col-sm-6 col-xs-12">
+<div class="modalRes-box col-lg-3 col-md-4 col-sm-6 col-xs-12">
 	<div class="modalRes-box-wrapper">
 		<a href='#/{{mydata.classify}}/{{mydata._id}}' class="modalRes-box-title" ng-bind='mydata.title'></a>
 		<!-- <p class="modalRes-box-text">{{mydata.text_content}}</p> -->
@@ -8,7 +8,12 @@
 		<div class="modalRes-box-top"></div>
 		<div class="modalRes-box-right"></div>
 		<div class="modalRes-box-bottom"></div>
-		<div class="modalRes-box-left"></div>	
+		<div class="modalRes-box-left"></div>
+		<div class='modalRes-box-info'>
+			<span class="modalRes-box-author" ng-bind='mydata.author'></span>
+			<span class='modalRes-box-text'>发布于</span>
+			<span class="modalRes-box-date" ng-bind='mydata.date'></span>
+		</div>	
 	</div>	
 
 	<div class="modalRes-mask modalRes-mask-objItem">
