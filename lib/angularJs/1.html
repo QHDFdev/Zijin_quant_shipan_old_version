@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='myapp'>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src='angular.js'></script>
+</head>
+<body ng-controller='myctrl'>
+	<h1>{{ppar}}</h1>
+	<script type="text/javascript">
+		angular.module('myapp',[])
+		.controller('myctrl',function($scope,$parse){
+			var context = {
+		        name: "dreamapple"
+		    };
+			var ex="'Hello ' + name";
+			var parseFunc = $parse(ex);
+			$scope.ppar=parseFunc(context);
+		})
+	</script>
+</body>
+</html>

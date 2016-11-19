@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml">
+ 
+<head>
+  <meta charset="utf-8">
+  <title>文档标题</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="https://code.jquery.com/jquery-git.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+    <script src="https://cdn.jsdelivr.net/ace/1.1.01/noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+</head>
+ 
+<body>
+ <div id="a">123456</div>
+    <div id="abc" style="text-align: justify;">
+        The Basics Simply include the jsPDF library in your , generate your PDF using the many built-in functions, then hook up a button to trigger the download. All the examples here use jQuery. Browser Compatibility jsPDF will work in IE6+*, Firefox 3+, Chrome, Safari 3+, Opera. For IE9 and below, we lazily load a Flash shim called Downloadify which enables the files to be downloaded. * Current build does not have IE6-9 shim enabled NB: UTF-8 is not supported by default, however there might be some plugins allowing you to use it, such as addHTML 十五向學,三十而立,四十而不惑,五十而知天命,六十而耳順,七十而從心欲，不踰矩. Need Help? Send me a tweet and I'll see if I can help :) Credits Big thanks to Daniel Dotsenko from Willow Systems Corporation for making huge contributions to the codebase. Thanks to Ajaxian.com for featuring us back in 2009. Everyone else that's contributed patches or bug reports. You rock.
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            var pdf = new jsPDF('p','mm','a4');
+            var print_content=$('#abc');
+            var filename='123.pdf';
+            pdf.addHTML(print_content,function(){
+                /*pdf.output('dataurlnewwindow');
+                pdf.output('save',filename);*/
+                pdf.save('123.pdf');
+            }); 
+        })
+           
+        
+        
+    </script>
+</body>
+ 
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>test</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="http://libs.baidu.com/jquery/1.8.3/jquery.min.js"></script>
+    
+   <script src="http://html2canvas.hertzen.com/build/html2canvas.js"></script>
+    <script src="https://cdn.jsdelivr.net/ace/1.1.01/noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+    
+</head>
+
+    
+<body>
+    <div class="abc" style="text-align: justify;">
+        The Basics Simply include the jsPDF library in your , generate your PDF using the many built-in functions, then hook up a button to trigger the download. All the examples here use jQuery. Browser Compatibility jsPDF will work in IE6+*, Firefox 3+, Chrome, Safari 3+, Opera. For IE9 and below, we lazily load a Flash shim called Downloadify which enables the files to be downloaded. * Current build does not have IE6-9 shim enabled NB: UTF-8 is not supported by default, however there might be some plugins allowing you to use it, such as addHTML 十五向學,三十而立,四十而不惑,五十而知天命,六十而耳順,七十而從心欲，不踰矩. Need Help? Send me a tweet and I'll see if I can help :) Credits Big thanks to Daniel Dotsenko from Willow Systems Corporation for making huge contributions to the codebase. Thanks to Ajaxian.com for featuring us back in 2009. Everyone else that's contributed patches or bug reports. You rock.
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            function html2pdf (html,pdf,callback) {
+    var canvas = pdf.canvas;
+    if (!canvas) {
+        alert('jsPDF canvas plugin not installed');
+        return;
+    }
+    canvas.pdf = pdf;
+    pdf.annotations = {
+
+        _nameMap : [],
+
+        createAnnotation : function(href,bounds) {
+            var x = pdf.context2d._wrapX(bounds.left);
+            var y = pdf.context2d._wrapY(bounds.top);
+            var page = pdf.context2d._page(bounds.top);
+            var options;
+            var index = href.indexOf('#');
+            if (index >= 0) {
+                options = {
+                    name : href.substring(index + 1)
+                };
+            } else {
+                options = {
+                    url : href
+                };
+            }
+            pdf.link(x, y, bounds.right - bounds.left, bounds.bottom - bounds.top, options);
+        },
+
+        setName : function(name,bounds) {
+            var x = pdf.context2d._wrapX(bounds.left);
+            var y = pdf.context2d._wrapY(bounds.top);
+            var page = pdf.context2d._page(bounds.top);
+            this._nameMap[name] = {
+                page : page,
+                x : x,
+                y : y
+            };
+        }
+
+    };
+    canvas.annotations = pdf.annotations;
+    
+    pdf.context2d._pageBreakAt = function(y) {
+        this.pageBreaks.push(y);
+    };
+
+    pdf.context2d._gotoPage = function(pageOneBased) {
+        while (pdf.internal.getNumberOfPages() < pageOneBased) {
+            pdf.addPage();
+        }
+        pdf.setPage(pageOneBased);
+    }
+
+    if (typeof html === 'string') {
+        // remove all scripts
+        html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+
+        var iframe = document.createElement('iframe');
+        //iframe.style.width = canvas.width;
+        //iframe.src = "";
+        //iframe.document.domain =
+        document.body.appendChild(iframe);
+        var doc;
+        doc = iframe.contentDocument;
+        if (doc == undefined || doc == null) {
+            doc = iframe.contentWindow.document;
+        }
+        //iframe.setAttribute('style', 'position:absolute;right:0; top:0; bottom:0; height:100%; width:500px');
+
+        doc.open();
+        doc.write(html);
+        doc.close();
+
+        var promise = html2canvas(doc.body, {
+            canvas : canvas,
+            onrendered : function(canvas) {
+                if (callback) {
+                    if (iframe) {
+                        iframe.parentElement.removeChild(iframe);
+                    }
+                    callback(pdf);
+                }
+            }
+        });
+
+    } else {
+        var body = html;
+        var promise = html2canvas(body, {
+            canvas : canvas,
+            onrendered : function(canvas) {
+                if (callback) {
+                    if (iframe) {
+                        iframe.parentElement.removeChild(iframe);
+                    }
+                    callback(pdf);
+                }
+            }
+        });
+    }
+
+}
+
+            setTimeout(function(){
+                var pdf = new jsPDF('p','mm','a4');
+                 pdf.canvas.height = 72 * 11;
+      pdf.canvas.width = 72 * 8.5;
+                html2pdf(document.body,pdf,function(pdf){
+                    pdf.save('123.pdf');
+                })
+            },1000)
+
+
+
+
+
+        })
+           
+        
+        
+    </script>
+</body>
+
+
+</html>

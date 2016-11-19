@@ -8,14 +8,25 @@
 	<!-- <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"> -->
 	<link rel="stylesheet"	href="lib/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- <link rel="stylesheet" href="css/style.min.css"> -->
 	<link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/8.3/styles/monokai_sublime.min.css">
 	<link rel="stylesheet" type="text/css" href="lib/animate.css">
 	<link rel="stylesheet" type="text/css" href="lib/showBo.css">
-	<link rel="stylesheet" type="text/css" href="css/style.min.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="css/beta.css">
+	<link rel="stylesheet" type="text/css" href="css/newHome.css">
+	<link rel="stylesheet" type="text/css" href="css/register.css">
+	<link rel="stylesheet" type="text/css" href="css/analyse.css">
+	<link rel="stylesheet" type="text/css" href="css/adminCenter.css">
+	<link rel="stylesheet" type="text/css" href="css/mytable.css">
+	<link rel="stylesheet" type="text/css" href="css/study.css">
+	<link rel="stylesheet" type="text/css" href="css/complie.css">
+	<link rel="stylesheet" type="text/css" href="css/modalRes.css">
+	<link rel="stylesheet" type="text/css" href="css/modalResTemplate.css">
 </head>
 <body ng-controller='homeController'>
 	<div ng-class="{true:'zijin-main-wrapper',false:'transparent'}[isactive]"> 
-		<div class="main-navbar navbar navbar-default navbar-fixed-top">
+		<div class="main-navbar navbar navbar-default navbar-fixed-top noprint">
 			<div class="container">
 				<div class="navbar-header">
 					<button class="navbar-toggle" type="button" data-toggle='collapse' data-target='.navbar-collapse'>
@@ -85,7 +96,7 @@
 		</div>
 		<div class="zijin-ngview" ng-view></div>
 	</div>
-	<footer>
+	<footer class="noprint">
 		<div class="container-fluid">
 			<div class='bill-footer row'>
 				<img src="images/footer_logo_3.png" alt="" class="visible-lg zijin-footer-logo">
@@ -159,7 +170,7 @@
 			</div>
 		</div>
 	</footer>
-	<div id="zijin-modal">
+	<div id="zijin-modal" class="noprint">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-12">
@@ -171,6 +182,8 @@
 	<!-- <script src="lib/jquery-2.0.3.min.js"></script> -->
 	<script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
 	<script src='js/jq-ease.js'></script>
+	<script type="text/javascript" src='lib/html2canvas-master/dist/html2canvas.min.js'></script>
+	<!-- <script type="text/javascript" src='lib/jspdf/dist/jspdf.debug.js'></script> -->
 	<script type="text/javascript" src='http://cdn.bootcss.com/highlight.js/8.3/highlight.min.js'></script>
 	<script type="text/javascript" src='http://cdn.bootcss.com/angular.js/1.3.0-beta.14/angular.min.js'></script>
 	<script type="text/javascript" src='http://cdn.bootcss.com/angular.js/1.3.0-beta.14/angular-animate.min.js'></script>
@@ -183,9 +196,12 @@
 	<script src='lib/ace/ace.js'></script>
 	<script type="text/javascript" src='lib/WOW-master/dist/wow.min.js'></script>
 	<script type="text/javascript" src='lib/showBo.js'></script>
-	<script src="http://cdn.hcharts.cn/highstock/highstock.js"></script>
+	<script src="http://cdn.bootcss.com/highstock/5.0.1/highstock.js"></script>
+	<script src="//cdn.bootcss.com/highstock/5.0.1/js/modules/exporting.js"></script>
 	<script src='js/myService.js'></script>
-	<script type="text/javascript" src='js/appEval.min.js'></script>
+	<script src='js/app.js'></script>
+	<!-- <script type="text/javascript" src='js/appEval.min.js'></script> -->
 	<script type="text/javascript" src='http://cdn.bootcss.com/angular-highlightjs/0.6.2/angular-highlightjs.min.js'></script>
+	<script type="text/javascript" src='lib/marked-master/marked.min.js'></script>
 </body>
 </html>
