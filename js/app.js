@@ -38,6 +38,10 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		templateUrl:'tpls/complie.html',
 		controller:'complieController'
 	})
+	.when('/complie/:id',{
+		templateUrl:"tpls/complie.html",
+		controller:'complieItemController'
+	})
 	.when('/modalRes',{
 		templateUrl:'tpls/modalRes.html',
 		controller:'modalResController'
@@ -71,7 +75,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
     	tabReplace: '    '
   	});
 })*/
-.run(['$rootScope','$location','$window',function($rootScope,$location,$window){
+.run(['$rootScope','$location','$window','$route','$templateCache',function($rootScope,$location,$window,$route,$templateCache){
 	var wow = new WOW({
 		boxClass : 'wow',
 		animateClass : 'animated',
@@ -99,28 +103,27 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	if(($location.url()=='/analyse')||($location.url()=='/complie')||($location.url()=='/adminCenter')){
 		$rootScope.isactive=true;
 	};
-	$rootScope.$on('$routeChangeStart',function(next,cur){
+	$rootScope.$on('$routeChangeStart',function(eve,next,cur){
 		$('html,body').scrollTop(0);
 		var wow = new WOW({
-		boxClass : 'wow',
-		animateClass : 'animated',
-		offset : 0,
-		mobile : false,
-		live : true
+			boxClass : 'wow',
+			animateClass : 'animated',
+			offset : 0,
+			mobile : false,
+			live : true
 		});
 		wow.init();
+		if (typeof(cur) !== 'undefined'){  
+			console.log(cur);
+            $templateCache.remove(cur.loadedTemplateUrl);  
+        }  
 		/*var editor = ace.edit("editor");
 		editor.setTheme("ace/theme/chrome");
 		editor.getSession().setMode("ace/mode/java");*/
 	});
 	$rootScope.$on('$routeChangeSuccess',function(next,cur){
 		if($location.url()=='/complie'){
-			$rootScope.$watch('$viewContentLoaded', function() {  
-				var editor = ace.edit("editor");
-				editor.setTheme("ace/theme/chrome");
-				editor.getSession().setMode("ace/mode/python");
-			}); 
-			
+			console.log(123);			
 		};
 		$('html,body').scrollTop(0);
 		if(($location.url()=='/study')||($location.url()=='/home')||($location.url()=='/modalRes')||($location.url()=='/mytable')){
@@ -1531,25 +1534,59 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					var totalpal=0;
 					var allTotalpal=0;
 					var allTotalyeild=0;
+					var allTotalTime=0;//总持仓时间r
+					var averTotalTime=0;//平均持仓时间
+					var errorYeild=0;//跟踪误差年化波动率
 					var prof=0;
-					var loss=0;
+					var loss=0; 
+					var yeildArrs=[];
+					//封装的计算时间的方法，这里只需要传进毫秒数 自动return HH:MM:SS 格式的时间；
+					$scope.newTotalTime=function(time){
+						var hour = 0;
+						//这里因为都需要把 小时数归零 所以 hour = 0 定义在外面
+							var min = parseInt((time) / 1000 / 60);
+                            //分钟 的计算 除以 1000 是除去毫秒 之后 除以 60 计算出带小数点的分钟数 这里需要取整
+							var sec = Math.ceil((((time) / 1000 / 60) - min) * 60);
+                            //秒 的计算 同分钟 这里用带毫秒的分钟数 减去 取整 后的分钟数 得到小数点后的 数值 之后 *60 向上取整 得到正确 秒
+							if(min >= 60){
+								hour = parseInt(min / 60);
+								min = min - hour * 60;
+							}
+							if (hour<10) hour="0"+hour;
+							if (min<10) min="0"+min;
+							if (sec<10) sec="0"+sec;
+							var totalTime = hour + ":" + min + ":" + sec;
+							return totalTime;
+					}
+					var allTotalTime1 = 0; 
 					angular.forEach(chartArr,function(data,index){
+						amount=tradeItem.length+1;
+						var totalTime = $scope.newTotalTime((data['closetime']-data['opentime']));
+
+						allTotalTime1 += (data['closetime'] - data['opentime']);
+						$scope.allTotalTime = $scope.newTotalTime(allTotalTime1);//alltotaltime是总持仓时间
+						$scope.averTotalTime = $scope.newTotalTime(allTotalTime1/amount);//averTotalTime是平均持仓时间
 						totalpal=totalpal+Number(data["Earn"]);
-						allTotalpal=allTotalpal+Number(data["Earn"]);
+						/*allTotalpal=allTotalpal+Number(data["Earn"]);*/
+						allTotalpal+=data['closeprice']-data['openprice'];//总盈亏
+						/*console.log(data["Earn"]);*/
 						if (data['direction']>0) {
 							direction='看多';
 						}else{
 							direction='看空';
-						};
-						if(Number(data["Earn"])>0){
+						}
+						/*if(Number(data["Earn"])>0){*/
+						if(data['closeprice']-data['openprice']>0){
 							winrate=100;
 							yeildAbs=Math.abs((Number(data["Earn"])*100/data['openprice']).toFixed(2));
-							prof=prof+Number(data["Earn"])*100/data['openprice'];
+							/*prof=prof+Number(data["Earn"])*100/data['openprice'];*/
+							prof += ((data['closeprice']-data['openprice'])/data['openprice'])*100;
 						}else{
 							winrate=0;
 							yeildAbs=Math.abs((Number(data["Earn"])*100/data['closeprice']).toFixed(2));
-							loss=loss+Number(data["Earn"])*100/data['openprice'];
-						};
+							/*loss=loss+Number(data["Earn"])*100/data['openprice'];*/
+							loss += ((data['closeprice']-data['openprice'])/data['openprice'])*100;
+						}
 						wealth.push({
 							"x":data["opentime"],
 							"y":Number(totalpal.toFixed(2)),
@@ -1564,37 +1601,59 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						tradeItem.push({
 							"openprice":data['openprice'],
 							"closeprice":data['closeprice'],
-							"time":$filter('date')(data["opentime"],"yyyy-MM-dd H:mm:ss"),
-							"pal":Number(data["Earn"].toFixed(2)),
+							//"totalTime":$filter('date')(data['closetime']-data['opentime'],"H:mm:ss"),
+							"totalTime":totalTime,
+							"time":$filter('date')(data["opentime"],"yyyy-MM-dd HH:mm:ss"),
+							/*"pal":Number(data["Earn"].toFixed(2)),*/
+							"pal":data['closeprice']-data['openprice'],
 							"totalpal":Number(totalpal.toFixed(2)),
 							'direction':direction,
-							'yeild': Number((Number(data["Earn"])*100/data['openprice']).toFixed(2)),
+							/*'yeild': Number((Number(data["Earn"])*100/data['openprice']).toFixed(2)),*/
+							'yeild':parseFloat((((data['closeprice']-data['openprice'])/data['openprice'])*100).toFixed(2)),//收益率
 							'winrate':winrate,
 							'yeildAbs':yeildAbs,
-							'closetime':$filter('date')(data["closetime"],"yyyy-MM-dd H:mm:ss"),
-							"opentime":$filter('date')(data["opentime"],"yyyy-MM-dd H:mm:ss")
+							'closetime':$filter('date')(data["closetime"],"yyyy-MM-dd HH:mm:ss"),
+							"opentime":$filter('date')(data["opentime"],"yyyy-MM-dd HH:mm:ss")
 						});
-						totalWinrate=totalWinrate+winrate;
+						yeildArrs.push(parseFloat((((data['closeprice']-data['openprice'])/data['openprice'])*100).toFixed(2)));
+						totalWinrate += winrate;//总胜率
+						/*allTotalTime=allTotalTime+(data['closetime']-data['opentime']);*/
 						total=total+Number(data["Earn"])*100/data['openprice'];
 						totalRate1=totalRate1+parseFloat(Number(data["Earn"])*100/data['openprice']-0.0492);
 						totalRate4.push(yeildAbs);
-						allTotalyeild=allTotalyeild+Number(Number(data["Earn"])*100/data['openprice']);
+						//allTotalyeild=allTotalyeild+Number((Number(data["Earn"])*100/data['openprice']));
+						allTotalyeild+=((data['closeprice']-data['openprice'])/data['openprice']);//总收益率
 					});
+					var allYelidArrPow=0;
+					var maxBack=0;//最大回撤率
 					amount=tradeItem.length;
-					$scope.analyseDataArr=tradeItem;
-					$scope.annualized_return=parseFloat((Math.pow((1+total/100/amount),252/amount)-1)*100).toFixed(2);
-					$scope.average_winrate=parseFloat(totalWinrate/amount).toFixed(2);
-					$scope.average_profit=parseFloat(prof/loss).toFixed(2);
-					$scope.rate1=parseFloat(totalRate1/amount).toFixed(2);
-					angular.forEach(chartArr,function(data,index){
-						totalRate2=totalRate2+parseFloat(Math.pow(parseFloat((Number(data["Earn"])*100/data['openprice']-0.0492)-$scope.rate1),2));
+					console.log(amount);
+					angular.forEach(tradeItem,function(data,index){
+						allYelidArrPow=allYelidArrPow+Math.pow(data["yeild"]-allTotalyeild,2);
 					});
-					$scope.rate2=Math.sqrt(parseFloat(totalRate2)/amount).toFixed(2);
-					$scope.rate3=parseFloat($scope.rate1/$scope.rate2).toFixed(2);
-					$scope.rate4=(Math.max.apply(Math,totalRate4)).toFixed(2);
+					yeildArrs.sort(function(a,b){
+						return a-b;
+					});
+					maxBack=(yeildArrs[yeildArrs.length-1]-yeildArrs[0])/yeildArrs[yeildArrs.length-1];//最大回撤
+					//console.log(maxBack);
+					$scope.analyseDataArr=tradeItem;
+					/*$scope.annualized_return=Number(parseFloat((Math.pow((1+total/100/amount),252/amount)-1)*100).toFixed(2));*/
+					/*$scope.average_winrate=Number(parseFloat(totalWinrate/amount).toFixed(2));*/
+					$scope.average_winrate=(totalWinrate/amount).toFixed(2);
+					$scope.average_profit=Number(parseFloat(prof/loss).toFixed(2));
+					/*$scope.rate1=Number(parseFloat(totalRate1/amount).toFixed(2));*/
+					$scope.rate1=Number(parseFloat(allTotalyeild/amount).toFixed(2));
+					/*$scope.rate2=Math.sqrt(parseFloat(totalRate2)/amount).toFixed(2);*/
+					$scope.rate2=Math.sqrt(allYelidArrPow/amount).toFixed(2);//策略收益波动率
+					/*$scope.rate3=Number(parseFloat($scope.rate1/$scope.rate2).toFixed(2));*/
+					$scope.rate3=((((allTotalyeild/amount*250)*100)-1.10)/$scope.rate2).toFixed(2);//夏普比率
+					$scope.rate4=maxBack.toFixed(2);
 					$scope.allTotalpal=allTotalpal;
-					$scope.allTotalyeild=(allTotalyeild).toFixed(2);
-					$scope.averTotalyeild=(allTotalyeild/amount).toFixed(4);
+					/*$scope.allTotalyeild=Number(allTotalyeild.toFixed(2));*/
+					$scope.allTotalyeild=allTotalyeild.toFixed(4);
+					$scope.averTotalyeild=Number((allTotalyeild/amount).toFixed(4));
+					$scope.annualized_return=((allTotalyeild/amount*250)*100).toFixed(2);
+					$scope.errorYeild=((((allTotalyeild/amount*250)*100)-4.67)/$scope.rate2).toFixed(2);//跟踪误差年化波动率
 					Highcharts.setOptions({
 						global: {
 						  useUTC: false
@@ -2700,25 +2759,59 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					var totalpal=0;
 					var allTotalpal=0;
 					var allTotalyeild=0;
+					var allTotalTime=0;//总持仓时间r
+					var averTotalTime=0;//平均持仓时间
+					var errorYeild=0;//跟踪误差年化波动率
 					var prof=0;
-					var loss=0;  
+					var loss=0; 
+					var yeildArrs=[];
+					//封装的计算时间的方法，这里只需要传进毫秒数 自动return HH:MM:SS 格式的时间；
+					$scope.newTotalTime=function(time){
+						var hour = 0;
+						//这里因为都需要把 小时数归零 所以 hour = 0 定义在外面
+							var min = parseInt((time) / 1000 / 60);
+                            //分钟 的计算 除以 1000 是除去毫秒 之后 除以 60 计算出带小数点的分钟数 这里需要取整
+							var sec = Math.ceil((((time) / 1000 / 60) - min) * 60);
+                            //秒 的计算 同分钟 这里用带毫秒的分钟数 减去 取整 后的分钟数 得到小数点后的 数值 之后 *60 向上取整 得到正确 秒
+							if(min >= 60){
+								hour = parseInt(min / 60);
+								min = min - hour * 60;
+							}
+							if (hour<10) hour="0"+hour;
+							if (min<10) min="0"+min;
+							if (sec<10) sec="0"+sec;
+							var totalTime = hour + ":" + min + ":" + sec;
+							return totalTime;
+					}
+					var allTotalTime1 = 0; 
 					angular.forEach(chartArr,function(data,index){
+						amount=tradeItem.length+1;
+						var totalTime = $scope.newTotalTime((data['closetime']-data['opentime']));
+
+						allTotalTime1 += (data['closetime'] - data['opentime']);
+						$scope.allTotalTime = $scope.newTotalTime(allTotalTime1);//alltotaltime是总持仓时间
+						$scope.averTotalTime = $scope.newTotalTime(allTotalTime1/amount);//averTotalTime是平均持仓时间
 						totalpal=totalpal+Number(data["Earn"]);
-						allTotalpal=allTotalpal+Number(data["Earn"]);
+						/*allTotalpal=allTotalpal+Number(data["Earn"]);*/
+						allTotalpal+=data['closeprice']-data['openprice'];//总盈亏
+						/*console.log(data["Earn"]);*/
 						if (data['direction']>0) {
 							direction='看多';
 						}else{
 							direction='看空';
-						};
-						if(Number(data["Earn"])>0){
+						}
+						/*if(Number(data["Earn"])>0){*/
+						if(data['closeprice']-data['openprice']>0){
 							winrate=100;
 							yeildAbs=Math.abs((Number(data["Earn"])*100/data['openprice']).toFixed(2));
-							prof=prof+Number(data["Earn"])*100/data['openprice'];
+							/*prof=prof+Number(data["Earn"])*100/data['openprice'];*/
+							prof += ((data['closeprice']-data['openprice'])/data['openprice'])*100;
 						}else{
 							winrate=0;
 							yeildAbs=Math.abs((Number(data["Earn"])*100/data['closeprice']).toFixed(2));
-							loss=loss+Number(data["Earn"])*100/data['openprice'];
-						};
+							/*loss=loss+Number(data["Earn"])*100/data['openprice'];*/
+							loss += ((data['closeprice']-data['openprice'])/data['openprice'])*100;
+						}
 						wealth.push({
 							"x":data["opentime"],
 							"y":Number(totalpal.toFixed(2)),
@@ -2733,37 +2826,59 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						tradeItem.push({
 							"openprice":data['openprice'],
 							"closeprice":data['closeprice'],
-							"time":$filter('date')(data["opentime"],"yyyy-MM-dd H:mm:ss"),
-							"pal":Number(data["Earn"].toFixed(2)),
+							//"totalTime":$filter('date')(data['closetime']-data['opentime'],"H:mm:ss"),
+							"totalTime":totalTime,
+							"time":$filter('date')(data["opentime"],"yyyy-MM-dd HH:mm:ss"),
+							/*"pal":Number(data["Earn"].toFixed(2)),*/
+							"pal":data['closeprice']-data['openprice'],
 							"totalpal":Number(totalpal.toFixed(2)),
 							'direction':direction,
-							'yeild': Number((Number(data["Earn"])*100/data['openprice']).toFixed(2)),
+							/*'yeild': Number((Number(data["Earn"])*100/data['openprice']).toFixed(2)),*/
+							'yeild':parseFloat((((data['closeprice']-data['openprice'])/data['openprice'])*100).toFixed(2)),//收益率
 							'winrate':winrate,
 							'yeildAbs':yeildAbs,
-							'closetime':$filter('date')(data["closetime"],"yyyy-MM-dd H:mm:ss"),
-							"opentime":$filter('date')(data["opentime"],"yyyy-MM-dd H:mm:ss")
+							'closetime':$filter('date')(data["closetime"],"yyyy-MM-dd HH:mm:ss"),
+							"opentime":$filter('date')(data["opentime"],"yyyy-MM-dd HH:mm:ss")
 						});
-						totalWinrate=totalWinrate+winrate;
+						yeildArrs.push(parseFloat((((data['closeprice']-data['openprice'])/data['openprice'])*100).toFixed(2)));
+						totalWinrate += winrate;//总胜率
+						/*allTotalTime=allTotalTime+(data['closetime']-data['opentime']);*/
 						total=total+Number(data["Earn"])*100/data['openprice'];
 						totalRate1=totalRate1+parseFloat(Number(data["Earn"])*100/data['openprice']-0.0492);
 						totalRate4.push(yeildAbs);
-						allTotalyeild=allTotalyeild+Number((Number(data["Earn"])*100/data['openprice']));
+						//allTotalyeild=allTotalyeild+Number((Number(data["Earn"])*100/data['openprice']));
+						allTotalyeild+=((data['closeprice']-data['openprice'])/data['openprice']);//总收益率
 					});
+					var allYelidArrPow=0;
+					var maxBack=0;//最大回撤率
 					amount=tradeItem.length;
-					$scope.analyseDataArr=tradeItem;
-					$scope.annualized_return=Number(parseFloat((Math.pow((1+total/100/amount),252/amount)-1)*100).toFixed(2));
-					$scope.average_winrate=Number(parseFloat(totalWinrate/amount).toFixed(2));
-					$scope.average_profit=Number(parseFloat(prof/loss).toFixed(2));
-					$scope.rate1=Number(parseFloat(totalRate1/amount).toFixed(2));
-					angular.forEach(chartArr,function(data,index){
-						totalRate2=totalRate2+parseFloat(Math.pow(parseFloat((Number(data["Earn"])*100/data['openprice']-0.0492)-$scope.rate1),2));
+					console.log(amount);
+					angular.forEach(tradeItem,function(data,index){
+						allYelidArrPow=allYelidArrPow+Math.pow(data["yeild"]-allTotalyeild,2);
 					});
-					$scope.rate2=Math.sqrt(parseFloat(totalRate2)/amount).toFixed(2);
-					$scope.rate3=Number(parseFloat($scope.rate1/$scope.rate2).toFixed(2));
-					$scope.rate4=(Math.max.apply(Math,totalRate4)).toFixed(2);
+					yeildArrs.sort(function(a,b){
+						return a-b;
+					});
+					maxBack=(yeildArrs[yeildArrs.length-1]-yeildArrs[0])/yeildArrs[yeildArrs.length-1];//最大回撤
+					//console.log(maxBack);
+					$scope.analyseDataArr=tradeItem;
+					/*$scope.annualized_return=Number(parseFloat((Math.pow((1+total/100/amount),252/amount)-1)*100).toFixed(2));*/
+					/*$scope.average_winrate=Number(parseFloat(totalWinrate/amount).toFixed(2));*/
+					$scope.average_winrate=(totalWinrate/amount).toFixed(2);
+					$scope.average_profit=Number(parseFloat(prof/loss).toFixed(2));
+					/*$scope.rate1=Number(parseFloat(totalRate1/amount).toFixed(2));*/
+					$scope.rate1=Number(parseFloat(allTotalyeild/amount).toFixed(2));
+					/*$scope.rate2=Math.sqrt(parseFloat(totalRate2)/amount).toFixed(2);*/
+					$scope.rate2=Math.sqrt(allYelidArrPow/amount).toFixed(2);//策略收益波动率
+					/*$scope.rate3=Number(parseFloat($scope.rate1/$scope.rate2).toFixed(2));*/
+					$scope.rate3=((((allTotalyeild/amount*250)*100)-1.10)/$scope.rate2).toFixed(2);//夏普比率
+					$scope.rate4=maxBack.toFixed(2);
 					$scope.allTotalpal=allTotalpal;
-					$scope.allTotalyeild=Number(allTotalyeild.toFixed(2));
+					/*$scope.allTotalyeild=Number(allTotalyeild.toFixed(2));*/
+					$scope.allTotalyeild=allTotalyeild.toFixed(4);
 					$scope.averTotalyeild=Number((allTotalyeild/amount).toFixed(4));
+					$scope.annualized_return=((allTotalyeild/amount*250)*100).toFixed(2);
+					$scope.errorYeild=((((allTotalyeild/amount*250)*100)-4.67)/$scope.rate2).toFixed(2);//跟踪误差年化波动率
 					Highcharts.setOptions({
 						global: {
 						  useUTC: false
@@ -3150,7 +3265,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	
 	
 }])
-.controller('complieController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
+.controller('complieController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','$route','$timeout',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,$route,$timeout){
+	$scope.fate=1;
 	$scope.code="# encoding: UTF-8\n"
 					+"\"\"\"\n"
 					+"这里的Demo是一个最简单的策略实现，并未考虑太多实盘中的交易细节，如：\n"
@@ -3381,6 +3497,142 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					+"        \"\"\"收到成交推送（必须由用户继承实现）\"\"\"\n"
 					+"        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n"
 					+"        pass";
+	$scope.$watch('$viewContentLoaded', function() {  
+		var editor = ace.edit("editor");
+		editor.$blockScrolling = Infinity;
+		editor.setFontSize(16);
+		editor.setOptions({
+		    enableBasicAutocompletion: true,
+		    enableSnippets: true,
+		    enableLiveAutocompletion: true
+		});
+		editor.setTheme("ace/theme/chrome");
+		editor.getSession().setMode("ace/mode/python");
+		editor.setValue($scope.code);
+	}); 
+	/*if($('#editor').children()){
+		$route.reload();
+		console.log(321);
+	};*/
+	/*var s=$timeout(function(){
+		$route.reload();
+		$timeout.cancel(s);
+	},1000);*/
+}])
+.controller('complieItemController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','$routeParams','$interval','$q',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,$routeParams,$interval,$q){
+	$scope.fate=0;
+	$scope.$watch('$viewContentLoaded', function() {  
+		var editor = ace.edit("editor");
+		editor.$blockScrolling = Infinity;
+		editor.setFontSize(16);
+		editor.setOptions({
+		    enableBasicAutocompletion: true,
+		    enableSnippets: true,
+		    enableLiveAutocompletion: true
+		});
+		editor.setTheme("ace/theme/chrome");
+		editor.getSession().setMode("ace/mode/python");
+		$http.get(constantUrl+'classs/'+$routeParams.id+'/',{
+			headers:{'Authorization':'token '+$cookieStore.get('user').token}
+		})
+		.success(function(data){
+			editor.setValue(data.code);
+			$scope.name=data.class_name;
+		})
+		.error(function(err,sta){
+			console.log(err);
+		});
+	}); 
+	$scope.openMask=function(){
+		$('.complie-mask').fadeIn();
+	};
+	$scope.closeMask=function(){
+		$('.complie-mask').fadeOut();
+	};
+	$scope.hisItem={};
+	$scope.modeTickOptions=false;
+	$scope.modeBarOptions=false;
+	$scope.getModeList=function(ty){
+		$http.get(constantUrl+"dates/",{
+			params:{type:ty,date_type:'data'},
+			headers:{'Authorization':'token '+$cookieStore.get('user').token}
+		})
+		.success(function(data){
+			$scope.hisItem.time=data;
+		})
+		.error(function(err,sta){
+			console.log(err);
+			console.log(sta);
+		});
+	};
+	$scope.getBarList=function(){
+		$scope.modeTickOptions=!$scope.modeBarOptions;
+		if (!$scope.modeBarOptions) return;
+		$scope.getModeList('bar');
+	};
+	$scope.getTickList=function(){
+		$scope.modeBarOptions=!$scope.modeTickOptions;
+		if (!$scope.modeTickOptions) return;
+		$scope.getModeList('tick');
+	};
+	
+	$scope.addHisStrategy=function(){
+
+		var files = $scope.files;
+		var formdata = new FormData();
+		if ($scope.modeBarOptions) {
+			formdata.append('mode', 'bar');
+		}else{
+			formdata.append('mode', 'tick');
+		};
+		formdata.append('name', $scope.hisItem.name);
+		formdata.append('start',$scope.hisItem.start);
+		formdata.append('end', $scope.hisItem.end);
+		formdata.append('class_id', $routeParams.id);
+		if (($scope.files!=undefined)&&($scope.files!=null)) {
+			formdata.append('file',files);
+		};
+		function complieStep1(){
+			var defer=$q.defer();
+	        $http.post(constantUrl+"btstrategys/",formdata,{
+	            transformRequest: angular.identity,
+	            headers: {'Content-Type': undefined,
+		            	'Authorization':'token '+$cookieStore.get('user').token	
+		        	}
+	        })
+	        .success(function(data){
+	        	defer.resolve(data);
+	        })
+	        .error(function(err,st){
+	        	defer.reject(err);
+	        });
+	        return defer.promise;
+	    } 
+	    complieStep1().then(function(data){
+	    	$('.complie-mask').fadeOut();
+	    	var id=data._id;
+	    	var mypromise=$interval(function(){
+	    		$http.get(constantUrl+'btstrategys/'+id+'/',{
+	    			headers:{'Authorization':'token '+$cookieStore.get('user').token}
+	    		})
+	    		.success(function(data){
+	    			
+	    			console.log(data);
+	    			if(data.status=='-2'){
+	    				$interval.cancel(mypromise);
+	    			};
+	    			$scope.logs=data.logs;
+	    			$scope.errors=data.error;
+	    		})
+	    		.error(function(err){
+	    			console.log(err);
+	    		});
+	    	},2000);
+	    },function(err){
+	    	Showbo.Msg.alert(err.error);
+	    	$('.complie-mask').fadeOut();
+	    });   
+	};
 
 }])
 .controller('modalResController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','modalResObjList1','modalResObjList2','modalResObjList3','modalResObjList4','storageModalRes','getModalResList','modalResObjItems',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,modalResObjList1,modalResObjList2,modalResObjList3,modalResObjList4,storageModalRes,getModalResList,modalResObjItems){
@@ -3951,13 +4203,13 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			});
 			ele.on('click','.btn-success',function(){
 				var url=scope.mydata.classify+'/'+scope.mydata._id;
-				if(scope.mydata.code!=undefined){
-					var str='title='+scope.mydata.title+'&content='+scope.mydata.content+'&code='+encodeURIComponent(scope.mydata.code);
+				if(scope.mydata.classify=='model_objects'){
+					var str='title='+encodeURIComponent(scope.mydata.title)+'&content='+encodeURIComponent(scope.mydata.content);
 					getModalResList.reviseItem(str,url).then(function(){
 						ele.find('.modalRes-mask-objItem').fadeOut();
 					});
 				}else{
-					var str='title='+scope.mydata.title+'&content='+scope.mydata.content;
+					var str='title='+encodeURIComponent(scope.mydata.title)+'&content='+encodeURIComponent(scope.mydata.content)+'&code='+encodeURIComponent(scope.mydata.code);
 					getModalResList.reviseItem(str,url).then(function(){
 						ele.find('.modalRes-mask-objItem').fadeOut();
 					});

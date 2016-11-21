@@ -91,6 +91,11 @@
 								年化收益率
 							</a>
 						</dd>
+						<dd>
+							<a data-target="#annualized_date_1" aria-controls="annualized_return_1" role="tab" data-toggle="tab">
+								持仓时间
+							</a>
+						</dd>
 					</dl>
 
 					<dl class="analyse-menu-item">
@@ -285,6 +290,41 @@
 							</table>
 						</div>
 					</div>
+					<div role="tabpanel" class="tab-pane" id="annualized_date_1">
+						<h2 class="analyse-charts-title">持仓时间</h2>
+						<div class="table-responsive">
+							<table class="table table-hover table-striped">
+								<thead>
+								<tr class='success'>
+									<th>开仓时间</th>
+									<th>开仓价</th>
+									<th>平仓时间</th>
+									<th>平仓价</th>
+									<th>持仓时间</th>
+									<!-- <th>总盈亏</th> -->
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat='x in analyseDataArr'>
+									<td>{{x.opentime}}</td>
+									<td>￥{{x.openprice | number : 2}}</td>
+									<td>{{x.closetime}}</td>
+									<td>￥{{x.closeprice | number : 2}}</td>
+									<td>{{x.totalTime}}</td>
+								</tr>
+								</tbody>
+								<tfoot>
+								<tr class='warning'>
+									<td>总持仓时间</td>
+									<td>{{allTotalTime}}</td>
+									<td>平均持仓时间</td>
+									<td>{{averTotalTime}}</td>
+									<td>&nbsp;</td>
+								</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
 					<div role="tabpanel" class="tab-pane" id="winrate_1">
 						<h2 class="analyse-charts-title">胜率</h2>
 						<div class="table-responsive">
@@ -400,7 +440,7 @@
 										<th>交易方向</th>
 										<th>开仓价</th>
 										<th>平仓价</th>
-										<th>回撤率</th>
+										<th>收益率</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -426,11 +466,73 @@
 					</div>
 					<div role="tabpanel" class="tab-pane" id="info_ratio_1">
 						<h2 class="analyse-charts-title">信息比率 Information Ratio</h2>
-						<p class="text-center">衡量超额风险带来的超额收益。具体计算方法为: (策略每日收益 - 参考标准每日收益)的年化均值 / 年化标准差 。</p>
+						<!--<p class="text-center">衡量超额风险带来的超额收益。具体计算方法为: (策略每日收益 - 参考标准每日收益)的年化均值 / 年化标准差 。</p>-->
+						<div class="table-responsive">
+							<table class="table table-hover table-striped">
+								<thead>
+								<tr class='success'>
+									<th>日期</th>
+									<th>交易方向</th>
+									<th>开仓价</th>
+									<th>平仓价</th>
+									<th>收益率</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat='x in analyseDataArr'>
+									<td ng-bind='x.time'></td>
+									<td ng-bind='x.direction'></td>
+									<td>￥{{x.openprice | number : 2}}</td>
+									<td>￥{{x.closeprice | number : 2}}</td>
+									<td>{{x.yeild}}%</td>
+								</tr>
+								</tbody>
+								<tfoot>
+								<tr class='warning'>
+									<td>信息比率为：</td>
+									<td>{{errorYeild}}%</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>
+								</tfoot>
+							</table>
+						</div>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="volatility_1">
 						<h2 class="analyse-charts-title">策略收益波动率 Volatility</h2>
-						<p class="text-center">用来测量资产的风险性，波动越大代表策略风险越高。具体计算方法为: 策略每日收益的年化标准差 。</p>
+						<!--<p class="text-center">用来测量资产的风险性，波动越大代表策略风险越高。具体计算方法为: 策略每日收益的年化标准差 。</p>-->
+						<div class="table-responsive">
+							<table class="table table-hover table-striped">
+								<thead>
+								<tr class='success'>
+									<th>日期</th>
+									<th>交易方向</th>
+									<th>开仓价</th>
+									<th>平仓价</th>
+									<th>收益率</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat='x in analyseDataArr'>
+									<td ng-bind='x.time'></td>
+									<td ng-bind='x.direction'></td>
+									<td>￥{{x.openprice | number : 2}}</td>
+									<td>￥{{x.closeprice | number : 2}}</td>
+									<td>{{x.yeild}}%</td>
+								</tr>
+								</tbody>
+								<tfoot>
+								<tr class='warning'>
+									<td>策略收益波动率为：</td>
+									<td>{{rate2}}%</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>
+								</tfoot>
+							</table>
+						</div>
 					</div>
 					
 					<!-- <div role="tabpanel" class="tab-pane" id="open_conditions_suggest_1">
