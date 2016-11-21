@@ -1,7 +1,7 @@
 <div class="zijin-complie">
 	<div class="zijin-complie-head">
-		<span ng-init="name='新策略'" ng-bind='name' class="zijin-complie-name" tooltip new-name data-toggle='tooltip' data-placement='right' title="重命名" ng-show='fate==1'></span>
-        <span ng-bind='name' class="zijin-complie-name" ng-show='fate==0'></span>
+		<span ng-init="name='新策略'" ng-bind='name' class="zijin-complie-name" tooltip new-name data-toggle='tooltip' data-placement='right' title="重命名"></span>
+        <!-- <span ng-bind='name' class="zijin-complie-name" ng-show='fate==0'></span> -->
 		<input type="text" ng-model='name' class="zijin-complie-hidname">
 	</div>
 	<div class="zijin-complie-body">
@@ -10,10 +10,10 @@
 			<div class="col-lg-7 col-md-8 col-sm-12">
 				<div class="zijin-complie-left">
 					<div class="zijin-complie-top">
-						<button>保存</button>
+						<button ng-click='addNew()'>保存</button>
 						<!-- <button>编译策略</button> -->
 					</div>
-					<div id="editor" editor></div>
+					<div id="editor"></div>
 				</div>	
 			</div>
 			<div class="col-lg-5 col-md-4 col-md-12">

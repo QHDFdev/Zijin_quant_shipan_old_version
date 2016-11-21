@@ -27,7 +27,7 @@
 							<input type="text" class="form-control" ng-model='mydata.title' placeholder="主题" required="">
 						</div>
 						<div class="form-group">
-							<textarea class="form-control" ng-model='mydata.content' placeholder="内容" required=""></textarea>
+							<textarea class="form-control" ng-model='mydata.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
 						</div>
 						<div class="form-group" ng-show='mydata.classify=="model_methods" || mydata.classify=="model_examples"'>
 							<textarea class="form-control" ng-model='mydata.code' placeholder="内容" required=""></textarea>

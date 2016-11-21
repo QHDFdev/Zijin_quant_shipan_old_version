@@ -113,15 +113,9 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			live : true
 		});
 		wow.init();
-		if (typeof(cur) !== 'undefined'){  
-			console.log(cur);
-            $templateCache.remove(cur.loadedTemplateUrl);  
-        }  
-		/*var editor = ace.edit("editor");
-		editor.setTheme("ace/theme/chrome");
-		editor.getSession().setMode("ace/mode/java");*/
 	});
-	$rootScope.$on('$routeChangeSuccess',function(next,cur){
+	$rootScope.$on('$routeChangeSuccess',function(eve,next,cur){
+		
 		if($location.url()=='/complie'){
 			console.log(123);			
 		};
@@ -142,6 +136,9 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		if(($location.url()=='/analyse')||($location.url()=='/complie')||($location.url()=='/adminCenter')){
 			$rootScope.isactive=true;
 		};
+		if (typeof(cur) !== 'undefined'&&(next.loadedTemplateUrl=='tpls/complie.html')&&(cur.loadedTemplateUrl=='tpls/complie.html')){  
+            $window.location.reload();
+        };
 	});
 
 }])
@@ -353,7 +350,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		$('.zijin-beta-mask').fadeOut();
 	}
 }])*/
-.controller('tableController',['$scope','strategyResources','strategyResource','$http','$timeout','$cookieStore','constantUrl','strategysValue','myStrategysValue',function($scope,strategyResourcess,strategyResource,$http,$timeout,$cookieStore,constantUrl,strategysValue,myStrategysValue){
+.controller('tableController',['$scope','strategyResources','strategyResource','$http','$timeout','$cookieStore','constantUrl','strategysValue','myStrategysValue','$filter',function($scope,strategyResourcess,strategyResource,$http,$timeout,$cookieStore,constantUrl,strategysValue,myStrategysValue,$filter){
 	$scope.func=function(e){
 		return e["status"]!=-3;
 	};
@@ -495,9 +492,10 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		}else{
 			formdata.append('mode', 'tick');
 		};
+		var mydate=$filter('date')(new Date((new Date($scope.hisItem.end)).setDate((new Date($scope.hisItem.end)).getDate()+1)),'yyyy-MM-dd');
 		formdata.append('name', $scope.hisItem.name);
 		formdata.append('start',$scope.hisItem.start);
-		formdata.append('end', $scope.hisItem.end);
+		formdata.append('end',mydate );
 		formdata.append('class_id', strategysValue.id);
 		if (($scope.files!=undefined)&&($scope.files!=null)) {
 			formdata.append('file',files);
@@ -1559,6 +1557,15 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							return totalTime;
 					}
 					var allTotalTime1 = 0; 
+					var delNum=[];
+					angular.forEach(chartArr,function(data,index){
+						if (data['openprice']==0||data['closeprice']==0) {
+							delNum.push(index);
+						};
+					});
+					angular.forEach(delNum,function(data,index){
+						chartArr.splice(data,1);
+					});
 					angular.forEach(chartArr,function(data,index){
 						amount=tradeItem.length+1;
 						var totalTime = $scope.newTotalTime((data['closetime']-data['opentime']));
@@ -1575,17 +1582,14 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						}else{
 							direction='看空';
 						}
-						/*if(Number(data["Earn"])>0){*/
-						if(data['closeprice']-data['openprice']>0){
+						if(Number(data["Earn"])>0){
 							winrate=100;
 							yeildAbs=Math.abs((Number(data["Earn"])*100/data['openprice']).toFixed(2));
-							/*prof=prof+Number(data["Earn"])*100/data['openprice'];*/
-							prof += ((data['closeprice']-data['openprice'])/data['openprice'])*100;
+							prof=prof+Number(data["Earn"])*100/data['openprice'];
 						}else{
 							winrate=0;
 							yeildAbs=Math.abs((Number(data["Earn"])*100/data['closeprice']).toFixed(2));
-							/*loss=loss+Number(data["Earn"])*100/data['openprice'];*/
-							loss += ((data['closeprice']-data['openprice'])/data['openprice'])*100;
+							loss=loss+Number(data["Earn"])*100/data['openprice'];
 						}
 						wealth.push({
 							"x":data["opentime"],
@@ -1604,12 +1608,11 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							//"totalTime":$filter('date')(data['closetime']-data['opentime'],"H:mm:ss"),
 							"totalTime":totalTime,
 							"time":$filter('date')(data["opentime"],"yyyy-MM-dd HH:mm:ss"),
-							/*"pal":Number(data["Earn"].toFixed(2)),*/
-							"pal":data['closeprice']-data['openprice'],
+							"pal":Number(data["Earn"].toFixed(2)),
+							//"pal":data['closeprice']-data['openprice'],
 							"totalpal":Number(totalpal.toFixed(2)),
 							'direction':direction,
-							/*'yeild': Number((Number(data["Earn"])*100/data['openprice']).toFixed(2)),*/
-							'yeild':parseFloat((((data['closeprice']-data['openprice'])/data['openprice'])*100).toFixed(2)),//收益率
+							'yeild': Number((Number(data["Earn"])*100/data['openprice']).toFixed(2)),
 							'winrate':winrate,
 							'yeildAbs':yeildAbs,
 							'closetime':$filter('date')(data["closetime"],"yyyy-MM-dd HH:mm:ss"),
@@ -1673,7 +1676,6 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						});
 					});
 					chartJsonDataArr=$filter('orderBy')(chartJsonDataArr,'x');
-					console.log(chartArr);
 					$('#return_map_big').highcharts('StockChart', {
 						credits: {
 			        		enabled: false
@@ -2784,6 +2786,15 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							return totalTime;
 					}
 					var allTotalTime1 = 0; 
+					var delNum=[];
+					angular.forEach(chartArr,function(data,index){
+						if (data['openprice']==0||data['closeprice']==0) {
+							delNum.push(index);
+						};
+					});
+					angular.forEach(delNum,function(data,index){
+						chartArr.splice(data,1);
+					});
 					angular.forEach(chartArr,function(data,index){
 						amount=tradeItem.length+1;
 						var totalTime = $scope.newTotalTime((data['closetime']-data['opentime']));
@@ -2800,17 +2811,14 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						}else{
 							direction='看空';
 						}
-						/*if(Number(data["Earn"])>0){*/
-						if(data['closeprice']-data['openprice']>0){
+						if(Number(data["Earn"])>0){
 							winrate=100;
 							yeildAbs=Math.abs((Number(data["Earn"])*100/data['openprice']).toFixed(2));
-							/*prof=prof+Number(data["Earn"])*100/data['openprice'];*/
-							prof += ((data['closeprice']-data['openprice'])/data['openprice'])*100;
+							prof=prof+Number(data["Earn"])*100/data['openprice'];
 						}else{
 							winrate=0;
 							yeildAbs=Math.abs((Number(data["Earn"])*100/data['closeprice']).toFixed(2));
-							/*loss=loss+Number(data["Earn"])*100/data['openprice'];*/
-							loss += ((data['closeprice']-data['openprice'])/data['openprice'])*100;
+							loss=loss+Number(data["Earn"])*100/data['openprice'];
 						}
 						wealth.push({
 							"x":data["opentime"],
@@ -2829,12 +2837,11 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							//"totalTime":$filter('date')(data['closetime']-data['opentime'],"H:mm:ss"),
 							"totalTime":totalTime,
 							"time":$filter('date')(data["opentime"],"yyyy-MM-dd HH:mm:ss"),
-							/*"pal":Number(data["Earn"].toFixed(2)),*/
-							"pal":data['closeprice']-data['openprice'],
+							"pal":Number(data["Earn"].toFixed(2)),
+							//"pal":data['closeprice']-data['openprice'],
 							"totalpal":Number(totalpal.toFixed(2)),
 							'direction':direction,
-							/*'yeild': Number((Number(data["Earn"])*100/data['openprice']).toFixed(2)),*/
-							'yeild':parseFloat((((data['closeprice']-data['openprice'])/data['openprice'])*100).toFixed(2)),//收益率
+							'yeild': Number((Number(data["Earn"])*100/data['openprice']).toFixed(2)),
 							'winrate':winrate,
 							'yeildAbs':yeildAbs,
 							'closetime':$filter('date')(data["closetime"],"yyyy-MM-dd HH:mm:ss"),
@@ -3266,7 +3273,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	
 }])
 .controller('complieController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','$route','$timeout',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,$route,$timeout){
-	$scope.fate=1;
+	var editor;
+	var myClassId;
 	$scope.code="# encoding: UTF-8\n"
 					+"\"\"\"\n"
 					+"这里的Demo是一个最简单的策略实现，并未考虑太多实盘中的交易细节，如：\n"
@@ -3498,7 +3506,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					+"        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n"
 					+"        pass";
 	$scope.$watch('$viewContentLoaded', function() {  
-		var editor = ace.edit("editor");
+		editor = ace.edit("editor");
 		editor.$blockScrolling = Infinity;
 		editor.setFontSize(16);
 		editor.setOptions({
@@ -3510,40 +3518,11 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		editor.getSession().setMode("ace/mode/python");
 		editor.setValue($scope.code);
 	}); 
-	/*if($('#editor').children()){
-		$route.reload();
-		console.log(321);
-	};*/
-	/*var s=$timeout(function(){
-		$route.reload();
-		$timeout.cancel(s);
-	},1000);*/
-}])
-.controller('complieItemController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','$routeParams','$interval','$q',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,$routeParams,$interval,$q){
-	$scope.fate=0;
-	$scope.$watch('$viewContentLoaded', function() {  
-		var editor = ace.edit("editor");
-		editor.$blockScrolling = Infinity;
-		editor.setFontSize(16);
-		editor.setOptions({
-		    enableBasicAutocompletion: true,
-		    enableSnippets: true,
-		    enableLiveAutocompletion: true
-		});
-		editor.setTheme("ace/theme/chrome");
-		editor.getSession().setMode("ace/mode/python");
-		$http.get(constantUrl+'classs/'+$routeParams.id+'/',{
-			headers:{'Authorization':'token '+$cookieStore.get('user').token}
-		})
-		.success(function(data){
-			editor.setValue(data.code);
-			$scope.name=data.class_name;
-		})
-		.error(function(err,sta){
-			console.log(err);
-		});
-	}); 
 	$scope.openMask=function(){
+		if (!myClassId) {
+			Showbo.Msg.alert('先保存策略，并修改策略名（即策略类名）');
+			return;
+		}
 		$('.complie-mask').fadeIn();
 	};
 	$scope.closeMask=function(){
@@ -3564,20 +3543,23 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			console.log(err);
 			console.log(sta);
 		});
+		//complieService.getModeList(ty);
 	};
 	$scope.getBarList=function(){
 		$scope.modeTickOptions=!$scope.modeBarOptions;
 		if (!$scope.modeBarOptions) return;
 		$scope.getModeList('bar');
+		//complieService.getBarList();
 	};
 	$scope.getTickList=function(){
 		$scope.modeBarOptions=!$scope.modeTickOptions;
 		if (!$scope.modeTickOptions) return;
 		$scope.getModeList('tick');
+		//complieService.getTickList();
 	};
 	
 	$scope.addHisStrategy=function(){
-
+		//complieService.addHisStrategy();
 		var files = $scope.files;
 		var formdata = new FormData();
 		if ($scope.modeBarOptions) {
@@ -3588,7 +3570,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		formdata.append('name', $scope.hisItem.name);
 		formdata.append('start',$scope.hisItem.start);
 		formdata.append('end', $scope.hisItem.end);
-		formdata.append('class_id', $routeParams.id);
+		formdata.append('class_id', myClassId);
 		if (($scope.files!=undefined)&&($scope.files!=null)) {
 			formdata.append('file',files);
 		};
@@ -3631,9 +3613,135 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	    },function(err){
 	    	Showbo.Msg.alert(err.error);
 	    	$('.complie-mask').fadeOut();
-	    });   
+	    });  
 	};
-
+	$scope.addNew=function(){
+		if ($scope.name='新策略') {
+			Showbo.Msg.alert('请修改策略名');
+		}
+	}
+}])
+.controller('complieItemController',['$scope','$rootScope','$http','$location','$cookieStore','constantUrl','$routeParams','$interval','$q',function($scope,$rootScope,$http,$location,$cookieStore,constantUrl,$routeParams,$interval,$q){
+	var editor;
+	var myClassId=$routeParams.id;
+	$scope.$watch('$viewContentLoaded', function() {  
+		editor = ace.edit("editor");
+		editor.$blockScrolling = Infinity;
+		editor.setFontSize(16);
+		editor.setOptions({
+		    enableBasicAutocompletion: true,
+		    enableSnippets: true,
+		    enableLiveAutocompletion: true
+		});
+		editor.setTheme("ace/theme/chrome");
+		editor.getSession().setMode("ace/mode/python");
+		$http.get(constantUrl+'classs/'+$routeParams.id+'/',{
+			headers:{'Authorization':'token '+$cookieStore.get('user').token}
+		})
+		.success(function(data){
+			editor.setValue(data.code);
+			$scope.name=data.class_name;
+		})
+		.error(function(err,sta){
+			console.log(err);
+		});
+	}); 
+	$scope.openMask=function(){
+		$('.complie-mask').fadeIn();
+	};
+	$scope.closeMask=function(){
+		$('.complie-mask').fadeOut();
+	};
+	$scope.hisItem={};
+	$scope.modeTickOptions=false;
+	$scope.modeBarOptions=false;
+	$scope.getModeList=function(ty){
+		$http.get(constantUrl+"dates/",{
+			params:{type:ty,date_type:'data'},
+			headers:{'Authorization':'token '+$cookieStore.get('user').token}
+		})
+		.success(function(data){
+			$scope.hisItem.time=data;
+		})
+		.error(function(err,sta){
+			console.log(err);
+			console.log(sta);
+		});
+		//complieService.getModeList(ty);
+	};
+	$scope.getBarList=function(){
+		$scope.modeTickOptions=!$scope.modeBarOptions;
+		if (!$scope.modeBarOptions) return;
+		$scope.getModeList('bar');
+		//complieService.getBarList();
+	};
+	$scope.getTickList=function(){
+		$scope.modeBarOptions=!$scope.modeTickOptions;
+		if (!$scope.modeTickOptions) return;
+		$scope.getModeList('tick');
+		//complieService.getTickList();
+	};
+	
+	$scope.addHisStrategy=function(){
+		//complieService.addHisStrategy();
+		var files = $scope.files;
+		var formdata = new FormData();
+		if ($scope.modeBarOptions) {
+			formdata.append('mode', 'bar');
+		}else{
+			formdata.append('mode', 'tick');
+		};
+		formdata.append('name', $scope.hisItem.name);
+		formdata.append('start',$scope.hisItem.start);
+		formdata.append('end', $scope.hisItem.end);
+		formdata.append('class_id', myClassId);
+		if (($scope.files!=undefined)&&($scope.files!=null)) {
+			formdata.append('file',files);
+		};
+		function complieStep1(){
+			var defer=$q.defer();
+	        $http.post(constantUrl+"btstrategys/",formdata,{
+	            transformRequest: angular.identity,
+	            headers: {'Content-Type': undefined,
+		            	'Authorization':'token '+$cookieStore.get('user').token	
+		        	}
+	        })
+	        .success(function(data){
+	        	defer.resolve(data);
+	        })
+	        .error(function(err,st){
+	        	defer.reject(err);
+	        });
+	        return defer.promise;
+	    } 
+	    complieStep1().then(function(data){
+	    	$('.complie-mask').fadeOut();
+	    	var id=data._id;
+	    	var mypromise=$interval(function(){
+	    		$http.get(constantUrl+'btstrategys/'+id+'/',{
+	    			headers:{'Authorization':'token '+$cookieStore.get('user').token}
+	    		})
+	    		.success(function(data){
+	    			
+	    			console.log(data);
+	    			if(data.status=='-2'){
+	    				$interval.cancel(mypromise);
+	    			};
+	    			$scope.logs=data.logs;
+	    			$scope.errors=data.error;
+	    		})
+	    		.error(function(err){
+	    			console.log(err);
+	    		});
+	    	},2000);
+	    },function(err){
+	    	Showbo.Msg.alert(err.error);
+	    	$('.complie-mask').fadeOut();
+	    });  
+	};
+	$scope.addNew=function(){
+		editor.setValue('2222');
+	}
 }])
 .controller('modalResController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','modalResObjList1','modalResObjList2','modalResObjList3','modalResObjList4','storageModalRes','getModalResList','modalResObjItems',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,modalResObjList1,modalResObjList2,modalResObjList3,modalResObjList4,storageModalRes,getModalResList,modalResObjItems){
 	$scope.modalResObjItem=modalResObjItems;
@@ -3714,7 +3822,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	};
 	
 	$scope.addModalResObj=function(){
-		var str="title="+$scope.modalResObj.title+"&content="+$scope.modalResObj.content;
+		var str="title="+encodeURIComponent($scope.modalResObj.title)+"&content="+encodeURIComponent($scope.modalResObj.content);
 		getModalResList.addItem(str,'model_objects').then(function(){
 			$scope.getObj();
 			$scope.closeMask();
@@ -3723,7 +3831,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		});
 	};
 	$scope.addModalResMet=function(){
-		var str="title="+$scope.modalResMet.title+"&content="+$scope.modalResMet.content+'&code='+$scope.modalResMet.code;
+		var str="title="+encodeURIComponent($scope.modalResMet.title)+"&content="+encodeURIComponent($scope.modalResMet.content)+'&code='+encodeURIComponent($scope.modalResMet.code);
 		getModalResList.addItem(str,'model_methods').then(function(){
 			$scope.getMet();
 			$scope.closeMask();
@@ -3732,7 +3840,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		});
 	};
 	$scope.addModalResExa=function(){
-		var str="title="+$scope.modalResExa.title+"&content="+$scope.modalResExa.content+'&code='+$scope.modalResExa.code;
+		var str="title="+encodeURIComponent($scope.modalResExa.title)+"&content="+encodeURIComponent($scope.modalResExa.content)+'&code='+encodeURIComponent($scope.modalResExa.code);
 		getModalResList.addItem(str,'model_examples').then(function(){
 			$scope.getExa();
 			$scope.closeMask();
