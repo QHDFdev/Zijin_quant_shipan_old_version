@@ -3,6 +3,7 @@
 		<span ng-init="name='新策略'" ng-bind='name' class="zijin-complie-name" tooltip new-name data-toggle='tooltip' data-placement='right' title="重命名"></span>
         <!-- <span ng-bind='name' class="zijin-complie-name" ng-show='fate==0'></span> -->
 		<input type="text" ng-model='name' class="zijin-complie-hidname">
+        <img src="images/demo-yellow-arrow.gif" alt="" ng-hide='fate==1'>
 	</div>
 	<div class="zijin-complie-body">
 		
@@ -28,7 +29,7 @@
 						<button ng-click='openMask()'>运行回测</button>
 					</div>
 					<div class="zijin-complie-highcharts">
-						<div id="complie-highcharts" style="height: 400px; min-width: 300px;"></div>
+						<div id="complie-highcharts" style="height: 400px; width: 98%;"></div>
 						<p class="zijin-complie-placeholder">请编译你的策略</p>
 					</div>
 				</div>

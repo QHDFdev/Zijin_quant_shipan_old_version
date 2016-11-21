@@ -27,6 +27,7 @@
 	padding: 0;
 }
 .zijin-complie-head{
+	position: relative;
 	padding: 10px 15px;
 	height: 50px;
 	font-size: 20px;
@@ -39,6 +40,11 @@
 	padding-right: 25px;
 	background: url(../images/552cc33d78a5f_16.png) right 7px no-repeat;
 	cursor: pointer;
+}
+.zijin-complie-head  img{
+	position: absolute;
+	bottom: -40px;
+	left: 80px;
 }
 .zijin-complie-head .zijin-complie-hidname{
 	display: none;
@@ -101,6 +107,7 @@
 .zijin-complie-bottom .tab-pane{
 	height: 350px;
 	padding:15px;
+	overflow-y:auto;
 }
 .ace_print-margin{
 	visibility: hidden!important;

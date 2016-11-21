@@ -10,6 +10,9 @@
 			<span class='text'>&nbsp;发布于</span>
 			<span class="date" ng-bind='mydata.date'></span>
 		</div>
-		<div markdown-compile class='content'><a href='{{myhref}}' class='btn btn-info'>notebook <i class="fa fa-arrow-circle-right"></i></a></div>
+		<div markdown-compile class='content'></div>
+		<div class='text-right'>
+			<a ng-href="http://114.55.238.82/jupyter/notebooks/{{mydata._id}}.ipynb" target='_blank' class='btn btn-info'>notebook <i class="fa fa-arrow-circle-right"></i></a>
+		</div>
 		<div class='code' ng-show='mydata.code!=undefined' hljs-source='mydata.code' hljs hljs-no-escape></div>
 </div>

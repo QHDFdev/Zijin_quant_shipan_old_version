@@ -212,144 +212,6 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		}*/
 	};
 }])
-/*.controller('queryStrategy',['$scope','strategyResources','strategyResource','$http','$timeout','$cookieStore','constantUrl',function($scope,strategyResourcess,strategyResource,$http,$timeout,$cookieStore,constantUrl){
-	$scope.queryAll=function(){
-		$http.get(constantUrl+"strategys/",{
-			headers:{'Authorization':'token '+$cookieStore.get('user').token}
-		})
-		.success(function(data){
-			$('.zijin-beta-body .zijin-beta-left .glyphicon').css('transform','rotate(180deg)');
-			$scope.strategy=data;
-			$('.zijin-beta-body .zijin-beta-left table').slideDown(2000);
-		})
-		.error(function(data){
-			Showbo.Msg.alert('网络错误，请稍后再试。')
-		});
-	};
-	getStrategy();
-	function getStrategy(){
-	 $http.get(constantUrl+"strategys/",{
-			headers:{'Authorization':'token '+$cookieStore.get('user').token}
-		})
-		.success(function(data){
-			$scope.items=data;
-			$scope.strategy=data;
-		})
-		.error(function(data){
-			Showbo.Msg.alert('网络错误，请稍后再试。')
-		});
-	}
-	$scope.iniStrategy=function(){
-		if(!$scope.selectedStrategy){
-			Showbo.Msg.alert('请选择策略。');
-			return
-		}
-		var url=$scope.selectedStrategy.name;
-		$http.patch(constantUrl+"strategys/"+url+'/',{status:0},{
-			headers:{'Authorization':'token '+$cookieStore.get('user').token}
-		})
-		.success(function(){
-			getStrategy();
-			$scope.selectedStrategy=null;
-			Showbo.Msg.alert('初始化成功，请重新选择策略。')
-		})
-		.error(function(data){
-			Showbo.Msg.alert('初始化失败，请稍后再试。')
-		});
-	}
-	$scope.stStrategy=function(){
-		if(!$scope.selectedStrategy){
-			Showbo.Msg.alert('请选择策略。');
-			return
-		}
-		var url=$scope.selectedStrategy.name;
-		$http.patch(constantUrl+"strategys/"+url+'/',{status:1},{
-			headers:{'Authorization':'token '+$cookieStore.get('user').token}
-		})
-		.success(function(){
-			getStrategy();
-			$scope.selectedStrategy=null;
-			Showbo.Msg.alert('启动成功，请重新选择策略。')
-		})
-		.error(function(data){
-			Showbo.Msg.alert('启动失败，请稍后再试。')
-		});
-	}
-	$scope.pouStrategy=function(){
-		if(!$scope.selectedStrategy){
-			Showbo.Msg.alert('请选择策略。');
-			return
-		}
-		var url=$scope.selectedStrategy.name;
-		$http.patch(constantUrl+"strategys/"+url+'/',{status:2},{
-			headers:{'Authorization':'token '+$cookieStore.get('user').token}
-		})
-		.success(function(){
-			getStrategy();
-			$scope.selectedStrategy=null;
-			Showbo.Msg.alert('暂停成功，请重新选择策略。')
-		})
-		.error(function(data){
-			Showbo.Msg.alert('暂停失败，请稍后再试。')
-		});
-	}
-	$scope.delStrategy=function(){
-		if(!$scope.selectedStrategy){
-			Showbo.Msg.alert('请选择策略。');
-			return
-		}
-		var url=$scope.selectedStrategy.name;
-		$http.delete(constantUrl+"strategys/"+url+'/',{
-			headers:{'Authorization':'token '+$cookieStore.get('user').token}
-		})
-		.success(function(){
-			$scope.items=null;
-			$scope.selectedStrategy=null;
-			getStrategy();
-			Showbo.Msg.alert('删除成功。')
-		})
-		.error(function(data){
-			Showbo.Msg.alert('删除失败，请稍后再试。')
-		});
-	}
-	$scope.openMask=function(){
-		$('.sourcing-mask').fadeIn();
-	};
-	$scope.addStrategy=function(){
-		var file = $scope.code;
-		var files=$scope.files;
-		var formdata = new FormData();
-		formdata.append('code', file);
-		formdata.append('name', $scope.item.name);
-		formdata.append('class', $scope.item.class);
-		formdata.append('author', $scope.item.author);
-		formdata.append('symbol', $scope.item.symbol);
-		if (($scope.files!=undefined)&&($scope.files!=null)) {
-			formdata.append('file',files);
-		}
-		//console.log($scope.item);
-        $http.post(constantUrl+"strategys/",formdata,{
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined,
-	            	'Authorization':'token '+$cookieStore.get('user').token	
-	        	}
-        	})
-        .success(function(data){
-        	$('.zijin-beta-mask').fadeOut();
-			getStrategy();
-			Showbo.Msg.alert('添加成功。');
-        })
-        .error(function(err,st){
-        	//console.log(err);
-        	//console.log(st);
-        	Showbo.Msg.alert('添加失败，请稍后再试。');
-        })
-	}
-	$scope.closeMask=function(){
-		
-		$('.zijin-beta-mask').fadeOut();
-	}
-}])*/
 .controller('tableController',['$scope','strategyResources','strategyResource','$http','$timeout','$cookieStore','constantUrl','strategysValue','myStrategysValue','$filter',function($scope,strategyResourcess,strategyResource,$http,$timeout,$cookieStore,constantUrl,strategysValue,myStrategysValue,$filter){
 	$scope.func=function(e){
 		return e["status"]!=-3;
@@ -925,7 +787,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			});
 			amount=tradeItem.length;
 			$scope.analyseDataArr=tradeItem;
-			$scope.annualized_return=parseFloat((Math.pow((1+total/100/amount),252/amount)-1)*100).toFixed(2);
+			/*$scope.annualized_return=parseFloat((Math.pow((1+total/100/amount),252/amount)-1)*100).toFixed(2);*/
+			$scope.annualized_return=((allTotalyeild/amount*250)).toFixed(2);
 			$scope.average_winrate=parseFloat(totalWinrate/amount).toFixed(2);
 			$scope.average_profit=parseFloat(prof/loss).toFixed(2);
 			$scope.rate1=parseFloat(totalRate1/amount).toFixed(2);
@@ -1271,7 +1134,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			return defer2.promise;
 		};
 		getHisTime().then(function(data){
-			var chartData1=data;
+			var chartData11=data;
 			//console.log(data);
 			getHisTransTime().then(function(data){
 				var	chartJsonData=data;
@@ -1281,7 +1144,17 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					'time':$scope.myFirmStartDate+' 至 '+$scope.myFirmEndDate
 				};
 				draws1();
+
 				function  draws1(){
+					var chartData1=[];
+					angular.forEach(chartData11,function(data,index){
+						var hour=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(11,13));
+						var minute=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(14,16));
+						if (hour<9||hour>15||(hour==15&&minute>30)) {
+						}else{
+							this.push(data);
+						};
+					},chartData1);
 					/*$('#return_mapping_1').css('display','block').siblings().css('display','none');*/
 					var chartJsonDataArr=[];
 					var chartArr=[];
@@ -1574,8 +1447,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						$scope.allTotalTime = $scope.newTotalTime(allTotalTime1);//alltotaltime是总持仓时间
 						$scope.averTotalTime = $scope.newTotalTime(allTotalTime1/amount);//averTotalTime是平均持仓时间
 						totalpal=totalpal+Number(data["Earn"]);
-						/*allTotalpal=allTotalpal+Number(data["Earn"]);*/
-						allTotalpal+=data['closeprice']-data['openprice'];//总盈亏
+						allTotalpal=allTotalpal+Number(data["Earn"]);
 						/*console.log(data["Earn"]);*/
 						if (data['direction']>0) {
 							direction='看多';
@@ -1624,8 +1496,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						total=total+Number(data["Earn"])*100/data['openprice'];
 						totalRate1=totalRate1+parseFloat(Number(data["Earn"])*100/data['openprice']-0.0492);
 						totalRate4.push(yeildAbs);
-						//allTotalyeild=allTotalyeild+Number((Number(data["Earn"])*100/data['openprice']));
-						allTotalyeild+=((data['closeprice']-data['openprice'])/data['openprice']);//总收益率
+						allTotalyeild=allTotalyeild+Number((Number(data["Earn"])*100/data['openprice']));
+						//allTotalyeild+=((data['closeprice']-data['openprice'])/data['openprice']);//总收益率
 					});
 					var allYelidArrPow=0;
 					var maxBack=0;//最大回撤率
@@ -1655,7 +1527,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					/*$scope.allTotalyeild=Number(allTotalyeild.toFixed(2));*/
 					$scope.allTotalyeild=allTotalyeild.toFixed(4);
 					$scope.averTotalyeild=Number((allTotalyeild/amount).toFixed(4));
-					$scope.annualized_return=((allTotalyeild/amount*250)*100).toFixed(2);
+					$scope.annualized_return=((allTotalyeild/amount*250)).toFixed(2);
 					$scope.errorYeild=((((allTotalyeild/amount*250)*100)-4.67)/$scope.rate2).toFixed(2);//跟踪误差年化波动率
 					Highcharts.setOptions({
 						global: {
@@ -2142,7 +2014,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			});
 			amount=tradeItem.length;
 			$scope.analyseDataArr=tradeItem;
-			$scope.annualized_return=parseFloat((Math.pow((1+total/100/amount),252/amount)-1)*100).toFixed(2);
+			$scope.annualized_return=(allTotalyeild/amount*250).toFixed(2);
 			$scope.average_winrate=parseFloat(totalWinrate/amount).toFixed(2);
 			$scope.average_profit=parseFloat(prof/loss).toFixed(2);
 			$scope.rate1=parseFloat(totalRate1/amount).toFixed(2);
@@ -2803,8 +2675,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						$scope.allTotalTime = $scope.newTotalTime(allTotalTime1);//alltotaltime是总持仓时间
 						$scope.averTotalTime = $scope.newTotalTime(allTotalTime1/amount);//averTotalTime是平均持仓时间
 						totalpal=totalpal+Number(data["Earn"]);
-						/*allTotalpal=allTotalpal+Number(data["Earn"]);*/
-						allTotalpal+=data['closeprice']-data['openprice'];//总盈亏
+						allTotalpal=allTotalpal+Number(data["Earn"]);
 						/*console.log(data["Earn"]);*/
 						if (data['direction']>0) {
 							direction='看多';
@@ -2853,8 +2724,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						total=total+Number(data["Earn"])*100/data['openprice'];
 						totalRate1=totalRate1+parseFloat(Number(data["Earn"])*100/data['openprice']-0.0492);
 						totalRate4.push(yeildAbs);
-						//allTotalyeild=allTotalyeild+Number((Number(data["Earn"])*100/data['openprice']));
-						allTotalyeild+=((data['closeprice']-data['openprice'])/data['openprice']);//总收益率
+						allTotalyeild=allTotalyeild+Number((Number(data["Earn"])*100/data['openprice']));
+						//allTotalyeild+=((data['closeprice']-data['openprice'])/data['openprice']);//总收益率
 					});
 					var allYelidArrPow=0;
 					var maxBack=0;//最大回撤率
@@ -2884,7 +2755,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					/*$scope.allTotalyeild=Number(allTotalyeild.toFixed(2));*/
 					$scope.allTotalyeild=allTotalyeild.toFixed(4);
 					$scope.averTotalyeild=Number((allTotalyeild/amount).toFixed(4));
-					$scope.annualized_return=((allTotalyeild/amount*250)*100).toFixed(2);
+					$scope.annualized_return=(allTotalyeild/amount*250).toFixed(2);
 					$scope.errorYeild=((((allTotalyeild/amount*250)*100)-4.67)/$scope.rate2).toFixed(2);//跟踪误差年化波动率
 					Highcharts.setOptions({
 						global: {
@@ -3272,7 +3143,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	
 	
 }])
-.controller('complieController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','$route','$timeout',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,$route,$timeout){
+.controller('complieController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','$route','$timeout','$q','$interval','$filter',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,$route,$timeout,$q,$interval,$filter){
+	$scope.fate=0;
 	var editor;
 	var myClassId;
 	$scope.code="# encoding: UTF-8\n"
@@ -3520,7 +3392,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	}); 
 	$scope.openMask=function(){
 		if (!myClassId) {
-			Showbo.Msg.alert('先保存策略，并修改策略名（即策略类名）');
+			Showbo.Msg.alert('先修改策略名（即策略类名），并保存策略。');
 			return;
 		}
 		$('.complie-mask').fadeIn();
@@ -3600,8 +3472,538 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	    		.success(function(data){
 	    			
 	    			console.log(data);
-	    			if(data.status=='-2'){
+	    			if(data.status=='-2'||data.status==2){
 	    				$interval.cancel(mypromise);
+	    			};
+	    			if(data.status==2){
+	    				data.logs.push('push策略完成');
+	    				$http.get(constantUrl+'dates/',{
+							params:{
+								"date_type":'transaction',
+								"sty_id":id
+							},
+							headers:{'Authorization':'token '+$cookieStore.get('user').token}	
+						})
+						.success(function(data){
+							console.log(data);
+							if(data!=null){
+								var mydate=$filter('date')(new Date((new Date(data[data.length-1])).setDate((new Date(data[data.length-1])).getDate()+1)),'yyyy-MM-dd');
+							    $scope.getHisTime=function(){
+									var defer1=$q.defer();
+									$http.get(constantUrl+'transactions/',{
+										params:{
+											"sty_id":id,
+											"start":data[0],
+											"end":mydate
+										},
+										headers:{'Authorization':'token '+$cookieStore.get('user').token}
+									})
+									.success(function(data){
+										defer1.resolve(data);
+									})
+									.error(function(err,sta){
+										defer1.reject(err);
+									});
+									return defer1.promise;
+								};
+								$scope.getHisTransTime=function(){
+									var defer2=$q.defer();
+									$http.get(constantUrl+'datas/',{
+										params:{
+											"type":'bar',
+											"start":data[0],
+											"end":mydate
+										},
+										headers:{'Authorization':'token '+$cookieStore.get('user').token}
+									})
+									.success(function(data){
+										defer2.resolve(data);
+									})
+									.error(function(err,sta){
+										defer2.reject(err);
+									});
+									return defer2.promise;
+								};
+								$scope.getHisTime().then(function(data){
+									var chartData11=data;
+									console.log(data);
+									$scope.getHisTransTime().then(function(data){
+										
+										var	chartJsonData=data;
+										draws1();
+										function  draws1(){
+											var chartData1=[];
+											angular.forEach(chartData11,function(data,index){
+												var hour=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(11,13));
+												var minute=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(14,16));
+												if (hour<9||hour>15||(hour==15&&minute>30)) {
+												}else{
+													this.push(data);
+												};
+											},chartData1);
+											var chartJsonDataArr=[];
+											var chartArr=[];
+											var indexShortArr=[];
+											var indexBuyArr=[];
+											var buySellNum=0;
+											var buyYArr=[];
+											var shortYArr=[];
+											angular.forEach(chartData1,function(data,index){
+												if (index==0&&((data.trans_type=="cover")||(data.trans_type=="sell")))
+													return;
+												if (index==chartData1.length-1) return;
+												if ((data.trans_type=="cover")||(data.trans_type=="sell")) return;
+												if (data.trans_type=="short") {
+													
+													outer:
+													for(var i=0;i<chartData1.length;i++){
+														if (chartData1[i].trans_type=="cover") {
+															if (indexShortArr.length!=0) {
+																inter:
+																for(var j=0;j<indexShortArr.length;j++){
+																	if (indexShortArr[j]==i) {
+																		break inter;
+																	}else if((j==indexShortArr.length-1)&&(indexShortArr[j]!=i)){
+																		buySellNum++;
+																		buyYArr.push({
+																			"short":"short",
+																			"text":'时间：'+$filter('date')(data.datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+data.price+'<br>成交量：'+data.volume,
+																			"volume":data.volume,
+																			"pos":data.pos,
+																			"price":data.price,
+																			"x":data.datetime,
+																			"name":data.name,
+																			"symbol":data.symbol,
+																			"title":data.trans_type+' '+buySellNum
+																		});
+																		chartArr.push({
+
+																			"x":chartData1[i].datetime,
+																			"y":Number((data.price-chartData1[i].price).toFixed(2)),
+																			"volume":data.volume,
+																			"direction":data.pos,
+																			"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+																			"openprice":data.price,
+																			"closeprice":chartData1[i].price,
+																			"opentime":data.datetime,
+																			"closetime":chartData1[i].datetime,
+																			"present":chartData1[i].price,
+																			"name":data.name,
+																			"symbol":data.symbol
+																		});
+
+																		buyYArr.push({
+																			"short":"short",
+																			"text":'时间：'+$filter('date')(chartData1[i].datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+chartData1[i].price
+																			+'<br>成交量：'+chartData1[i].volume,
+																			"volume":chartData1[i].volume,
+																			"pos":chartData1[i].pos,
+																			"price":chartData1[i].price,
+																			"x":chartData1[i].datetime,
+																			"name":chartData1[i].name,
+																			"symbol":chartData1[i].symbol,
+																			"title":chartData1[i].trans_type+' '+buySellNum
+																		});
+																		indexShortArr.push(i);
+																		break outer;
+																	};
+																};
+															}else{
+																buySellNum++;
+																buyYArr.push({
+																	"short":"short",
+																	"text":'时间：'+$filter('date')(data.datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+data.price+'<br>成交量：'+data.volume,
+																	"volume":data.volume,
+																	"pos":data.pos,
+																	"price":data.price,
+																	"x":data.datetime,
+																	"name":data.name,
+																	"symbol":data.symbol,
+																	"title":data.trans_type+' '+buySellNum
+																});
+																chartArr.push({
+
+																	"x":chartData1[i].datetime,
+																	"y":Number((data.price-chartData1[i].price).toFixed(2)),
+																	"volume":data.volume,
+																	"direction":-1,
+																	"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+																	"openprice":data.price,
+																	"closeprice":chartData1[i].price,
+																	"opentime":data.datetime,
+																	"closetime":chartData1[i].datetime,
+																	"present":chartData1[i].price,
+																	"name":data.name,
+																	"symbol":data.symbol
+																});
+																buyYArr.push({
+																	"short":"short",
+																	"text":'时间：'+$filter('date')(chartData1[i].datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+chartData1[i].price+'<br>成交量：'+chartData1[i].volume,
+																	"volume":chartData1[i].volume,
+																	"pos":chartData1[i].pos,
+																	"price":chartData1[i].price,
+																	"x":chartData1[i].datetime,
+																	"name":chartData1[i].name,
+																	"symbol":chartData1[i].symbol,
+																	"title":chartData1[i].trans_type+' '+buySellNum
+																});
+																indexShortArr.push(i);
+																break outer;
+															};
+														};
+													};
+												};
+												if (data.trans_type=="buy") {
+													
+													outer1:
+													for(var i=0;i<chartData1.length;i++){
+														if (chartData1[i].trans_type=="sell") {
+															if (indexShortArr.length!=0) {
+																inter1:
+																for(var j=0;j<indexShortArr.length;j++){
+																	if (indexShortArr[j]==i) {
+																		break inter1;
+																	}else if((j==indexShortArr.length-1)&&(indexShortArr[j]!=i)){
+																		buySellNum++;
+																		shortYArr.push({
+																			"buy":'buy',
+																			"text":'时间：'+$filter('date')(data.datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+data.price+'<br>成交量：'+data.volume,
+																			"volume":data.volume,
+																			"pos":data.pos,
+																			"price":data.price,
+																			"x":data.datetime,
+																			"name":data.name,
+																			"symbol":data.symbol,
+																			"title":data.trans_type+' '+buySellNum
+																		});
+																		chartArr.push({
+
+																			"x":chartData1[i].datetime,
+																			"y":Number((chartData1[i].price-data.price).toFixed(2)),
+																			"volume":data.volume,
+																			"direction":1,
+																			"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+																			"openprice":data.price,
+																			"closeprice":chartData1[i].price,
+																			"opentime":data.datetime,
+																			"closetime":chartData1[i].datetime,
+																			"present":chartData1[i].price,
+																			"name":data.name,
+																			"symbol":data.symbol
+																		});
+																		shortYArr.push({
+																			"buy":'buy',
+																			"text":'时间：'+$filter('date')(chartData1[i].datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+chartData1[i].price+'<br>成交量：'+chartData1[i].volume,
+																			"volume":chartData1[i].volume,
+																			"pos":chartData1[i].pos,
+																			"price":chartData1[i].price,
+																			"x":chartData1[i].datetime,
+																			"name":chartData1[i].name,
+																			"symbol":chartData1[i].symbol,
+																			"title":chartData1[i].trans_type+' '+buySellNum
+																		});
+																		indexShortArr.push(i);
+																		break outer1;
+																	};
+																};
+															}else{
+																buySellNum++;
+																shortYArr.push({
+																	"buy":'buy',
+																	"text":'时间：'+$filter('date')(data.datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+data.price+'<br>成交量：'+data.volume,
+																	"volume":data.volume,
+																	"pos":data.pos,
+																	"price":data.price,
+																	"x":data.datetime,
+																	"name":data.name,
+																	"symbol":data.symbol,
+																	"title":data.trans_type+' '+buySellNum
+																});
+																chartArr.push({
+
+																	"x":chartData1[i].datetime,
+																	"y":Number((chartData1[i].price-data.price).toFixed(2)),
+																	"volume":data.volume,
+																	"direction":data.pos,
+																	"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+																	"openprice":data.price,
+																	"closeprice":chartData1[i].price,
+																	"opentime":data.datetime,
+																	"closetime":chartData1[i].datetime,
+																	"present":chartData1[i].price,
+																	"name":data.name,
+																	"symbol":data.symbol
+																});
+																shortYArr.push({
+																	"buy":'buy',
+																	"text":'时间：'+$filter('date')(chartData1[i].datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+chartData1[i].price+'<br>成交量：'+chartData1[i].volume,
+																	"volume":chartData1[i].volume,
+																	"pos":chartData1[i].pos,
+																	"price":chartData1[i].price,
+																	"x":chartData1[i].datetime,
+																	"name":chartData1[i].name,
+																	"symbol":chartData1[i].symbol,
+																	"title":chartData1[i].trans_type+' '+buySellNum
+																});
+																indexShortArr.push(i);
+																break outer1;
+															};
+														};
+													};
+												};
+											});
+											
+											shortYArr=$filter('orderBy')(shortYArr,'x');
+											buyYArr=$filter('orderBy')(buyYArr,'x');
+											chartArr=$filter('orderBy')(chartArr,'x');
+											var wealth = [];
+											var buy = [];
+											var tradeItem=[];
+											var direction;
+											var amount=0;
+											var total=0;
+											var winrate;
+											var totalWinrate=0;
+											var totalProfit=0;
+											var totalRate1=0;
+											var totalRate2=0;
+											var totalRate3=0;
+											var totalRate4=[];
+											var yeildAbs;
+											var totalpal=0;
+											var allTotalpal=0;
+											var allTotalyeild=0;
+											var allTotalTime=0;//总持仓时间r
+											var averTotalTime=0;//平均持仓时间
+											var errorYeild=0;//跟踪误差年化波动率
+											var prof=0;
+											var loss=0; 
+											var yeildArrs=[];
+
+											var delNum=[];
+											angular.forEach(chartArr,function(data,index){
+												if (data['openprice']==0||data['closeprice']==0) {
+													delNum.push(index);
+												};
+											});
+											angular.forEach(delNum,function(data,index){
+												chartArr.splice(data,1);
+											});
+											Highcharts.setOptions({
+												global: {
+												  useUTC: false
+												}
+											});
+											
+											angular.forEach(chartJsonData,function(data,index){
+												chartJsonDataArr.push({
+													"x":data.datetime,
+													"y":data.close,
+													'low':data.low,
+													'high':data.high,
+													'close':data.close,
+													'open':data.open,
+													'volume':data.volume
+												});
+											});
+											chartJsonDataArr=$filter('orderBy')(chartJsonDataArr,'x');
+											$('#complie-highcharts').highcharts('StockChart', {
+												credits: {
+									        		enabled: false
+									    		},
+												exporting:{
+													enabled:false
+												},
+												plotOptions:{
+													series:{
+														turboThreshold:0
+													}
+												},
+												/*tooltip : {
+													shared : true,
+													useHTML : true,
+													valueDecimals : 2 ,
+													backgroundColor: 'white',
+										            borderWidth: 0,
+										            borderRadius: 0,
+										            formatter : function() {
+										            	
+										            	var s;
+										            	if(this.points[0].point.high){
+										            		$scope.highstockAnalysetime=$filter('date')(this.x,'yyyy-MM-dd H:mm:ss');
+										            		$scope.highstockAnalysehigh=$filter('number')(this.points[0].point.high,2);
+										            		$scope.highstockAnalyselow=$filter('number')(this.points[0].point.low,2);
+										            		$scope.highstockAnalyseopen=$filter('number')(this.points[0].point.open,2);
+										            		$scope.highstockAnalyseclose=$filter('number')(this.points[0].point.close,2);
+										            		$scope.$apply();
+										            	}
+										            	if(this.points[0].point.direction&&this.point.text){
+										            		s=this.point.text;
+										            	}else if(this.points[0].point.direction&&!this.point){
+										            		var dir=(this.points[0].point.direction>0)?'看多':'看空';
+										            		s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
+															s+= '<br />volume：<b class="red">'
+															+Highcharts.numberFormat(this.points[0].point.volume,2)
+															+'</b><br />Earn：<b class="font-black">￥'
+															+Highcharts.numberFormat(this.points[0].point.Earn,2)
+															+ '</b><br />openprice：<b class="font-black">￥'
+															+Highcharts.numberFormat(this.points[0].point.openprice,2)
+															+ '</b><br />closeprice<b class="font-black">￥'
+															+Highcharts.numberFormat(this.points[0].point.closeprice,2)
+															+ '</b><br />direction：<b class="font-black">'
+															+dir;
+										            	}
+										            	return s;*/
+														/*var s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
+														s += '<br />high：<b class="red">￥'
+														+Highcharts.numberFormat(this.points[0].point.high,2)
+														+'</b>&nbsp;&nbsp;|&nbsp;&nbsp;low：<b class="blue">￥'
+														+Highcharts.numberFormat(this.points[0].point.low,2)
+														+ '</b>&nbsp;&nbsp;|&nbsp;&nbsp;close：<b class="green">￥'
+														+Highcharts.numberFormat(this.points[0].point.close,2)
+														+ '</b>&nbsp;&nbsp;|&nbsp;&nbsp;open：<b class="font-black">￥'
+														+Highcharts.numberFormat(this.points[0].point.open,2)
+														+ '</b>&nbsp;&nbsp;|&nbsp;&nbsp;volume：<b class="orange">'
+														+Highcharts.numberFormat(this.points[0].point.volume,2)+'笔';
+														return s;
+													},	
+										            positioner: function () {
+										                return { x: 0, y: 20 };
+										            },
+										            shadow: false
+												},*/
+												tooltip:{
+													useHTML:true,
+													xDateFormat:"%Y-%m-%d %H:%M:%S",
+													valueDecimals:2
+												},
+												legend: {
+													enabled:true,
+													align: 'right',
+													verticalAlign: 'top',
+													x: 0,
+													y: 0
+												},
+												rangeSelector: {
+													  buttons: [  
+													 {
+														  type: 'minute',
+														  count: 10,
+														  text: '10m'
+													  },  {
+														  type: 'minute',
+														  count: 30,
+														  text: '30m'
+													  },{
+														  type: 'hour',
+														  count: 1,
+														  text: '1h'
+													  }, {
+														  type: 'day',
+														  count: 1,
+														  text: '1d'
+													  },{
+														  type: 'week',
+														  count: 1,
+														  text: '1w'
+													  },{
+														  type: 'all',
+														  text: '所有'
+													  }],
+													  selected: 5,
+													  buttonSpacing:2
+
+												},
+												yAxis: [{
+													labels: {
+														align: 'right',
+														x: -3
+													},
+													title: {
+														text: '股价'
+													},
+													lineWidth: 1,
+													height:'60%'
+													},{
+													labels:{
+														align:'right',
+														x:-3
+													},
+													title:{
+														text:'盈亏'
+													},
+													opposite:true,
+													offset:0,
+													height:'35%',
+													top:'65%'
+												}],
+												series: [{
+													type: 'line',
+													name: '股价',
+													data: chartJsonDataArr,
+													lineWidth:2,
+													id: 'dataseries'
+													},{
+													type: 'flags',
+													data: shortYArr,
+													onSeries:"dataseries",
+													shape:'squarepin',
+													width:36,
+													color:"#4169e1",
+													fillColor:'transparent',
+													style:{
+														color:'#333'
+													},
+													y:-40,
+													name:'看多',
+												},{
+													type: 'flags',
+													data: buyYArr,
+													onSeries:"dataseries",
+													shape:'squarepin',
+													width:36,
+													color:'#ff9912',
+													fillColor:'transparent',
+													style:{
+														color:'#333'
+													},
+													y:20,
+													name:'看空',
+												},{
+													type:'column',
+													data:chartArr,
+													name:'盈亏',
+													/*lineWidth:2,*/
+													yAxis:1,
+													threshold:0,
+													negativeColor:'green',
+													color:'red'
+													/*color:'#e3170d',*/
+													/*marker:{
+														enabled:true,
+														symbol:'circle',
+														fillColor:'#0b1746',
+														radius:5
+													}*/
+												}]
+											});
+										};
+									});
+								},function(err,sta){
+									Showbo.Msg.alert('没有交易数据');
+								});
+							};
+						})
+						.error(function(err,sta){
+							if (sta==400) {
+								Showbo.Msg.alert('没有交易数据');
+							};
+						});	
+		    				
+
+
+
+
 	    			};
 	    			$scope.logs=data.logs;
 	    			$scope.errors=data.error;
@@ -3609,19 +4011,40 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	    		.error(function(err){
 	    			console.log(err);
 	    		});
-	    	},2000);
+	    	},500);
 	    },function(err){
 	    	Showbo.Msg.alert(err.error);
 	    	$('.complie-mask').fadeOut();
 	    });  
 	};
+	$scope.$watch('name',function(nv,ov){
+		if (nv!='新策略') {
+			$('.zijin-complie-head  img').hide()
+		};
+	});
 	$scope.addNew=function(){
-		if ($scope.name='新策略') {
-			Showbo.Msg.alert('请修改策略名');
-		}
-	}
+		if ($scope.name=='新策略') {
+			Showbo.Msg.alert('请修改策略名(即策略类名)');
+			return;
+		};
+		var postInfo='class_name='+encodeURIComponent($scope.name)+'&code='+encodeURIComponent(editor.getValue());
+        $http.post(constantUrl+"classs/",postInfo,{
+            headers: {
+            	'Content-Type':  'application/x-www-form-urlencoded',
+            	'Authorization':'token '+$cookieStore.get('user').token	
+	        }
+        })
+        .success(function(data){
+			Showbo.Msg.alert('添加成功,可以运行回测。');
+			myClassId=data._id;
+        })
+        .error(function(err,st){
+        	Showbo.Msg.alert(err.error);
+        });
+	};
 }])
-.controller('complieItemController',['$scope','$rootScope','$http','$location','$cookieStore','constantUrl','$routeParams','$interval','$q',function($scope,$rootScope,$http,$location,$cookieStore,constantUrl,$routeParams,$interval,$q){
+.controller('complieItemController',['$scope','$rootScope','$http','$location','$cookieStore','constantUrl','$routeParams','$interval','$q','$filter',function($scope,$rootScope,$http,$location,$cookieStore,constantUrl,$routeParams,$interval,$q,$filter){
+	$scope.fate=1;
 	var editor;
 	var myClassId=$routeParams.id;
 	$scope.$watch('$viewContentLoaded', function() {  
@@ -3724,8 +4147,538 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	    		.success(function(data){
 	    			
 	    			console.log(data);
-	    			if(data.status=='-2'){
+	    			if(data.status=='-2'||data.status==2){
 	    				$interval.cancel(mypromise);
+	    			};
+	    			if(data.status==2){
+	    				data.logs.push('push策略完成');
+	    				$http.get(constantUrl+'dates/',{
+							params:{
+								"date_type":'transaction',
+								"sty_id":id
+							},
+							headers:{'Authorization':'token '+$cookieStore.get('user').token}	
+						})
+						.success(function(data){
+							console.log(data);
+							if(data!=null){
+								var mydate=$filter('date')(new Date((new Date(data[data.length-1])).setDate((new Date(data[data.length-1])).getDate()+1)),'yyyy-MM-dd');
+							    $scope.getHisTime=function(){
+									var defer1=$q.defer();
+									$http.get(constantUrl+'transactions/',{
+										params:{
+											"sty_id":id,
+											"start":data[0],
+											"end":mydate
+										},
+										headers:{'Authorization':'token '+$cookieStore.get('user').token}
+									})
+									.success(function(data){
+										defer1.resolve(data);
+									})
+									.error(function(err,sta){
+										defer1.reject(err);
+									});
+									return defer1.promise;
+								};
+								$scope.getHisTransTime=function(){
+									var defer2=$q.defer();
+									$http.get(constantUrl+'datas/',{
+										params:{
+											"type":'bar',
+											"start":data[0],
+											"end":mydate
+										},
+										headers:{'Authorization':'token '+$cookieStore.get('user').token}
+									})
+									.success(function(data){
+										defer2.resolve(data);
+									})
+									.error(function(err,sta){
+										defer2.reject(err);
+									});
+									return defer2.promise;
+								};
+								$scope.getHisTime().then(function(data){
+									var chartData11=data;
+									console.log(data);
+									$scope.getHisTransTime().then(function(data){
+										
+										var	chartJsonData=data;
+										draws1();
+										function  draws1(){
+											var chartData1=[];
+											angular.forEach(chartData11,function(data,index){
+												var hour=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(11,13));
+												var minute=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(14,16));
+												if (hour<9||hour>15||(hour==15&&minute>30)) {
+												}else{
+													this.push(data);
+												};
+											},chartData1);
+											var chartJsonDataArr=[];
+											var chartArr=[];
+											var indexShortArr=[];
+											var indexBuyArr=[];
+											var buySellNum=0;
+											var buyYArr=[];
+											var shortYArr=[];
+											angular.forEach(chartData1,function(data,index){
+												if (index==0&&((data.trans_type=="cover")||(data.trans_type=="sell")))
+													return;
+												if (index==chartData1.length-1) return;
+												if ((data.trans_type=="cover")||(data.trans_type=="sell")) return;
+												if (data.trans_type=="short") {
+													
+													outer:
+													for(var i=0;i<chartData1.length;i++){
+														if (chartData1[i].trans_type=="cover") {
+															if (indexShortArr.length!=0) {
+																inter:
+																for(var j=0;j<indexShortArr.length;j++){
+																	if (indexShortArr[j]==i) {
+																		break inter;
+																	}else if((j==indexShortArr.length-1)&&(indexShortArr[j]!=i)){
+																		buySellNum++;
+																		buyYArr.push({
+																			"short":"short",
+																			"text":'时间：'+$filter('date')(data.datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+data.price+'<br>成交量：'+data.volume,
+																			"volume":data.volume,
+																			"pos":data.pos,
+																			"price":data.price,
+																			"x":data.datetime,
+																			"name":data.name,
+																			"symbol":data.symbol,
+																			"title":data.trans_type+' '+buySellNum
+																		});
+																		chartArr.push({
+
+																			"x":chartData1[i].datetime,
+																			"y":Number((data.price-chartData1[i].price).toFixed(2)),
+																			"volume":data.volume,
+																			"direction":data.pos,
+																			"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+																			"openprice":data.price,
+																			"closeprice":chartData1[i].price,
+																			"opentime":data.datetime,
+																			"closetime":chartData1[i].datetime,
+																			"present":chartData1[i].price,
+																			"name":data.name,
+																			"symbol":data.symbol
+																		});
+
+																		buyYArr.push({
+																			"short":"short",
+																			"text":'时间：'+$filter('date')(chartData1[i].datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+chartData1[i].price
+																			+'<br>成交量：'+chartData1[i].volume,
+																			"volume":chartData1[i].volume,
+																			"pos":chartData1[i].pos,
+																			"price":chartData1[i].price,
+																			"x":chartData1[i].datetime,
+																			"name":chartData1[i].name,
+																			"symbol":chartData1[i].symbol,
+																			"title":chartData1[i].trans_type+' '+buySellNum
+																		});
+																		indexShortArr.push(i);
+																		break outer;
+																	};
+																};
+															}else{
+																buySellNum++;
+																buyYArr.push({
+																	"short":"short",
+																	"text":'时间：'+$filter('date')(data.datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+data.price+'<br>成交量：'+data.volume,
+																	"volume":data.volume,
+																	"pos":data.pos,
+																	"price":data.price,
+																	"x":data.datetime,
+																	"name":data.name,
+																	"symbol":data.symbol,
+																	"title":data.trans_type+' '+buySellNum
+																});
+																chartArr.push({
+
+																	"x":chartData1[i].datetime,
+																	"y":Number((data.price-chartData1[i].price).toFixed(2)),
+																	"volume":data.volume,
+																	"direction":-1,
+																	"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+																	"openprice":data.price,
+																	"closeprice":chartData1[i].price,
+																	"opentime":data.datetime,
+																	"closetime":chartData1[i].datetime,
+																	"present":chartData1[i].price,
+																	"name":data.name,
+																	"symbol":data.symbol
+																});
+																buyYArr.push({
+																	"short":"short",
+																	"text":'时间：'+$filter('date')(chartData1[i].datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+chartData1[i].price+'<br>成交量：'+chartData1[i].volume,
+																	"volume":chartData1[i].volume,
+																	"pos":chartData1[i].pos,
+																	"price":chartData1[i].price,
+																	"x":chartData1[i].datetime,
+																	"name":chartData1[i].name,
+																	"symbol":chartData1[i].symbol,
+																	"title":chartData1[i].trans_type+' '+buySellNum
+																});
+																indexShortArr.push(i);
+																break outer;
+															};
+														};
+													};
+												};
+												if (data.trans_type=="buy") {
+													
+													outer1:
+													for(var i=0;i<chartData1.length;i++){
+														if (chartData1[i].trans_type=="sell") {
+															if (indexShortArr.length!=0) {
+																inter1:
+																for(var j=0;j<indexShortArr.length;j++){
+																	if (indexShortArr[j]==i) {
+																		break inter1;
+																	}else if((j==indexShortArr.length-1)&&(indexShortArr[j]!=i)){
+																		buySellNum++;
+																		shortYArr.push({
+																			"buy":'buy',
+																			"text":'时间：'+$filter('date')(data.datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+data.price+'<br>成交量：'+data.volume,
+																			"volume":data.volume,
+																			"pos":data.pos,
+																			"price":data.price,
+																			"x":data.datetime,
+																			"name":data.name,
+																			"symbol":data.symbol,
+																			"title":data.trans_type+' '+buySellNum
+																		});
+																		chartArr.push({
+
+																			"x":chartData1[i].datetime,
+																			"y":Number((chartData1[i].price-data.price).toFixed(2)),
+																			"volume":data.volume,
+																			"direction":1,
+																			"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+																			"openprice":data.price,
+																			"closeprice":chartData1[i].price,
+																			"opentime":data.datetime,
+																			"closetime":chartData1[i].datetime,
+																			"present":chartData1[i].price,
+																			"name":data.name,
+																			"symbol":data.symbol
+																		});
+																		shortYArr.push({
+																			"buy":'buy',
+																			"text":'时间：'+$filter('date')(chartData1[i].datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+chartData1[i].price+'<br>成交量：'+chartData1[i].volume,
+																			"volume":chartData1[i].volume,
+																			"pos":chartData1[i].pos,
+																			"price":chartData1[i].price,
+																			"x":chartData1[i].datetime,
+																			"name":chartData1[i].name,
+																			"symbol":chartData1[i].symbol,
+																			"title":chartData1[i].trans_type+' '+buySellNum
+																		});
+																		indexShortArr.push(i);
+																		break outer1;
+																	};
+																};
+															}else{
+																buySellNum++;
+																shortYArr.push({
+																	"buy":'buy',
+																	"text":'时间：'+$filter('date')(data.datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+data.price+'<br>成交量：'+data.volume,
+																	"volume":data.volume,
+																	"pos":data.pos,
+																	"price":data.price,
+																	"x":data.datetime,
+																	"name":data.name,
+																	"symbol":data.symbol,
+																	"title":data.trans_type+' '+buySellNum
+																});
+																chartArr.push({
+
+																	"x":chartData1[i].datetime,
+																	"y":Number((chartData1[i].price-data.price).toFixed(2)),
+																	"volume":data.volume,
+																	"direction":data.pos,
+																	"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+																	"openprice":data.price,
+																	"closeprice":chartData1[i].price,
+																	"opentime":data.datetime,
+																	"closetime":chartData1[i].datetime,
+																	"present":chartData1[i].price,
+																	"name":data.name,
+																	"symbol":data.symbol
+																});
+																shortYArr.push({
+																	"buy":'buy',
+																	"text":'时间：'+$filter('date')(chartData1[i].datetime,'yyyy-MM-dd H:mm:ss')+'<br>成交价：￥'+chartData1[i].price+'<br>成交量：'+chartData1[i].volume,
+																	"volume":chartData1[i].volume,
+																	"pos":chartData1[i].pos,
+																	"price":chartData1[i].price,
+																	"x":chartData1[i].datetime,
+																	"name":chartData1[i].name,
+																	"symbol":chartData1[i].symbol,
+																	"title":chartData1[i].trans_type+' '+buySellNum
+																});
+																indexShortArr.push(i);
+																break outer1;
+															};
+														};
+													};
+												};
+											});
+											
+											shortYArr=$filter('orderBy')(shortYArr,'x');
+											buyYArr=$filter('orderBy')(buyYArr,'x');
+											chartArr=$filter('orderBy')(chartArr,'x');
+											var wealth = [];
+											var buy = [];
+											var tradeItem=[];
+											var direction;
+											var amount=0;
+											var total=0;
+											var winrate;
+											var totalWinrate=0;
+											var totalProfit=0;
+											var totalRate1=0;
+											var totalRate2=0;
+											var totalRate3=0;
+											var totalRate4=[];
+											var yeildAbs;
+											var totalpal=0;
+											var allTotalpal=0;
+											var allTotalyeild=0;
+											var allTotalTime=0;//总持仓时间r
+											var averTotalTime=0;//平均持仓时间
+											var errorYeild=0;//跟踪误差年化波动率
+											var prof=0;
+											var loss=0; 
+											var yeildArrs=[];
+
+											var delNum=[];
+											angular.forEach(chartArr,function(data,index){
+												if (data['openprice']==0||data['closeprice']==0) {
+													delNum.push(index);
+												};
+											});
+											angular.forEach(delNum,function(data,index){
+												chartArr.splice(data,1);
+											});
+											Highcharts.setOptions({
+												global: {
+												  useUTC: false
+												}
+											});
+											
+											angular.forEach(chartJsonData,function(data,index){
+												chartJsonDataArr.push({
+													"x":data.datetime,
+													"y":data.close,
+													'low':data.low,
+													'high':data.high,
+													'close':data.close,
+													'open':data.open,
+													'volume':data.volume
+												});
+											});
+											chartJsonDataArr=$filter('orderBy')(chartJsonDataArr,'x');
+											$('#complie-highcharts').highcharts('StockChart', {
+												credits: {
+									        		enabled: false
+									    		},
+												exporting:{
+													enabled:false
+												},
+												plotOptions:{
+													series:{
+														turboThreshold:0
+													}
+												},
+												/*tooltip : {
+													shared : true,
+													useHTML : true,
+													valueDecimals : 2 ,
+													backgroundColor: 'white',
+										            borderWidth: 0,
+										            borderRadius: 0,
+										            formatter : function() {
+										            	
+										            	var s;
+										            	if(this.points[0].point.high){
+										            		$scope.highstockAnalysetime=$filter('date')(this.x,'yyyy-MM-dd H:mm:ss');
+										            		$scope.highstockAnalysehigh=$filter('number')(this.points[0].point.high,2);
+										            		$scope.highstockAnalyselow=$filter('number')(this.points[0].point.low,2);
+										            		$scope.highstockAnalyseopen=$filter('number')(this.points[0].point.open,2);
+										            		$scope.highstockAnalyseclose=$filter('number')(this.points[0].point.close,2);
+										            		$scope.$apply();
+										            	}
+										            	if(this.points[0].point.direction&&this.point.text){
+										            		s=this.point.text;
+										            	}else if(this.points[0].point.direction&&!this.point){
+										            		var dir=(this.points[0].point.direction>0)?'看多':'看空';
+										            		s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
+															s+= '<br />volume：<b class="red">'
+															+Highcharts.numberFormat(this.points[0].point.volume,2)
+															+'</b><br />Earn：<b class="font-black">￥'
+															+Highcharts.numberFormat(this.points[0].point.Earn,2)
+															+ '</b><br />openprice：<b class="font-black">￥'
+															+Highcharts.numberFormat(this.points[0].point.openprice,2)
+															+ '</b><br />closeprice<b class="font-black">￥'
+															+Highcharts.numberFormat(this.points[0].point.closeprice,2)
+															+ '</b><br />direction：<b class="font-black">'
+															+dir;
+										            	}
+										            	return s;*/
+														/*var s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
+														s += '<br />high：<b class="red">￥'
+														+Highcharts.numberFormat(this.points[0].point.high,2)
+														+'</b>&nbsp;&nbsp;|&nbsp;&nbsp;low：<b class="blue">￥'
+														+Highcharts.numberFormat(this.points[0].point.low,2)
+														+ '</b>&nbsp;&nbsp;|&nbsp;&nbsp;close：<b class="green">￥'
+														+Highcharts.numberFormat(this.points[0].point.close,2)
+														+ '</b>&nbsp;&nbsp;|&nbsp;&nbsp;open：<b class="font-black">￥'
+														+Highcharts.numberFormat(this.points[0].point.open,2)
+														+ '</b>&nbsp;&nbsp;|&nbsp;&nbsp;volume：<b class="orange">'
+														+Highcharts.numberFormat(this.points[0].point.volume,2)+'笔';
+														return s;
+													},	
+										            positioner: function () {
+										                return { x: 0, y: 20 };
+										            },
+										            shadow: false
+												},*/
+												tooltip:{
+													useHTML:true,
+													xDateFormat:"%Y-%m-%d %H:%M:%S",
+													valueDecimals:2
+												},
+												legend: {
+													enabled:true,
+													align: 'right',
+													verticalAlign: 'top',
+													x: 0,
+													y: 0
+												},
+												rangeSelector: {
+													  buttons: [  
+													 {
+														  type: 'minute',
+														  count: 10,
+														  text: '10m'
+													  },  {
+														  type: 'minute',
+														  count: 30,
+														  text: '30m'
+													  },{
+														  type: 'hour',
+														  count: 1,
+														  text: '1h'
+													  }, {
+														  type: 'day',
+														  count: 1,
+														  text: '1d'
+													  },{
+														  type: 'week',
+														  count: 1,
+														  text: '1w'
+													  },{
+														  type: 'all',
+														  text: '所有'
+													  }],
+													  selected: 5,
+													  buttonSpacing:2
+
+												},
+												yAxis: [{
+													labels: {
+														align: 'right',
+														x: -3
+													},
+													title: {
+														text: '股价'
+													},
+													lineWidth: 1,
+													height:'60%'
+													},{
+													labels:{
+														align:'right',
+														x:-3
+													},
+													title:{
+														text:'盈亏'
+													},
+													opposite:true,
+													offset:0,
+													height:'35%',
+													top:'65%'
+												}],
+												series: [{
+													type: 'line',
+													name: '股价',
+													data: chartJsonDataArr,
+													lineWidth:2,
+													id: 'dataseries'
+													},{
+													type: 'flags',
+													data: shortYArr,
+													onSeries:"dataseries",
+													shape:'squarepin',
+													width:36,
+													color:"#4169e1",
+													fillColor:'transparent',
+													style:{
+														color:'#333'
+													},
+													y:-40,
+													name:'看多',
+												},{
+													type: 'flags',
+													data: buyYArr,
+													onSeries:"dataseries",
+													shape:'squarepin',
+													width:36,
+													color:'#ff9912',
+													fillColor:'transparent',
+													style:{
+														color:'#333'
+													},
+													y:20,
+													name:'看空',
+												},{
+													type:'column',
+													data:chartArr,
+													name:'盈亏',
+													/*lineWidth:2,*/
+													yAxis:1,
+													threshold:0,
+													negativeColor:'green',
+													color:'red'
+													/*color:'#e3170d',*/
+													/*marker:{
+														enabled:true,
+														symbol:'circle',
+														fillColor:'#0b1746',
+														radius:5
+													}*/
+												}]
+											});
+										};
+									});
+								},function(err,sta){
+									Showbo.Msg.alert('没有交易数据');
+								});
+							};
+						})
+						.error(function(err,sta){
+							if (sta==400) {
+								Showbo.Msg.alert('没有交易数据');
+							};
+						});	
+		    				
+
+
+
+
 	    			};
 	    			$scope.logs=data.logs;
 	    			$scope.errors=data.error;
@@ -3733,15 +4686,28 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	    		.error(function(err){
 	    			console.log(err);
 	    		});
-	    	},2000);
+	    	},500);
 	    },function(err){
 	    	Showbo.Msg.alert(err.error);
 	    	$('.complie-mask').fadeOut();
 	    });  
 	};
 	$scope.addNew=function(){
-		editor.setValue('2222');
-	}
+		var postInfo='class_name='+encodeURIComponent($scope.name)+'&code='+encodeURIComponent(editor.getValue());
+        $http.post(constantUrl+"classs/",postInfo,{
+            headers: {
+            	'Content-Type':  'application/x-www-form-urlencoded',
+            	'Authorization':'token '+$cookieStore.get('user').token	
+	        }
+        })
+        .success(function(data){
+			Showbo.Msg.alert('添加成功,可以运行回测。');
+			myClassId=data._id;
+        })
+        .error(function(err,st){
+        	Showbo.Msg.alert(err);
+        });
+	};
 }])
 .controller('modalResController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl','modalResObjList1','modalResObjList2','modalResObjList3','modalResObjList4','storageModalRes','getModalResList','modalResObjItems',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl,modalResObjList1,modalResObjList2,modalResObjList3,modalResObjList4,storageModalRes,getModalResList,modalResObjItems){
 	$scope.modalResObjItem=modalResObjItems;
@@ -3863,10 +4829,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	var url=str+'/'+id;
 	getModalResList.getList(url).then(function(data){
 		$scope.mydata=data;
-		var str=$scope.mydata._id;
-		$scope.myhref='http://114.55.238.82/jupyter/notebooks/'+str+'.ipynb';
+		/*$scope.hash=$scope.mydata._id;*/
 	});
-	
 	/*switch(str){
 		case 'study_object':
 		$scope.title=storageModalRes.data[$routeParams.id]["name"];
@@ -4032,6 +4996,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				//console.log(strategysValue);
 			});
 			ele.on('click','.sour-del',function(){
+				var a=confirm('确认删除吗');
+				if (!a) return;
 				var url=$(this).closest('tr').children().eq(0).text();
 				$http.delete(constantUrl+"classs/"+url+'/',{
 					headers:{'Authorization':'token '+$cookieStore.get('user').token}
@@ -4039,7 +5005,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				.success(function(){
 					/*$route.reload();*/
 					scope.getSourcingStrategys();
-					Showbo.Msg.alert('删除成功。')
+					/*Showbo.Msg.alert('删除成功。')*/
 				})
 				.error(function(err,sta){
 					Showbo.Msg.alert('删除失败，请稍后再试。')
@@ -4140,6 +5106,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				});
 			});
 			ele.on('click','.strategy-del',function(){
+				var a=confirm('确认删除吗');
+				if (!a) return;
 				var url=$(this).closest('tr').children().eq(0).text();
 				$http.delete(constantUrl+"strategys/"+url+'/',{
 					headers:{'Authorization':'token '+$cookieStore.get('user').token}
@@ -4149,7 +5117,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					scope.allStrategys=[];
 					scope.getFirmStrategys();
 					scope.getHisStrategys();
-					Showbo.Msg.alert('删除成功。')
+					/*Showbo.Msg.alert('删除成功。')*/
 				})
 				.error(function(err,sta){
 					console.log(err,sta);
@@ -4162,7 +5130,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							scope.allStrategys=[];
 							scope.getFirmStrategys();
 							scope.getHisStrategys();
-							Showbo.Msg.alert('删除成功。')
+							/*Showbo.Msg.alert('删除成功。')*/
 						})
 						.error(function(err,sta){
 							Showbo.Msg.alert('删除失败，请稍后再试。')
@@ -4190,6 +5158,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				});
 			});
 			ele.on('click','.strategy-del',function(){
+				var a=confirm('确认删除吗');
+				if (!a) return;
 				var url=$(this).closest('tr').children().eq(0).text();
 				$http.delete(constantUrl+"btstrategys/"+url+'/',{
 					headers:{'Authorization':'token '+$cookieStore.get('user').token}
@@ -4197,7 +5167,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				.success(function(){
 					/*$route.reload();*/
 					scope.getHisStrategys();
-					Showbo.Msg.alert('删除成功。')
+					/*Showbo.Msg.alert('删除成功。')*/
 				})
 				.error(function(err,sta){
 					Showbo.Msg.alert('删除失败，请稍后再试。')
@@ -4413,7 +5383,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		link:function(scope,ele,attrs){
 			scope.$watch('mydata',function(nv,ov){
 				if(nv!=undefined){
-					ele.html(marked(scope.mydata.content)+'<a href="{{myhref}}" class="btn btn-info">notebook <i class="fa fa-arrow-circle-right"></i></a>');
+					ele.html(marked(scope.mydata.content));
 				}
 			})
 		}
