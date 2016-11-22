@@ -1,0 +1,117 @@
+/* complie */
+#editor{
+	position: relative;
+	padding:0;
+	width: 100%;
+	height: 800px;
+}
+.zijin-complie{
+	margin-top: 70px;
+}
+@media (max-width: 767px){
+	.zijin-complie{
+		margin-top: 50px;
+	}
+}
+.zijin-complie-body >.row{
+	margin:0;
+}
+.zijin-complie-body >.row >.col-lg-7{
+	padding: 0;
+	
+	border-right: 1px solid #333;
+}
+.zijin-complie-body >.row >.col-lg-5{
+	
+	
+	padding: 0;
+}
+.zijin-complie-head{
+	position: relative;
+	padding: 10px 15px;
+	height: 50px;
+	font-size: 20px;
+	line-height: 1.5;
+	background: #f2f2f2;
+	border-bottom: 1px solid #ccc;
+}
+.zijin-complie-head .zijin-complie-name{
+	margin-left: 50px;
+	padding-right: 25px;
+	background: url(../images/552cc33d78a5f_16.png) right 7px no-repeat;
+	cursor: pointer;
+}
+.zijin-complie-head  img{
+	position: absolute;
+	bottom: -40px;
+	left: 80px;
+}
+.zijin-complie-head .zijin-complie-hidname{
+	display: none;
+	margin-left: 50px;
+	height:26px;
+	line-height: 26px;
+	font-size: 16px; 
+}
+.zijin-complie-top{
+	padding: 10px 15px;
+	height: 50px;
+	border-bottom:1px solid #999;
+}
+.zijin-complie-left .zijin-complie-top{
+	text-align: right;
+}
+.zijin-complie-left .zijin-complie-top button{
+	margin-right: 10px;
+	padding: 0 15px;
+	height: 30px;
+	line-height: 30px;
+	color: #333;
+	border: 1px solid #ccc;
+	background: #fff;
+	border-radius: 4px;
+}
+
+.zijin-complie-right .zijin-complie-top button{
+	padding: 0 15px;
+	height: 30px;
+	line-height: 30px;
+	color: #333;
+	border: 1px solid #ccc;
+	background: #fff;
+	border-radius: 4px;
+}
+.zijin-complie-top button:hover{
+	color:#5584ff;
+}
+.zijin-complie-highcharts{
+	position: relative;
+}
+.zijin-complie-placeholder{
+	position: absolute;
+	top: 45%;
+	left: 42%;
+	font-size: 30px;
+	color:#ccc;
+}
+.zijin-complie-bottom{
+	height: 400px;
+}
+.zijin-complie-bottom .nav{
+	height: 50px;
+	border-top: 1px solid #999;
+	padding-top: 7px;
+    padding-left: 10px;
+    background: #f2f2f2;
+}
+.zijin-complie-bottom .tab-pane{
+	height: 350px;
+	padding:15px;
+	overflow-y:auto;
+}
+.ace_print-margin{
+	visibility: hidden!important;
+}
+.zijin-complie-right .zijin-complie-top input{
+	width: 100px;
+}
