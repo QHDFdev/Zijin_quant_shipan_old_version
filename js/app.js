@@ -1,4 +1,4 @@
-angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResource','myService','hljs'])
+angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResource','hljs'])
 .config(['$routeProvider','hljsServiceProvider',function($routeProvider,hljsServiceProvider){
 	$routeProvider
 	.when('/home',{
@@ -98,7 +98,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			$rootScope.isactive=false;
 			$rootScope.$apply();
 
-		}
+		};
 	});
 	if(($location.url()=='/analyse')||($location.url()=='/complie')||($location.url()=='/adminCenter')){
 		$rootScope.isactive=true;
@@ -131,7 +131,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				$rootScope.isactive=false;
 				$rootScope.$apply();
 				
-			}
+			};
 		});
 		if(($location.url()=='/analyse')||($location.url()=='/complie')||($location.url()=='/adminCenter')){
 			$rootScope.isactive=true;
@@ -556,8 +556,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				        "volume":Number(arr[2]),
 				        "trans_type":  arr[4],
 				        "symbol":  arr[0]
-					})
-				})
+					});
+				});
 				//console.log(chartData1);
 			};
 			var chartJsonData;
@@ -1422,13 +1422,13 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							if(min >= 60){
 								hour = parseInt(min / 60);
 								min = min - hour * 60;
-							}
+							};
 							if (hour<10) hour="0"+hour;
 							if (min<10) min="0"+min;
 							if (sec<10) sec="0"+sec;
 							var totalTime = hour + ":" + min + ":" + sec;
 							return totalTime;
-					}
+					};
 					var allTotalTime1 = 0; 
 					var delNum=[];
 					angular.forEach(chartArr,function(data,index){
@@ -1453,7 +1453,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							direction='看多';
 						}else{
 							direction='看空';
-						}
+						};
 						if(Number(data["Earn"])>0){
 							winrate=100;
 							yeildAbs=Math.abs((Number(data["Earn"])*100/data['openprice']).toFixed(2));
@@ -1462,7 +1462,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							winrate=0;
 							yeildAbs=Math.abs((Number(data["Earn"])*100/data['closeprice']).toFixed(2));
 							loss=loss+Number(data["Earn"])*100/data['openprice'];
-						}
+						};
 						wealth.push({
 							"x":data["opentime"],
 							"y":Number(totalpal.toFixed(2)),
@@ -2449,8 +2449,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 												});
 												indexShortArr.push(i);
 												break outer;
-											}
-										}
+											};
+										};
 									}else{
 										buySellNum++;
 										buyYArr.push({
@@ -2656,7 +2656,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							if (sec<10) sec="0"+sec;
 							var totalTime = hour + ":" + min + ":" + sec;
 							return totalTime;
-					}
+					};
 					var allTotalTime1 = 0; 
 					var delNum=[];
 					angular.forEach(chartArr,function(data,index){
@@ -2681,7 +2681,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							direction='看多';
 						}else{
 							direction='看空';
-						}
+						};
 						if(Number(data["Earn"])>0){
 							winrate=100;
 							yeildAbs=Math.abs((Number(data["Earn"])*100/data['openprice']).toFixed(2));
@@ -2690,7 +2690,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							winrate=0;
 							yeildAbs=Math.abs((Number(data["Earn"])*100/data['closeprice']).toFixed(2));
 							loss=loss+Number(data["Earn"])*100/data['openprice'];
-						}
+						};
 						wealth.push({
 							"x":data["opentime"],
 							"y":Number(totalpal.toFixed(2)),
@@ -3394,7 +3394,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		if (!myClassId) {
 			Showbo.Msg.alert('先修改策略名（即策略类名），并保存策略。');
 			return;
-		}
+		};
 		$('.complie-mask').fadeIn();
 	};
 	$scope.closeMask=function(){
@@ -5384,7 +5384,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			scope.$watch('mydata',function(nv,ov){
 				if(nv!=undefined){
 					ele.html(marked(scope.mydata.content));
-				}
+				};
 			})
 		}
 	}
