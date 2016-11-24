@@ -2,7 +2,7 @@
 <html lang="en" ng-app='myapp'>
 <head>
 	<meta charset="UTF-8">
-	<title>紫金量化</title>
+	<title>图灵紫金量化 beta 2</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
 	<!-- <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"> -->
@@ -39,26 +39,34 @@
 				</div>
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav left-nav" move-box>
+						<!--
 						<li>
 							<a ng-href="">数据研究</a>
 							<i id="move-box" class="hidden-xs"></i>
 						</li>
+						-->
 						<li>
+							<a ng-click='hashLocation("/complie")' ng-class="{active:natived=='#/complie'}">在线编程(Python)</a>
+						</li>
+						<li>
+							<a ng-click='hashLocation("/mytable")' ng-class="{active:natived=='#/mytable'}">加载策略</a>
+						</li>
+						<li>
+							<a ng-href='#/study'  ng-class="{active:natived=='#/study'}" >历史/实盘测试</a>
+						</li>
+						
+						<li>
+						
 							<!-- <a ng-click='hashLocation("/modalRes")' ng-class="{active:natived=='#/modalRes'}">量化模型</a> -->
-							<a ng-click='hashLocation("/modalRes")' ng-class="{active:natived=='#/modalRes'}">量化模型</a>
+							<a ng-click='hashLocation("/modalRes")' ng-class="{active:natived=='#/modalRes'}">模型研究库</a>
 						</li>
-						<li>
-							<a ng-click='hashLocation("/complie")' ng-class="{active:natived=='#/complie'}">策略开发</a>
-						</li>
-						<li>
-							<a ng-click='hashLocation("/mytable")' ng-class="{active:natived=='#/mytable'}">策略安装</a>
-						</li>
-						<li>
-							<a ng-href='#/study'  ng-class="{active:natived=='#/study'}" >实盘回测</a>
-						</li>
+						
+						
+						<!--
 						<li>
 							<a ng-href="">帮助</a>
 						</li>
+						-->
 						<!-- <li class="dropdown">
 							<a href="" data-toggle='dropdown' class="dropdown-toggle">
 								研究<span class="caret" ng-show='user.username!=null'></span>
@@ -73,7 +81,7 @@
 							<a ng-href="#/login">登录</a>
 						</li>
 						<li ng-hide='user.username!=null'>
-							<a ng-href="#/register" class="reg-btn">注册</a>
+							<a ng-href="#" class="reg-btn">注册(暂未开放)</a>
 						</li>
 						<!-- <li class="dropdown" ng-show='user.username!=null'>
 							<a ng-href="" class="dropdown-toggle" data-toggle='dropdown'>
@@ -104,7 +112,7 @@
 					<div class="zijin-footer-itembox">
 						<p class="footer-text-head">关于</p>
 						<p><a href="">关于紫金量化</a></p>
-						<p><a ng-href="#/login">加入我们</a></p>
+						<p><a ng-href="#/login">登录开发</a></p>
 						<p><a href="">联系我们</a></p>
 					</div>	
 				</div>
@@ -128,7 +136,7 @@
 				<div class="col-sm-2 col-xs-6">
 					<div class="zijin-footer-itembox">
 						<p class="footer-text-head">友情链接</p>
-						<p><a href="">图灵金融</a></p>
+						<p><a href="">图灵科技集团</a></p>
 					</div>	
 				</div>
 				<!-- <div class='col-sm-3'>
