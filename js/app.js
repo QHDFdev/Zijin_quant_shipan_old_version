@@ -175,7 +175,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	$rootScope.logout=function(){
 		$cookieStore.remove('user');
 		$rootScope.user=null;
-		$location.path('/home');
+		$location.path('/home');//页面跳转
 	};
 	$scope.complie=function(){
 		$location.path('/register');
@@ -275,7 +275,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			$scope.myStrategy=data;
 			angular.forEach(data,function(item,index){
 				$scope.allStrategys.push(item);
-			})
+			});
 		})
 		.error(function(err,sta){
 			Showbo.Msg.alert('网络错误，请稍后再试。');
@@ -535,6 +535,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 		$('.analyse-modal-big').hide();
 	};
 	var chartData1=[];
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	$scope.makeChart=function(){
 		draw1();
 		function  draw1(){
@@ -544,6 +545,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				var csvArr=($scope.analyseData).split('format: symbol, price, volume, pos, trans_type, time');
 				var csvArr1=csvArr[1].replace(/\s/g,'');
 				var csvArr2=(csvArr1.replace(/IF/g,' IF')).split(' ');
+				console.dir(vsvArr2);
 				angular.forEach(csvArr2,function(data,index){
 					if (index==0) return;
 					var arr=data.split(",");
@@ -1548,6 +1550,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						});
 					});
 					chartJsonDataArr=$filter('orderBy')(chartJsonDataArr,'x');
+					////////////////////////////////////////////////////////////////////////////////////
 					$('#return_map_big').highcharts('StockChart', {
 						credits: {
 			        		enabled: false
@@ -2326,7 +2329,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 	$scope.makeChart1=function(){
 		var mydate=$filter('date')(new Date((new Date($scope.myFirmDate_end)).setDate((new Date($scope.myFirmDate_end)).getDate()+1)),'yyyy-MM-dd');
 		function getFirmTime(){
-			var defer1=$q.defer();
+			var defer1=$q.defer();//通过$q服务注册一个延迟对象 defer1
 			$http.get(constantUrl+'transactions/',{
 				params:{
 					"sty_id":$scope.myFirmStrategy._id,
@@ -2336,12 +2339,12 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				headers:{'Authorization':'token '+$cookieStore.get('user').token}
 			})
 			.success(function(data){
-				defer1.resolve(data);
+				defer1.resolve(data);//defer1.resolve(value)  成功解决(resolve)了其派生的promise。参数value将来会被用作promise.then(successCallback(value){...}, errorCallback(reason){...}, notifyCallback(notify){...})中successCallback函数的参数。
 			})
 			.error(function(err,sta){
-				defer1.reject(err);
+				defer1.reject(err);//deferred.reject(reason)  未成功解决其派生的promise。参数reason被用来说明未成功的原因。此时deferred实例的promise对象将会捕获一个任务未成功执行的错误，promise.catch(errorCallback(reason){...})。补充一点，promise.catch(errorCallback)实际上就是promise.then(null, errorCallback)的简写。
 			});
-			return defer1.promise;
+			return defer1.promise;//通过deferred延迟对象，可以得到一个承诺promise，而promise会返回当前任务的完成结果
 		};
 		function getTransTime(){
 			var defer2=$q.defer();
@@ -2361,6 +2364,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			});
 			return defer2.promise;
 		};
+		//////////////////////////////////////////////////////////////////////////
 		getFirmTime().then(function(data){
 			var chartData11=data;
 			//console.log(data);
@@ -2377,6 +2381,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					angular.forEach(chartData11,function(data,index){
 						var hour=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(11,13));
 						var minute=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(14,16));
+						////////////////////////////////////////////
 						if (hour<9||hour>15||(hour==15&&minute>30)) {
 						}else{
 							this.push(data);
@@ -2465,7 +2470,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											"title":data.trans_type+' '+buySellNum
 										});
 										chartArr.push({
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 											"x":chartData1[i].datetime,
 											"y":Number((data.price-chartData1[i].price).toFixed(2)),
 											"volume":data.volume,
@@ -2497,7 +2502,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							};
 						};
 						if (data.trans_type=="buy") {
-							
+							//////////////////////////////////////////////////////////////////////////////////
 							outer1:
 							for(var i=0;i<chartData1.length;i++){
 								if (chartData1[i].trans_type=="sell") {
@@ -2776,6 +2781,7 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						});
 					});
 					chartJsonDataArr=$filter('orderBy')(chartJsonDataArr,'x');
+					//////////////////////////////////////////////////////////////////////////////////////////
 					$('#return_map_big_1').highcharts('StockChart', {
 						credits: {
 			        		enabled: false
