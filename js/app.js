@@ -159,6 +159,9 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 			$scope.allUsers=data;
 		});
 	};
+	$scope.func=function(e){
+		return e["name"]!='sv123321';
+	}
 	$scope.getAllUsers();
 }])
 .controller('homeController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
@@ -583,10 +586,17 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 									if (indexShortArr[j]==i) {
 										break inter;
 									}else if((j==indexShortArr.length-1)&&(indexShortArr[j]!=i)){
+                    var Earn;
+                    if (data.name=='AG_real') {
+                      Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                    }else{
+                      Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                    };
 										chartArr.push({
 											"volume":data.volume,
 											"direction":data.pos,
-											"Earn":(chartData1[i].price-data.price).toFixed(2),
+											//"Earn":(chartData1[i].price-data.price).toFixed(2),
+											"Earn":Earn,
 											"openprice":data.price,
 											"closeprice":chartData1[i].price,
 											"opentime":data.datetime,
@@ -600,10 +610,17 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 									};
 								};
 							}else{
+                var Earn;
+                if (data.name=='AG_real') {
+                  Earn=$filter('number')(chartData1[i].price-data.price-0.32*2,2);
+                }else{
+                  Earn=$filter('number')(chartData1[i].price*(1-0.00003)-data.price*(1-0.00003),2);
+                };
 								chartArr.push({
 									"volume":data.volume,
 									"direction":-1,
-									"Earn":$filter('number')(chartData1[i].price-data.price,2),
+									//"Earn":$filter('number')(chartData1[i].price-data.price,2),
+									"Earn":Earn,
 									"openprice":data.price,
 									"closeprice":chartData1[i].price,
 									"opentime":data.datetime,
@@ -628,10 +645,17 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 									if (indexShortArr[j]==i) {
 										break inter1;
 									}else if((j==indexShortArr.length-1)&&(indexShortArr[j]!=i)){
+                    var Earn;
+                    if (data.name=='AG_real') {
+                      Earn=$filter('number')(chartData1[i].price-data.price-0.32*2,2);
+                    }else{
+                      Earn=$filter('number')(chartData1[i].price*(1-0.00003)-data.price*(1-0.00003),2);
+                    };
 										chartArr.push({
 											"volume":data.volume,
 											"direction":1,
-											"Earn":$filter('number')(chartData1[i].price-data.price,2),
+											//"Earn":$filter('number')(chartData1[i].price-data.price,2),
+											"Earn":Earn,
 											"openprice":data.price,
 											"closeprice":chartData1[i].price,
 											"opentime":data.datetime,
@@ -645,10 +669,17 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 									};
 								};
 							}else{
+                var Earn;
+                if (data.name=='AG_real') {
+                  Earn=$filter('number')(chartData1[i].price-data.price-0.32*2,2);
+                }else{
+                  Earn=$filter('number')(chartData1[i].price*(1-0.00003)-data.price*(1-0.00003),2);
+                };
 								chartArr.push({
 									"volume":data.volume,
 									"direction":data.pos,
-									"Earn":$filter('number')(chartData1[i].price-data.price,2),
+									//"Earn":$filter('number')(chartData1[i].price-data.price,2),
+									"Earn":Earn,
 									"openprice":data.price,
 									"closeprice":chartData1[i].price,
 									"opentime":data.datetime,
@@ -1194,13 +1225,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 													"symbol":data.symbol,
 													"title":data.trans_type+' '+buySellNum
 												});
+                        var Earn;
+                        if (data.name=='AG_real') {
+                          Earn=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
+                        }else{
+                          Earn=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
+                        };
 												chartArr.push({
-
 													"x":chartData1[i].datetime,
 													"y":Number((data.price-chartData1[i].price).toFixed(2)),
 													"volume":data.volume,
 													"direction":data.pos,
-													"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+													//"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+													"Earn":Earn,
 													"openprice":data.price,
 													"closeprice":chartData1[i].price,
 													"opentime":data.datetime,
@@ -1239,13 +1276,20 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											"symbol":data.symbol,
 											"title":data.trans_type+' '+buySellNum
 										});
+                    var Earn;
+                    if (data.name=='AG_real') {
+                      Earn=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
+                    }else{
+                      Earn=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
+                    };
 										chartArr.push({
 
 											"x":chartData1[i].datetime,
 											"y":Number((data.price-chartData1[i].price).toFixed(2)),
 											"volume":data.volume,
 											"direction":-1,
-											"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+											//"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+											"Earn":Earn,
 											"openprice":data.price,
 											"closeprice":chartData1[i].price,
 											"opentime":data.datetime,
@@ -1294,13 +1338,20 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 													"symbol":data.symbol,
 													"title":data.trans_type+' '+buySellNum
 												});
+                        var Earn;
+                        if (data.name=='AG_real') {
+                          Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                        }else{
+                          Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                        };
 												chartArr.push({
 
 													"x":chartData1[i].datetime,
 													"y":Number((chartData1[i].price-data.price).toFixed(2)),
 													"volume":data.volume,
 													"direction":1,
-													"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+													//"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+													"Earn":Earn,
 													"openprice":data.price,
 													"closeprice":chartData1[i].price,
 													"opentime":data.datetime,
@@ -1337,13 +1388,20 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											"symbol":data.symbol,
 											"title":data.trans_type+' '+buySellNum
 										});
+                    var Earn;
+                    if (data.name=='AG_real') {
+                      Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                    }else{
+                      Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                    };
 										chartArr.push({
 
 											"x":chartData1[i].datetime,
 											"y":Number((chartData1[i].price-data.price).toFixed(2)),
 											"volume":data.volume,
 											"direction":data.pos,
-											"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+											//"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+											"Earn":Earn,
 											"openprice":data.price,
 											"closeprice":chartData1[i].price,
 											"opentime":data.datetime,
@@ -1813,10 +1871,17 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 									if (indexShortArr[j]==i) {
 										break inter;
 									}else if((j==indexShortArr.length-1)&&(indexShortArr[j]!=i)){
+                    var Earn;
+                    if (data.name=='AG_real') {
+                      Earn=$filter('number')(chartData1[i].price-data.price-0.32*2,2);
+                    }else{
+                      Earn=$filter('number')(chartData1[i].price*(1-0.00003)-data.price*(1-0.00003),2);
+                    };
 										chartArr.push({
 											"volume":data.volume,
 											"direction":data.pos,
-											"Earn":$filter('number')(chartData1[i].price-data.price,2),
+											//"Earn":$filter('number')(chartData1[i].price-data.price,2),
+											"Earn":Earn,
 											"openprice":data.price,
 											"closeprice":chartData1[i].price,
 											"opentime":data.datetime,
@@ -1830,10 +1895,17 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 									};
 								};
 							}else{
+                var Earn;
+                if (data.name=='AG_real') {
+                  Earn=$filter('number')(chartData1[i].price-data.price-0.32*2,2);
+                }else{
+                  Earn=$filter('number')(chartData1[i].price*(1-0.00003)-data.price*(1-0.00003),2);
+                };
 								chartArr.push({
 									"volume":data.volume,
 									"direction":-1,
-									"Earn":$filter('number')(chartData1[i].price-data.price,2),
+									//"Earn":$filter('number')(chartData1[i].price-data.price,2),
+									"Earn":Earn,
 									"openprice":data.price,
 									"closeprice":chartData1[i].price,
 									"opentime":data.datetime,
@@ -1858,10 +1930,17 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 									if (indexShortArr[j]==i) {
 										break inter1;
 									}else if((j==indexShortArr.length-1)&&(indexShortArr[j]!=i)){
+                    var Earn;
+                    if (data.name=='AG_real') {
+                      Earn=$filter('number')(chartData1[i].price-data.price-0.32*2,2);
+                    }else{
+                      Earn=$filter('number')(chartData1[i].price*(1-0.00003)-data.price*(1-0.00003),2);
+                    };
 										chartArr.push({
 											"volume":data.volume,
 											"direction":1,
-											"Earn":$filter('number')(chartData1[i].price-data.price,2),
+											//"Earn":$filter('number')(chartData1[i].price-data.price,2),
+											"Earn":Earn,
 											"openprice":data.price,
 											"closeprice":chartData1[i].price,
 											"opentime":data.datetime,
@@ -1875,10 +1954,17 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 									};
 								};
 							}else{
+                var Earn;
+                if (data.name=='AG_real') {
+                  Earn=$filter('number')(chartData1[i].price-data.price-0.32*2,2);
+                }else{
+                  Earn=$filter('number')(chartData1[i].price*(1-0.00003)-data.price*(1-0.00003),2);
+                };
 								chartArr.push({
 									"volume":data.volume,
 									"direction":data.pos,
-									"Earn":$filter('number')(chartData1[i].price-data.price,2),
+									//"Earn":$filter('number')(chartData1[i].price-data.price,2),
+									"Earn":Earn,
 									"openprice":data.price,
 									"closeprice":chartData1[i].price,
 									"opentime":data.datetime,
@@ -2379,12 +2465,24 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 				function  draws(){
 					var chartData1=[];
 					angular.forEach(chartData11,function(data,index){
+						//console.log(data);
 						var hour=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(11,13));
 						var minute=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(14,16));
 						////////////////////////////////////////////
-						if (hour<9||hour>15||(hour==15&&minute>30)) {
+						// if (hour<9||hour>15||(hour==15&&minute>30)) {
+            // }else{
+            // 	this.push(data);
+            // };
+						if(data['name']=='AG_real'){
+							if(hour<6||hour>9){
+								this.push(data);
+							}
 						}else{
-							this.push(data);
+              				if(hour<9||hour>15||(hour==15&&minute>30)) {
+
+							}else{
+								this.push(data);
+							};
 						};
 					},chartData1);
 					/*$('#return_mapping_1').css('display','block').siblings().css('display','none');*/
@@ -2424,13 +2522,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 													"symbol":data.symbol,
 													"title":data.trans_type+' '+buySellNum
 												});
+												var Earn;
+												if (data.name=='AG_real') {
+													Earn=Number($filter('number')(data.price-chartData1[i].price-0.32*2,2));
+												}else{
+													Earn=Number($filter('number')(data.price*(1-0.00003)-chartData1[i].price*(1+0.00003),2));
+												};
 												chartArr.push({
 
 													"x":chartData1[i].datetime,
 													"y":Number($filter('number')(data.price-chartData1[i].price,2)),
 													"volume":data.volume,
 													"direction":data.pos,
-													"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+													"Earn":Earn,
 													"openprice":data.price,
 													"closeprice":chartData1[i].price,
 													"opentime":data.datetime,
@@ -2469,13 +2573,18 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											"symbol":data.symbol,
 											"title":data.trans_type+' '+buySellNum
 										});
+										var Earn;
+										if (data.name=='AG_real') {
+											Earn=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
+										}else{
+											Earn=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
+										};
 										chartArr.push({
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 											"x":chartData1[i].datetime,
 											"y":Number((data.price-chartData1[i].price).toFixed(2)),
 											"volume":data.volume,
 											"direction":-1,
-											"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+											"Earn":Earn,
 											"openprice":data.price,
 											"closeprice":chartData1[i].price,
 											"opentime":data.datetime,
@@ -2524,13 +2633,20 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 													"symbol":data.symbol,
 													"title":data.trans_type+' '+buySellNum
 												});
+												var Earn;
+												if (data.name=='AG_real') {
+													Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+												}else{
+													Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+												};
 												chartArr.push({
 
 													"x":chartData1[i].datetime,
 													"y":Number((chartData1[i].price-data.price).toFixed(2)),
 													"volume":data.volume,
 													"direction":1,
-													"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+													//"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+													"Earn":Earn,
 													"openprice":data.price,
 													"closeprice":chartData1[i].price,
 													"opentime":data.datetime,
@@ -2567,13 +2683,20 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											"symbol":data.symbol,
 											"title":data.trans_type+' '+buySellNum
 										});
+                    var Earn;
+                    if (data.name=='AG_real') {
+                      Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                    }else{
+                      Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                    };
 										chartArr.push({
 
 											"x":chartData1[i].datetime,
 											"y":Number((chartData1[i].price-data.price).toFixed(2)),
 											"volume":data.volume,
 											"direction":data.pos,
-											"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+											//"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+											"Earn":Earn,
 											"openprice":data.price,
 											"closeprice":chartData1[i].price,
 											"opentime":data.datetime,
@@ -2679,8 +2802,10 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						allTotalTime1 += (data['closetime'] - data['opentime']);
 						$scope.allTotalTime = $scope.newTotalTime(allTotalTime1);//alltotaltime是总持仓时间
 						$scope.averTotalTime = $scope.newTotalTime(allTotalTime1/amount);//averTotalTime是平均持仓时间
-						totalpal=totalpal+Number(data["Earn"]);
-						allTotalpal=allTotalpal+Number(data["Earn"]);
+						//totalpal=totalpal+Number(data["Earn"]);
+            totalpal=totalpal+Number(data["Earn"]-(data['openprice']+data['closeprice'])/1000*0.03);
+						//allTotalpal=allTotalpal+Number(data["Earn"]);
+            allTotalpal=allTotalpal+Number(data["Earn"]-(data['openprice']+data['closeprice'])/1000*0.03);
 						/*console.log(data["Earn"]);*/
 						if (data['direction']>0) {
 							direction='看多';
@@ -2713,11 +2838,12 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 							//"totalTime":$filter('date')(data['closetime']-data['opentime'],"H:mm:ss"),
 							"totalTime":totalTime,
 							"time":$filter('date')(data["opentime"],"yyyy-MM-dd HH:mm:ss"),
-							"pal":Number(data["Earn"].toFixed(2)),
+							//"pal":Number(data["Earn"].toFixed(2)),
 							//"pal":data['closeprice']-data['openprice'],
+              "pal":Number((data["Earn"]-(data['openprice']+data['closeprice'])/1000*0.03).toFixed(2)),
 							"totalpal":Number(totalpal.toFixed(2)),
 							'direction':direction,
-							'yeild': Number((Number(data["Earn"])*100/data['openprice']).toFixed(2)),
+							'yeild': Number((Number(data["Earn"]-(data['openprice']+data['closeprice'])/1000*0.03)*100/data['openprice']).toFixed(2)),
 							'winrate':winrate,
 							'yeildAbs':yeildAbs,
 							'closetime':$filter('date')(data["closetime"],"yyyy-MM-dd HH:mm:ss"),
@@ -2729,7 +2855,8 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						total=total+Number(data["Earn"])*100/data['openprice'];
 						totalRate1=totalRate1+parseFloat(Number(data["Earn"])*100/data['openprice']-0.0492);
 						totalRate4.push(yeildAbs);
-						allTotalyeild=allTotalyeild+Number((Number(data["Earn"])*100/data['openprice']));
+						//allTotalyeild=allTotalyeild+Number((Number(data["Earn"])*100/data['openprice']));
+            allTotalyeild=allTotalyeild+Number((Number(data["Earn"]-(data['openprice']+data['closeprice'])/1000*0.03)*100/data['openprice']));
 						//allTotalyeild+=((data['closeprice']-data['openprice'])/data['openprice']);//总收益率
 					});
 					var allYelidArrPow=0;
@@ -3582,13 +3709,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																			"symbol":data.symbol,
 																			"title":data.trans_type+' '+buySellNum
 																		});
+                                    var Earn;
+                                    if (data.name=='AG_real') {
+                                      Earn=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
+                                    }else{
+                                      Earn=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
+                                    };
 																		chartArr.push({
 
 																			"x":chartData1[i].datetime,
 																			"y":Number((data.price-chartData1[i].price).toFixed(2)),
 																			"volume":data.volume,
 																			"direction":data.pos,
-																			"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+																			"Earn":Earn,
 																			"openprice":data.price,
 																			"closeprice":chartData1[i].price,
 																			"opentime":data.datetime,
@@ -3627,13 +3760,20 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																	"symbol":data.symbol,
 																	"title":data.trans_type+' '+buySellNum
 																});
+                                var Earn;
+                                if (data.name=='AG_real') {
+                                  Earn=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
+                                }else{
+                                  Earn=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
+                                };
 																chartArr.push({
 
 																	"x":chartData1[i].datetime,
 																	"y":Number((data.price-chartData1[i].price).toFixed(2)),
 																	"volume":data.volume,
 																	"direction":-1,
-																	"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+																	//"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+																	"Earn":Earn,
 																	"openprice":data.price,
 																	"closeprice":chartData1[i].price,
 																	"opentime":data.datetime,
@@ -3682,13 +3822,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																			"symbol":data.symbol,
 																			"title":data.trans_type+' '+buySellNum
 																		});
+                                    var Earn;
+                                    if (data.name=='AG_real') {
+                                      Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                                    }else{
+                                      Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                                    };
 																		chartArr.push({
 
 																			"x":chartData1[i].datetime,
 																			"y":Number((chartData1[i].price-data.price).toFixed(2)),
 																			"volume":data.volume,
 																			"direction":1,
-																			"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+																			"Earn":Earn,
 																			"openprice":data.price,
 																			"closeprice":chartData1[i].price,
 																			"opentime":data.datetime,
@@ -3725,13 +3871,20 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																	"symbol":data.symbol,
 																	"title":data.trans_type+' '+buySellNum
 																});
+                                var Earn;
+                                if (data.name=='AG_real') {
+                                  Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                                }else{
+                                  Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                                };
 																chartArr.push({
 
 																	"x":chartData1[i].datetime,
 																	"y":Number((chartData1[i].price-data.price).toFixed(2)),
 																	"volume":data.volume,
 																	"direction":data.pos,
-																	"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+																	//"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+																	"Earn":Earn,
 																	"openprice":data.price,
 																	"closeprice":chartData1[i].price,
 																	"opentime":data.datetime,
@@ -4257,13 +4410,20 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																			"symbol":data.symbol,
 																			"title":data.trans_type+' '+buySellNum
 																		});
+                                    var Earn;
+                                    if (data.name=='AG_real') {
+                                      Earn=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
+                                    }else{
+                                      Earn=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
+                                    };
 																		chartArr.push({
 
 																			"x":chartData1[i].datetime,
 																			"y":Number((data.price-chartData1[i].price).toFixed(2)),
 																			"volume":data.volume,
 																			"direction":data.pos,
-																			"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+																			//"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+																			"Earn":Earn,
 																			"openprice":data.price,
 																			"closeprice":chartData1[i].price,
 																			"opentime":data.datetime,
@@ -4302,13 +4462,20 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																	"symbol":data.symbol,
 																	"title":data.trans_type+' '+buySellNum
 																});
+                                var Earn;
+                                if (data.name=='AG_real') {
+                                  Earn=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
+                                }else{
+                                  Earn=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
+                                };
 																chartArr.push({
 
 																	"x":chartData1[i].datetime,
 																	"y":Number((data.price-chartData1[i].price).toFixed(2)),
 																	"volume":data.volume,
 																	"direction":-1,
-																	"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+																	//"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
+																	"Earn":Earn,
 																	"openprice":data.price,
 																	"closeprice":chartData1[i].price,
 																	"opentime":data.datetime,
@@ -4357,13 +4524,20 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																			"symbol":data.symbol,
 																			"title":data.trans_type+' '+buySellNum
 																		});
+                                    var Earn;
+                                    if (data.name=='AG_real') {
+                                      Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                                    }else{
+                                      Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                                    };
 																		chartArr.push({
 
 																			"x":chartData1[i].datetime,
 																			"y":Number((chartData1[i].price-data.price).toFixed(2)),
 																			"volume":data.volume,
 																			"direction":1,
-																			"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+																			//"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+																			"Earn":Earn,
 																			"openprice":data.price,
 																			"closeprice":chartData1[i].price,
 																			"opentime":data.datetime,
@@ -4400,13 +4574,20 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																	"symbol":data.symbol,
 																	"title":data.trans_type+' '+buySellNum
 																});
+                                var Earn;
+                                if (data.name=='AG_real') {
+                                  Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                                }else{
+                                  Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                                };
 																chartArr.push({
 
 																	"x":chartData1[i].datetime,
 																	"y":Number((chartData1[i].price-data.price).toFixed(2)),
 																	"volume":data.volume,
 																	"direction":data.pos,
-																	"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+																	//"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+																	"Earn":Earn,
 																	"openprice":data.price,
 																	"closeprice":chartData1[i].price,
 																	"opentime":data.datetime,
