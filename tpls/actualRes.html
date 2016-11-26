@@ -23,7 +23,8 @@
 											<textarea placeholder="请在此处粘贴行情数据……" ng-model='analyseJsonData'></textarea>
 										</div>
 										<div class="btn-group btn-group-lg">
-											<input type="button" value="点我生成图表" class="btn btn-success" data-dismiss="modal" ng-click='makeChart()'>
+											<!--点击以后调用makeChart()函数，输入实盘交易数据，点我生成图表-->
+                      <input type="button" value="点我生成图表" class="btn btn-success" data-dismiss="modal" ng-click='makeChart()'>
 											<input type="button" value="关闭" class="btn btn-warnning" data-dismiss="modal">
 										</div>
 									</form>
@@ -557,6 +558,7 @@
 	<div class="analyse-modal-big noprint">
 		<div class="container">
 			<div class="analyse-select-box text-center">
+        <!--点击后调用closeModal()函数，功能：.analyse-modal-big隐藏-->
 				<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal1' ng-click='closeModal()'>输入实盘交易数据</button></p>
 				<p class="analyse-menu-head"><button class="btn btn-primary" data-toggle='modal' data-target='#actualRes-modal2' ng-click='closeModal()'>获取实盘交易数据</button></p> 
 			</div>
