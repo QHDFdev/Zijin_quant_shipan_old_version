@@ -1183,10 +1183,21 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 					angular.forEach(chartData11,function(data,index){
 						var hour=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(11,13));
 						var minute=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(14,16));
-						if (hour<9||hour>15||(hour==15&&minute>30)) {
-						}else{
-							this.push(data);
-						};
+						// if (hour<9||hour>15||(hour==15&&minute>30)) {
+						// }else{
+						// 	this.push(data);
+						// };
+            if(data['name']=='AG_real'){
+              if(hour<6||hour>9){
+                this.push(data);
+              }
+            }else{
+              if(hour<9||hour>15||(hour==15&&minute>30)) {
+
+              }else{
+                this.push(data);
+              };
+            };
 					},chartData1);
 					/*$('#return_mapping_1').css('display','block').siblings().css('display','none');*/
 					var chartJsonDataArr=[];
@@ -1226,14 +1237,18 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 													"title":data.trans_type+' '+buySellNum
 												});
                         var Earn;
+                        var y;
                         if (data.name=='AG_real') {
                           Earn=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
+                          y=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
                         }else{
                           Earn=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
+                          y=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
                         };
 												chartArr.push({
 													"x":chartData1[i].datetime,
-													"y":Number((data.price-chartData1[i].price).toFixed(2)),
+													//"y":Number((data.price-chartData1[i].price).toFixed(2)),
+													"y":y,
 													"volume":data.volume,
 													"direction":data.pos,
 													//"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
@@ -1277,15 +1292,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											"title":data.trans_type+' '+buySellNum
 										});
                     var Earn;
+                    var y;
                     if (data.name=='AG_real') {
                       Earn=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
+                      y=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
                     }else{
                       Earn=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
+                      y=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
                     };
 										chartArr.push({
 
 											"x":chartData1[i].datetime,
-											"y":Number((data.price-chartData1[i].price).toFixed(2)),
+											//"y":Number((data.price-chartData1[i].price).toFixed(2)),
+											"y":y,
 											"volume":data.volume,
 											"direction":-1,
 											//"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
@@ -1339,15 +1358,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 													"title":data.trans_type+' '+buySellNum
 												});
                         var Earn;
+                        var y;
                         if (data.name=='AG_real') {
                           Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                          y=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
                         }else{
                           Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                          y=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
                         };
 												chartArr.push({
 
 													"x":chartData1[i].datetime,
-													"y":Number((chartData1[i].price-data.price).toFixed(2)),
+													//"y":Number((chartData1[i].price-data.price).toFixed(2)),
+													"y":y,
 													"volume":data.volume,
 													"direction":1,
 													//"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
@@ -1389,15 +1412,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											"title":data.trans_type+' '+buySellNum
 										});
                     var Earn;
+                    var y;
                     if (data.name=='AG_real') {
                       Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                      y=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
                     }else{
                       Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                      y=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
                     };
 										chartArr.push({
 
 											"x":chartData1[i].datetime,
-											"y":Number((chartData1[i].price-data.price).toFixed(2)),
+											//"y":Number((chartData1[i].price-data.price).toFixed(2)),
+											"y":y,
 											"volume":data.volume,
 											"direction":data.pos,
 											//"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
@@ -2468,7 +2495,6 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 						//console.log(data);
 						var hour=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(11,13));
 						var minute=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(14,16));
-						////////////////////////////////////////////
 						// if (hour<9||hour>15||(hour==15&&minute>30)) {
             // }else{
             // 	this.push(data);
@@ -2523,15 +2549,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 													"title":data.trans_type+' '+buySellNum
 												});
 												var Earn;
+												var y;
 												if (data.name=='AG_real') {
 													Earn=Number($filter('number')(data.price-chartData1[i].price-0.32*2,2));
+                          y=Number($filter('number')(data.price-chartData1[i].price-0.32*2,2));
 												}else{
 													Earn=Number($filter('number')(data.price*(1-0.00003)-chartData1[i].price*(1+0.00003),2));
+                          y=Number($filter('number')(data.price*(1-0.00003)-chartData1[i].price*(1+0.00003),2));
 												};
 												chartArr.push({
 
 													"x":chartData1[i].datetime,
-													"y":Number($filter('number')(data.price-chartData1[i].price,2)),
+													//"y":Number($filter('number')(data.price-chartData1[i].price,2)),
+													"y":y,
 													"volume":data.volume,
 													"direction":data.pos,
 													"Earn":Earn,
@@ -2574,14 +2604,18 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											"title":data.trans_type+' '+buySellNum
 										});
 										var Earn;
+										var y;
 										if (data.name=='AG_real') {
 											Earn=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
+											y=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
 										}else{
 											Earn=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
+											y=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
 										};
 										chartArr.push({
 											"x":chartData1[i].datetime,
-											"y":Number((data.price-chartData1[i].price).toFixed(2)),
+											//"y":Number((data.price-chartData1[i].price).toFixed(2)),
+											"y":y,
 											"volume":data.volume,
 											"direction":-1,
 											"Earn":Earn,
@@ -2634,15 +2668,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 													"title":data.trans_type+' '+buySellNum
 												});
 												var Earn;
+												var y;
 												if (data.name=='AG_real') {
 													Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+													y=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
 												}else{
 													Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+													y=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
 												};
 												chartArr.push({
 
 													"x":chartData1[i].datetime,
-													"y":Number((chartData1[i].price-data.price).toFixed(2)),
+													//"y":Number((chartData1[i].price-data.price).toFixed(2)),
+													"y":y,
 													"volume":data.volume,
 													"direction":1,
 													//"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
@@ -2684,15 +2722,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											"title":data.trans_type+' '+buySellNum
 										});
                     var Earn;
+                    var y;
                     if (data.name=='AG_real') {
                       Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                      y=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
                     }else{
                       Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                      y=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
                     };
 										chartArr.push({
 
 											"x":chartData1[i].datetime,
-											"y":Number((chartData1[i].price-data.price).toFixed(2)),
+											//"y":Number((chartData1[i].price-data.price).toFixed(2)),
+											"y":y,
 											"volume":data.volume,
 											"direction":data.pos,
 											//"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
@@ -3669,10 +3711,21 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											angular.forEach(chartData11,function(data,index){
 												var hour=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(11,13));
 												var minute=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(14,16));
-												if (hour<9||hour>15||(hour==15&&minute>30)) {
-												}else{
-													this.push(data);
-												};
+												// if (hour<9||hour>15||(hour==15&&minute>30)) {
+												// }else{
+												// 	this.push(data);
+												// };
+                        if(data['name']=='AG_real'){
+                          if(hour<6||hour>9){
+                            this.push(data);
+                          }
+                        }else{
+                          if(hour<9||hour>15||(hour==15&&minute>30)) {
+
+                          }else{
+                            this.push(data);
+                          };
+                        };
 											},chartData1);
 											var chartJsonDataArr=[];
 											var chartArr=[];
@@ -3710,15 +3763,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																			"title":data.trans_type+' '+buySellNum
 																		});
                                     var Earn;
+                                    var y;
                                     if (data.name=='AG_real') {
                                       Earn=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
+                                      y=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
                                     }else{
                                       Earn=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
+                                      y=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
                                     };
 																		chartArr.push({
 
 																			"x":chartData1[i].datetime,
-																			"y":Number((data.price-chartData1[i].price).toFixed(2)),
+																			//"y":Number((data.price-chartData1[i].price).toFixed(2)),
+																			"y":y,
 																			"volume":data.volume,
 																			"direction":data.pos,
 																			"Earn":Earn,
@@ -3761,15 +3818,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																	"title":data.trans_type+' '+buySellNum
 																});
                                 var Earn;
+                                var y;
                                 if (data.name=='AG_real') {
                                   Earn=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
+                                  y=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
                                 }else{
                                   Earn=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
+                                  y=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
                                 };
 																chartArr.push({
 
 																	"x":chartData1[i].datetime,
-																	"y":Number((data.price-chartData1[i].price).toFixed(2)),
+																	//"y":Number((data.price-chartData1[i].price).toFixed(2)),
+																	"y":y,
 																	"volume":data.volume,
 																	"direction":-1,
 																	//"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
@@ -3823,15 +3884,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																			"title":data.trans_type+' '+buySellNum
 																		});
                                     var Earn;
+                                    var y;
                                     if (data.name=='AG_real') {
                                       Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                                      y=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
                                     }else{
                                       Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                                      y=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
                                     };
 																		chartArr.push({
 
 																			"x":chartData1[i].datetime,
-																			"y":Number((chartData1[i].price-data.price).toFixed(2)),
+																			//"y":Number((chartData1[i].price-data.price).toFixed(2)),
+																			"y":y,
 																			"volume":data.volume,
 																			"direction":1,
 																			"Earn":Earn,
@@ -3872,15 +3937,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																	"title":data.trans_type+' '+buySellNum
 																});
                                 var Earn;
+                                var y;
                                 if (data.name=='AG_real') {
                                   Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                                  y=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
                                 }else{
                                   Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                                  y=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
                                 };
 																chartArr.push({
 
 																	"x":chartData1[i].datetime,
-																	"y":Number((chartData1[i].price-data.price).toFixed(2)),
+																	//"y":Number((chartData1[i].price-data.price).toFixed(2)),
+																	"y":y,
 																	"volume":data.volume,
 																	"direction":data.pos,
 																	//"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
@@ -4370,10 +4439,21 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 											angular.forEach(chartData11,function(data,index){
 												var hour=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(11,13));
 												var minute=parseInt($filter("date")(data["datetime"],"yyyy-MM-dd HH:mm:ss").slice(14,16));
-												if (hour<9||hour>15||(hour==15&&minute>30)) {
-												}else{
-													this.push(data);
-												};
+												// if (hour<9||hour>15||(hour==15&&minute>30)) {
+												// }else{
+												// 	this.push(data);
+												// };
+                        if(data['name']=='AG_real'){
+                          if(hour<6||hour>9){
+                            this.push(data);
+                          }
+                        }else{
+                          if(hour<9||hour>15||(hour==15&&minute>30)) {
+
+                          }else{
+                            this.push(data);
+                          };
+                        };
 											},chartData1);
 											var chartJsonDataArr=[];
 											var chartArr=[];
@@ -4411,15 +4491,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																			"title":data.trans_type+' '+buySellNum
 																		});
                                     var Earn;
+                                    var y;
                                     if (data.name=='AG_real') {
                                       Earn=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
+                                      y=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
                                     }else{
                                       Earn=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
+                                      y=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
                                     };
 																		chartArr.push({
 
 																			"x":chartData1[i].datetime,
-																			"y":Number((data.price-chartData1[i].price).toFixed(2)),
+																			//"y":Number((data.price-chartData1[i].price).toFixed(2)),
+																			"y":y,
 																			"volume":data.volume,
 																			"direction":data.pos,
 																			//"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
@@ -4463,15 +4547,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																	"title":data.trans_type+' '+buySellNum
 																});
                                 var Earn;
+                                var y;
                                 if (data.name=='AG_real') {
                                   Earn=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
+                                  y=Number((data.price-chartData1[i].price-0.32*2).toFixed(2));
                                 }else{
                                   Earn=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
+                                  y=Number((data.price*(1-0.00003)-chartData1[i].price*(1+0.00003)).toFixed(2));
                                 };
 																chartArr.push({
 
 																	"x":chartData1[i].datetime,
-																	"y":Number((data.price-chartData1[i].price).toFixed(2)),
+																	//"y":Number((data.price-chartData1[i].price).toFixed(2)),
+																	"y":y,
 																	"volume":data.volume,
 																	"direction":-1,
 																	//"Earn":Number((data.price-chartData1[i].price).toFixed(2)),
@@ -4525,15 +4613,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																			"title":data.trans_type+' '+buySellNum
 																		});
                                     var Earn;
+                                    var y;
                                     if (data.name=='AG_real') {
                                       Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                                      y=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
                                     }else{
                                       Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                                      y=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
                                     };
 																		chartArr.push({
 
 																			"x":chartData1[i].datetime,
-																			"y":Number((chartData1[i].price-data.price).toFixed(2)),
+																			//"y":Number((chartData1[i].price-data.price).toFixed(2)),
+																			"y":y,
 																			"volume":data.volume,
 																			"direction":1,
 																			//"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
@@ -4575,15 +4667,19 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 																	"title":data.trans_type+' '+buySellNum
 																});
                                 var Earn;
+                                var y;
                                 if (data.name=='AG_real') {
                                   Earn=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
+                                  y=Number((chartData1[i].price-data.price-0.32*2).toFixed(2));
                                 }else{
                                   Earn=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
+                                  y=Number((chartData1[i].price*(1-0.00003)-data.price*(1+0.00003)).toFixed(2));
                                 };
 																chartArr.push({
 
 																	"x":chartData1[i].datetime,
-																	"y":Number((chartData1[i].price-data.price).toFixed(2)),
+																	//"y":Number((chartData1[i].price-data.price).toFixed(2)),
+																	"y":y,
 																	"volume":data.volume,
 																	"direction":data.pos,
 																	//"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
