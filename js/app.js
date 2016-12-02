@@ -305,6 +305,9 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
       formdata.append('symbol', $scope.firmItem.symbol);
       formdata.append('class_id', strategysValue.id);
       formdata.append('author', strategysValue.author);
+      formdata.append('exchange', $scope.firmItem.exchange);
+      formdata.append('multiple', $scope.firmItem.multiple);
+      formdata.append('account_id', $scope.account._id);
       if (($scope.files != undefined) && ($scope.files != null)) {
         formdata.append('file', files);
       }
@@ -330,6 +333,20 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
           Showbo.Msg.alert('添加失败，请稍后再试。');
         });
     };
+    $scope.new =function () {
+      $http.get(constantUrl + "accounts/",{headers: {'Authorization': 'token ' + $cookieStore.get('user').token}})
+        .success(function (data) {
+          $scope.ids = data;
+
+         //console.log(data)
+        })
+        .error(function (err,sta) {
+          Showbo.Msg.alert('网络错误，请稍后再试。');
+        })
+
+    }
+    $scope.new();
+
 
 
     /* 创建历史回测 */
@@ -391,7 +408,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
           $scope.myHisStrategy = data;
           //console.log(data);
           $scope.getHisStrategys();
-          console.log(data);
+       //   console.log(data);
           Showbo.Msg.alert('添加成功。');
         })
         .error(function (err, st) {
@@ -1136,12 +1153,15 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
             this.push({
               "name": x["name"],
               '_id': x["_id"],
-              'status': x["status"]
+              'status': x["status"],
+              'exchange':x["exchange"]
             });
           }, $scope.myFirmStrategyList);
         });
     };
+
     getHisSelect();
+
     $scope.selecteStrategy = function () {
       $http.get(constantUrl + 'dates/', {
         params: {
@@ -1188,6 +1208,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
             "type": 'bar',
             "start": $scope.myFirmStartDate,
             "end": mydate
+
           },
           headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
         })
@@ -2482,7 +2503,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
               "name": x["name"],
               '_id': x["_id"],
               'status': x["status"],
-              'symbol': x["symbol"]
+              'symbol': x["symbol"],
+              'exchange':x["exchange"]
             });
           }, $scope.myFirmStrategyList)
         });
@@ -2508,6 +2530,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
     };
     $scope.makeChart1 = function () {
       var mydate = $filter('date')(new Date((new Date($scope.myFirmDate_end)).setDate((new Date($scope.myFirmDate_end)).getDate() + 1)), 'yyyy-MM-dd');
+      console.log(mydate);
 
       function getFirmTime() {
         var defer1 = $q.defer();//通过$q服务注册一个延迟对象 defer1
@@ -2529,10 +2552,15 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
       };
       function getTransTime() {
         var defer2 = $q.defer();
+        /*console.log($scope.myFirmStrategy);
+        console.log($scope.myFirmStrategy.exchange);
+        console.log($scope.myFirmStrategy.symbol);*/
         $http.get(constantUrl + 'datas/', {
           params: {
             "type": 'bar',
             "start": $scope.myFirmDate,
+            "symbol":$scope.myFirmStrategy.symbol,
+            "exchange":$scope.myFirmStrategy.exchange,
             "end": mydate
           },
           headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
@@ -2554,7 +2582,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
           $scope.analyse_title = {
             'time': $filter('date')($scope.myFirmDate, 'yyyy-MM-dd'),
             'name': $scope.myFirmStrategy.name,
-            'symbol': $scope.myFirmStrategy.symbol
+            'symbol': $scope.myFirmStrategy.symbol,
+
           };
           draws();
           function draws() {
@@ -2573,7 +2602,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                 }
               } else {
                 if (hour < 9 || hour > 15 || (hour == 15 && minute > 30)) {
-
+                  this.push(data);   /*加的代码*/
                 } else {
                   this.push(data);
                 }

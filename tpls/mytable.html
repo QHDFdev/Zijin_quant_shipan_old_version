@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat='d in mySourcingStrategy | orderBy: "class_name" '>
-                        <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
+                        <td class="hidden-id"  style="display: none" ng-bind='d._id'></td>
                         <td><a href="#/complie/{{d._id}}" ng-bind="d.class_name"></a></td>
                         <td ng-bind="d.code_name"></td>
                         <td ng-bind="d.author"></td>
@@ -180,6 +180,17 @@
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" ng-model='firmItem.symbol' placeholder="交易合约" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model='firmItem.exchange' placeholder="策略交易所代码" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model='firmItem.multiple' placeholder="策略交易手数的倍数" required>
+                    </div>
+                    <div>
+                        <select name="" id="" ng-model="account" ng-options="id as id._id for id in ids"></select>
+                        <h5>您选择的账号id是：{{account.uid}}</h5>
+                        <h5>您选择的交易所代码是：{{account.exchange}}</h5>
                     </div>
                     <div class="form-group">
                         <label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">
