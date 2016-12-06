@@ -307,7 +307,10 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
       formdata.append('author', strategysValue.author);
       formdata.append('exchange', $scope.firmItem.exchange);
       formdata.append('multiple', $scope.firmItem.multiple);
-      formdata.append('account_id', $scope.account._id);
+
+      if (($scope.files != undefined) && ($scope.files != null)) {
+        formdata.append('account_id', $scope.account._id);
+      }
       if (($scope.files != undefined) && ($scope.files != null)) {
         formdata.append('file', files);
       }
@@ -867,6 +870,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
         });
         amount = tradeItem.length;
         $scope.analyseDataArr = tradeItem;
+        console.log("+--------------  "+tradeItem.pal);
         /*$scope.annualized_return=parseFloat((Math.pow((1+total/100/amount),252/amount)-1)*100).toFixed(2);*/
         $scope.annualized_return = ((allTotalyeild / amount * 250)).toFixed(2);
         $scope.average_winrate = parseFloat(totalWinrate / amount).toFixed(2);
@@ -1296,10 +1300,10 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                               var y;
                               if (data.name == 'AG_real') {
                                 Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
-                                y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
+                                y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(4));
                               } else {
                                 Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-                                y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+                                y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(4));
                               }
                               ;
                               chartArr.push({
@@ -1634,6 +1638,13 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                 "x": data['opentime'],
                 "y": data['direction']
               });
+
+              if (data['direction'] > 0) {
+                data["Earn"] = data['closeprice']*0.0035-data['openprice']*0.0035;
+
+              } else {
+                data["Earn"] = data['openprice']*0.0035-data['closeprice']*0.0035;
+              }
               tradeItem.push({
                 "openprice": data['openprice'],
                 "closeprice": data['closeprice'],
@@ -1641,6 +1652,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                 "totalTime": totalTime,
                 "time": $filter('date')(data["opentime"], "yyyy-MM-dd HH:mm:ss"),
                 "pal": Number(data["Earn"].toFixed(2)),
+                // "pal":Number(a.toFixed(2)),
                 //"pal":data['closeprice']-data['openprice'],
                 "totalpal": Number(totalpal.toFixed(2)),
                 'direction': direction,
@@ -1672,6 +1684,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
             maxBack = (yeildArrs[yeildArrs.length - 1] - yeildArrs[0]) / yeildArrs[yeildArrs.length - 1];//最大回撤
             //console.log(maxBack);
             $scope.analyseDataArr = tradeItem;
+            //console.log($scope.analyseDataArr);
             /*$scope.annualized_return=Number(parseFloat((Math.pow((1+total/100/amount),252/amount)-1)*100).toFixed(2));*/
             /*$scope.average_winrate=Number(parseFloat(totalWinrate/amount).toFixed(2));*/
             $scope.average_winrate = (totalWinrate / amount).toFixed(2);
@@ -2234,6 +2247,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
             useUTC: false
           }
         });
+        // console.log("ssssssssssssssssssssss")
+        // console.log($scope.analyseJsonData);
         if ($scope.analyseJsonData) {
           chartJsonData = angular.fromJson($scope.analyseJsonData);
           angular.forEach(chartJsonData, function (data, index) {
@@ -2315,7 +2330,6 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                 }],
               selected: 5,
               buttonSpacing: 2
-
             },
             yAxis: [{
               labels: {
@@ -2335,7 +2349,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
               data: chartJsonDataArr,
               lineWidth: 2,
               id: 'dataseries',
-            }, {
+            },
+              {
               type: 'flags',
               data: wealth2,
               onSeries: "dataseries",
@@ -2348,7 +2363,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
               },
               y: 24,
               name: '看多'
-            }, {
+            },
+              {
               type: 'flags',
               data: wealth1,
               onSeries: "dataseries",
@@ -2471,7 +2487,6 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                 offset: 0,
                 lineWidth: 1,
               }],
-
             series: [{
               type: 'line',
               name: '总盈亏',
@@ -2530,7 +2545,6 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
     };
     $scope.makeChart1 = function () {
       var mydate = $filter('date')(new Date((new Date($scope.myFirmDate_end)).setDate((new Date($scope.myFirmDate_end)).getDate() + 1)), 'yyyy-MM-dd');
-      console.log(mydate);
 
       function getFirmTime() {
         var defer1 = $q.defer();//通过$q服务注册一个延迟对象 defer1
@@ -2577,6 +2591,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
       getFirmTime().then(function (data) {
         var chartData11 = data;
         //console.log(data);
+
         getTransTime().then(function (data) {
           var chartJsonData = data;
           $scope.analyse_title = {
@@ -2634,7 +2649,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                           for (var j = 0; j < indexShortArr.length; j++) {
                             if (indexShortArr[j] == i) {
                               break inter;
-                            } else if ((j == indexShortArr.length - 1) && (indexShortArr[j] != i)) {
+                            }
+                            else if ((j == indexShortArr.length - 1) && (indexShortArr[j] != i)) {
                               buySellNum++;
                               buyYArr.push({
                                 "short": "short",
@@ -2653,12 +2669,15 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                                 Earn = Number($filter('number')(data.price - chartData1[i].price - 0.32 * 2, 2));
                                 y = Number($filter('number')(data.price - chartData1[i].price - 0.32 * 2, 2));
                               } else {
-                                Earn = Number($filter('number')(data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003), 2));
+                                //Earn = data.price *0.0035-chartData1[i].price *0.0035;
+                                //console.log(data.price *0.0035-chartData1[i].price *0.0035)
+                                // console.log(chartData1[i].price *0.0035)
+                                 Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
                                 y = Number($filter('number')(data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003), 2));
                               }
                               ;
+                              //看空
                               chartArr.push({
-
                                 "x": chartData1[i].datetime,
                                 //"y":Number($filter('number')(data.price-chartData1[i].price,2)),
                                 "y": y,
@@ -2673,6 +2692,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                                 "name": data.name,
                                 "symbol": data.symbol
                               });
+                              //console.log(data.pos);
+
 
                               buyYArr.push({
                                 "short": "short",
@@ -2690,7 +2711,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                               break outer;
                             }
                           }
-                      } else {
+                      }
+                      else {
                         buySellNum++;
                         buyYArr.push({
                           "short": "short",
@@ -2710,6 +2732,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                           y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
                         } else {
                           Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+
+                          // Earn = data.price *0.0035 - chartData1[i].price *0.0035
                           y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
                         }
                         ;
@@ -2737,7 +2761,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                           "x": chartData1[i].datetime,
                           "name": chartData1[i].name,
                           "symbol": chartData1[i].symbol,
-                          "title": chartData1[i].trans_type + ' ' + buySellNum
+                          "title": chartDat1[i].trans_type + ' ' + buySellNum
                         });
                         indexShortArr.push(i);
                         break outer;
@@ -2778,10 +2802,13 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                                 Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
                                 y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
                               } else {
-                                Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                                 Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                                //Earn =chartData1[i].price * 0.0035 - data.price * 0.0035
                                 y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
                               }
                               ;
+
+                              //看多
                               chartArr.push({
 
                                 "x": chartData1[i].datetime,
@@ -2833,10 +2860,12 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                         var y;
                         if (data.name == 'AG_real') {
                           Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                          // console.log(Earn)
                           y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
                         } else {
                           Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                          y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                          // console.log(Earn)
+                          y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(4));
                         }
                         ;
                         chartArr.push({
@@ -2878,6 +2907,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
               }
               ;
             });
+
+
             /*console.log(chartArr);
              console.log($filter('date')(1477897077000,'yyyy-MM-dd H:mm:ss'));*/
             shortYArr = $filter('orderBy')(shortYArr, 'x');
@@ -2922,6 +2953,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
             var prof = 0;
             var loss = 0;
             var yeildArrs = [];
+
+
             //封装的计算时间的方法，这里只需要传进毫秒数 自动return HH:MM:SS 格式的时间；
             $scope.newTotalTime = function (time) {
               var hour = 0;
@@ -2951,6 +2984,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
             angular.forEach(delNum, function (data, index) {
               chartArr.splice(data, 1);
             });
+            //console.log(chartArr)
+            var count;
             angular.forEach(chartArr, function (data, index) {
               amount = tradeItem.length + 1;
               var totalTime = $scope.newTotalTime((data['closetime'] - data['opentime']));
@@ -2961,7 +2996,16 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
               //totalpal=totalpal+Number(data["Earn"]);
               totalpal = totalpal + Number(data["Earn"] - (data['openprice'] + data['closeprice']) / 1000 * 0.03);
               //allTotalpal=allTotalpal+Number(data["Earn"]);
-              allTotalpal = allTotalpal + Number(data["Earn"] - (data['openprice'] + data['closeprice']) / 1000 * 0.03);
+               allTotalpal = allTotalpal + Number(data["Earn"] - (data['openprice'] + data['closeprice']) / 1000 * 0.03);
+
+                //allTotalpal = allTotalpal + data["Earn"];  //自己加的代码
+              //console.log(data["Earn"])
+
+              //console.log(allTotalpal)
+
+              // console.log(data['openprice']*0.0035)
+               // console.log(Number(data["Earn"] - (data['openprice'] + data['closeprice']) / 1000 * 0.03));  //自己加的代码
+              // console.log(data["Earn"])//自己加的代码
               /*console.log(data["Earn"]);*/
               if (data['direction'] > 0) {
                 direction = '看多';
@@ -2996,7 +3040,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                 "time": $filter('date')(data["opentime"], "yyyy-MM-dd HH:mm:ss"),
                 //"pal":Number(data["Earn"].toFixed(2)),
                 //"pal":data['closeprice']-data['openprice'],
-                "pal": Number((data["Earn"] - (data['openprice'] + data['closeprice']) / 1000 * 0.03).toFixed(2)),
+                // "pal": Number((data["Earn"] - (data['openprice'] + data['closeprice']) / 1000 * 0.03).toFixed(2)),
+                "pal":data["Earn"],
                 "totalpal": Number(totalpal.toFixed(2)),
                 'direction': direction,
                 'yeild': Number((Number(data["Earn"] - (data['openprice'] + data['closeprice']) / 1000 * 0.03) * 100 / data['openprice']).toFixed(2)),
@@ -3005,6 +3050,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                 'closetime': $filter('date')(data["closetime"], "yyyy-MM-dd HH:mm:ss"),
                 "opentime": $filter('date')(data["opentime"], "yyyy-MM-dd HH:mm:ss")
               });
+
+             // console.log(data["Earn"])
               yeildArrs.push(parseFloat((((data['closeprice'] - data['openprice']) / data['openprice']) * 100).toFixed(2)));
               totalWinrate += winrate;//总胜率
               /*allTotalTime=allTotalTime+(data['closetime']-data['opentime']);*/
@@ -3014,7 +3061,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
               //allTotalyeild=allTotalyeild+Number((Number(data["Earn"])*100/data['openprice']));
               allTotalyeild = allTotalyeild + Number((Number(data["Earn"] - (data['openprice'] + data['closeprice']) / 1000 * 0.03) * 100 / data['openprice']));
               //allTotalyeild+=((data['closeprice']-data['openprice'])/data['openprice']);//总收益率
-            });
+               count=index;
+           });
             var allYelidArrPow = 0;
             var maxBack = 0;//最大回撤率
             amount = tradeItem.length;
@@ -3028,21 +3076,98 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
             maxBack = (yeildArrs[yeildArrs.length - 1] - yeildArrs[0]) / yeildArrs[yeildArrs.length - 1];//最大回撤
             //console.log(maxBack);
             $scope.analyseDataArr = tradeItem;
+            var allTotalpal= 0;
+            var allTotalyeild =0;
+            var oldtotal= 0;
+
+
+
+            //最大回撤ji
+            // maxBack = (yeildArrs[yeildArrs.length - 1] - yeildArrs[0]) / yeildArrs[yeildArrs.length - 1];//最大回撤ji
+            // $scope.analyseDataArr = tradeItem;
+            maxBack=0;
+            var down = new Array();
+            //最大回撤率
+            for(var i=0;i<count;i++){
+              //当前盈利
+              if ($scope.analyseDataArr[i].direction=="看多") {
+                //console.log("看多");
+                var test=$scope.analyseDataArr[i].closeprice-$scope.analyseDataArr[i].openprice-($scope.analyseDataArr[i].closeprice+$scope.analyseDataArr[i].openprice)*0.00035
+              }
+              else {
+                //console.log("看空");
+                var test=$scope.analyseDataArr[i].openprice-$scope.analyseDataArr[i].closeprice-($scope.analyseDataArr[i].openprice+$scope.analyseDataArr[i].closeprice)*0.00035
+              }
+              //console.log("当日盈利:"+test);
+              for(var j=i+1;j<count;j++){
+                //当日后某一天盈利
+                if ($scope.analyseDataArr[j].direction=="看多") {
+                  //console.log("看多");
+                  var test1=$scope.analyseDataArr[j].closeprice-$scope.analyseDataArr[j].openprice-($scope.analyseDataArr[j].closeprice+$scope.analyseDataArr[j].openprice)*0.00035
+                }
+                else {
+                  //console.log("看空");
+                  var test1=$scope.analyseDataArr[j].openprice-$scope.analyseDataArr[j].closeprice-($scope.analyseDataArr[j].openprice+$scope.analyseDataArr[j].closeprice)*0.00035
+                }
+                //console.log("某一天盈利:"+test1);
+                down[i]=(test-test1)/test;//与当天后所有某一天回撤率存放
+              }
+              //console.log("回撤率:"+down);
+              var max=Math.max.apply(null, down);//当天最大回撤率
+              //console.log("第"+i+"行的最大回撤："+max);
+              //console.log("-------------");
+              if(max>maxBack)  {
+                maxBack=max;
+              }
+            }
+
+
+
+            for(var i=0;i<count;i++){
+              if ($scope.analyseDataArr[i].direction=="看多") {
+                //console.log("看多");
+                var test=$scope.analyseDataArr[i].closeprice-$scope.analyseDataArr[i].openprice-($scope.analyseDataArr[i].closeprice+$scope.analyseDataArr[i].openprice)*0.00035
+              }
+              else {
+                //console.log("看空");
+                // var test=$scope.analyseDataArr[i].openprice*0.0035-$scope.analyseDataArr[i].closeprice*0.0035;
+                var test=$scope.analyseDataArr[i].openprice-$scope.analyseDataArr[i].closeprice-($scope.analyseDataArr[i].openprice+$scope.analyseDataArr[i].closeprice)*0.00035
+              }
+             // oldtotal+=$scope.analyseDataArr[i].pal;
+              $scope.analyseDataArr[i].pal=test;
+              chartArr[i].Earn = test;
+              chartArr[i].y = test;
+              $scope.analyseDataArr[i].yeild = test / $scope.analyseDataArr[i].openprice;
+              allTotalyeild +=$scope.analyseDataArr[i].yeild;
+              // console.log("盈亏:"+$scope.analyseDataArr[i].pal);
+              allTotalpal+=$scope.analyseDataArr[i].pal;
+              //console.log(totallv);
+            }
+
+            /*console.log("aaaaaaaaaaaaaaarrrrrrrr");
+            console.log(chartArr[i].Earn);*/
+
+            $scope.allTotalpal=allTotalpal;
+            $scope.allTotalyeild =allTotalyeild;
+            $scope.averTotalyeild = allTotalyeild/amount;
             /*$scope.annualized_return=Number(parseFloat((Math.pow((1+total/100/amount),252/amount)-1)*100).toFixed(2));*/
             /*$scope.average_winrate=Number(parseFloat(totalWinrate/amount).toFixed(2));*/
             $scope.average_winrate = (totalWinrate / amount).toFixed(2);
             $scope.average_profit = Number(parseFloat(prof / loss).toFixed(2));
             /*$scope.rate1=Number(parseFloat(totalRate1/amount).toFixed(2));*/
             $scope.rate1 = Number(parseFloat(allTotalyeild / amount).toFixed(2));
+
+
             /*$scope.rate2=Math.sqrt(parseFloat(totalRate2)/amount).toFixed(2);*/
             $scope.rate2 = Math.sqrt(allYelidArrPow / amount).toFixed(2);//策略收益波动率
             /*$scope.rate3=Number(parseFloat($scope.rate1/$scope.rate2).toFixed(2));*/
             $scope.rate3 = ((((allTotalyeild / amount * 250) * 100) - 1.10) / $scope.rate2).toFixed(2);//夏普比率
             $scope.rate4 = maxBack.toFixed(2);
-            $scope.allTotalpal = allTotalpal;
+           // $scope.allTotalpal = allTotalpal;
             /*$scope.allTotalyeild=Number(allTotalyeild.toFixed(2));*/
-            $scope.allTotalyeild = allTotalyeild.toFixed(4);
-            $scope.averTotalyeild = Number((allTotalyeild / amount).toFixed(4));
+            //$scope.allTotalyeild = allTotalyeild.toFixed(4);
+
+           // $scope.averTotalyeild = Number((allTotalyeild / amount).toFixed(4));
             $scope.annualized_return = (allTotalyeild / amount * 250).toFixed(2);
             $scope.errorYeild = ((((allTotalyeild / amount * 250) * 100) - 4.67) / $scope.rate2).toFixed(2);//跟踪误差年化波动率
             Highcharts.setOptions({
@@ -3065,6 +3190,10 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
             });
             chartJsonDataArr = $filter('orderBy')(chartJsonDataArr, 'x');
             //////////////////////////////////////////////////////////////////////////////////////////
+
+            //修改的highchart1
+           // console.log(chartArr[0].Earn);
+
             $('#return_map_big_1').highcharts('StockChart', {
               credits: {
                 enabled: false
@@ -3170,7 +3299,6 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                   }],
                 selected: 5,
                 buttonSpacing: 2
-
               },
               yAxis: [{
                 labels: {
@@ -3245,6 +3373,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                  }*/
               }]
             });
+            console.log("aaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbvvvvvvvvvvvvv")
+            console.log(chartArr)
             $('#return_map_big_form').highcharts('StockChart', {
               credits: {
                 enabled: false

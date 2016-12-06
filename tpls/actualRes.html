@@ -68,6 +68,7 @@
 							<a data-target="#return_mapping_1" aria-controls="return_mapping_1" role="tab" data-toggle="tab">
 								实盘交易走势图
 							</a>
+							<a href="">收益曲线图</a>
 						</dd>
 					</dl>
 					<dl class="analyse-menu-item">
@@ -200,14 +201,16 @@
 										<td>￥{{x.openprice | number : 2}}</td>
 										<td>{{x.closetime}}</td>
 										<td>￥{{x.closeprice | number : 2}}</td>
-										<td>￥{{x.pal | number : 2}}</td>
+										<!--<td>￥{{x.close	price*0.0035-x.openprice*0.0035 | number : 5}}</td>-->
+										<td>￥{{x.pal | number : 6}}</td>
+										<!--<td>￥{{x.direction=='看多'?x.closeprice*0.0035-x.openprice*0.0035:x.openprice*0.0035-x.closeprice*0.0035 | number :5}}</td>-->
 										<!-- <td>￥{{x.totalpal | number : 2}}</td> -->
 									</tr>
 								</tbody>
 								<tfoot>
 									<tr class='warning'>
 										<td>总盈亏</td>
-										<td>￥{{allTotalpal | number : 2}}</td>
+										<td>￥{{allTotalpal | number : 6}}</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
@@ -237,16 +240,16 @@
 										<td ng-bind='x.direction'></td>
 										<td>￥{{x.openprice | number : 2}}</td>
 										<td>￥{{x.closeprice | number : 2}}</td>
-										<td>￥{{x.pal | number : 2}}</td>
-										<td>{{x.yeild}}%</td>
+										<td>￥{{x.pal | number :6}}</td>
+										<td>{{x.yeild | number :6}}%</td>
 									</tr>
 								</tbody>
 								<tfoot>
 									<tr class='warning'>
 										<td>总收益率</td>
-										<td>{{allTotalyeild}}%</td>
+										<td>{{allTotalyeild |number :6}}%</td>
 										<td>平均收益率</td>
-										<td>{{averTotalyeild}}%</td>
+										<td>{{averTotalyeild |number :6}}%</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
 									</tr>
@@ -381,7 +384,7 @@
 										<td ng-bind='x.direction'></td>
 										<td>￥{{x.openprice | number : 2}}</td>
 										<td>￥{{x.closeprice | number : 2}}</td>
-										<td>{{x.yeild}}%</td>
+										<td>{{x.yeild |number :6 }}%</td>
 									</tr>
 								</tbody>
 								<tfoot>
@@ -450,6 +453,7 @@
 										<td>￥{{x.openprice | number : 2}}</td>
 										<td>￥{{x.closeprice | number : 2}}</td>
 										<td>{{x.yeildAbs}}%</td>
+										<!--<td>{{x.yeild}}%</td>-->
 									</tr>
 								</tbody>
 								<tfoot>
@@ -519,7 +523,7 @@
 									<td ng-bind='x.direction'></td>
 									<td>￥{{x.openprice | number : 2}}</td>
 									<td>￥{{x.closeprice | number : 2}}</td>
-									<td>{{x.yeild}}%</td>
+									<td>{{x.yeild | number : 6}}%</td>
 								</tr>
 								</tbody>
 								<tfoot>
@@ -808,7 +812,8 @@
 							<td ng-bind='x.direction'></td>
 							<td>￥{{x.openprice | number : 2}}</td>
 							<td>￥{{x.closeprice | number : 2}}</td>
-							<td>{{x.yeildAbs}}%</td>
+							<!--<td>{{x.yeildAbs}}%</td>-->
+							<td>{{x.yeild}}%</td>
 						</tr>
 					</tbody>
 					<tfoot>
