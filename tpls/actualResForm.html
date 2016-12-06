@@ -60,15 +60,15 @@
 						<td>￥{{x.openprice | number : 2}}</td>
 						<td>￥{{x.closeprice | number : 2}}</td>
 						<td>￥{{x.pal | number : 2}}</td>
-						<td>{{x.yeild}}%</td>
+						<td>{{x.yeild|number:6}}%</td>
 					</tr>
 				</tbody>
 				<tfoot>
 					<tr class='warning'>
 						<td>总收益率</td>
-						<td>{{allTotalyeild}}%</td>
+						<td>{{allTotalyeild|number:6}}%</td>
 						<td>平均收益率</td>
-						<td>{{averTotalyeild}}%</td>
+						<td>{{averTotalyeild|number:6}}%</td>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
 					</tr>

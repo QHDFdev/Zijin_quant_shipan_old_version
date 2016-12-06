@@ -74,6 +74,12 @@
 								数据回测图表
 							</a>
 						</dd>
+						<dd>
+							<a data-target="#return_mapping1" aria-controls="return_mapping1" role="tab" data-toggle="tab">
+								收益曲线图
+							</a>
+						</dd>
+
 					</dl>
 
 					<dl class="analyse-menu-item">
@@ -119,7 +125,7 @@
 						</dd>
 						<dd>
 							<a data-target="#average_earning_loss" aria-controls="average_earning_loss" role="tab" data-toggle="tab">
-								平均盈利/平均亏损
+								盈亏比
 							</a>
 						</dd>
 						<dd>
@@ -175,6 +181,12 @@
 						<div id="return_map_big" style="height:600px;width: 96%;margin: 0 auto;">
 						</div>
 					</div>
+					<div role="tabpanel" class="tab-pane" id="return_mapping1">
+						<h2 class="analyse-charts-title mb0">收益曲线图</h2>
+						<div id="return_map_big1" style="height:600px;width: 96%;margin: 0 auto;">
+						</div>
+					</div>
+
 					<!-- <div role="tabpanel" class="tab-pane" id="total_revenue_rate">
 						<h2 class="analyse-charts-title">策略得分</h2>
 						<ul class="list-unstyled">
@@ -242,13 +254,13 @@
 										<td>￥{{x.openprice | number : 2}}</td>
 										<td>￥{{x.closeprice | number : 2}}</td>
 										<td>￥{{x.pal | number : 2}}</td>
-										<td>{{x.yeild}}%</td>
+										<td>{{x.yeild|number:6}}%</td>
 									</tr>
 								</tbody>
 								<tfoot>
 									<tr class='warning'>
 										<td>总收益率</td>
-										<td>{{allTotalyeild}}%</td>
+										<td>{{allTotalyeild|number:6}}%</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
@@ -278,14 +290,14 @@
 										<td ng-bind='x.direction'></td>
 										<td>￥{{x.openprice | number : 2}}</td>
 										<td>￥{{x.closeprice | number : 2}}</td>
-										<td>{{x.yeild}}%</td>
+										<td>{{x.yeild|number:6}}%</td>
 										<!-- <td>{{annualized_return}}%</td> -->
 									</tr>
 								</tbody>
 								<tfoot>
 									<tr class='warning'>
 										<td>年化收益率</td>
-										<td>{{annualized_return}}%</td>
+										<td>{{annualized_return|number:6}}%</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
@@ -357,7 +369,7 @@
 								<tfoot>
 									<tr class='warning'>
 										<td>平均胜率</td>
-										<td>{{average_winrate}}%</td>
+										<td>{{average_winrate|number:6}}%</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
@@ -368,7 +380,7 @@
 						</div>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="average_earning_loss">
-						<h2 class="analyse-charts-title">平均盈利/平均亏损</h2>
+						<h2 class="analyse-charts-title">盈亏比</h2>
 						<div class="table-responsive">
 							<table class="table table-hover table-striped">
 								<thead>
@@ -377,7 +389,7 @@
 										<th>交易方向</th>
 										<th>开仓价</th>
 										<th>平仓价</th>
-										<th>盈利/亏损</th>
+										<th>收益率</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -386,13 +398,13 @@
 										<td ng-bind='x.direction'></td>
 										<td>￥{{x.openprice | number : 2}}</td>
 										<td>￥{{x.closeprice | number : 2}}</td>
-										<td>{{x.yeild}}%</td>
+										<td>{{x.yeild|number:6}}%</td>
 									</tr>
 								</tbody>
 								<tfoot>
 									<tr class='warning'>
-										<td>平均盈利/亏损</td>
-										<td>{{average_profit}}%</td>
+										<td>盈亏比</td>
+										<td>{{average_profit|number:6}}%</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
@@ -420,14 +432,14 @@
 										<td ng-bind='x.direction'></td>
 										<td>￥{{x.openprice | number : 2}}</td>
 										<td>￥{{x.closeprice | number : 2}}</td>
-										<td>{{x.yeild}}%</td>
+										<td>{{x.yeild|number:6}}%</td>
 									</tr>
 								</tbody>
 								<tfoot>
 									<tr class='warning'>
-										<td>平均净回报率为：{{rate1}}%</td>
-										<td>净回报率标准差为：{{rate2}}%</td>
-										<td>夏普比率为：{{rate3}}%</td>
+										<td>平均净回报率为：{{rate1|number:6}}%</td>
+										<td>净回报率标准差为：{{rate2|number:6}}%</td>
+										<td>夏普比率为：{{rate3|number:6}}%</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
 									</tr>
@@ -490,13 +502,13 @@
 								<td ng-bind='x.direction'></td>
 								<td>￥{{x.openprice | number : 2}}</td>
 								<td>￥{{x.closeprice | number : 2}}</td>
-								<td>{{x.yeild}}%</td>
+								<td>{{x.yeild|number:6}}%</td>
 							</tr>
 							</tbody>
 							<tfoot>
 							<tr class='warning'>
 								<td>信息比率为：</td>
-								<td>{{errorYeild}}%</td>
+								<td>{{errorYeild|number:6}}%</td>
 								<td>&nbsp;</td>
 								<td>&nbsp;</td>
 								<td>&nbsp;</td>
@@ -525,13 +537,13 @@
 								<td ng-bind='x.direction'></td>
 								<td>￥{{x.openprice | number : 2}}</td>
 								<td>￥{{x.closeprice | number : 2}}</td>
-								<td>{{x.yeild}}%</td>
+								<td>{{x.yeild|number:6}}%</td>
 							</tr>
 							</tbody>
 							<tfoot>
 							<tr class='warning'>
 								<td>策略收益波动率为：</td>
-								<td>{{rate2}}%</td>
+								<td>{{rate2|number:6}}%</td>
 								<td>&nbsp;</td>
 								<td>&nbsp;</td>
 								<td>&nbsp;</td>
@@ -643,9 +655,9 @@
 					<tfoot>
 						<tr class='warning'>
 							<td>总收益率</td>
-							<td>{{allTotalyeild}}%</td>
+							<td>{{allTotalyeild|number:6}}%</td>
 							<td>平均收益率</td>
-							<td>{{averTotalyeild}}%</td>
+							<td>{{averTotalyeild|number:6}}%</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>
 						</tr>
@@ -673,14 +685,14 @@
 							<td ng-bind='x.direction'></td>
 							<td>￥{{x.openprice | number : 2}}</td>
 							<td>￥{{x.closeprice | number : 2}}</td>
-							<td>{{x.yeild}}%</td>
+							<td>{{x.yeild|number:6}}%</td>
 							<!-- <td>{{annualized_return}}%</td> -->
 						</tr>
 					</tbody>
 					<tfoot>
 						<tr class='warning'>
 							<td>年化收益率</td>
-							<td>{{annualized_return}}%</td>
+							<td>{{annualized_return|number:6}}%</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>
@@ -727,7 +739,7 @@
 			</div>
 			<br>
 			<br>
-			<h2 class="analyse-charts-title">平均盈利/平均亏损</h2>
+			<h2 class="analyse-charts-title">盈亏比</h2>
 			<div class="table-responsive">
 				<table class="table table-hover table-striped">
 					<thead>
@@ -736,7 +748,7 @@
 							<th>交易方向</th>
 							<th>开仓价</th>
 							<th>平仓价</th>
-							<th>盈利/亏损</th>
+							<th>收益率</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -745,13 +757,13 @@
 							<td ng-bind='x.direction'></td>
 							<td>￥{{x.openprice | number : 2}}</td>
 							<td>￥{{x.closeprice | number : 2}}</td>
-							<td>{{x.yeild}}%</td>
+							<td>{{x.yeild|number:6}}%</td>
 						</tr>
 					</tbody>
 					<tfoot>
 						<tr class='warning'>
-							<td>平均盈利/亏损</td>
-							<td>{{average_profit}}%</td>
+							<td>盈亏比</td>
+							<td>{{average_profit|number:6}}%</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>
@@ -779,14 +791,14 @@
 							<td ng-bind='x.direction'></td>
 							<td>￥{{x.openprice | number : 2}}</td>
 							<td>￥{{x.closeprice | number : 2}}</td>
-							<td>{{x.yeild}}%</td>
+							<td>{{x.yeild|number:6}}%</td>
 						</tr>
 					</tbody>
 					<tfoot>
 						<tr class='warning'>
-							<td>平均净回报率为：{{rate1}}%</td>
-							<td>净回报率标准差为：{{rate2}}%</td>
-							<td>夏普比率为：{{rate3}}%</td>
+							<td>平均净回报率为：{{rate1|number:6}}%</td>
+							<td>净回报率标准差为：{{rate2|number:6}}%</td>
+							<td>夏普比率为：{{rate3|number:6}}%</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>
 						</tr>

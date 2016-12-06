@@ -1,4 +1,4 @@
-angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngResource', 'myService', 'hljs'])
+﻿angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngResource', 'myService', 'hljs'])
   .config(['$routeProvider', 'hljsServiceProvider', function ($routeProvider, hljsServiceProvider) {
     $routeProvider
       .when('/home', {
@@ -83,6 +83,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
       mobile: false,
       live: true
     });
+
     wow.init();
     /*var editor = ace.edit("editor");
      editor.setTheme("ace/theme/chrome");
@@ -119,7 +120,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
     $rootScope.$on('$routeChangeSuccess', function (eve, next, cur) {
 
       if ($location.url() == '/complie') {
-        console.log(123);
+        console.log('/complie');
       }
       ;
       $('html,body').scrollTop(0);
@@ -307,10 +308,12 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
       formdata.append('author', strategysValue.author);
       formdata.append('exchange', $scope.firmItem.exchange);
       formdata.append('multiple', $scope.firmItem.multiple);
-
-      if (($scope.files != undefined) && ($scope.files != null)) {
+      //formdata.append('account_id', $scope.account._id);
+      //修改实盘逻辑
+      if (($scope.account != undefined) && ($scope.account != null)) {
         formdata.append('account_id', $scope.account._id);
       }
+
       if (($scope.files != undefined) && ($scope.files != null)) {
         formdata.append('file', files);
       }
@@ -820,6 +823,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
         var prof = 0;
         var loss = 0;
         angular.forEach(chartArr, function (data, index) {
+          console.log("data: "+data);
           totalpal = totalpal + Number(data["Earn"]);
           allTotalpal = allTotalpal + Number(data["Earn"]);
           if (data['direction'] > 0) {
@@ -872,7 +876,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
         $scope.analyseDataArr = tradeItem;
         console.log("+--------------  "+tradeItem.pal);
         /*$scope.annualized_return=parseFloat((Math.pow((1+total/100/amount),252/amount)-1)*100).toFixed(2);*/
-        $scope.annualized_return = ((allTotalyeild / amount * 250)).toFixed(2);
+        //$scope.annualized_return = ((allTotalyeild / amount * 250)).toFixed(2);
+
         $scope.average_winrate = parseFloat(totalWinrate / amount).toFixed(2);
         $scope.average_profit = parseFloat(prof / loss).toFixed(2);
         $scope.rate1 = parseFloat(totalRate1 / amount).toFixed(2);
@@ -882,7 +887,12 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
         $scope.rate2 = Math.sqrt(parseFloat(totalRate2) / amount).toFixed(2);
         $scope.rate3 = parseFloat($scope.rate1 / $scope.rate2).toFixed(2);
         $scope.rate4 = (Math.max.apply(Math, totalRate4)).toFixed(2);
-        $scope.allTotalpal = allTotalpal;
+        //$scope.allTotalpal = allTotalpal;
+        var total=0;
+        for(var i=0;i<count;i++){
+          total+=$scope.analyseDataArr[i].pal;
+        }
+        $scope.allTotalpal=total;
         $scope.allTotalyeild = (allTotalyeild).toFixed(2);
         $scope.averTotalyeild = (allTotalyeild / amount).toFixed(4);
         Highcharts.setOptions({
@@ -1158,7 +1168,8 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
               "name": x["name"],
               '_id': x["_id"],
               'status': x["status"],
-              'exchange':x["exchange"]
+              'exchange':x["exchange"],
+              'symbol': x["symbol"],
             });
           }, $scope.myFirmStrategyList);
         });
@@ -1184,7 +1195,11 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
           ;
         });
     };
+    var nowsymbol;
     $scope.makeChart1 = function () {
+      //console.log($scope.myFirmStrategy);
+      //nowsymbol=$scope.myFirmStrateg;
+      //console.log("当前交易合约;"+$scope.myFirmStrategy.symbol);//当前交易合约
       var mydate = $filter('date')(new Date((new Date($scope.myFirmEndDate)).setDate((new Date($scope.myFirmEndDate)).getDate() + 1)), 'yyyy-MM-dd');
 
       function getHisTime() {
@@ -1300,10 +1315,10 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                               var y;
                               if (data.name == 'AG_real') {
                                 Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
-                                y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(4));
+                                y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
                               } else {
                                 Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-                                y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(4));
+                                y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
                               }
                               ;
                               chartArr.push({
@@ -1671,12 +1686,39 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
               allTotalyeild = allTotalyeild + Number((Number(data["Earn"]) * 100 / data['openprice']));
               //allTotalyeild+=((data['closeprice']-data['openprice'])/data['openprice']);//总收益率
             });
+
+            var symbol=$scope.myFirmStrategy.symbol[0]+$scope.myFirmStrategy.symbol[1];
+            //console.log(symbol);
+            var charge;
+            if(symbol=="IF"||symbol=="IC"||symbol||"IH"){
+              charge=0.00015;
+            }
+            else{
+              charge=0.00035;
+            }
+            //封装计算手续费方法
+            function gettest(i){
+              if ($scope.analyseDataArr[i].direction == "看多") {
+                //console.log("看多");
+                var test = $scope.analyseDataArr[i].closeprice - $scope.analyseDataArr[i].openprice - ($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
+              }
+              else {
+                //console.log("看空");
+                var test = $scope.analyseDataArr[i].openprice - $scope.analyseDataArr[i].closeprice - ($scope.analyseDataArr[i].openprice + $scope.analyseDataArr[i].closeprice) * charge;
+              }
+              test=Number((test).toFixed(6));
+              return test;
+            }
+
+
             var allYelidArrPow = 0;
             var maxBack = 0;//最大回撤率
             amount = tradeItem.length;
             console.log(amount);
+            var count=0;
             angular.forEach(tradeItem, function (data, index) {
               allYelidArrPow = allYelidArrPow + Math.pow(data["yeild"] - allTotalyeild, 2);
+              count++;
             });
             yeildArrs.sort(function (a, b) {
               return a - b;
@@ -1696,12 +1738,123 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
             /*$scope.rate3=Number(parseFloat($scope.rate1/$scope.rate2).toFixed(2));*/
             $scope.rate3 = ((((allTotalyeild / amount * 250) * 100) - 1.10) / $scope.rate2).toFixed(2);//夏普比率
             $scope.rate4 = maxBack.toFixed(2);
-            $scope.allTotalpal = allTotalpal;
+            //$scope.allTotalpal = allTotalpal;
+
             /*$scope.allTotalyeild=Number(allTotalyeild.toFixed(2));*/
-            $scope.allTotalyeild = allTotalyeild.toFixed(4);
-            $scope.averTotalyeild = Number((allTotalyeild / amount).toFixed(4));
-            $scope.annualized_return = ((allTotalyeild / amount * 250)).toFixed(2);
-            $scope.errorYeild = ((((allTotalyeild / amount * 250) * 100) - 4.67) / $scope.rate2).toFixed(2);//跟踪误差年化波动率
+            //$scope.allTotalyeild = allTotalyeild.toFixed(4);
+            //$scope.averTotalyeild = Number((allTotalyeild / amount).toFixed(4));
+            //$scope.annualized_return = ((allTotalyeild / amount * 250)).toFixed(2);
+
+            //回测回测回测
+// maxBack=0;  //最大回撤率，最大回撤就是最低点除以之前的最高减去1
+            //var down = new Array();
+            var max=0;
+            var min=100;
+            for(var i=0;i<count;i++) {
+              var test=gettest(i);
+              if (test > max) {
+                max=test;
+              }
+              if(test < min){
+                min=test;
+              }
+            }
+            maxBack=min/max-1;
+
+
+            $scope.allTotalpal=0;
+            for(var i=0;i<count;i++){
+              $scope.allTotalpal+=$scope.analyseDataArr[i].pal;
+              //console.log($scope.allTotalpal);
+            }
+            //收益率
+            var allTotalpal= 0;
+            var allTotalyeild =0;
+            var oldtotal= 0;
+            for(var i=0;i<count;i++){
+              var test=gettest(i);
+              // oldtotal+=$scope.analyseDataArr[i].pal;
+              $scope.analyseDataArr[i].pal=test;
+              chartArr[i].Earn = test;
+              chartArr[i].y=test;
+              $scope.analyseDataArr[i].yeild = test / $scope.analyseDataArr[i].openprice;
+              allTotalyeild +=$scope.analyseDataArr[i].yeild;
+              // console.log("盈亏:"+$scope.analyseDataArr[i].pal);
+              allTotalpal+=$scope.analyseDataArr[i].pal;
+              //console.log(totallv);
+            }
+            $scope.allTotalpal=allTotalpal;
+            $scope.allTotalyeild=allTotalyeild;
+            //$scope.annualized_return= 6;//年化收益率
+            $scope.annualized_return= allTotalyeild*250;//年化收益率
+            //$scope.annualized_return=Math.pow(allTotalyeild,250)-1;//年化收益率
+
+
+            var zheng=0;
+            for(var i=0;i<count;i++){
+              var test=gettest(i);
+              if(test>0){
+                $scope.analyseDataArr[i].winrate=100;
+                zheng++;
+              }
+              else{
+                $scope.analyseDataArr[i].winrate=0;
+              }
+            }
+            $scope.average_winrate=zheng/count*100;
+            var mean=0;
+            var a=0;
+            for(var i=0;i<count;i++){
+              var test=gettest(i);
+              mean+=test;
+              a+=Math.pow(test-mean,2);
+            }
+            mean=mean/count;//收益均值
+
+            // 平均盈利/平均亏损
+            $scope.average_profit=0;
+            var yin=0;
+            var kui=0;
+            for(var i=0;i<count;i++){
+              var test=gettest(i);
+              if(test>0){
+                yin+=test;
+              }else{
+                kui+=test;
+              }
+            }
+            var total=0;
+            var a=0;
+            var b=0;
+            for(var i=0;i<count;i++) {
+              var test=gettest(i);
+
+              $scope.analyseDataArr[i].yeild=test/$scope.analyseDataArr[i].openprice;
+
+              if(test>0){
+                a+=test;
+              }
+              else{
+                b+=test;
+              }
+              total+= $scope.analyseDataArr[i].yeild;
+            }
+            $scope.average_profit=Math.abs(a/b)*100;
+
+
+
+            var std=Math.sqrt(a);
+            var nianhua=std*Math.sqrt(250);//年化标准差,std*sqrt(250)是最普通的做法，mean的部分要乘以250(策略收益波动率)
+            //console.log(mean,std);
+            $scope.rate1=allTotalyeild/count;
+            //console.log(allTotalyeild,count);
+            $scope.rate2=nianhua;
+            $scope.rate3 =(mean)/std;//sharpe就每天受益平均下除以std
+            $scope.errorYeild=mean/nianhua;//信息比率(策略每日收益 - 参考标准每日收益)的年化均值 / 年化标准差
+
+            //$scope.errorYeild = ((((allTotalyeild / amount * 250) * 100) - 4.67) / $scope.rate2).toFixed(2);//跟踪误差年化波动率
+
+
             Highcharts.setOptions({
               global: {
                 useUTC: false
@@ -1902,6 +2055,75 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                  }*/
               }]
             });
+            $('#return_map_big1').highcharts('StockChart', {
+              chart:{
+                width:1200,
+                height:600
+              },
+
+              xAxis: {
+                tickInterval: 1
+              },
+
+              yAxis: {
+                type: '盈亏',
+                minorTickInterval: 0.1,
+                plotLines:[{
+                  color:'#A25E6B',           //线的颜色
+                  dashStyle:'solid',     //默认值，这里定义为实线
+                  value:0,               //定义在那个值上显示标示线，这里是在x轴上刻度为3的值处垂直化一条线
+                  width:2               //标示线的宽度，2px
+                }]
+
+              },
+
+
+              rangeSelector: {
+                buttons: [
+                  {
+                    type: 'minute',
+                    count: 10,
+                    text: '10m'
+                  }, {
+                    type: 'minute',
+                    count: 30,
+                    text: '30m'
+                  }, {
+                    type: 'hour',
+                    count: 1,
+                    text: '1h'
+                  }, {
+                    type: 'day',
+                    count: 1,
+                    text: '1d'
+                  }, {
+                    type: 'week',
+                    count: 1,
+                    text: '1w'
+                  }, {
+                    type: 'all',
+                    text: '所有'
+                  }],
+                selected: 5,
+                buttonSpacing: 2
+              },
+
+              series: [
+                {
+                  data: chartArr,
+                  name: '盈亏'
+                  /*lineWidth:2,*/
+
+                  /*color:'#e3170d',*/
+                  /*marker:{
+                   enabled:true,
+                   symbol:'circle',
+                   fillColor:'#0b1746',
+                   radius:5
+                   }*/
+                }]
+            });
+
           };
         });
       }, function (err, sta) {
@@ -2227,7 +2449,11 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
         });
         amount = tradeItem.length;//???
         $scope.analyseDataArr = tradeItem;//???
-        $scope.annualized_return = (allTotalyeild / amount * 250).toFixed(2);//???
+        //$scope.annualized_return = (allTotalyeild / amount * 250).toFixed(2);//???
+        //$scope.annualized_return=0;
+        //$scope.annualized_return= allTotalyeild*250;//年化收益率
+        ////$scope.annualized_return=Math.pow(allTotalyeild,250)-1;//年化收益率
+
         $scope.average_winrate = parseFloat(totalWinrate / amount).toFixed(2);
         $scope.average_profit = parseFloat(prof / loss).toFixed(2);//???
         $scope.rate1 = parseFloat(totalRate1 / amount).toFixed(2);//???
@@ -2239,9 +2465,9 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
         $scope.rate3 = parseFloat($scope.rate1 / $scope.rate2).toFixed(2);//???
         // math.max.apply() 取最大值
         $scope.rate4 = (Math.max.apply(Math, totalRate4)).toFixed(2);//totalRate4是一个数组
-        $scope.allTotalpal = allTotalpal;//???
-        $scope.allTotalyeild = (allTotalyeild).toFixed(2);//???
-        $scope.averTotalyeild = (allTotalyeild / amount).toFixed(4);//???
+        //$scope.allTotalpal = allTotalpal;//???
+        //$scope.allTotalyeild = (allTotalyeild).toFixed(2);//???
+        //$scope.averTotalyeild = (allTotalyeild / amount).toFixed(4);//???
         Highcharts.setOptions({
           global: {
             useUTC: false
@@ -2525,6 +2751,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
         });
     };
     getSelect();
+
     $scope.selecteStrategy = function () {
       $http.get(constantUrl + 'dates/', {
         params: {
@@ -2543,7 +2770,11 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
           ;
         });
     };
+    var nowsymbol;
     $scope.makeChart1 = function () {
+      //console.log("当前交易合约;"+$scope.myFirmStrategy.symbol);//当前交易合约
+      nowsymbol=$scope.myFirmStrategy.symbol
+      $scope.myFirmDate_end=$scope.myFirmDate;
       var mydate = $filter('date')(new Date((new Date($scope.myFirmDate_end)).setDate((new Date($scope.myFirmDate_end)).getDate() + 1)), 'yyyy-MM-dd');
 
       function getFirmTime() {
@@ -2761,7 +2992,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                           "x": chartData1[i].datetime,
                           "name": chartData1[i].name,
                           "symbol": chartData1[i].symbol,
-                          "title": chartDat1[i].trans_type + ' ' + buySellNum
+                          "title": chartData1[i].trans_type + ' ' + buySellNum
                         });
                         indexShortArr.push(i);
                         break outer;
@@ -2865,7 +3096,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                         } else {
                           Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
                           // console.log(Earn)
-                          y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(4));
+                          y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
                         }
                         ;
                         chartArr.push({
@@ -3061,82 +3292,88 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
               //allTotalyeild=allTotalyeild+Number((Number(data["Earn"])*100/data['openprice']));
               allTotalyeild = allTotalyeild + Number((Number(data["Earn"] - (data['openprice'] + data['closeprice']) / 1000 * 0.03) * 100 / data['openprice']));
               //allTotalyeild+=((data['closeprice']-data['openprice'])/data['openprice']);//总收益率
-               count=index;
+               count=index+1;
            });
+            //$http.get(constantUrl + "strategys/", {
+            //      headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+            //    })
+            //    .success(function (data) {
+            //      angular.forEach(data, function (x, y) {
+            //        this.push({
+            //          "name": x["name"],
+            //          '_id': x["_id"],
+            //          'status': x["status"],
+            //          'symbol': x["symbol"],
+            //          'exchange':x["exchange"]
+            //        });
+            //      }, $scope.myFirmStrategyList)
+            //    });
+            //
+            //for(var i=0;i<$scope.myFirmStrategyList.length;i++){
+            //  console.log($scope.myFirmStrategyList[i].symbol);
+            //}
+
             var allYelidArrPow = 0;
             var maxBack = 0;//最大回撤率
             amount = tradeItem.length;
-            console.log(amount);
+            //console.log(amount);
             angular.forEach(tradeItem, function (data, index) {
               allYelidArrPow = allYelidArrPow + Math.pow(data["yeild"] - allTotalyeild, 2);
             });
             yeildArrs.sort(function (a, b) {
               return a - b;
             });
-            maxBack = (yeildArrs[yeildArrs.length - 1] - yeildArrs[0]) / yeildArrs[yeildArrs.length - 1];//最大回撤
-            //console.log(maxBack);
+            //maxBack = (yeildArrs[yeildArrs.length - 1] - yeildArrs[0]) / yeildArrs[yeildArrs.length - 1];//最大回撤
             $scope.analyseDataArr = tradeItem;
+              maxBack=0;  //最大回撤率，最大回撤就是最低点除以之前的最高减去1
+              //var down = new Array();
+
+            console.log($scope.myFirmStrategy.symbol);
+            var symbol=$scope.myFirmStrategy.symbol[0]+$scope.myFirmStrategy.symbol[1];
+            var charge;
+            if(symbol=="IF"||symbol=="IC"||symbol||"IH"){
+              charge=0.00015;
+            }
+            else{
+              charge=0.00035;
+            }
+            //封装计算手续费方法
+            function gettest(i){
+              if ($scope.analyseDataArr[i].direction == "看多") {
+                //console.log("看多");
+                var test = $scope.analyseDataArr[i].closeprice - $scope.analyseDataArr[i].openprice - ($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
+              }
+              else {
+                //console.log("看空");
+                var test = $scope.analyseDataArr[i].openprice - $scope.analyseDataArr[i].closeprice - ($scope.analyseDataArr[i].openprice + $scope.analyseDataArr[i].closeprice) * charge;
+              }
+              test=Number((test).toFixed(6));
+              return test;
+            }
+
+            var max=0;
+              var min=100;
+              for(var i=0;i<count;i++) {
+                var test=gettest(i);
+              if (test > max) {
+                max=test;
+              }
+              if(test < min){
+                min=test;
+              }
+            }
+            maxBack=min/max-1;
+
+            //收益率
             var allTotalpal= 0;
             var allTotalyeild =0;
             var oldtotal= 0;
-
-
-
-            //最大回撤ji
-            // maxBack = (yeildArrs[yeildArrs.length - 1] - yeildArrs[0]) / yeildArrs[yeildArrs.length - 1];//最大回撤ji
-            // $scope.analyseDataArr = tradeItem;
-            maxBack=0;
-            var down = new Array();
-            //最大回撤率
             for(var i=0;i<count;i++){
-              //当前盈利
-              if ($scope.analyseDataArr[i].direction=="看多") {
-                //console.log("看多");
-                var test=$scope.analyseDataArr[i].closeprice-$scope.analyseDataArr[i].openprice-($scope.analyseDataArr[i].closeprice+$scope.analyseDataArr[i].openprice)*0.00035
-              }
-              else {
-                //console.log("看空");
-                var test=$scope.analyseDataArr[i].openprice-$scope.analyseDataArr[i].closeprice-($scope.analyseDataArr[i].openprice+$scope.analyseDataArr[i].closeprice)*0.00035
-              }
-              //console.log("当日盈利:"+test);
-              for(var j=i+1;j<count;j++){
-                //当日后某一天盈利
-                if ($scope.analyseDataArr[j].direction=="看多") {
-                  //console.log("看多");
-                  var test1=$scope.analyseDataArr[j].closeprice-$scope.analyseDataArr[j].openprice-($scope.analyseDataArr[j].closeprice+$scope.analyseDataArr[j].openprice)*0.00035
-                }
-                else {
-                  //console.log("看空");
-                  var test1=$scope.analyseDataArr[j].openprice-$scope.analyseDataArr[j].closeprice-($scope.analyseDataArr[j].openprice+$scope.analyseDataArr[j].closeprice)*0.00035
-                }
-                //console.log("某一天盈利:"+test1);
-                down[i]=(test-test1)/test;//与当天后所有某一天回撤率存放
-              }
-              //console.log("回撤率:"+down);
-              var max=Math.max.apply(null, down);//当天最大回撤率
-              //console.log("第"+i+"行的最大回撤："+max);
-              //console.log("-------------");
-              if(max>maxBack)  {
-                maxBack=max;
-              }
-            }
-
-
-
-            for(var i=0;i<count;i++){
-              if ($scope.analyseDataArr[i].direction=="看多") {
-                //console.log("看多");
-                var test=$scope.analyseDataArr[i].closeprice-$scope.analyseDataArr[i].openprice-($scope.analyseDataArr[i].closeprice+$scope.analyseDataArr[i].openprice)*0.00035
-              }
-              else {
-                //console.log("看空");
-                // var test=$scope.analyseDataArr[i].openprice*0.0035-$scope.analyseDataArr[i].closeprice*0.0035;
-                var test=$scope.analyseDataArr[i].openprice-$scope.analyseDataArr[i].closeprice-($scope.analyseDataArr[i].openprice+$scope.analyseDataArr[i].closeprice)*0.00035
-              }
+              var test=gettest(i);
              // oldtotal+=$scope.analyseDataArr[i].pal;
               $scope.analyseDataArr[i].pal=test;
               chartArr[i].Earn = test;
-              chartArr[i].y = test;
+              chartArr[i].y=test;
               $scope.analyseDataArr[i].yeild = test / $scope.analyseDataArr[i].openprice;
               allTotalyeild +=$scope.analyseDataArr[i].yeild;
               // console.log("盈亏:"+$scope.analyseDataArr[i].pal);
@@ -3144,8 +3381,6 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
               //console.log(totallv);
             }
 
-            /*console.log("aaaaaaaaaaaaaaarrrrrrrr");
-            console.log(chartArr[i].Earn);*/
 
             $scope.allTotalpal=allTotalpal;
             $scope.allTotalyeild =allTotalyeild;
@@ -3159,17 +3394,89 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
 
 
             /*$scope.rate2=Math.sqrt(parseFloat(totalRate2)/amount).toFixed(2);*/
-            $scope.rate2 = Math.sqrt(allYelidArrPow / amount).toFixed(2);//策略收益波动率
+            //$scope.rate2 = Math.sqrt(allYelidArrPow / amount).toFixed(2);//策略收益波动率
             /*$scope.rate3=Number(parseFloat($scope.rate1/$scope.rate2).toFixed(2));*/
-            $scope.rate3 = ((((allTotalyeild / amount * 250) * 100) - 1.10) / $scope.rate2).toFixed(2);//夏普比率
+            //$scope.rate3 = ((((allTotalyeild / amount * 250) * 100) - 1.10) / $scope.rate2).toFixed(2);//夏普比率
             $scope.rate4 = maxBack.toFixed(2);
            // $scope.allTotalpal = allTotalpal;
             /*$scope.allTotalyeild=Number(allTotalyeild.toFixed(2));*/
             //$scope.allTotalyeild = allTotalyeild.toFixed(4);
-
            // $scope.averTotalyeild = Number((allTotalyeild / amount).toFixed(4));
-            $scope.annualized_return = (allTotalyeild / amount * 250).toFixed(2);
-            $scope.errorYeild = ((((allTotalyeild / amount * 250) * 100) - 4.67) / $scope.rate2).toFixed(2);//跟踪误差年化波动率
+           // $scope.annualized_return = (allTotalyeild / amount * 250).toFixed(2);
+
+            $scope.annualized_return= allTotalyeild*250;//年化收益率
+            //$scope.annualized_return=Math.pow(allTotalyeild,250)-1;//年化收益率
+            //console.log(allTotalyeild,$scope.annualized_return);
+            //console.log(count);
+
+
+
+
+            var zheng=0;
+            for(var i=0;i<count;i++){
+              var test=gettest(i);
+              if(test>0){
+                $scope.analyseDataArr[i].winrate=100;
+                zheng++;
+              }
+              else{
+                $scope.analyseDataArr[i].winrate=0;
+              }
+            }
+            $scope.average_winrate=zheng/count*100;
+          var mean=0;
+            var a=0;
+            for(var i=0;i<count;i++){
+              var test=gettest(i);
+              mean+=test;
+              a+=Math.pow(test-mean,2);
+            }
+            mean=mean/count;//收益均值
+
+           // 平均盈利/平均亏损
+            $scope.average_profit=0;
+            var yin=0;
+            var kui=0;
+            for(var i=0;i<count;i++){
+              var test=gettest(i);
+              if(test>0){
+                yin+=test;
+              }else{
+                kui+=test;
+              }
+            }
+            var total=0;
+            var a=0;
+            var b=0;
+            for(var i=0;i<count;i++) {
+              var test=gettest(i);
+                $scope.analyseDataArr[i].yeild=test/$scope.analyseDataArr[i].openprice;
+
+              if(test>0){
+                a+=test;
+              }
+              else{
+                b+=test;
+              }
+
+              total+= $scope.analyseDataArr[i].yeild;
+            }
+            console.log(a,b);
+            $scope.average_profit=Math.abs(a/b)*100;
+
+
+
+            var std=Math.sqrt(a);
+            var nianhua=std*Math.sqrt(250);//年化标准差,std*sqrt(250)是最普通的做法，mean的部分要乘以250(策略收益波动率)
+            //console.log(mean,std);
+            $scope.rate1=allTotalyeild/count;
+            //console.log(allTotalyeild,count);
+            $scope.rate2=nianhua;
+            $scope.rate3 =(mean)/std;//sharpe就每天受益平均下除以std
+            $scope.errorYeild=mean/nianhua;//信息比率(策略每日收益 - 参考标准每日收益)的年化均值 / 年化标准差
+
+            //$scope.errorYeild = ((((allTotalyeild / amount * 250) * 100) - 4.67) / $scope.rate2).toFixed(2);//跟踪误差年化波动率
+
             Highcharts.setOptions({
               global: {
                 useUTC: false
@@ -3325,7 +3632,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
               }],
               series: [{
                 type: 'line',
-                name: '股价',
+                name: '股价444',
                 data: chartJsonDataArr,
                 lineWidth: 2,
                 id: 'dataseries'
@@ -3358,7 +3665,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
               }, {
                 type: 'column',
                 data: chartArr,
-                name: '盈亏',
+                name: '盈亏333',
                 /*lineWidth:2,*/
                 yAxis: 1,
                 threshold: 0,
@@ -3373,8 +3680,6 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                  }*/
               }]
             });
-            console.log("aaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbvvvvvvvvvvvvv")
-            console.log(chartArr)
             $('#return_map_big_form').highcharts('StockChart', {
               credits: {
                 enabled: false
@@ -3555,6 +3860,75 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
                  }*/
               }]
             });
+            $('#return_map_big_2').highcharts('StockChart', {
+              chart:{
+                width:1200,
+                height:600
+              },
+
+              xAxis: {
+                tickInterval: 1
+              },
+
+              yAxis: {
+                type: '盈亏',
+                minorTickInterval: 0.1,
+                plotLines:[{
+                  color:'#A25E6B',           //线的颜色
+                  dashStyle:'solid',     //默认值，这里定义为实线
+                  value:0,               //定义在那个值上显示标示线，这里是在x轴上刻度为3的值处垂直化一条线
+                  width:2                //标示线的宽度，2px
+                }]
+
+              },
+
+
+              rangeSelector: {
+                buttons: [
+                  {
+                    type: 'minute',
+                    count: 10,
+                    text: '10m'
+                  }, {
+                    type: 'minute',
+                    count: 30,
+                    text: '30m'
+                  }, {
+                    type: 'hour',
+                    count: 1,
+                    text: '1h'
+                  }, {
+                    type: 'day',
+                    count: 1,
+                    text: '1d'
+                  }, {
+                    type: 'week',
+                    count: 1,
+                    text: '1w'
+                  }, {
+                    type: 'all',
+                    text: '所有'
+                  }],
+                selected: 5,
+                buttonSpacing: 2
+              },
+
+              series: [
+                {
+                  data: chartArr,
+                  name: '盈亏'
+                  /*lineWidth:2,*/
+
+                  /*color:'#e3170d',*/
+                  /*marker:{
+                   enabled:true,
+                   symbol:'circle',
+                   fillColor:'#0b1746',
+                   radius:5
+                   }*/
+                }]
+            });
+
           };
         });
       });
@@ -5432,6 +5806,7 @@ angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngR
       }
     };
   })
+
   .factory('getModalResList', ['$q', '$http', 'constantUrl', '$cookieStore', function ($q, $http, constantUrl, $cookieStore) {
     return {
       getList: function (url) {
