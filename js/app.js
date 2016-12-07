@@ -12,6 +12,9 @@
       .when('/login', {
         templateUrl: 'tpls/login.html'
       })
+        .when('/introduce',{
+          templateUrl:'tpls/introduce.html'
+        })
       .when('/register', {
         templateUrl: 'tpls/register.html'
       })
@@ -287,6 +290,30 @@
       })
         .success(function (data) {
           $scope.myStrategy = data;
+          //鼠标悬浮文字
+          for(var i=0;i<$scope.myStrategy.length;i++){
+            var status=$scope.myStrategy[i].status;
+            //console.log($scope.myStrategy[i]);
+            if(status==-3){
+              $scope.myStrategy[i].title="deleted";
+            }
+            if(status==-2){
+              $scope.myStrategy[i].title= $scope.myStrategy[i].error;
+            }
+            if(status==-1){
+              $scope.myStrategy[i].title="not inited";
+            }if(status==-0){
+              $scope.myStrategy[i].title=" inited";
+            }if(status==1){
+              $scope.myStrategy[i].title="running";
+            }
+            if(status==2){
+              $scope.myStrategy[i].title="stoped or run over";
+            }
+            if(status==4){
+              $scope.myStrategy[i].title="lose because system restart";
+            }
+          }
           angular.forEach(data, function (item, index) {
             $scope.allStrategys.push(item);
           });
@@ -384,7 +411,7 @@
         });
     };
     $scope.addHisStrategy = function () {
-
+      //console.log(newHisStrategy);
       var files = $scope.files;
       var formdata = new FormData();
       if ($scope.modeBarOptions) {
@@ -394,7 +421,10 @@
       }
       ;
       var mydate = $filter('date')(new Date((new Date($scope.hisItem.end)).setDate((new Date($scope.hisItem.end)).getDate() + 1)), 'yyyy-MM-dd');
+      console.log($scope.hisItem);
       formdata.append('name', $scope.hisItem.name);
+      formdata.append('symbol', $scope.firmItem.symbol);
+      formdata.append('exchange', $scope.firmItem.exchange);
       formdata.append('start', $scope.hisItem.start);
       formdata.append('end', mydate);
       formdata.append('class_id', strategysValue.id);
@@ -430,6 +460,29 @@
       })
         .success(function (data) {
           $scope.myHisStrategy = data;
+          for(var i=0;i<$scope.myHisStrategy.length;i++){
+            var status=$scope.myHisStrategy[i].status;
+            console.log($scope.myHisStrategy[i]);
+            if(status==-3){
+              $scope.myHisStrategy[i].title="deleted";
+            }
+            if(status==-2){
+              $scope.myHisStrategy[i].title="error";
+            }
+            if(status==-1){
+              $scope.myHisStrategy[i].title="not inited";
+            }if(status==-0){
+              $scope.myHisStrategy[i].title=" inited";
+            }if(status==1){
+              $scope.myHisStrategy[i].title="running";
+            }
+            if(status==2){
+              $scope.myHisStrategy[i].title="stoped or run over";
+            }
+            if(status==4){
+              $scope.myHisStrategy[i].title="lose because system restart";
+            }
+          }
           angular.forEach(data, function (item, index) {
             $scope.allStrategys.push(item);
           });
@@ -538,7 +591,7 @@
               is_admin: data.is_admin,
               is_zijin: data.is_zijin
             });
-            console.log($cookieStore.get('user'));
+            //console.log($cookieStore.get('user'));
             $location.path('/home');
           })
           .error(function (err, sta) {
@@ -602,6 +655,7 @@
         var chartJsonData;
         var chartJsonDataArr = [];
         var chartArr = [];
+        //var chartArr1 = [];
         var indexShortArr = [];
         var indexBuyArr = [];
         $scope.analyseSymbol = " " + chartData1[0].symbol + ' ' + chartData1[0].name;
@@ -1170,6 +1224,7 @@
               'status': x["status"],
               'exchange':x["exchange"],
               'symbol': x["symbol"],
+              //'multiple': x["multiple"],//回测不需要倍数
             });
           }, $scope.myFirmStrategyList);
         });
@@ -1282,6 +1337,7 @@
             var buySellNum = 0;
             var buyYArr = [];
             var shortYArr = [];
+            var chartArr1 = [];
             $scope.highstockAnalyseanalyseSymbol = chartData1[0].symbol + ' ' + chartData1[0].name;
             angular.forEach(chartData1, function (data, index) {
               if (index == 0 && ((data.trans_type == "cover") || (data.trans_type == "sell")))
@@ -1337,6 +1393,25 @@
                                 "name": data.name,
                                 "symbol": data.symbol
                               });
+                              chartArr1.push({
+                                "text": '开仓价：' + data.price + '<br>平仓价：￥' + chartData1[i].price + '<br>盈亏：' + Earn,
+                                "title":"看空",
+                                "x": chartData1[i].datetime,
+                                //"y":Number((chartData1[i].price-data.price).toFixed(2)),
+                                "y": y,
+                                "volume": data.volume,
+                                "direction": data.pos,
+                                //"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+                                "Earn": Earn,
+                                "openprice": data.price,
+                                "closeprice": chartData1[i].price,
+                                "opentime": data.datetime,
+                                "closetime": chartData1[i].datetime,
+                                "present": chartData1[i].price,
+                                "name": data.name,
+                                "symbol": data.symbol
+                              })
+
 
                               buyYArr.push({
                                 "short": "short",
@@ -1396,6 +1471,25 @@
                           "name": data.name,
                           "symbol": data.symbol
                         });
+                        chartArr1.push({
+                          "text": '开仓价：' + data.price + '<br>平仓价：￥' + chartData1[i].price + '<br>盈亏：' + Earn,
+                          "title":"看空",
+                          "x": chartData1[i].datetime,
+                          //"y":Number((chartData1[i].price-data.price).toFixed(2)),
+                          "y": y,
+                          "volume": data.volume,
+                          "direction": data.pos,
+                          //"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+                          "Earn": Earn,
+                          "openprice": data.price,
+                          "closeprice": chartData1[i].price,
+                          "opentime": data.datetime,
+                          "closetime": chartData1[i].datetime,
+                          "present": chartData1[i].price,
+                          "name": data.name,
+                          "symbol": data.symbol
+                        })
+
                         buyYArr.push({
                           "short": "short",
                           "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
@@ -1467,6 +1561,24 @@
                                 "name": data.name,
                                 "symbol": data.symbol
                               });
+                              chartArr1.push({
+                                "text": '开仓价：' + data.price + '<br>平仓价：￥' + chartData1[i].price + '<br>盈亏：' + Earn,
+                                "title":"看多",
+                                "x": chartData1[i].datetime,
+                                //"y":Number((chartData1[i].price-data.price).toFixed(2)),
+                                "y": y,
+                                "volume": data.volume,
+                                "direction": data.pos,
+                                //"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+                                "Earn": Earn,
+                                "openprice": data.price,
+                                "closeprice": chartData1[i].price,
+                                "opentime": data.datetime,
+                                "closetime": chartData1[i].datetime,
+                                "present": chartData1[i].price,
+                                "name": data.name,
+                                "symbol": data.symbol
+                              })
                               shortYArr.push({
                                 "buy": 'buy',
                                 "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
@@ -1524,6 +1636,25 @@
                           "name": data.name,
                           "symbol": data.symbol
                         });
+                        chartArr1.push({
+                          "text": '开仓价：' + data.price + '<br>平仓价：￥' + chartData1[i].price + '<br>盈亏：' + Earn,
+                          "title":"看空",
+                          "x": chartData1[i].datetime,
+                          //"y":Number((chartData1[i].price-data.price).toFixed(2)),
+                          "y": y,
+                          "volume": data.volume,
+                          "direction": data.pos,
+                          //"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+                          "Earn": Earn,
+                          "openprice": data.price,
+                          "closeprice": chartData1[i].price,
+                          "opentime": data.datetime,
+                          "closetime": chartData1[i].datetime,
+                          "present": chartData1[i].price,
+                          "name": data.name,
+                          "symbol": data.symbol
+                        })
+
                         shortYArr.push({
                           "buy": 'buy',
                           "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
@@ -1686,25 +1817,35 @@
               allTotalyeild = allTotalyeild + Number((Number(data["Earn"]) * 100 / data['openprice']));
               //allTotalyeild+=((data['closeprice']-data['openprice'])/data['openprice']);//总收益率
             });
-
-            var symbol=$scope.myFirmStrategy.symbol[0]+$scope.myFirmStrategy.symbol[1];
-            //console.log(symbol);
-            var charge;
-            if(symbol=="IF"||symbol=="IC"||symbol||"IH"){
-              charge=0.00015;
-            }
-            else{
-              charge=0.00035;
-            }
+            console.log($scope.myFirmStrategy);
             //封装计算手续费方法
             function gettest(i){
+              var symbol=$scope.myFirmStrategy.symbol[0]+$scope.myFirmStrategy.symbol[1];
+              var charge;
+              if(symbol=="IF"||symbol=="IC"||symbol||"IH"){
+                charge=0.00015;
+              }
+              if(symbol=="D1"){
+                charge=0.0008;
+              }
+              if(symbol=="D6"){
+                charge=0.0008;
+              }
+              var test =($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
+              //console.log(symbol,charge,test,$scope.myFirmStrategy.multiple);
+              test=Number((test).toFixed(6));
+              //历史回测没有交易手数
+              return test;
+            }
+            //无手续费盈亏
+            function notest(i){
               if ($scope.analyseDataArr[i].direction == "看多") {
                 //console.log("看多");
-                var test = $scope.analyseDataArr[i].closeprice - $scope.analyseDataArr[i].openprice - ($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
+                var test = $scope.analyseDataArr[i].closeprice - $scope.analyseDataArr[i].openprice;
               }
               else {
                 //console.log("看空");
-                var test = $scope.analyseDataArr[i].openprice - $scope.analyseDataArr[i].closeprice - ($scope.analyseDataArr[i].openprice + $scope.analyseDataArr[i].closeprice) * charge;
+                var test = $scope.analyseDataArr[i].openprice - $scope.analyseDataArr[i].closeprice;
               }
               test=Number((test).toFixed(6));
               return test;
@@ -1714,7 +1855,7 @@
             var allYelidArrPow = 0;
             var maxBack = 0;//最大回撤率
             amount = tradeItem.length;
-            console.log(amount);
+            //console.log(amount);
             var count=0;
             angular.forEach(tradeItem, function (data, index) {
               allYelidArrPow = allYelidArrPow + Math.pow(data["yeild"] - allTotalyeild, 2);
@@ -1751,7 +1892,7 @@
             var max=0;
             var min=100;
             for(var i=0;i<count;i++) {
-              var test=gettest(i);
+              var test=notest(i)-gettest(i);
               if (test > max) {
                 max=test;
               }
@@ -1769,30 +1910,37 @@
             }
             //收益率
             var allTotalpal= 0;
+            var allTotaltest=0;
+            var allTotaltestpal=0;
             var allTotalyeild =0;
-            var oldtotal= 0;
             for(var i=0;i<count;i++){
-              var test=gettest(i);
-              // oldtotal+=$scope.analyseDataArr[i].pal;
-              $scope.analyseDataArr[i].pal=test;
+              var test=notest(i)-gettest(i);
+              test=Number((test).toFixed(6));
               chartArr[i].Earn = test;
               chartArr[i].y=test;
+              $scope.analyseDataArr[i].pal=test;
+              $scope.analyseDataArr[i].test=gettest(i);
+              $scope.analyseDataArr[i].testpal=notest(i);
               $scope.analyseDataArr[i].yeild = test / $scope.analyseDataArr[i].openprice;
               allTotalyeild +=$scope.analyseDataArr[i].yeild;
-              // console.log("盈亏:"+$scope.analyseDataArr[i].pal);
               allTotalpal+=$scope.analyseDataArr[i].pal;
-              //console.log(totallv);
+              allTotaltestpal+=$scope.analyseDataArr[i].testpal;
+              allTotaltest+=gettest(i);
+
             }
+            $scope.allTotaltest=allTotaltest;
+            $scope.allTotaltestpal=allTotaltestpal;
             $scope.allTotalpal=allTotalpal;
-            $scope.allTotalyeild=allTotalyeild;
-            //$scope.annualized_return= 6;//年化收益率
+            $scope.allTotalyeild =allTotalyeild;
             $scope.annualized_return= allTotalyeild*250;//年化收益率
             //$scope.annualized_return=Math.pow(allTotalyeild,250)-1;//年化收益率
 
 
+            //胜率
             var zheng=0;
+            var zheng1=0;
             for(var i=0;i<count;i++){
-              var test=gettest(i);
+              var test=notest(i)-gettest(i);
               if(test>0){
                 $scope.analyseDataArr[i].winrate=100;
                 zheng++;
@@ -1800,12 +1948,32 @@
               else{
                 $scope.analyseDataArr[i].winrate=0;
               }
+
+              if ($scope.analyseDataArr[i].direction == "看多") {
+                if($scope.analyseDataArr[i].closeprice>$scope.analyseDataArr[i].openprice){
+                  $scope.analyseDataArr[i].jiaoyiwinrate=100;
+                  zheng1++;
+                }
+                else {
+                  $scope.analyseDataArr[i].jiaoyiwinrate=0;
+                }
+              }
+              else {
+                //console.log("看空");
+                if($scope.analyseDataArr[i].closeprice<$scope.analyseDataArr[i].openprice){
+                  $scope.analyseDataArr[i].jiaoyiwinrate=100;
+                  zheng1++;
+                }
+                else {
+                  $scope.analyseDataArr[i].jiaoyiwinrate=0;
+                }              }
             }
             $scope.average_winrate=zheng/count*100;
+            $scope.average_jioayiwinrate=zheng1/count*100;
             var mean=0;
             var a=0;
             for(var i=0;i<count;i++){
-              var test=gettest(i);
+              var test=notest(i)-gettest(i);
               mean+=test;
               a+=Math.pow(test-mean,2);
             }
@@ -1816,7 +1984,7 @@
             var yin=0;
             var kui=0;
             for(var i=0;i<count;i++){
-              var test=gettest(i);
+              var test=notest(i)-gettest(i);
               if(test>0){
                 yin+=test;
               }else{
@@ -1827,7 +1995,7 @@
             var a=0;
             var b=0;
             for(var i=0;i<count;i++) {
-              var test=gettest(i);
+              var test=notest(i)-gettest(i);
 
               $scope.analyseDataArr[i].yeild=test/$scope.analyseDataArr[i].openprice;
 
@@ -2060,23 +2228,19 @@
                 width:1200,
                 height:600
               },
-
               xAxis: {
                 tickInterval: 1
               },
-
-              yAxis: {
+              yAxis: [{
                 type: '盈亏',
                 minorTickInterval: 0.1,
                 plotLines:[{
                   color:'#A25E6B',           //线的颜色
                   dashStyle:'solid',     //默认值，这里定义为实线
                   value:0,               //定义在那个值上显示标示线，这里是在x轴上刻度为3的值处垂直化一条线
-                  width:2               //标示线的宽度，2px
-                }]
-
-              },
-
+                  width:2                //标示线的宽度，2px
+                }],
+              }],
 
               rangeSelector: {
                 buttons: [
@@ -2108,26 +2272,61 @@
                 buttonSpacing: 2
               },
 
+              plotOptions: {
+                spline: {
+                  lineWidth: 1.5,
+                  fillOpacity: 0.1,
+                  marker: {
+                    enabled: false,
+                    states: {
+                      hover: {
+                        enabled: true,
+                        radius: 2
+                      }
+                    }
+                  },
+                  shadow: false
+                }
+              },
+
               series: [
                 {
                   data: chartArr,
-                  name: '盈亏'
-                  /*lineWidth:2,*/
+                  name: '盈亏',
+                  marker:{
+                    enabled:true,
+                    symbol:'square',
+                    fillColor:'blue',
+                    radius:5
+                  },
+                  id:"yingkui",
+                  color:'#eec710'
+                },
+                {
+                  type: 'flags',
+                  data: chartArr1,
+                  onSeries: "yingkui",
+                  shape: 'squarepin',
+                  width: 36,
+                  color: "#4169e1",
+                  fillColor: 'transparent',
+                  style: {
+                    color: '#333'
+                  },
+                  name:"详情",
+                  y:-50
 
-                  /*color:'#e3170d',*/
-                  /*marker:{
-                   enabled:true,
-                   symbol:'circle',
-                   fillColor:'#0b1746',
-                   radius:5
-                   }*/
-                }]
+
+                }
+
+              ]
             });
+
 
           };
         });
       }, function (err, sta) {
-        Showbo.Msg.alert('没有交易数据');
+        Showbo.Msg.alert('没有交易数据!');
       });
       /*function getTransTime(){
        var defer2=$q.defer();
@@ -2745,7 +2944,8 @@
               '_id': x["_id"],
               'status': x["status"],
               'symbol': x["symbol"],
-              'exchange':x["exchange"]
+              'exchange':x["exchange"],
+              'multiple': x["multiple"],
             });
           }, $scope.myFirmStrategyList)
         });
@@ -2806,6 +3006,7 @@
             "start": $scope.myFirmDate,
             "symbol":$scope.myFirmStrategy.symbol,
             "exchange":$scope.myFirmStrategy.exchange,
+            "multiple":$scope.myFirmStrategy.multiple,
             "end": mydate
           },
           headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
@@ -2829,6 +3030,7 @@
             'time': $filter('date')($scope.myFirmDate, 'yyyy-MM-dd'),
             'name': $scope.myFirmStrategy.name,
             'symbol': $scope.myFirmStrategy.symbol,
+            "multiple":$scope.myFirmStrategy.multiple,
 
           };
           draws();
@@ -2859,6 +3061,7 @@
             /*$('#return_mapping_1').css('display','block').siblings().css('display','none');*/
             var chartJsonDataArr = [];
             var chartArr = [];
+            var chartArr1 = [];
             var indexShortArr = [];
             var indexBuyArr = [];
             var buySellNum = 0;
@@ -2923,6 +3126,25 @@
                                 "name": data.name,
                                 "symbol": data.symbol
                               });
+                              chartArr1.push({
+                                "text": '开仓价：' + data.price + '<br>平仓价：￥' + chartData1[i].price + '<br>盈亏：' + Earn,
+                                "title":"看空",
+                                "x": chartData1[i].datetime,
+                                //"y":Number((chartData1[i].price-data.price).toFixed(2)),
+                                "y": y,
+                                "volume": data.volume,
+                                "direction": data.pos,
+                                //"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+                                "Earn": Earn,
+                                "openprice": data.price,
+                                "closeprice": chartData1[i].price,
+                                "opentime": data.datetime,
+                                "closetime": chartData1[i].datetime,
+                                "present": chartData1[i].price,
+                                "name": data.name,
+                                "symbol": data.symbol
+                              })
+
                               //console.log(data.pos);
 
 
@@ -2983,6 +3205,25 @@
                           "name": data.name,
                           "symbol": data.symbol
                         });
+                        chartArr1.push({
+                          "text": '开仓价：' + data.price + '<br>平仓价：￥' + chartData1[i].price + '<br>盈亏：' + Earn,
+                          "title":"看空",
+                          "x": chartData1[i].datetime,
+                          //"y":Number((chartData1[i].price-data.price).toFixed(2)),
+                          "y": y,
+                          "volume": data.volume,
+                          "direction": data.pos,
+                          //"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+                          "Earn": Earn,
+                          "openprice": data.price,
+                          "closeprice": chartData1[i].price,
+                          "opentime": data.datetime,
+                          "closetime": chartData1[i].datetime,
+                          "present": chartData1[i].price,
+                          "name": data.name,
+                          "symbol": data.symbol
+                        })
+
                         buyYArr.push({
                           "short": "short",
                           "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
@@ -3057,6 +3298,25 @@
                                 "name": data.name,
                                 "symbol": data.symbol
                               });
+                              chartArr1.push({
+                                "text": '开仓价：' + data.price + '<br>平仓价：￥' + chartData1[i].price + '<br>盈亏：' + Earn,
+                                "title":"看多",
+                                "x": chartData1[i].datetime,
+                                //"y":Number((chartData1[i].price-data.price).toFixed(2)),
+                                "y": y,
+                                "volume": data.volume,
+                                "direction": data.pos,
+                                //"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+                                "Earn": Earn,
+                                "openprice": data.price,
+                                "closeprice": chartData1[i].price,
+                                "opentime": data.datetime,
+                                "closetime": chartData1[i].datetime,
+                                "present": chartData1[i].price,
+                                "name": data.name,
+                                "symbol": data.symbol
+                              })
+
                               shortYArr.push({
                                 "buy": 'buy',
                                 "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
@@ -3116,6 +3376,25 @@
                           "name": data.name,
                           "symbol": data.symbol
                         });
+                        chartArr1.push({
+                          "text": '开仓价：' + data.price + '<br>平仓价：￥' + chartData1[i].price + '<br>盈亏：' + Earn,
+                          "title":"看空",
+                          "x": chartData1[i].datetime,
+                          //"y":Number((chartData1[i].price-data.price).toFixed(2)),
+                          "y": y,
+                          "volume": data.volume,
+                          "direction": data.pos,
+                          //"Earn":Number((chartData1[i].price-data.price).toFixed(2)),
+                          "Earn": Earn,
+                          "openprice": data.price,
+                          "closeprice": chartData1[i].price,
+                          "opentime": data.datetime,
+                          "closetime": chartData1[i].datetime,
+                          "present": chartData1[i].price,
+                          "name": data.name,
+                          "symbol": data.symbol
+                        })
+
                         shortYArr.push({
                           "buy": 'buy',
                           "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
@@ -3328,25 +3607,38 @@
               maxBack=0;  //最大回撤率，最大回撤就是最低点除以之前的最高减去1
               //var down = new Array();
 
-            console.log($scope.myFirmStrategy.symbol);
-            var symbol=$scope.myFirmStrategy.symbol[0]+$scope.myFirmStrategy.symbol[1];
-            var charge;
-            if(symbol=="IF"||symbol=="IC"||symbol||"IH"){
-              charge=0.00015;
-            }
-            else{
-              charge=0.00035;
-            }
+            console.log($scope.myFirmStrategy);
+
             //封装计算手续费方法
             function gettest(i){
+              var symbol=$scope.myFirmStrategy.symbol[0]+$scope.myFirmStrategy.symbol[1];
+              var charge;
+              if(symbol=="IF"||symbol=="IC"||symbol||"IH"){
+                charge=0.00015;
+              }
+              if(symbol=="D1"){
+                charge=0.0008;
+              }
+              if(symbol=="D6"){
+                charge=0.0008;
+              }
+              var test =($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
+              //console.log(symbol,charge,test,$scope.myFirmStrategy.multiple);
+              test=test*$scope.myFirmStrategy.multiple;
+              test=Number((test).toFixed(6));
+              return test;
+            }
+            //无手续费盈亏
+            function notest(i){
               if ($scope.analyseDataArr[i].direction == "看多") {
                 //console.log("看多");
-                var test = $scope.analyseDataArr[i].closeprice - $scope.analyseDataArr[i].openprice - ($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
+                var test = $scope.analyseDataArr[i].closeprice - $scope.analyseDataArr[i].openprice;
               }
               else {
                 //console.log("看空");
-                var test = $scope.analyseDataArr[i].openprice - $scope.analyseDataArr[i].closeprice - ($scope.analyseDataArr[i].openprice + $scope.analyseDataArr[i].closeprice) * charge;
+                var test = $scope.analyseDataArr[i].openprice - $scope.analyseDataArr[i].closeprice;
               }
+              test=test*$scope.myFirmStrategy.multiple;
               test=Number((test).toFixed(6));
               return test;
             }
@@ -3366,55 +3658,58 @@
 
             //收益率
             var allTotalpal= 0;
+            var allTotaltest=0;
+            var allTotaltestpal=0;
             var allTotalyeild =0;
-            var oldtotal= 0;
             for(var i=0;i<count;i++){
-              var test=gettest(i);
-             // oldtotal+=$scope.analyseDataArr[i].pal;
-              $scope.analyseDataArr[i].pal=test;
+              var test=notest(i)-gettest(i);
+              test=Number((test).toFixed(6));
               chartArr[i].Earn = test;
               chartArr[i].y=test;
+              $scope.analyseDataArr[i].pal=test;
+              $scope.analyseDataArr[i].test=gettest(i);
+              $scope.analyseDataArr[i].testpal=notest(i);
               $scope.analyseDataArr[i].yeild = test / $scope.analyseDataArr[i].openprice;
               allTotalyeild +=$scope.analyseDataArr[i].yeild;
-              // console.log("盈亏:"+$scope.analyseDataArr[i].pal);
               allTotalpal+=$scope.analyseDataArr[i].pal;
-              //console.log(totallv);
+              allTotaltestpal+=$scope.analyseDataArr[i].testpal;
+              allTotaltest+=gettest(i);
+              $scope.analyseDataArr[i].multiple=$scope.myFirmStrategy.multiple;
             }
-
-
+            $scope.allTotaltest=allTotaltest;
+            $scope.allTotaltestpal=allTotaltestpal;
             $scope.allTotalpal=allTotalpal;
             $scope.allTotalyeild =allTotalyeild;
             $scope.averTotalyeild = allTotalyeild/amount;
+            $scope.annualized_return= allTotalyeild*250;//年化收益率
+
             /*$scope.annualized_return=Number(parseFloat((Math.pow((1+total/100/amount),252/amount)-1)*100).toFixed(2));*/
             /*$scope.average_winrate=Number(parseFloat(totalWinrate/amount).toFixed(2));*/
             $scope.average_winrate = (totalWinrate / amount).toFixed(2);
             $scope.average_profit = Number(parseFloat(prof / loss).toFixed(2));
             /*$scope.rate1=Number(parseFloat(totalRate1/amount).toFixed(2));*/
             $scope.rate1 = Number(parseFloat(allTotalyeild / amount).toFixed(2));
-
-
+            //$scope.annualized_return=Math.pow(allTotalyeild,250)-1;//年化收益率
+            //console.log(allTotalyeild,$scope.annualized_return);
+            //console.log(count);
             /*$scope.rate2=Math.sqrt(parseFloat(totalRate2)/amount).toFixed(2);*/
             //$scope.rate2 = Math.sqrt(allYelidArrPow / amount).toFixed(2);//策略收益波动率
             /*$scope.rate3=Number(parseFloat($scope.rate1/$scope.rate2).toFixed(2));*/
             //$scope.rate3 = ((((allTotalyeild / amount * 250) * 100) - 1.10) / $scope.rate2).toFixed(2);//夏普比率
             $scope.rate4 = maxBack.toFixed(2);
-           // $scope.allTotalpal = allTotalpal;
+            // $scope.allTotalpal = allTotalpal;
             /*$scope.allTotalyeild=Number(allTotalyeild.toFixed(2));*/
             //$scope.allTotalyeild = allTotalyeild.toFixed(4);
-           // $scope.averTotalyeild = Number((allTotalyeild / amount).toFixed(4));
-           // $scope.annualized_return = (allTotalyeild / amount * 250).toFixed(2);
-
-            $scope.annualized_return= allTotalyeild*250;//年化收益率
-            //$scope.annualized_return=Math.pow(allTotalyeild,250)-1;//年化收益率
-            //console.log(allTotalyeild,$scope.annualized_return);
-            //console.log(count);
+            // $scope.averTotalyeild = Number((allTotalyeild / amount).toFixed(4));
+            // $scope.annualized_return = (allTotalyeild / amount * 250).toFixed(2);
 
 
 
-
+            //胜率
             var zheng=0;
+            var zheng1=0;
             for(var i=0;i<count;i++){
-              var test=gettest(i);
+              var test=notest(i)-gettest(i);
               if(test>0){
                 $scope.analyseDataArr[i].winrate=100;
                 zheng++;
@@ -3422,12 +3717,32 @@
               else{
                 $scope.analyseDataArr[i].winrate=0;
               }
+
+              if ($scope.analyseDataArr[i].direction == "看多") {
+                if($scope.analyseDataArr[i].closeprice>$scope.analyseDataArr[i].openprice){
+                  $scope.analyseDataArr[i].jiaoyiwinrate=100;
+                  zheng1++;
+                }
+                else {
+                  $scope.analyseDataArr[i].jiaoyiwinrate=0;
+                }
+              }
+              else {
+                //console.log("看空");
+                if($scope.analyseDataArr[i].closeprice<$scope.analyseDataArr[i].openprice){
+                  $scope.analyseDataArr[i].jiaoyiwinrate=100;
+                  zheng1++;
+                }
+                else {
+                  $scope.analyseDataArr[i].jiaoyiwinrate=0;
+                }              }
             }
             $scope.average_winrate=zheng/count*100;
+            $scope.average_jioayiwinrate=zheng1/count*100;
           var mean=0;
             var a=0;
             for(var i=0;i<count;i++){
-              var test=gettest(i);
+              var test=notest(i)-gettest(i);
               mean+=test;
               a+=Math.pow(test-mean,2);
             }
@@ -3438,7 +3753,7 @@
             var yin=0;
             var kui=0;
             for(var i=0;i<count;i++){
-              var test=gettest(i);
+              var test=notest(i)-gettest(i);
               if(test>0){
                 yin+=test;
               }else{
@@ -3449,7 +3764,7 @@
             var a=0;
             var b=0;
             for(var i=0;i<count;i++) {
-              var test=gettest(i);
+              var test=notest(i)-gettest(i);
                 $scope.analyseDataArr[i].yeild=test/$scope.analyseDataArr[i].openprice;
 
               if(test>0){
@@ -3461,7 +3776,7 @@
 
               total+= $scope.analyseDataArr[i].yeild;
             }
-            console.log(a,b);
+            //console.log(a,b);
             $scope.average_profit=Math.abs(a/b)*100;
 
 
@@ -3630,9 +3945,10 @@
                 height: '35%',
                 top: '65%'
               }],
-              series: [{
+              series: [
+               {
                 type: 'line',
-                name: '股价444',
+                name: '股价',
                 data: chartJsonDataArr,
                 lineWidth: 2,
                 id: 'dataseries'
@@ -3665,7 +3981,7 @@
               }, {
                 type: 'column',
                 data: chartArr,
-                name: '盈亏333',
+                name: '盈亏',
                 /*lineWidth:2,*/
                 yAxis: 1,
                 threshold: 0,
@@ -3793,7 +4109,7 @@
                   x: -3
                 },
                 title: {
-                  text: '股价'
+                  text: '股价abc'
                 },
                 lineWidth: 1,
                 height: '60%'
@@ -3860,17 +4176,16 @@
                  }*/
               }]
             });
+            //收益曲线图
             $('#return_map_big_2').highcharts('StockChart', {
               chart:{
                 width:1200,
                 height:600
               },
-
               xAxis: {
                 tickInterval: 1
               },
-
-              yAxis: {
+              yAxis: [{
                 type: '盈亏',
                 minorTickInterval: 0.1,
                 plotLines:[{
@@ -3878,10 +4193,8 @@
                   dashStyle:'solid',     //默认值，这里定义为实线
                   value:0,               //定义在那个值上显示标示线，这里是在x轴上刻度为3的值处垂直化一条线
                   width:2                //标示线的宽度，2px
-                }]
-
-              },
-
+                }],
+              }],
 
               rangeSelector: {
                 buttons: [
@@ -3913,20 +4226,54 @@
                 buttonSpacing: 2
               },
 
+              plotOptions: {
+                spline: {
+                  lineWidth: 1.5,
+                  fillOpacity: 0.1,
+                  marker: {
+                    enabled: false,
+                    states: {
+                      hover: {
+                        enabled: true,
+                        radius: 2
+                      }
+                    }
+                  },
+                  shadow: false
+                }
+              },
+
               series: [
                 {
                   data: chartArr,
-                  name: '盈亏'
-                  /*lineWidth:2,*/
+                  name: '盈亏',
+                  marker:{
+                    enabled:true,
+                    symbol:'square',
+                    fillColor:'blue',
+                    radius:5
+                  },
+                  id:"yingkui",
+                  color:'#eec710'
+                },
+                {
+                  type: 'flags',
+                  data: chartArr1,
+                  onSeries: "yingkui",
+                  shape: 'squarepin',
+                  width: 36,
+                  color: "#4169e1",
+                  fillColor: 'transparent',
+                  style: {
+                    color: '#333'
+                  },
+                  name:"详情",
+                  y:-50
 
-                  /*color:'#e3170d',*/
-                  /*marker:{
-                   enabled:true,
-                   symbol:'circle',
-                   fillColor:'#0b1746',
-                   radius:5
-                   }*/
-                }]
+
+                }
+
+              ]
             });
 
           };
@@ -5616,14 +5963,14 @@
                           };
                         });
                       }, function (err, sta) {
-                        Showbo.Msg.alert('没有交易数据');
+                        Showbo.Msg.alert('没有交易数据!');
                       });
                     }
                     ;
                   })
                   .error(function (err, sta) {
                     if (sta == 400) {
-                      Showbo.Msg.alert('没有交易数据');
+                      Showbo.Msg.alert('没有交易数据!');
                     }
                     ;
                   });

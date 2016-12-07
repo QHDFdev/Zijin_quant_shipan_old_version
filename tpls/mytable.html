@@ -63,7 +63,7 @@
                         <td ng-bind="d.name"></td>
                         <td ng-bind="d.symbol"></td>
                         <td ng-bind="d.author"></td>
-                        <td ng-bind="d.status"></td>
+                        <td ng-bind="d.status" title="{{d.title}}"></td>
                         <td>
                             <div class="btn-group btn-group-sm">
                                <!--  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> -->
@@ -101,7 +101,7 @@
                         <td ng-bind="d.mode"></td>
                         <td ng-bind="d.start"></td>
                         <td ng-bind="d.end"></td>
-                        <td ng-bind="d.status"></td>
+                        <td ng-bind="d.status" title="{{d.title}}"></td>
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-warning strategy-pause">停止 <i class="fa fa-pause"></i></button>
@@ -212,8 +212,15 @@
         <div class="row">
             <div class=" col-sm-8 col-sm-offset-2">
                 <form ng-submit="addHisStrategy()" name="newHisStrategy" novalidate="" enctype="multipart/form-data" id="newHisStrategy">
+
                     <div class="form-group">
                         <input type="text" class="form-control" ng-model='hisItem.name' placeholder="策略名" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model='firmItem.symbol' placeholder="交易合约" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model='firmItem.exchange' placeholder="策略交易所代码" required>
                     </div>
                    <div class='form-group'>
                         <div class="checkbox">
@@ -253,4 +260,5 @@
             </div>  
         </div>  
     </div>
-</div> 
+</div>
+</div>

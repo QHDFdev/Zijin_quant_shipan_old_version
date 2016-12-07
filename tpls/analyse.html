@@ -207,6 +207,9 @@
 										<th>开仓价</th>
 										<th>平仓时间</th>
 										<th>平仓价</th>
+
+										<th>手续费</th>
+										<th>无手续费盈亏</th>
 										<th>盈亏</th>
 									</tr>
 								</thead>
@@ -217,13 +220,20 @@
 										<td>￥{{x.openprice | number : 2}}</td>
 										<td>{{x.closetime}}</td>
 										<td>￥{{x.closeprice | number : 2}}</td>
-										<td>￥{{x.pal | number : 2}}</td>
+
+										<td>￥{{x.test | number : 6}}</td>
+										<td>￥{{x.testpal | number : 6}}</td>
+										<td>￥{{x.pal | number : 6}}</td>
 									</tr>
 								</tbody>
 								<tfoot>
 									<tr class='warning'>
 										<td>总盈亏</td>
-										<td>￥{{allTotalpal | number : 2}}</td>
+										<td>￥{{allTotalpal | number : 6}}</td>
+										<td>总手续费</td>
+										<td>￥{{allTotaltest | number : 6}}</td>
+										<td>无手续费总盈亏</td>
+										<td>￥{{allTotaltestpal | number : 6}}</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
@@ -253,7 +263,7 @@
 										<td ng-bind='x.direction'></td>
 										<td>￥{{x.openprice | number : 2}}</td>
 										<td>￥{{x.closeprice | number : 2}}</td>
-										<td>￥{{x.pal | number : 2}}</td>
+										<td>￥{{x.pal | number : 6}}</td>
 										<td>{{x.yeild|number:6}}%</td>
 									</tr>
 								</tbody>
@@ -353,6 +363,7 @@
 										<th>开仓价</th>
 										<th>平仓价</th>
 										<th>盈亏</th>
+										<th>交易方向胜率</th>
 										<th>当前胜率</th>
 									</tr>
 								</thead>
@@ -362,14 +373,17 @@
 										<td ng-bind='x.direction'></td>
 										<td>￥{{x.openprice | number : 2}}</td>
 										<td>￥{{x.closeprice | number : 2}}</td>
-										<td>￥{{x.pal | number : 2}}</td>
+										<td>￥{{x.pal | number : 6}}</td>
+										<td>{{x.jiaoyiwinrate}}%</td>
 										<td>{{x.winrate}}%</td>
 									</tr>
 								</tbody>
 								<tfoot>
 									<tr class='warning'>
 										<td>平均胜率</td>
-										<td>{{average_winrate|number:6}}%</td>
+										<td>{{average_winrate|number:2}}%</td>
+										<td>交易方向平均胜率</td>
+										<td>{{average_jioayiwinrate | number:2}}%</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
@@ -600,6 +614,9 @@
 							<th>开仓价</th>
 							<th>平仓时间</th>
 							<th>平仓价</th>
+
+							<th>手续费</th>
+							<th>无手续费盈亏</th>
 							<th>盈亏</th>
 							<!-- <th>总盈亏</th> -->
 						</tr>
@@ -611,14 +628,21 @@
 							<td>￥{{x.openprice | number : 2}}</td>
 							<td>{{x.closetime}}</td>
 							<td>￥{{x.closeprice | number : 2}}</td>
-							<td>￥{{x.pal | number : 2}}</td>
+
+							<td>￥{{x.test | number : 6}}</td>
+							<td>￥{{x.testpal | number : 6}}</td>
+							<td>￥{{x.pal | number : 6}}</td>
 							<!-- <td>￥{{x.totalpal | number : 2}}</td> -->
 						</tr>
 					</tbody>
 					<tfoot>
 						<tr class='warning'>
 							<td>总盈亏</td>
-							<td>￥{{allTotalpal | number : 2}}</td>
+							<td>￥{{allTotalpal | number : 6}}</td>
+							<td>总手续费</td>
+							<td>￥{{allTotaltest | number : 6}}</td>
+							<td>无手续费总盈亏</td>
+							<td>￥{{allTotaltestpal | number : 6}}</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>
@@ -648,7 +672,7 @@
 							<td ng-bind='x.direction'></td>
 							<td>￥{{x.openprice | number : 2}}</td>
 							<td>￥{{x.closeprice | number : 2}}</td>
-							<td>￥{{x.pal | number : 2}}</td>
+							<td>￥{{x.pal | number : 6}}</td>
 							<td>{{x.yeild}}%</td>
 						</tr>
 					</tbody>
@@ -712,6 +736,7 @@
 							<th>开仓价</th>
 							<th>平仓价</th>
 							<th>盈亏</th>
+							<th>交易方向胜率</th>
 							<th>当前胜率</th>
 						</tr>
 					</thead>
@@ -722,13 +747,16 @@
 							<td>￥{{x.openprice | number : 2}}</td>
 							<td>￥{{x.closeprice | number : 2}}</td>
 							<td>￥{{x.pal | number : 2}}</td>
+							<td>{{x.jiaoyiwinrate}}%</td>
 							<td>{{x.winrate}}%</td>
 						</tr>
 					</tbody>
 					<tfoot>
 						<tr class='warning'>
 							<td>平均胜率</td>
-							<td>{{average_winrate}}%</td>
+							<td>{{average_winrate| number:2}}%</td>
+							<td>交易方向平均胜率</td>
+							<td>{{average_jioayiwinrate | number:2}}%</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>
 							<td>&nbsp;</td>
