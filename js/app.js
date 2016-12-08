@@ -1,5 +1,6 @@
 ﻿angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngResource', 'myService', 'hljs'])
   .config(['$routeProvider', 'hljsServiceProvider', function ($routeProvider, hljsServiceProvider) {
+
     $routeProvider
       .when('/home', {
         templateUrl: 'tpls/newHome.html',
