@@ -1219,6 +1219,7 @@
         headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
       })
         .success(function (data) {
+          //console.log(data.length,data);
           angular.forEach(data, function (x, y) {
             this.push({
               "name": x["name"],
@@ -1231,7 +1232,6 @@
           }, $scope.myFirmStrategyList);
         });
     };
-//一进页面获取所有回测数据 包括期货白银
     getHisSelect();
 
     $scope.selecteStrategy = function () {
@@ -1257,13 +1257,12 @@
     };
     var nowsymbol;
     $scope.makeChart1 = function () {
-      //console.log($scope.myFirmStrategy);
-      //nowsymbol=$scope.myFirmStrateg;
-      //console.log("当前交易合约;"+$scope.myFirmStrategy.symbol);//当前交易合约
+      console.log($scope.myFirmStrategy);//所选策略名对应的属性 包含交易所名 倍数 期货还是白银
       var mydate = $filter('date')(new Date((new Date($scope.myFirmEndDate)).setDate((new Date($scope.myFirmEndDate)).getDate() + 1)), 'yyyy-MM-dd');
 
       function getHisTime() {
         var defer1 = $q.defer();
+        //返回交易详情输出
         $http.get(constantUrl + 'transactions/', {
           params: {
             "sty_id": $scope.myFirmStrategy._id,
@@ -1273,6 +1272,45 @@
           headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
         })
           .success(function (data) {
+
+            //console.log(data);
+            if(data[0].trans_type=="cover"||data[0].trans_type=="sell"){
+              var data2=[];
+              data2=data;
+              var length=data.length;
+              console.log("数据不匹配,第一笔交易是平仓");
+              var mydate = $filter('date')(new Date((new Date($scope.myFirmDate)).setDate((new Date($scope.myFirmDate)).getDate() - 1)), 'yyyy-MM-dd');
+              $http.get(constantUrl + 'transactions/', {
+                    params: {
+                      "sty_id": $scope.myFirmStrategy._id,
+                      "start": mydate,
+                      "end": $scope.myFirmDate
+                    },
+                    headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                  })
+                  .success(function (data) {
+                    if(data[data.length-1].trans_type=="short"||data[data.length-1].trans_type=="buy") {
+                      console.log("前一天最后一笔为开仓");
+                      console.log("将前一天最后一笔数据加入今天");
+                      //将前一天最后一笔数据加入今天
+                      for(var i=length;i>0;i--){
+                        data2[i]=data2[i-1];
+                      }
+                      data2[0]=data[data.length-1];
+
+                    }
+                    else{
+                      console.log("前一天最后一笔不是开仓");
+                      console.log("将今天第一笔开仓置空");
+                      for(var i=0;i<length;i++){
+                        data2[i]=data2[i+1];
+                      }
+                      data2.length=data2.length-1;
+                    }
+                    //console.log(data2);
+                    data=data2;
+                  })
+            }
             defer1.resolve(data);
           })
           .error(function (err, sta) {
@@ -1308,7 +1346,7 @@
           headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
         })
           .success(function (data) {
-            //console.log(data);
+            console.log(data);
             defer2.resolve(data);
           })
           .error(function (err, sta) {
@@ -1843,7 +1881,6 @@
               allTotalyeild = allTotalyeild + Number((Number(data["Earn"]) * 100 / data['openprice']));
               //allTotalyeild+=((data['closeprice']-data['openprice'])/data['openprice']);//总收益率
             });
-            //console.log($scope.myFirmStrategy);
             //封装计算手续费方法
             function gettest(i){
               var symbol=$scope.myFirmStrategy.symbol[0]+$scope.myFirmStrategy.symbol[1];
@@ -1949,6 +1986,7 @@
               $scope.analyseDataArr[i].pal=test;
               $scope.analyseDataArr[i].test=gettest(i);
               $scope.analyseDataArr[i].testpal=notest(i);
+              chartArr1[i].text='开仓价：￥' + chartArr[i].openprice + '<br>平仓价：￥' + chartData1[i].price + '<br>手续费：' + gettest(i) +'<br/>盈亏：'+test;
               $scope.analyseDataArr[i].yeild = test / $scope.analyseDataArr[i].openprice;
               allTotalyeild +=$scope.analyseDataArr[i].yeild;
               allTotalpal+=$scope.analyseDataArr[i].pal;
@@ -2912,11 +2950,13 @@
     };
 
     $scope.myFirmStrategyList = [];
+    //一进页面获取全部实盘数据
     function getSelect() {
       $http.get(constantUrl + "strategys/", {
         headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
       })
         .success(function (data) {
+          //console.log(data.length,data);
           angular.forEach(data, function (x, y) {
             this.push({
               "name": x["name"],
@@ -2949,15 +2989,15 @@
           ;
         });
     };
-    var nowsymbol;
+
     $scope.makeChart1 = function () {
-      //console.log("当前交易合约;"+$scope.myFirmStrategy.symbol);//当前交易合约
-      nowsymbol=$scope.myFirmStrategy.symbol
+      console.log($scope.myFirmStrategy);//所选策略名对应的属性 包含交易所名  期货还是白银 回测没有倍数
       $scope.myFirmDate_end=$scope.myFirmDate;
       var mydate = $filter('date')(new Date((new Date($scope.myFirmDate_end)).setDate((new Date($scope.myFirmDate_end)).getDate() + 1)), 'yyyy-MM-dd');
-
+    //根据选择的策略名获取相应可以选择的时间
       function getFirmTime() {
         var defer1 = $q.defer();//通过$q服务注册一个延迟对象 defer1
+        //返回交易详情输出 实盘
         $http.get(constantUrl + 'transactions/', {
           params: {
             "sty_id": $scope.myFirmStrategy._id,
@@ -2967,6 +3007,44 @@
           headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
         })
           .success(function (data) {
+            //console.log(data);
+            if(data[0].trans_type=="cover"||data[0].trans_type=="sell"){
+              var data2=[];
+              data2=data;
+              var length=data.length;
+              console.log("数据不匹配,第一笔交易是平仓");
+              var mydate = $filter('date')(new Date((new Date($scope.myFirmDate)).setDate((new Date($scope.myFirmDate)).getDate() - 1)), 'yyyy-MM-dd');
+              $http.get(constantUrl + 'transactions/', {
+                    params: {
+                      "sty_id": $scope.myFirmStrategy._id,
+                      "start": mydate,
+                      "end": $scope.myFirmDate
+                    },
+                    headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                  })
+                  .success(function (data) {
+                    if(data[data.length-1].trans_type=="short"||data[data.length-1].trans_type=="buy") {
+                      console.log("前一天最后一笔为开仓");
+                      console.log("将前一天最后一笔数据加入今天");
+                      //将前一天最后一笔数据加入今天
+                      for(var i=length;i>0;i--){
+                        data2[i]=data2[i-1];
+                      }
+                      data2[0]=data[data.length-1];
+
+                    }
+                    else{
+                      console.log("前一天最后一笔不是开仓");
+                      console.log("将今天第一笔开仓置空");
+                      for(var i=0;i<length;i++){
+                        data2[i]=data2[i+1];
+                      }
+                      data2.length=data2.length-1;
+                    }
+                    //console.log(data2);
+                    data=data2;
+                  })
+            }
             defer1.resolve(data);//defer1.resolve(value)  成功解决(resolve)了其派生的promise。参数value将来会被用作promise.then(successCallback(value){...}, errorCallback(reason){...}, notifyCallback(notify){...})中successCallback函数的参数。
           })
           .error(function (err, sta) {
@@ -2976,9 +3054,6 @@
       };
       function getTransTime() {
         var defer2 = $q.defer();
-        console.log($scope.myFirmStrategy);
-        console.log($scope.myFirmStrategy.exchange);
-        console.log($scope.myFirmStrategy.symbol);
         $http.get(constantUrl + 'datas/', {
           params: {
             "type": 'bar',
@@ -2991,6 +3066,7 @@
           headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
         })
           .success(function (data) {
+            //console.log(data);
             defer2.resolve(data);
           })
           .error(function (err, sta) {
@@ -3582,11 +3658,12 @@
               return a - b;
             });
             //maxBack = (yeildArrs[yeildArrs.length - 1] - yeildArrs[0]) / yeildArrs[yeildArrs.length - 1];//最大回撤
+           //交易详细输出得到数据 实盘
             $scope.analyseDataArr = tradeItem;
               maxBack=0;  //最大回撤率，最大回撤就是最低点除以之前的最高减去1
               //var down = new Array();
 
-            console.log($scope.myFirmStrategy);
+
 
             //封装计算手续费方法
             function gettest(i){
@@ -3648,6 +3725,7 @@
               $scope.analyseDataArr[i].pal=test;
               $scope.analyseDataArr[i].test=gettest(i);
               $scope.analyseDataArr[i].testpal=notest(i);
+              chartArr1[i].text='开仓价：￥' + chartArr[i].openprice + '<br>平仓价：￥' + chartData1[i].price + '<br>手续费：' + gettest(i) +'<br/>盈亏：'+test;
               $scope.analyseDataArr[i].yeild = test / $scope.analyseDataArr[i].openprice;
               allTotalyeild +=$scope.analyseDataArr[i].yeild;
               allTotalpal+=$scope.analyseDataArr[i].pal;
