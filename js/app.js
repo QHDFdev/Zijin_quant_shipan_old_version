@@ -1213,6 +1213,7 @@
       };
     };
     $scope.myFirmStrategyList = [];
+    //一进页面获取所有回测数据 包括期货白银
     function getHisSelect() {
       $http.get(constantUrl + "btstrategys/", {
         headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
@@ -1230,10 +1231,13 @@
           }, $scope.myFirmStrategyList);
         });
     };
-
+//一进页面获取所有回测数据 包括期货白银
     getHisSelect();
 
     $scope.selecteStrategy = function () {
+      //判断当前选择是期货还是白银
+      //console.log($scope.myFirmStrategy.symbol);
+
       $http.get(constantUrl + 'dates/', {
         params: {
           "date_type": 'transaction',
@@ -1276,18 +1280,35 @@
           });
         return defer1.promise;
       };
+      //获取相应合约接口
       function getHisTransTime() {
+//判断当前是期货还是白银
+        $http.get(constantUrl + "btstrategys/", {
+              params: {
+                "_id": '$scope.myFirmStrategy._id',
+              }, headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+            })
+            .success(function (data) {
+              //console.log(data);
+                });
+
+
         var defer2 = $q.defer();
+        //console.log($scope.myFirmStrategy.symbol);
         $http.get(constantUrl + 'datas/', {
           params: {
             "type": 'bar',
+            "exchange": $scope.myFirmStrategy.exchange,
+            //"exchange": "CTP",
+            "symbol": $scope.myFirmStrategy.symbol,
+            //"symbol": "IF",
             "start": $scope.myFirmStartDate,
             "end": mydate
-
           },
           headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
         })
           .success(function (data) {
+            //console.log(data);
             defer2.resolve(data);
           })
           .error(function (err, sta) {
@@ -1310,6 +1331,7 @@
           function draws1() {
             var chartData1 = [];
             angular.forEach(chartData11, function (data, index) {
+              //console.log(data);
               var hour = parseInt($filter("date")(data["datetime"], "yyyy-MM-dd HH:mm:ss").slice(11, 13));
               var minute = parseInt($filter("date")(data["datetime"], "yyyy-MM-dd HH:mm:ss").slice(14, 16));
               // if (hour<9||hour>15||(hour==15&&minute>30)) {
@@ -1317,6 +1339,7 @@
               // 	this.push(data);
               // };
               if (data['name'] == 'AG_real') {
+              //if(data[index].symbol=="D1_AG"){
                 if (hour < 6 || hour > 9) {
                   this.push(data);
                 }
@@ -1370,7 +1393,9 @@
                               });
                               var Earn;
                               var y;
-                              if (data.name == 'AG_real') {
+                              //console.log(data.symbol);
+                              if (data.symbol == 'D1_AG') {
+
                                 Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
                                 y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
                               } else {
@@ -1655,7 +1680,7 @@
                           "name": data.name,
                           "symbol": data.symbol
                         })
-
+//console.log(chartData1);
                         shortYArr.push({
                           "buy": 'buy',
                           "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
@@ -1818,7 +1843,7 @@
               allTotalyeild = allTotalyeild + Number((Number(data["Earn"]) * 100 / data['openprice']));
               //allTotalyeild+=((data['closeprice']-data['openprice'])/data['openprice']);//总收益率
             });
-            console.log($scope.myFirmStrategy);
+            //console.log($scope.myFirmStrategy);
             //封装计算手续费方法
             function gettest(i){
               var symbol=$scope.myFirmStrategy.symbol[0]+$scope.myFirmStrategy.symbol[1];
@@ -1827,17 +1852,18 @@
                 charge=0.00015;
               }
               if(symbol=="D1"){
-                charge=0.0008;
+                charge=0.00035;
               }
               if(symbol=="D6"){
-                charge=0.0008;
+                charge=0.00035;
               }
               var test =($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
               //console.log(symbol,charge,test,$scope.myFirmStrategy.multiple);
               test=Number((test).toFixed(6));
-              //历史回测没有交易手数
+
               return test;
             }
+            //历史回测300交易手数
             //无手续费盈亏
             function notest(i){
               if ($scope.analyseDataArr[i].direction == "看多") {
@@ -1849,6 +1875,7 @@
                 var test = $scope.analyseDataArr[i].openprice - $scope.analyseDataArr[i].closeprice;
               }
               test=Number((test).toFixed(6));
+              //test=test*300;
               return test;
             }
 
@@ -2029,9 +2056,10 @@
                 useUTC: false
               }
             });
-
+///////////回测图曲线股价 y;
             /*chartJsonData=angular.fromJson($scope.analyseJsonData);*/
             angular.forEach(chartJsonData, function (data, index) {
+              //console.log(data);
               chartJsonDataArr.push({
                 "x": data.datetime,
                 "y": data.close,
@@ -2043,7 +2071,7 @@
               });
             });
             chartJsonDataArr = $filter('orderBy')(chartJsonDataArr, 'x');
-            ////////////////////////////////////////////////////////////////////////////////////
+            ///回测
             $('#return_map_big').highcharts('StockChart', {
               credits: {
                 enabled: false
@@ -2056,59 +2084,6 @@
                   turboThreshold: 0
                 }
               },
-              /*tooltip : {
-               shared : true,
-               useHTML : true,
-               valueDecimals : 2 ,
-               backgroundColor: 'white',
-               borderWidth: 0,
-               borderRadius: 0,
-               formatter : function() {
-
-               var s;
-               if(this.points[0].point.high){
-               $scope.highstockAnalysetime=$filter('date')(this.x,'yyyy-MM-dd H:mm:ss');
-               $scope.highstockAnalysehigh=$filter('number')(this.points[0].point.high,2);
-               $scope.highstockAnalyselow=$filter('number')(this.points[0].point.low,2);
-               $scope.highstockAnalyseopen=$filter('number')(this.points[0].point.open,2);
-               $scope.highstockAnalyseclose=$filter('number')(this.points[0].point.close,2);
-               $scope.$apply();
-               }
-               if(this.points[0].point.direction&&this.point.text){
-               s=this.point.text;
-               }else if(this.points[0].point.direction&&!this.point){
-               var dir=(this.points[0].point.direction>0)?'看多':'看空';
-               s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
-               s+= '<br />volume：<b class="red">'
-               +Highcharts.numberFormat(this.points[0].point.volume,2)
-               +'</b><br />Earn：<b class="font-black">￥'
-               +Highcharts.numberFormat(this.points[0].point.Earn,2)
-               + '</b><br />openprice：<b class="font-black">￥'
-               +Highcharts.numberFormat(this.points[0].point.openprice,2)
-               + '</b><br />closeprice<b class="font-black">￥'
-               +Highcharts.numberFormat(this.points[0].point.closeprice,2)
-               + '</b><br />direction：<b class="font-black">'
-               +dir;
-               }
-               return s;*/
-              /*var s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
-               s += '<br />high：<b class="red">￥'
-               +Highcharts.numberFormat(this.points[0].point.high,2)
-               +'</b>&nbsp;&nbsp;|&nbsp;&nbsp;low：<b class="blue">￥'
-               +Highcharts.numberFormat(this.points[0].point.low,2)
-               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;close：<b class="green">￥'
-               +Highcharts.numberFormat(this.points[0].point.close,2)
-               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;open：<b class="font-black">￥'
-               +Highcharts.numberFormat(this.points[0].point.open,2)
-               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;volume：<b class="orange">'
-               +Highcharts.numberFormat(this.points[0].point.volume,2)+'笔';
-               return s;
-               },
-               positioner: function () {
-               return { x: 0, y: 20 };
-               },
-               shadow: false
-               },*/
               tooltip: {
                 useHTML: true,
                 xDateFormat: "%Y-%m-%d %H:%M:%S",
@@ -2224,6 +2199,9 @@
                  }*/
               }]
             });
+
+
+            //收益曲线
             $('#return_map_big1').highcharts('StockChart', {
               chart:{
                 width:1200,
@@ -2998,9 +2976,9 @@
       };
       function getTransTime() {
         var defer2 = $q.defer();
-        /*console.log($scope.myFirmStrategy);
+        console.log($scope.myFirmStrategy);
         console.log($scope.myFirmStrategy.exchange);
-        console.log($scope.myFirmStrategy.symbol);*/
+        console.log($scope.myFirmStrategy.symbol);
         $http.get(constantUrl + 'datas/', {
           params: {
             "type": 'bar',
@@ -3618,10 +3596,10 @@
                 charge=0.00015;
               }
               if(symbol=="D1"){
-                charge=0.0008;
+                charge=0.00035;
               }
               if(symbol=="D6"){
-                charge=0.0008;
+                charge=0.00035;
               }
               var test =($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
               //console.log(symbol,charge,test,$scope.myFirmStrategy.multiple);
