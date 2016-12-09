@@ -10,11 +10,11 @@
     <div class="zijin-table-body container sourcing-strategy;">
         <div class="zijin-table-title">
             <span>策略代码</span>
-            <i class="zijin-table-add" ng-click='openMaskSourcing()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i></div>
+            <i class="zijin-table-add" ng-click='openMaskSourcing()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i>
+             <!--<button class="btn btn-danger sour-del" style="float:right;margin-top:20px;margin-right: 48px">删除策略 <i class="fa fa-remove"></i></button>-->
+        </div>
         <div class="table-responsive">
-            <!--<table class="table table-bordered table-hover table-striped" sourcing-table>-->
-                <table class="table table-bordered table-hover table-striped">
-
+            <table class="table table-bordered table-hover table-striped" sourcing-table>
                 <thead class="bg-success">
                     <tr>
                         <!--<th class="col-xs-2">选择</th>-->
@@ -28,8 +28,7 @@
                     <tr ng-repeat='d in mySourcingStrategy | orderBy: "class_name" '>
                         <td class="hidden-id"  style="display: none" ng-bind='d._id'></td>
                         <!--<td><input type="checkbox"></td>-->
-                        <!--<td><a href="#/complie/{{d._id}}" ng-bind="d.class_name"></a></td>-->
-                        <td  ng-bind="d.class_name"></td>
+                        <td><a href="#/complie/{{d._id}}" ng-bind="d.class_name"></a></td>
                         <td ng-bind="d.code_name"></td>
                         <td ng-bind="d.author"></td>
                         <td>
@@ -142,7 +141,7 @@
                                 </td>
                             </tr>
                             <!--<button  class="btn btn-danger alldel" ng-click="alldel()" style="margin-left: 380px">清空回收站<i class="fa fa-remove"></i></button>-->
-                        <!--</tbody>-->
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -166,8 +165,8 @@
                     <div class="btn-group btn-group-lg">
                         <input class="btn-success btn" type="submit"  value="提交" style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
                         <input class="btn-warning btn" style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px" ng-click="closeMask()" value="关闭" type="button">
-            </div>
-            </form>
+                    </div>
+                </form>
             </div>  
         </div>  
     </div>
