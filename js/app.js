@@ -2991,6 +2991,7 @@
     };
 
     $scope.makeChart1 = function () {
+      var data2=[];
       console.log($scope.myFirmStrategy);//所选策略名对应的属性 包含交易所名  期货还是白银 回测没有倍数
       $scope.myFirmDate_end=$scope.myFirmDate;
       var mydate = $filter('date')(new Date((new Date($scope.myFirmDate_end)).setDate((new Date($scope.myFirmDate_end)).getDate() + 1)), 'yyyy-MM-dd');
@@ -3009,7 +3010,7 @@
           .success(function (data) {
             //console.log(data);
             if(data[0].trans_type=="cover"||data[0].trans_type=="sell"){
-              var data2=[];
+
               data2=data;
               var length=data.length;
               console.log("数据不匹配,第一笔交易是平仓");
@@ -3041,10 +3042,10 @@
                       }
                       data2.length=data2.length-1;
                     }
-                    //console.log(data2);
                     data=data2;
                   })
             }
+            //console.log(data);
             defer1.resolve(data);//defer1.resolve(value)  成功解决(resolve)了其派生的promise。参数value将来会被用作promise.then(successCallback(value){...}, errorCallback(reason){...}, notifyCallback(notify){...})中successCallback函数的参数。
           })
           .error(function (err, sta) {
@@ -3662,6 +3663,18 @@
             $scope.analyseDataArr = tradeItem;
               maxBack=0;  //最大回撤率，最大回撤就是最低点除以之前的最高减去1
               //var down = new Array();
+            //serialno
+
+            var mydate = $filter('date')(new Date((new Date($scope.myFirmDate)).setDate((new Date($scope.myFirmDate)).getDate() + 1)), 'yyyy-MM-dd');
+            console.log($scope.myFirmStrategy._id,mydate,$scope.myFirmDate)
+            console.log(data2);
+            //委托号
+            for(var i=0;i<$scope.analyseDataArr.length;i++){
+              $scope.analyseDataArr[i].a=data2[2*i].serialno;
+              $scope.analyseDataArr[i].b=data2[2*i+1].serialno;
+            }
+
+
 
 
 
