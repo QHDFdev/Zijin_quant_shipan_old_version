@@ -500,57 +500,73 @@
     };
     $scope.getHisStrategys();
 
+//注意把文本用utf-8格式保存
+    var url="instructions.txt";
+    $http.get(url).success(function (response){
+      console.log(response)
+      $scope.titleQuick=response;
+    })
 
-    /*getStrategys();
-     function getStrategys(){
-     $http.get(constantUrl+"strategys/",{
-     headers:{'Authorization':'token '+$cookieStore.get('user').token}
-     })
-     .success(function(data){
-     $scope.myStrategy=data;
+//    $http(
+//        {   method:'POST',
+//          url:url,
+//          headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+//        }
+//    ).success(function(data) {
+//console.log(data);
+//    });
 
-     })
-     .error(function(data){
-     Showbo.Msg.alert('网络错误，请稍后再试。')
-     });
-     };
-     $scope.openMask=function(){
-     $('.zijin-table-mask').fadeIn();
-     }
 
-     $scope.addStrategy=function(){
-     var file = $scope.code;
-     var files=$scope.files;
-     var formdata = new FormData();
-     formdata.append('code', file);
-     formdata.append('name', $scope.item.name);
-     formdata.append('class', $scope.item.class);
-     formdata.append('author', $scope.item.author);
-     formdata.append('symbol', $scope.item.symbol);
-     if (($scope.files!=undefined)&&($scope.files!=null)) {
-     formdata.append('file',files);
-     }
-     $http.post(constantUrl+"strategys/",formdata,{
-     transformRequest: angular.identity,
-     headers: {'Content-Type': undefined,
-     'Authorization':'token '+$cookieStore.get('user').token
-     }
-     })
-     .success(function(data){
-     $('.zijin-table-mask').fadeOut();
-     getStrategys();
-     Showbo.Msg.alert('添加成功。');
-     })
-     .error(function(err,st){
-     //console.log(err);
-     //console.log(st);
-     Showbo.Msg.alert('添加失败，请稍后再试。');
-     })
-     }
-     $scope.closeMask=function(){
+/*getStrategys();
+ function getStrategys(){
+ $http.get(constantUrl+"strategys/",{
+ headers:{'Authorization':'token '+$cookieStore.get('user').token}
+ })
+ .success(function(data){
+ $scope.myStrategy=data;
 
-     $('.zijin-table-mask').fadeOut();
-     }*/
+ })
+ .error(function(data){
+ Showbo.Msg.alert('网络错误，请稍后再试。')
+ });
+ };
+ $scope.openMask=function(){
+ $('.zijin-table-mask').fadeIn();
+ }
+
+ $scope.addStrategy=function(){
+ var file = $scope.code;
+ var files=$scope.files;
+ var formdata = new FormData();
+ formdata.append('code', file);
+ formdata.append('name', $scope.item.name);
+ formdata.append('class', $scope.item.class);
+ formdata.append('author', $scope.item.author);
+ formdata.append('symbol', $scope.item.symbol);
+ if (($scope.files!=undefined)&&($scope.files!=null)) {
+ formdata.append('file',files);
+ }
+ $http.post(constantUrl+"strategys/",formdata,{
+ transformRequest: angular.identity,
+ headers: {'Content-Type': undefined,
+ 'Authorization':'token '+$cookieStore.get('user').token
+ }
+ })
+ .success(function(data){
+ $('.zijin-table-mask').fadeOut();
+ getStrategys();
+ Showbo.Msg.alert('添加成功。');
+ })
+ .error(function(err,st){
+ //console.log(err);
+ //console.log(st);
+ Showbo.Msg.alert('添加失败，请稍后再试。');
+ })
+ }
+ $scope.closeMask=function(){
+
+ $('.zijin-table-mask').fadeOut();
+ }*/
 
 
   }])
