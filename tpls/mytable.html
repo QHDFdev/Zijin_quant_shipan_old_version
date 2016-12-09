@@ -11,11 +11,13 @@
         <div class="zijin-table-title">
             <span>策略代码</span>
             <i class="zijin-table-add" ng-click='openMaskSourcing()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i>
+             <!--<button class="btn btn-danger sour-del" style="float:right;margin-top:20px;margin-right: 48px">删除策略 <i class="fa fa-remove"></i></button>-->
         </div>
         <div class="table-responsive">
             <table class="table table-bordered table-hover table-striped" sourcing-table>
                 <thead class="bg-success">
                     <tr>
+                        <th class="col-xs-2">选择</th>
                         <th class="col-xs-2">策略类名</th>
                         <th class="col-xs-1">代码文件名</th>
                         <th class="col-xs-2">作者</th>
@@ -25,14 +27,16 @@
                 <tbody>
                     <tr ng-repeat='d in mySourcingStrategy | orderBy: "class_name" '>
                         <td class="hidden-id"  style="display: none" ng-bind='d._id'></td>
-                        <td><a href="#/complie/{{d._id}}" ng-bind="d.class_name"></a></td>
+                        <!--<td><input type="checkbox"></td>-->
+                        <!--<td><a href="#/complie/{{d._id}}" ng-bind="d.class_name"></a></td>-->
+                        <td  ng-bind="d.class_name"></td>
                         <td ng-bind="d.code_name"></td>
                         <td ng-bind="d.author"></td>
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-info firm-add">创建实盘模拟策略 <i class="fa fa-plus"></i></button>
                                 <button class="btn btn-success his-add">创建历史回测策略 <i class="fa fa-plus"></i></button>
-                                <button class="btn btn-danger sour-del">删除策略 <i class="fa fa-remove"></i></button>
+                                <!--<button class="btn btn-danger sour-del">删除策略 <i class="fa fa-remove"></i></button>-->
                             </div>
                         </td>
 
@@ -69,7 +73,7 @@
                                <!--  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> -->
                                 <button  class="btn btn-success strategy-start">启动 <i class="fa fa-play"></i></button>
                                 <button class="btn btn-warning strategy-pause">停止 <i class="fa fa-pause"></i></button>
-                                <button  class="btn btn-danger strategy-del">删除策略 <i class="fa fa-remove"></i></button>
+                                <!--<button  class="btn btn-danger strategy-del">删除策略 <i class="fa fa-remove"></i></button>-->
                             </div>
                         </td>
                     </tr>
@@ -105,7 +109,7 @@
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-warning strategy-pause">停止 <i class="fa fa-pause"></i></button>
-                                <button  class="btn btn-danger strategy-del">删除策略 <i class="fa fa-remove"></i></button>
+                                <!--<button  class="btn btn-danger strategy-del">删除策略 <i class="fa fa-remove"></i></button>-->
                             </div>
                         </td>
                     </tr>
@@ -137,11 +141,11 @@
                                     </div>
                                 </td>
                             </tr>
+                            <button  class="btn btn-danger alldel" ng-click="alldel()" style="margin-left: 380px">清空回收站<i class="fa fa-remove"></i></button>
                         </tbody>
                     </table>
-                </div> 
-                
-        </div>      
+                </div>
+            </div>
     </div>
 
 </div>
@@ -153,16 +157,17 @@
             <div class=" col-sm-8 col-sm-offset-2">
                 <form ng-submit="addSourcingStrategy()" name="newSourcingStrategy" novalidate="" enctype="multipart/form-data" id="newSourcingStrategy">
                     <div class="form-group">
-                        <input type="text" class="form-control" ng-model='itemSourcing.class_name ' placeholder="策略类名" required>
+                        <a href="Demo_Moban.py" target="_blank">首次编写策略请点击下载模版代码</a>
+                        <input type="text" class="form-control" ng-model='itemSourcing.class_name ' placeholder="输入策略类名（策略类名必须与代码类名一致）" required>
                     </div>
                     <div class="form-group">
                         <label>代码文件：</label><input type="file" name="file"  file-model='sourcingCode' placeholder="代码" required="">
                     </div>
                     <div class="btn-group btn-group-lg">
-                        <input class="btn-success btn" type="submit" value="提交">
-                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
-                    </div> 
-                </form>
+                        <input class="btn-success btn" type="submit"  value="提交" style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
+                        <input class="btn-warning btn" style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px" ng-click="closeMask()" value="关闭" type="button">
+            </div>
+            </form>
             </div>  
         </div>  
     </div>

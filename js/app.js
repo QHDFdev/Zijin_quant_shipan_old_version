@@ -326,6 +326,7 @@
         });
     };
     $scope.getFirmStrategys();
+    //创建实盘模拟策略
     $scope.addFirmStrategy = function () {
 
       var files = $scope.files;
@@ -463,7 +464,7 @@
           $scope.myHisStrategy = data;
           for(var i=0;i<$scope.myHisStrategy.length;i++){
             var status=$scope.myHisStrategy[i].status;
-            console.log($scope.myHisStrategy[i]);
+            //console.log($scope.myHisStrategy[i]);
             if(status==-3){
               $scope.myHisStrategy[i].title="deleted";
             }
@@ -6474,8 +6475,16 @@
               Showbo.Msg.alert('暂停失败，请稍后再试。')
             });
         });
+        //scope.alldel=function(){
+        //  var a = confirm('确认删除所有吗！');
+        //  if (!a) return;
+        //  for(var i=0;i<scope.allStrategys.length;i++){
+        //    console.log( scope.allStrategys[i]);
+        //  }
+        //}
+
         ele.on('click', '.strategy-del', function () {
-          var a = confirm('确认删除吗');
+          var a = confirm('确认删除吗！');
           if (!a) return;
           var url = $(this).closest('tr').children().eq(0).text();
           $http.delete(constantUrl + "strategys/" + url + '/', {
