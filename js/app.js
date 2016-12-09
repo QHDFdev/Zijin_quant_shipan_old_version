@@ -293,7 +293,7 @@
       })
         .success(function (data) {
           $scope.myStrategy = data;
-          console.log(data);
+          //console.log(data);
           //鼠标悬浮文字
           for(var i=0;i<$scope.myStrategy.length;i++){
             var status=$scope.myStrategy[i].status;
@@ -2963,10 +2963,10 @@
         .success(function (data) {
           //console.log(data.length,data);
           angular.forEach(data, function (x, y) {
-            if(x["status"]==-3){
-              return;
-            }
-            console.log(x["name"])
+            //if(x["status"]==-3){
+            //  return;
+            //}
+            //console.log(x["name"])
             this.push({
               "name": x["name"],
               '_id': x["_id"],
