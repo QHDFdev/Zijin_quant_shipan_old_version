@@ -503,7 +503,7 @@
 //注意把文本用utf-8格式保存
     var url="instructions.txt";
     $http.get(url).success(function (response){
-      console.log(response)
+      //console.log(response)
       $scope.titleQuick=response;
     })
 

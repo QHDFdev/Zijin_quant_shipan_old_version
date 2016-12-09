@@ -157,7 +157,7 @@
                 <form ng-submit="addSourcingStrategy()" name="newSourcingStrategy" novalidate="" enctype="multipart/form-data" id="newSourcingStrategy">
                     <div class="form-group">
                        <span> <a href="Demo_Moban.py" target="_blank">首次编写策略请点击下载模版代码</a>&nbsp;&nbsp;&nbsp;
-                           <a href="instructions.txt" title="{{titleQuick}}">策略编写QuickStart</a>
+                           <a href="instructions.txt" download="instructions.txt" target="_blank" title="{{titleQuick}}"   id="downtxt">策略编写QuickStart</a>
                        </span>
                         <input style="margin-top: 20px;" type="text" class="form-control" ng-model='itemSourcing.class_name ' placeholder="输入策略类名（策略类名必须与代码类名一致）" required>
                     </div>
