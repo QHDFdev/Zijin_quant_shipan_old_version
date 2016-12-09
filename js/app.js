@@ -1257,6 +1257,7 @@
     };
     var nowsymbol;
     $scope.makeChart1 = function () {
+      console.log("所选策略名信息:");
       console.log($scope.myFirmStrategy);//所选策略名对应的属性 包含交易所名 倍数 期货还是白银
       var mydate = $filter('date')(new Date((new Date($scope.myFirmEndDate)).setDate((new Date($scope.myFirmEndDate)).getDate() + 1)), 'yyyy-MM-dd');
 
@@ -2992,6 +2993,7 @@
 
     $scope.makeChart1 = function () {
       var data2=[];
+      console.log("所选策略名信息:");
       console.log($scope.myFirmStrategy);//所选策略名对应的属性 包含交易所名  期货还是白银 回测没有倍数
       $scope.myFirmDate_end=$scope.myFirmDate;
       var mydate = $filter('date')(new Date((new Date($scope.myFirmDate_end)).setDate((new Date($scope.myFirmDate_end)).getDate() + 1)), 'yyyy-MM-dd');
@@ -3045,6 +3047,7 @@
                     data=data2;
                   })
             }
+            data2=data;
             //console.log(data);
             defer1.resolve(data);//defer1.resolve(value)  成功解决(resolve)了其派生的promise。参数value将来会被用作promise.then(successCallback(value){...}, errorCallback(reason){...}, notifyCallback(notify){...})中successCallback函数的参数。
           })
@@ -3666,18 +3669,11 @@
             //serialno
 
             var mydate = $filter('date')(new Date((new Date($scope.myFirmDate)).setDate((new Date($scope.myFirmDate)).getDate() + 1)), 'yyyy-MM-dd');
-            console.log($scope.myFirmStrategy._id,mydate,$scope.myFirmDate)
-            console.log(data2);
             //委托号
-            for(var i=0;i<$scope.analyseDataArr.length;i++){
-              $scope.analyseDataArr[i].a=data2[2*i].serialno;
-              $scope.analyseDataArr[i].b=data2[2*i+1].serialno;
-            }
-
-
-
-
-
+              for(var i=0;i<$scope.analyseDataArr.length;i++){
+                $scope.analyseDataArr[i].a=data2[2*i].serialno;
+                $scope.analyseDataArr[i].b=data2[2*i+1].serialno;
+              }
             //封装计算手续费方法
             function gettest(i){
               var symbol=$scope.myFirmStrategy.symbol[0]+$scope.myFirmStrategy.symbol[1];
