@@ -6973,7 +6973,6 @@
           $('.printform').show();
           /*var getImageFromUrl = function(url, callback) {
            var img = new Image, data, ret={data: null, pending: true};
-
            img.onError = function() {
            throw new Error('Cannot load image: "'+url+'"');
            }
