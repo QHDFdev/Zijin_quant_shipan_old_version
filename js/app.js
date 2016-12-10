@@ -363,31 +363,83 @@
         $scope.myStrategy[i].flag=flag;
       }
     }
-    //批量删除历史回测
+    var flag3=false;
+    $scope.selectall3=function(){
+      flag3=!flag3;
+      for(var i=0;i<$scope.myHisStrategy.length;i++) {
+        $scope.myHisStrategy[i].flag=flag3;
+      }
+    }
+
     $scope.updateSelection3 = function(a){
       //console.log(a.$index);
       $scope.myHisStrategy[a.$index].flag=!$scope.myHisStrategy[a.$index].flag;
     }
-    $scope.delsel3=function() {
-      for(var i=0;i<$scope.myHisStrategy.length;i++){
-        if($scope.myHisStrategy[i].flag){
-          var url = $scope.myHisStrategy[i]._id;
-          console.log(i,url)
-          ////return;
-          $http.delete(constantUrl + "btstrategys/" + url + '/', {
-                headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-              })
-              .success(function () {
-                console.log('删除成功')
-              })
-              .error(function (err, sta) {
-                Showbo.Msg.alert('删除失败，请稍后再试。')
-              });
 
+    //批量删除历史回测
+    $scope.delsel3=function() {
+      var a = confirm('确认删除吗');
+      if (!a) return;
+      var del=[];//存储需要删除的_id
+      var j=0;
+        for(var i=0;i<$scope.myHisStrategy.length;i++) {
+          //console.log($scope.myHisStrategy[i].flag)
+          if ($scope.myHisStrategy[i].flag) {
+            del[j]=$scope.myHisStrategy[i]._id;
+            console.log($scope.myHisStrategy[i].name)
+            j++;
+          }
         }
+      //console.log(del);
+      //return;
+
+      //递归解决异步请求的问题
+      //currentIndex = 0;
+      //get();
+      //function get() {
+      //  if (currentIndex >= del.length) {
+      //    return;
+      //  }
+      //  var url = del[currentIndex];
+      //  url = constantUrl + "btstrategys/" + url + '/';
+      //  //console.log(currentIndex, url)
+      //  $.ajax({
+      //    //async: false,
+      //    url: url,
+      //    type: "DELETE",
+      //    headers: {'Authorization': 'token ' + $cookieStore.get('user').token},
+      //    success: function (response) {
+      //      console.log("请求成功");
+      //      currentIndex++;
+      //      get();
+      //    },
+      //    error: function (data) {
+      //      //console.log("error...");
+      //      currentIndex++;
+      //      get();
+      //    }
+      //  });
+      //}
+      for(var i=0;i<del.length;i++){
+        var url = del[i];
+            $http.delete(constantUrl + "btstrategys/" + url + '/', {
+                  headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                })
+                .success(function () {
+                  //console.log('删除成功')
+                })
+                .error(function (err, sta) {
+                  Showbo.Msg.alert('删除失败，请稍后再试。')
+                });
+
       }
-      console.log('end')
-      $scope.getHisStrategys();
+
+
+      setTimeout(function(){
+        console.log('Del end')
+        $scope.getHisStrategys();
+      },100)
+
     }
     var flag=false;//默认都不选
     $scope.selectall3=function(){//全选或全不选
@@ -490,8 +542,17 @@
       getModeList('tick');
     };
     function getModeList(ty) {
+      if($scope.firmItem==undefined){
+        Showbo.Msg.alert('请先选择交易所代码和交易合约');
+        return;
+      }
+      console.log($scope.firmItem)
+      var symbol,exchange;
+      symbol=$scope.firmItem.symbol;
+      exchange=$scope.firmItem.exchange;
       $http.get(constantUrl + "dates/", {
-        params: {type: ty, date_type: 'data'},
+        //params: {type: ty, date_type: 'data',symbol:"D1_AG",exchange:"CSRPME"},
+            params: {type: ty, date_type: 'data',symbol:symbol,exchange:exchange},
         headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
       })
         .success(function (data) {
@@ -507,7 +568,22 @@
       {exchange : "CTP",id:'1'},
       {exchange : "CSRPME",id:'2'}
     ];
+    $scope.gettime=function(){
+      if($scope.modeBarOptions==true){
+        getModeList('bar');
+      }
+      else{
+        getModeList('tick');
+      }
+    }
     $scope.getsymbol=function(){
+      //console.log($scope.modeBarOptions,$scope.modeTickOptions);
+      if($scope.modeBarOptions==true){
+        getModeList('bar');
+      }
+      else{
+        getModeList('tick');
+      }
       //console.log($scope.firmItem.exchange,$scope.firmItem.symbol)
       if($scope.firmItem.exchange=="CTP"){
         $scope.sy = [
@@ -6674,6 +6750,7 @@
           var a = confirm('确认删除吗！!');
           if (!a) return;
           var url = $(this).closest('tr').children().eq(0).text();
+          console.log(constantUrl + "btstrategys/" + url + '/');
           $http.delete(constantUrl + "strategys/" + url + '/', {
             headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
           })

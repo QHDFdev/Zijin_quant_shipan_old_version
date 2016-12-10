@@ -66,7 +66,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat='d in myStrategy | orderBy: "name" | filter:func'>
+                    <tr ng-repeat='d in myStrategy  | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
                         <!--<td><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection2(this)" ng-checked="all2"><a hidden>{{d.flag}}</a></td>-->
                         <td ng-bind="d.name"></td>
@@ -90,7 +90,7 @@
         <div class="zijin-table-title">
             <span>历史回测</span>
             <!-- <i class="zijin-table-add" ng-click='openMask()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i> -->
-            <input  type="checkbox" ng-model="all3" style="margin-left: 40px;width: 20px;height:20px;vertical-align:middle;margin-right: 5px"><span>全选</span>
+            <input  type="checkbox" ng-model="all3" style="margin-left: 40px;width: 20px;height:20px;vertical-align:middle;margin-right: 5px"ng-click="selectall3()"><span>全选</span>
             <button  class="btn btn-danger allde3" ng-click="delsel3()" style="margin-left: 40px;margin-top: 2px">删除选择</button>
         </div>
         <div class="table-responsive">
@@ -107,7 +107,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat='d in myHisStrategy | orderBy: "name" | filter:func'>
+                    <tr ng-repeat='d in myHisStrategy | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
                         <td><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection3(this)" ng-checked="all3"><a hidden>{{d.flag}}</a></td>
                         <td ng-bind="d.name"></td>
@@ -129,11 +129,15 @@
     <div class="zijin-table-body container rec-strategy">
         <div class="row">
             <div class="col-lg-6 col-md-8 col-sm-12">
-                <div class="zijin-table-title" slide-toggle>
-                    <span><i class="fa fa-trash"></i>&nbsp;回收站&nbsp;<span class="caret"></span></span>
+
+                <div class="zijin-table-title" style="width: 200px" slide-toggle>
+                    <span><i class="fa fa-trash" ></i>&nbsp;回收站&nbsp;<span class="caret"></span></span>
+                    <button  class="btn btn-danger" style="margin-top:20px;background: #222;border-color: #222" ng-click="alldel()">
+                        清空回收站</button>
                 </div>
+
                 <div class="table-responsive" style="display: none;">
-                    <button  class="btn btn-danger alldel" ng-click="alldel()" style="margin-top: 0px;">清空回收站</button>
+
                     <table class="table table-bordered table-hover table-striped" strategy-table>
                         <thead class="bg-success">
                             <tr>
@@ -194,7 +198,10 @@
                 <form ng-submit="addFirmStrategy()" name="newFirmStrategy" novalidate="" enctype="multipart/form-data" id="newFirmStrategy" novalidate>
                     <div class="form-group">
                         <label for="">策略名：</label>
-                        <input type="text" class="form-control" ng-model='firmItem.name' placeholder="请输入策略名" required="required">
+                        <input type="text" class="form-control" name="name" ng-model='firmItem.name' placeholder="请输入策略名" required>
+                        <div class="error" ng-messages='newFirmStrategy.name.$error' ng-if='newFirmStrategy.name.$touched' ng-message-multiple>
+                            <small ng-message='required'style="color:red">策略名不能为空</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="">交易所代码：</label>
@@ -206,7 +213,11 @@
                     </div>
                     <div class="form-group">
                         <label for="">交易手数：</label>
-                        <input type="text" class="form-control" ng-model='firmItem.multiple' placeholder="策略交易手数的倍数" required>
+                        <input type="text" class="form-control" name="multiple" ng-model='firmItem.multiple' placeholder="策略交易手数的倍数" required>
+                        <div class="error" ng-messages='newFirmStrategy.multiple.$error' ng-if='newFirmStrategy.multiple.$touched' ng-message-multiple>
+                            <small ng-message='required'style="color:red">请填写交易手数</small>
+                        </div>
+
                     </div>
                     <div>
                         <select name="" id="" ng-model="account" ng-options="id as id._id for id in ids"></select><br>
@@ -217,7 +228,7 @@
                         <label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">
                     </div>
                     <div class="btn-group btn-group-lg">
-                        <input class="btn-success btn" type="submit" value="提交">
+                        <input class="btn-success btn" type="submit" value="提交" ng-disabled='newFirmStrategy.$invalid'>
                         <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
                     </div> 
                 </form>
@@ -236,7 +247,10 @@
 
                     <div class="form-group">
                         <label for="">策略名：</label>
-                        <input type="text" class="form-control" ng-model='hisItem.name' placeholder="请输入策略名" required>
+                        <input type="text" class="form-control" name="name" ng-model='hisItem.name' placeholder="请输入策略名" required>
+                        <div class="error" ng-messages='newHisStrategy.name.$error' ng-if='newHisStrategy.name.$touched' ng-message-multiple>
+                            <small ng-message='required'style="color:red">策略名不能为空</small>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -245,7 +259,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">交易合约：</label>
-                        <select ng-model='firmItem.symbol' ng-options='y.symbol as y.symbol for y in sy'></select>
+                        <select ng-model='firmItem.symbol' ng-options='y.symbol as y.symbol for y in sy' ng-change="gettime()"></select>
                     </div>
 
 
@@ -288,7 +302,7 @@
                         <label>代码依赖文件：</label><input type="file" name="hisFile" file-model='files' placeholder="代码依赖文件">
                     </div>
                     <div class="btn-group btn-group-lg">
-                        <input class="btn-success btn" type="submit" value="提交">
+                        <input class="btn-success btn" type="submit" value="提交" ng-disabled='newHisStrategy.$invalid'>
                         <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
                     </div> 
                 </form>
