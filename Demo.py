@@ -1,69 +1,105 @@
-﻿策略编写QuickStart
-1. 点击下载策略模板python代码文件
-2. 修改模板Python代码文件名为你交易策略名称。
-3. 修改类名 Demo 为你刚刚修改的策略名称。以Demo为例，修改类名为Demo
-4. 在类名里面的全局单元自定义一些全局变量 Demo为例
-   [
+﻿#coding: UTF-8
+
+from ctaBase import *
+from ctaTemplate import CtaTemplate
+
+########################################################################
+class Demo(CtaTemplate):
     className = 'Demo'
-    author = u'demo'
+    author = u'heloworld'
+
     bar = None
     barMinute = EMPTY_STRING
     tradePrice = EMPTY_FLOAT
     bidPrice1 = EMPTY_FLOAT
     askPrice1 = EMPTY_FLOAT
     position = 0 
+
     paramList = ['name',
                  'className',
                  'author',
                  'vtSymbol']
+
     varList = ['inited',
                'trading',
                'pos']
-   ]
-5. 修改onTick函数（接受行情TICK数据推送）以Demo为例
-   [
+
+    #----------------------------------------------------------------------
+    def __init__(self, ctaEngine, setting, filepath=None):
+        """Constructor"""
+        super(Demo, self).__init__(ctaEngine, setting)
+
+
+    #----------------------------------------------------------------------
+    def onInit(self):
+        self.writeCtaLog(u'demo')
+        self.putEvent()
+
+    #----------------------------------------------------------------------
+    def onStart(self):
+        self.writeCtaLog(u'')
+        self.putEvent()
+
+    #----------------------------------------------------------------------
+    def onStop(self):
+        self.writeCtaLog(u'')
+        self.putEvent()
+
+    #----------------------------------------------------------------------
+    def onTick(self, tick):
         tickMinute = tick.datetime.minute
+
         if tickMinute != self.barMinute:
             if self.bar:
                 self.onBar(self.bar)
+
             bar = CtaBarData()
             bar.vtSymbol = tick.vtSymbol
             bar.symbol = tick.symbol
             bar.exchange = tick.exchange
+
             bar.open = tick.lastPrice
             bar.high = tick.lastPrice
             bar.low = tick.lastPrice
             bar.close = tick.lastPrice
+
             bar.date = tick.date
             bar.time = tick.time
             bar.datetime = tick.datetime   
+
             self.bar = bar                 
             self.barMinute = tickMinute    
+
         else:
             bar = self.bar           
             bar.high = max(bar.high, tick.lastPrice)
             bar.low = min(bar.low, tick.lastPrice)
             bar.close = tick.lastPrice
         self.putEvent()
-   ]
-   注意全局bar数据的bar.high(最高价)，bar.low（最低价）,bar.close(bar最新价)等等都是由tick算出来的，
-   模板策略中已经有了相关部分不需要修改。除非有特别需求。
-   
-6. 修改onBar函数(主要的交易运算及交易逻辑都在此发生)，以Demo为例
-   [  #交易逻辑: 分钟为偶数开仓，分钟为奇数平仓
+    #----------------------------------------------------------------------
+
+    def onBar(self, bar): 
         if self.pos == 0 and bar.datetime.minute%2 == 0:
             self.buy(bar.close, 1)
+
         elif self.pos < 0 and bar.datetime.minute%2 == 0:
             self.cover(bar.close, 1)
             self.buy(bar.close, 1)
+        
         if self.pos == 0 and bar.datetime.minute%2 != 0:
             self.short(bar.close, 1)
         elif self.pos > 0 and bar.datetime.minute%2 != 0:
             self.sell(bar.close, 1)
             self.short(bar.close, 1)
+
         self.putEvent()
-   ]
- 7. 模板代码中其他函数部分尽量不应该修改（除非有交易强制撤单）。
- 8. 修改好后保存策略代码
- 9. 点击“紫金量化”页面“加载策略”，填写好策略名（必须与策略类名一致，以Demo为例：Demo）并上传策略代码。
- 10. 点击“提交”按钮。便将策略加载到“紫金量化策略平台”
+
+    #----------------------------------------------------------------------
+    def onOrder(self, order):
+        pass
+
+    #----------------------------------------------------------------------
+    def onTrade(self, trade):
+        pass
+
+########################################################################################

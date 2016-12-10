@@ -28,7 +28,8 @@
                     <tr ng-repeat='d in mySourcingStrategy | orderBy: "class_name" '>
                         <td class="hidden-id"  style="display: none" ng-bind='d._id'></td>
                         <!--<td><input type="checkbox"></td>-->
-                        <td><a href="#/complie/{{d._id}}" ng-bind="d.class_name"></a></td>
+                        <!--<td><a href="#/complie/{{d._id}}" ng-bind="d.class_name"></a></td>-->
+                        <td ng-bind="d.class_name"></td>
                         <td ng-bind="d.code_name"></td>
                         <td ng-bind="d.author"></td>
                         <td>
@@ -47,12 +48,16 @@
      <div class="zijin-table-body container firm-strategy">
         <div class="zijin-table-title">
             <span>实盘模拟</span>
-            <!-- <i class="zijin-table-add" ng-click='openMask()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i> -->
+             <!--<i class="zijin-table-add" ng-click='openMask()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i>-->
+            <!--<button  class="btn btn-danger allde2" ng-click="alldel2()">删除选择<i class="fa fa-remove"></i></button>-->
+            <!--<input  type="checkbox" ng-model="all2" style="margin-left: 40px;width: 20px;height:20px;vertical-align:middle;margin-right: 5px" ng-click="selectall2()"><span>全选</span>-->
+            <!--<button  class="btn btn-danger allde2" ng-click="delsel2()" style="margin-left: 40px;margin-top: 2px">删除选择</button>-->
         </div>
         <div class="table-responsive">
             <table class="table table-bordered table-hover table-striped" strategy-table>
                 <thead class="bg-success">
                     <tr>
+                        <!--<th class="col-xs-2">选择</th>-->
                         <th class="col-xs-1">策略名字</th>
                         <th class="col-xs-1">合约代码</th>
                         <th class="col-xs-2">作者</th>
@@ -63,6 +68,7 @@
                 <tbody>
                     <tr ng-repeat='d in myStrategy | orderBy: "name" | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
+                        <!--<td><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection2(this)" ng-checked="all2"><a hidden>{{d.flag}}</a></td>-->
                         <td ng-bind="d.name"></td>
                         <td ng-bind="d.symbol"></td>
                         <td ng-bind="d.author"></td>
@@ -84,11 +90,14 @@
         <div class="zijin-table-title">
             <span>历史回测</span>
             <!-- <i class="zijin-table-add" ng-click='openMask()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i> -->
+            <input  type="checkbox" ng-model="all3" style="margin-left: 40px;width: 20px;height:20px;vertical-align:middle;margin-right: 5px"><span>全选</span>
+            <button  class="btn btn-danger allde3" ng-click="delsel3()" style="margin-left: 40px;margin-top: 2px">删除选择</button>
         </div>
         <div class="table-responsive">
             <table class="table table-bordered table-hover table-striped" his-table >
                 <thead class="bg-success">
                     <tr>
+                        <th class="col-xs-2">选择</th>
                         <th class="col-xs-1">策略名字</th>
                         <th class="col-xs-1">mode</th>
                         <th class="col-xs-2">开始时间</th>
@@ -100,6 +109,7 @@
                 <tbody>
                     <tr ng-repeat='d in myHisStrategy | orderBy: "name" | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
+                        <td><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection3(this)" ng-checked="all3"><a hidden>{{d.flag}}</a></td>
                         <td ng-bind="d.name"></td>
                         <td ng-bind="d.mode"></td>
                         <td ng-bind="d.start"></td>
@@ -123,6 +133,7 @@
                     <span><i class="fa fa-trash"></i>&nbsp;回收站&nbsp;<span class="caret"></span></span>
                 </div>
                 <div class="table-responsive" style="display: none;">
+                    <button  class="btn btn-danger alldel" ng-click="alldel()" style="margin-top: 0px;">清空回收站</button>
                     <table class="table table-bordered table-hover table-striped" strategy-table>
                         <thead class="bg-success">
                             <tr>
@@ -140,7 +151,7 @@
                                     </div>
                                 </td>
                             </tr>
-                            <!--<button  class="btn btn-danger alldel" ng-click="alldel()" style="margin-left: 380px">清空回收站<i class="fa fa-remove"></i></button>-->
+
                         </tbody>
                     </table>
                 </div>
@@ -156,7 +167,7 @@
             <div class=" col-sm-8 col-sm-offset-2">
                 <form ng-submit="addSourcingStrategy()" name="newSourcingStrategy" novalidate="" enctype="multipart/form-data" id="newSourcingStrategy">
                     <div class="form-group">
-                       <span> <a href="Demo_Moban.py" target="_blank">首次编写策略请点击下载模版代码</a>&nbsp;&nbsp;&nbsp;
+                       <span> <a href="Demo.py" target="_blank">首次编写策略请点击下载模版代码</a>&nbsp;&nbsp;&nbsp;
                            <a href="instructions.txt" download="instructions.txt" target="_blank" title="{{titleQuick}}"   id="downtxt">策略编写QuickStart</a>
                        </span>
                         <input style="margin-top: 20px;" type="text" class="form-control" ng-model='itemSourcing.class_name ' placeholder="输入策略类名（策略类名必须与代码类名一致）" required>
@@ -180,23 +191,27 @@
     <div class="mask-box container">
         <div class="row">
             <div class=" col-sm-8 col-sm-offset-2">
-                <form ng-submit="addFirmStrategy()" name="newFirmStrategy" novalidate="" enctype="multipart/form-data" id="newFirmStrategy">
+                <form ng-submit="addFirmStrategy()" name="newFirmStrategy" novalidate="" enctype="multipart/form-data" id="newFirmStrategy" novalidate>
                     <div class="form-group">
-                        <input type="text" class="form-control" ng-model='firmItem.name' placeholder="策略名" required>
+                        <label for="">策略名：</label>
+                        <input type="text" class="form-control" ng-model='firmItem.name' placeholder="请输入策略名" required="required">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" ng-model='firmItem.symbol' placeholder="交易合约" required>
+                        <label for="">交易所代码：</label>
+                        <select ng-model='firmItem.exchange'  ng-options='x.exchange as x.exchange for x in ex' ng-change="getsymbol()"></select>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" ng-model='firmItem.exchange' placeholder="策略交易所代码" required>
+                        <label for="">交易合约：</label>
+                        <select ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>
                     </div>
                     <div class="form-group">
+                        <label for="">交易手数：</label>
                         <input type="text" class="form-control" ng-model='firmItem.multiple' placeholder="策略交易手数的倍数" required>
                     </div>
                     <div>
-                        <select name="" id="" ng-model="account" ng-options="id as id._id for id in ids"></select>
-                        <h5>您选择的账号id是：{{account.uid}}</h5>
-                        <h5>您选择的交易所代码是：{{account.exchange}}</h5>
+                        <select name="" id="" ng-model="account" ng-options="id as id._id for id in ids"></select><br>
+                        <label>您选择的账号id是：{{account.uid}}</label><br>
+                        <label>您选择的交易所代码是：{{account.exchange}}</label>
                     </div>
                     <div class="form-group">
                         <label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">
@@ -220,14 +235,28 @@
                 <form ng-submit="addHisStrategy()" name="newHisStrategy" novalidate="" enctype="multipart/form-data" id="newHisStrategy">
 
                     <div class="form-group">
-                        <input type="text" class="form-control" ng-model='hisItem.name' placeholder="策略名" required>
+                        <label for="">策略名：</label>
+                        <input type="text" class="form-control" ng-model='hisItem.name' placeholder="请输入策略名" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">交易所代码：</label>
+                        <select ng-model='firmItem.exchange' ng-options='x.exchange as x.exchange for x in ex' ng-change="getsymbol()"></select>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" ng-model='firmItem.symbol' placeholder="交易合约" required>
+                        <label for="">交易合约：</label>
+                        <select ng-model='firmItem.symbol' ng-options='y.symbol as y.symbol for y in sy'></select>
                     </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" ng-model='firmItem.exchange' placeholder="策略交易所代码" required>
-                    </div>
+
+
+                    <!--<div class="form-group">-->
+                        <!--<input type="text" class="form-control" ng-model='firmItem.symbol' placeholder="交易合约" required>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                        <!--<input type="text" class="form-control" ng-model='firmItem.exchange' placeholder="策略交易所代码" required>-->
+                    <!--</div>-->
+
                    <div class='form-group'>
                         <div class="checkbox">
                             <label for="barLable">
@@ -248,11 +277,11 @@
                         </div>    
                    </div>
                    <div class="form-group">
-                        <label for="">开始时间</label>
+                        <label for="">开始时间：</label>
                         <select ng-model='hisItem.start' ng-options='x for x in hisItem.time'></select>
                    </div>
                    <div class="form-group">
-                        <label for="">结束时间</label>
+                        <label for="">结束时间：</label>
                         <select ng-model='hisItem.end' ng-options='x for x in hisItem.time'></select>
                    </div>
                     <div class="form-group">
