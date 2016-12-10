@@ -27,6 +27,7 @@
 	margin-bottom: 20px;
 	background: #f2f2f2;
     border-bottom: 1px solid #ccc;
+
 }
 .analyse .analyse-left{
 	position: relative;
@@ -1558,7 +1559,7 @@ scrollbar-dark-shadow-color: #C0C0C0;
 .zijin-index .zijin-index-top .top-box{
 	/* position: absolute; */
 	top:0;
-	left:0
+	left:0;
 	width:100%;
 	color:#fff;
 	text-align:center;

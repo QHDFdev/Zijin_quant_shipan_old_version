@@ -306,7 +306,7 @@
 	border-radius: 5px;
 	cursor: pointer;
 }
-.zijin-index .zijin-index-body .item-one,.zijin-index .zijin-index-body .item-three{
+.zijin-index .zijin-index-body .item-one,.zijin-index .zijin-index-body .item-three,.zijin-index .zijin-index-body .item-five{
 	background: rgb(228,228,228);
 }
 .zijin-index .zijin-index-body .col-md-6{
@@ -339,7 +339,13 @@
 	background-image:url(../images/content_uqer03.png);
 }
 .zijin-index .zijin-index-body .item-four .zijin-index-image{
-	background-image:url(../images/content_uqer04.png);
+	background-image:url(../images/celvceshi.png);
+}
+.zijin-index .zijin-index-body .item-five .zijin-index-image{
+	background-image:url("../images/celvxiaoguo.png") ;
+}
+.zijin-index .zijin-index-body .item-six .zijin-index-image{
+	background-image: url("../images/content_uqer04.png");
 }
 
 
