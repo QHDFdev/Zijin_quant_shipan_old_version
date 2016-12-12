@@ -1,24 +1,32 @@
 <div class="analyse actualRes" >
 	<div class="container-fluid noprint">
 		<div class="row analyse-title-head">
-			<div class="col-sm-2 hidden-xs"></div>
-			<div class="col-sm-10 col-xs-12">
-				<p class="analyse-top-title text-left">
-					<b title="时间">{{analyse_title.time}}</b>&nbsp;&nbsp;&nbsp;
-					<b title="策略名">{{analyse_title.name}}</b>&nbsp;&nbsp;&nbsp;
-					<b title="交易合约">{{analyse_title.symbol}}</b>&nbsp;&nbsp;&nbsp;
-					<b title="交易手数">{{analyse_title.multiple}}</b>
-				</p>
-			</div>	
+			<div class="col-sm-1 hidden-xs"></div>
+			<div class="col-sm-10">
+				<div class="remind" >
+					<div class="first">
+						交易时间：<span>{{analyse_title.time}}</span>
+					</div>
+					<div class="second">
+						实盘名：<span>{{analyse_title.name}}</span>
+					</div>
+					<div class="third">
+						交易合约：<span>{{analyse_title.symbol}}</span>
+					</div>
+					<div class="fourth">
+						交易手数：<span>{{analyse_title.multiple}}</span>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-2 col-xs-5  analyse-left">
 				<i class='mobile-action visible-xs fa fa-lg fa-arrow-circle-right' mobile-action></i>
 				<div class="analyse-menu-list">
 					 <p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal1'>输入实盘交易数据</button></p>
-					<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal2'>获取实盘交易数据</button></p> 
-					<p class="analyse-menu-head"><button class="btn btn-success" jspdf-action>保存研究报告</button></p> 
-					<div class="modal fade" id="actualRes-modal1"> 
+					<p class="analyse-menu-head"><button class="btn btn-info" data-toggle='modal' data-target='#actualRes-modal2'>获取实盘交易数据</button></p>
+					<p class="analyse-menu-head"><button class="btn btn-danger" jspdf-action>保存研究报告</button></p>
+					<div class="modal fade" id="actualRes-modal1">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-box">
@@ -62,7 +70,7 @@
 											<input type="button" value="点我生成图表" class="btn btn-success" data-dismiss="modal" ng-click='makeChart1()'>
 											<input type="button" value="关闭" class="btn btn-warnning" data-dismiss="modal">
 										</div>
-									</form>	
+									</form>
 								</div>
 							</div>
 						</div>
@@ -86,7 +94,7 @@
 						<!-- <dd>
 							<a data-target="#total_revenue_rate_1" aria-controls="total_revenue_rate_1" role="tab" data-toggle="tab">
 								策略得分
-							</a> 
+							</a>
 						</dd> -->
 						<dd>
 							<a data-target="#transaction_details_1" aria-controls="transaction_details_1" role="tab" data-toggle="tab">
@@ -142,41 +150,14 @@
 							</a>
 						</dd>
 					</dl>
-					<!-- <dl class="analyse-menu-item">
-						<dt slide-toggle><i class="fa fa-list-ol"></i>算法建议</dt>
-						<dd>
-							<a data-target="#open_conditions_suggest_1" aria-controls="open_conditions_suggest_1" role="tab" data-toggle="tab">
-								开仓条件建议
-							</a>
-						</dd>
-						<dd>
-							<a data-target="#position_conditions_suggest_1" aria-controls="position_conditions_suggest_1" role="tab" data-toggle="tab">
-								平仓条件建议
-							</a>
-						</dd>
-						<dd>
-							<a data-target="#surplus_conditions_suggest_1" aria-controls="surplus_conditions_suggest_1" role="tab" data-toggle="tab">
-								止盈条件建议
-							</a>
-						</dd>
-						<dd>
-							<a data-target="#stop_conditions_suggest_1" aria-controls="stop_conditions_suggest_1" role="tab" data-toggle="tab">
-								止损条件建议
-							</a>
-						</dd>
-						<dd>
-							<a data-target="#strategy_algorithm_optimization_1" aria-controls="strategy_algorithm_optimization_1" role="tab" data-toggle="tab">
-								策略算法优化建议
-							</a>
-						</dd>
-					</dl>  -->
+
 				</div>
 			</div>
-			<div class="col-sm-10 col-xs-12 analyse-right">
+			<div class="col-sm-10 col-xs-12 analyse-right" style="margin-top: 20px">
 				<div class="tab-content" id="tab-content-1">
 					<div role="tabpanel" class="tab-pane active" id="return_mapping_1">
 						<h2 class="analyse-charts-title mb0"><实盘模拟></实盘模拟></h2>
-						<!-- <p class="highstock-item"><strong ng-bind='highstockAnalyseanalyseSymbol' class='mr30'></strong><span>时间：</span><span class="mr30" ng-bind='highstockAnalysetime'></span><span>最高：</span><span class="mr30" ng-bind='highstockAnalysehigh'></span><span>最低：</span><span class="mr30" ng-bind='highstockAnalyselow'></span><span>开盘：</span><span class="mr30" ng-bind='highstockAnalyseopen'></span><span>收盘：</span><span class="mr30" ng-bind='highstockAnalyseclose'></span></p> -->
+
 						<div id="return_map_big_1" style="height:600px;width: 96%;margin: 0 auto;background:#fff;">
 						</div>
 					</div>
@@ -569,22 +550,7 @@
 							</table>
 						</div>
 					</div>
-					
-					<!-- <div role="tabpanel" class="tab-pane" id="open_conditions_suggest_1">
-						<h2 class="analyse-charts-title">开仓条件建议</h2>
-					</div>
-					<div role="tabpanel" class="tab-pane" id="position_conditions_suggest_1">
-						<h2 class="analyse-charts-title">平仓条件建议</h2>
-					</div>
-					<div role="tabpanel" class="tab-pane" id="surplus_conditions_suggest_1">
-						<h2 class="analyse-charts-title">止盈条件建议</h2>
-					</div>
-					<div role="tabpanel" class="tab-pane" id="stop_conditions_suggest_1">
-						<h2 class="analyse-charts-title">止损条件建议</h2>
-					</div>
-					<div role="tabpanel" class="tab-pane" id="strategy_algorithm_optimization_1">
-						<h2 class="analyse-charts-title">策略算法优化建议</h2>
-					</div> -->
+
 				</div>
 			</div>
 		</div>
@@ -594,288 +560,296 @@
 			<div class="analyse-select-box text-center">
         <!--点击后调用closeModal()函数，功能：.analyse-modal-big隐藏-->
 				<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal1' ng-click='closeModal()'>输入实盘交易数据</button></p>
-				<p class="analyse-menu-head"><button class="btn btn-primary" data-toggle='modal' data-target='#actualRes-modal2' ng-click='closeModal()'>获取实盘交易数据</button></p> 
+				<p class="analyse-menu-head"><button class="btn btn-primary" data-toggle='modal' data-target='#actualRes-modal2' ng-click='closeModal()'>获取实盘交易数据</button></p>
 			</div>
 		</div>
 	</div>
-	<div class="printform clearfix">
-		<div class="container">
-			<p class="analyse-top-title text-left">{{analyse_title.time}}&nbsp;&nbsp;&nbsp;{{analyse_title.name}}&nbsp;&nbsp;&nbsp;{{analyse_title.symbol}}</p>
-			<br>
-			<br>
-			<div class="row">
-				<div class="col-xs-12">
-					<div id="return_map_big_form" style="height:600px;background:#fff;width:90%;max-width: 1000px;"></div>
-				</div>	
-			</div>	
-			<h2 class="analyse-charts-title">交易详细输出</h2>
-			<div class="table-responsive">
-				<table class="table table-hover table-striped">
-					<thead>
-						<tr class='success'>
-							<th>交易方向</th>
-							<th>开仓时间</th>
-							<th>委托号</th>
-							<th>开仓价</th>
-							<th>平仓时间</th>
-							<th>委托号</th>
-							<th>平仓价</th>
-							<th>交易手数</th>
-							<th>手续费</th>
-							<th>无手续费盈亏</th>
-							<th>盈亏</th>
-							<!-- <th>总盈亏</th> -->
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat='x in analyseDataArr'>
-							<td ng-bind='x.direction'></td>
-							<td>{{x.opentime}}</td>
-							<td>{{x.a}}</td>
-							<td>￥{{x.openprice | number : 2}}</td>
-							<td>{{x.closetime}}</td>
-							<td>{{x.b}}</td>
-							<td>￥{{x.closeprice | number : 2}}</td>
-							<td>{{x.multiple}}</td>
-							<td>￥{{x.test | number : 6}}</td>
-							<td>￥{{x.testpal | number : 6}}</td>
-							<td>￥{{x.pal | number : 6}}</td>
-							<!-- <td>￥{{x.totalpal | number : 2}}</td> -->
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr class='warning'>
-							<td>总盈亏</td>
-							<td>￥{{allTotalpal | number : 6}}</td>
-							<td>总手续费</td>
-							<td>￥{{allTotaltest | number : 6}}</td>
-							<td>无手续费总盈亏</td>
-							<td>￥{{allTotaltestpal | number : 6}}</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-			<br>
-			<br>
-			<h2 class="analyse-charts-title">交易收益率输出</h2>
-			<div class="table-responsive">
-				<table class="table table-hover table-striped">
-					<thead>
-						<tr class='success'>
-							<th>日期</th>
-							<th>交易方向</th>
-							<th>开仓价</th>
-							<th>平仓价</th>
-							<th>盈亏</th>
-							<th>收益率</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat='x in analyseDataArr'>
-							<td ng-bind='x.time'></td>
-							<td ng-bind='x.direction'></td>
-							<td>￥{{x.openprice | number : 2}}</td>
-							<td>￥{{x.closeprice | number : 2}}</td>
-							<td>￥{{x.pal | number : 2}}</td>
-							<td>{{x.yeild|number:6}}%</td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr class='warning'>
-							<td>总收益率</td>
-							<td>{{allTotalyeild|number:6}}%</td>
-							<td>平均收益率</td>
-							<td>{{averTotalyeild|number:6}}%</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-			<br>
-			<br>
-			<h2 class="analyse-charts-title">年化收益率</h2>
-			<div class="table-responsive">
-				<table class="table table-hover table-striped">
-					<thead>
-						<tr class='success'>
-							<th>日期</th>
-							<th>交易方向</th>
-							<th>开仓价</th>
-							<th>平仓价</th>
-							<th>收益率</th>
-							<!-- <th>年化收益率</th> -->
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat='x in analyseDataArr'>
-							<td ng-bind='x.time'></td>
-							<td ng-bind='x.direction'></td>
-							<td>￥{{x.openprice | number : 2}}</td>
-							<td>￥{{x.closeprice | number : 2}}</td>
-							<td>{{x.yeild| number : 6}}%</td>
-							<!-- <td>{{annualized_return}}%</td> -->
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr class='warning'>
-							<td>年化收益率</td>
-							<td>{{annualized_return| number : 6}}%</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-			<br>
-			<br>
-			<h2 class="analyse-charts-title">胜率</h2>
-			<div class="table-responsive">
-				<table class="table table-hover table-striped">
-					<thead>
-						<tr class='success'>
-							<th>日期</th>
-							<th>交易方向</th>
-							<th>开仓价</th>
-							<th>平仓价</th>
-							<th>盈亏</th>
-							<th>交易方向胜率</th>
-							<th>当前胜率</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat='x in analyseDataArr'>
-							<td ng-bind='x.time'></td>
-							<td ng-bind='x.direction'></td>
-							<td>￥{{x.openprice | number : 2}}</td>
-							<td>￥{{x.closeprice | number : 2}}</td>
-							<td>￥{{x.pal | number : 2}}</td>
-							<td>{{x.jiaoyiwinrate}}%</td>
-							<td>{{x.winrate}}%</td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr class='warning'>
-							<td>平均胜率</td>
-							<td>{{average_winrate|number:2}}%</td>
-							<td>交易方向平均胜率</td>
-							<td>{{average_jioayiwinrate | number:2}}%</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-			<br>
-			<br>
-			<h2 class="analyse-charts-title">盈亏比</h2>
-			<div class="table-responsive">
-				<table class="table table-hover table-striped">
-					<thead>
-						<tr class='success'>
-							<th>日期</th>
-							<th>交易方向</th>
-							<th>开仓价</th>
-							<th>平仓价</th>
-							<th>收益率</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat='x in analyseDataArr'>
-							<td ng-bind='x.time'></td>
-							<td ng-bind='x.direction'></td>
-							<td>￥{{x.openprice | number : 2}}</td>
-							<td>￥{{x.closeprice | number : 2}}</td>
-							<td>{{x.yeild|number: 6}}%</td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr class='warning'>
-							<td>盈亏比</td>
-							<td>{{average_profit}}%</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-			<br>
-			<br>
-			<h2 class="analyse-charts-title">夏普比率 Sharpe Ratio</h2>
-			<div class="table-responsive">
-				<table class="table table-hover table-striped">
-					<thead>
-						<tr class='success'>
-							<th>日期</th>
-							<th>交易方向</th>
-							<th>开仓价</th>
-							<th>平仓价</th>
-							<th>收益率</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat='x in analyseDataArr'>
-							<td ng-bind='x.time'></td>
-							<td ng-bind='x.direction'></td>
-							<td>￥{{x.openprice | number : 2}}</td>
-							<td>￥{{x.closeprice | number : 2}}</td>
-							<td>{{x.yeild}}%</td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr class='warning'>
-							<td>平均净回报率为：{{rate1}}%</td>
-							<td>净回报率标准差为：{{rate2}}%</td>
-							<td>夏普比率为：{{rate3}}%</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-			<br>
-			<br>
-			<h2 class="analyse-charts-title">最大回撤 Max Drawdown</h2>
-			<div class="table-responsive">
-				<table class="table table-hover table-striped">
-					<thead>
-						<tr class='success'>
-							<th>日期</th>
-							<th>交易方向</th>
-							<th>开仓价</th>
-							<th>平仓价</th>
-							<th>回撤率</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat='x in analyseDataArr'>
-							<td ng-bind='x.time'></td>
-							<td ng-bind='x.direction'></td>
-							<td>￥{{x.openprice | number : 2}}</td>
-							<td>￥{{x.closeprice | number : 2}}</td>
-							<td>{{x.yeildAbs}}%</td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr class='warning'>
-							<td>最大回撤率为：</td>
-							<td>{{rate4}}%</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-		</div>
-	</div>
+
 </div>
 
+<div class="printform clearfix" style="display: none">
+  <div class="container">
+    <p class="analyse-top-title text-left">{{analyse_title.time}}&nbsp;&nbsp;&nbsp;{{analyse_title.name}}&nbsp;&nbsp;&nbsp;{{analyse_title.symbol}}</p>
+    <br>
+    <br>
+    <div class="row">
+      <div class="col-xs-12">
+        <h2  style="text-align: center;margin-top: 30px">实盘模拟交易走势图</h2>
+        <div id="return_map_big_form" style="height:600px;background:#fff;width:90%;max-width: 1000px;"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <h2 style="text-align: center;margin-top: 30px">收益曲线图</h2>
+        <div id="return_map_big_form1" style="height:600px;background:#fff;width:90%;max-width: 1000px;"></div>
+      </div>
+    </div>
+    <h2 class="analyse-charts-title">交易详细输出</h2>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+        <tr class='success'>
+          <th>交易方向</th>
+          <th>开仓时间</th>
+          <th>委托号</th>
+          <th>开仓价</th>
+          <th>平仓时间</th>
+          <th>委托号</th>
+          <th>平仓价</th>
+          <th>交易手数</th>
+          <th>手续费</th>
+          <th>无手续费盈亏</th>
+          <th>盈亏</th>
+          <!-- <th>总盈亏</th> -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat='x in analyseDataArr'>
+          <td ng-bind='x.direction'></td>
+          <td>{{x.opentime}}</td>
+          <td>{{x.a}}</td>
+          <td>￥{{x.openprice | number : 2}}</td>
+          <td>{{x.closetime}}</td>
+          <td>{{x.b}}</td>
+          <td>￥{{x.closeprice | number : 2}}</td>
+          <td>{{x.multiple}}</td>
+          <td>￥{{x.test | number : 6}}</td>
+          <td>￥{{x.testpal | number : 6}}</td>
+          <td>￥{{x.pal | number : 6}}</td>
+          <!-- <td>￥{{x.totalpal | number : 2}}</td> -->
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr class='warning'>
+          <td>总盈亏</td>
+          <td>￥{{allTotalpal | number : 6}}</td>
+          <td>总手续费</td>
+          <td>￥{{allTotaltest | number : 6}}</td>
+          <td>无手续费总盈亏</td>
+          <td>￥{{allTotaltestpal | number : 6}}</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+    <br>
+    <br>
+    <h2 class="analyse-charts-title">交易收益率输出</h2>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+        <tr class='success'>
+          <th>日期</th>
+          <th>交易方向</th>
+          <th>开仓价</th>
+          <th>平仓价</th>
+          <th>盈亏</th>
+          <th>收益率</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat='x in analyseDataArr'>
+          <td ng-bind='x.time'></td>
+          <td ng-bind='x.direction'></td>
+          <td>￥{{x.openprice | number : 2}}</td>
+          <td>￥{{x.closeprice | number : 2}}</td>
+          <td>￥{{x.pal | number : 2}}</td>
+          <td>{{x.yeild|number:6}}%</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr class='warning'>
+          <td>总收益率</td>
+          <td>{{allTotalyeild|number:6}}%</td>
+          <td>平均收益率</td>
+          <td>{{averTotalyeild|number:6}}%</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+    <br>
+    <br>
+    <h2 class="analyse-charts-title">年化收益率</h2>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+        <tr class='success'>
+          <th>日期</th>
+          <th>交易方向</th>
+          <th>开仓价</th>
+          <th>平仓价</th>
+          <th>收益率</th>
+          <!-- <th>年化收益率</th> -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat='x in analyseDataArr'>
+          <td ng-bind='x.time'></td>
+          <td ng-bind='x.direction'></td>
+          <td>￥{{x.openprice | number : 2}}</td>
+          <td>￥{{x.closeprice | number : 2}}</td>
+          <td>{{x.yeild| number : 6}}%</td>
+          <!-- <td>{{annualized_return}}%</td> -->
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr class='warning'>
+          <td>年化收益率</td>
+          <td>{{annualized_return| number : 6}}%</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+    <br>
+    <br>
+    <h2 class="analyse-charts-title">胜率</h2>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+        <tr class='success'>
+          <th>日期</th>
+          <th>交易方向</th>
+          <th>开仓价</th>
+          <th>平仓价</th>
+          <th>盈亏</th>
+          <th>交易方向胜率</th>
+          <th>当前胜率</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat='x in analyseDataArr'>
+          <td ng-bind='x.time'></td>
+          <td ng-bind='x.direction'></td>
+          <td>￥{{x.openprice | number : 2}}</td>
+          <td>￥{{x.closeprice | number : 2}}</td>
+          <td>￥{{x.pal | number : 2}}</td>
+          <td>{{x.jiaoyiwinrate}}%</td>
+          <td>{{x.winrate}}%</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr class='warning'>
+          <td>平均胜率</td>
+          <td>{{average_winrate|number:2}}%</td>
+          <td>交易方向平均胜率</td>
+          <td>{{average_jioayiwinrate | number:2}}%</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+    <br>
+    <br>
+    <h2 class="analyse-charts-title">盈亏比</h2>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+        <tr class='success'>
+          <th>日期</th>
+          <th>交易方向</th>
+          <th>开仓价</th>
+          <th>平仓价</th>
+          <th>收益率</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat='x in analyseDataArr'>
+          <td ng-bind='x.time'></td>
+          <td ng-bind='x.direction'></td>
+          <td>￥{{x.openprice | number : 2}}</td>
+          <td>￥{{x.closeprice | number : 2}}</td>
+          <td>{{x.yeild|number: 6}}%</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr class='warning'>
+          <td>盈亏比</td>
+          <td>{{average_profit}}%</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+    <br>
+    <br>
+    <h2 class="analyse-charts-title">夏普比率 Sharpe Ratio</h2>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+        <tr class='success'>
+          <th>日期</th>
+          <th>交易方向</th>
+          <th>开仓价</th>
+          <th>平仓价</th>
+          <th>收益率</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat='x in analyseDataArr'>
+          <td ng-bind='x.time'></td>
+          <td ng-bind='x.direction'></td>
+          <td>￥{{x.openprice | number : 2}}</td>
+          <td>￥{{x.closeprice | number : 2}}</td>
+          <td>{{x.yeild}}%</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr class='warning'>
+          <td>平均净回报率为：{{rate1}}%</td>
+          <td>净回报率标准差为：{{rate2}}%</td>
+          <td>夏普比率为：{{rate3}}%</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+    <br>
+    <br>
+    <h2 class="analyse-charts-title">最大回撤 Max Drawdown</h2>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+        <tr class='success'>
+          <th>日期</th>
+          <th>交易方向</th>
+          <th>开仓价</th>
+          <th>平仓价</th>
+          <th>回撤率</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat='x in analyseDataArr'>
+          <td ng-bind='x.time'></td>
+          <td ng-bind='x.direction'></td>
+          <td>￥{{x.openprice | number : 2}}</td>
+          <td>￥{{x.closeprice | number : 2}}</td>
+          <td>{{x.yeildAbs}}%</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr class='warning'>
+          <td>最大回撤率为：</td>
+          <td>{{rate4}}%</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

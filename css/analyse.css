@@ -14,34 +14,45 @@
 	line-height: 50px;
 	font-size: 20px;
 
-
-
-
 }
+
+.analyse .remind>div{
+display: inline-block;
+	line-height: 50px;
+	margin-left: 10px;
+}
+.analyse .remind span{
+
+	width: 60px;
+	background-color: #eee;
+
+	/*display: block;*/
+	padding: 5px;
+	-webkit-box-shadow: inset 0 0 5px #545556;
+	-moz-box-shadow: inset 0 0 5px #545556;
+	box-shadow: inset 0 0 5px #545556;
+}
+
 .analyse .tab-content{
 	background:#fff;
 
 }
 .analyse .analyse-title-head{
+
 	/*margin-bottom: 20px;*/
 	background: #f2f2f2;
+	/*background-color: red;*/
     border-bottom: 1px solid #ccc;
 
 
-	/*border: 1px solid #f2f2f2;*/
-	/*background-color: #f2f2f2;*/
-	/*background-image: -moz-linear-gradient(#dadcde, #f2f2f2);*/
-	/*!*background-image: -webkit-gradient(linear, left top, left bottom, from(#dadcde), to(#f2f2f2));*!*/
-	/*background-image: -webkit-linear-gradient(#dadcde, #f2f2f2);*/
-	/*background-image: -o-linear-gradient(#dadcde, #f2f2f2);*/
-	/*background-image: -ms-linear-gradient(#dadcde, #f2f2f2);*/
-	/*background-image: linear-gradient(#dadcde,#f2f2f2);*/
-	/*-moz-border-radius: 6px;*/
-	/*-webkit-border-radius: 6px;*/
-	/*border-radius: 6px;*/
-	/*-moz-box-shadow: 0 1px 1px #f2f2f2, 0 1px 0 #dadcde inset;*/
-	/*-webkit-box-shadow: 0 1px 1px #f2f2f2, 0 1px 0 #dadcde inset;*/
-	/*box-shadow: 0 1px 1px #f2f2f2, 0 1px 0 #dadcde inset;*/
+}
+.analyse .analyse-title-head .col-sm-10{
+	width: 83.8%;
+	-webkit-box-shadow: 10px 5px 6px #aaa;
+	-moz-box-shadow: 10px 5px 6px #aaa;
+	box-shadow: 10px 5px 6px #aaa;
+	margin-left: 275px;
+
 }
 .analyse .analyse-left{
 	position: relative;
