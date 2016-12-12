@@ -92,15 +92,15 @@
     /*var editor = ace.edit("editor");
      editor.setTheme("ace/theme/chrome");
      editor.getSession().setMode("ace/mode/java");*/
-    if (($location.url() == '/study') || ($location.url() == '/home') || ($location.url() == '/mytable') || ($location.url() == '/modalRes') || ($location.url() == '/modalRes')) {
+    if (($location.url() == '/study') || ($location.url() == '/home') || ($location.url() == '/mytable') || ($location.url() == '/modalRes') || ($location.url() == '/modalRes')||($location.url()=='/introduce')) {
       $rootScope.isactive = false;
     }
     ;
     $(window).on('scroll', function () {
-      if ((($('html').scrollTop() > 100) || ($('body').scrollTop() > 100)) && (($location.url() == '/study') || ($location.url() == '/home') || ($location.url() == '/modalRes') || ($location.url() == '/mytable'))) {
+      if ((($('html').scrollTop() > 100) || ($('body').scrollTop() > 100)) && (($location.url() == '/study') || ($location.url() == '/home') || ($location.url() == '/modalRes') || ($location.url() == '/mytable')||($location.url()=='/introduce'))) {
         $rootScope.isactive = true;
         $rootScope.$apply();
-      } else if ((($('html').scrollTop() < 100) && ($('body').scrollTop() < 100)) && (($location.url() == '/study') || ($location.url() == '/home') || ($location.url() == '/modalRes') || ($location.url() == '/mytable'))) {
+      } else if ((($('html').scrollTop() < 100) && ($('body').scrollTop() < 100)) && (($location.url() == '/study') || ($location.url() == '/home') || ($location.url() == '/modalRes') || ($location.url() == '/mytable'))||($location.url()=='/introduce')) {
         $rootScope.isactive = false;
         $rootScope.$apply();
 
@@ -237,11 +237,12 @@
       $('.zijin-table-mask').fadeOut();
     };
     $scope.allStrategys = [];
-
     /* 源策略 */
     $scope.openMaskSourcing = function () {
       $('.sourcing-mask').fadeIn();
     };
+    //获取所有策略信息保存到accounts数组里
+    var accounts=[];
     $scope.getSourcingStrategys = function () {
      //console.log("调试不获取策略");
      // return;
@@ -249,12 +250,14 @@
         headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
       })
         .success(function (data) {
+          accounts=data;
           $scope.mySourcingStrategy = data;
+          $scope.getFirmStrategys();//显示实盘/回测列表
+          $scope.getHisStrategys();
+          //console.log(data);
         })
         .error(function (err, sta) {
           Showbo.Msg.alert('网络错误，请稍后再试。');
-          //console.log(err);
-          //console.log(sta);
         });
     };
     $scope.getSourcingStrategys();
@@ -287,70 +290,70 @@
     };
 
 
-    function getclassname(id){
-      $http.get(constantUrl + "classs/" + id + "/", {
-            headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-          })
-          .success(function (data) {
-            //console.log(data.class_name)
-            return data.class_name;
-          }).error(function(){
-        return "none";
-      })
+//封装获取对应策略代码方法
+    function getcelve(class_id){
+      //console.log(accounts)
+     for(var i=0;i<accounts.length;i++){
+       if(accounts[i]._id==class_id){
+         return accounts[i].class_name;
+       }
+     }
     }
-    /* 创建实盘模拟 */
+    /* 创建实盘模拟 *///加载策略页面
+    //实盘列表渲染到页面
     $scope.getFirmStrategys = function () {
       $http.get(constantUrl + "strategys/", {
         headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
       })
         .success(function (data) {
           $scope.myStrategy = data
-          console.log(data);
+          //console.log(data);
           //鼠标悬浮文字
-          for(var i=0;i<$scope.myStrategy.length;i++){
-            $scope.myStrategy[i].class_name=$scope.myStrategy[i].class_id;
-            var class_name=getclassname($scope.myStrategy[i].class_id);
-              console.log(class_name);
-
-
-            var status=$scope.myStrategy[i].status;
-            //console.log($scope.myStrategy[i]);
-            if(status==-3){
-              $scope.myStrategy[i].title="deleted";
+          for(var i=0;i<$scope.myStrategy.length;i++) {
+            $scope.myStrategy[i].class_name = "none";//策略代码初始化
+            var class_id = $scope.myStrategy[i].class_id;
+            var status = $scope.myStrategy[i].status;
+            //console.log(status);
+            if (status != -3) {
+              //console.log(class_id);
+                $scope.myStrategy[i].class_name = getcelve(class_id);
+              //console.log("end")
             }
-            if(status==-2){
-              $scope.myStrategy[i].title= $scope.myStrategy[i].error;
+            if (status == -3) {
+              $scope.myStrategy[i].title = "deleted";
             }
-            if(status==-1){
-              $scope.myStrategy[i].title="not inited";
-            }if(status==-0){
-              $scope.myStrategy[i].title=" inited";
-            }if(status==1){
-              $scope.myStrategy[i].title="running";
+            if (status == -2) {
+              $scope.myStrategy[i].title = $scope.myStrategy[i].error;
             }
-            if(status==2){
-              $scope.myStrategy[i].title="stoped or run over";
+            if (status == -1) {
+              $scope.myStrategy[i].title = "not inited";
             }
-            if(status==4){
-              $scope.myStrategy[i].title="lose because system restart";
+            if (status == -0) {
+              $scope.myStrategy[i].title = " inited";
             }
-            $scope.myStrategy[i].flag=false;//所有选择框默认不选择
+            if (status == 1) {
+              $scope.myStrategy[i].title = "running";
+            }
+            if (status == 2) {
+              $scope.myStrategy[i].title = "stoped or run over";
+            }
+            if (status == 4) {
+              $scope.myStrategy[i].title = "lose because system restart";
+            }
+            $scope.myStrategy[i].flag = false;//所有选择框默认不选择
           }
           angular.forEach(data, function (item, index) {
             $scope.allStrategys.push(item);
           });
+
+
         })
         .error(function (err, sta) {
           Showbo.Msg.alert('网络错误，请稍后再试。');
           //console.log(err);
           //console.log(sta);
         });
-      //获取对应策略代码名
-
-
-
       };
-    $scope.getFirmStrategys();
 
 
     //选择删除 实盘模拟
@@ -377,7 +380,7 @@
               });
         }
       }
-      $scope.getFirmStrategys();
+
       console.log('end')
     }
     var flag=false;
@@ -539,7 +542,6 @@
       $http.get(constantUrl + "accounts/",{headers: {'Authorization': 'token ' + $cookieStore.get('user').token}})
         .success(function (data) {
           $scope.ids = data;
-
          //console.log(data)
         })
         .error(function (err,sta) {
@@ -548,7 +550,6 @@
 
     }
     $scope.new();
-
 
 
     /* 创建历史回测 */
@@ -601,6 +602,7 @@
       }
     }
     $scope.getsymbol=function(){
+      $scope.firmItem.symbol="";
       //console.log($scope.modeBarOptions,$scope.modeTickOptions);
       if($scope.modeBarOptions==true){
         getModeList('bar');
@@ -660,6 +662,7 @@
         formdata.append('mode', 'tick');
       }
       ;
+      //console.log($scope.modeBarOptions,$scope.modeTickOptions)
       var mydate = $filter('date')(new Date((new Date($scope.hisItem.end)).setDate((new Date($scope.hisItem.end)).getDate() + 1)), 'yyyy-MM-dd');
       //console.log($scope.hisItem);
       formdata.append('name', $scope.hisItem.name);
@@ -680,11 +683,12 @@
         }
       })
         .success(function (data) {
+          console.log(data);
+          //584e52997932156d41d42829
+          //"584e53a67932156d41d428e8"
           $('.zijin-table-mask').fadeOut();
-          $scope.myHisStrategy = data;
-          //console.log(data);
+          //$scope.myHisStrategy = data;
           $scope.getHisStrategys();
-       //   console.log(data);
           Showbo.Msg.alert('添加成功。');
         })
         .error(function (err, st) {
@@ -694,6 +698,7 @@
           Showbo.Msg.alert('添加失败，请稍后再试。');
         });
     };
+    //历史回测列表渲染到页面
     $scope.getHisStrategys = function () {
       $http.get(constantUrl + "btstrategys/", {
         headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
@@ -701,8 +706,14 @@
         .success(function (data) {
           $scope.myHisStrategy = data;
           for(var i=0;i<$scope.myHisStrategy.length;i++){
+            $scope.myHisStrategy[i].class_name = "none";//策略代码初始化
             var status=$scope.myHisStrategy[i].status;
-            //console.log($scope.myHisStrategy[i]);
+            var class_id = $scope.myHisStrategy[i].class_id;
+            var status = $scope.myHisStrategy[i].status;
+            //console.log(status);
+            if (status != -3) {
+              $scope.myHisStrategy[i].class_name=getcelve(class_id);
+            }
             if(status==-3){
               $scope.myHisStrategy[i].title="deleted";
             }
@@ -733,7 +744,7 @@
           //console.log(sta);
         });
     };
-    $scope.getHisStrategys();
+
 
 //注意把文本用utf-8格式保存不然会中文乱码 鼠标悬浮title
     var url="instructions.txt";
@@ -1626,7 +1637,7 @@
               // }else{
               // 	this.push(data);
               // };
-              console.log(data);
+              //console.log(data);
               this.push(data);
               //白银全天有交易，期货交易截止到3点半
               //if (data['name'] == 'AG_real') {
@@ -2490,12 +2501,141 @@
                  }*/
               }]
             });
+            $('#return_map_big_1').highcharts('StockChart', {
+
+              credits: {
+                enabled: false
+              },
+              exporting: {
+                enabled: false
+              },
+              plotOptions: {
+                series: {
+                  turboThreshold: 0
+                }
+              },
+              tooltip: {
+                useHTML: true,
+                xDateFormat: "%Y-%m-%d %H:%M:%S",
+                valueDecimals: 2
+              },
+              legend: {
+                enabled: true,
+                align: 'right',
+                verticalAlign: 'top',
+                x: 0,
+                y: 0
+              },
+              rangeSelector: {
+                buttons: [
+                  {
+                    type: 'minute',
+                    count: 10,
+                    text: '10m'
+                  }, {
+                    type: 'minute',
+                    count: 30,
+                    text: '30m'
+                  }, {
+                    type: 'hour',
+                    count: 1,
+                    text: '1h'
+                  }, {
+                    type: 'day',
+                    count: 1,
+                    text: '1d'
+                  }, {
+                    type: 'week',
+                    count: 1,
+                    text: '1w'
+                  }, {
+                    type: 'all',
+                    text: '所有'
+                  }],
+                selected: 5,
+                buttonSpacing: 2
+
+              },
+              yAxis: [{
+                labels: {
+                  align: 'right',
+                  x: -3
+                },
+                title: {
+                  text: '股价'
+                },
+                lineWidth: 1,
+                height: '60%'
+              }, {
+                labels: {
+                  align: 'right',
+                  x: -3
+                },
+                title: {
+                  text: '盈亏'
+                },
+                opposite: true,
+                offset: 0,
+                height: '35%',
+                top: '65%'
+              }],
+              series: [{
+                type: 'line',
+                name: '股价',
+                data: chartJsonDataArr,
+                lineWidth: 2,
+                id: 'dataseries'
+              }, {
+                type: 'flags',
+                data: shortYArr,
+                onSeries: "dataseries",
+                shape: 'squarepin',
+                width: 36,
+                color: "#4169e1",
+                fillColor: 'transparent',
+                style: {
+                  color: '#333'
+                },
+                y: -40,
+                name: '看多',
+              }, {
+                type: 'flags',
+                data: buyYArr,
+                onSeries: "dataseries",
+                shape: 'squarepin',
+                width: 36,
+                color: '#ff9912',
+                fillColor: 'transparent',
+                style: {
+                  color: '#333'
+                },
+                y: 20,
+                name: '看空',
+              }, {
+                type: 'column',
+                data: chartArr,
+                name: '盈亏',
+                /*lineWidth:2,*/
+                yAxis: 1,
+                threshold: 0,
+                negativeColor: 'green',
+                color: 'red'
+                /*color:'#e3170d',*/
+                /*marker:{
+                 enabled:true,
+                 symbol:'circle',
+                 fillColor:'#0b1746',
+                 radius:5
+                 }*/
+              }]
+            });
+
 
 
             //收益曲线
             $('#return_map_big1').highcharts('StockChart', {
               chart:{
-                width:1200,
+                width:1300,
                 height:600
               },
               xAxis: {
@@ -2591,6 +2731,105 @@
 
               ]
             });
+
+            $('#return_map_big1_1').highcharts('StockChart', {
+
+              xAxis: {
+                tickInterval: 1
+              },
+              yAxis: [{
+                type: '盈亏',
+                minorTickInterval: 0.1,
+                plotLines:[{
+                  color:'#A25E6B',           //线的颜色
+                  dashStyle:'solid',     //默认值，这里定义为实线
+                  value:0,               //定义在那个值上显示标示线，这里是在x轴上刻度为3的值处垂直化一条线
+                  width:2                //标示线的宽度，2px
+                }],
+              }],
+
+              rangeSelector: {
+                buttons: [
+                  {
+                    type: 'minute',
+                    count: 10,
+                    text: '10m'
+                  }, {
+                    type: 'minute',
+                    count: 30,
+                    text: '30m'
+                  }, {
+                    type: 'hour',
+                    count: 1,
+                    text: '1h'
+                  }, {
+                    type: 'day',
+                    count: 1,
+                    text: '1d'
+                  }, {
+                    type: 'week',
+                    count: 1,
+                    text: '1w'
+                  }, {
+                    type: 'all',
+                    text: '所有'
+                  }],
+                selected: 5,
+                buttonSpacing: 2
+              },
+
+              plotOptions: {
+                spline: {
+                  lineWidth: 1.5,
+                  fillOpacity: 0.1,
+                  marker: {
+                    enabled: false,
+                    states: {
+                      hover: {
+                        enabled: true,
+                        radius: 2
+                      }
+                    }
+                  },
+                  shadow: false
+                }
+              },
+
+              series: [
+                {
+                  data: chartArr,
+                  name: '盈亏',
+                  marker:{
+                    enabled:true,
+                    symbol:'square',
+                    fillColor:'blue',
+                    radius:5
+                  },
+                  id:"yingkui",
+                  color:'#eec710'
+                },
+                {
+                  type: 'flags',
+                  data: chartArr1,
+                  onSeries: "yingkui",
+                  shape: 'squarepin',
+                  width: 36,
+                  color: "#4169e1",
+                  fillColor: 'transparent',
+                  style: {
+                    color: '#333'
+                  },
+                  name:"详情",
+                  y:-50
+
+
+                }
+
+              ]
+            });
+
+
+
 
 
           };
@@ -4498,10 +4737,10 @@
                  }*/
               }]
             });
-            //收益曲线图
+            //页面显示的收益曲线图
             $('#return_map_big_2').highcharts('StockChart', {
               chart:{
-                width:1200,
+                width:1300,
                 height:600
               },
               xAxis: {
@@ -4597,6 +4836,104 @@
 
               ]
             });
+
+            //打印中的收益曲线
+            $('#return_map_big_form1').highcharts('StockChart', {
+
+              xAxis: {
+                tickInterval: 1
+              },
+              yAxis: [{
+                type: '盈亏',
+                minorTickInterval: 0.1,
+                plotLines:[{
+                  color:'#A25E6B',           //线的颜色
+                  dashStyle:'solid',     //默认值，这里定义为实线
+                  value:0,               //定义在那个值上显示标示线，这里是在x轴上刻度为3的值处垂直化一条线
+                  width:2                //标示线的宽度，2px
+                }],
+              }],
+
+              rangeSelector: {
+                buttons: [
+                  {
+                    type: 'minute',
+                    count: 10,
+                    text: '10m'
+                  }, {
+                    type: 'minute',
+                    count: 30,
+                    text: '30m'
+                  }, {
+                    type: 'hour',
+                    count: 1,
+                    text: '1h'
+                  }, {
+                    type: 'day',
+                    count: 1,
+                    text: '1d'
+                  }, {
+                    type: 'week',
+                    count: 1,
+                    text: '1w'
+                  }, {
+                    type: 'all',
+                    text: '所有'
+                  }],
+                selected: 5,
+                buttonSpacing: 2
+              },
+
+              plotOptions: {
+                spline: {
+                  lineWidth: 1.5,
+                  fillOpacity: 0.1,
+                  marker: {
+                    enabled: false,
+                    states: {
+                      hover: {
+                        enabled: true,
+                        radius: 2
+                      }
+                    }
+                  },
+                  shadow: false
+                }
+              },
+
+              series: [
+                {
+                  data: chartArr,
+                  name: '盈亏',
+                  marker:{
+                    enabled:true,
+                    symbol:'square',
+                    fillColor:'blue',
+                    radius:5
+                  },
+                  id:"yingkui",
+                  color:'#eec710'
+                },
+                {
+                  type: 'flags',
+                  data: chartArr1,
+                  onSeries: "yingkui",
+                  shape: 'squarepin',
+                  width: 36,
+                  color: "#4169e1",
+                  fillColor: 'transparent',
+                  style: {
+                    color: '#333'
+                  },
+                  name:"详情",
+                  y:-50
+
+
+                }
+
+              ]
+            });
+
 
           };
         });

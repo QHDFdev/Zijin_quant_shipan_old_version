@@ -13,12 +13,12 @@
             <i style="margin-bottom: 4px" class="zijin-table-add" ng-click='openMaskSourcing()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i>
              <!--<button class="btn btn-danger sour-del" style="float:right;margin-top:20px;margin-right: 48px">删除策略 <i class="fa fa-remove"></i></button>-->
         </div>
-        <div class="table-responsive" >
-            <table class="table table-bordered table-hover table-striped" sourcing-table>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped"  sourcing-table>
                 <thead class="bg-success">
                     <tr>
                         <!--<th class="col-xs-2">选择</th>-->
-                        <th class="col-xs-2">策略类名</th>
+                        <th class="col-xs-2" >策略类名</th>
                         <th class="col-xs-2">代码文件名</th>
                         <th class="col-xs-1">作者</th>
                         <th class="col-xs-3">策略操作</th>
@@ -58,8 +58,8 @@
                 <thead class="bg-success">
                     <tr>
                         <!--<th class="col-xs-2">选择</th>-->
+                        <th class="col-xs-2">实盘名</th>
                         <th class="col-xs-2">策略代码</th>
-                        <th class="col-xs-2">策略名字</th>
                         <th class="col-xs-1">合约代码</th>
                         <th class="col-xs-1">作者</th>
                         <th class="col-xs-1">状态</th>
@@ -70,8 +70,8 @@
                     <tr ng-repeat='d in myStrategy  | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
                         <!--<td><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection2(this)" ng-checked="all2"><a hidden>{{d.flag}}</a></td>-->
-                        <td ng-bind="d.class_name"></td>
                         <td ng-bind="d.name"></td>
+                        <td ng-bind="d.class_name"></td>
                         <td ng-bind="d.symbol"></td>
                         <td ng-bind="d.author"></td>
                         <td ng-bind="d.status" title="{{d.title}}"></td>
@@ -99,13 +99,14 @@
             <table class="table table-bordered table-hover table-striped" his-table >
                 <thead class="bg-success">
                     <tr>
-                        <th class="col-xs-2">选择</th>
-                        <th class="col-xs-1">策略名字</th>
+                        <th class="col-xs-1">选择</th>
+                        <th class="col-xs-2">回测名</th>
+                        <th class="col-xs-2">策略代码</th>
                         <th class="col-xs-1">mode</th>
-                        <th class="col-xs-2">开始时间</th>
-                        <th class="col-xs-2">结束时间</th>
+                        <th class="col-xs-1">开始时间</th>
+                        <th class="col-xs-1">结束时间</th>
                         <th class="col-xs-1">状态</th>
-                        <th class="col-xs-4">策略操作</th>
+                        <th class="col-xs-2">策略操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -113,6 +114,7 @@
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
                         <td><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection3(this)" ng-checked="all3"><a hidden>{{d.flag}}</a></td>
                         <td ng-bind="d.name"></td>
+                        <td ng-bind="d.class_name"></td>
                         <td ng-bind="d.mode"></td>
                         <td ng-bind="d.start"></td>
                         <td ng-bind="d.end"></td>
@@ -199,10 +201,10 @@
             <div class=" col-sm-8 col-sm-offset-2">
                 <form ng-submit="addFirmStrategy()" name="newFirmStrategy" novalidate="" enctype="multipart/form-data" id="newFirmStrategy" novalidate>
                     <div class="form-group">
-                        <label for="">策略名：</label>
-                        <input type="text" class="form-control" name="name" ng-model='firmItem.name' placeholder="请输入策略名" required>
+                        <label for="">实盘名：</label>
+                        <input type="text" class="form-control" name="name" ng-model='firmItem.name' placeholder="请输入实盘名" required>
                         <div class="error" ng-messages='newFirmStrategy.name.$error' ng-if='newFirmStrategy.name.$touched' ng-message-multiple>
-                            <small ng-message='required'style="color:red">策略名不能为空</small>
+                            <small ng-message='required'style="color:red">实盘名不能为空</small>
                         </div>
                     </div>
                     <div class="form-group">
@@ -248,10 +250,10 @@
                 <form ng-submit="addHisStrategy()" name="newHisStrategy" novalidate="" enctype="multipart/form-data" id="newHisStrategy">
 
                     <div class="form-group">
-                        <label for="">策略名：</label>
-                        <input type="text" class="form-control" name="name" ng-model='hisItem.name' placeholder="请输入策略名" required>
+                        <label for="">回测名：</label>
+                        <input type="text" class="form-control" name="name" ng-model='hisItem.name' placeholder="请输入回测名" required>
                         <div class="error" ng-messages='newHisStrategy.name.$error' ng-if='newHisStrategy.name.$touched' ng-message-multiple>
-                            <small ng-message='required'style="color:red">策略名不能为空</small>
+                            <small ng-message='required'style="color:red">回测名不能为空</small>
                         </div>
                     </div>
 
