@@ -8,20 +8,20 @@
         <div class="zijin-table-bigmask"></div>
     </div>
     <div class="zijin-table-body container sourcing-strategy;">
-        <div class="zijin-table-title">
+        <div class="zijin-table-title" style="margin-bottom: 15px">
             <span>策略代码</span>
-            <i class="zijin-table-add" ng-click='openMaskSourcing()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i>
+            <i style="margin-bottom: 4px" class="zijin-table-add" ng-click='openMaskSourcing()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i>
              <!--<button class="btn btn-danger sour-del" style="float:right;margin-top:20px;margin-right: 48px">删除策略 <i class="fa fa-remove"></i></button>-->
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive" >
             <table class="table table-bordered table-hover table-striped" sourcing-table>
                 <thead class="bg-success">
                     <tr>
                         <!--<th class="col-xs-2">选择</th>-->
                         <th class="col-xs-2">策略类名</th>
-                        <th class="col-xs-1">代码文件名</th>
-                        <th class="col-xs-2">作者</th>
-                        <th class="col-xs-4">策略操作</th>
+                        <th class="col-xs-2">代码文件名</th>
+                        <th class="col-xs-1">作者</th>
+                        <th class="col-xs-3">策略操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,8 +46,8 @@
         </div>    
     </div>
      <div class="zijin-table-body container firm-strategy">
-        <div class="zijin-table-title">
-            <span>实盘模拟</span>
+        <div class="zijin-table-title" style="margin-bottom: 15px">
+            <span style="color:#46b8da">实盘模拟</span>
              <!--<i class="zijin-table-add" ng-click='openMask()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i>-->
             <!--<button  class="btn btn-danger allde2" ng-click="alldel2()">删除选择<i class="fa fa-remove"></i></button>-->
             <!--<input  type="checkbox" ng-model="all2" style="margin-left: 40px;width: 20px;height:20px;vertical-align:middle;margin-right: 5px" ng-click="selectall2()"><span>全选</span>-->
@@ -58,17 +58,19 @@
                 <thead class="bg-success">
                     <tr>
                         <!--<th class="col-xs-2">选择</th>-->
-                        <th class="col-xs-1">策略名字</th>
+                        <th class="col-xs-2">策略代码</th>
+                        <th class="col-xs-2">策略名字</th>
                         <th class="col-xs-1">合约代码</th>
-                        <th class="col-xs-2">作者</th>
-                        <th class="col-xs-2">状态</th>
-                        <th class="col-xs-4">策略操作</th>
+                        <th class="col-xs-1">作者</th>
+                        <th class="col-xs-1">状态</th>
+                        <th class="col-xs-2">策略操作</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat='d in myStrategy  | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
                         <!--<td><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection2(this)" ng-checked="all2"><a hidden>{{d.flag}}</a></td>-->
+                        <td ng-bind="d.class_name"></td>
                         <td ng-bind="d.name"></td>
                         <td ng-bind="d.symbol"></td>
                         <td ng-bind="d.author"></td>
@@ -87,11 +89,11 @@
         </div>    
     </div>
     <div class="zijin-table-body container his-strategy">
-        <div class="zijin-table-title">
-            <span>历史回测</span>
+        <div class="zijin-table-title" style="margin-bottom: 15px">
+            <span style="color: #5cb85c;">历史回测</span>
             <!-- <i class="zijin-table-add" ng-click='openMask()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i> -->
-            <input  type="checkbox" ng-model="all3" style="margin-left: 40px;width: 20px;height:20px;vertical-align:middle;margin-right: 5px"ng-click="selectall3()"><span>全选</span>
-            <button  class="btn btn-danger allde3" ng-click="delsel3()" style="margin-left: 40px;margin-top: 2px">删除选择</button>
+            <input  type="checkbox" ng-model="all3" style="margin-left: 40px;width: 20px;height:20px;vertical-align:middle;margin-right: 5px"ng-click="selectall3()"><span style="color: #5cb85c;">全选</span>
+            <button  class="btn btn-danger allde3" ng-click="delsel3()" style="margin-left: 40px;margin-top: 2px;background: #5cb85c;border-color: #5cb85c">删除选择</button>
         </div>
         <div class="table-responsive">
             <table class="table table-bordered table-hover table-striped" his-table >
@@ -102,7 +104,7 @@
                         <th class="col-xs-1">mode</th>
                         <th class="col-xs-2">开始时间</th>
                         <th class="col-xs-2">结束时间</th>
-                        <th class="col-xs-2">状态</th>
+                        <th class="col-xs-1">状态</th>
                         <th class="col-xs-4">策略操作</th>
                     </tr>
                 </thead>
@@ -118,7 +120,7 @@
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-warning strategy-pause">停止 <i class="fa fa-pause"></i></button>
-                                <button  class="btn btn-danger strategy-del">删除策略 <i class="fa fa-remove"></i></button>
+                                <button  class="btn btn-danger strategy-del" >删除策略 <i class="fa fa-remove"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -130,7 +132,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-8 col-sm-12">
 
-                <div class="zijin-table-title" style="width: 200px" slide-toggle>
+                <div class="zijin-table-title" style="width: 160px;" slide-toggle>
                     <span><i class="fa fa-trash" ></i>&nbsp;回收站&nbsp;<span class="caret"></span></span>
                     <button  class="btn btn-danger" style="margin-top:20px;background: #222;border-color: #222" ng-click="alldel()">
                         清空回收站</button>
@@ -228,8 +230,8 @@
                         <label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">
                     </div>
                     <div class="btn-group btn-group-lg">
-                        <input class="btn-success btn" type="submit" value="提交" ng-disabled='newFirmStrategy.$invalid'>
-                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+                        <input style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" class="btn-success btn" type="submit" value="提交" ng-disabled='newFirmStrategy.$invalid'>
+                        <input style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px" class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
                     </div> 
                 </form>
             </div>  
@@ -302,8 +304,8 @@
                         <label>代码依赖文件：</label><input type="file" name="hisFile" file-model='files' placeholder="代码依赖文件">
                     </div>
                     <div class="btn-group btn-group-lg">
-                        <input class="btn-success btn" type="submit" value="提交" ng-disabled='newHisStrategy.$invalid'>
-                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+                        <input style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" class="btn-success btn" type="submit" value="提交" ng-disabled='newHisStrategy.$invalid'>
+                        <input style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px" class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
                     </div> 
                 </form>
             </div>  

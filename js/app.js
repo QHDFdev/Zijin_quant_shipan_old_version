@@ -286,15 +286,33 @@
         });
     };
 
+
+    function getclassname(id){
+      $http.get(constantUrl + "classs/" + id + "/", {
+            headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+          })
+          .success(function (data) {
+            //console.log(data.class_name)
+            return data.class_name;
+          }).error(function(){
+        return "none";
+      })
+    }
     /* 创建实盘模拟 */
     $scope.getFirmStrategys = function () {
       $http.get(constantUrl + "strategys/", {
         headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
       })
         .success(function (data) {
-          $scope.myStrategy = data;
+          $scope.myStrategy = data
+          console.log(data);
           //鼠标悬浮文字
           for(var i=0;i<$scope.myStrategy.length;i++){
+            $scope.myStrategy[i].class_name=$scope.myStrategy[i].class_id;
+            var class_name=getclassname($scope.myStrategy[i].class_id);
+              console.log(class_name);
+
+
             var status=$scope.myStrategy[i].status;
             //console.log($scope.myStrategy[i]);
             if(status==-3){
@@ -327,8 +345,14 @@
           //console.log(err);
           //console.log(sta);
         });
-    };
+      //获取对应策略代码名
+
+
+
+      };
     $scope.getFirmStrategys();
+
+
     //选择删除 实盘模拟
     $scope.updateSelection2 = function(a){
       //console.log(a.$index);
@@ -546,7 +570,7 @@
         Showbo.Msg.alert('请先选择交易所代码和交易合约');
         return;
       }
-      console.log($scope.firmItem)
+      //console.log($scope.firmItem)
       var symbol,exchange;
       symbol=$scope.firmItem.symbol;
       exchange=$scope.firmItem.exchange;
@@ -560,7 +584,7 @@
 
         })
         .error(function (err, sta) {
-          console.log(err);
+          //console.log(err);
           console.log(sta);
         });
     };
@@ -613,7 +637,7 @@
         Showbo.Msg.alert('请选择交易合约');
         return;
       }
-      if($scope.modeTickOptions==false){
+      if($scope.modeTickOptions==false && $scope.modeBarOptions==false){
         Showbo.Msg.alert('请选择bar或tick');
         return;
       }
@@ -1572,7 +1596,7 @@
           headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
         })
           .success(function (data) {
-            console.log(data);
+            //console.log(data);
             defer2.resolve(data);
           })
           .error(function (err, sta) {
@@ -1602,19 +1626,22 @@
               // }else{
               // 	this.push(data);
               // };
-              if (data['name'] == 'AG_real') {
-              //if(data[index].symbol=="D1_AG"){
-                if (hour < 6 || hour > 9) {
-                  this.push(data);
-                }
-              } else {
-                if (hour < 9 || hour > 15 || (hour == 15 && minute > 30)) {
-
-                } else {
-                  this.push(data);
-                }
-                ;
-              }
+              console.log(data);
+              this.push(data);
+              //白银全天有交易，期货交易截止到3点半
+              //if (data['name'] == 'AG_real') {
+              ////if(data[index].symbol=="D1_AG"){
+              //  if (hour < 6 || hour > 9) {
+              //    this.push(data);
+              //  }
+              //} else {
+              //  if (hour < 9 || hour > 15 || (hour == 15 && minute > 30)) {
+              //
+              //  } else {
+              //    this.push(data);
+              //  }
+              //  ;
+              //}
               ;
             }, chartData1);
             /*$('#return_mapping_1').css('display','block').siblings().css('display','none');*/
@@ -6800,9 +6827,12 @@
               Showbo.Msg.alert('暂停失败，请稍后再试。')
             });
         });
+
         ele.on('click', '.strategy-del', function () {
-          var a = confirm('确认删除此历史回测吗');
-          if (!a) return;
+          //var a = confirm('确认删除此历史回测吗');
+          //if (!a) return;
+          Showbo.Msg.confirm('确认删除此历史回测吗');
+          return;
           var url = $(this).closest('tr').children().eq(0).text();
           $http.delete(constantUrl + "btstrategys/" + url + '/', {
             headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
