@@ -5,6 +5,11 @@
 	padding: 70px 0;
 	width: 100%;
 }
+.analyse .remind>div{
+	/*display: inline-block;*/
+	/*float: left;*/
+	background-color: red;
+}
 @media (max-width: 767px){
 	.analyse{margin-top: 50px;}
 }
@@ -26,6 +31,9 @@ padding-bottom: 50px; */
 	margin-bottom: 50px;
 	padding-left: 40px;
 }
+
+
+
 .analyse .analyse-left dl{
 	/* margin:25px auto;
 	width: 120px; */
