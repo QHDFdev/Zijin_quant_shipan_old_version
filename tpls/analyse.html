@@ -1,11 +1,24 @@
 <div class="analyse" ng-controller='analyseController'>
 	<div class="container-fluid noprint">
 		<div class="row analyse-title-head">
-		   	<div class="col-sm-2 hidden-xs"></div>
-			<div class="col-sm-10 col-xs-12">
-				<p class="analyse-top-title text-left">
-				<b title="时间">{{analyse_title.time}}</b>&nbsp;&nbsp;&nbsp;
-				<b title="策略名">{{analyse_title.name}}</b>&nbsp;&nbsp;&nbsp;</p>
+			<div class="col-sm-2 hidden-xs"></div>
+			<div class="col-sm-10" style="	-webkit-box-shadow:10px 3px 8px #aaa;
+	-moz-box-shadow: 10px 3px 8px #aaa;
+	box-shadow: 10px 3px 8px #aaa;">
+				<div class="remind" >
+					<div class="first">
+						交易时间：<span style="display: none">{{analyse_title.time}}</span>
+					</div>
+					<div class="second">
+						回测名：<span style="display: none">{{analyse_title.name}}</span>
+					</div>
+					<div class="third">
+						交易合约：<span style="display: none">{{analyse_title.symbol}}</span>
+					</div>
+					<div class="fourth" style="display: none">
+						交易手数：<span>{{analyse_title.multiple}}</span>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -13,8 +26,8 @@
 				<i class='mobile-action visible-xs  fa fa-lg fa-arrow-circle-right' mobile-action></i>
 				<div class="analyse-menu-list">
 					<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#analyse-modal1'>输入历史回测数据</button></p>
-					<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#analyse-modal2'>获取历史回测数据</button></p> 
-					<p class="analyse-menu-head"><button class="btn btn-success" jspdf-action>保存研究报告</button></p> 
+					<p class="analyse-menu-head"><button class="btn btn-info" data-toggle='modal' data-target='#analyse-modal2'>获取历史回测数据</button></p>
+					<p class="analyse-menu-head"><button class="btn btn-danger" jspdf-action>保存研究报告</button></p>
 					<div class="modal fade" id="analyse-modal1"> 
 						<div class="modal-dialog">
 							<div class="modal-content">

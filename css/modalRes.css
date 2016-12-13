@@ -14,6 +14,7 @@
 	padding: 40px 0;
 	text-align: center;
 	box-shadow: 0 0 5px 5px #ccc;
+	/*background-color: red;*/
 }
 .modalRes-head .modalRes-head-icon{
 	margin-right: 5px;
@@ -27,17 +28,50 @@
 	display: inline-block;
 	margin: 0;
 	vertical-align: middle;
+	border-right: 1px solid #ddd;
+	padding:30px 30px 30px 0;
 }
 .modalRes-head .modalRes-head-text{
-	display: inline-block;
+	/*display: inline-block;*/
 	margin-left: 30px;
 	padding-left: 30px;
-	border-left: 1px solid;
-	max-width: 800px;
+
+	max-width: 75%;
 	vertical-align: middle;
 	text-align: left;
 	color: #666;
+
+	/*background-color: red;*/
 }
+
+.modalRes-head .modalRes-head-text, .modalRes-head .modalRes-head-text:after {
+	/*font-weight: 900;*/
+	color: #efedce;
+	/*white-space: nowrap;*/
+	display: inline-block;
+	position: relative;
+	letter-spacing: .1em;
+	padding: .2em 0 .25em 0;
+}
+
+.modalRes-head .modalRes-head-text {
+	/*font-size: 4em;*/
+	z-index: 100;
+	text-shadow: .04em .04em 0 #9cb8b3;
+}
+
+.modalRes-head .modalRes-head-text:after {
+	content: attr(data-shadow-text);
+	color: rgba(0,0,0,.35);
+	text-shadow: none;
+	position: absolute;
+	left: .0875em;
+	top: .0875em;
+	z-index: -1;
+	-webkit-mask-image: url(http://f.cl.ly/items/1t1C0W3y040g1J172r3h/mask.png);
+}
+
+
 @media screen and  (max-width: 1200px){
 	.modalRes-head .modalRes-head-text{
 		display: none;
