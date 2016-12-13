@@ -3,9 +3,12 @@
 
 	<div class="modalRes-head">
 		<div class="container">
-			<i class="modalRes-head-icon"></i>
-			<h2 class="modalRes-head-title">模型研究库</h2>
-			<span class="modalRes-head-text">紫金量化平台量化模型研究着重于从数据这一最原始资源中去挖掘数据本身固有的规律。结合机器学习，Deeplearning等多种手段来构建预测模型。基于预测模型编写交易策略，从而实现全自动量化交易过程。而我们的重点则是量化模型。</span>
+			<div class="col-md-12">
+				<i class="modalRes-head-icon"></i>
+				<h2 class="modalRes-head-title">模型研究库</h2>
+				<span class="modalRes-head-text" >紫金平台-量化模型部分，研究着重于从金融数据这一最原始资源中去挖掘数据本身固有的规律。结合机器学习，时间序列数据分析，数理统计等多种量化手段来构建预测模型。针对不同交易品种数据设计相应的量化模型，我们从不相信可以设计有一个能包打天下的模型。最终基于设计好的预测模型来进行交易策略的编写，从而实现全自动量化交易过程。这整个过程中的重点则是基于金融数据的量化模型。我们分享了部分我们的研究，也期待有更多人可以分享他们自己的模型，策略。
+        </span>
+			</div>
 		</div>
 	</div>
 	<div class="modalRes-body">
@@ -96,17 +99,17 @@
 			<div class="row">
 				<div class="col-sm-8 col-sm-offset-2">
 					<form ng-submit='addModalResObj()' name='modalResObjForm' novalidate="">
-						<h3 class="text-center">研究对象-金融数据</h3>
+						<h3 class="text-center">金融数据</h3>
 						<div class="form-group">
 							<input type="text" class="form-control" ng-model='modalResObj.title' placeholder="主题" required="">
 						</div>
 						<div class="form-group">
 							<textarea class="form-control" ng-model='modalResObj.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
 						</div>
-						<div class="btn-group btn-group-lg">
-	                        <input class="btn-success btn" type="submit" value="创建">
-	                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
-	                    </div> 
+						<div class="btn-group btn-group-lg" style="width:100%;position: relative;left: 40%;">
+							  <input class="btn-success btn" type="submit" value="创建" style="margin-right: 2%">
+	              <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+	          </div>
 					</form>
 				</div>
 			</div>
@@ -119,7 +122,7 @@
 			<div class="row">
 				<div class="col-sm-8 col-sm-offset-2">
 					<form ng-submit='addModalResMet()' name='modalResMetForm' novalidate="">
-						<h3 class="text-center">研究方法-量化模型</h3>
+						<h3 class="text-center">量化策略</h3>
 						<div class="form-group">
 							<input type="text" class="form-control" ng-model='modalResMet.title' placeholder="主题" required="">
 						</div>
@@ -129,8 +132,8 @@
 						<div class="form-group">
 							<textarea class="form-control" ng-model='modalResMet.code' placeholder="代码" required=""></textarea>
 						</div>
-						<div class="btn-group btn-group-lg">
-	                        <input class="btn-success btn" type="submit" value="创建">
+						<div class="btn-group btn-group-lg" style="width:100%;position: relative;left: 40%;">
+	                        <input class="btn-success btn" type="submit" value="创建" style="margin-right: 2%">
 	                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
 	                    </div> 
 					</form>
@@ -145,7 +148,7 @@
 			<div class="row">
 				<div class="col-sm-8 col-sm-offset-2">
 					<form ng-submit='addModalResExa()' name='modalResExaForm' novalidate="">
-						<h3 class="text-center">量化模型-实例研究</h3>
+						<h3 class="text-center">量化模型</h3>
 						<div class="form-group">
 							<input type="text" class="form-control" ng-model='modalResExa.title' placeholder="主题" required="">
 						</div>
@@ -155,8 +158,8 @@
 						<div class="form-group">
 							<textarea class="form-control" ng-model='modalResExa.code' placeholder="代码" required=""></textarea>
 						</div>
-						<div class="btn-group btn-group-lg">
-	                        <input class="btn-success btn" type="submit" value="创建">
+						<div class="btn-group btn-group-lg" style="width:100%;position: relative;left: 40%;">
+	                        <input class="btn-success btn" type="submit" value="创建" style="margin-right: 2%">
 	                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
 	                    </div> 
 					</form>
