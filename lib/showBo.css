@@ -15,8 +15,8 @@
 		font-size:14px;
 		width: 33.333333%;
 		overflow:hidden;
-		z-index:99999; 
-		border-radius:3px; 
+		z-index:99999;
+		border-radius:3px;
 		font-family:"fa";
 		text-align: center;
 		border-top-left-radius: 10px;
@@ -34,11 +34,11 @@
 	    height: 50px;
 	    border-top-left-radius: 10px;
 	    border-top-right-radius: 10px;
-	} 
+	}
 	#dvMsgBox .top .right{
 		height:100%;
 		padding-right:6px;
-	}  
+	}
 	#dvMsgBox .top .right .title{
 		font-weight: normal;
 		font-size: 22px;
@@ -48,7 +48,7 @@
 		height: 100%;
 		line-height: 40px;
 		width: 100%;
-	} 
+	}
 
 	#dvMsgBox .top .right label.lbl-1 {
 		background: #5CBD71;
@@ -81,16 +81,16 @@
 	#dvMsgBox .top .right  .avtar{
 		width: 100px;
 	  	margin: 50px auto;
-	} 
+	}
 	#dvMsgBox .body{
 		background:#fff;
 		padding-left:10px;
-	}  
+	}
 	#dvMsgBox .body .right{
 		background:#fff;
 		padding-right:2px;
-	}  
-	#dvMsgBox .body .right .ct{  
+	}
+	#dvMsgBox .body .right .ct{
 		vertical-align: middle;
 		width: 100%;
 		text-align: center;
@@ -98,10 +98,10 @@
 		font-size: 18px;
 		font-weight: normal;
 		padding: 50px 0;
-  	}  
-#dvMsgBox .body .right .ct .pro{width:280px;border:solid 1px #6593cf;height:25px;background:#ffffff;line-height:23px;overflow:hidden;font-family: "fa"}  
-#dvMsgBox .body .right .ct .pro .bg{width:0%;height:100%;background:#c9dffc;font-family: "fa"}  
-	
+  	}
+#dvMsgBox .body .right .ct .pro{width:280px;border:solid 1px #6593cf;height:25px;background:#ffffff;line-height:23px;overflow:hidden;font-family: "fa"}
+#dvMsgBox .body .right .ct .pro .bg{width:0%;height:100%;background:#c9dffc;font-family: "fa"}
+
 	#dvMsgBox .bottom{
 		background:#fff;
 		padding-left:6px;
@@ -112,15 +112,16 @@
 	#dvMsgBox .bottom .right{
 		height:100%;
 		padding-right:6px;
-	}  
+	}
 
 	#dvMsgBox input.btn{
-		width:60px;   
-		border-radius: 4px; 
-		font-family:fa; 
-		cursor:pointer; 
-		height:40px; 
-		text-align:center;  
+		float: left;
+		width:60px;
+		border-radius: 4px;
+		font-family:fa;
+		cursor:pointer;
+		height:40px;
+		text-align:center;
 	    font-size: 14px;
 	    font-weight: normal;
 	    white-space: nowrap;
@@ -128,40 +129,41 @@
 	    touch-action: manipulation;
 	    border: 1px solid transparent;
 	    display: block;
-	  	margin-right: auto;
-	  	margin-left: auto;
+	  	margin-right: 30px;
+	  	margin-left: 30px;
 	  	color: #fff;
 	    background-color: #5cb85c;
 	    border-color: #4cae4c;
-	}  
-	#dvMsgBox input.btnfocus{ 
-		width:60px;   
-		border-radius: 4px; 
-		font-family:fa; 
-		cursor:pointer; 
-		height:40px; 
-		text-align:center;  
-	    font-size: 14px;
-	    font-weight: normal;
-	    white-space: nowrap;
-	    vertical-align: middle;
-	    touch-action: manipulation;
-	    border: 1px solid transparent;
-	    display: block;
-	  	margin-right: auto;
-	  	margin-left: auto;
+	}
+	#dvMsgBox input.btnfocus{
+		float: left;
+		width:60px;
+		border-radius: 4px;
+		font-family:fa;
+		cursor:pointer;
+		height:40px;
+		text-align:center;
+		font-size: 14px;
+		font-weight: normal;
+		white-space: nowrap;
+		vertical-align: middle;
+		touch-action: manipulation;
+		border: 1px solid transparent;
+		display: block;
+		margin-right: 30px;
+		margin-left:  30px;
 	  	color: #fff;
 	    background-color: #449d44;
 	    border-color: #398439;
-	}  
-#dvMsgBox .icon{width:32px;height:32px;float:left;margin-right:10px;}  
-#dvMsgBox .error{background:url(icon-error.gif) no-repeat;}  
-#dvMsgBox .info{background:url(icon-info.gif) no-repeat;}  
-#dvMsgBox .warning{background:url(icon-warning.gif) no-repeat;}  
-#dvMsgBox .clear{clear:both;}  
-#dvMsgBox .height{height:10px;line-height:10px;}  
+	}
+#dvMsgBox .icon{width:32px;height:32px;float:left;margin-right:10px;}
+#dvMsgBox .error{background:url(icon-error.gif) no-repeat;}
+#dvMsgBox .info{background:url(icon-info.gif) no-repeat;}
+#dvMsgBox .warning{background:url(icon-warning.gif) no-repeat;}
+#dvMsgBox .clear{clear:both;}
+#dvMsgBox .height{height:10px;line-height:10px;}
 #ShowBolightBox{display:none;-moz-opacity:0.5;filter:alpha(opacity=50);opacity:0.5;background-color:#000000;z-index:5000;position:absolute;left:0px;top:0px;}
-#dvMsgBtns{ text-align:center; width:100%;}
+/*#dvMsgBtns{ text-align:center; width:100%;}*/
 
 .loginwrap .showcase-form textarea .ng-dirty.ng-invalid, .loginwrap .showcase-form select .ng-dirty.ng-invalid, .loginwrap .showcase-form input.ng-dirty.ng-invalid {
     border-color: #e9322d;

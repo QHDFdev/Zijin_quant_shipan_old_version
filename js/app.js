@@ -299,6 +299,44 @@
        }
      }
     }
+    //封装错误信息和对应的id
+    var error=[];
+//获取错误信息，状态为-2
+    $scope.geterror=function(){
+      for (var i=0;i<error.length;i++){
+        (function(i){
+        $http.get(constantUrl + "btstrategys/"+error[i]._id+"/", {
+              headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+            })
+            .success(function (data) {
+              error[i].error=data.error;
+            })
+        })(i);
+      }
+      //console.log(error);
+      setTimeout(function(){
+        for(var i=0;i<$scope.myHisStrategy.length;i++){
+          if($scope.myHisStrategy[i].status==-2){
+            for(var j=0;j<error.length;j++){   //从错误数组里寻找
+              if($scope.myHisStrategy[i]._id==error[j]._id){
+                $scope.myHisStrategy[i].title=error[j];
+              }
+            }
+          }
+        }
+        for(var i=0;i<$scope.myStrategy.length;i++){
+          if($scope.myStrategy[i].status==-2){
+            for(var j=0;j<error.length;j++){   //从错误数组里寻找
+              if($scope.myStrategy[i]._id==error[j]._id){
+                $scope.myStrategy[i].title=error[j];
+              }
+            }
+          }
+        }
+      },100)
+
+    }
+
     /* 创建实盘模拟 *///加载策略页面
     //实盘列表渲染到页面
     $scope.getFirmStrategys = function () {
@@ -323,7 +361,8 @@
               $scope.myStrategy[i].title = "deleted";
             }
             if (status == -2) {
-              $scope.myStrategy[i].title = $scope.myStrategy[i].error;
+              var a={_id:$scope.myStrategy[i]._id,error:''};
+              error.push(a);
             }
             if (status == -1) {
               $scope.myStrategy[i].title = "not inited";
@@ -405,67 +444,40 @@
 
     //批量删除历史回测
     $scope.delsel3=function() {
-      var a = confirm('确认删除吗');
-      if (!a) return;
-      var del=[];//存储需要删除的_id
-      var j=0;
-        for(var i=0;i<$scope.myHisStrategy.length;i++) {
-          //console.log($scope.myHisStrategy[i].flag)
-          if ($scope.myHisStrategy[i].flag) {
-            del[j]=$scope.myHisStrategy[i]._id;
-            console.log($scope.myHisStrategy[i].name)
-            j++;
+
+
+        Showbo.Msg.confirm('您确定删除吗？',function(flag){
+          if(flag=='yes'){
+
+            for(var i=0;i<$scope.myHisStrategy.length;i++) {
+              if ($scope.myHisStrategy[i].flag) {//判断是否选择了 ture为选中
+                //console.log($scope.myHisStrategy[i]._id)
+               var url = $scope.myHisStrategy[i]._id;//遍历需要删除的id
+                $http.delete(constantUrl + "btstrategys/" + url + '/', {
+                      headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                    })
+                    .success(function () {
+                      //console.log('删除成功')
+                    })
+                    .error(function (err, sta) {
+                      Showbo.Msg.alert('删除失败，请稍后再试。')
+                    });
+
+              }
+            }
+
+            setTimeout(function(){
+              console.log('Del end')
+              $scope.getHisStrategys();
+            },100)
+
+          }else if(flag=='no'){
           }
-        }
-      //console.log(del);
-      //return;
-
-      //递归解决异步请求的问题
-      //currentIndex = 0;
-      //get();
-      //function get() {
-      //  if (currentIndex >= del.length) {
-      //    return;
-      //  }
-      //  var url = del[currentIndex];
-      //  url = constantUrl + "btstrategys/" + url + '/';
-      //  //console.log(currentIndex, url)
-      //  $.ajax({
-      //    //async: false,
-      //    url: url,
-      //    type: "DELETE",
-      //    headers: {'Authorization': 'token ' + $cookieStore.get('user').token},
-      //    success: function (response) {
-      //      console.log("请求成功");
-      //      currentIndex++;
-      //      get();
-      //    },
-      //    error: function (data) {
-      //      //console.log("error...");
-      //      currentIndex++;
-      //      get();
-      //    }
-      //  });
-      //}
-      for(var i=0;i<del.length;i++){
-        var url = del[i];
-            $http.delete(constantUrl + "btstrategys/" + url + '/', {
-                  headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-                })
-                .success(function () {
-                  //console.log('删除成功')
-                })
-                .error(function (err, sta) {
-                  Showbo.Msg.alert('删除失败，请稍后再试。')
-                });
-
-      }
+        });
 
 
-      setTimeout(function(){
-        console.log('Del end')
-        $scope.getHisStrategys();
-      },100)
+
+
 
     }
     var flag=false;//默认都不选
@@ -550,6 +562,24 @@
 
     }
     $scope.new();
+    $scope.checktime1 = function () {
+      if($scope.hisItem.end==undefined || $scope.hisItem.end==''){
+        return;
+      }
+      if($scope.hisItem.end<$scope.hisItem.start){
+        Showbo.Msg.alert('开始时间应小于结束时间');
+        $scope.hisItem.start=undefined;
+      }
+    }
+    $scope.checktime = function () {
+      if($scope.hisItem.start==undefined || $scope.hisItem.start==''){
+        return;
+      }
+      if($scope.hisItem.end<$scope.hisItem.start){
+        Showbo.Msg.alert('结束时间应大于开始时间');
+        $scope.hisItem.end=undefined;
+      }
+    }
 
 
     /* 创建历史回测 */
@@ -567,8 +597,17 @@
       getModeList('tick');
     };
     function getModeList(ty) {
+      //console.log($scope.firmItem.symbol)
       if($scope.firmItem==undefined){
-        Showbo.Msg.alert('请先选择交易所代码和交易合约');
+        Showbo.Msg.alert('请先选择交易所代码');
+        $scope.modeTickOptions = false;
+        $scope.modeBarOptions = false;
+        return;
+      }
+      if($scope.firmItem.symbol==""){
+        Showbo.Msg.alert('请选择交易合约');
+        $scope.modeTickOptions = false;
+        $scope.modeBarOptions = false;
         return;
       }
       //console.log($scope.firmItem)
@@ -594,23 +633,15 @@
       {exchange : "CSRPME",id:'2'}
     ];
     $scope.gettime=function(){
-      if($scope.modeBarOptions==true){
-        getModeList('bar');
-      }
-      else{
-        getModeList('tick');
-      }
+
     }
     $scope.getsymbol=function(){
       $scope.firmItem.symbol="";
-      //console.log($scope.modeBarOptions,$scope.modeTickOptions);
-      if($scope.modeBarOptions==true){
-        getModeList('bar');
-      }
-      else{
-        getModeList('tick');
-      }
-      //console.log($scope.firmItem.exchange,$scope.firmItem.symbol)
+      $scope.hisItem.start="";
+      $scope.hisItem.end="";
+      $scope.modeBarOptions="";
+      $scope.modeTickOptions="";
+      $scope.hisItem.time="";
       if($scope.firmItem.exchange=="CTP"){
         $scope.sy = [
           {symbol : "IF"},
@@ -683,7 +714,7 @@
         }
       })
         .success(function (data) {
-          console.log(data);
+          //console.log(data);
           //584e52997932156d41d42829
           //"584e53a67932156d41d428e8"
           $('.zijin-table-mask').fadeOut();
@@ -698,6 +729,9 @@
           Showbo.Msg.alert('添加失败，请稍后再试。');
         });
     };
+
+
+
     //历史回测列表渲染到页面
     $scope.getHisStrategys = function () {
       $http.get(constantUrl + "btstrategys/", {
@@ -705,12 +739,12 @@
       })
         .success(function (data) {
           $scope.myHisStrategy = data;
+          //console.log(data);
           for(var i=0;i<$scope.myHisStrategy.length;i++){
             $scope.myHisStrategy[i].class_name = "none";//策略代码初始化
             var status=$scope.myHisStrategy[i].status;
             var class_id = $scope.myHisStrategy[i].class_id;
             var status = $scope.myHisStrategy[i].status;
-            //console.log(status);
             if (status != -3) {
               $scope.myHisStrategy[i].class_name=getcelve(class_id);
             }
@@ -718,7 +752,9 @@
               $scope.myHisStrategy[i].title="deleted";
             }
             if(status==-2){
-              $scope.myHisStrategy[i].title="error";
+              //console.log($scope.myHisStrategy[i]._id);
+              var a={_id:$scope.myHisStrategy[i]._id,error:'error'};
+              error.push(a);
             }
             if(status==-1){
               $scope.myHisStrategy[i].title="not inited";
@@ -734,6 +770,7 @@
               $scope.myHisStrategy[i].title="lose because system restart";
             }
           }
+          $scope.geterror();
           angular.forEach(data, function (item, index) {
             $scope.allStrategys.push(item);
           });
@@ -2250,7 +2287,7 @@
               $scope.analyseDataArr[i].pal=test;
               $scope.analyseDataArr[i].test=gettest(i);
               $scope.analyseDataArr[i].testpal=notest(i);
-              chartArr1[i].text='开仓价：￥' + chartArr[i].openprice + '<br>平仓价：￥' + chartData1[i].price + '<br>手续费：' + gettest(i) +'<br/>盈亏：'+test;
+              chartArr1[i].text='开仓价：￥' + chartArr[i].openprice + '<br>平仓价：￥' + chartArr[i].closeprice + '<br>手续费：' + gettest(i) +'<br/>盈亏：'+test;
               $scope.analyseDataArr[i].yeild = test / $scope.analyseDataArr[i].openprice;
               allTotalyeild +=$scope.analyseDataArr[i].yeild;
               allTotalpal+=$scope.analyseDataArr[i].pal;
@@ -2829,6 +2866,7 @@
             });
 
 
+            $(".analyse .noprint .col-sm-10 .remind span").show();
 
 
 
@@ -3553,8 +3591,10 @@
       };
       function getTransTime() {
         var defer2 = $q.defer();
+        //console.log($scope.myFirmStrategy);//22222
         $http.get(constantUrl + 'datas/', {
           params: {
+            //"type": 'tick',
             "type": 'bar',
             "start": $scope.myFirmDate,
             "symbol":$scope.myFirmStrategy.symbol,
@@ -3565,7 +3605,20 @@
           headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
         })
           .success(function (data) {
-            //console.log(data);
+            var timestamp = Date.parse(new Date($scope.myFirmDate));
+            var stime=timestamp+3600000;//白银股价从9点开始
+           if($scope.myFirmStrategy.symbol!="D1_AG") {//期货9点半加半小时
+             stime+=1800000;//ms 1hour=3600s=360000ms
+            }
+            var data2=[];
+            var j=0;
+            for(var i=0;i<data.length;i++){
+              var nowtime=data[i].datetime;
+              if(nowtime>stime){
+                data2[j++]=data[i];
+              }
+            }
+            data=data2;
             defer2.resolve(data);
           })
           .error(function (err, sta) {
@@ -4229,7 +4282,7 @@
               $scope.analyseDataArr[i].pal=test;
               $scope.analyseDataArr[i].test=gettest(i);
               $scope.analyseDataArr[i].testpal=notest(i);
-              chartArr1[i].text='开仓价：￥' + chartArr[i].openprice + '<br>平仓价：￥' + chartData1[i].price + '<br>手续费：' + gettest(i) +'<br/>盈亏：'+test;
+              chartArr1[i].text='开仓价：￥' + chartArr[i].openprice + '<br>平仓价：￥' + chartArr[i].closeprice + '<br>手续费：' + gettest(i) +'<br/>盈亏：'+test;
               $scope.analyseDataArr[i].yeild = test / $scope.analyseDataArr[i].openprice;
               allTotalyeild +=$scope.analyseDataArr[i].yeild;
               allTotalpal+=$scope.analyseDataArr[i].pal;
@@ -4933,6 +4986,7 @@
 
               ]
             });
+            $(".analyse .noprint .col-sm-10 .remind span").show();
 
 
           };
@@ -6956,20 +7010,28 @@
           //console.log(strategysValue);
         });
         ele.on('click', '.sour-del', function () {
-          var a = confirm('确认删除吗');
-          if (!a) return;
           var url = $(this).closest('tr').children().eq(0).text();
-          $http.delete(constantUrl + "classs/" + url + '/', {
-            headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-          })
-            .success(function () {
-              /*$route.reload();*/
-              scope.getSourcingStrategys();
-              /*Showbo.Msg.alert('删除成功。')*/
-            })
-            .error(function (err, sta) {
-              Showbo.Msg.alert('删除失败，请稍后再试。')
-            });
+
+          Showbo.Msg.confirm('您确定删除吗？',function(flag){
+            if(flag=='yes'){
+
+              $http.delete(constantUrl + "classs/" + url + '/', {
+                    headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                  })
+                  .success(function () {
+                    /*$route.reload();*/
+                    scope.getSourcingStrategys();
+                    /*Showbo.Msg.alert('删除成功。')*/
+                  })
+                  .error(function (err, sta) {
+                    Showbo.Msg.alert('删除失败，请稍后再试。')
+                  });
+
+            }else if(flag=='no'){
+            }
+          });
+
+
 
         });
       }
@@ -7008,17 +7070,25 @@
           ;
         });
         ele.on('click', '.user-del', function () {
-          var a = confirm('确认删除该用户吗？');
-          if (a) {
+
             var name = $(this).closest('tr').children().eq(0).text();
-            $http.delete(constantUrl + 'users/' + name + '/', {
-              headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-            })
-              .success(function (data) {
-                scope.getAllUsers();
-              });
-          }
-          ;
+          Showbo.Msg.confirm('您确定删除此用户吗？',function(flag){
+            if(flag=='yes'){
+
+              $http.delete(constantUrl + 'users/' + name + '/', {
+                    headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                  })
+                  .success(function (data) {
+                    scope.getAllUsers();
+                  });
+
+              ;
+
+            }else if(flag=='no'){
+            }
+          });
+
+
         });
       }
     };
@@ -7068,69 +7138,90 @@
               Showbo.Msg.alert('暂停失败，请稍后再试。')
             });
         });
+        var alldel=[];
+        var j=0;
+        scope.allStr=function(){
+          //console.log(scope.allStrategys)
+          for(var i=0;i<scope.allStrategys.length;i++) {
+            console.log(scope.allStrategys[i].status)
+            if(scope.allStrategys[i].status==-3){
+              console.log(scope.allStrategys[i])
+              alldel[j++]=scope.allStrategys[i];
+            }
+          }
+          //console.log(alldel);
+        }
+        //scope.allStr();
+
+        var flag4=false;
+        scope.selectall4=function(){
+          flag4=!flag4;
+          for(var i=0;i<alldel.length;i++) {
+            alldel[i].flag=flag4;
+          }
+        }
+
+        scope.updateSelection4 = function(a){
+          //console.log(a.$index);
+          alldel[a.$index].flag=!alldel[a.$index].flag;
+        }
+
+
 
 
 
 
 //清空回收站
         scope.alldel=function(){
-          Showbo.Msg.alert('回收站暂时不能清空,谢谢')
-          return;
-          var a = confirm('确认删除所有吗！');
-          if (!a) return;
-          for(var i=0;i<scope.allStrategys.length;i++){
-            if(scope.allStrategys[i].status==-3){
-              //console.log( scope.allStrategys[i].status,scope.allStrategys[i]._id);
-              var url=scope.allStrategys[i]._id;
-              $http.delete(constantUrl + "strategys/" + url + '/', {
-                    headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-                  })
-                  .success(function () {
+          Showbo.Msg.confirm('您确定清空回收站吗？',function(flag){
+            if(flag=='yes'){
 
-                  })
-                  .error(function (err, sta) {
-                    console.log(err, sta);
-                    if (sta == 400) {
-                      $http.delete(constantUrl + "btstrategys/" + url + '/', {
-                            headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-                          })
-                          .success(function () {
-                          })
-                          .error(function (err, sta) {
-                            Showbo.Msg.alert('删除失败，请稍后再试。')
-                          });
-                    }
-                  });
-            }
-          }
-          /*$route.reload();*/
-          /*Showbo.Msg.alert('删除成功。')*/
-          scope.allStrategys = [];
-          scope.getFirmStrategys();
-          scope.getHisStrategys();
-        }
-//删除单个策略并刷新所有策略
-        ele.on('click', '.strategy-del', function () {
-          var a = confirm('确认删除吗！!');
-          if (!a) return;
-          var url = $(this).closest('tr').children().eq(0).text();
-          console.log(constantUrl + "btstrategys/" + url + '/');
-          $http.delete(constantUrl + "strategys/" + url + '/', {
-            headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-          })
-            .success(function () {
+              for(var i=0;i<scope.allStrategys.length;i++){
+                if(scope.allStrategys[i].status==-3){
+                  //console.log( scope.allStrategys[i].status,scope.allStrategys[i]._id);
+                  var url=scope.allStrategys[i]._id;
+                  $http.delete(constantUrl + "strategys/" + url + '/', {
+                        headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                      })
+                      .success(function () {
+
+                      })
+                      .error(function (err, sta) {
+                        console.log(err, sta);
+                        if (sta == 400) {
+                          $http.delete(constantUrl + "btstrategys/" + url + '/', {
+                                headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                              })
+                              .success(function () {
+                              })
+                              .error(function (err, sta) {
+                                Showbo.Msg.alert('删除失败，请稍后再试。')
+                              });
+                        }
+                      });
+                }
+              }
               /*$route.reload();*/
+              /*Showbo.Msg.alert('删除成功。')*/
               scope.allStrategys = [];
               scope.getFirmStrategys();
               scope.getHisStrategys();
-              /*Showbo.Msg.alert('删除成功。')*/
-            })
-            .error(function (err, sta) {
-              console.log(err, sta);
-              if (sta == 400) {
-                $http.delete(constantUrl + "btstrategys/" + url + '/', {
-                  headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-                })
+
+            }else if(flag=='no'){
+            }
+          });
+
+        }
+//删除单个策略并刷新所有策略
+        ele.on('click', '.strategy-del', function () {
+          var url = $(this).closest('tr').children().eq(0).text();
+
+          Showbo.Msg.confirm('您确定删除此条吗?',function(flag){
+            if(flag=='yes'){
+
+              $http.delete(constantUrl + "strategys/" + url + '/', {
+                    headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                  })
                   .success(function () {
                     /*$route.reload();*/
                     scope.allStrategys = [];
@@ -7139,11 +7230,29 @@
                     /*Showbo.Msg.alert('删除成功。')*/
                   })
                   .error(function (err, sta) {
-                    Showbo.Msg.alert('删除失败，请稍后再试。')
+                    console.log(err, sta);
+                    if (sta == 400) {
+                      $http.delete(constantUrl + "btstrategys/" + url + '/', {
+                            headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                          })
+                          .success(function () {
+                            /*$route.reload();*/
+                            scope.allStrategys = [];
+                            scope.getFirmStrategys();
+                            scope.getHisStrategys();
+                            /*Showbo.Msg.alert('删除成功。')*/
+                          })
+                          .error(function (err, sta) {
+                            Showbo.Msg.alert('删除失败，请稍后再试。')
+                          });
+                    }
+                    ;
                   });
-              }
-              ;
-            });
+
+            }else if(flag=='no'){
+            }
+          });
+
         })
       }
     }
@@ -7166,22 +7275,33 @@
         });
 
         ele.on('click', '.strategy-del', function () {
-          //var a = confirm('确认删除此历史回测吗');
-          //if (!a) return;
-          Showbo.Msg.confirm('确认删除此历史回测吗');
-          return;
+          //Showbo.Msg.confirm('您确定删除吗？',function(flag){
+          //  if(flag=='yes'){
+          //
+          //
+          //  }else if(flag=='no'){
+          //  }
+          //});
           var url = $(this).closest('tr').children().eq(0).text();
-          $http.delete(constantUrl + "btstrategys/" + url + '/', {
-            headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-          })
-            .success(function () {
-              /*$route.reload();*/
-              scope.getHisStrategys();
-              /*Showbo.Msg.alert('删除成功。')*/
-            })
-            .error(function (err, sta) {
-              Showbo.Msg.alert('删除失败，请稍后再试。')
-            });
+        Showbo.Msg.confirm('您确定删除这条历史回测吗？',function(flag){
+            if(flag=='yes'){
+              $http.delete(constantUrl + "btstrategys/" + url + '/', {
+                    headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                  })
+                  .success(function () {
+                    /*$route.reload();*/
+                    scope.getHisStrategys();
+                    /*Showbo.Msg.alert('删除成功。')*/
+                  })
+                  .error(function (err, sta) {
+                    Showbo.Msg.alert('删除失败，请稍后再试。')
+                  });
+            }else if(flag=='no'){
+
+            }
+          });
+
+
         })
       }
     }
@@ -7282,14 +7402,19 @@
           ele.find('.modalRes-mask-objItem').fadeIn();
         });
         ele.on('click', '.modalRes-box-del', function () {
-          var a = confirm('确认删除吗！');
-          if (a) {
-            var url = scope.mydata.classify + '/' + scope.mydata._id;
-            getModalResList.del(url).then(function () {
-              ele.remove()
-            });
-          }
-          ;
+          var url = scope.mydata.classify + '/' + scope.mydata._id;
+          Showbo.Msg.confirm('您确定删除吗？',function(flag){
+            if(flag=='yes'){
+
+              getModalResList.del(url).then(function () {
+                ele.remove()
+              });
+
+              ;
+            }else if(flag=='no'){
+            }
+          });
+
         });
         ele.on('click', '.btn-success', function () {
           var url = scope.mydata.classify + '/' + scope.mydata._id;
