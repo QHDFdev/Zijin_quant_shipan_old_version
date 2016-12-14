@@ -250,6 +250,13 @@
         headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
       })
         .success(function (data) {
+          data.sort(getSortFun('desc', 'class_name'));//按classname升序//asc降序
+          function getSortFun(order, sortBy) {
+            var ordAlpah = (order == 'desc') ? '>' : '<';
+            var sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1');
+            return sortFun;
+          }
+          //console.log(data);
           accounts=data;
           $scope.mySourcingStrategy = data;
           $scope.getFirmStrategys();//显示实盘/回测列表
@@ -300,40 +307,55 @@
      }
     }
     //封装错误信息和对应的id
-    var error=[];
+    var error=[];//实盘错误信息
+    var error2=[];//历史回测错误信息
 //获取错误信息，状态为-2
-    $scope.geterror=function(){
-      for (var i=0;i<error.length;i++){
+    $scope.geterror2=function() {
+      for (var i=0;i<error2.length;i++){
         (function(i){
-        $http.get(constantUrl + "btstrategys/"+error[i]._id+"/", {
-              headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-            })
-            .success(function (data) {
-              error[i].error=data.error;
-            })
+          $http.get(constantUrl + "btstrategys/"+error2[i]._id+"/", {
+                headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+              })
+              .success(function (data) {
+                error2[i].error=data.error;
+              })
         })(i);
       }
-      //console.log(error);
-      setTimeout(function(){
-        for(var i=0;i<$scope.myHisStrategy.length;i++){
-          if($scope.myHisStrategy[i].status==-2){
-            for(var j=0;j<error.length;j++){   //从错误数组里寻找
-              if($scope.myHisStrategy[i]._id==error[j]._id){
-                $scope.myHisStrategy[i].title=error[j];
-              }
+      //console.log(error2);
+      for (var i = 0; i < $scope.myHisStrategy.length; i++) {
+        if ($scope.myHisStrategy[i].status == -2) {
+          //console.log($scope.myHisStrategy[i]._id)
+          for (var j = 0; j < error2.length; j++) {   //从错误数组里寻找(历史回测)
+            if ($scope.myHisStrategy[i]._id == error2[j]._id) {
+              $scope.myHisStrategy[i].title = error2[j];
             }
           }
         }
+      }
+
+    }
+    $scope.geterror=function(){
+      for (var i=0;i<error.length;i++){
+        (function(i){
+          $http.get(constantUrl + "strategys/"+error[i]._id+"/", {
+                headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+              })
+              .success(function (data) {
+                error[i].error=data.error;
+              })
+        })(i);
+      }
+      //console.log(error);
         for(var i=0;i<$scope.myStrategy.length;i++){
           if($scope.myStrategy[i].status==-2){
-            for(var j=0;j<error.length;j++){   //从错误数组里寻找
+            //console.log($scope.myStrategy[i]._id)
+            for(var j=0;j<error.length;j++){   //从错误数组里寻找（实盘）
               if($scope.myStrategy[i]._id==error[j]._id){
                 $scope.myStrategy[i].title=error[j];
               }
             }
           }
         }
-      },100)
 
     }
 
@@ -381,8 +403,12 @@
             }
             $scope.myStrategy[i].flag = false;//所有选择框默认不选择
           }
+          $scope.geterror();
           angular.forEach(data, function (item, index) {
-            $scope.allStrategys.push(item);
+            //console.log(item);
+            if(item.status==-3){
+              $scope.allStrategys.push(item);
+            }
           });
 
 
@@ -444,13 +470,13 @@
 
     //批量删除历史回测
     $scope.delsel3=function() {
-
-
-        Showbo.Msg.confirm('您确定删除吗？',function(flag){
+        Showbo.Msg.confirm('您确定删除所选择的吗？',function(flag){
+          var a=true;
           if(flag=='yes'){
 
             for(var i=0;i<$scope.myHisStrategy.length;i++) {
-              if ($scope.myHisStrategy[i].flag) {//判断是否选择了 ture为选中
+              if ($scope.myHisStrategy[i].flag) {
+                a=false//判断是否选择了 ture为选中
                 //console.log($scope.myHisStrategy[i]._id)
                var url = $scope.myHisStrategy[i]._id;//遍历需要删除的id
                 $http.delete(constantUrl + "btstrategys/" + url + '/', {
@@ -465,9 +491,12 @@
 
               }
             }
-
+            if(a){
+              Showbo.Msg.alert("您没有选择");
+              return;
+            }
             setTimeout(function(){
-              console.log('Del end')
+              //console.log('Del end')
               $scope.getHisStrategys();
             },100)
 
@@ -517,6 +546,7 @@
       formdata.append('symbol', $scope.firmItem.symbol);
       formdata.append('class_id', strategysValue.id);
       formdata.append('author', strategysValue.author);
+      //console.log(strategysValue);
       formdata.append('exchange', $scope.firmItem.exchange);
       formdata.append('multiple', $scope.firmItem.multiple);
       //formdata.append('account_id', $scope.account._id);
@@ -741,6 +771,8 @@
           $scope.myHisStrategy = data;
           //console.log(data);
           for(var i=0;i<$scope.myHisStrategy.length;i++){
+          //console.log( $scope.myHisStrategy[i]._id);
+            $scope.myHisStrategy[i].flag=false;
             $scope.myHisStrategy[i].class_name = "none";//策略代码初始化
             var status=$scope.myHisStrategy[i].status;
             var class_id = $scope.myHisStrategy[i].class_id;
@@ -754,7 +786,7 @@
             if(status==-2){
               //console.log($scope.myHisStrategy[i]._id);
               var a={_id:$scope.myHisStrategy[i]._id,error:'error'};
-              error.push(a);
+              error2.push(a);
             }
             if(status==-1){
               $scope.myHisStrategy[i].title="not inited";
@@ -770,9 +802,11 @@
               $scope.myHisStrategy[i].title="lose because system restart";
             }
           }
-          $scope.geterror();
+          $scope.geterror2();
           angular.forEach(data, function (item, index) {
-            $scope.allStrategys.push(item);
+            if(item.status==-3){
+              $scope.allStrategys.push(item);
+            }
           });
         })
         .error(function (err, sta) {
@@ -791,59 +825,20 @@
     })
 
 
-
-
-
-/*getStrategys();
- function getStrategys(){
- $http.get(constantUrl+"strategys/",{
- headers:{'Authorization':'token '+$cookieStore.get('user').token}
- })
- .success(function(data){
- $scope.myStrategy=data;
-
- })
- .error(function(data){
- Showbo.Msg.alert('网络错误，请稍后再试。')
- });
- };
- $scope.openMask=function(){
- $('.zijin-table-mask').fadeIn();
- }
-
- $scope.addStrategy=function(){
- var file = $scope.code;
- var files=$scope.files;
- var formdata = new FormData();
- formdata.append('code', file);
- formdata.append('name', $scope.item.name);
- formdata.append('class', $scope.item.class);
- formdata.append('author', $scope.item.author);
- formdata.append('symbol', $scope.item.symbol);
- if (($scope.files!=undefined)&&($scope.files!=null)) {
- formdata.append('file',files);
- }
- $http.post(constantUrl+"strategys/",formdata,{
- transformRequest: angular.identity,
- headers: {'Content-Type': undefined,
- 'Authorization':'token '+$cookieStore.get('user').token
- }
- })
- .success(function(data){
- $('.zijin-table-mask').fadeOut();
- getStrategys();
- Showbo.Msg.alert('添加成功。');
- })
- .error(function(err,st){
- //console.log(err);
- //console.log(st);
- Showbo.Msg.alert('添加失败，请稍后再试。');
- })
- }
- $scope.closeMask=function(){
-
- $('.zijin-table-mask').fadeOut();
- }*/
+    $(function () {
+      $('#downtxt').mousemove(function () {
+            $('#title').show();
+          })
+          .mouseout(function () {
+            $('#title').hide();
+          })
+      $('#title').mousemove(function () {
+            $('#title').show();
+          })
+          .mouseout(function () {
+            $('#title').hide()
+          })
+    })
 
 
   }])
@@ -1534,7 +1529,6 @@
     $scope.selecteStrategy = function () {
       //判断当前选择是期货还是白银
       //console.log($scope.myFirmStrategy.symbol);
-
       $http.get(constantUrl + 'dates/', {
         params: {
           "date_type": 'transaction',
@@ -1554,7 +1548,7 @@
     };
     var nowsymbol;
     $scope.makeChart1 = function () {
-      console.log("所选策略名信息:");
+      console.log("所选历史回测信息:");
       console.log($scope.myFirmStrategy);//所选策略名对应的属性 包含交易所名 倍数 期货还是白银
       var mydate = $filter('date')(new Date((new Date($scope.myFirmEndDate)).setDate((new Date($scope.myFirmEndDate)).getDate() + 1)), 'yyyy-MM-dd');
 
@@ -1660,7 +1654,8 @@
           //console.log(data);
           $scope.analyse_title = {
             'name': $scope.myFirmStrategy.name,
-            'time': $scope.myFirmStartDate + ' 至 ' + $scope.myFirmEndDate
+            'time': $scope.myFirmStartDate + ' 至 ' + $scope.myFirmEndDate,
+            'symbol':$scope.myFirmStrategy.symbol
           };
           draws1();
 
@@ -2875,30 +2870,7 @@
       }, function (err, sta) {
         Showbo.Msg.alert('没有交易数据!');
       });
-      /*function getTransTime(){
-       var defer2=$q.defer();
-       $http.get(constantUrl+'datas/',{
-       params:{
-       "type":'tick',
-       "date":$scope.myFirmDate
-       },
-       headers:{'Authorization':'token '+$cookieStore.get('user').token}
-       })
-       .success(function(data){
-       defer2.resolve(data);
-       })
-       .error(function(err,sta){
-       defer2.reject(err);
-       })
-       return defer2.promise;
-       };*/
-      /*$q.all([getFirmTime(), getTransTime()]).then(function(dataArr){
-       //console.log(dataArr[0]);
-       },function(err){
-       //console.log(2);
-       },function(up){
-       //console.log(3);
-       })*/
+
     }
   }])
   // 历史/实盘测试
@@ -3069,45 +3041,7 @@
               };
           };
         });
-        /* 1 */
-        /*var chartArr1=[];
-         angular.forEach(chartArr,function(data,index){
-         if (data.closetime>1477411200000&&data.closetime<1477497599000) {
-         //console.log($filter('date')(data.closetime,'yyyy-MM-dd H:mm:ss'));
-         //console.log(data.Earn);
-         chartArr1.push(data);
-         }
-         })
-         if ($scope.analyseData.length>1000) {
-         Showbo.Msg.alert("当前数据长度为"+$scope.analyseData.length+"条,可能加载时间过长，请稍等……")
-         };*/
 
-        /*var wealth1 = [];
-         var buy1 = [];
-         var totalpal1=0;
-         angular.forEach(chartArr1,function(data,index){
-         totalpal1=totalpal1+Number(data["Earn"]);
-         if (data['direction']>0) {
-         direction='看多';
-         }else{
-         direction='看空';
-         }
-         wealth1.push({
-         "x":data["closetime"],
-         "y":data['closeprice'],
-         "pal":Number(data["Earn"]),
-         "openprice":data['openprice'],
-         "closeprice":data['closeprice'],
-         "direction":direction,
-         "totalpal":Number($filter('number')(parseFloat(totalpal1),2))
-         });
-         buy1.push({
-         "x":data['closetime'],
-         "y":data['direction']
-         });
-         })
-         wealth1=$filter('orderBy')(wealth1,'x');*/
-        /* 2 */
         var wealth1 = [];//???
         var wealth2 = [];//???
         angular.forEach(chartData1, function (data, index) {
@@ -3526,7 +3460,7 @@
 
     $scope.makeChart1 = function () {
       var data2=[];
-      console.log("所选策略名信息:");
+      console.log("所选实盘信息:");
       console.log($scope.myFirmStrategy);//所选策略名对应的属性 包含交易所名  期货还是白银 回测没有倍数
       $scope.myFirmDate_end=$scope.myFirmDate;
       var mydate = $filter('date')(new Date((new Date($scope.myFirmDate_end)).setDate((new Date($scope.myFirmDate_end)).getDate() + 1)), 'yyyy-MM-dd');
@@ -3633,6 +3567,7 @@
 
         getTransTime().then(function (data) {
           var chartJsonData = data;
+          console.log($scope.myFirmStrategy);
           $scope.analyse_title = {
             'time': $filter('date')($scope.myFirmDate, 'yyyy-MM-dd'),
             'name': $scope.myFirmStrategy.name,
@@ -4442,59 +4377,6 @@
                   turboThreshold: 0
                 }
               },
-              /*tooltip : {
-               shared : true,
-               useHTML : true,
-               valueDecimals : 2 ,
-               backgroundColor: 'white',
-               borderWidth: 0,
-               borderRadius: 0,
-               formatter : function() {
-
-               var s;
-               if(this.points[0].point.high){
-               $scope.highstockAnalysetime=$filter('date')(this.x,'yyyy-MM-dd H:mm:ss');
-               $scope.highstockAnalysehigh=$filter('number')(this.points[0].point.high,2);
-               $scope.highstockAnalyselow=$filter('number')(this.points[0].point.low,2);
-               $scope.highstockAnalyseopen=$filter('number')(this.points[0].point.open,2);
-               $scope.highstockAnalyseclose=$filter('number')(this.points[0].point.close,2);
-               $scope.$apply();
-               }
-               if(this.points[0].point.direction&&this.point.text){
-               s=this.point.text;
-               }else if(this.points[0].point.direction&&!this.point){
-               var dir=(this.points[0].point.direction>0)?'看多':'看空';
-               s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
-               s+= '<br />volume：<b class="red">'
-               +Highcharts.numberFormat(this.points[0].point.volume,2)
-               +'</b><br />Earn：<b class="font-black">￥'
-               +Highcharts.numberFormat(this.points[0].point.Earn,2)
-               + '</b><br />openprice：<b class="font-black">￥'
-               +Highcharts.numberFormat(this.points[0].point.openprice,2)
-               + '</b><br />closeprice<b class="font-black">￥'
-               +Highcharts.numberFormat(this.points[0].point.closeprice,2)
-               + '</b><br />direction：<b class="font-black">'
-               +dir;
-               }
-               return s;*/
-              /*var s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
-               s += '<br />high：<b class="red">￥'
-               +Highcharts.numberFormat(this.points[0].point.high,2)
-               +'</b>&nbsp;&nbsp;|&nbsp;&nbsp;low：<b class="blue">￥'
-               +Highcharts.numberFormat(this.points[0].point.low,2)
-               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;close：<b class="green">￥'
-               +Highcharts.numberFormat(this.points[0].point.close,2)
-               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;open：<b class="font-black">￥'
-               +Highcharts.numberFormat(this.points[0].point.open,2)
-               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;volume：<b class="orange">'
-               +Highcharts.numberFormat(this.points[0].point.volume,2)+'笔';
-               return s;
-               },
-               positioner: function () {
-               return { x: 0, y: 20 };
-               },
-               shadow: false
-               },*/
               tooltip: {
                 useHTML: true,
                 xDateFormat: "%Y-%m-%d %H:%M:%S",
@@ -4622,59 +4504,6 @@
                   turboThreshold: 0
                 }
               },
-              /*tooltip : {
-               shared : true,
-               useHTML : true,
-               valueDecimals : 2 ,
-               backgroundColor: 'white',
-               borderWidth: 0,
-               borderRadius: 0,
-               formatter : function() {
-
-               var s;
-               if(this.points[0].point.high){
-               $scope.highstockAnalysetime=$filter('date')(this.x,'yyyy-MM-dd H:mm:ss');
-               $scope.highstockAnalysehigh=$filter('number')(this.points[0].point.high,2);
-               $scope.highstockAnalyselow=$filter('number')(this.points[0].point.low,2);
-               $scope.highstockAnalyseopen=$filter('number')(this.points[0].point.open,2);
-               $scope.highstockAnalyseclose=$filter('number')(this.points[0].point.close,2);
-               $scope.$apply();
-               }
-               if(this.points[0].point.direction&&this.point.text){
-               s=this.point.text;
-               }else if(this.points[0].point.direction&&!this.point){
-               var dir=(this.points[0].point.direction>0)?'看多':'看空';
-               s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
-               s+= '<br />volume：<b class="red">'
-               +Highcharts.numberFormat(this.points[0].point.volume,2)
-               +'</b><br />Earn：<b class="font-black">￥'
-               +Highcharts.numberFormat(this.points[0].point.Earn,2)
-               + '</b><br />openprice：<b class="font-black">￥'
-               +Highcharts.numberFormat(this.points[0].point.openprice,2)
-               + '</b><br />closeprice<b class="font-black">￥'
-               +Highcharts.numberFormat(this.points[0].point.closeprice,2)
-               + '</b><br />direction：<b class="font-black">'
-               +dir;
-               }
-               return s;*/
-              /*var s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
-               s += '<br />high：<b class="red">￥'
-               +Highcharts.numberFormat(this.points[0].point.high,2)
-               +'</b>&nbsp;&nbsp;|&nbsp;&nbsp;low：<b class="blue">￥'
-               +Highcharts.numberFormat(this.points[0].point.low,2)
-               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;close：<b class="green">￥'
-               +Highcharts.numberFormat(this.points[0].point.close,2)
-               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;open：<b class="font-black">￥'
-               +Highcharts.numberFormat(this.points[0].point.open,2)
-               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;volume：<b class="orange">'
-               +Highcharts.numberFormat(this.points[0].point.volume,2)+'笔';
-               return s;
-               },
-               positioner: function () {
-               return { x: 0, y: 20 };
-               },
-               shadow: false
-               },*/
               tooltip: {
                 useHTML: true,
                 xDateFormat: "%Y-%m-%d %H:%M:%S",
@@ -5749,59 +5578,6 @@
                                   turboThreshold: 0
                                 }
                               },
-                              /*tooltip : {
-                               shared : true,
-                               useHTML : true,
-                               valueDecimals : 2 ,
-                               backgroundColor: 'white',
-                               borderWidth: 0,
-                               borderRadius: 0,
-                               formatter : function() {
-
-                               var s;
-                               if(this.points[0].point.high){
-                               $scope.highstockAnalysetime=$filter('date')(this.x,'yyyy-MM-dd H:mm:ss');
-                               $scope.highstockAnalysehigh=$filter('number')(this.points[0].point.high,2);
-                               $scope.highstockAnalyselow=$filter('number')(this.points[0].point.low,2);
-                               $scope.highstockAnalyseopen=$filter('number')(this.points[0].point.open,2);
-                               $scope.highstockAnalyseclose=$filter('number')(this.points[0].point.close,2);
-                               $scope.$apply();
-                               }
-                               if(this.points[0].point.direction&&this.point.text){
-                               s=this.point.text;
-                               }else if(this.points[0].point.direction&&!this.point){
-                               var dir=(this.points[0].point.direction>0)?'看多':'看空';
-                               s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
-                               s+= '<br />volume：<b class="red">'
-                               +Highcharts.numberFormat(this.points[0].point.volume,2)
-                               +'</b><br />Earn：<b class="font-black">￥'
-                               +Highcharts.numberFormat(this.points[0].point.Earn,2)
-                               + '</b><br />openprice：<b class="font-black">￥'
-                               +Highcharts.numberFormat(this.points[0].point.openprice,2)
-                               + '</b><br />closeprice<b class="font-black">￥'
-                               +Highcharts.numberFormat(this.points[0].point.closeprice,2)
-                               + '</b><br />direction：<b class="font-black">'
-                               +dir;
-                               }
-                               return s;*/
-                              /*var s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
-                               s += '<br />high：<b class="red">￥'
-                               +Highcharts.numberFormat(this.points[0].point.high,2)
-                               +'</b>&nbsp;&nbsp;|&nbsp;&nbsp;low：<b class="blue">￥'
-                               +Highcharts.numberFormat(this.points[0].point.low,2)
-                               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;close：<b class="green">￥'
-                               +Highcharts.numberFormat(this.points[0].point.close,2)
-                               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;open：<b class="font-black">￥'
-                               +Highcharts.numberFormat(this.points[0].point.open,2)
-                               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;volume：<b class="orange">'
-                               +Highcharts.numberFormat(this.points[0].point.volume,2)+'笔';
-                               return s;
-                               },
-                               positioner: function () {
-                               return { x: 0, y: 20 };
-                               },
-                               shadow: false
-                               },*/
                               tooltip: {
                                 useHTML: true,
                                 xDateFormat: "%Y-%m-%d %H:%M:%S",
@@ -5908,13 +5684,6 @@
                                 threshold: 0,
                                 negativeColor: 'green',
                                 color: 'red'
-                                /*color:'#e3170d',*/
-                                /*marker:{
-                                 enabled:true,
-                                 symbol:'circle',
-                                 fillColor:'#0b1746',
-                                 radius:5
-                                 }*/
                               }]
                             });
                           };
@@ -6506,59 +6275,6 @@
                                   turboThreshold: 0
                                 }
                               },
-                              /*tooltip : {
-                               shared : true,
-                               useHTML : true,
-                               valueDecimals : 2 ,
-                               backgroundColor: 'white',
-                               borderWidth: 0,
-                               borderRadius: 0,
-                               formatter : function() {
-
-                               var s;
-                               if(this.points[0].point.high){
-                               $scope.highstockAnalysetime=$filter('date')(this.x,'yyyy-MM-dd H:mm:ss');
-                               $scope.highstockAnalysehigh=$filter('number')(this.points[0].point.high,2);
-                               $scope.highstockAnalyselow=$filter('number')(this.points[0].point.low,2);
-                               $scope.highstockAnalyseopen=$filter('number')(this.points[0].point.open,2);
-                               $scope.highstockAnalyseclose=$filter('number')(this.points[0].point.close,2);
-                               $scope.$apply();
-                               }
-                               if(this.points[0].point.direction&&this.point.text){
-                               s=this.point.text;
-                               }else if(this.points[0].point.direction&&!this.point){
-                               var dir=(this.points[0].point.direction>0)?'看多':'看空';
-                               s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
-                               s+= '<br />volume：<b class="red">'
-                               +Highcharts.numberFormat(this.points[0].point.volume,2)
-                               +'</b><br />Earn：<b class="font-black">￥'
-                               +Highcharts.numberFormat(this.points[0].point.Earn,2)
-                               + '</b><br />openprice：<b class="font-black">￥'
-                               +Highcharts.numberFormat(this.points[0].point.openprice,2)
-                               + '</b><br />closeprice<b class="font-black">￥'
-                               +Highcharts.numberFormat(this.points[0].point.closeprice,2)
-                               + '</b><br />direction：<b class="font-black">'
-                               +dir;
-                               }
-                               return s;*/
-                              /*var s = Highcharts.dateFormat('<span>%Y-%m-%d %H:%M:%S</span>',this.x);
-                               s += '<br />high：<b class="red">￥'
-                               +Highcharts.numberFormat(this.points[0].point.high,2)
-                               +'</b>&nbsp;&nbsp;|&nbsp;&nbsp;low：<b class="blue">￥'
-                               +Highcharts.numberFormat(this.points[0].point.low,2)
-                               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;close：<b class="green">￥'
-                               +Highcharts.numberFormat(this.points[0].point.close,2)
-                               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;open：<b class="font-black">￥'
-                               +Highcharts.numberFormat(this.points[0].point.open,2)
-                               + '</b>&nbsp;&nbsp;|&nbsp;&nbsp;volume：<b class="orange">'
-                               +Highcharts.numberFormat(this.points[0].point.volume,2)+'笔';
-                               return s;
-                               },
-                               positioner: function () {
-                               return { x: 0, y: 20 };
-                               },
-                               shadow: false
-                               },*/
                               tooltip: {
                                 useHTML: true,
                                 xDateFormat: "%Y-%m-%d %H:%M:%S",
@@ -6996,25 +6712,30 @@
   .directive('sourcingTable', ['$route', '$location', '$http', 'constantUrl', '$cookieStore', 'strategysValue', function ($route, $location, $http, constantUrl, $cookieStore, strategysValue) {
     return {
       link: function (scope, ele, attrs) {
-        ele.on('click', '.firm-add', function () {
+        //创建实盘模拟、历史回测、删除策略代码
+        scope.addhis=function(a){
+            i= a.$index;//点击的第几个
+            strategysValue.id = scope.mySourcingStrategy[i]._id;
+          strategysValue.author = scope.mySourcingStrategy[i].author;
+            $('.his-mask').fadeIn();
+          //strategysValue.id = $(this).closest('tr').children().eq(0).text();
+          //console.log(strategysValue);
+        }
+        scope.addfirm=function(a){
+          i= a.$index;//点击的第几个
+          strategysValue.id = scope.mySourcingStrategy[i]._id;
+          strategysValue.author = scope.mySourcingStrategy[i].author;
           $('.firm-mask').fadeIn();
-
-          strategysValue.id = $(this).closest('tr').children().eq(0).text();
-          strategysValue.author = $(this).closest('tr').children().eq(3).text();
+          //strategysValue.id = $(this).closest('tr').children().eq(0).text();
+          //strategysValue.author = $(this).closest('tr').children().eq(3).text();
           //console.log(strategysValue);
-        });
-        ele.on('click', '.his-add', function () {
-          $('.his-mask').fadeIn();
-
-          strategysValue.id = $(this).closest('tr').children().eq(0).text();
-          //console.log(strategysValue);
-        });
-        ele.on('click', '.sour-del', function () {
-          var url = $(this).closest('tr').children().eq(0).text();
-
-          Showbo.Msg.confirm('您确定删除吗？',function(flag){
+        }
+        scope.delsour=function(a){
+          i= a.$index;//点击的第几个
+          var url = scope.mySourcingStrategy[i]._id;
+          //var url = $(this).closest('tr').children().eq(0).text();
+          Showbo.Msg.confirm('您确定删除'+scope.mySourcingStrategy[i].class_name+"吗？",function(flag){
             if(flag=='yes'){
-
               $http.delete(constantUrl + "classs/" + url + '/', {
                     headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
                   })
@@ -7030,10 +6751,11 @@
             }else if(flag=='no'){
             }
           });
+        }
 
 
 
-        });
+
       }
     };
   }])
@@ -7096,77 +6818,106 @@
   .directive('strategyTable', ['$route', '$location', '$http', 'constantUrl', '$cookieStore', function ($route, $location, $http, constantUrl, $cookieStore) {
     return {
       link: function (scope, ele, attrs) {
-        /*ele.on('click','.strategy-ini',function(){
-         $(this).closest('tr').children().eq(1).text();
-         var url=$(this).closest('tr').children().eq(0).text();
-         $http.patch(constantUrl+"strategys/"+url+'/',{status:0},{
-         headers:{'Authorization':'token '+$cookieStore.get('user').token}
-         })
-         .success(function(){
-         $route.reload();
-         Showbo.Msg.alert('初始化成功。')
-         })
-         .error(function(err,sta){
-         Showbo.Msg.alert('初始化失败，请稍后再试。')
-         });
-         });*/
-        ele.on('click', '.strategy-start', function () {
-          var url = $(this).closest('tr').children().eq(0).text();
+
+        scope.startstrategy=function(a){
+          //var url = $(this).closest('tr').children().eq(0).text();
+          i= a.$index;//点击的第几个
+          var url = scope.myStrategy[i]._id;
           $http.patch(constantUrl + "strategys/" + url + '/', {status: 1}, {
-            headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-          })
-            .success(function () {
-              /*$route.reload();*/
-              scope.getFirmStrategys();
+                headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+              })
+              .success(function () {
+                /*$route.reload();*/
+                scope.getFirmStrategys();
 
-            })
-            .error(function (err, sta) {
-              Showbo.Msg.alert('启动失败，请稍后再试。')
-            });
-        });
-        ele.on('click', '.strategy-pause', function () {
-          var url = $(this).closest('tr').children().eq(0).text();
-          $http.patch(constantUrl + "strategys/" + url + '/', {status: 2}, {
-            headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-          })
-            .success(function () {
-              /*$route.reload();*/
-              scope.getFirmStrategys();
-
-            })
-            .error(function (err, sta) {
-              Showbo.Msg.alert('暂停失败，请稍后再试。')
-            });
-        });
-        var alldel=[];
-        var j=0;
-        scope.allStr=function(){
-          //console.log(scope.allStrategys)
-          for(var i=0;i<scope.allStrategys.length;i++) {
-            console.log(scope.allStrategys[i].status)
-            if(scope.allStrategys[i].status==-3){
-              console.log(scope.allStrategys[i])
-              alldel[j++]=scope.allStrategys[i];
-            }
-          }
-          //console.log(alldel);
+              })
+              .error(function (err, sta) {
+                Showbo.Msg.alert('启动失败，请稍后再试。')
+              });
         }
-        //scope.allStr();
+        scope.strategypause=function(a){
+          //var url = $(this).closest('tr').children().eq(0).text();
+          i= a.$index;//点击的第几个
+          var url = scope.myStrategy[i]._id;
+          $http.patch(constantUrl + "strategys/" + url + '/', {status: 2}, {
+                headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+              })
+              .success(function () {
+                /*$route.reload();*/
+                scope.getFirmStrategys();
 
+              })
+              .error(function (err, sta) {
+                Showbo.Msg.alert('暂停失败，请稍后再试。')
+              });
+        }
+
+
+//批量删除回收站
         var flag4=false;
         scope.selectall4=function(){
           flag4=!flag4;
-          for(var i=0;i<alldel.length;i++) {
-            alldel[i].flag=flag4;
+          for(var i=0;i<scope.allStrategys.length;i++) {
+            scope.allStrategys[i].flag=flag4;
           }
         }
 
         scope.updateSelection4 = function(a){
           //console.log(a.$index);
-          alldel[a.$index].flag=!alldel[a.$index].flag;
+          var i= a.$index;
+          scope.allStrategys[i].flag=!scope.allStrategys[i].flag;
         }
 
+        scope.delsel4=function(){
 
+          Showbo.Msg.confirm('您确定删除所选择的吗？',function(flag){
+            var a=true;
+            if(flag=='yes'){
+              for(var i=0;i<scope.allStrategys.length;i++) {
+                (function(i){
+                if(scope.allStrategys[i].flag==true){
+                  a=false//判断是否选择了 ture为选中
+                  //console.log(scope.allStrategys[i].name);
+                  var url=scope.allStrategys[i]._id;
+                  $http.delete(constantUrl + "btstrategys/" + url + '/', {
+                    headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                  })
+                  .success(function () {
+                    //console.log("删除一条回测")
+                  })
+                  .error(function (err, sta) {
+                    //console.log(err, sta);
+                    if (sta == 400) {
+                      $http.delete(constantUrl + "strategys/" + url + '/', {
+                            headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                          })
+                          .success(function () {
+                            //console.log("删除一条实盘")
+                          })
+                          .error(function (err, sta) {
+                            Showbo.Msg.alert('删除失败，请稍后再试。')
+                          });
+                    }
+                  });
+            }
+              })(i);
+          }
+              if(a){
+                Showbo.Msg.alert("您没有选择");
+                return;
+              }
+              setTimeout(function () {
+                scope.allStrategys = [];
+                scope.getFirmStrategys();
+                scope.getHisStrategys();
+                  }
+              ,100)
+
+            }else if(flag=='no'){
+            }
+          });
+
+        }
 
 
 
@@ -7177,8 +6928,7 @@
             if(flag=='yes'){
 
               for(var i=0;i<scope.allStrategys.length;i++){
-                if(scope.allStrategys[i].status==-3){
-                  //console.log( scope.allStrategys[i].status,scope.allStrategys[i]._id);
+                  //console.log( scope.allStrategys[i].name,scope.allStrategys[i]._id);
                   var url=scope.allStrategys[i]._id;
                   $http.delete(constantUrl + "strategys/" + url + '/', {
                         headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
@@ -7199,7 +6949,6 @@
                               });
                         }
                       });
-                }
               }
               /*$route.reload();*/
               /*Showbo.Msg.alert('删除成功。')*/
@@ -7212,14 +6961,16 @@
           });
 
         }
-//删除单个策略并刷新所有策略
-        ele.on('click', '.strategy-del', function () {
-          var url = $(this).closest('tr').children().eq(0).text();
-
-          Showbo.Msg.confirm('您确定删除此条吗?',function(flag){
+        //删除回收站
+        scope.delhuishou=function(a){
+          i= a.$index;//点击的第几个
+          var url = scope.allStrategys[i]._id;
+          //console.log(scope.allStrategys[i].name);
+          //return;
+          Showbo.Msg.confirm("您确定删除"+scope.allStrategys[i].name+"吗?",function(flag){
             if(flag=='yes'){
 
-              $http.delete(constantUrl + "strategys/" + url + '/', {
+              $http.delete(constantUrl + "strategys/" + url + '/', {//先判断是不是实盘策略
                     headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
                   })
                   .success(function () {
@@ -7252,38 +7003,68 @@
             }else if(flag=='no'){
             }
           });
+        }
 
-        })
+//删除实盘
+        scope.delstrategy=function(a){
+          //var url = $(this).closest('tr').children().eq(0).text();
+          i= a.$index;//点击的第几个
+          var url = scope.myStrategy[i]._id;
+          //console.log(scope.myStrategy[i].name);
+          //return;
+          Showbo.Msg.confirm('您确定删除'+scope.myStrategy[i].name+"吗？",function(flag){
+            if(flag=='yes'){
+
+              $http.delete(constantUrl + "strategys/" + url + '/', {
+                    headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                  })
+                  .success(function () {
+                    /*$route.reload();*/
+                    scope.allStrategys = [];
+                    scope.getFirmStrategys();
+                    scope.getHisStrategys();
+                    /*Showbo.Msg.alert('删除成功。')*/
+                  })
+                  .error(function (err, sta) {
+
+                            Showbo.Msg.alert('删除失败，请稍后再试。')
+
+                  });
+
+            }else if(flag=='no'){
+            }
+          });
+
+        }
+
       }
     }
   }])
   .directive('hisTable', ['$route', '$location', '$http', 'constantUrl', '$cookieStore', function ($route, $location, $http, constantUrl, $cookieStore) {
     return {
       link: function (scope, ele, attrs) {
-        ele.on('click', '.strategy-pause', function () {
-          var url = $(this).closest('tr').children().eq(0).text();
+        scope.pausestrategy=function(a){
+          i= a.$index;//点击的第几个
+          var url = scope.myHisStrategy[i]._id;
+          //var url = $(this).closest('tr').children().eq(0).text();
           $http.patch(constantUrl + "btstrategys/" + url + '/', {status: 2}, {
-            headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-          })
-            .success(function () {
-              scope.getHisStrategys();
+                headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+              })
+              .success(function () {
+                scope.getHisStrategys();
 
-            })
-            .error(function (err, sta) {
-              Showbo.Msg.alert('暂停失败，请稍后再试。')
-            });
-        });
+              })
+              .error(function (err, sta) {
+                Showbo.Msg.alert('暂停失败，请稍后再试。')
+              });
+        }
 
-        ele.on('click', '.strategy-del', function () {
-          //Showbo.Msg.confirm('您确定删除吗？',function(flag){
-          //  if(flag=='yes'){
-          //
-          //
-          //  }else if(flag=='no'){
-          //  }
-          //});
-          var url = $(this).closest('tr').children().eq(0).text();
-        Showbo.Msg.confirm('您确定删除这条历史回测吗？',function(flag){
+//删除历史回测
+        scope.strategydel=function(a){
+          //var url = $(this).closest('tr').children().eq(0).text();
+          i= a.$index;//点击的第几个
+          var url = scope.myHisStrategy[i]._id;
+          Showbo.Msg.confirm('您确定删除'+scope.myHisStrategy[i].name+"吗？",function(flag){
             if(flag=='yes'){
               $http.delete(constantUrl + "btstrategys/" + url + '/', {
                     headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
@@ -7301,8 +7082,8 @@
             }
           });
 
+        }
 
-        })
       }
     }
   }])
@@ -7463,46 +7244,6 @@
       link: function (scope, ele, attr) {
         ele.on('click', function () {
           $('.printform').show();
-          /*var getImageFromUrl = function(url, callback) {
-           var img = new Image, data, ret={data: null, pending: true};
-           img.onError = function() {
-           throw new Error('Cannot load image: "'+url+'"');
-           }
-           img.onload = function() {
-           var canvas = document.createElement('canvas');
-           document.body.appendChild(canvas);
-           canvas.width = img.width;
-           canvas.height = img.height;
-
-           var ctx = canvas.getContext('2d');
-           ctx.drawImage(img, 0, 0);
-           data = canvas.toDataURL('image/jpeg').slice('data:image/jpeg;base64,'.length);
-           data = atob(data)
-           document.body.removeChild(canvas);
-
-           ret['data'] = data;
-           ret['pending'] = false;
-           if (typeof callback === 'function') {
-           callback(data);
-           }
-           }
-           img.src = url;
-
-           return ret;
-           }
-           var options = {
-           pagesplit: true
-           };
-           var createPDF = function(imgData) {
-           var doc = new jsPDF('p','pt',[1920,10000]);
-           doc.addImage(imgData, 'JPEG', 550, 50, 800, 500);
-           setTimeout(function(){
-           doc.addHTML($('.printform'),0,700,options,function(){
-           doc.save('data.pdf');
-           });
-           },2000)
-           }
-           getImageFromUrl('chart.jpeg', createPDF);*/
           window.print();
           $('.printform').hide();
           /*var options = {
