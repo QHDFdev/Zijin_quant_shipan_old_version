@@ -968,12 +968,12 @@
                           break inter;
                         } else if ((j == indexShortArr.length - 1) && (indexShortArr[j] != i)) {
                           var Earn;
-                          if (data.name == 'AG_real') {
-                            Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                          } else {
-                            Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                          }
-                          ;
+                          //if (data.name == 'AG_real') {
+                          //  Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                          //} else {
+                          //  Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                          //}
+                          //;
                           chartArr.push({
                             "volume": data.volume,
                             "direction": data.pos,
@@ -995,12 +995,12 @@
                     ;
                   } else {
                     var Earn;
-                    if (data.name == 'AG_real') {
-                      Earn = $filter('number')(chartData1[i].price - data.price - 0.32 * 2, 2);
-                    } else {
-                      Earn = $filter('number')(chartData1[i].price * (1 - 0.00003) - data.price * (1 - 0.00003), 2);
-                    }
-                    ;
+                    //if (data.name == 'AG_real') {
+                    //  Earn = $filter('number')(chartData1[i].price - data.price - 0.32 * 2, 2);
+                    //} else {
+                    //  Earn = $filter('number')(chartData1[i].price * (1 - 0.00003) - data.price * (1 - 0.00003), 2);
+                    //}
+                    //;
                     chartArr.push({
                       "volume": data.volume,
                       "direction": -1,
@@ -1035,12 +1035,12 @@
                           break inter1;
                         } else if ((j == indexShortArr.length - 1) && (indexShortArr[j] != i)) {
                           var Earn;
-                          if (data.name == 'AG_real') {
-                            Earn = $filter('number')(chartData1[i].price - data.price - 0.32 * 2, 2);
-                          } else {
-                            Earn = $filter('number')(chartData1[i].price * (1 - 0.00003) - data.price * (1 - 0.00003), 2);
-                          }
-                          ;
+                          //if (data.name == 'AG_real') {
+                          //  Earn = $filter('number')(chartData1[i].price - data.price - 0.32 * 2, 2);
+                          //} else {
+                          //  Earn = $filter('number')(chartData1[i].price * (1 - 0.00003) - data.price * (1 - 0.00003), 2);
+                          //}
+                          //;
                           chartArr.push({
                             "volume": data.volume,
                             "direction": 1,
@@ -1062,12 +1062,12 @@
                     ;
                   } else {
                     var Earn;
-                    if (data.name == 'AG_real') {
-                      Earn = $filter('number')(chartData1[i].price - data.price - 0.32 * 2, 2);
-                    } else {
-                      Earn = $filter('number')(chartData1[i].price * (1 - 0.00003) - data.price * (1 - 0.00003), 2);
-                    }
-                    ;
+                    //if (data.name == 'AG_real') {
+                    //  Earn = $filter('number')(chartData1[i].price - data.price - 0.32 * 2, 2);
+                    //} else {
+                    //  Earn = $filter('number')(chartData1[i].price * (1 - 0.00003) - data.price * (1 - 0.00003), 2);
+                    //}
+                    //;
                     chartArr.push({
                       "volume": data.volume,
                       "direction": data.pos,
@@ -1806,14 +1806,14 @@
                         });
                         var Earn;
                         var y;
-                        if (data.name == 'AG_real') {
-                          Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
-                          y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
-                        } else {
-                          Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-                          y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-                        }
-                        ;
+                        //if (data.name == 'AG_real') {
+                        //  Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
+                        //  y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
+                        //} else {
+                        //  Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+                        //  y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+                        //}
+                        //;
                         chartArr.push({
 
                           "x": chartData1[i].datetime,
@@ -1896,14 +1896,14 @@
                               });
                               var Earn;
                               var y;
-                              if (data.name == 'AG_real') {
-                                Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                                y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                              } else {
-                                Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                                y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                              }
-                              ;
+                              //if (data.name == 'AG_real') {
+                              //  Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                              //  y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                              //} else {
+                              //  Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                              //  y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                              //}
+                              //;
                               chartArr.push({
 
                                 "x": chartData1[i].datetime,
@@ -1971,14 +1971,14 @@
                         });
                         var Earn;
                         var y;
-                        if (data.name == 'AG_real') {
-                          Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                          y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                        } else {
-                          Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                          y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                        }
-                        ;
+                        //if (data.name == 'AG_real') {
+                        //  Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                        //  y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                        //} else {
+                        //  Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                        //  y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                        //}
+                        //;
                         chartArr.push({
 
                           "x": chartData1[i].datetime,
@@ -2109,6 +2109,7 @@
             angular.forEach(delNum, function (data, index) {
               chartArr.splice(data, 1);
             });
+            //chartarr交易详细输出数据
             angular.forEach(chartArr, function (data, index) {
               amount = tradeItem.length + 1;
               var totalTime = $scope.newTotalTime((data['closetime'] - data['opentime']));
@@ -2275,6 +2276,22 @@
             var allTotaltestpal=0;
             var allTotalyeild =0;
             for(var i=0;i<count;i++){
+              if(chartArr[i].openprice==0||chartArr[i].closeprice==0){
+                //数据异常 全都置0 不影响其他
+                chartArr[i].Earn = 0;
+                chartArr[i].y=0;
+                $scope.analyseDataArr[i].pal=0;
+                $scope.analyseDataArr[i].test=0;
+                $scope.analyseDataArr[i].testpal=0;
+                chartArr1[i].text='开仓价：￥' + chartArr[i].openprice + '<br>平仓价：￥' + chartArr[i].closeprice + '<br>手续费：' + 0 +'<br/>盈亏：'+0;
+                $scope.analyseDataArr[i].yeild = 0;
+                allTotalyeild +=0;
+                allTotalpal+=0;
+                allTotaltestpal+=0;
+                allTotaltest+=0;
+                $scope.analyseDataArr[i].multiple=$scope.myFirmStrategy.multiple;
+                continue;
+              }
               var test=notest(i)-gettest(i);
               test=Number((test).toFixed(6));
               chartArr[i].Earn = test;
@@ -2931,11 +2948,11 @@
                           break inter;
                         } else if ((j == indexShortArr.length - 1) && (indexShortArr[j] != i)) {//???
                           var Earn;
-                          if (data.name == 'AG_real') {
-                            Earn = $filter('number')(chartData1[i].price - data.price - 0.32 * 2, 2);
-                          } else {
-                            Earn = $filter('number')(chartData1[i].price * (1 - 0.00003) - data.price * (1 - 0.00003), 2);
-                          };
+                          //if (data.name == 'AG_real') {
+                          //  Earn = $filter('number')(chartData1[i].price - data.price - 0.32 * 2, 2);
+                          //} else {
+                          //  Earn = $filter('number')(chartData1[i].price * (1 - 0.00003) - data.price * (1 - 0.00003), 2);
+                          //};
                           //把数据push进图表数组
                           chartArr.push({
                             "volume": data.volume,//成交量
@@ -2956,11 +2973,11 @@
                       };
                   } else {//???
                     var Earn;
-                    if (data.name == 'AG_real') {
-                      Earn = $filter('number')(chartData1[i].price - data.price - 0.32 * 2, 2);
-                    } else {
-                      Earn = $filter('number')(chartData1[i].price * (1 - 0.00003) - data.price * (1 - 0.00003), 2);
-                    };
+                    //if (data.name == 'AG_real') {
+                    //  Earn = $filter('number')(chartData1[i].price - data.price - 0.32 * 2, 2);
+                    //} else {
+                    //  Earn = $filter('number')(chartData1[i].price * (1 - 0.00003) - data.price * (1 - 0.00003), 2);
+                    //};
                     //把数据push进图表数组
                     chartArr.push({
                       "volume": data.volume,
@@ -2992,11 +3009,11 @@
                           break inter1;
                         } else if ((j == indexShortArr.length - 1) && (indexShortArr[j] != i)) {//???
                           var Earn;
-                          if (data.name == 'AG_real') {
-                            Earn = $filter('number')(chartData1[i].price - data.price - 0.32 * 2, 2);
-                          } else {
-                            Earn = $filter('number')(chartData1[i].price * (1 - 0.00003) - data.price * (1 - 0.00003), 2);
-                          };
+                          //if (data.name == 'AG_real') {
+                          //  Earn = $filter('number')(chartData1[i].price - data.price - 0.32 * 2, 2);
+                          //} else {
+                          //  Earn = $filter('number')(chartData1[i].price * (1 - 0.00003) - data.price * (1 - 0.00003), 2);
+                          //};
                           chartArr.push({
                             "volume": data.volume,
                             "direction": 1,
@@ -3016,11 +3033,11 @@
                       };
                   } else {//???
                     var Earn;
-                    if (data.name == 'AG_real') {
-                      Earn = $filter('number')(chartData1[i].price - data.price - 0.32 * 2, 2);
-                    } else {
-                      Earn = $filter('number')(chartData1[i].price * (1 - 0.00003) - data.price * (1 - 0.00003), 2);
-                    };
+                    //if (data.name == 'AG_real') {
+                    //  Earn = $filter('number')(chartData1[i].price - data.price - 0.32 * 2, 2);
+                    //} else {
+                    //  Earn = $filter('number')(chartData1[i].price * (1 - 0.00003) - data.price * (1 - 0.00003), 2);
+                    //};
                     chartArr.push({
                       "volume": data.volume,
                       "direction": data.pos,
@@ -3457,7 +3474,6 @@
           ;
         });
     };
-
     $scope.makeChart1 = function () {
       var data2=[];
       console.log("所选实盘信息:");
@@ -3465,6 +3481,9 @@
       $scope.myFirmDate_end=$scope.myFirmDate;
       var mydate = $filter('date')(new Date((new Date($scope.myFirmDate_end)).setDate((new Date($scope.myFirmDate_end)).getDate() + 1)), 'yyyy-MM-dd');
     //根据选择的策略名获取相应可以选择的时间
+      var stime;
+      var etime;
+      //获取交易详细输出 曲线图的flag信息
       function getFirmTime() {
         var defer1 = $q.defer();//通过$q服务注册一个延迟对象 defer1
         //返回交易详情输出 实盘
@@ -3514,6 +3533,9 @@
                     data=data2;
                   })
             }
+            //console.log(data[0].datetime)
+            stime=data[0].datetime;
+            etime=data[data.length-1].datetime;
             data2=data;
             //console.log(data);
             defer1.resolve(data);//defer1.resolve(value)  成功解决(resolve)了其派生的promise。参数value将来会被用作promise.then(successCallback(value){...}, errorCallback(reason){...}, notifyCallback(notify){...})中successCallback函数的参数。
@@ -3523,6 +3545,7 @@
           });
         return defer1.promise;//通过deferred延迟对象，可以得到一个承诺promise，而promise会返回当前任务的完成结果
       };
+      //获取当前股价行情 时间根据交易时间的第一笔截至
       function getTransTime() {
         var defer2 = $q.defer();
         //console.log($scope.myFirmStrategy);//22222
@@ -3539,21 +3562,24 @@
           headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
         })
           .success(function (data) {
-            var timestamp = Date.parse(new Date($scope.myFirmDate));
-            var stime=timestamp+3600000;//白银股价从9点开始
-           if($scope.myFirmStrategy.symbol!="D1_AG") {//期货9点半加半小时
-             stime+=1800000;//ms 1hour=3600s=360000ms
-            }
+            console.log(stime,etime)
+           // var timestamp = Date.parse(new Date($scope.myFirmDate));
+           // var stime=timestamp+3600000;//白银股价从9点开始
+           //if($scope.myFirmStrategy.symbol!="D1_AG") {//期货9点半加半小时
+           //  stime+=1800000;//ms 1hour=3600s=360000ms
+           // }
             var data2=[];
             var j=0;
             for(var i=0;i<data.length;i++){
               var nowtime=data[i].datetime;
-              if(nowtime>stime){
+              //console.log(nowtime)
+              if(nowtime>stime&&nowtime<etime){
                 data2[j++]=data[i];
               }
             }
             data=data2;
-            defer2.resolve(data);
+            //console.log(data)
+            defer2.resolve(data);//返回需要显示的股价区间
           })
           .error(function (err, sta) {
             defer2.reject(err);
@@ -3567,7 +3593,7 @@
 
         getTransTime().then(function (data) {
           var chartJsonData = data;
-          console.log($scope.myFirmStrategy);
+          //console.log($scope.myFirmStrategy);
           $scope.analyse_title = {
             'time': $filter('date')($scope.myFirmDate, 'yyyy-MM-dd'),
             'name': $scope.myFirmStrategy.name,
@@ -3579,27 +3605,27 @@
           function draws() {
             var chartData1 = [];
             angular.forEach(chartData11, function (data, index) {
-              //console.log(data);
               var hour = parseInt($filter("date")(data["datetime"], "yyyy-MM-dd HH:mm:ss").slice(11, 13));
               var minute = parseInt($filter("date")(data["datetime"], "yyyy-MM-dd HH:mm:ss").slice(14, 16));
               // if (hour<9||hour>15||(hour==15&&minute>30)) {
               // }else{
               // 	this.push(data);
               // };
-              if (data['name'] == 'AG_real') {
-                if (hour < 6 || hour > 9) {
-                  this.push(data);
-                }
-              } else {
-                if (hour < 9 || hour > 15 || (hour == 15 && minute > 30)) {
-                  this.push(data);   /*加的代码*/
-                } else {
-                  this.push(data);
-                }
-                ;
-              }
-              ;
+              //if (data['symbol'] == 'D1_AG') {
+              //  if (hour < 6 || hour > 9) {
+              //    this.push(data);
+              //  }
+              //} else {
+              //  if (hour < 9 || hour > 15 || (hour == 15 && minute > 30)) {
+              //    this.push(data);   /*加的代码*/
+              //  } else {
+              //    this.push(data);
+              //  }
+              //  ;
+              //};
+              this.push(data);
             }, chartData1);
+            console.log(chartData1);
             /*$('#return_mapping_1').css('display','block').siblings().css('display','none');*/
             var chartJsonDataArr = [];
             var chartArr = [];
@@ -3641,17 +3667,17 @@
                               });
                               var Earn;
                               var y;
-                              if (data.name == 'AG_real') {
-                                Earn = Number($filter('number')(data.price - chartData1[i].price - 0.32 * 2, 2));
-                                y = Number($filter('number')(data.price - chartData1[i].price - 0.32 * 2, 2));
-                              } else {
-                                //Earn = data.price *0.0035-chartData1[i].price *0.0035;
-                                //console.log(data.price *0.0035-chartData1[i].price *0.0035)
-                                // console.log(chartData1[i].price *0.0035)
-                                 Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-                                y = Number($filter('number')(data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003), 2));
-                              }
-                              ;
+                              //if (data.name == 'AG_real') {
+                              //  Earn = Number($filter('number')(data.price - chartData1[i].price - 0.32 * 2, 2));
+                              //  y = Number($filter('number')(data.price - chartData1[i].price - 0.32 * 2, 2));
+                              //} else {
+                              //  //Earn = data.price *0.0035-chartData1[i].price *0.0035;
+                              //  //console.log(data.price *0.0035-chartData1[i].price *0.0035)
+                              //  // console.log(chartData1[i].price *0.0035)
+                              //   Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+                              //  y = Number($filter('number')(data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003), 2));
+                              //}
+                              //;
                               //看空
                               chartArr.push({
                                 "x": chartData1[i].datetime,
@@ -3722,16 +3748,16 @@
                         });
                         var Earn;
                         var y;
-                        if (data.name == 'AG_real') {
-                          Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
-                          y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
-                        } else {
-                          Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-
-                          // Earn = data.price *0.0035 - chartData1[i].price *0.0035
-                          y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-                        }
-                        ;
+                        //if (data.name == 'AG_real') {
+                        //  Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
+                        //  y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
+                        //} else {
+                        //  Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+                        //
+                        //  // Earn = data.price *0.0035 - chartData1[i].price *0.0035
+                        //  y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+                        //}
+                        //;
                         chartArr.push({
                           "x": chartData1[i].datetime,
                           //"y":Number((data.price-chartData1[i].price).toFixed(2)),
@@ -3812,15 +3838,15 @@
                               });
                               var Earn;
                               var y;
-                              if (data.name == 'AG_real') {
-                                Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                                y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                              } else {
-                                 Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                                //Earn =chartData1[i].price * 0.0035 - data.price * 0.0035
-                                y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                              }
-                              ;
+                              //if (data.name == 'AG_real') {
+                              //  Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                              //  y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                              //} else {
+                              //   Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                              //  //Earn =chartData1[i].price * 0.0035 - data.price * 0.0035
+                              //  y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                              //}
+                              //;
 
                               //看多
                               chartArr.push({
@@ -3891,16 +3917,16 @@
                         });
                         var Earn;
                         var y;
-                        if (data.name == 'AG_real') {
-                          Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                          // console.log(Earn)
-                          y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                        } else {
-                          Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                          // console.log(Earn)
-                          y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                        }
-                        ;
+                        //if (data.name == 'AG_real') {
+                        //  Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                        //  // console.log(Earn)
+                        //  y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                        //} else {
+                        //  Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                        //  // console.log(Earn)
+                        //  y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                        //}
+                        //;
                         chartArr.push({
 
                           "x": chartData1[i].datetime,
@@ -4027,15 +4053,15 @@
             }
             var allTotalTime1 = 0;
             var delNum = [];
-            angular.forEach(chartArr, function (data, index) {
-              if (data['openprice'] == 0 || data['closeprice'] == 0) {
-                delNum.push(index);
-              }
-              ;
-            });
-            angular.forEach(delNum, function (data, index) {
-              chartArr.splice(data, 1);
-            });
+            //angular.forEach(chartArr, function (data, index) {
+            //  if (data['openprice'] == 0 || data['closeprice'] == 0) {
+            //    delNum.push(index);
+            //  }
+            //  ;
+            //});
+            //angular.forEach(delNum, function (data, index) {
+            //  chartArr.splice(data, 1);
+            //});
             //console.log(chartArr)
             var count;
             angular.forEach(chartArr, function (data, index) {
@@ -4210,6 +4236,22 @@
             var allTotaltestpal=0;
             var allTotalyeild =0;
             for(var i=0;i<count;i++){
+              if(chartArr[i].openprice==0||chartArr[i].closeprice==0){
+                //数据异常 全都置0 不影响其他
+                chartArr[i].Earn = 0;
+                chartArr[i].y=0;
+                $scope.analyseDataArr[i].pal=0;
+                $scope.analyseDataArr[i].test=0;
+                $scope.analyseDataArr[i].testpal=0;
+                chartArr1[i].text='开仓价：￥' + chartArr[i].openprice + '<br>平仓价：￥' + chartArr[i].closeprice + '<br>手续费：' + 0 +'<br/>盈亏：'+0;
+                $scope.analyseDataArr[i].yeild = 0;
+                allTotalyeild +=0;
+                allTotalpal+=0;
+                allTotaltestpal+=0;
+                allTotaltest+=0;
+                $scope.analyseDataArr[i].multiple=$scope.myFirmStrategy.multiple;
+                continue;
+              }
               var test=notest(i)-gettest(i);
               test=Number((test).toFixed(6));
               chartArr[i].Earn = test;
@@ -4224,6 +4266,9 @@
               allTotaltestpal+=$scope.analyseDataArr[i].testpal;
               allTotaltest+=gettest(i);
               $scope.analyseDataArr[i].multiple=$scope.myFirmStrategy.multiple;
+            }
+            for(var i=0;i<count;i++){
+              console.log($scope.analyseDataArr[i].yeild)
             }
             $scope.allTotaltest=allTotaltest;
             $scope.allTotaltestpal=allTotaltestpal;
@@ -5227,19 +5272,19 @@
                               // }else{
                               // 	this.push(data);
                               // };
-                              if (data['name'] == 'AG_real') {
-                                if (hour < 6 || hour > 9) {
-                                  this.push(data);
-                                }
-                              } else {
-                                if (hour < 9 || hour > 15 || (hour == 15 && minute > 30)) {
-
-                                } else {
-                                  this.push(data);
-                                }
-                                ;
-                              }
-                              ;
+                              //if (data['name'] == 'AG_real') {
+                              //  if (hour < 6 || hour > 9) {
+                              //    this.push(data);
+                              //  }
+                              //} else {
+                              //  if (hour < 9 || hour > 15 || (hour == 15 && minute > 30)) {
+                              //
+                              //  } else {
+                              //    this.push(data);
+                              //  }
+                              //  ;
+                              //}
+                              //;
                             }, chartData1);
                             var chartJsonDataArr = [];
                             var chartArr = [];
@@ -5278,14 +5323,14 @@
                                               });
                                               var Earn;
                                               var y;
-                                              if (data.name == 'AG_real') {
-                                                Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
-                                                y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
-                                              } else {
-                                                Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-                                                y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-                                              }
-                                              ;
+                                              //if (data.name == 'AG_real') {
+                                              //  Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
+                                              //  y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
+                                              //} else {
+                                              //  Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+                                              //  y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+                                              //}
+                                              //;
                                               chartArr.push({
 
                                                 "x": chartData1[i].datetime,
@@ -5336,14 +5381,14 @@
                                         });
                                         var Earn;
                                         var y;
-                                        if (data.name == 'AG_real') {
-                                          Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
-                                          y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
-                                        } else {
-                                          Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-                                          y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-                                        }
-                                        ;
+                                        //if (data.name == 'AG_real') {
+                                        //  Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
+                                        //  y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
+                                        //} else {
+                                        //  Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+                                        //  y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+                                        //}
+                                        //;
                                         chartArr.push({
 
                                           "x": chartData1[i].datetime,
@@ -5407,14 +5452,14 @@
                                               });
                                               var Earn;
                                               var y;
-                                              if (data.name == 'AG_real') {
-                                                Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                                                y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                                              } else {
-                                                Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                                                y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                                              }
-                                              ;
+                                              //if (data.name == 'AG_real') {
+                                              //  Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                                              //  y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                                              //} else {
+                                              //  Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                                              //  y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                                              //}
+                                              //;
                                               chartArr.push({
 
                                                 "x": chartData1[i].datetime,
@@ -5463,14 +5508,14 @@
                                         });
                                         var Earn;
                                         var y;
-                                        if (data.name == 'AG_real') {
-                                          Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                                          y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                                        } else {
-                                          Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                                          y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                                        }
-                                        ;
+                                        //if (data.name == 'AG_real') {
+                                        //  Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                                        //  y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                                        //} else {
+                                        //  Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                                        //  y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                                        //}
+                                        //;
                                         chartArr.push({
 
                                           "x": chartData1[i].datetime,
@@ -5922,19 +5967,19 @@
                               // }else{
                               // 	this.push(data);
                               // };
-                              if (data['name'] == 'AG_real') {
-                                if (hour < 6 || hour > 9) {
-                                  this.push(data);
-                                }
-                              } else {
-                                if (hour < 9 || hour > 15 || (hour == 15 && minute > 30)) {
-
-                                } else {
-                                  this.push(data);
-                                }
-                                ;
-                              }
-                              ;
+                              //if (data['name'] == 'AG_real') {
+                              //  if (hour < 6 || hour > 9) {
+                              //    this.push(data);
+                              //  }
+                              //} else {
+                              //  if (hour < 9 || hour > 15 || (hour == 15 && minute > 30)) {
+                              //
+                              //  } else {
+                              //    this.push(data);
+                              //  }
+                              //  ;
+                              //}
+                              //;
                             }, chartData1);
                             var chartJsonDataArr = [];
                             var chartArr = [];
@@ -5973,14 +6018,14 @@
                                               });
                                               var Earn;
                                               var y;
-                                              if (data.name == 'AG_real') {
-                                                Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
-                                                y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
-                                              } else {
-                                                Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-                                                y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-                                              }
-                                              ;
+                                              //if (data.name == 'AG_real') {
+                                              //  Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
+                                              //  y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
+                                              //} else {
+                                              //  Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+                                              //  y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+                                              //}
+                                              //;
                                               chartArr.push({
 
                                                 "x": chartData1[i].datetime,
@@ -6032,14 +6077,14 @@
                                         });
                                         var Earn;
                                         var y;
-                                        if (data.name == 'AG_real') {
-                                          Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
-                                          y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
-                                        } else {
-                                          Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-                                          y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
-                                        }
-                                        ;
+                                        //if (data.name == 'AG_real') {
+                                        //  Earn = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
+                                        //  y = Number((data.price - chartData1[i].price - 0.32 * 2).toFixed(2));
+                                        //} else {
+                                        //  Earn = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+                                        //  y = Number((data.price * (1 - 0.00003) - chartData1[i].price * (1 + 0.00003)).toFixed(2));
+                                        //}
+                                        //;
                                         chartArr.push({
 
                                           "x": chartData1[i].datetime,
@@ -6103,14 +6148,14 @@
                                               });
                                               var Earn;
                                               var y;
-                                              if (data.name == 'AG_real') {
-                                                Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                                                y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                                              } else {
-                                                Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                                                y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                                              }
-                                              ;
+                                              //if (data.name == 'AG_real') {
+                                              //  Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                                              //  y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                                              //} else {
+                                              //  Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                                              //  y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                                              //}
+                                              //;
                                               chartArr.push({
 
                                                 "x": chartData1[i].datetime,
@@ -6160,14 +6205,14 @@
                                         });
                                         var Earn;
                                         var y;
-                                        if (data.name == 'AG_real') {
-                                          Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                                          y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
-                                        } else {
-                                          Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                                          y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
-                                        }
-                                        ;
+                                        //if (data.name == 'AG_real') {
+                                        //  Earn = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                                        //  y = Number((chartData1[i].price - data.price - 0.32 * 2).toFixed(2));
+                                        //} else {
+                                        //  Earn = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                                        //  y = Number((chartData1[i].price * (1 - 0.00003) - data.price * (1 + 0.00003)).toFixed(2));
+                                        //}
+                                        //;
                                         chartArr.push({
 
                                           "x": chartData1[i].datetime,
