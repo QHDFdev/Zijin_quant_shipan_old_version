@@ -538,6 +538,11 @@
         Showbo.Msg.alert('请输入交易手数');
         return;
       }
+      if($scope.firmItem.symbol==undefined||$scope.firmItem.symbol==""){
+        Showbo.Msg.alert('请输入交易合约');
+        return;
+      }
+
       //console.log($scope.firmItem)
       //return;
       var files = $scope.files;

@@ -239,8 +239,10 @@
                     </div>
                     <div class="form-group">
                         <label for="">交易合约：</label>
-                        <select ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>
+                        <!--<select ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'><lect>-->
+                        <input type="text" class="form-control" placeholder="请输入交易合约" ng-model='firmItem.symbol'>
                     </div>
+
                     <div class="form-group">
                         <label for="">交易手数：</label>
                         <input type="text" class="form-control" name="multiple" ng-model='firmItem.multiple' placeholder="策略交易手数的倍数" required>
