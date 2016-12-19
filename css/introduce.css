@@ -261,8 +261,6 @@ ol{
     transition: all 0.5s ease-in ;
     width: 75%;
     height: 75%;
-
-
 }
 #stock .col-xs-12 img:hover{
     -webkit-transform: rotate(0deg) scale(1.1,1.1);
@@ -295,6 +293,5 @@ ol{
     background: url("../images/jiantou.png") 0 0;
     width: 73px;
     height: 28px;
-
 }
 

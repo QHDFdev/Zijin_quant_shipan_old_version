@@ -32,7 +32,7 @@
 	padding:30px 30px 30px 0;
 }
 .modalRes-head .modalRes-head-text{
-	/*display: inline-block;*/
+	display: inline-block;
 	margin-left: 30px;
 	padding-left: 30px;
 
@@ -40,14 +40,17 @@
 	vertical-align: middle;
 	text-align: left;
 	color: #666;
-
+	/*font-weight: bold;*/
+	text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+	text-indent: 2em;
 	/*background-color: red;*/
 }
 
+/*
 .modalRes-head .modalRes-head-text, .modalRes-head .modalRes-head-text:after {
-	/*font-weight: 900;*/
+	!*font-weight: 900;*!
 	color: #efedce;
-	/*white-space: nowrap;*/
+	!*white-space: nowrap;*!
 	display: inline-block;
 	position: relative;
 	letter-spacing: .1em;
@@ -55,7 +58,7 @@
 }
 
 .modalRes-head .modalRes-head-text {
-	/*font-size: 4em;*/
+	!*font-size: 4em;*!
 	z-index: 100;
 	text-shadow: .04em .04em 0 #9cb8b3;
 }
@@ -70,6 +73,7 @@
 	z-index: -1;
 	-webkit-mask-image: url(http://f.cl.ly/items/1t1C0W3y040g1J172r3h/mask.png);
 }
+*/
 
 
 @media screen and  (max-width: 1200px){
