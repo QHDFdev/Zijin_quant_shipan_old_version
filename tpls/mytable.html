@@ -224,7 +224,7 @@
 <div class="zijin-table-mask firm-mask">
     <div class="mask-box container">
         <div class="row">
-            <div class=" col-sm-8 col-sm-offset-2">
+            <div class=" col-sm-8 col-sm-offset-2" style="overflow-y: scroll;" id="test">
                 <form ng-submit="addFirmStrategy()" name="newFirmStrategy" novalidate="" enctype="multipart/form-data" id="newFirmStrategy" novalidate>
                     <div class="form-group">
                         <label for="">实盘名：</label>
@@ -239,10 +239,9 @@
                     </div>
                     <div class="form-group">
                         <label for="">交易合约：</label>
-                        <!--<select ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'><lect>-->
+                        <!--<select ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>-->
                         <input type="text" class="form-control" placeholder="请输入交易合约" ng-model='firmItem.symbol'>
                     </div>
-
                     <div class="form-group">
                         <label for="">交易手数：</label>
                         <input type="text" class="form-control" name="multiple" ng-model='firmItem.multiple' placeholder="策略交易手数的倍数" required>
