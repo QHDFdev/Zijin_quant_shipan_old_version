@@ -203,8 +203,11 @@
                            <a href="instructions.txt" download="instructions.txt" target="_blank"  id="downtxt">策略编写QuickStart</a>
 
                        </span>
-                        <div id="title" style="display: none;width:85%;height: 600px;padding: 10px;border-radius:10px;position: absolute;left: 51%;top: -70%;border: 1px solid #aaa;background-color: #fff;overflow:scroll"><pre>{{titleQuick}}</pre></div>
+                        <div id="title" style="display: none;width:85%;height:300px;padding: 10px;border-radius:10px;position: absolute;left: 51%;top: -70%;border: 1px solid #aaa;background-color: #fff;overflow:scroll"><pre>{{titleQuick}}</pre></div>
                         <input style="margin-top: 20px;" type="text" class="form-control" ng-model='itemSourcing.class_name ' placeholder="输入策略类名（策略类名必须与代码类名一致）" required>
+                    </div>
+                    <div class="form-group">
+                        <label>代码文件：</label><input type="file" name="file"  file-model='sourcingCode' placeholder="代码" required="">
                     </div>
                     <div class="btn-group btn-group-lg">
                         <input class="btn-success btn" type="submit"  value="提交" style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
@@ -236,8 +239,10 @@
                     </div>
                     <div class="form-group">
                         <label for="">交易合约：</label>
-                        <select ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>
+                        <!--<select ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'><lect>-->
+                        <input type="text" class="form-control" placeholder="请输入交易合约" ng-model='firmItem.symbol'>
                     </div>
+
                     <div class="form-group">
                         <label for="">交易手数：</label>
                         <input type="text" class="form-control" name="multiple" ng-model='firmItem.multiple' placeholder="策略交易手数的倍数" required>
