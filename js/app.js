@@ -286,7 +286,7 @@
               $('.zijin-table-mask').fadeOut();
               //console.log(data);
               $scope.getSourcingStrategys();
-              Showbo.Msg.alert('添加成功。');
+              Showbo.Msg.alert('添加成功');
             })
             .error(function (err, st) {
               //console.log(err);
@@ -404,7 +404,7 @@
               $scope.geterror();
               angular.forEach(data, function (item, index) {
                 //console.log(item);
-                if(item.status==-1){
+                if(item.status==-2){
                   $scope.allStrategys.push(item);
                 }
               });
@@ -574,7 +574,7 @@
               $scope.myStrategy = data;
               //console.log(data);
               $scope.getFirmStrategys();
-              Showbo.Msg.alert('添加成功。');
+              Showbo.Msg.alert('添加成功');
             })
             .error(function (err, st) {
               //console.log(err);
@@ -748,12 +748,9 @@
             })
             .success(function (data) {
               //console.log(data);
-              //584e52997932156d41d42829
-              //"584e53a67932156d41d428e8"
               $('.zijin-table-mask').fadeOut();
-              //$scope.myHisStrategy = data;
               $scope.getHisStrategys();
-              Showbo.Msg.alert('添加成功。');
+              Showbo.Msg.alert('添加成功');
             })
             .error(function (err, st) {
               //console.log(err);
@@ -808,7 +805,7 @@
               }
               $scope.geterror2();
               angular.forEach(data, function (item, index) {
-                if(item.status==-1){
+                if(item.status==-2){
                   $scope.allStrategys.push(item);
                 }
               });
@@ -3187,7 +3184,6 @@
 
       $scope.makeChart1 = function () {
         var myFirm=[];
-        var dellen;
         var alldata=[];
         var data2=[];
         myFirm=$scope.myFirmStrategy;
@@ -3329,6 +3325,7 @@
                 var data2=[];//保存截取后股价的区间
                 var j=0;
                 var flag=60000;
+                //console.log(data);
                // console.log(stime,etime);
                 console.log("显示股价区间：");
                 console.log(new Date(stime).toLocaleString(),new Date(etime).toLocaleString())
@@ -6487,11 +6484,24 @@
     .directive('hisTable', ['$route', '$location', '$http', 'constantUrl', '$cookieStore', function ($route, $location, $http, constantUrl, $cookieStore) {
       return {
         link: function (scope, ele, attrs) {
+          scope.strategystart=function(a){
+            i= a.$index;//点击的第几个
+            var url = scope.myHisStrategy[i]._id;
+            $http.patch(constantUrl + "btstrategys/" + url + '/', {status: 2}, {
+                  headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                })
+                .success(function () {
+                  scope.getHisStrategys();
+                })
+                .error(function (err, sta) {
+                  Showbo.Msg.alert('启动失败，请稍后再试。')
+                });
+          }
           scope.pausestrategy=function(a){
             i= a.$index;//点击的第几个
             var url = scope.myHisStrategy[i]._id;
             //var url = $(this).closest('tr').children().eq(0).text();
-            $http.patch(constantUrl + "btstrategys/" + url + '/', {status: 2}, {
+            $http.patch(constantUrl + "btstrategys/" + url + '/', {status: 3}, {
                   headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
                 })
                 .success(function () {

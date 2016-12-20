@@ -140,6 +140,7 @@
                         <td ng-bind="d.status" title="{{d.title}}"></td>
                         <td>
                             <div class="btn-group btn-group-sm">
+                                <button  class="btn btn-success strategy-start" ng-click="strategystart(this)">启动 <i class="fa fa-play"></i></button>
                                 <button class="btn btn-warning strategy-pause" ng-click="pausestrategy(this)">停止 <i class="fa fa-pause"></i></button>
                                 <button  class="btn btn-danger strategy-del" ng-click="strategydel(this)">删除策略 <i class="fa fa-remove"></i></button>
                             </div>
