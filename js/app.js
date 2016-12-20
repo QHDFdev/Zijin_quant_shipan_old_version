@@ -231,7 +231,7 @@
     }])
     .controller('tableController', ['$scope', 'strategyResources', 'strategyResource', '$http', '$timeout', '$cookieStore', 'constantUrl', 'strategysValue', 'myStrategysValue', '$filter', function ($scope, strategyResourcess, strategyResource, $http, $timeout, $cookieStore, constantUrl, strategysValue, myStrategysValue, $filter) {
       $scope.func = function (e) {
-        return e["status"] != -3;
+        return e["status"] != -2;
       };
       $scope.closeMask = function () {
         $('.zijin-table-mask').fadeOut();
@@ -323,7 +323,7 @@
         }
         //console.log(error2);
         for (var i = 0; i < $scope.myHisStrategy.length; i++) {
-          if ($scope.myHisStrategy[i].status == -2) {
+          if ($scope.myHisStrategy[i].status == -1) {
             //console.log($scope.myHisStrategy[i]._id)
             for (var j = 0; j < error2.length; j++) {   //从错误数组里寻找(历史回测)
               if ($scope.myHisStrategy[i]._id == error2[j]._id) {
@@ -347,7 +347,7 @@
         }
         //console.log(error);
         for(var i=0;i<$scope.myStrategy.length;i++){
-          if($scope.myStrategy[i].status==-2){
+          if($scope.myStrategy[i].status==-1){
             //console.log($scope.myStrategy[i]._id)
             for(var j=0;j<error.length;j++){   //从错误数组里寻找（实盘）
               if($scope.myStrategy[i]._id==error[j]._id){
@@ -374,39 +374,37 @@
                 var class_id = $scope.myStrategy[i].class_id;
                 var status = $scope.myStrategy[i].status;
                 //console.log(status);
-                if (status != -3) {
-                  //console.log(class_id);
+                if (status != -2) {
                   $scope.myStrategy[i].class_name = getcelve(class_id);
-                  //console.log("end")
-                }
-                if (status == -3) {
-                  $scope.myStrategy[i].title = "deleted";
                 }
                 if (status == -2) {
+                  $scope.myStrategy[i].title = "deleted";
+                }
+                if (status == -1) {
                   var a={_id:$scope.myStrategy[i]._id,error:''};
                   error.push(a);
                 }
-                if (status == -1) {
-                  $scope.myStrategy[i].title = "not inited";
-                }
-                if (status == -0) {
-                  $scope.myStrategy[i].title = " inited";
+                if (status == 0) {
+                  $scope.myStrategy[i].title = "loading";
                 }
                 if (status == 1) {
-                  $scope.myStrategy[i].title = "running";
+                  $scope.myStrategy[i].title = "loaded";
                 }
                 if (status == 2) {
-                  $scope.myStrategy[i].title = "stoped or run over";
+                  $scope.myStrategy[i].title = "start";
+                }
+                if (status == 3) {
+                  $scope.myStrategy[i].title = "stop";
                 }
                 if (status == 4) {
-                  $scope.myStrategy[i].title = "lose because system restart";
+                  $scope.myStrategy[i].title = "run over";
                 }
                 $scope.myStrategy[i].flag = false;//所有选择框默认不选择
               }
               $scope.geterror();
               angular.forEach(data, function (item, index) {
                 //console.log(item);
-                if(item.status==-3){
+                if(item.status==-1){
                   $scope.allStrategys.push(item);
                 }
               });
@@ -779,37 +777,38 @@
                 //console.log( $scope.myHisStrategy[i]._id);
                 $scope.myHisStrategy[i].flag=false;
                 $scope.myHisStrategy[i].class_name = "none";//策略代码初始化
-                var status=$scope.myHisStrategy[i].status;
                 var class_id = $scope.myHisStrategy[i].class_id;
                 var status = $scope.myHisStrategy[i].status;
-                if (status != -3) {
-                  $scope.myHisStrategy[i].class_name=getcelve(class_id);
+                if (status != -2) {
+                  $scope.myHisStrategy[i].class_name = getcelve(class_id);
                 }
-                if(status==-3){
-                  $scope.myHisStrategy[i].title="deleted";
+                if (status == -2) {
+                  $scope.myHisStrategy[i].title = "deleted";
                 }
-                if(status==-2){
-                  //console.log($scope.myHisStrategy[i]._id);
-                  var a={_id:$scope.myHisStrategy[i]._id,error:'error'};
-                  error2.push(a);
+                if (status == -1) {
+                  var a={_id:$scope.myHisStrategy[i]._id,error:''};
+                  error.push(a);
                 }
-                if(status==-1){
-                  $scope.myHisStrategy[i].title="not inited";
-                }if(status==-0){
-                  $scope.myHisStrategy[i].title=" inited";
-                }if(status==1){
-                  $scope.myHisStrategy[i].title="running";
+                if (status == 0) {
+                  $scope.myHisStrategy[i].title = "loading";
                 }
-                if(status==2){
-                  $scope.myHisStrategy[i].title="stoped or run over";
+                if (status == 1) {
+                  $scope.myHisStrategy[i].title = "loaded";
                 }
-                if(status==4){
-                  $scope.myHisStrategy[i].title="lose because system restart";
+                if (status == 2) {
+                  $scope.myHisStrategy[i].title = "start";
                 }
+                if (status == 3) {
+                  $scope.myHisStrategy[i].title = "stop";
+                }
+                if (status == 4) {
+                  $scope.myHisStrategy[i].title = "run over";
+                }
+                $scope.myHisStrategy[i].flag = false;//所有选择框默认不选择
               }
               $scope.geterror2();
               angular.forEach(data, function (item, index) {
-                if(item.status==-3){
+                if(item.status==-1){
                   $scope.allStrategys.push(item);
                 }
               });
@@ -1518,8 +1517,7 @@
         var dellen;
         var alldata=[];
         var data2=[];
-        //console.log("所选历史回测信息:");
-        //console.log($scope.myFirmStrategy);//所选策略名对应的属性 包含交易所名 倍数 期货还是白银
+        console.log("所选历史回测信息:",$scope.myFirmStrategy);//所选策略名对应的属性 包含交易所名 倍数 期货还是白银
         myFirm=$scope.myFirmStrategy;
         var mydate = $filter('date')(new Date((new Date($scope.myFirmEndDate)).setDate((new Date($scope.myFirmEndDate)).getDate() + 1)), 'yyyy-MM-dd');
         var stime;
@@ -1550,31 +1548,46 @@
                         headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
                       })
                       .success(function (data) {
-                        if(data[data.length-1].trans_type=="short"||data[data.length-1].trans_type=="buy") {
+                        //console.log("前一天最后一笔交易",data)
+                        if(data.length>2&&(data[data.length-1].trans_type=="short"||data[data.length-1].trans_type=="buy")) {                          console.log("前一天最后一笔为开仓");
                           console.log("前一天最后一笔为开仓");
                           console.log("将前一天最后一笔数据加入今天");
                           //将前一天最后一笔数据加入今天
-                          for(var i=length;i>0;i--){
-                            data2[i]=data2[i-1];
-                          }
-                          data2[0]=data[data.length-1];
-
+                          data2.splice(0,0,data[data.length-1])
                         }
                         else{
                           console.log("前一天最后一笔不是开仓");
                           console.log("将今天第一笔开仓置空");
-                          for(var i=0;i<length;i++){
-                            data2[i]=data2[i+1];
-                          }
-                          data2.length=data2.length-1;
+                          data2.splice(0,1)
                         }
-                        //data=data2;
                       })
                 }
+                /**
+                 * 检查当前数据交易是否全都配对,返回需要清除的数据位置
+                 * @param data
+                 */
+                function checkdata(data){
+                  for (var i=0;i<data.length/2;i++){
+                    if(2*i+1>=data.length){break;}
+                    if(data[2*i].trans_type!="buy"&&data[2*i].trans_type!="short"){
+                      return 2*i;
+                    }
+                    if(data[2*i+1].trans_type!="sell"&&data[2*i+1].trans_type!="cover"){
+                      return 2*i;
+                    }
+                  }
+                  return false;
+                }
                 setTimeout(function(){
+                  //检查所有数据是否配对 不配对的删了
+                  while (checkdata(data2)!=false){
+                    var del=checkdata(data2);
+                    console.log("第",del/2,"笔交易配对错误,清除此交易")
+                    data.splice(del,1)
+                  }
                   //保存所有数据 包括异常数据
-                  for(var n in data2){
-                    alldata[n] = data2[n];
+                  for(var i in data2){
+                    alldata[i]=data2[i];
                   }
                   //删除异常数据并保存
                   var del = [];
@@ -1583,43 +1596,33 @@
                       del.push(index);
                     }
                   });
-                  dellen=del.length;
                   for(var i=0;i<del.length;i++){
                     var flag=data[del[i]].trans_type;//保存异常数据是开仓价还是平仓价
-                    for(var j=del[i];j<data.length;j++){//删除异常数据
-                      data[j]=data[j+1];
-                    }
-                    data.length--;
+                    data.splice(del[i],1);//删除异常数据
                     if(flag=="cover"||flag=="sell"){//如果是平仓，删除对应的开仓价
                       console.log("异常平仓价")
                       //对应开仓价在删除位置的前一个
-                      for(var j=del[i]-1;j<data.length;j++){
-                        data[j]=data[j+1];
-                      }
-                      data.length--;
+                      data.splice(del[i]-1,1);
                     }
                     else {
                       console.log("异常开仓价")
                       //对应的平仓价位置是当前位置 因为开仓价已经被删了 位置向前移了一个
-                      for(var j=del[i];j<data.length;j++){
-                        data[j]=data[j+1];
-                      }
-                      data.length--;
+                      data.splice(del[i],1);
                     }
                     for(k=i+1;k<del.length;k++){//删掉一对 下标移2个
                       del[k]-=2;
                     }
-                    console.log("去除异常数据");
+                    console.log("去除此交易数据");
+                  }
+                  if(data.length<2){
+                    Showbo.Msg.alert("今天没有正常交易")
+                    defer1.resolve(data);
                   }
                   //console.log(data);
                   stime=data[0].datetime;
                   etime=data[data.length-1].datetime;
-                },1000)
-
-
-                //console.log(data);
-
-                defer1.resolve(data);
+                  defer1.resolve(data);
+                },100)
               })
               .error(function (err, sta) {
                 defer1.reject(err);
@@ -1656,19 +1659,10 @@
               .success(function (data) {
                 var data2=[];
                 var j=0;
-                //console.log(data[0])
                 var flag=60000;
-                // Date.prototype.toLocaleString = function() {
-                //   return this.getDate();
-                // };
-                // var unixTimestamp = new Date(stime)
-                //var a=unixTimestamp.toLocaleString();
-                // var unixTimestamp = new Date(etime)
-                // var b=unixTimestamp.toLocaleString();
-                // if(a!=b){
-                //   flag=600000;
-                // }
                 //console.log(stime,etime);
+                console.log("显示股价区间：");
+                console.log(new Date(stime).toLocaleString(),new Date(etime).toLocaleString())
                 for(var i=0;i<data.length;i++){
                   var nowtime=data[i].datetime;
                   if(nowtime>(stime-flag)&&nowtime<(etime+flag)&&data[i].open!=0){
@@ -1997,7 +1991,7 @@
                 test=Number((test).toFixed(6));
                 return test;
               }
-              console.log("所选实盘信息:",myFirm);//所选策略名对应的属性 包含交易所名  期货还是白银 回测没有倍数
+              //console.log("所选实盘信息:",myFirm);//所选策略名对应的属性 包含交易所名  期货还是白银 回测没有倍数
               //console.log(data2);//开仓平仓单个数据 获取委托号
 
               var totalpal=0;
@@ -2236,26 +2230,26 @@
                     onSeries: "dataseries",
                     shape: 'squarepin',
                     width: 36,
-                    color: "#4169e1",
+                    color: '#ff9912',
                     fillColor: 'transparent',
                     style: {
                       color: '#333'
                     },
                     y: -40,
-                    name: '看多',
+                    name: '看空',
                   }, {
                     type: 'flags',
                     data: buyYArr,
                     onSeries: "dataseries",
                     shape: 'squarepin',
                     width: 36,
-                    color: '#ff9912',
+                    color: "#4169e1",
                     fillColor: 'transparent',
                     style: {
                       color: '#333'
                     },
                     y: 20,
-                    name: '看空',
+                    name: '看多',
                   }, {
                     type: 'column',
                     data: chartArr,
@@ -2363,26 +2357,26 @@
                   onSeries: "dataseries",
                   shape: 'squarepin',
                   width: 36,
-                  color: "#4169e1",
+                  color: '#ff9912',
                   fillColor: 'transparent',
                   style: {
                     color: '#333'
                   },
                   y: -40,
-                  name: '看多',
+                  name: '看空',
                 }, {
                   type: 'flags',
                   data: buyYArr,
                   onSeries: "dataseries",
                   shape: 'squarepin',
                   width: 36,
-                  color: '#ff9912',
+                  color: "#4169e1",
                   fillColor: 'transparent',
                   style: {
                     color: '#333'
                   },
                   y: 20,
-                  name: '看空',
+                  name: '看多',
                 }, {
                   type: 'column',
                   data: chartArr,
@@ -3158,10 +3152,6 @@
             .success(function (data) {
               //console.log(data.length,data);
               angular.forEach(data, function (x, y) {
-                //if(x["status"]==-3){
-                //  return;
-                //}
-                //console.log(x["name"])
                 this.push({
                   "name": x["name"],
                   '_id': x["_id"],
@@ -3202,7 +3192,7 @@
         var data2=[];
         myFirm=$scope.myFirmStrategy;
         //console.log("所选实盘信息:");
-        //console.log(myFirm);//所选策略名对应的属性 包含交易所名  期货还是白银 回测没有倍数
+        console.log("所选实盘信息:",myFirm);//所选策略名对应的属性 包含交易所名  期货还是白银 回测没有倍数
         $scope.myFirmDate_end=$scope.myFirmDate;
         var mydate = $filter('date')(new Date((new Date($scope.myFirmDate_end)).setDate((new Date($scope.myFirmDate_end)).getDate() + 1)), 'yyyy-MM-dd');
         //根据选择的策略名获取相应可以选择的时间
@@ -3221,7 +3211,7 @@
                 headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
               })
               .success(function (data) {
-                //console.log(data);
+                //console.log(data[0]);//第一笔交易 看看前一天有没有交易完
                 data2=data;
                 if(data[0].trans_type=="cover"||data[0].trans_type=="sell"){
                   var length=data.length;
@@ -3236,30 +3226,46 @@
                         headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
                       })
                       .success(function (data) {
-                        if(data[data.length-1].trans_type=="short"||data[data.length-1].trans_type=="buy") {
+                        if(data.length>2&&(data[data.length-1].trans_type=="short"||data[data.length-1].trans_type=="buy")) {
                           console.log("前一天最后一笔为开仓");
                           console.log("将前一天最后一笔数据加入今天");
                           //将前一天最后一笔数据加入今天
-                          for(var i=length;i>0;i--){
-                            data2[i]=data2[i-1];
-                          }
-                          data2[0]=data[data.length-1];
+                          data2.splice(0,0,data[data.length-1])
                         }
                         else{
                           console.log("前一天最后一笔不是开仓");
                           console.log("将今天第一笔开仓置空");
-                          for(var i=0;i<length;i++){
-                            data2[i]=data2[i+1];
-                          }
-                          data2.length=data2.length-1;
+                        data2.splice(0,1)
                         }
-                        data=data2;
                       })
                 }
+                /**
+                 * 检查当前数据交易是否全都配对,返回需要清除的数据位置
+                 * @param data
+                   */
+                function checkdata(data){
+                  for (var i=0;i<data.length/2;i++){
+                    if(2*i+1>=data.length){break;}
+                   if(data[2*i].trans_type!="buy"&&data[2*i].trans_type!="short"){
+                     return 2*i;
+                   }
+                    if(data[2*i+1].trans_type!="sell"&&data[2*i+1].trans_type!="cover"){
+                      return 2*i;
+                    }
+                  }
+                  return false;
+                }
+
                 setTimeout(function(){
+                  //检查所有数据是否配对 不配对的删了
+                  while (checkdata(data2)!=false){
+                    var del=checkdata(data2);
+                    console.log("第",del/2,"笔交易配对错误,清除此交易")
+                    data.splice(del,1)
+                  }
                   //保存所有数据 包括异常数据
-                  for(var n in data2){
-                    alldata[n] = data2[n];
+                  for(var i in data2){//操作data2,data不影响alldta
+                    alldata[i]=data2[i];
                   }
                   //删除异常数据并保存
                   var del = [];
@@ -3268,43 +3274,35 @@
                       del.push(index);
                     }
                   });
-                  dellen=del.length;
+                  //console.log(data)
                   for(var i=0;i<del.length;i++){
                     var flag=data[del[i]].trans_type;//保存异常数据是开仓价还是平仓价
-                    for(var j=del[i];j<data.length;j++){//删除异常数据
-                      data[j]=data[j+1];
-                    }
-                    data.length--;
+                    data.splice(del[i],1);//删除异常数据
                     if(flag=="cover"||flag=="sell"){//如果是平仓，删除对应的开仓价
                       console.log("异常平仓价")
                       //对应开仓价在删除位置的前一个
-                      for(var j=del[i]-1;j<data.length;j++){
-                        data[j]=data[j+1];
-                      }
-                      data.length--;
+                      data.splice(del[i]-1,1);
                     }
                     else {
                       console.log("异常开仓价")
                       //对应的平仓价位置是当前位置 因为开仓价已经被删了 位置向前移了一个
-                      for(var j=del[i];j<data.length;j++){
-                        data[j]=data[j+1];
-                      }
-                      data.length--;
+                      data.splice(del[i],1);
                     }
                     for(k=i+1;k<del.length;k++){//删掉一对 下标移2个
                       del[k]-=2;
                     }
-                    console.log("去除异常数据");
+                    console.log("去除此交易数据");
                   }
 
+                  if(data.length<2){
+                    Showbo.Msg.alert("今天没有正常交易")
+                    defer1.resolve(data);
+                  }
+                  //console.log(data)//当天正确交易数据
                   stime=data[0].datetime;
                   etime=data[data.length-1].datetime;
-                },1000)
-
-
-                //console.log(data);
-
-                defer1.resolve(data);//defer1.resolve(value)  成功解决(resolve)了其派生的promise。参数value将来会被用作promise.then(successCallback(value){...}, errorCallback(reason){...}, notifyCallback(notify){...})中successCallback函数的参数。
+                  defer1.resolve(data);//defer1.resolve(value)  成功解决(resolve)了其派生的promise。参数value将来会被用作promise.then(successCallback(value){...}, errorCallback(reason){...}, notifyCallback(notify){...})中successCallback函数的参数。
+                },500)
               })
               .error(function (err, sta) {
                 defer1.reject(err);//deferred.reject(reason)  未成功解决其派生的promise。参数reason被用来说明未成功的原因。此时deferred实例的promise对象将会捕获一个任务未成功执行的错误，promise.catch(errorCallback(reason){...})。补充一点，promise.catch(errorCallback)实际上就是promise.then(null, errorCallback)的简写。
@@ -3328,21 +3326,12 @@
                 headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
               })
               .success(function (data) {
-                var data2=[];
+                var data2=[];//保存截取后股价的区间
                 var j=0;
-                //console.log(data[0])
                 var flag=60000;
-               // Date.prototype.toLocaleString = function() {
-               //   return this.getDate();
-               // };
-               // var unixTimestamp = new Date(stime)
-               //var a=unixTimestamp.toLocaleString();
-               // var unixTimestamp = new Date(etime)
-               // var b=unixTimestamp.toLocaleString();
-               // if(a!=b){
-               //   flag=600000;
-               // }
-                //console.log(stime,etime);
+               // console.log(stime,etime);
+                console.log("显示股价区间：");
+                console.log(new Date(stime).toLocaleString(),new Date(etime).toLocaleString())
                 for(var i=0;i<data.length;i++){
                   var nowtime=data[i].datetime;
                     if(nowtime>(stime-flag)&&nowtime<(etime+flag)&&data[i].open!=0){
@@ -3373,6 +3362,7 @@
             };
 
             draws();
+            //画曲线图
             function draws() {
               var chartJsonDataArr = [];//股价
               var chartArr = [];//盈亏
@@ -3383,9 +3373,9 @@
               //console.log("无异常数据",chartData11);//去除异常数据的数据
               for(var i=0;i<chartData11.length;i++){
                 var data=chartData11[i];//保存开仓价信息
+                //console.log(data.trans_type);
                 if(data.trans_type=="short"){
                   shortYArr.push({
-                    "buy": "buy",
                     "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
                     "volume": data.volume,
                     "pos": data.pos,
@@ -3399,7 +3389,6 @@
                   if(i>=chartData11.length){break;}
                   data=chartData11[i];//保存平仓价信息
                   shortYArr.push({
-                    "buy": "buy",
                     "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
                     "volume": data.volume,
                     "pos": data.pos,
@@ -3411,7 +3400,6 @@
                   });
                 }else {
                   buyYArr.push({
-                    "short": "short",
                     "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
                     "volume": data.volume,
                     "pos": data.pos,
@@ -3425,7 +3413,6 @@
                   if(i>=chartData11.length){break;}
                   data=chartData11[i];//保存平仓价信息
                   buyYArr.push({
-                    "short": "short",
                     "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
                     "volume": data.volume,
                     "pos": data.pos,
@@ -3566,8 +3553,8 @@
               var del = [];
               var alldata3=[];//为了持仓时间
               num=parseInt(alldata.length/2);
-              //console.log(num)
               for(var i=0;i<num;i++){
+                //console.log(alldata[2*i].trans_type)
                 if (alldata[2*i].trans_type=="short") {//看空
                   alldata2.push({
                     "direction":"看空",
@@ -3674,7 +3661,7 @@
                 test=Number((test).toFixed(6));
                 return test;
               }
-              console.log("所选实盘信息:",myFirm);//所选策略名对应的属性 包含交易所名  期货还是白银 回测没有倍数
+              //console.log("所选实盘信息:",myFirm);//所选策略名对应的属性 包含交易所名  期货还是白银 回测没有倍数
               //console.log(data2);//开仓平仓单个数据 获取委托号
 
               var totalpal=0;
@@ -3911,26 +3898,26 @@
                     onSeries: "dataseries",
                     shape: 'squarepin',
                     width: 36,
-                    color: "#4169e1",
+                    color: '#ff9912',
                     fillColor: 'transparent',
                     style: {
                       color: '#333'
                     },
                     y: -40,
-                    name: '看多',
+                    name: '看空',
                   }, {
                     type: 'flags',
                     data: buyYArr,
                     onSeries: "dataseries",
                     shape: 'squarepin',
                     width: 36,
-                    color: '#ff9912',
+                    color: "#4169e1",
                     fillColor: 'transparent',
                     style: {
                       color: '#333'
                     },
                     y: 20,
-                    name: '看空',
+                    name: '看多',
                   }, {
                     type: 'column',
                     data: chartArr,
@@ -4038,26 +4025,26 @@
                   onSeries: "dataseries",
                   shape: 'squarepin',
                   width: 36,
-                  color: "#4169e1",
+                  color: '#ff9912',
                   fillColor: 'transparent',
                   style: {
-                    color: '#333'
+                    color: '#33x  3'
                   },
                   y: -40,
-                  name: '看多',
+                  name: '看空',
                 }, {
                   type: 'flags',
                   data: buyYArr,
                   onSeries: "dataseries",
                   shape: 'squarepin',
                   width: 36,
-                  color: '#ff9912',
+                  color: "#4169e1",
                   fillColor: 'transparent',
                   style: {
                     color: '#333'
                   },
                   y: 20,
-                  name: '看空',
+                  name: '看多',
                 }, {
                   type: 'column',
                   data: chartArr,
@@ -6280,7 +6267,7 @@
             //var url = $(this).closest('tr').children().eq(0).text();
             i= a.$index;//点击的第几个
             var url = scope.myStrategy[i]._id;
-            $http.patch(constantUrl + "strategys/" + url + '/', {status: 1}, {
+            $http.patch(constantUrl + "strategys/" + url + '/', {status: 2}, {
                   headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
                 })
                 .success(function () {
@@ -6296,7 +6283,7 @@
             //var url = $(this).closest('tr').children().eq(0).text();
             i= a.$index;//点击的第几个
             var url = scope.myStrategy[i]._id;
-            $http.patch(constantUrl + "strategys/" + url + '/', {status: 2}, {
+            $http.patch(constantUrl + "strategys/" + url + '/', {status: 3}, {
                   headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
                 })
                 .success(function () {
