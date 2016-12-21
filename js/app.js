@@ -283,9 +283,8 @@
               }
             })
             .success(function (data) {
-              $('.zijin-table-mask').fadeOut();
-              //console.log(data);
               $scope.getSourcingStrategys();
+              $('.zijin-table-mask').fadeOut();
               Showbo.Msg.alert('添加成功');
             })
             .error(function (err, st) {
@@ -465,20 +464,15 @@
               Showbo.Msg.alert("您没有选择");
               return;
             }
-            setTimeout(function(){
-              //console.log('Del end')
+            setTimeout(function(){//刷新回测列表
               $scope.getHisStrategys();
-            },100)
+            },1000)
 
           }else if(flag=='no'){
           }
         });
-
-
-
-
-
       }
+
       var flag=false;//默认都不选
       $scope.selectall3=function(){//全选或全不选
         flag=!flag;
@@ -489,6 +483,7 @@
 
       var height=$(window).height();//浏览器当前窗口可视区域高度
       $("#test").css("height", height*0.7+"px");
+      $("#test2").css("height", height*0.7+"px");
 
 
       //创建实盘模拟策略
@@ -542,10 +537,8 @@
               }
             })
             .success(function (data) {
-              $('.zijin-table-mask').fadeOut();
-              $scope.myStrategy = data;
-              //console.log(data);
               $scope.getFirmStrategys();
+              $('.zijin-table-mask').fadeOut();
               Showbo.Msg.alert('添加成功');
             })
             .error(function (err, st) {
@@ -603,22 +596,22 @@
       };
       function getModeList(ty) {
         //console.log($scope.firmItem.symbol)
-        if($scope.firmItem==undefined){
+        if($scope.hisItem.exchange==undefined){
           Showbo.Msg.alert('请先选择交易所代码');
           $scope.modeTickOptions = false;
           $scope.modeBarOptions = false;
           return;
         }
-        if($scope.firmItem.symbol==""){
-          Showbo.Msg.alert('请选择交易合约');
+        if($scope.hisItem.symbol==""||$scope.hisItem.symbol==undefined){
+          Showbo.Msg.alert('请输入交易合约');
           $scope.modeTickOptions = false;
           $scope.modeBarOptions = false;
           return;
         }
         //console.log($scope.firmItem)
         var symbol,exchange;
-        symbol=$scope.firmItem.symbol;
-        exchange=$scope.firmItem.exchange;
+        symbol=$scope.hisItem.symbol;
+        exchange=$scope.hisItem.exchange;
         $http.get(constantUrl + "dates/", {
               //params: {type: ty, date_type: 'data',symbol:"D1_AG",exchange:"CSRPME"},
               params: {type: ty, date_type: 'data',symbol:symbol,exchange:exchange},
@@ -630,23 +623,20 @@
             })
             .error(function (err, sta) {
               //console.log(err);
-              console.log(sta);
+              //console.log(sta);
+              if(sta==400){
+                Showbo.Msg.alert('交易合约不正确');
+                $scope.modeTickOptions = false;
+                $scope.modeBarOptions = false;
+              }
             });
       };
       $scope.ex = [
         {exchange : "CTP",id:'1'},
         {exchange : "CSRPME",id:'2'}
       ];
-      $scope.gettime=function(){
-
-      }
-      $scope.getsymbol=function(){
+      $scope.getsymbol2=function(){
         $scope.firmItem.symbol="";
-        $scope.hisItem.start="";
-        $scope.hisItem.end="";
-        $scope.modeBarOptions="";
-        $scope.modeTickOptions="";
-        $scope.hisItem.time="";
         if($scope.firmItem.exchange=="CTP"){
           $scope.sy = [
             {symbol : "IF"},
@@ -661,17 +651,38 @@
           ];
         }
       }
+      $scope.getsymbol=function(){
+        $scope.hisItem.symbol="";
+        $scope.hisItem.start="";
+        $scope.hisItem.end="";
+        $scope.modeBarOptions="";
+        $scope.modeTickOptions="";
+        $scope.hisItem.time="";
+        if($scope.hisItem.exchange=="CTP"){
+          $scope.sy = [
+            {symbol : "IF"},
+            {symbol : "IC"},
+            {symbol : "IH"}
+          ];
+        }
+        if($scope.hisItem.exchange=="CSRPME"){
+          $scope.sy = [
+            {symbol : "D1_AG"},
+            {symbol : "D6_SB"},
+          ];
+        }
+      }
 //创建历史回测策略
       $scope.addHisStrategy = function () {
         if($scope.hisItem.name==undefined){
           Showbo.Msg.alert('请输入策略名');
           return;
         }
-        if($scope.firmItem==undefined){
+        if($scope.hisItem.exchange==undefined){
           Showbo.Msg.alert('请选择交易所代码');
           return;
         }
-        if($scope.firmItem.symbol==undefined){
+        if($scope.hisItem.symbol==undefined){
           Showbo.Msg.alert('请选择交易合约');
           return;
         }
@@ -679,17 +690,14 @@
           Showbo.Msg.alert('请选择bar或tick');
           return;
         }
-        if($scope.hisItem.start==undefined){
+        if($scope.hisItem.start==undefined||$scope.hisItem.start==''){
           Showbo.Msg.alert('请选择开始时间');
           return;
         }
-        if($scope.hisItem.end==undefined){
+        if($scope.hisItem.end==undefined||$scope.hisItem.end==''){
           Showbo.Msg.alert('请选择结束时间');
           return;
         }
-        //console.log($scope.firmItem)
-        //console.log($scope.hisItem)
-        //return;
         var files = $scope.files;
         var formdata = new FormData();
         if ($scope.modeBarOptions) {
@@ -697,13 +705,10 @@
         } else {
           formdata.append('mode', 'tick');
         }
-        ;
-        //console.log($scope.modeBarOptions,$scope.modeTickOptions)
         var mydate = $filter('date')(new Date((new Date($scope.hisItem.end)).setDate((new Date($scope.hisItem.end)).getDate() + 1)), 'yyyy-MM-dd');
-        //console.log($scope.hisItem);
         formdata.append('name', $scope.hisItem.name);
-        formdata.append('symbol', $scope.firmItem.symbol);
-        formdata.append('exchange', $scope.firmItem.exchange);
+        formdata.append('symbol', $scope.hisItem.symbol);
+        formdata.append('exchange', $scope.hisItem.exchange);
         formdata.append('start', $scope.hisItem.start);
         formdata.append('end', mydate);
         formdata.append('class_id', strategysValue.id);
@@ -719,9 +724,8 @@
               }
             })
             .success(function (data) {
-              //console.log(data);
-              $('.zijin-table-mask').fadeOut();
               $scope.getHisStrategys();
+              $('.zijin-table-mask').fadeOut();
               Showbo.Msg.alert('添加成功');
             })
             .error(function (err, st) {
@@ -1576,7 +1580,7 @@
                     for(k=i+1;k<del.length;k++){//删掉一对 下标移2个
                       del[k]-=2;
                     }
-                    console.log("去除此交易数据");
+                    //console.log("去除此交易数据");
                   }
                   if(data.length<2){
                     Showbo.Msg.alert("今天没有正常交易")
@@ -3265,7 +3269,7 @@
                     for(k=i+1;k<del.length;k++){//删掉一对 下标移2个
                       del[k]-=2;
                     }
-                    console.log("去除此交易数据");
+                    //console.log("去除此交易数据");
                   }
 
                   if(data.length<2){
@@ -6168,25 +6172,25 @@
             Showbo.Msg.confirm('您确定删除'+scope.mySourcingStrategy[i].class_name+"吗？",function(flag){
               if(flag=='yes'){
                 $http.delete(constantUrl + "classs/" + url + '/', {
-                      headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                      headers: {
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                      }
                     })
                     .success(function () {
                       /*$route.reload();*/
                       scope.getSourcingStrategys();
                       /*Showbo.Msg.alert('删除成功。')*/
+
                     })
                     .error(function (err, sta) {
                       Showbo.Msg.alert('删除失败，请稍后再试。')
-                    });
 
-              }else if(flag=='no'){
+                    });
+              }
+              else if(flag=='no'){
               }
             });
           }
-
-
-
-
         }
       };
     }])
@@ -6342,7 +6346,7 @@
                       scope.getFirmStrategys();
                       scope.getHisStrategys();
                     }
-                    ,100)
+                    ,1000)
 
               }else if(flag=='no'){
               }
@@ -6438,28 +6442,20 @@
 
 //删除实盘
           scope.delstrategy=function(a){
-            //var url = $(this).closest('tr').children().eq(0).text();
             i= a.$index;//点击的第几个
             var url = scope.myStrategy[i]._id;
-            //console.log(scope.myStrategy[i].name);
-            //return;
             Showbo.Msg.confirm('您确定删除'+scope.myStrategy[i].name+"吗？",function(flag){
               if(flag=='yes'){
-
                 $http.delete(constantUrl + "strategys/" + url + '/', {
                       headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
                     })
                     .success(function () {
                       /*$route.reload();*/
-                      scope.allStrategys = [];
                       scope.getFirmStrategys();
-                      scope.getHisStrategys();
                       /*Showbo.Msg.alert('删除成功。')*/
                     })
                     .error(function (err, sta) {
-
                       Showbo.Msg.alert('删除失败，请稍后再试。')
-
                     });
 
               }else if(flag=='no'){

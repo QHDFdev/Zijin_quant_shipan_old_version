@@ -222,7 +222,34 @@
     </div>
 </div>
 
-
+<style>
+    .ipt{
+        width: 85%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+    .sel{
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+</style>
 <!-- firm mask -->
 <div class="zijin-table-mask firm-mask">
     <div class="mask-box container">
@@ -230,33 +257,36 @@
             <div class=" col-sm-8 col-sm-offset-2" style="overflow-y: scroll;" id="test">
                 <form ng-submit="addFirmStrategy()" name="newFirmStrategy" novalidate="" enctype="multipart/form-data" id="newFirmStrategy" novalidate>
                     <div class="form-group">
-                        <label for="">实盘名：</label>
-                        <input type="text" class="form-control" name="name" ng-model='firmItem.name' placeholder="请输入实盘名" required>
+                        <label for="">实盘名：</label>&nbsp;&nbsp;&nbsp;
+                        <input type="text" class="ipt" name="name" ng-model='firmItem.name' placeholder="请输入实盘名" required>
                         <div class="error" ng-messages='newFirmStrategy.name.$error' ng-if='newFirmStrategy.name.$touched' ng-message-multiple>
                             <small ng-message='required'style="color:red">实盘名不能为空</small>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="">交易所代码：</label>
-                        <select ng-model='firmItem.exchange'  ng-options='x.exchange as x.exchange for x in ex' ng-change="getsymbol()"></select>
+                        <select class="sel" ng-model='firmItem.exchange'  ng-options='x.exchange as x.exchange for x in ex' ng-change="getsymbol2()"></select>
                     </div>
                     <div class="form-group">
                         <label for="">交易合约：</label>
                         <!--<select ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>-->
-                        <input type="text" class="form-control" placeholder="请输入交易合约" ng-model='firmItem.symbol'>
+                        <input type="text" class="ipt" name="symbol" placeholder="请输入交易合约" ng-model='firmItem.symbol'required>
+                        <div class="error" ng-messages='newFirmStrategy.symbol.$error' ng-if='newFirmStrategy.symbol.$touched' ng-message-multiple>
+                            <small ng-message='required'style="color:red">交易合约不能为空</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="">交易手数：</label>
-                        <input type="text" class="form-control" name="multiple" ng-model='firmItem.multiple' placeholder="策略交易手数的倍数" required>
+                        <input type="text" class="ipt" name="multiple" ng-model='firmItem.multiple' placeholder="策略交易手数的倍数" required>
                         <div class="error" ng-messages='newFirmStrategy.multiple.$error' ng-if='newFirmStrategy.multiple.$touched' ng-message-multiple>
                             <small ng-message='required'style="color:red">请填写交易手数</small>
                         </div>
 
                     </div>
                     <div>
-                        <select name="" id="" ng-model="account" ng-options="id as id._id for id in ids"></select><br>
-                        <label>您选择的账号id是：{{account.uid}}</label><br>
-                        <label>您选择的交易所代码是：{{account.exchange}}</label>
+                        <select class="sel" name="" id="" ng-model="account" ng-options="id as id._id for id in ids"></select>
+                        <label>账号id：{{account.uid}}</label>
+                        <label>交易所代码：{{account.exchange}}</label>
                     </div>
                     <div class="form-group">
                         <label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">
@@ -276,35 +306,28 @@
 <div class="zijin-table-mask his-mask">
     <div class="mask-box container">
         <div class="row">
-            <div class=" col-sm-8 col-sm-offset-2">
+            <div class=" col-sm-8 col-sm-offset-2" style="overflow-y: scroll;" id="test2">
                 <form ng-submit="addHisStrategy()" name="newHisStrategy" novalidate="" enctype="multipart/form-data" id="newHisStrategy">
 
                     <div class="form-group">
-                        <label for="">回测名：</label>
-                        <input type="text" class="form-control" name="name" ng-model='hisItem.name' placeholder="请输入回测名" required>
+                        <label for="">回测名：</label>&nbsp;&nbsp;&nbsp;
+                        <input type="text" class="ipt" name="name" ng-model='hisItem.name' placeholder="请输入回测名" required>
                         <div class="error" ng-messages='newHisStrategy.name.$error' ng-if='newHisStrategy.name.$touched' ng-message-multiple>
                             <small ng-message='required'style="color:red">回测名不能为空</small>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="">交易所代码：</label>
-                        <select ng-model='firmItem.exchange' ng-options='x.exchange as x.exchange for x in ex' ng-change="getsymbol()"></select>
+                        <select class="sel" ng-model='hisItem.exchange' ng-options='x.exchange as x.exchange for x in ex' ng-change="getsymbol()"></select>
                     </div>
                     <div class="form-group">
                         <label for="">交易合约：</label>
-                        <select ng-model='firmItem.symbol' ng-options='y.symbol as y.symbol for y in sy' ng-change="gettime()"></select>
+                        <!--<select ng-model='firmItem.symbol' ng-options='y.symbol as y.symbol for y in sy' ng-change="gettime()"></select>-->
+                        <input class="ipt" type="text" class="form-control" name="symbol" placeholder="请输入交易合约" ng-model='hisItem.symbol'required>
+                        <div class="error" ng-messages='newHisStrategy.symbol.$error' ng-if='newHisStrategy.symbol.$touched' ng-message-multiple>
+                            <small ng-message='required'style="color:red">交易合约不能为空</small>
+                        </div>
                     </div>
-
-
-                    <!--<div class="form-group">-->
-                        <!--<input type="text" class="form-control" ng-model='firmItem.symbol' placeholder="交易合约" required>-->
-                    <!--</div>-->
-
-                    <!--<div class="form-group">-->
-                        <!--<input type="text" class="form-control" ng-model='firmItem.exchange' placeholder="策略交易所代码" required>-->
-                    <!--</div>-->
-
                    <div class='form-group'>
                         <div class="checkbox">
                             <label for="barLable">
@@ -326,11 +349,11 @@
                    </div>
                    <div class="form-group">
                         <label for="">开始时间：</label>
-                        <select ng-model='hisItem.start' ng-options='x for x in hisItem.time' ng-change="checktime1()"></select>
-                   </div>
-                   <div class="form-group">
+                        <select class="sel" ng-model='hisItem.start' ng-options='x for x in hisItem.time' ng-change="checktime1()"></select>&nbsp;&nbsp;
+                   <!--</div>-->
+                   <!--<div class="form-group">-->
                         <label for="">结束时间：</label>
-                        <select ng-model='hisItem.end' ng-options='x for x in hisItem.time'ng-change="checktime()"></select>
+                        <select class="sel" ng-model='hisItem.end' ng-options='x for x in hisItem.time'ng-change="checktime()"></select>
                    </div>
                     <div class="form-group">
                         <label>代码依赖文件：</label><input type="file" name="hisFile" file-model='files' placeholder="代码依赖文件">
