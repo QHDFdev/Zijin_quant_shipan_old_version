@@ -296,8 +296,11 @@
             });
       };
 
-
-//封装获取对应策略代码方法
+      /**
+       * 根据id获取策略
+       * @param class_id
+       * @returns {string|*}
+         */
       function getcelve(class_id){
         //console.log(accounts)
         for(var i=0;i<accounts.length;i++){
@@ -306,57 +309,32 @@
           }
         }
       }
-      //封装错误信息和对应的id
-      var error=[];//实盘错误信息
-      var error2=[];//历史回测错误信息
-//获取错误信息，状态为-2
-      $scope.geterror2=function() {
-        for (var i=0;i<error2.length;i++){
-          (function(i){
-            $http.get(constantUrl + "btstrategys/"+error2[i]._id+"/", {
+
+      /**
+       * 获取历史回测的错误信息
+       * @param id 根据id获取错误信息
+       * @param i 有错误信息的行数
+         */
+      $scope.geterror2=function(id,i) {
+            $http.get(constantUrl + "btstrategys/"+id+"/", {
                   headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
                 })
                 .success(function (data) {
-                  error2[i].error=data.error;
+                  $scope.myHisStrategy[i].title = "error: "+data.error;
                 })
-          })(i);
-        }
-        //console.log(error2);
-        for (var i = 0; i < $scope.myHisStrategy.length; i++) {
-          if ($scope.myHisStrategy[i].status == -1) {
-            //console.log($scope.myHisStrategy[i]._id)
-            for (var j = 0; j < error2.length; j++) {   //从错误数组里寻找(历史回测)
-              if ($scope.myHisStrategy[i]._id == error2[j]._id) {
-                $scope.myHisStrategy[i].title = error2[j];
-              }
-            }
-          }
-        }
-
       }
-      $scope.geterror=function(){
-        for (var i=0;i<error.length;i++){
-          (function(i){
-            $http.get(constantUrl + "strategys/"+error[i]._id+"/", {
-                  headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
-                })
-                .success(function (data) {
-                  error[i].error=data.error;
-                })
-          })(i);
-        }
-        //console.log(error);
-        for(var i=0;i<$scope.myStrategy.length;i++){
-          if($scope.myStrategy[i].status==-1){
-            //console.log($scope.myStrategy[i]._id)
-            for(var j=0;j<error.length;j++){   //从错误数组里寻找（实盘）
-              if($scope.myStrategy[i]._id==error[j]._id){
-                $scope.myStrategy[i].title=error[j];
-              }
-            }
-          }
-        }
-
+      /**
+       * 获取实盘的错误信息
+       * @param id
+       * @param i
+         */
+      $scope.geterror=function(id,i){
+        $http.get(constantUrl + "strategys/"+id+"/", {
+              headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+            })
+            .success(function (data) {
+                $scope.myStrategy[i].title ="error: "+data.error;
+            })
       }
 
       /* 创建实盘模拟 *///加载策略页面
@@ -373,16 +351,11 @@
                 $scope.myStrategy[i].class_name = "none";//策略代码初始化
                 var class_id = $scope.myStrategy[i].class_id;
                 var status = $scope.myStrategy[i].status;
-                //console.log(status);
                 if (status != -2) {
                   $scope.myStrategy[i].class_name = getcelve(class_id);
                 }
-                if (status == -2) {
-                  $scope.myStrategy[i].title = "deleted";
-                }
-                if (status == -1) {
-                  var a={_id:$scope.myStrategy[i]._id,error:''};
-                  error.push(a);
+                if (status != -2&&status == -1) {
+                  $scope.geterror($scope.myStrategy[i]._id,i);
                 }
                 if (status == 0) {
                   $scope.myStrategy[i].title = "loading";
@@ -401,7 +374,6 @@
                 }
                 $scope.myStrategy[i].flag = false;//所有选择框默认不选择
               }
-              $scope.geterror();
               angular.forEach(data, function (item, index) {
                 //console.log(item);
                 if(item.status==-2){
@@ -779,12 +751,8 @@
                 if (status != -2) {
                   $scope.myHisStrategy[i].class_name = getcelve(class_id);
                 }
-                if (status == -2) {
-                  $scope.myHisStrategy[i].title = "deleted";
-                }
-                if (status == -1) {
-                  var a={_id:$scope.myHisStrategy[i]._id,error:''};
-                  error.push(a);
+                if (status == -1&&status!=-2) {
+                  $scope.geterror2($scope.myHisStrategy[i]._id,i);
                 }
                 if (status == 0) {
                   $scope.myHisStrategy[i].title = "loading";
@@ -803,7 +771,6 @@
                 }
                 $scope.myHisStrategy[i].flag = false;//所有选择框默认不选择
               }
-              $scope.geterror2();
               angular.forEach(data, function (item, index) {
                 if(item.status==-2){
                   $scope.allStrategys.push(item);
