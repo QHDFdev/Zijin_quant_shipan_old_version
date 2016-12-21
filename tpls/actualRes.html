@@ -194,11 +194,10 @@
 										<th>平仓时间</th>
 										<th>委托号</th>
 										<th>平仓价</th>
-										<th>交易手数</th>
+										<!--<th>交易手数</th>-->
 										<th>手续费</th>
 										<th>无手续费盈亏</th>
 										<th>盈亏</th>
-										<!-- <th>总盈亏</th> -->
 									</tr>
 								</thead>
 								<tbody class="tbodyall">
@@ -210,13 +209,10 @@
 										<td>{{x.closetime}}</td>
 										<td>{{x.b}}</td>
 										<td>￥{{x.closeprice | number : 2}}</td>
-										<td>{{x.multiple}}</td>
+										<!--<td>{{x.multiple}}</td>-->
 										<td>￥{{x.test | number : 6}}</td>
 										<td>￥{{x.testpal | number : 6}}</td>
 										<td>￥{{x.pal | number : 6}}</td>
-										<!--<td>￥{{x.close	price*0.0035-x.openprice*0.0035 | number : 5}}</td>-->
-										<!--<td>￥{{x.direction=='看多'?x.closeprice*0.0035-x.openprice*0.0035:x.openprice*0.0035-x.closeprice*0.0035 | number :5}}</td>-->
-										<!-- <td>￥{{x.totalpal | number : 2}}</td> -->
 									</tr>
 								</tbody>
 								<tfoot>
@@ -602,11 +598,10 @@
           <th>平仓时间</th>
           <th>委托号</th>
           <th>平仓价</th>
-          <th>交易手数</th>
+          <!--<th>交易手数</th>-->
           <th>手续费</th>
           <th>无手续费盈亏</th>
           <th>盈亏</th>
-          <!-- <th>总盈亏</th> -->
         </tr>
         </thead>
         <tbody>
@@ -618,11 +613,10 @@
           <td>{{x.closetime}}</td>
           <td>{{x.b}}</td>
           <td>￥{{x.closeprice | number : 2}}</td>
-          <td>{{x.multiple}}</td>
+          <!--<td>{{x.multiple}}</td>-->
           <td>￥{{x.test | number : 6}}</td>
           <td>￥{{x.testpal | number : 6}}</td>
           <td>￥{{x.pal | number : 6}}</td>
-          <!-- <td>￥{{x.totalpal | number : 2}}</td> -->
         </tr>
         </tbody>
         <tfoot>

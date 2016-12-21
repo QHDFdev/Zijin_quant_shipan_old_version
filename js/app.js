@@ -320,7 +320,7 @@
                   headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
                 })
                 .success(function (data) {
-                  $scope.myHisStrategy[i].title = "error: "+data.error;
+                  $scope.myHisStrategy[i].title = "错误信息: "+data.error;
                 })
       }
       /**
@@ -333,7 +333,7 @@
               headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
             })
             .success(function (data) {
-                $scope.myStrategy[i].title ="error: "+data.error;
+                $scope.myStrategy[i].title ="错误信息: "+data.error;
             })
       }
 
@@ -358,19 +358,19 @@
                   $scope.geterror($scope.myStrategy[i]._id,i);
                 }
                 if (status == 0) {
-                  $scope.myStrategy[i].title = "loading";
+                  $scope.myStrategy[i].title = "加载中";
                 }
                 if (status == 1) {
-                  $scope.myStrategy[i].title = "loaded";
+                  $scope.myStrategy[i].title = "加载完成";
                 }
                 if (status == 2) {
-                  $scope.myStrategy[i].title = "start";
+                  $scope.myStrategy[i].title = "开始运行";
                 }
                 if (status == 3) {
-                  $scope.myStrategy[i].title = "stop";
+                  $scope.myStrategy[i].title = "停止运行";
                 }
                 if (status == 4) {
-                  $scope.myStrategy[i].title = "run over";
+                  $scope.myStrategy[i].title = "运行结束";
                 }
                 $scope.myStrategy[i].flag = false;//所有选择框默认不选择
               }
@@ -755,19 +755,19 @@
                   $scope.geterror2($scope.myHisStrategy[i]._id,i);
                 }
                 if (status == 0) {
-                  $scope.myHisStrategy[i].title = "loading";
+                  $scope.myHisStrategy[i].title = "加载中";
                 }
                 if (status == 1) {
-                  $scope.myHisStrategy[i].title = "loaded";
+                  $scope.myHisStrategy[i].title = "加载完成";
                 }
                 if (status == 2) {
-                  $scope.myHisStrategy[i].title = "start";
+                  $scope.myHisStrategy[i].title = "开始加载";
                 }
                 if (status == 3) {
-                  $scope.myHisStrategy[i].title = "stop";
+                  $scope.myHisStrategy[i].title = "停止运行";
                 }
                 if (status == 4) {
-                  $scope.myHisStrategy[i].title = "run over";
+                  $scope.myHisStrategy[i].title = "运行结束";
                 }
                 $scope.myHisStrategy[i].flag = false;//所有选择框默认不选择
               }
@@ -1892,8 +1892,19 @@
                * @returns {string}
                */
               Date.prototype.toLocaleString = function() {
-                return this.getFullYear() + "-" + (this.getMonth() + 1) + "-" + this.getDate() + " " + this.getHours() + ":" + this.getMinutes() + ":" + this.getSeconds();
-              };
+                var year,month,day,hour,min,sec;
+                year=this.getFullYear();
+                month=this.getMonth()+1;
+                if(month<10){month="0"+month;}
+                day=this.getDate();
+                if(day<10){day="0"+day;}
+                hour=this.getHours();
+                if(hour<10){hour="0"+hour;}
+                min=this.getMinutes();
+                if(min<10){min="0"+min;}
+                sec=this.getSeconds();
+                if(sec<10){sec="0"+sec;}
+                return year + "-" + month + "-" + day + " " + hour + ":" + min;              };
               /**
                * 毫秒时间戳转换普通时间
                * @param time
@@ -3562,7 +3573,19 @@
                * @returns {string}
                  */
               Date.prototype.toLocaleString = function() {
-                return this.getFullYear() + "-" + (this.getMonth() + 1) + "-" + this.getDate() + " " + this.getHours() + ":" + this.getMinutes() + ":" + this.getSeconds();
+                var year,month,day,hour,min,sec;
+                year=this.getFullYear();
+                month=this.getMonth()+1;
+                if(month<10){month="0"+month;}
+                day=this.getDate();
+                if(day<10){day="0"+day;}
+                hour=this.getHours();
+                if(hour<10){hour="0"+hour;}
+                min=this.getMinutes();
+                if(min<10){min="0"+min;}
+                sec=this.getSeconds();
+                if(sec<10){sec="0"+sec;}
+                return year + "-" + month + "-" + day + " " + hour + ":" + min;
               };
               /**
                * 毫秒时间戳转换普通时间
