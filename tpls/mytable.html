@@ -19,7 +19,6 @@
              <!--<button class="btn btn-danger sour-del" style="float:right;margin-top:20px;margin-right: 48px">删除策略 <i class="fa fa-remove"></i></button>-->
         </div>
         <div class="table-responsive" style="width: 100%;">
-            <div id="mytable3" style="width: 100%;">
             <table class="table table-bordered table-hover table-striped"  sourcing-table style="width: 100%;">
                 <thead class="bg-success">
                     <tr>
@@ -31,7 +30,6 @@
                     </tr>
                 </thead>
             </table>
-            </div>
             <div id="container3" style="width: 100%; overflow-y: scroll; height: 400px;">
                 <table style="width: 100%;">
                 <tbody>
@@ -54,7 +52,7 @@
                 </tbody>
             </table>
             </div>
-        </div>    
+        </div>
     </div>
      <div class="zijin-table-body container firm-strategy">
         <div class="zijin-table-title" style="margin-bottom: 5px">
@@ -96,7 +94,7 @@
                                <!--  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> -->
                                 <button  class="btn btn-success strategy-start" ng-click="startstrategy(this)">启动 <i class="fa fa-play"></i></button>
                                 <button class="btn btn-warning strategy-pause" ng-click="strategypause(this)">停止 <i class="fa fa-pause"></i></button>
-                                <button  class="btn btn-danger strategy-del" ng-click="delstrategy(this)">删除策略 <i class="fa fa-remove"></i></button>
+                                <button  class="btn btn-danger strategy-del" ng-click="delstrategy(this)">删除 <i class="fa fa-remove"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -147,7 +145,7 @@
                             <div class="btn-group btn-group-sm">
                                 <button  class="btn btn-success strategy-start" ng-click="strategystart(this)">启动 <i class="fa fa-play"></i></button>
                                 <button class="btn btn-warning strategy-pause" ng-click="pausestrategy(this)">停止 <i class="fa fa-pause"></i></button>
-                                <button  class="btn btn-danger strategy-del" ng-click="strategydel(this)">删除策略 <i class="fa fa-remove"></i></button>
+                                <button  class="btn btn-danger strategy-del" ng-click="strategydel(this)">删除 <i class="fa fa-remove"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -182,9 +180,9 @@
                         <thead class="bg-success">
                             <tr>
                                 <th class="col-xs-1" style="width: 3%">选择</th>
-                                <th class="col-xs-1">策略名字</th>
+                                <th class="col-xs-1">测试用例 </th>
                                 <th class="col-xs-1">类型</th>
-                                <th class="col-xs-1">策略操作</th>
+                                <th class="col-xs-1">操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -195,7 +193,7 @@
                                 <td ng-bind="d.type"></td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <button  class="btn btn-danger strategy-del" ng-click="delhuishou(this)">删除策略 <i class="fa fa-remove"></i></button>
+                                        <button  class="btn btn-danger strategy-del" ng-click="delhuishou(this)">删除<i class="fa fa-remove"></i></button>
                                     </div>
                                 </td>
                             </tr>
