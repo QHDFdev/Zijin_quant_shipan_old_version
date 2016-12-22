@@ -7,6 +7,11 @@
         </div> 
         <div class="zijin-table-bigmask"></div>
     </div>
+    <style>
+        .error{
+            color:red;
+        }
+    </style>
     <div class="zijin-table-body container sourcing-strategy;">
         <div class="zijin-table-title" style="margin-bottom: 5px">
             <span><i class="glyphicon glyphicon-pencil btn-sm" style="margin-bottom: 4px"></i>策略代码</span>
@@ -18,11 +23,11 @@
             <table class="table table-bordered table-hover table-striped"  sourcing-table style="width: 100%;">
                 <thead class="bg-success">
                     <tr>
-                        <!--<th class="col-xs-2">选择</th>-->
-                        <th class="col-xs-2" style="width: 17%">策略类名</th>
-                        <th class="col-xs-2" style="width: 14%">代码文件名</th>
-                        <th class="col-xs-1" style="width: 10%">作者</th>
-                        <th class="col-xs-3">策略操作</th>
+                        <th class="col-xs-3" >策略类名</th>
+                        <th class="col-xs-3" >代码文件名</th>
+                        <th class="col-xs-1" >作者</th>
+                        <th class="col-xs-1" >状态</th>
+                        <th class="col-xs-4">策略操作</th>
                     </tr>
                 </thead>
             </table>
@@ -32,12 +37,12 @@
                 <tbody>
                     <tr ng-repeat='d in mySourcingStrategy '>
                         <td class="hidden-id"  style="display: none" ng-bind='d._id'></td>
-                        <!--<td><input type="checkbox"></td>-->
                         <!--<td><a href="#/complie/{{d._id}}" ng-bind="d.class_name"></a></td>-->
-                        <td ng-bind="d.class_name"></td>
-                        <td ng-bind="d.code_name"></td>
-                        <td ng-bind="d.author"></td>
-                        <td>
+                        <td class="col-xs-3" ng-bind="d.class_name"></td>
+                        <td class="col-xs-3" ng-bind="d.code_name"></td>
+                        <td class="col-xs-1" ng-bind="d.author"></td>
+                        <td class="col-xs-1" ng-bind="d.status" title="{{d.title}}" class={{d.color}}></td>
+                        <td class="col-xs-4">
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-info firm-add" ng-click="addfirm(this)">创建实盘模拟策略 <i class="fa fa-plus"></i></button>
                                 <button class="btn btn-success his-add" ng-click="addhis(this)">创建历史回测策略 <i class="fa fa-plus"></i></button>
@@ -85,7 +90,7 @@
                         <td ng-bind="d.class_name" class="col-xs-3" ></td>
                         <td ng-bind="d.symbol" class="col-xs-1"></td>
                         <td ng-bind="d.author" class="col-xs-1"></td>
-                        <td ng-bind="d.status" title="{{d.title}}" class="col-xs-1"></td>
+                        <td ng-bind="d.status" title="{{d.title}}" class="col-xs-1" class={{d.color}}></td>
                         <td class="col-xs-3">
                             <div class="btn-group btn-group-sm">
                                <!--  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> -->
@@ -137,7 +142,7 @@
                         <td ng-bind="d.start" style="width: 10%"></td>
                         <td ng-bind="d.end" style="width: 10%"></td>
                         <td ng-bind="d.author" style="width: 5%"></td>
-                        <td ng-bind="d.status" title="{{d.title}}" style="width: 5%"></td>
+                        <td ng-bind="d.status" title="{{d.title}}" style="width: 5%" class={{d.color}}></td>
                         <td style="width: 15%">
                             <div class="btn-group btn-group-sm">
                                 <button  class="btn btn-success strategy-start" ng-click="strategystart(this)">启动 <i class="fa fa-play"></i></button>
@@ -151,6 +156,14 @@
             </div>
         </div>    
     </div>
+    <style>
+        .now{
+            color:#46b8da
+        }
+        .his{
+            color:#5cb85c
+        }
+    </style>
     <div class="zijin-table-body container rec-strategy">
         <div class="row">
             <div class="col-lg-6 col-md-8 col-sm-12">
@@ -170,14 +183,16 @@
                             <tr>
                                 <th class="col-xs-1" style="width: 3%">选择</th>
                                 <th class="col-xs-1">策略名字</th>
+                                <th class="col-xs-1">类型</th>
                                 <th class="col-xs-1">策略操作</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat='d in allStrategys '>
+                            <tr ng-repeat='d in allStrategys ' class={{d.color}}>
                                 <td><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection4(this)" ng-checked="all4"><a hidden>{{d.flag}}</a></td>
                                 <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
                                 <td ng-bind="d.name"></td>
+                                <td ng-bind="d.type"></td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
                                         <button  class="btn btn-danger strategy-del" ng-click="delhuishou(this)">删除策略 <i class="fa fa-remove"></i></button>
@@ -269,11 +284,11 @@
                     </div>
                     <div class="form-group">
                         <label for="">交易合约：</label>
-                        <!--<select ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>-->
-                        <input type="text" class="ipt" name="symbol" placeholder="请输入交易合约" ng-model='firmItem.symbol'required>
-                        <div class="error" ng-messages='newFirmStrategy.symbol.$error' ng-if='newFirmStrategy.symbol.$touched' ng-message-multiple>
-                            <small ng-message='required'style="color:red">交易合约不能为空</small>
-                        </div>
+                        <select class="sel" ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>
+                        <!--<input type="text" class="ipt" name="symbol" placeholder="请输入交易合约" ng-model='firmItem.symbol' required>-->
+                        <!--<div class="error" ng-messages='newFirmStrategy.symbol.$error' ng-if='newFirmStrategy.symbol.$touched' ng-message-multiple>-->
+                            <!--<small ng-message='required'style="color:red">交易合约不能为空</small>-->
+                        <!--</div>-->
                     </div>
                     <div class="form-group">
                         <label for="">交易手数：</label>
@@ -322,11 +337,11 @@
                     </div>
                     <div class="form-group">
                         <label for="">交易合约：</label>
-                        <!--<select ng-model='firmItem.symbol' ng-options='y.symbol as y.symbol for y in sy' ng-change="gettime()"></select>-->
-                        <input class="ipt" type="text" class="form-control" name="symbol" placeholder="请输入交易合约" ng-model='hisItem.symbol'required>
-                        <div class="error" ng-messages='newHisStrategy.symbol.$error' ng-if='newHisStrategy.symbol.$touched' ng-message-multiple>
-                            <small ng-message='required'style="color:red">交易合约不能为空</small>
-                        </div>
+                        <select class="sel" ng-model='hisItem.symbol' ng-options='y.symbol as y.symbol for y in sy' ng-change="changesymbol()"></select>
+                        <!--<input class="ipt" type="text" class="form-control" name="symbol" placeholder="请输入交易合约"  ng-change="changesymbol()" ng-model='hisItem.symbol'required>-->
+                        <!--<div class="error" ng-messages='newHisStrategy.symbol.$error' ng-if='newHisStrategy.symbol.$touched' ng-message-multiple>-->
+                            <!--<small ng-message='required'style="color:red">交易合约不能为空</small>-->
+                        <!--</div>-->
                     </div>
                    <div class='form-group'>
                         <div class="checkbox">
