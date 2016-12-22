@@ -1611,7 +1611,10 @@
 
 
           var defer2 = $q.defer();
-          //console.log($scope.myFirmStrategy.symbol);
+          var a = $filter('date')(new Date((new Date(stime)).setDate((new Date(stime)).getDate())), 'yyyy-MM-dd');
+          var b = $filter('date')(new Date((new Date(etime)).setDate((new Date(etime)).getDate()+1)), 'yyyy-MM-dd');
+          //console.log(a,b);
+          //console.log($scope.myFirmStartDate,mydate);
           $http.get(constantUrl + 'datas/', {
                 params: {
                   "type": 'bar',
@@ -1619,8 +1622,8 @@
                   //"exchange": "CTP",
                   "symbol": $scope.myFirmStrategy.symbol,
                   //"symbol": "IF",
-                  "start": $scope.myFirmStartDate,
-                  "end": mydate
+                  "start": a,
+                  "end": b
                 },
                 headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
               })
@@ -3290,16 +3293,19 @@
         //获取当前股价行情 时间根据交易时间的第一笔截至
         function getTransTime() {
           var defer2 = $q.defer();
-          //console.log($scope.myFirmStrategy);//22222
+          var a = $filter('date')(new Date((new Date(stime)).setDate((new Date(stime)).getDate())), 'yyyy-MM-dd');
+          var b = $filter('date')(new Date((new Date(etime)).setDate((new Date(etime)).getDate()+1)), 'yyyy-MM-dd');
+          //console.log(a,b);
+          //console.log($scope.myFirmDate,mydate);
           $http.get(constantUrl + 'datas/', {
                 params: {
                   //"type": 'tick',
                   "type": 'bar',
-                  "start": $scope.myFirmDate,
+                  "start": a,
                   "symbol":$scope.myFirmStrategy.symbol,
                   "exchange":$scope.myFirmStrategy.exchange,
                   "multiple":$scope.myFirmStrategy.multiple,
-                  "end": mydate
+                  "end": b
                 },
                 headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
               })
@@ -3307,8 +3313,6 @@
                 var data2=[];//保存截取后股价的区间
                 var j=0;
                 var flag=60000;
-                //console.log(data);
-               // console.log(stime,etime);
                 console.log("显示股价区间：");
                 console.log(new Date(stime).toLocaleString(),new Date(etime).toLocaleString())
                 for(var i=0;i<data.length;i++){
@@ -3318,7 +3322,6 @@
                   }
                 }
                 data=data2;
-                //console.log(data)
                 defer2.resolve(data);//返回需要显示的股价区间
               })
               .error(function (err, sta) {
