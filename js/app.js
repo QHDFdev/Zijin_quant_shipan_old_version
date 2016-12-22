@@ -272,10 +272,10 @@
                   $scope.mySourcingStrategy[i].title=data[i].error;
                 }
                 if(status==0){
-                  $scope.mySourcingStrategy[i].status="正在运行"
+                  $scope.mySourcingStrategy[i].status="加载中"
                 }
                 if(status==1){
-                  $scope.mySourcingStrategy[i].status="运行结束"
+                  $scope.mySourcingStrategy[i].status="加载完成"
                 }
               }
               $scope.getFirmStrategys();//显示实盘/回测列表
