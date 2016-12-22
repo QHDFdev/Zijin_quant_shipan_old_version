@@ -3315,29 +3315,32 @@
                   }
                   return false;
                 }
+
+                /**
+                 * 检查是否全部成交 返回没成交的位置
+                 * @param data
+                 * @returns {*}
+                   */
+                function checkstatus(data){
+                  for(var i=0;i<data.length;i++){
+                    if(data[i].status==0||data[i].status==-1){
+                      return i;
+                    }
+                  }
+                  return false;
+                }
                 setTimeout(function(){
-                  var a=0, b=0, c=0,d=0;
                   for(var i in data2){
-                    if(data2[i].trans_type=="short"){
-                      a++;
-                    }
-                    if(data2[i].trans_type=="cover"){
-                      b++;
-                    }
-                    if(data2[i].trans_type=="buy"){
-                      c++;
-                    }
-                    if(data2[i].trans_type=="sell"){
-                      d++;
-                    }
                     console.log(data2[i].status)
                   }
-                  //console.log("short cover buy sell")
-                  //console.log(a,b,c,d);
+                  //只保留成交的交易数据
+                  while (checkstatus(data2)){
+                    var del=checkstatus(data2);
+                    data2.splice(del,1);
+                  }
                   //如果是真实交易，检查是否有空委托号的交易、删除重新配对
                   if($scope.checktrue(myFirm._id)){
                     console.log("真实交易")
-                    //if(checkserialno(data2)){console.log("真实交易存在空委托号")}
                     while (checkserialno(data2)){
                       var del=checkserialno(data2);
                       data2.splice(del,1);
