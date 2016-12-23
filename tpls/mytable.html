@@ -30,7 +30,7 @@
                     </tr>
                 </thead>
             </table>
-            <div id="container3" style="width: 100%; overflow-y: scroll; height: 400px;">
+            <div id="container3" style="width: 100%; overflow-y: scroll; height: 300px;">
                 <table style="width: 100%;">
                 <tbody>
                     <tr ng-repeat='d in mySourcingStrategy '>
@@ -51,6 +51,51 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
+        </div>
+    </div>
+    <div class="zijin-table-body container firm-strategy" ng-if="trueRes">
+        <div class="zijin-table-title" style="margin-bottom: 5px">
+            <span style="color:#FF0000"><i class="glyphicon glyphicon-th btn-sm" style="margin-bottom: 4px"></i>真实交易</span>
+        </div>
+        <div class="table-responsive" style="width: 100%;">
+            <div id="mytable6" style="width: 100%;">
+                <table class="table table-bordered table-hover table-striped" strategy-table style="width: 100%;">
+                    <thead class="bg-success">
+                    <tr>
+                        <!--<th class="col-xs-2">选择</th>-->
+                        <th class="col-xs-3" >交易名</th>
+                        <th class="col-xs-3" >策略代码</th>
+                        <th class="col-xs-1" >合约代码</th>
+                        <th class="col-xs-1" >作者</th>
+                        <th class="col-xs-1" >状态</th>
+                        <th class="col-xs-3" >策略操作</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="container6" style="width: 100%; overflow-y: scroll; height: 200px;">
+                <table style="width: 100%;">
+                    <tbody>
+                    <tr ng-repeat='d in trueStrategy  | filter:func'>
+                        <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
+                        <!--<td><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection2(this)" ng-checked="all2"><a hidden>{{d.flag}}</a></td>-->
+                        <td ng-bind="d.name"class="col-xs-3" ></td>
+                        <td ng-bind="d.class_name" class="col-xs-3" ></td>
+                        <td ng-bind="d.symbol" class="col-xs-1"></td>
+                        <td ng-bind="d.author" class="col-xs-1"></td>
+                        <td ng-bind="d.status" title="{{d.title}}" class="col-xs-1" class={{d.color}}></td>
+                        <td class="col-xs-3">
+                            <div class="btn-group btn-group-sm">
+                                <!--  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> -->
+                                <button  class="btn btn-success strategy-start" ng-click="startstrategy(this)">启动 <i class="fa fa-play"></i></button>
+                                <button class="btn btn-warning strategy-pause" ng-click="strategypause(this)">停止 <i class="fa fa-pause"></i></button>
+                                <button  class="btn btn-danger strategy-del" ng-click="delstrategy(this)">删除 <i class="fa fa-remove"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -78,7 +123,7 @@
                 </thead>
             </table>
             </div>
-            <div id="container1" style="width: 100%; overflow-y: scroll; height: 400px;">
+            <div id="container1" style="width: 100%; overflow-y: scroll; height: 300px;">
                 <table style="width: 100%;">
                 <tbody>
                     <tr ng-repeat='d in myStrategy  | filter:func'>
@@ -128,7 +173,7 @@
                 </thead>
             </table>
             </div>
-            <div id="container" style="width: 100%; overflow-y: scroll; height: 400px;">
+            <div id="container" style="width: 100%; overflow-y: scroll; height: 300px;">
                 <table style="width: 100%;">
             <tbody>
                     <tr ng-repeat='d in myHisStrategy | filter:func'>
