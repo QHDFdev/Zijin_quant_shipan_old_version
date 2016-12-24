@@ -3292,7 +3292,6 @@
               .success(function (data) {
                 data2=data;
                 if(data[0].trans_type=="cover"||data[0].trans_type=="sell"){
-                  var length=data.length;
                   //console.log("数据不匹配,第一笔交易是平仓");
                   var mydate = $filter('date')(new Date((new Date($scope.myFirmDate)).setDate((new Date($scope.myFirmDate)).getDate() - 1)), 'yyyy-MM-dd');
                   $http.get(constantUrl + 'transactions/', {
