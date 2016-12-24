@@ -213,6 +213,12 @@
     }])
     .controller('studyController', ['$scope', 'strategyResources', 'strategyResource', '$http', '$timeout', '$cookieStore', 'constantUrl', '$location', '$rootScope', function ($scope, strategyResourcess, strategyResource, $http, $timeout, $cookieStore, constantUrl, $location, $rootScope) {
       $rootScope.user = $cookieStore.get('user');
+      if($rootScope.user.is_admin){
+        //$scope.trueRes=true;
+      }
+      else{
+        $scope.trueRes=false;
+      }
       $scope.hisActtoryRes = function (x) {
         if ($rootScope.user && $rootScope.user.is_zijin) {
           $location.path(x);
@@ -360,7 +366,7 @@
       //91aa354c022f7d7ba1fe541669b2b2db6bc3010f
       //真实交易列表渲染到页面
       $scope.gettrueStrategys = function () {
-        if($cookieStore.get('user').token=="91aa354c022f7d7ba1fe541669b2b2db6bc3010f"){
+        if($cookieStore.get('user').is_admin){
           $scope.trueRes=true;
         }
         else{
@@ -1622,28 +1628,27 @@
                       })
                 }
                 /**
-                 * 检查当前数据交易是否全都配对,返回需要清除的数据位置
+                 * 检查当前数据交易是否全都配对,清除未配对
                  * @param data
                  */
                 function checkdata(data){
                   for (var i=0;i<data.length/2;i++){
-                    if(2*i+1>=data.length){break;}
+                    if(2*i+1>=data.length){data.splice(2*i,1);break;}//最后一笔单独的去除
                     if(data[2*i].trans_type!="buy"&&data[2*i].trans_type!="short"){
-                      return 2*i;
+                      data.splice(2*i,1);
+                      i=-1;
+                      continue;
                     }
                     if(data[2*i+1].trans_type!="sell"&&data[2*i+1].trans_type!="cover"){
-                      return 2*i;
+                      data.splice(2*i,1);
+                      i=-1;
+                      continue;
                     }
                   }
-                  return false;
                 }
                 setTimeout(function(){
-                  //检查所有数据是否配对 不配对的删了
-                  while (checkdata(data2)!=false){
-                    var del=checkdata(data2);
-                    console.log("第",del/2,"笔交易配对错误,清除此交易")
-                    data.splice(del,1)
-                  }
+                  //使所有交易配对
+                  checkdata(data2);
                   //保存所有数据 包括异常数据
                   for(var i in data2){
                     alldata[i]=data2[i];
@@ -3310,83 +3315,74 @@
                       })
                 }
                 /**
-                 * 检查当前数据交易是否全都配对,返回需要清除的数据位置
+                 * 检查真实交易是否存在空委托号,去除空委托号
                  * @param data
-                   */
-                function checkdata(data){
-                  for (var i=0;i<data.length/2;i++){
-                    if(2*i+1>=data.length){break;}
-                   if(data[2*i].trans_type!="buy"&&data[2*i].trans_type!="short"){
-                     return 2*i;
-                   }
-                    if(data[2*i+1].trans_type!="sell"&&data[2*i+1].trans_type!="cover"){
-                      return 2*i;
+                 * @returns {*}
+                 */
+                function checkserialno(data){
+                  for(var i=0;i<data.length;i++){
+                    if(data[i].serialno==''){
+                      data.splice(i,1);
+                      i=-1;
                     }
                   }
-                  return false;
                 }
-
                 /**
                  * 检查当前策略是否是真实交易
                  * @param id
                    */
-                $scope.checktrue=function(id){
+                function checktrue(id){
                   for(var i=0;i<allStrategy.length;i++){
                     if(allStrategy[i]._id==id){
-                      //console.log("accout_id:",allStrategy[i].account_id)
-                      if(allStrategy[i].account_id==null){
+                      if(allStrategy[i].account_id!=null){
                         console.log("真实交易")
-                        return false;
+                        return true;
                       }
                       else {
                         console.log("模拟交易")
-                        return true;
+                        return false;
                       }
                     }
                   }
                 }
                 /**
-                 * 检查真实交易是否存在空委托号,返回空的位置
+                 * 检查当前数据交易是否全都配对,清除未配对
                  * @param data
-                 * @returns {*}
-                   */
-                function checkserialno(data){
-                  for(var i=0;i<data.length;i++){
-                    if(data[i].serialno==''){
-                      return i;
+                 */
+                function checkdata(data){
+                  for (var i=0;i<data.length/2;i++){
+                    if(2*i+1>=data.length){data.splice(2*i,1);break;}//最后一笔单独的去除
+                    if(data[2*i].trans_type!="buy"&&data[2*i].trans_type!="short"){
+                      data.splice(2*i,1);
+                      i=-1;
+                      continue;
+                    }
+                    if(data[2*i+1].trans_type!="sell"&&data[2*i+1].trans_type!="cover"){
+                      data.splice(2*i,1);
+                      i=-1;
+                      continue;
                     }
                   }
-                  return false;
                 }
-
                 /**
-                 * 检查是否全部成交 返回没成交的位置
+                 * 检查是否全部成交，去除为成交的
                  * @param data
                  * @returns {*}
                    */
-                function checkstatus(data){
-                  for(var i=0;i<data.length;i++){
-                    if(data[i].status==0||data[i].status==-1){
-                      return i;
+                function checkstatus(data2){
+                  for(i=0;i<data2.length;i++){
+                    if(data2[i].status==0||data2[i].status==-1){
+                      data2.splice(i,1);
+                      i=-1;
                     }
                   }
-                  return false;
                 }
                 setTimeout(function(){
-                  for(var i in data2){
-                    console.log(data2[i].status)
+                  if(checktrue(myFirm._id)){
+                    checkstatus(data2);//只保留成交的交易数据
                   }
-                  //只保留成交的交易数据
-                  while (checkstatus(data2)){
-                    var del=checkstatus(data2);
-                    data2.splice(del,1);
-                  }
-                  //检查所有数据是否配对
-                  while (checkdata(data2)!=false){
-                    var del=checkdata(data2);
-                    data.splice(del,1)
-                  }
-
+                  //使所有交易配对
+                  checkdata(data2); 
                   //保存所有数据 包括异常数据用于表格显示
                   for(var i in data2){//操作data2,data不影响alldta
                     alldata[i]=data2[i];
@@ -3399,7 +3395,7 @@
                     }
                   });
                   for(var i=0;i<del.length;i++){
-                    var flag=data[del[i]].trans_type;//保存异常数据是开仓价还是平仓价
+                    var flag=data[del[i]].trans_type;//判断异常数据是开仓价还是平仓价
                     data.splice(del[i],1);//删除异常数据
                     if(flag=="cover"||flag=="sell"){//如果是平仓，删除对应的开仓价
                       //console.log("异常平仓价")
@@ -3416,14 +3412,16 @@
                     }
                     //console.log("去除此交易数据");
                   }
-
                   if(data.length<2){
-                    Showbo.Msg.alert("今天没有正常交易")
+                    Showbo.Msg.alert("今天没有成交")
                     defer1.resolve(data);
+                    var mydate = $filter('date')(new Date((new Date($scope.myFirmDate)).setDate((new Date($scope.myFirmDate)).getDate() + 1)), 'yyyy-MM-dd');
+                    stime=$scope.myFirmDate;
+                    etime=mydate;         //股价的区间
+                  }else {
+                    stime=data[0].datetime;
+                    etime=data[data.length-1].datetime;
                   }
-                  //股价的区间
-                  stime=data[0].datetime;
-                  etime=data[data.length-1].datetime;
                   defer1.resolve(data);//defer1.resolve(value)  成功解决(resolve)了其派生的promise。参数value将来会被用作promise.then(successCallback(value){...}, errorCallback(reason){...}, notifyCallback(notify){...})中successCallback函数的参数。
                 },500)
               })
@@ -3437,8 +3435,6 @@
           var defer2 = $q.defer();
           var a = $filter('date')(new Date((new Date(stime)).setDate((new Date(stime)).getDate())), 'yyyy-MM-dd');
           var b = $filter('date')(new Date((new Date(etime)).setDate((new Date(etime)).getDate()+1)), 'yyyy-MM-dd');
-          //console.log(a,b);
-          //console.log($scope.myFirmDate,mydate);
           $http.get(constantUrl + 'datas/', {
                 params: {
                   //"type": 'tick',
@@ -3454,10 +3450,10 @@
               .success(function (data) {
                 var data2=[];//保存截取后股价的区间
                 var j=0;
-                var flag=3000000;
-                for(var i=0;i<data.length;i++){
+                var flag=300000;
+                for(var i=0;i<data.length;i++){//api是按天去股价，现在根据时间截取
                   var nowtime=data[i].datetime;
-                    if(nowtime>(stime-flag)&&nowtime<(etime+flag)&&data[i].open!=0){
+                    if(nowtime>stime-flag&&nowtime<etime+flag&&data[i].open!=0){
                     data2[j++]=data[i];
                   }
                 }

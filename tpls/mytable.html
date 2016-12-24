@@ -42,7 +42,7 @@
                         <td class="col-xs-1" ng-bind="d.status" title="{{d.title}}" class={{d.color}}></td>
                         <td class="col-xs-4">
                             <div class="btn-group btn-group-sm">
-                                <button class="btn btn-info firm-add" ng-click="addfirm(this)">创建实盘模拟 <i class="fa fa-plus"></i></button>
+                                <button class="btn btn-info firm-add" ng-click="addfirm(this)">创建日内实盘<i class="fa fa-plus"></i></button>
                                 <button class="btn btn-success his-add" ng-click="addhis(this)">创建历史回测 <i class="fa fa-plus"></i></button>
                                 <button class="btn btn-danger sour-del" ng-click="delsour(this)">删除策略 <i class="fa fa-remove"></i></button>
                             </div>
@@ -341,7 +341,7 @@
                         </div>
 
                     </div>
-                    <div>
+                    <div ng-if="trueRes">
                         <select class="sel" name="" id="" ng-model="account" ng-options="id as id._id for id in ids"></select>
                         <label>账号id：{{account.uid}}</label>
                         <label>交易所代码：{{account.exchange}}</label>
