@@ -3410,7 +3410,6 @@
                     for(k=i+1;k<del.length;k++){//删掉一对 下标移2个
                       del[k]-=2;
                     }
-                    //console.log("去除此交易数据");
                   }
                   if(data.length<2){
                     Showbo.Msg.alert("今天没有成交")
