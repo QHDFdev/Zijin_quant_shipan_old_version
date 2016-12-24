@@ -3364,7 +3364,7 @@
                   }
                 }
                 /**
-                 * 检查是否全部成交，去除为成交的
+                 * 检查是否全部成交，去除未成交的
                  * @param data
                  * @returns {*}
                    */
@@ -6404,10 +6404,42 @@
                   Showbo.Msg.alert('启动失败，请检查当前状态')
                 });
           }
+          scope.starttrue=function(a){
+            //var url = $(this).closest('tr').children().eq(0).text();
+            i= a.$index;//点击的第几个
+            var url = scope.trueStrategy[i]._id;
+            $http.patch(constantUrl + "strategys/" + url + '/', {status: 2}, {
+                  headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                })
+                .success(function () {
+                  /*$route.reload();*/
+                  scope.getFirmStrategys();
+
+                })
+                .error(function (err, sta) {
+                  Showbo.Msg.alert('启动失败，请检查当前状态')
+                });
+          }
           scope.strategypause=function(a){
             //var url = $(this).closest('tr').children().eq(0).text();
             i= a.$index;//点击的第几个
             var url = scope.myStrategy[i]._id;
+            $http.patch(constantUrl + "strategys/" + url + '/', {status: 3}, {
+                  headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                })
+                .success(function () {
+                  /*$route.reload();*/
+                  scope.getFirmStrategys();
+
+                })
+                .error(function (err, sta) {
+                  Showbo.Msg.alert('暂停失败，请检查当前状态')
+                });
+          }
+          scope.truepause=function(a){
+            //var url = $(this).closest('tr').children().eq(0).text();
+            i= a.$index;//点击的第几个
+            var url = scope.trueStrategy[i]._id;
             $http.patch(constantUrl + "strategys/" + url + '/', {status: 3}, {
                   headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
                 })
@@ -6578,6 +6610,31 @@
             });
           }
 
+          //删除真实交易
+          scope.deltrue=function(a){
+            i= a.$index;//点击的第几个
+            var url = scope.trueStrategy[i]._id;
+            Showbo.Msg.confirm('您确定删除'+scope.trueStrategy[i].name+"吗？",function(flag){
+              if(flag=='yes'){
+                $http.delete(constantUrl + "strategys/" + url + '/', {
+                      headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                    })
+                    .success(function () {
+                      /*$route.reload();*/
+                      scope.trueStrategy = [];
+                      scope.getFirmStrategys();//刷新实盘/回测列表/回收站
+                      scope.getHisStrategys();
+                      /*Showbo.Msg.alert('删除成功。')*/
+                    })
+                    .error(function (err, sta) {
+                      Showbo.Msg.alert('删除失败，请稍后再试。')
+                    });
+
+              }else if(flag=='no'){
+              }
+            });
+
+          }
 //删除实盘
           scope.delstrategy=function(a){
             i= a.$index;//点击的第几个
