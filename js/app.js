@@ -427,6 +427,23 @@
               //console.log(sta);
             });
       };
+
+
+      $scope.beginlog=function(){
+        $("#log").html("");
+        $("#logname").html("");
+        $('#logs').show();
+        $('.loadEffect').show();
+      }
+
+      $scope.put = function (name,log) {
+        $("#logname").append(name+","+log.length+"条记录<br>")
+        //return;
+        for(var i in log){
+        $("#log").append(i+": "+log[i]+"<br>")
+        }
+        $('.loadEffect').hide();
+      }
       /* 创建实盘模拟 *///加载策略页面
       //实盘列表渲染到页面
       $scope.getFirmStrategys = function () {
@@ -707,7 +724,7 @@
           $scope.modeBarOptions = false;
           return;
         }
-        console.log($scope.hisItem)
+        //console.log($scope.hisItem)
         if($scope.hisItem.symbol==""){
           Showbo.Msg.alert('请选择交易合约');
           $scope.modeTickOptions = false;
@@ -3221,6 +3238,30 @@
         };
       };
 
+      $scope.clickfalse=function(){
+        $scope.myFirmDateList=[];
+        $scope.type="实盘模拟"
+        $scope.checktrue='false';
+        $scope.myFirmStrategyList=falsedata;
+      }
+      $scope.clicktrue=function(){
+        $scope.myFirmDateList=[];
+        $scope.type="真实交易"
+        $scope.checktrue='true';
+        $scope.myFirmStrategyList=truedata;
+      }
+
+      if($cookieStore.get('user').is_admin){
+        $scope.isadmin=true;
+      }
+      else{
+        $scope.isadmin=false;
+        return;
+      }
+      $scope.type="实盘模拟"
+      $scope.checktrue='false';
+      var truedata=[];
+      var falsedata=[];
       var allStrategy=[];
       $scope.myFirmStrategyList = [];
       //一进页面获取全部实盘数据(除了删除的数据)
@@ -3230,7 +3271,14 @@
             })
             .success(function (data) {
               allStrategy=data;
-              angular.forEach(data, function (x, y) {
+              for(var i=0;i<data.length;i++){
+                if(data[i].account_id==null){
+                  falsedata.push(data[i]);
+                }else {
+                  truedata.push(data[i])
+                }
+              }
+              angular.forEach(falsedata, function (x, y) {
                 this.push({
                   "name": x["name"],
                   '_id': x["_id"],
@@ -3243,6 +3291,8 @@
             });
       };
       getSelect();
+
+
 
       $scope.selecteStrategy = function () {
         $http.get(constantUrl + 'dates/', {
@@ -3266,6 +3316,17 @@
 
 
       $scope.makeChart1 = function () {
+        if($scope.myFirmStrategy==undefined||$scope.myFirmStrategy==''){
+          Showbo.Msg.alert("请选择策略");
+          return;
+        }
+        if($scope.myFirmDate==undefined||$scope.myFirmDate==''){
+          Showbo.Msg.alert("请选择时间");
+          return;
+        }
+        //$("#actualRes-modal2").css('display','none');
+        //$("#actualRes-modal2").hide();
+
         var myFirm=[];
         var alldata=[];
         var data2=[];
@@ -6386,8 +6447,41 @@
     }])
     .directive('strategyTable', ['$route', '$location', '$http', 'constantUrl', '$cookieStore', function ($route, $location, $http, constantUrl, $cookieStore) {
       return {
-        link: function (scope, ele, attrs) {
+        controller: function($scope, $element,$http){
+          $scope.log1=function(a){
+            $scope.beginlog();
+            i= a.$index;//点击的第几个
+            var url = $scope.trueStrategy[i]._id;
+            $http.get(constantUrl + "strategys/" + url + '/',{
+                  headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                })
+                .success(function (data) {
+                  $scope.put($scope.trueStrategy[i].name,data.logs)
+                })
+                .error(function (err, sta) {
 
+                });
+          }
+          $scope.log2=function(a){
+            $scope.beginlog();
+            i= a.$index;//点击的第几个
+            var url = $scope.myStrategy[i]._id;
+            $http.get(constantUrl + "strategys/" + url + '/',{
+                  headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                })
+                .success(function (data) {
+                  $scope.put($scope.myStrategy[i].name,data.logs)
+                })
+                .error(function (err, sta) {
+
+                });
+          }
+          $scope.colselog=function(){
+            $('#logs').hide();
+          }
+
+        },
+        link: function (scope, ele, attrs) {
           scope.startstrategy=function(a){
             //var url = $(this).closest('tr').children().eq(0).text();
             i= a.$index;//点击的第几个
@@ -6404,6 +6498,7 @@
                   Showbo.Msg.alert('启动失败，请检查当前状态')
                 });
           }
+
           scope.starttrue=function(a){
             //var url = $(this).closest('tr').children().eq(0).text();
             i= a.$index;//点击的第几个
@@ -6695,7 +6790,23 @@
                   Showbo.Msg.alert('暂停失败，请检查当前状态')
                 });
           }
+          scope.log3=function(a){
+            scope.beginlog();
+            i= a.$index;//点击的第几个
+            var url = scope.myHisStrategy[i]._id;
+            $http.get(constantUrl + "btstrategys/" + url + '/',{
+                  headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                })
+                .success(function (data) {
+                  scope.put(scope.myHisStrategy[i].name,data.logs)
+                })
+                .error(function (err, sta) {
 
+                });
+          }
+          scope.colselog=function(){
+            $('#logs').hide();
+          }
 //删除历史回测
           scope.strategydel=function(a){
             //var url = $(this).closest('tr').children().eq(0).text();

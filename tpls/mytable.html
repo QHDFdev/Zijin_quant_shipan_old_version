@@ -54,6 +54,36 @@
             </div>
         </div>
     </div>
+    <style>
+        .logs{
+            display: none;
+            height:400px;
+            width:500px;
+            padding: 10px;
+            border-radius:10px;
+            position: fixed;
+            top:40%;
+            left:40%;
+            z-index: 99999;
+            border: 1px solid #aaa;
+            background-color: #fff;
+        }
+    </style>
+    <div id="logs" class="logs">
+        <a style="float: right"  ng-click="colselog()"><i class="fa fa-remove"></i></a>
+        <div id="logname" style="text-align: center"></div>
+        <div class="loadEffect">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div id="log" style="height:385px;overflow:scroll"></div>
+    </div>
     <div class="zijin-table-body container firm-strategy" ng-if="trueRes">
         <div class="zijin-table-title" style="margin-bottom: 5px">
             <span style="color:#FF0000"><i class="glyphicon glyphicon-th btn-sm" style="margin-bottom: 4px"></i>真实交易</span>
@@ -91,6 +121,7 @@
                                 <button  class="btn btn-success strategy-start" ng-click="starttrue(this)">启动 <i class="fa fa-play"></i></button>
                                 <button class="btn btn-warning strategy-pause" ng-click="truepause(this)">停止 <i class="fa fa-pause"></i></button>
                                 <button  class="btn btn-danger strategy-del" ng-click="deltrue(this)">删除 <i class="fa fa-remove"></i></button>
+                                <button class="btn btn-info" ng-click="log1(this)">日志 </button>
                             </div>
                         </td>
                     </tr>
@@ -140,6 +171,7 @@
                                 <button  class="btn btn-success strategy-start" ng-click="startstrategy(this)">启动 <i class="fa fa-play"></i></button>
                                 <button class="btn btn-warning strategy-pause" ng-click="strategypause(this)">停止 <i class="fa fa-pause"></i></button>
                                 <button  class="btn btn-danger strategy-del" ng-click="delstrategy(this)">删除 <i class="fa fa-remove"></i></button>
+                                <button class="btn btn-info" ng-click="log2(this)">日志 </button>
                             </div>
                         </td>
                     </tr>
@@ -168,7 +200,7 @@
                         <th style="width: 10%" >结束时间</th>
                         <th style="width: 5%" >作者</th>
                         <th style="width: 5%" >状态</th>
-                        <th style="width: 15%" >策略操作</th>
+                        <th style="width: 20%" >策略操作</th>
                     </tr>
                 </thead>
             </table>
@@ -186,11 +218,12 @@
                         <td ng-bind="d.end" style="width: 10%"></td>
                         <td ng-bind="d.author" style="width: 5%"></td>
                         <td ng-bind="d.status" title="{{d.title}}" style="width: 5%" class={{d.color}}></td>
-                        <td style="width: 15%">
+                        <td style="width: 20%">
                             <div class="btn-group btn-group-sm">
                                 <button  class="btn btn-success strategy-start" ng-click="strategystart(this)">启动 <i class="fa fa-play"></i></button>
                                 <button class="btn btn-warning strategy-pause" ng-click="pausestrategy(this)">停止 <i class="fa fa-pause"></i></button>
                                 <button  class="btn btn-danger strategy-del" ng-click="strategydel(this)">删除 <i class="fa fa-remove"></i></button>
+                                <button class="btn btn-info" ng-click="log3(this)">日志 </button>
                             </div>
                         </td>
                     </tr>
@@ -260,7 +293,6 @@
                     <div class="form-group" style="position: relative">
                        <span> <a href="Demo.py" target="_blank">首次编写策略请点击下载模版代码</a>&nbsp;&nbsp;&nbsp;
                            <a href="instructions.txt" download="instructions.txt" target="_blank"  id="downtxt">策略编写QuickStart</a>
-
                        </span>
                         <div id="title" style="display: none;height:400px;width:500px;padding: 10px;border-radius:10px;position: absolute;left: 50%;top: -55%;border: 1px solid #aaa;background-color: #fff;">
                             <pre style="height:380px;overflow:scroll">{{titleQuick}}</pre>
@@ -350,7 +382,7 @@
                         <label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">
                     </div>
                     <div class="btn-group btn-group-lg">
-                        <input style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" class="btn-success btn" type="submit" value="提交" ng-disabled='newFirmStrategy.$invalid'>
+                            <input style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" class="btn-success btn" type="submit" value="提交" ng-disabled='newFirmStrategy.$invalid'>
                         <input style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px" class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
                     </div> 
                 </form>
