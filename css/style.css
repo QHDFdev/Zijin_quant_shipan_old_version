@@ -1944,6 +1944,11 @@ scrollbar-dark-shadow-color: #C0C0C0;
 	background-size: 100% 100%;
 	color: #fff;
 }
+.zijin-study-footer .zijin-study-middlebtn {
+	background: transparent url(../images/adfadf.png) center center no-repeat;
+	background-size: 100% 100%;
+	color: #fff
+}
 @keyframes myrotate{
    0% {
     transform:rotate(0deg);

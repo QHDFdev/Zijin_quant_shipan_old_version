@@ -214,7 +214,7 @@
     .controller('studyController', ['$scope', 'strategyResources', 'strategyResource', '$http', '$timeout', '$cookieStore', 'constantUrl', '$location', '$rootScope', function ($scope, strategyResourcess, strategyResource, $http, $timeout, $cookieStore, constantUrl, $location, $rootScope) {
       $rootScope.user = $cookieStore.get('user');
       if($rootScope.user.is_admin){
-        //$scope.trueRes=true;
+        $scope.trueRes=true;
       }
       else{
         $scope.trueRes=false;
@@ -3238,6 +3238,7 @@
         };
       };
 
+
       $scope.clickfalse=function(){
         $scope.myFirmDateList=[];
         $scope.type="实盘模拟"
@@ -3252,7 +3253,7 @@
       }
 
       if($cookieStore.get('user').is_admin){
-        $scope.isadmin=true;
+        //$scope.isadmin=true;
       }
       else{
         $scope.isadmin=false;
@@ -3278,16 +3279,11 @@
                   truedata.push(data[i])
                 }
               }
-              angular.forEach(falsedata, function (x, y) {
-                this.push({
-                  "name": x["name"],
-                  '_id': x["_id"],
-                  'status': x["status"],
-                  'symbol': x["symbol"],
-                  'exchange':x["exchange"],
-                  'multiple': x["multiple"],
-                });
-              }, $scope.myFirmStrategyList)
+              if(window.location.hash=="#/trueRes"){
+                $scope.myFirmStrategyList=truedata;
+              }else {
+                $scope.myFirmStrategyList=falsedata;
+              }
             });
       };
       getSelect();

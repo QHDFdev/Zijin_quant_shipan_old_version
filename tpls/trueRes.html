@@ -1,4 +1,4 @@
-<div class="analyse actualRes" >
+<div class="analyse actualRes" ng-controller='actualResController'>
     <div class="container-fluid noprint">
         <div class="row analyse-title-head">
             <div class="col-sm-2 hidden-xs"></div>
@@ -8,7 +8,7 @@
                         交易时间：<span style="display: none">{{analyse_title.time}}</span>
                     </div>
                     <div class="second">
-                        实盘名：<span style="display: none">{{analyse_title.name}}</span>
+                        策略名：<span style="display: none">{{analyse_title.name}}</span>
                     </div>
                     <div class="third">
                         交易合约：<span style="display: none">{{analyse_title.symbol}}</span>
@@ -23,8 +23,8 @@
             <div class="col-sm-2 col-xs-5  analyse-left">
                 <i class='mobile-action visible-xs fa fa-lg fa-arrow-circle-right' mobile-action></i>
                 <div class="analyse-menu-list">
-                    <p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal1'>输入实盘交易数据</button></p>
-                    <p class="analyse-menu-head"><button class="btn btn-info" data-toggle='modal' data-target='#actualRes-modal2'>获取实盘交易数据</button></p>
+                    <p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal1'>输入真实交易数据</button></p>
+                    <p class="analyse-menu-head"><button class="btn btn-info" data-toggle='modal' data-target='#actualRes-modal2'>获取真实交易数据</button></p>
                     <p class="analyse-menu-head"><button class="btn btn-danger" jspdf-action>保存研究报告</button></p>
                     <div class="modal fade" id="actualRes-modal1">
                         <div class="modal-dialog">
@@ -36,7 +36,7 @@
                                             <textarea placeholder="请在此处粘贴行情数据……" ng-model='analyseJsonData'></textarea>
                                         </div>
                                         <div class="btn-group btn-group-lg">
-                                            <!--点击以后调用makeChart()函数，输入实盘交易数据，点我生成图表-->
+                                            <!--点击以后调用makeChart()函数，输入真实交易数据，点我生成图表-->
                                             <input type="button" value="生成图表" class="btn btn-success" data-dismiss="modal" ng-click='makeChart()' style="margin-right:15px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
                                             <input type="button" value="关闭" class="btn btn-warnning" data-dismiss="modal" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
                                         </div>
@@ -45,29 +45,39 @@
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                     </div><!-- /.modal -->
+                    <style>
+                    </style>
                     <div class="modal fade" id="actualRes-modal2">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-box">
-                                    <form>
+                                    <form name="myForm">
                                         <div class="form-group">
                                             策略：
-                                            <select ng-model='myFirmStrategy' ng-options="x.name for x in myFirmStrategyList | orderBy: 'name' " ng-change='selecteStrategy()'></select>
-
+                                            <select style="width: 40%;" ng-model='myFirmStrategy' ng-options="x.name for x in myFirmStrategyList | orderBy: 'name' " ng-change='selecteStrategy()' required>
+                                            </select>
+                                            <label class="radio-inline" ng-if="isadmin">
+                                                &nbsp;<input ng-model="checktrue" type="radio"   value="false" checked ng-click="clickfalse()">
+                                                实盘模拟
+                                            </label>
+                                            <label class="radio-inline" ng-if="isadmin">
+                                                &nbsp;<input ng-model="checktrue" type="radio"   value="true" ng-click="clicktrue()">
+                                                真实交易
+                                            </label>
                                             <br>
                                             <br>
                                             时间：
-                                            <select ng-model='myFirmDate' ng-options="x for x in myFirmDateList"></select>
+                                            <select ng-model='myFirmDate' ng-options="x for x in myFirmDateList" required required="required"></select>
                                             <br>
                                             <br>
                                             <!--结束时间：-->
                                             <select ng-model='myFirmDate_end' ng-options="x for x in myFirmDateList" hidden></select>
-                                            <br>
-                                            <br>
+                                            <!--<br>-->
+                                            <!--<br>-->
                                         </div>
 
                                         <div class="btn-group btn-group-lg">
-                                            <input type="button" value="生成图表" class="btn btn-success" data-dismiss="modal" ng-click='makeChart1()' style="margin-right:15px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
+                                            <input  type="button" value="生成图表" class="btn btn-success" data-dismiss="modal"  ng-click='makeChart1()' style="margin-right:15px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
                                             <input type="button" value="关闭" class="btn btn-warnning" data-dismiss="modal" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
                                         </div>
                                     </form>
@@ -76,10 +86,10 @@
                         </div>
                     </div>
                     <dl class="analyse-menu-item">
-                        <dt slide-toggle><i class="fa fa-line-chart"></i>实盘交易走势图</dt>
+                        <dt slide-toggle><i class="fa fa-line-chart"></i>真实交易走势图</dt>
                         <dd>
                             <a data-target="#return_mapping_1" aria-controls="return_mapping_1" role="tab" data-toggle="tab">
-                                实盘交易走势图
+                                真实交易走势图
                             </a>
 
                         </dd>
@@ -156,13 +166,13 @@
             <div class="col-sm-10 col-xs-12 analyse-right" style="margin-top: 20px">
                 <div class="tab-content" id="tab-content-1">
                     <div role="tabpanel" class="tab-pane active" id="return_mapping_1">
-                        <h2 class="analyse-charts-title mb0"><实盘模拟></实盘模拟></h2>
+                        <h2 class="analyse-charts-title mb0">真实交易</h2>
 
                         <div id="return_map_big_1" style="height:600px;width: 96%;margin: 0 auto;background:#fff;">
                         </div>
                     </div>
                     <div role="tabpanel" id="return_mapping_2"  class="tab-pane">
-                        <h2 class="analyse-charts-title mb0"><收益曲线></收益曲线></h2>
+                        <h2 class="analyse-charts-title mb0">收益曲线</h2>
                         <div id="return_map_big_2" style="height:600px;width: 96%;margin: 0 auto;background:#fff;" >
                         </div>
                     </div>
@@ -561,8 +571,8 @@
         <div class="container">
             <div class="analyse-select-box text-center">
                 <!--点击后调用closeModal()函数，功能：.analyse-modal-big隐藏-->
-                <p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal1' ng-click='closeModal()'>输入实盘交易数据</button></p>
-                <p class="analyse-menu-head"><button class="btn btn-primary" data-toggle='modal' data-target='#actualRes-modal2' ng-click='closeModal()'>获取实盘交易数据</button></p>
+                <p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal1' ng-click='closeModal()'>输入真实交易数据</button></p>
+                <p class="analyse-menu-head"><button class="btn btn-primary" data-toggle='modal' data-target='#actualRes-modal2' ng-click='closeModal()'>获取真实交易数据</button></p>
             </div>
         </div>
     </div>
@@ -576,7 +586,7 @@
         <br>
         <div class="row">
             <div class="col-xs-12">
-                <h2  style="text-align: center;margin-top: 30px">实盘模拟交易走势图</h2>
+                <h2  style="text-align: center;margin-top: 30px">真实交易走势图</h2>
                 <div id="return_map_big_form" style="height:600px;background:#fff;width:90%;max-width: 1000px;"></div>
             </div>
         </div>
