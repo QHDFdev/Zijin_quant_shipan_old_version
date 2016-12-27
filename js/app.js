@@ -3385,16 +3385,19 @@
               .success(function (data) {
                 var action = {
                   "#/trueRes":function(){
-                    console.log("真实交易")
+
                   },
                   "#/actualRes":function(){
-                    console.log("实盘模拟")
+                   
                   }
                 }
 
                 action[window.location.hash]();
                 for(var i in data){
                   alldata[i]=data[i];
+                }
+                function selectshort(){
+
                 }
                 /**
                  *    删除"0"数据并保存

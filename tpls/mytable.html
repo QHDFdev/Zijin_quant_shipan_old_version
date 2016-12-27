@@ -37,7 +37,7 @@
                         <td class="hidden-id"  style="display: none" ng-bind='d._id'></td>
                         <!--<td><a href="#/complie/{{d._id}}" ng-bind="d.class_name"></a></td>-->
                         <td class="col-xs-3" ng-bind="d.class_name" ></td>
-                        <td> <a ng-bind="d.code_name" title="点击下载代码" href="" ng-click="downpy(d._id)" target="_blank"></a></td>
+                        <td> <a style="text-decoration:none" ng-bind="d.code_name" title="代码" href="" ng-click="downpy(d._id)" target="_blank"></a></td>
                         <td class="col-xs-1" ng-bind="d.author"></td>
                         <td class="col-xs-1" ng-bind="d.status" title="{{d.title}}" class={{d.color}}></td>
                         <td class="col-xs-4">
