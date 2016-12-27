@@ -36,14 +36,15 @@
                     <tr ng-repeat='d in mySourcingStrategy '>
                         <td class="hidden-id"  style="display: none" ng-bind='d._id'></td>
                         <!--<td><a href="#/complie/{{d._id}}" ng-bind="d.class_name"></a></td>-->
-                        <td class="col-xs-3" ng-bind="d.class_name"></td>
-                        <td class="col-xs-3" ng-bind="d.code_name"></td>
+                        <td class="col-xs-3" ng-bind="d.class_name" ></td>
+                        <td> <a ng-bind="d.code_name" title="点击下载代码" href="" ng-click="downpy(d._id)" target="_blank"></a></td>
                         <td class="col-xs-1" ng-bind="d.author"></td>
                         <td class="col-xs-1" ng-bind="d.status" title="{{d.title}}" class={{d.color}}></td>
                         <td class="col-xs-4">
                             <div class="btn-group btn-group-sm">
-                                <button class="btn btn-info firm-add" ng-click="addfirm(this)">创建日内实盘<i class="fa fa-plus"></i></button>
-                                <button class="btn btn-success his-add" ng-click="addhis(this)">创建历史回测 <i class="fa fa-plus"></i></button>
+                                <button class="btn btn-success his-add" ng-click="addhis(this)">历史回测 <i class="fa fa-plus"></i></button>
+                                <button class="btn btn-info firm-add" ng-click="addfirm(this)">日内实盘<i class="fa fa-plus"></i></button>
+                                <button ng-if='user.is_admin==true' class="btn btn-warning strategy-pause" ng-click="addtrue(this)">真实交易<i class="fa fa-plus"></i></button>
                                 <button class="btn btn-danger sour-del" ng-click="delsour(this)">删除策略 <i class="fa fa-remove"></i></button>
                             </div>
                         </td>
@@ -57,8 +58,8 @@
     <style>
         .logs{
             display: none;
-            height:400px;
-            width:500px;
+            height:410px;
+            width:550px;
             padding: 10px;
             border-radius:10px;
             position: fixed;
@@ -82,11 +83,11 @@
             <span></span>
             <span></span>
         </div>
-        <div id="log" style="height:385px;overflow:scroll"></div>
+        <div id="log" style="height:370px;overflow:scroll"></div>
     </div>
-    <div class="zijin-table-body container firm-strategy" ng-if="trueRes">
+    <div class="zijin-table-body container firm-strategy" ng-if='user.is_admin==true'>
         <div class="zijin-table-title" style="margin-bottom: 5px">
-            <span style="color:#FF0000"><i class="glyphicon glyphicon-th btn-sm" style="margin-bottom: 4px"></i>真实交易</span>
+            <span style="color:#f0ad4e"><i class="glyphicon glyphicon-check btn-sm" style="margin-bottom: 4px;"></i>真实交易</span>
         </div>
         <div class="table-responsive" style="width: 100%;">
             <div id="mytable6" style="width: 100%;">
@@ -95,11 +96,11 @@
                     <tr>
                         <!--<th class="col-xs-2">选择</th>-->
                         <th class="col-xs-3" >交易名</th>
-                        <th class="col-xs-3" >策略代码</th>
+                        <th class="" >策略代码</th>
                         <th class="col-xs-1" >合约代码</th>
                         <th class="col-xs-1" >作者</th>
                         <th class="col-xs-1" >状态</th>
-                        <th class="col-xs-3" >策略操作</th>
+                        <th class="col-xs-4" >策略操作</th>
                     </tr>
                     </thead>
                 </table>
@@ -111,17 +112,17 @@
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
                         <!--<td><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection2(this)" ng-checked="all2"><a hidden>{{d.flag}}</a></td>-->
                         <td ng-bind="d.name"class="col-xs-3" ></td>
-                        <td ng-bind="d.class_name" class="col-xs-3" ></td>
+                        <td ng-bind="d.class_name" class="" ></td>
                         <td ng-bind="d.symbol" class="col-xs-1"></td>
                         <td ng-bind="d.author" class="col-xs-1"></td>
-                        <td ng-bind="d.status" title="{{d.title}}" class="col-xs-1" class={{d.color}}></td>
-                        <td class="col-xs-3">
+                        <td ng-bind="d.status" style="width: auto" title="{{d.title}}"  class={{d.color}}></td>
+                        <td class="col-xs-4">
                             <div class="btn-group btn-group-sm">
                                 <!--  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> -->
                                 <button  class="btn btn-success strategy-start" ng-click="starttrue(this)">启动 <i class="fa fa-play"></i></button>
                                 <button class="btn btn-warning strategy-pause" ng-click="truepause(this)">停止 <i class="fa fa-pause"></i></button>
                                 <button  class="btn btn-danger strategy-del" ng-click="deltrue(this)">删除 <i class="fa fa-remove"></i></button>
-                                <button class="btn btn-info" ng-click="log1(this)">日志 </button>
+                                <button class="btn btn-info" ng-click="log1(this)">运行日志输出 </button>
                             </div>
                         </td>
                     </tr>
@@ -145,11 +146,11 @@
                     <tr>
                         <!--<th class="col-xs-2">选择</th>-->
                         <th class="col-xs-3" >实盘名</th>
-                        <th class="col-xs-3" >策略代码</th>
+                        <th class="" >策略代码</th>
                         <th class="col-xs-1" >合约代码</th>
                         <th class="col-xs-1" >作者</th>
                         <th class="col-xs-1" >状态</th>
-                        <th class="col-xs-3" >策略操作</th>
+                        <th class="col-xs-4" >策略操作</th>
                     </tr>
                 </thead>
             </table>
@@ -161,17 +162,17 @@
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
                         <!--<td><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection2(this)" ng-checked="all2"><a hidden>{{d.flag}}</a></td>-->
                         <td ng-bind="d.name"class="col-xs-3" ></td>
-                        <td ng-bind="d.class_name" class="col-xs-3" ></td>
+                        <td ng-bind="d.class_name" class="" ></td>
                         <td ng-bind="d.symbol" class="col-xs-1"></td>
                         <td ng-bind="d.author" class="col-xs-1"></td>
-                        <td ng-bind="d.status" title="{{d.title}}" class="col-xs-1" class={{d.color}}></td>
-                        <td class="col-xs-3">
+                        <td ng-bind="d.status" style="width: 10%" title="{{d.title}}"  class={{d.color}}></td>
+                        <td class="col-xs-4">
                             <div class="btn-group btn-group-sm">
                                <!--  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> -->
                                 <button  class="btn btn-success strategy-start" ng-click="startstrategy(this)">启动 <i class="fa fa-play"></i></button>
                                 <button class="btn btn-warning strategy-pause" ng-click="strategypause(this)">停止 <i class="fa fa-pause"></i></button>
                                 <button  class="btn btn-danger strategy-del" ng-click="delstrategy(this)">删除 <i class="fa fa-remove"></i></button>
-                                <button class="btn btn-info" ng-click="log2(this)">日志 </button>
+                                <button class="btn btn-info" ng-click="log2(this)">运行日志输出 </button>
                             </div>
                         </td>
                     </tr>
@@ -200,7 +201,7 @@
                         <th style="width: 10%" >结束时间</th>
                         <th style="width: 5%" >作者</th>
                         <th style="width: 5%" >状态</th>
-                        <th style="width: 20%" >策略操作</th>
+                        <th style="width: 25%" >策略操作</th>
                     </tr>
                 </thead>
             </table>
@@ -218,12 +219,12 @@
                         <td ng-bind="d.end" style="width: 10%"></td>
                         <td ng-bind="d.author" style="width: 5%"></td>
                         <td ng-bind="d.status" title="{{d.title}}" style="width: 5%" class={{d.color}}></td>
-                        <td style="width: 20%">
+                        <td style="width: 25%">
                             <div class="btn-group btn-group-sm">
                                 <button  class="btn btn-success strategy-start" ng-click="strategystart(this)">启动 <i class="fa fa-play"></i></button>
                                 <button class="btn btn-warning strategy-pause" ng-click="pausestrategy(this)">停止 <i class="fa fa-pause"></i></button>
                                 <button  class="btn btn-danger strategy-del" ng-click="strategydel(this)">删除 <i class="fa fa-remove"></i></button>
-                                <button class="btn btn-info" ng-click="log3(this)">日志 </button>
+                                <button class="btn btn-info" ng-click="log3(this)">运行日志输出 </button>
                             </div>
                         </td>
                     </tr>
@@ -300,7 +301,7 @@
                         <input style="margin-top: 20px;" type="text" class="form-control" ng-model='itemSourcing.class_name ' placeholder="输入策略类名（策略类名必须与代码类名一致）" required>
                     </div>
                     <div class="form-group">
-                        <label>代码文件：</label><input type="file" name="file"  file-model='sourcingCode' placeholder="代码" required="">
+                        <label>上传策略代码：</label><input type="file" name="file"  file-model='sourcingCode' placeholder="代码" required="">
                     </div>
                     <div class="btn-group btn-group-lg">
                         <input class="btn-success btn" type="submit"  value="提交" style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
@@ -373,14 +374,14 @@
                         </div>
 
                     </div>
-                    <div ng-if="trueRes">
-                        <select class="sel" name="" id="" ng-model="account" ng-options="id as id._id for id in ids"></select>
-                        <label>账号id：{{account.uid}}</label>
-                        <label>交易所代码：{{account.exchange}}</label>
-                    </div>
-                    <div class="form-group">
-                        <label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">
-                    </div>
+                    <!--<div ng-if="trueRes">-->
+                        <!--<select class="sel" name="" id="" ng-model="account" ng-options="id as id._id for id in ids"></select>-->
+                        <!--<label>账号id：{{account.uid}}</label>-->
+                        <!--<label>交易所代码：{{account.exchange}}</label>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">-->
+                    <!--</div>-->
                     <div class="btn-group btn-group-lg">
                             <input style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" class="btn-success btn" type="submit" value="提交" ng-disabled='newFirmStrategy.$invalid'>
                         <input style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px" class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
@@ -389,10 +390,59 @@
             </div>  
         </div>  
     </div>
-</div> 
+</div>
 
+    <div class="zijin-table-mask true-mask">
+        <div class="mask-box container">
+            <div class="row">
+                <div class=" col-sm-8 col-sm-offset-2" style="overflow-y: scroll;" id="test3">
+                    <form ng-submit="addFirmStrategy()" name="newFirmStrategy" novalidate="" enctype="multipart/form-data" id="newFirmStrategy2" novalidate>
+                        <div class="form-group">
+                            <label for="">交易名：</label>&nbsp;&nbsp;&nbsp;
+                            <input type="text" class="ipt" name="name" ng-model='firmItem.name' placeholder="请输入交易名" required>
+                            <div class="error" ng-messages='newFirmStrategy.name.$error' ng-if='newFirmStrategy.name.$touched' ng-message-multiple>
+                                <small ng-message='required'style="color:red">交易名不能为空</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">交易所代码：</label>
+                            <select class="sel" ng-model='firmItem.exchange'  ng-options='x.exchange as x.exchange for x in ex' ng-change="getsymbol2()"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">交易合约：</label>
+                            <select class="sel" ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>
+                            <!--<input type="text" class="ipt" name="symbol" placeholder="请输入交易合约" ng-model='firmItem.symbol' required>-->
+                            <!--<div class="error" ng-messages='newFirmStrategy.symbol.$error' ng-if='newFirmStrategy.symbol.$touched' ng-message-multiple>-->
+                            <!--<small ng-message='required'style="color:red">交易合约不能为空</small>-->
+                            <!--</div>-->
+                        </div>
+                        <div class="form-group">
+                            <label for="">交易手数：</label>
+                            <input type="text" class="ipt" name="multiple" ng-model='firmItem.multiple' placeholder="策略交易手数的倍数" required>
+                            <div class="error" ng-messages='newFirmStrategy.multiple.$error' ng-if='newFirmStrategy.multiple.$touched' ng-message-multiple>
+                                <small ng-message='required'style="color:red">请填写交易手数</small>
+                            </div>
 
-<!-- his mask -->
+                        </div>
+                        <div ng-if='user.is_admin==true'>
+                            <select class="sel" name="" id="" ng-model="account" ng-options="id as id._id for id in ids"></select>
+                            <label>账号id：{{account.uid}}</label>
+                            <label>交易所代码：{{account.exchange}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">
+                        </div>
+                        <div class="btn-group btn-group-lg">
+                            <input style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" class="btn-success btn" type="submit" value="提交" ng-disabled='newFirmStrategy.$invalid'>
+                            <input style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px" class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- his mask -->
 <div class="zijin-table-mask his-mask">
     <div class="mask-box container">
         <div class="row">

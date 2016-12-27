@@ -1,8 +1,8 @@
 <div class="analyse" ng-controller='analyseController'>
 	<div class="container-fluid noprint">
 		<div class="row analyse-title-head">
-			<div class="col-sm-2 hidden-xs"></div>
-			<div class="col-sm-10" style="	-webkit-box-shadow:10px 3px 8px #aaa;
+			<div class="col-sm-3 col-lg-2 col-md-3 hidden-xs"></div>
+			<div class="col-sm-9 col-lg-10 col-md-9" style="	-webkit-box-shadow:10px 3px 8px #aaa;
 	-moz-box-shadow: 10px 3px 8px #aaa;
 	box-shadow: 10px 3px 8px #aaa;">
 				<div class="remind" >
@@ -15,14 +15,11 @@
 					<div class="third">
 						交易合约：<span style="display: none">{{analyse_title.symbol}}</span>
 					</div>
-					<div class="fourth" style="display: none">
-						交易手数：<span>{{analyse_title.multiple}}</span>
-					</div>
 				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-2 col-xs-5  analyse-left">
+			<div class="col-sm-3 col-lg-2 col-md-3  analyse-left">
 				<i class='mobile-action visible-xs  fa fa-lg fa-arrow-circle-right' mobile-action></i>
 				<div class="analyse-menu-list">
 					<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#analyse-modal1'>输入历史回测数据</button></p>
@@ -79,7 +76,7 @@
 						<dt slide-toggle><i class="fa fa-line-chart"></i>策略回测图表</dt>
 						<dd>
 							<a data-target="#return_mapping" aria-controls="return_mapping" role="tab" data-toggle="tab">
-								数据回测图表
+								交易走势图
 							</a>
 						</dd>
 						<dd>
@@ -155,10 +152,10 @@
 
 				</div>
 			</div>
-			<div class="col-sm-10 col-xs-12 analyse-right">
+			<div class="col-sm-9 col-lg-10 col-md-9 analyse-right">
 				<div class="tab-content" id="tab-content">
 					<div role="tabpanel" class="tab-pane active" id="return_mapping">
-						<h2 class="analyse-charts-title mb0">回测图</h2>
+						<h2 class="analyse-charts-title mb0">交易走势图</h2>
 						<div id="return_map_big" style="height:600px;width: 96%;margin: 0 auto;">
 						</div>
 					</div>
@@ -547,11 +544,17 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="analyse-modal-big noprint">
 		<div class="container">
 			<div class="analyse-select-box text-center">
-				<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#analyse-modal1' ng-click='closeModal()'>输入历史回测数据</button></p>
-				<p class="analyse-menu-head"><button class="btn btn-primary" data-toggle='modal' data-target='#analyse-modal2' ng-click='closeModal()'>获取历史回测数据</button></p> 
+				<i class="fa fa-remove" style="float: right;color: #817d7d;cursor: pointer" ng-click='closeModal()'></i>
+				<!--点击后调用closeModal()函数，功能：.analyse-modal-big隐藏-->
+				<div class="select">
+					<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#analyse-modal1' ng-click='closeModal()'>输入真实交易数据</button></p>
+					<p class="analyse-menu-head"><button class="btn btn-primary" data-toggle='modal' data-target='#analyse-modal2' ng-click='closeModal()'>获取真实交易数据</button></p>
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -562,7 +565,7 @@
 
 			<div class="row">
 				<div class="col-xs-12">
-					<h3  style="text-align: center;">实盘模拟交易走势图</h3>
+					<h3  style="text-align: center;">交易走势图</h3>
 					<div id="return_map_big_1" style="background:#fff;"></div>
 				</div>
 			</div>

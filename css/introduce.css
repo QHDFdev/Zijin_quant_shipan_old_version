@@ -350,17 +350,17 @@ ul li{
   width: 80%;
   /*text-align: center;*/
   /*height: 450px;*/
+
   position: relative;
   margin: 30px auto 0 auto;
-  /*background-color: red;*/
+
 }
 
 #time .title {
 
-  height: 95px;
+  height: 88px;
   line-height: 95px;
-  /*background-color: #7cb5ec;*/
-  /*text-indent: 280px;*/
+  margin-bottom: 10px;
 
 }
 
@@ -371,8 +371,8 @@ ul li{
 }
 
 #circle {
-  width: 88px;
-  height: 88px;
+  width: 95px;
+  height: 93px;
   margin: 0 auto;
 
   border: 6px solid rgba(0, 0, 0, 0.15);
@@ -383,6 +383,7 @@ ul li{
   -moz-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
+
 }
 
 #circle .cmsk {
@@ -484,23 +485,28 @@ ul li{
   /*height: 555px;*/
   /*width: 1180px;*/
   /*overflow: hidden;*/
-  background: url(../images/vertical.png) no-repeat center;
-  padding-top: 2%;
+  background: url(../images/vertical.png) repeat-y center;
+
 }
 
 .list {
   width: 100%;
-
+  position: relative;
+  top: 25px;
 }
+
 .list li{
-  margin: 15px 0;
+  margin: 0 0 15px 0;
+  height: 80px;
+
+
 }
 .list .liwrap{
   width: 80%;
   height: 80px;
-  /*background-color: #7cb5ec;*/
+
   margin: 0 auto;
-  position: relative;
+
 }
 .list .liwrap .lileft{
   width: 45%;
@@ -509,22 +515,26 @@ ul li{
   float: left;
   /*text-align: right;*/
   /*margin-right: 10px;*/
-  /*background-color: red;*/
+
+
   position: relative;
 }
+
 .list .liwrap .lileft .date{
-  width: 20%;
+  width: 90%;
   height: 20px;
   position: absolute;
   top:0;
   right: 20px;
+
+  text-align: right;
 }
 
 .list .liwrap .licenter{
   width:6%;
   height: 50px;
   float: left;
-  /*background-color: darkred;*/
+
 }
 .list .liwrap .licenter .point{
   width: 100%;
@@ -573,7 +583,7 @@ ul li{
 .list .liwrap .liright{
   width: 47%;
   height: 50px;
-  /*background-color: #00b0e8;*/
+
 
   float: right;
 }
@@ -585,9 +595,6 @@ ul li{
   color: #747474;
   font-size: 24px;
 }
-
-
-
 
 
 .list .liwrap1{

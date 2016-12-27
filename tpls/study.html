@@ -46,15 +46,24 @@
 		</div>	
 		<div class="zijin-study-footer">
 			<div class="container">
-				<div class="row text-center">
-					<div class="col-md-2 col-md-offset-3">
+				<div class="row text-center" ng-if='user.is_admin!=true'>
+					<div class="col-md-2 col-md-offset-3" style="margin-left: 20%">
 						<button class="zijin-study-leftbtn" ng-click='hisActtoryRes("/analyse")'>历史回测</button>
 					</div>
-					<div class="col-md-2">
-						<button class="zijin-study-middlebtn" ng-click='hisActtoryRes("/trueRes")' ng-if="trueRes">真实交易</button>
-					</div>
-					<div class="col-md-2">	
+
+					<div class="col-md-2" style="margin-left: 20%">
 						<button class="zijin-study-rightbtn" ng-click='hisActtoryRes("/actualRes")'>实盘模拟</button>
+					</div>
+				</div>
+				<div class="row text-center" ng-if='user.is_admin==true'>
+					<div class="col-md-2 col-md-offset-3" style="margin-left: 12%">
+						<button class="zijin-study-leftbtn" ng-click='hisActtoryRes("/analyse")'>历史回测</button>
+					</div>
+					<div class="col-md-2" style="margin-left: 12%">
+						<button class="zijin-study-rightbtn" ng-click='hisActtoryRes("/actualRes")'>实盘模拟</button>
+					</div>
+					<div class="col-md-2" style="margin-left: 12%">
+						<button class="zijin-study-middlebtn" ng-click='hisActtoryRes("/trueRes")'>真实交易</button>
 					</div>
 				</div>
 			</div>

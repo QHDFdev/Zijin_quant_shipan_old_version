@@ -227,12 +227,17 @@ display: inline-block;
 }
 .analyse-modal-big .analyse-select-box{
 	margin:150px auto 0;
-	padding: 70px 0;
+	padding: 10px 10px 0 0;
+
 	max-width: 500px;
-	border-radius:10px; 
+	border-radius:10px;
 	background: rgba(245,245,255,.8);
 	box-shadow: 5px 5px 4px rgba(0,0,0,.9);
 }
+.analyse-modal-big .analyse-select-box .select{
+	padding: 60px 0;
+}
+
 .analyse-modal-big .analyse-select-box p{
 	margin-bottom: 0;
 }
