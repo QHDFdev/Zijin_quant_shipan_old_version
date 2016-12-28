@@ -1,9 +1,10 @@
 ﻿<div class="zijin-table">
     <div class="zijin-table-head">
         <div class="container">
-            <h1>紫金量化 加载策略</h1>
+            <h1>策略运行配置</h1>
             <p>无论你使用了MachineLearning，DeepLearning，多因子模型，经典海龟模型，量化择时，情绪指数，统计套利等等各种方法，,写出了年化收益最高，最大回撤奇低的各种模型。</p>
             <p>无论你策略在历史数据上回撤多么优秀，一切见真章，你必须要做实验模拟，来检测你策略真正运行效果。</p>
+            <p>平台支持 策略加载，基于策略分别可以创建历史回测，实盘模拟，真实交易。由回测到模拟到真实交易，交易条件越来越苛刻。</p>
         </div> 
         <div class="zijin-table-bigmask"></div>
     </div>
@@ -42,7 +43,7 @@
                         <td class="col-xs-4">
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-success his-add" ng-click="addhis(this)">历史回测 <i class="fa fa-plus"></i></button>
-                                <button class="btn btn-info firm-add" ng-click="addfirm(this)">日内实盘<i class="fa fa-plus"></i></button>
+                                <button class="btn btn-info firm-add" ng-click="addfirm(this)">实盘模拟<i class="fa fa-plus"></i></button>
                                 <button ng-if='user.is_admin==true' class="btn btn-warning strategy-pause" ng-click="addtrue(this)">真实交易<i class="fa fa-plus"></i></button>
                                 <button class="btn btn-danger sour-del" ng-click="delsour(this)">删除策略 <i class="fa fa-remove"></i></button>
                             </div>
@@ -104,7 +105,7 @@
                     </thead>
                 </table>
             </div>
-            <div id="container6" style="width: 100%; overflow-y: scroll; height: 200px;margin-top: -1.8%">
+            <div id="container6" style="width: 100%; overflow-y: scroll; height: 300px;margin-top: -1.8%">
                 <table class="table table-bordered table-responsive"  sourcing-table style="width: 100%;">
                     <tbody>
                     <tr ng-repeat='d in trueStrategy  | filter:func'>
@@ -239,6 +240,9 @@
         .his{
             color:#5cb85c
         }
+        .true{
+            color:#f0ad4e
+        }
     </style>
     <div class="zijin-table-body container rec-strategy">
         <div class="row">
@@ -360,10 +364,6 @@
                     <div class="form-group">
                         <label for="">交易合约：</label>
                         <select class="sel" ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>
-                        <!--<input type="text" class="ipt" name="symbol" placeholder="请输入交易合约" ng-model='firmItem.symbol' required>-->
-                        <!--<div class="error" ng-messages='newFirmStrategy.symbol.$error' ng-if='newFirmStrategy.symbol.$touched' ng-message-multiple>-->
-                            <!--<small ng-message='required'style="color:red">交易合约不能为空</small>-->
-                        <!--</div>-->
                     </div>
                     <div class="form-group">
                         <label for="">交易手数：</label>
@@ -373,14 +373,9 @@
                         </div>
 
                     </div>
-                    <!--<div ng-if="trueRes">-->
-                        <!--<select class="sel" name="" id="" ng-model="account" ng-options="id as id._id for id in ids"></select>-->
-                        <!--<label>账号id：{{account.uid}}</label>-->
-                        <!--<label>交易所代码：{{account.exchange}}</label>-->
-                    <!--</div>-->
-                    <!--<div class="form-group">-->
-                        <!--<label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">-->
-                    <!--</div>-->
+                    <div class="form-group">
+                        <label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">
+                    </div>
                     <div class="btn-group btn-group-lg">
                             <input style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" class="btn-success btn" type="submit" value="提交" ng-disabled='newFirmStrategy.$invalid'>
                         <input style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px" class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
@@ -395,7 +390,7 @@
         <div class="mask-box container">
             <div class="row">
                 <div class=" col-sm-8 col-sm-offset-2" style="overflow-y: scroll;" id="test3">
-                    <form ng-submit="addFirmStrategy()" name="newFirmStrategy" novalidate="" enctype="multipart/form-data" id="newFirmStrategy2" novalidate>
+                    <form ng-submit="addTrueStrategy()" name="newFirmStrategy" novalidate="" enctype="multipart/form-data" id="newFirmStrategy2" novalidate>
                         <div class="form-group">
                             <label for="">交易名：</label>&nbsp;&nbsp;&nbsp;
                             <input type="text" class="ipt" name="name" ng-model='firmItem.name' placeholder="请输入交易名" required>
@@ -410,10 +405,6 @@
                         <div class="form-group">
                             <label for="">交易合约：</label>
                             <select class="sel" ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>
-                            <!--<input type="text" class="ipt" name="symbol" placeholder="请输入交易合约" ng-model='firmItem.symbol' required>-->
-                            <!--<div class="error" ng-messages='newFirmStrategy.symbol.$error' ng-if='newFirmStrategy.symbol.$touched' ng-message-multiple>-->
-                            <!--<small ng-message='required'style="color:red">交易合约不能为空</small>-->
-                            <!--</div>-->
                         </div>
                         <div class="form-group">
                             <label for="">交易手数：</label>
@@ -423,10 +414,10 @@
                             </div>
 
                         </div>
-                        <div ng-if='user.is_admin==true'>
-                            <select class="sel" name="" id="" ng-model="account" ng-options="id as id._id for id in ids"></select>
-                            <label>账号id：{{account.uid}}</label>
-                            <label>交易所代码：{{account.exchange}}</label>
+                        <div  class="form-group" ng-if='user.is_admin==true'>
+                            <select class="sel" name="" id="" ng-model="firmItem.account" ng-options="id as id._id for id in ids"></select>
+                            <label>账号id：{{firmItem.account.uid}}</label>
+                            <label>交易所代码：{{firmItem.account.exchange}}</label>
                         </div>
                         <div class="form-group">
                             <label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">

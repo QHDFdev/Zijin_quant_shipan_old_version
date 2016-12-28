@@ -52,7 +52,7 @@ a:focus,button:focus,input:focus{
 }
 @media ( min-width :769px) {
 	.main-navbar .left-nav{
-		width:60%;
+		width:80%;
 		display: inline-block;
 		float: none;
 		vertical-align: middle;
