@@ -732,42 +732,43 @@
       };
       //创建真实交易
       $scope.addTrueStrategy = function () {
-        if($scope.firmItem==undefined){
+        if($scope.trueItem==undefined){
           Showbo.Msg.alert('请填入信息');
           return;
         }
-        if($scope.firmItem.name==undefined){
-          Showbo.Msg.alert('请输入策略名');
+        if($scope.trueItem.name==undefined){
+          Showbo.Msg.alert('请输入交易名');
           return;
         }
-        if($scope.firmItem.exchange==undefined||$scope.firmItem.exchange==""){
+        if($scope.trueItem.exchange==undefined||$scope.trueItem.exchange==""){
           Showbo.Msg.alert('请选择交易所代码');
           return;
         }
-        if($scope.firmItem.symbol==undefined||$scope.firmItem.symbol==""){
+        if($scope.trueItem.symbol==undefined||$scope.trueItem.symbol==""){
           Showbo.Msg.alert('请选择交易合约');
           return;
         }
-        if($scope.firmItem.multiple==undefined){
+        if($scope.trueItem.multiple==undefined){
           Showbo.Msg.alert('请输入交易手数');
           return;
         }
-        if($scope.firmItem.account==undefined){
+        if($scope.trueItem.account==undefined){
           Showbo.Msg.alert('请选择accout_id');
           return;
         }
 
-        return;
-        var files = $scope.files;
+        //console.log($scope.trueItem,$scope.trueFile);
+        //return;
+        var files = $scope.trueFile;
         var formdata = new FormData();
-        formdata.append('name', $scope.firmItem.name);
-        formdata.append('symbol', $scope.firmItem.symbol);
+        formdata.append('name', $scope.trueItem.name);
+        formdata.append('symbol', $scope.trueItem.symbol);
         formdata.append('class_id', strategysValue.id);
         formdata.append('author', strategysValue.author);
-        formdata.append('exchange', $scope.firmItem.exchange);
-        formdata.append('multiple', $scope.firmItem.multiple);
-        formdata.append('account_id', $scope.firmItem.account._id);
-        if (($scope.files != undefined) && ($scope.files != null)) {
+        formdata.append('exchange', $scope.trueItem.exchange);
+        formdata.append('multiple', $scope.trueItem.multiple);
+        formdata.append('account_id', $scope.trueItem.account._id);
+        if (($scope.trueFile != undefined) && ($scope.trueFile != null)) {
           formdata.append('file', files);
         }
         $http.post(constantUrl + "strategys/", formdata, {
@@ -880,6 +881,11 @@
        //console.log(response)
         $scope.ex = response;
       })
+      $scope.ex2 =
+        [
+      {"exchange":"CSRPME"}
+      ]
+
       $scope.changesymbol=function(){//历史回测 改变交易合约置空bar选项和时间
         $scope.hisItem.start="";
         $scope.hisItem.end="";
@@ -894,6 +900,13 @@
           $http.get(url).success(function (response){
             $scope.sy = response;
           })
+      }
+      $scope.getsymbol3=function(){//实盘改变交易所代码置空交易合约
+        $scope.trueItem.symbol="";
+        var url="exchange/"+$scope.trueItem.exchange+".json";
+        $http.get(url).success(function (response){
+          $scope.sy = response;
+        })
       }
       $scope.getsymbol=function(){//历史回测改变交易所代码置空刚刚选择的
         $scope.hisItem.symbol="";

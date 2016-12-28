@@ -95,11 +95,11 @@
                     <thead class="bg-success">
                     <tr>
                         <!--<th class="col-xs-2">选择</th>-->
-                        <th class="" style="width: 24.8%">交易名</th>
-                        <th class="" style="width:17.3%">策略代码</th>
-                        <th class="" style="width: 8.2%">合约代码</th>
-                        <th class="" style="width: 8.3%">作者</th>
-                        <th class="" style="width: 7.8%">状态</th>
+                        <th class="" style="width: 22.85%">交易名</th>
+                        <th class="" style="width: 22.11%">策略代码</th>
+                        <th class="" style="width: 7.87%">合约代码</th>
+                        <th class="" style="width: 8.1%">作者</th>
+                        <th class="" style="width:8.9%">状态</th>
                         <th class="" >策略操作</th>
                     </tr>
                     </thead>
@@ -111,11 +111,11 @@
                     <tr ng-repeat='d in trueStrategy  | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
                         <!--<td><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection2(this)" ng-checked="all2"><a hidden>{{d.flag}}</a></td>-->
-                        <td ng-bind="d.name"class="col-xs-3" ></td>
-                        <td ng-bind="d.class_name" class="" ></td>
-                        <td ng-bind="d.symbol" class="col-xs-1"></td>
-                        <td ng-bind="d.author" class="col-xs-1"></td>
-                        <td ng-bind="d.status" style="width: auto" title="{{d.title}}"  class={{d.color}}></td>
+                        <td ng-bind="d.name" style="width: 23.2%" ></td>
+                        <td ng-bind="d.class_name" class="" style="width: 22.11%"></td>
+                        <td ng-bind="d.symbol" style="width: 7.87%"></td>
+                        <td ng-bind="d.author" style="width: 8.1%"></td>
+                        <td ng-bind="d.status" style="width:8.9%" title="{{d.title}}"  class={{d.color}}></td>
                         <td class="col-xs-4">
                             <div class="btn-group btn-group-sm">
                                 <!--  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> -->
@@ -390,40 +390,40 @@
         <div class="mask-box container">
             <div class="row">
                 <div class=" col-sm-8 col-sm-offset-2" style="overflow-y: scroll;" id="test3">
-                    <form ng-submit="addTrueStrategy()" name="newFirmStrategy" novalidate="" enctype="multipart/form-data" id="newFirmStrategy2" novalidate>
+                    <form ng-submit="addTrueStrategy()" name="newTrueStrategy" novalidate="" enctype="multipart/form-data" id="newTrueStrategy2" novalidate>
                         <div class="form-group">
                             <label for="">交易名：</label>&nbsp;&nbsp;&nbsp;
-                            <input type="text" class="ipt" name="name" ng-model='firmItem.name' placeholder="请输入交易名" required>
-                            <div class="error" ng-messages='newFirmStrategy.name.$error' ng-if='newFirmStrategy.name.$touched' ng-message-multiple>
+                            <input type="text" class="ipt" name="name" ng-model='trueItem.name' placeholder="请输入交易名" required>
+                            <div class="error" ng-messages='newTrueStrategy.name.$error' ng-if='newTrueStrategy.name.$touched' ng-message-multiple>
                                 <small ng-message='required'style="color:red">交易名不能为空</small>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="">交易所代码：</label>
-                            <select class="sel" ng-model='firmItem.exchange'  ng-options='x.exchange as x.exchange for x in ex' ng-change="getsymbol2()"></select>
+                            <select class="sel" ng-model='trueItem.exchange'  ng-options='x.exchange as x.exchange for x in ex2' ng-change="getsymbol3()"></select>
                         </div>
                         <div class="form-group">
                             <label for="">交易合约：</label>
-                            <select class="sel" ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>
+                            <select class="sel" ng-model='trueItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>
                         </div>
                         <div class="form-group">
                             <label for="">交易手数：</label>
-                            <input type="text" class="ipt" name="multiple" ng-model='firmItem.multiple' placeholder="策略交易手数的倍数" required>
-                            <div class="error" ng-messages='newFirmStrategy.multiple.$error' ng-if='newFirmStrategy.multiple.$touched' ng-message-multiple>
+                            <input type="text" class="ipt" name="multiple" ng-model='trueItem.multiple' placeholder="策略交易手数的倍数" required>
+                            <div class="error" ng-messages='newTrueStrategy.multiple.$error' ng-if='newTrueStrategy.multiple.$touched' ng-message-multiple>
                                 <small ng-message='required'style="color:red">请填写交易手数</small>
                             </div>
 
                         </div>
                         <div  class="form-group" ng-if='user.is_admin==true'>
-                            <select class="sel" name="" id="" ng-model="firmItem.account" ng-options="id as id._id for id in ids"></select>
-                            <label>账号id：{{firmItem.account.uid}}</label>
-                            <label>交易所代码：{{firmItem.account.exchange}}</label>
+                            <select class="sel" name="" id="" ng-model="trueItem.account" ng-options="id as id._id for id in ids"></select>
+                            <label>账号id：{{trueItem.account.uid}}</label>
+                            <label>交易所代码：{{trueItem.account.exchange}}</label>
                         </div>
                         <div class="form-group">
-                            <label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">
+                            <label>代码依赖文件：</label><input type="file" name="trueFile" file-model='trueFile' placeholder="代码依赖文件">
                         </div>
                         <div class="btn-group btn-group-lg">
-                            <input style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" class="btn-success btn" type="submit" value="提交" ng-disabled='newFirmStrategy.$invalid'>
+                            <input style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" class="btn-success btn" type="submit" value="提交" ng-disabled='newTrueStrategy.$invalid'>
                             <input style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px" class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
                         </div>
                     </form>
