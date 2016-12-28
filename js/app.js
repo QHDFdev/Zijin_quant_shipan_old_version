@@ -6546,7 +6546,10 @@
                     })
                     .success(function () {
                       /*$route.reload();*/
-                      scope.getSourcingStrategys();
+                      setTimeout(function(){
+                        scope.getSourcingStrategys();
+                      },100)
+
                       /*Showbo.Msg.alert('删除成功。')*/
 
                     })
