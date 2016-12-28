@@ -433,30 +433,20 @@
       }
 
 
-
-
       function download(text, name, type) {
         var file = new Blob([text], {type: type})
-        var a = $('<a id="download-it">Download it</a>').appendTo('body')
+        var a = $('<a hidden>Download py</a>').appendTo('#container3')
         a[0].href = URL.createObjectURL(file)
         a[0].download = name
         a[0].click()
       }
-
-
-
-
 
       $scope.downpy=function(id){
         $http.get(constantUrl + 'classs/' + id + '/', {
               headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
             })
             .success(function (data) {
-              //$scope.beginlog();
-              //$("#logname").append(data.code_name);
-              //$("#log").append(TransferString(data.code))
-              //$('.loadEffect').hide();
-              download(data.code, data.class_name+'.py', 'text/plain')
+              download(data.code,data.code_name,'text/plain')
             })
             .error(function (err, sta) {
               console.log(err);
@@ -3404,7 +3394,7 @@
                   var alonebuy=[];
                   var defer6 = $q.defer();
                   if(window.location.hash=="#/actualRes"){
-                    defer6.resolve(aloneshort);
+                    defer6.resolve(nowdata);
                     return defer6.promise;
                   }
                   for(var i=0;i<nowdata.length;i++){//保留已成交
