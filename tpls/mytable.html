@@ -19,26 +19,26 @@
              <!--<button class="btn btn-danger sour-del" style="float:right;margin-top:20px;margin-right: 48px">删除策略 <i class="fa fa-remove"></i></button>-->
         </div>
         <div class="table-responsive" style="width: 100%;">
-            <table class="table table-bordered table-hover table-striped"  sourcing-table style="width: 100%;">
+            <table class="table table-bordered table-hover table-striped table-responsive"  sourcing-table style="width: 100%;">
                 <thead class="bg-success">
                     <tr>
-                        <th class="col-xs-3" >策略类名</th>
-                        <th class="col-xs-3" >代码文件名</th>
-                        <th class="col-xs-1" >作者</th>
-                        <th class="col-xs-1" >状态</th>
-                        <th class="col-xs-4">策略操作</th>
+                        <th class="" style="width: 24.85%">策略类名</th>
+                        <th class="" style="width: 24.85%">代码文件名</th>
+                        <th class="" style="width: 8.27%">作者</th>
+                        <th class="" style="width:8.33%">状态</th>
+                        <th class="" >策略操作</th>
                     </tr>
                 </thead>
             </table>
-            <div id="container3" style="width: 100%; overflow-y: scroll; height: 300px;">
-                <table style="width: 100%;">
-                <tbody>
+            <div id="container3" style="overflow-y: scroll; height: 300px;margin: -1.8% 0 0 0;">
+                <table class="table table-bordered table-responsive"  sourcing-table style="width: 100%;">
+
+                <tbody >
                     <tr ng-repeat='d in mySourcingStrategy '>
                         <td class="hidden-id"  style="display: none" ng-bind='d._id'></td>
                         <!--<td><a href="#/complie/{{d._id}}" ng-bind="d.class_name"></a></td>-->
                         <td class="col-xs-3" ng-bind="d.class_name" ></td>
-                        <td> <a style="text-decoration:none" ng-bind="d.code_name" title="代码" href="" ng-click="downpy(d._id)" target="_blank"></a></td>
-                        <td class="col-xs-1" ng-bind="d.author"></td>
+                        <td> <a style="text-decoration:none" ng-bind="d.code_name" title="代码" href="" ng-click="downpy(d._id)" target="_blank"></a></td>                        <td class="col-xs-1" ng-bind="d.author"></td>
                         <td class="col-xs-1" ng-bind="d.status" title="{{d.title}}" class={{d.color}}></td>
                         <td class="col-xs-4">
                             <div class="btn-group btn-group-sm">
@@ -95,18 +95,18 @@
                     <thead class="bg-success">
                     <tr>
                         <!--<th class="col-xs-2">选择</th>-->
-                        <th class="col-xs-3" >交易名</th>
-                        <th class="" >策略代码</th>
-                        <th class="col-xs-1" >合约代码</th>
-                        <th class="col-xs-1" >作者</th>
-                        <th class="col-xs-1" >状态</th>
-                        <th class="col-xs-4" >策略操作</th>
+                        <th class="" style="width: 24.8%">交易名</th>
+                        <th class="" style="width:17.3%">策略代码</th>
+                        <th class="" style="width: 8.2%">合约代码</th>
+                        <th class="" style="width: 8.3%">作者</th>
+                        <th class="" style="width: 7.8%">状态</th>
+                        <th class="" >策略操作</th>
                     </tr>
                     </thead>
                 </table>
             </div>
-            <div id="container6" style="width: 100%; overflow-y: scroll; height: 200px;">
-                <table style="width: 100%;">
+            <div id="container6" style="width: 100%; overflow-y: scroll; height: 200px;margin-top: -1.8%">
+                <table class="table table-bordered table-responsive"  sourcing-table style="width: 100%;">
                     <tbody>
                     <tr ng-repeat='d in trueStrategy  | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
@@ -145,18 +145,18 @@
                 <thead class="bg-success">
                     <tr>
                         <!--<th class="col-xs-2">选择</th>-->
-                        <th class="col-xs-3" >实盘名</th>
-                        <th class="" >策略代码</th>
-                        <th class="col-xs-1" >合约代码</th>
-                        <th class="col-xs-1" >作者</th>
-                        <th class="col-xs-1" >状态</th>
-                        <th class="col-xs-4" >策略操作</th>
+                        <th class="" style="width: 22.85%">实盘名</th>
+                        <th class="" style="width: 22.11%">策略代码</th>
+                        <th class="" style="width: 7.87%">合约代码</th>
+                        <th class="" style="width: 8.1%">作者</th>
+                        <th class="" style="width:8.9%">状态</th>
+                        <th class="" >策略操作</th>
                     </tr>
                 </thead>
             </table>
             </div>
-            <div id="container1" style="width: 100%; overflow-y: scroll; height: 300px;">
-                <table style="width: 100%;">
+            <div id="container1" style="width: 100%; overflow-y: scroll; height: 300px;margin-top: -1.8%">
+                <table class="table table-bordered table-responsive"  sourcing-table style="width: 100%;">
                 <tbody>
                     <tr ng-repeat='d in myStrategy  | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
@@ -193,21 +193,21 @@
             <table class="table table-bordered table-hover table-striped" his-table style="width: 100%;">
                 <thead class="bg-success">
                     <tr>
-                        <th style="width: 4%" >选择</th>
-                        <th style="width: 10%" >回测名</th>
-                        <th style="width: 12%" >策略代码</th>
-                        <th style="width: 5%" >mode</th>
-                        <th style="width: 10%" >开始时间</th>
-                        <th style="width: 10%" >结束时间</th>
-                        <th style="width: 5%" >作者</th>
-                        <th style="width: 5%" >状态</th>
-                        <th style="width: 25%" >策略操作</th>
+                        <th style="width: 4.05%" >选择</th>
+                        <th style="width: 15.51%" >回测名</th>
+                        <th style="width: 13.45%">策略代码</th>
+                        <th  style="width: 5.12%">mode</th>
+                        <th  style="width: 10.4%">开始时间</th>
+                        <th style="width: 10.4%">结束时间</th>
+                        <th style="width: 7.27%" >作者</th>
+                        <th   style="width: 7.25%">状态</th>
+                        <th >策略操作</th>
                     </tr>
                 </thead>
             </table>
             </div>
-            <div id="container" style="width: 100%; overflow-y: scroll; height: 300px;">
-                <table style="width: 100%;">
+            <div id="container" style="width: 100%; overflow-y: scroll; height: 300px;margin-top: -1.8%">
+                <table class="table table-bordered table-responsive"  sourcing-table style="width: 100%;">
             <tbody>
                     <tr ng-repeat='d in myHisStrategy | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
@@ -218,7 +218,7 @@
                         <td ng-bind="d.start" style="width: 10%"></td>
                         <td ng-bind="d.end" style="width: 10%"></td>
                         <td ng-bind="d.author" style="width: 5%"></td>
-                        <td ng-bind="d.status" title="{{d.title}}" style="width: 5%" class={{d.color}}></td>
+                        <td ng-bind="d.status" title="{{d.title}}" style="width: 7%" class={{d.color}}></td>
                         <td style="width: 25%">
                             <div class="btn-group btn-group-sm">
                                 <button  class="btn btn-success strategy-start" ng-click="strategystart(this)">启动 <i class="fa fa-play"></i></button>

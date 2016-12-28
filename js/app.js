@@ -3370,8 +3370,8 @@
         var data2=[];
         myFirm=$scope.myFirmStrategy;
         var mydate = $filter('date')(new Date((new Date($scope.myFirmDate)).setDate((new Date($scope.myFirmDate)).getDate() + 1)), 'yyyy-MM-dd');
-        var stime;
-        var etime;
+        var stime=$scope.myFirmDate;
+        var etime=mydate;
         function getFirmTime() {
           var defer1 = $q.defer();//通过$q服务注册一个延迟对象 defer1
           $http.get(constantUrl + 'transactions/', {
@@ -3383,51 +3383,175 @@
                 headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
               })
               .success(function (data) {
-                var action = {
-                  "#/trueRes":function(){
-
-                  },
-                  "#/actualRes":function(){
-                   
+                function trueRes(nowdata){
+                  var aloneshort=[];
+                  var alonebuy=[];
+                  var defer6 = $q.defer();
+                  if(window.location.hash=="#/actualRes"){
+                    defer6.resolve(aloneshort);
+                    return defer6.promise;
                   }
+                  for(var i=0;i<nowdata.length;i++){//保留已成交
+                    if(nowdata[i].status==0||nowdata[i].status==-1){
+                      nowdata.splice(i,1);
+                      i=-1;
+                    }
+                  }
+                  var sdate = $filter('date')(new Date((new Date($scope.myFirmDate)).setDate((new Date($scope.myFirmDate)).getDate() - 1)), 'yyyy-MM-dd');
+                  $http.get(constantUrl + 'transactions/', {
+                        params: {
+                          "sty_id": $scope.myFirmStrategy._id,
+                          "start": sdate,
+                          "end": $scope.myFirmDate
+                        },
+                        headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
+                      })
+                      .success(function (data) {
+                        if(data[0]!=null){
+                          for(var i=0;i<data.length;i++){//保留已成交
+                            if(data[i].status==0||data[i].status==-1){
+                              data.splice(i,1);
+                              i=-1;
+                            }
+                          }
+                        for(var i=0;i<data.length;i++){//获取前一天所有单独short
+                          if(data[i].trans_type=="short"){
+                            if(i+1>=data.length||data[i+1].trans_type!="cover"){
+                              aloneshort.push(data[i])
+                            }
+                          }
+                          if(data[i].trans_type=="buy"){//获取前一天所有单独buy
+                            if(i+1>=data.length||data[i+1].trans_type!="sell"){
+                              alonebuy.push(data[i])
+                            }
+                          }
+                        }
+                        }
+                        else {
+                          console.log("前一天没有交易")
+                        }
+                          for(var i=0;i<nowdata.length;i++){//获取今天所有单独short
+                            if(nowdata[i].trans_type=="short"){
+                              if(i+1>=nowdata.length||nowdata[i+1].trans_type!="cover"){
+                                aloneshort.push(nowdata[i])
+                              }
+                            }
+                            if(nowdata[i].trans_type=="buy"){
+                              if(i+1>=nowdata.length||nowdata[i+1].trans_type!="sell"){
+                                alonebuy.push(nowdata[i])
+                              }
+                            }
+                          }
+
+                        for(var i=0;i<nowdata.length;i++){
+                          if(nowdata[i].trans_type=="cover"){
+                            if(i==0||nowdata[i-1].trans_type!="short"){
+                              var flag=false;
+                              for(var j=aloneshort.length-1;j>=0;j--){
+                                if(aloneshort[j].datetime<nowdata[i].datetime){//截取这个时间之前最近的short
+                                  flag=true;
+                                  break;
+                                }
+                              }
+                              if(flag){
+                                nowdata.splice(i,0,aloneshort[j]);
+                                aloneshort.splice(j,1);
+                              }
+                            else {
+                                nowdata.splice(i,1);
+                              }
+                            }
+                          }
+                        }
+                        //console.log(aloneshort,alonebuy)
+                        for(var i=0;i<nowdata.length;i++){
+                          if(nowdata[i].trans_type=="sell"){
+                            if(i==0||nowdata[i-1].trans_type!="buy"){
+                              var flag=false;
+                              for(var j=alonebuy.length-1;j>=0;j--){
+                                if(alonebuy[j].datetime<nowdata[i].datetime){//截取这个时间之前最近的buy
+                                  flag=true;
+                                  break;
+                                }
+                              }
+                              if(flag){
+                                nowdata.splice(i,0,alonebuy[j]);
+                                alonebuy.splice(j,1);
+                              }
+                              else {
+                                nowdata.splice(i,1);
+                                console.log("发现无配对平仓")
+                              }
+                            }
+                          }
+                        }
+
+                        for(var i=0;i<nowdata.length;i++){//清除未配对开仓
+                          if(nowdata[i].trans_type=="short"){
+                            if(nowdata[i+1].trans_type!="cover"){
+                              nowdata.splice(i,1);
+                              i--;
+                            }
+                          }
+                        }
+                        for(var i=0;i<nowdata.length;i++){
+                          if(nowdata[i].trans_type=="buy"){
+                            if(nowdata[i+1].trans_type!="sell"){
+                              nowdata.splice(i,1);
+                              i--;
+                            }
+                          }
+                        }
+
+                        defer6.resolve(nowdata);
+                      })
+                  return defer6.promise;
                 }
 
-                action[window.location.hash]();
-                for(var i in data){
-                  alldata[i]=data[i];
-                }
-                function selectshort(){
-
-                }
-                /**
-                 *    删除"0"数据并保存
-                 */
-                function delzero(data){
-                  var del = [];
-                  angular.forEach(data, function (data, index,array) {
-                    if (data['price'] == 0) {
-                      del.push(index);
-                    }
-                  });
-                  for(var i=0;i<del.length;i++){
-                    console.log(data[del[i]])
-                    var flag=data[del[i]].trans_type;
-                    data.splice(del[i],1);
-                    if(flag=="cover"||flag=="sell"){
-                      data.splice(del[i]-1,1);
-                    }
-                    else {
+                trueRes(data).then(function(nowdata){
+                  data=nowdata;
+                  for(var i in data){
+                    alldata[i]=data[i];
+                  }
+                  /**
+                   *    删除"0"数据并保存
+                   */
+                  function delzero(data){
+                    var del = [];
+                    angular.forEach(data, function (data, index,array) {
+                      if (data['price'] == 0) {
+                        del.push(index);
+                      }
+                    });
+                    for(var i=0;i<del.length;i++){
+                      //console.log(data[del[i]])
+                      var flag=data[del[i]].trans_type;
                       data.splice(del[i],1);
-                    }
-                    for(k=0;k<del.length;k++){//删掉一对 下标移2个
-                      del[k]-=2;
+                      if(flag=="cover"||flag=="sell"){
+                        data.splice(del[i]-1,1);
+                      }
+                      else {
+                        data.splice(del[i],1);
+                      }
+                      for(k=0;k<del.length;k++){//删掉一对 下标移2个
+                        del[k]-=2;
+                      }
                     }
                   }
-                }
-                delzero(data)
-                stime=data[0].datetime;
-                etime=data[data.length-1].datetime;
-                defer1.resolve(data);
+                  delzero(data)
+                  console.log("数据处理完成")
+                  if(data.length<2){
+                    Showbo.Msg.alert("截至目前还未成交")
+                  }else {
+                    stime=data[0].datetime;
+                    etime=data[data.length-1].datetime;
+                  }
+                  defer1.resolve(data);
+
+                })
+
+
+
               })
               .error(function (err, sta) {
                 defer1.reject(err);//deferred.reject(reason)  未成功解决其派生的promise。参数reason被用来说明未成功的原因。此时deferred实例的promise对象将会捕获一个任务未成功执行的错误，promise.catch(errorCallback(reason){...})。补充一点，promise.catch(errorCallback)实际上就是promise.then(null, errorCallback)的简写。
@@ -3675,7 +3799,6 @@
               var del = [];
               num=parseInt(alldata.length/2);
               for(var i=0;i<num;i++){
-                //console.log(alldata[2*i].trans_type,alldata[2*i+1].trans_type)
                 if (alldata[2*i].trans_type=="short") {//看空
                   alldata2.push({
                     "direction":"看空",
@@ -3687,6 +3810,7 @@
                   })
                 }
                 else {
+                  if (alldata[2*i].trans_type=="buy") {
                   alldata2.push({
                     "direction":"看多",
                     "openprice":alldata[2*i].price,
@@ -3695,6 +3819,10 @@
                     "closetime":alldata[2*i+1].datetime,
                     "time":alldata[2*i+1].datetime
                   })
+                }
+                  else {
+                    console.log("配对出错")
+                  }
                 }
               }
 
