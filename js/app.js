@@ -432,15 +432,31 @@
         return string;
       }
 
+
+
+
+      function download(text, name, type) {
+        var file = new Blob([text], {type: type})
+        var a = $('<a id="download-it">Download it</a>').appendTo('body')
+        a[0].href = URL.createObjectURL(file)
+        a[0].download = name
+        a[0].click()
+      }
+
+
+
+
+
       $scope.downpy=function(id){
         $http.get(constantUrl + 'classs/' + id + '/', {
               headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
             })
             .success(function (data) {
-              $scope.beginlog();
-              $("#logname").append(data.code_name);
-              $("#log").append(TransferString(data.code))
-              $('.loadEffect').hide();
+              //$scope.beginlog();
+              //$("#logname").append(data.code_name);
+              //$("#log").append(TransferString(data.code))
+              //$('.loadEffect').hide();
+              download(data.code, data.class_name+'.py', 'text/plain')
             })
             .error(function (err, sta) {
               console.log(err);
