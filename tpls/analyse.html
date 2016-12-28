@@ -19,7 +19,10 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-3 col-lg-2 col-md-3  analyse-left">
+			<div class="col-sm-3 col-lg-2 col-md-3  analyse-left" style="background: -webkit-linear-gradient(left top, #a9c0a9 , #bbc0bb);
+    background: -o-linear-gradient(bottom right,#a9c0a9,  #bbc0bb);
+    background: -moz-linear-gradient(bottom right, #a9c0a9, #bbc0bb);
+    background: linear-gradient(to bottom right, #a9c0a9 , #bbc0bb);">
 				<i class='mobile-action visible-xs  fa fa-lg fa-arrow-circle-right' mobile-action></i>
 				<div class="analyse-menu-list">
 					<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#analyse-modal1'>输入历史回测数据</button></p>
@@ -73,7 +76,7 @@
 						</div>
 					</div>
 					<dl class="analyse-menu-item">
-						<dt slide-toggle><i class="fa fa-line-chart"></i>策略回测图表</dt>
+						<dt slide-toggle style="color: #fff"><i class="fa fa-line-chart"></i>策略回测图表</dt>
 						<dd>
 							<a data-target="#return_mapping" aria-controls="return_mapping" role="tab" data-toggle="tab">
 								交易走势图
@@ -88,7 +91,7 @@
 					</dl>
 
 					<dl class="analyse-menu-item">
-						<dt slide-toggle><i class="fa fa-pie-chart"></i>策略交易统计</dt>
+						<dt slide-toggle style="color: #fff"><i class="fa fa-pie-chart"></i>策略交易统计</dt>
 						<!-- <dd>
 							<a data-target="#total_revenue_rate" aria-controls="total_revenue_rate" role="tab" data-toggle="tab">
 								策略得分
@@ -117,7 +120,7 @@
 					</dl>
 
 					<dl class="analyse-menu-item">
-						<dt slide-toggle><i class="fa fa-newspaper-o"></i>策略风险分析</dt>
+						<dt slide-toggle style="color: #fff"><i class="fa fa-newspaper-o"></i>策略风险分析</dt>
 						<dd>
 							<a data-target="#winrate" aria-controls="winrate" role="tab" data-toggle="tab">
 								胜率
@@ -551,8 +554,8 @@
 				<i class="fa fa-remove" style="float: right;color: #817d7d;cursor: pointer" ng-click='closeModal()'></i>
 				<!--点击后调用closeModal()函数，功能：.analyse-modal-big隐藏-->
 				<div class="select">
-					<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#analyse-modal1' ng-click='closeModal()'>输入历史回测数据</button></p>
-					<p class="analyse-menu-head"><button class="btn btn-primary" data-toggle='modal' data-target='#analyse-modal2' ng-click='closeModal()'>获取历史回测数据</button></p>
+					<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#analyse-modal1' ng-click='closeModal()'>输入真实交易数据</button></p>
+					<p class="analyse-menu-head"><button class="btn btn-primary" data-toggle='modal' data-target='#analyse-modal2' ng-click='closeModal()'>获取真实交易数据</button></p>
 				</div>
 
 			</div>

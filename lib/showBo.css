@@ -16,27 +16,35 @@
 		width: 33.333333%;
 		overflow:hidden;
 		z-index:99999;
-		font-family:"fa";
-		border-radius: 6px;
-		border:8px solid rgba(0,0,0,0.3);
+		font-family: "宋体";
+		border-radius: 4px;
+		-webkit-box-shadow:0 10px 20px rgba(0,0,0,0.9);
+		-moz-box-shadow: 0 10px 20px rgba(0,0,0,0.9);
+		box-shadow: 0 10px 20px rgba(0,0,0,0.9);
 
 	}
 	#dvMsgBox .top{
 	    font-weight: normal;
 
-	    border-bottom: 1px solid #eef0f1;
+	    border-bottom: 2px solid #73b373;
 	    height: 40px;
-		background-color: #73b373;
+		background-color: #fff;
+		/*background-color: #73b373;*/
+		color: #000;
+		-webkit-box-shadow:2px 15px 10px #000;
+		-moz-box-shadow: 2px 15px 10px  #000;
+		box-shadow:2px 15px 10px  #000;
 
 	}
 	#dvMsgBox .top .right{
 		height:100%;
-		padding-right:6px;		padding: 0 5%;
+		padding-right:6px;
+		padding: 0 5%;
 	}
 	#dvMsgBox .top .right .title{
 		font-weight: bold;
 		font-size: 18px;
-		color: #fff;
+		color: #000;
 		height: 100%;
 		line-height: 40px;
 		width: 100%;
@@ -45,10 +53,8 @@
 		line-height: 40px;
 		color: #817d7d;
 		float: right;
-
 		cursor: pointer;
 	}
-
 
 
 	#dvMsgBox .top .right  .avtar{
@@ -71,9 +77,12 @@
 		width: 100%;
 		text-align: center;
 
-		font-size: 18px;
-		font-weight: normal;
+		font-size: 19px;
+		font-weight: bold;
 		padding: 40px 0;
+
+		/*color:#bb2222;*/
+		/*font-weight: bold;*/
   	}
 #dvMsgBox .body .right .ct .pro{width:280px;border:solid 1px #6593cf;height:25px;background:#ffffff;line-height:23px;overflow:hidden;font-family: "fa"}
 #dvMsgBox .body .right .ct .pro .bg{width:0%;height:100%;background:#c9dffc;font-family: "fa"}
@@ -83,7 +92,7 @@
 		text-align: right;
 
 		height:10%;
-		border-top: 1px solid #eef0f1;
+		border-top: 1px dashed #ddd;
 		padding: 0 5%;
 
 	}
@@ -93,10 +102,8 @@
 	}
 
 	#dvMsgBox input{
-
 		width:60px;
 		border-radius: 4px;
-
 		cursor:pointer;
 		height:30px;
 		text-align:center;
@@ -106,16 +113,25 @@
 	    vertical-align: middle;
 	    touch-action: manipulation;
 	    border: 1px solid transparent;
-
-	  	color: #fff;
-	    background-color: #5cb85c;
+		background-color: #ddd;
+		color: #000;
+		box-shadow: inset rgba(255,254,255,0.6) 0 0.1em .1em, inset rgba(0,0,0,0.15) 0 -0.1em .1em, hsl(0, 0%, 87%) 0 .1em 3px, hsl(0, 0%, 87%) 0 .1em 1px, /* color border */ rgba(0,0,0,0.2) 0 .2em 2px;
+	}
+	#dvMsgBox input:nth-child(1){
 
 	}
-	#dvMsgBox input.btnfocus{
+	#dvMsgBox input:nth-child(2){
+		background-color: #5cb85c;color: #fff;
 
-	    background-color: #449d44;
+		box-shadow: inset rgba(255,254,255,0.6) 0 0.1em .1em, inset rgba(0,0,0,0.15) 0 -0.1em .1em,  hsl(120, 39%, 54%) 0 .1em 3px, hsl(120, 39%, 54%) 0 .1em 1px, /* color border */ rgba(0,0,0,0.2) 0 .2em 2px;
+	}
+	#dvMsgBox input:nth-child(1){
+
+		background-color: red;
+		color: #000;
 
 	}
+
 #dvMsgBox .icon{width:32px;height:32px;float:left;margin-right:10px;}
 #dvMsgBox .error{background:url(icon-error.gif) no-repeat;}
 #dvMsgBox .info{background:url(icon-info.gif) no-repeat;}

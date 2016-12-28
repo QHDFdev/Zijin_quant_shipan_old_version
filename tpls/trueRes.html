@@ -1,7 +1,7 @@
 <div class="analyse actualRes" ng-controller='actualResController'>
     <div class="container-fluid noprint">
         <div class="row analyse-title-head">
-            <div class="col-sm-3 col-lg-2 col-md-3 hidden-xs"></div>
+            <div class="col-sm-3 col-lg-2 col-md-3 hidden-xs" style="background: url(../images/真实交易.png)"></div>
             <div class="col-sm-9 col-lg-10 col-md-9 jiaoyi">
                 <div class="remind" >
                     <div class="first">
@@ -20,7 +20,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-3 col-lg-2 col-md-3 analyse-left">
+            <div class="col-sm-3 col-lg-2 col-md-3 analyse-left"
+            style="background: -webkit-linear-gradient(left top, #eac99b , #ebd4b3);
+    background: -o-linear-gradient(bottom right,#eac99b,  #ebd4b3);
+    background: -moz-linear-gradient(bottom right, #eac99b, #ebd4b3);
+    background: linear-gradient(to bottom right, #eac99b , #ebd4b3);">
                 <i class='mobile-action visible-xs fa fa-lg fa-arrow-circle-right' mobile-action></i>
                 <div class="analyse-menu-list">
                     <p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal1'>输入真实交易数据</button></p>
@@ -45,8 +49,7 @@
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                     </div><!-- /.modal -->
-                    <style>
-                    </style>
+
                     <div class="modal fade" id="actualRes-modal2">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -86,7 +89,7 @@
                         </div>
                     </div>
                     <dl class="analyse-menu-item">
-                        <dt slide-toggle><i class="fa fa-line-chart"></i>真实交易走势图</dt>
+                        <dt slide-toggle style="color: #fff"><i class="fa fa-line-chart"></i>真实交易走势图</dt>
                         <dd>
                             <a data-target="#return_mapping_1" aria-controls="return_mapping_1" role="tab" data-toggle="tab">
                                 交易走势图
@@ -100,7 +103,7 @@
                         </dd>
                     </dl>
                     <dl class="analyse-menu-item">
-                        <dt slide-toggle><i class="fa fa-pie-chart"></i>策略交易统计</dt>
+                        <dt slide-toggle style="color: #fff"><i class="fa fa-pie-chart"></i>策略交易统计</dt>
                         <!-- <dd>
                             <a data-target="#total_revenue_rate_1" aria-controls="total_revenue_rate_1" role="tab" data-toggle="tab">
                                 策略得分
@@ -128,7 +131,7 @@
                         </dd>
                     </dl>
                     <dl class="analyse-menu-item">
-                        <dt slide-toggle><i class="fa fa-newspaper-o"></i>策略风险分析</dt>
+                        <dt slide-toggle style="color: #fff"><i class="fa fa-newspaper-o"></i>策略风险分析</dt>
                         <dd>
                             <a data-target="#winrate_1" aria-controls="winrate_1" role="tab" data-toggle="tab">
                                 胜率

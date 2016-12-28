@@ -350,6 +350,7 @@ ul li{
   width: 80%;
   /*text-align: center;*/
   /*height: 450px;*/
+  font-family: "宋体";
 
   position: relative;
   margin: 30px auto 0 auto;
@@ -364,20 +365,14 @@ ul li{
 
 }
 
-#time .title h2 {
-  color: #7c7c7c;
-  font-size: 18px;
-  font-weight: 500;
-}
 
 #circle {
   width: 95px;
   height: 93px;
   margin: 0 auto;
 
-  border: 6px solid rgba(0, 0, 0, 0.15);
+  border: 6px solid rgba(76, 174,205, 0.7);
   border-radius: 95px;
-
   text-align: center;
   -webkit-transition: all 0.3s linear;
   -moz-transition: all 0.3s linear;
@@ -409,7 +404,7 @@ ul li{
 
 #circle:hover {
   border-color: rgba(255, 255, 255, 0.6);
-  background-color: #6bc30d;
+  background-color: #4caecd;
 }
 
 #circle:hover .clock {
@@ -511,7 +506,6 @@ ul li{
 .list .liwrap .lileft{
   width: 45%;
   height: 50px;
-
   float: left;
   /*text-align: right;*/
   /*margin-right: 10px;*/
@@ -526,8 +520,8 @@ ul li{
   position: absolute;
   top:0;
   right: 20px;
-
   text-align: right;
+
 }
 
 .list .liwrap .licenter{
@@ -544,19 +538,23 @@ ul li{
 }
 .list .liwrap .licenter .point b{
   text-align: center;
-  height: 16px;
-  width: 16px;
-  background: #fff;
+  height: 19px;
+  width: 19px;
+
   display: block;
 
-  border-radius: 18px;
-  border: 2px solid #6bc30d;
+  border-radius: 50%;
+  /*border: 2px solid #666;*/
   box-sizing: content-box;
   -webkit-transition: all 0.1s linear;
   -moz-transition: all 0.1s linear;
   -o-transition: all 0.1s linear;
   transition: all 0.1s linear;
   margin: 0 auto;
+  background-color: #4caecd;
+  -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.6);
+  -moz-box-shadow: 0 0 5px rgba(0,0,0,0.6);
+  box-shadow: 0 0 3px rgba(0,0,0,0.6);
 }
 /*.list .liwrap .licenter .point span{
   text-align: center;
@@ -572,30 +570,48 @@ ul li{
 
 .md {
   font-size: 18px;
-  color: #AEAEAE;
+  color: #f7b645;
+  font-weight: bolder ;
 }
 
 .year {
   font-size: 12px;
-  color: #AEAEAE;
   margin-right: 10px;
+  color: #f7b645;
+font-weight: bolder ;
 }
 .list .liwrap .liright{
+
   width: 47%;
   height: 50px;
 
-
   float: right;
 }
+
+/*.list .liwrap .liright .box .arrow *{
+  display:block;
+  border-width:10px;
+  position:absolute;
+  border-style:solid dashed dashed dashed;
+  font-size:0;
+  line-height:0;
+}
+.list .liwrap .liright .box .arrow em{
+  border-color:#09F transparent transparent;
+}
+.list .liwrap .liright .box .arrow span{
+  border-color:red transparent transparent;
+  top:-1px;
+}*/
 .list .liwrap .liright .histt{
   height: 35px;
   line-height: 35px;
 }
 .list .liwrap .liright .histt a{
-  color: #747474;
-  font-size: 24px;
+  color: #4caecd;
+  font-size: 20px;
+  font-weight: bold;
 }
-
 
 .list .liwrap1{
   width: 80%;
@@ -621,12 +637,15 @@ ul li{
   position: absolute;
   top:0;
   right: 20px;
+  color: #4caecd;
+  font-weight: 500;
 }
 
 .list .liwrap1 .licenter{
   width:6%;
   height: 50px;
   float: left;
+
   /*background-color: darkred;*/
 }
 .list .liwrap1 .licenter .point{
@@ -638,19 +657,25 @@ ul li{
 }
 .list .liwrap1 .licenter .point b{
   text-align: center;
-  height: 16px;
-  width: 16px;
-  background: #fff;
+  height: 19px;
+  width: 19px;
+
   display: block;
   box-sizing: content-box;
+  background-color: #4caecd;
 
-  border-radius: 18px;
-  border: 2px solid #6bc30d;
+  border-radius: 50%;
+  /*border: 2px solid #f7b645;*/
+
   -webkit-transition: all 0.1s linear;
   -moz-transition: all 0.1s linear;
   -o-transition: all 0.1s linear;
   transition: all 0.1s linear;
   margin: 0 auto;
+
+  -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.6);
+  -moz-box-shadow: 0 0 5px rgba(0,0,0,0.6);
+  box-shadow: 0 0 3px rgba(0,0,0,0.6);
 }
 
 
@@ -669,16 +694,10 @@ ul li{
   right: 20px;
 }
 .list .liwrap1 .lileft .histt a{
-  color: #747474;
-  font-size: 24px;
+  color: #4caecd;
+  font-size: 20px;
+  font-weight: bold;
 }
-
-
-
-
-.list .licenter .point .b{border:7px solid rgba(107,195,13,0.6);margin:12px 0px 0px 14px;border-radius:52px;}
-.list .histt .n{color:#6bc30d;}
-
 
 /*.list .liwrap .licenter .point b:after{
   display: block;

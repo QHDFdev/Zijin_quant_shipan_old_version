@@ -1,4 +1,7 @@
 /* analyse */
+dl dd a{
+	color: #fff;
+}
 .analyse{
 	position: relative;
 	margin-top: 70px;
@@ -51,6 +54,7 @@ display: inline-block;
 	background: #f2f2f2;
 	/*background-color: red;*/
     border-bottom: 1px solid #ccc;
+	/*background: url("../images/真实交易.png") no-repeat;*/
 
 
 }
@@ -69,7 +73,7 @@ display: inline-block;
 	-webkit-box-shadow: 5px 0 10px #aaa;
 	-moz-box-shadow: 5px 0 10px #aaa;
 	box-shadow: 5px 0 10px #aaa;
-
+	background-color:#f2f2f2;
 
 }
 .analyse .analyse-left .mobile-action{
@@ -138,13 +142,26 @@ display: inline-block;
 	/* overflow-y:auto;  */
 }
 .analyse .analyse-right .analyse-charts-title{
-	margin: 0 0 50px;
+	margin: 0 0 50px ;
 	text-align:center;
 	color:#b22;
 	letter-spacing: 2px;
+	font-weight:bold;
+	text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb,
+	0 4px 0 #b9b9b9,
+0 5px 0 #aaa,
+0 6px 1px rgba(0,0,0,.1),
+0 0 5px rgba(0,0,0,.1),
+0 1px 3px rgba(0,0,0,.3),
+
+0 5px 10px rgba(0,0,0,.25),
+0 10px 10px rgba(0,0,0,.2);
+	/*background: url("../images/zi.png");*/
 }
+
+
 .analyse .analyse-right .mb0{
-	margin-bottom: 0;
+	margin-bottom: 15px;
 }
 .analyse .analyse-right .table-responsive{
 	height: 550px;

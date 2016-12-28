@@ -163,7 +163,8 @@
                             <div class="lileft">
                                 <div class="date">
                                     <span class="year">2016</span>
-                                    <span class="md">08</span>
+                                        <span class="md">08</span>
+
                                 </div>
 
                             </div>
@@ -171,7 +172,13 @@
                                 <div class="point"><b></b><span></span></div>
                             </div>
                             <div class="liright">
-                                <div class="histt"><a href="#">发起</a></div>
+                                <div class="box">
+                                    <div class="arrow">
+                                        <em></em><span></span>
+                                    </div>
+                                    <div class="histt"><a href="#">发起</a></div>
+                                </div>
+
                             </div>
                         </div>
                     </li>
@@ -288,9 +295,7 @@
                     <li >
                         <div class="liwrap1">
                             <div class="lileft">
-                                <div class="histt"><a href="#" class="wenzi">继承量化模型设计</a></div>
-
-
+                                <div class="histt"><a href="#" class="wenzi">集成量化模型设计</a></div>
                             </div>
                             <div class="licenter">
                                 <div class="point"><b></b></div>
@@ -305,41 +310,25 @@
                             </div>
                         </div>
                     </li>
+                    <li>
+                        <div class="liwrap">
+                            <div class="lileft">
+                                <div class="date">
+                                    <span class="year">2017</span>
+                                </div>
+                            </div>
+                            <div class="licenter">
+                                <div class="point"><b></b></div>
+                            </div>
+                            <div class="liright">
+                                <div class="histt"><a href="#" class="wenzi">正式版1.0</a></div>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </section>
-        <!--<div class="con_three">
-            <div id="con_three_abcd">
-                <div id="a">
-                    <div id="folder_buttom_a" onclick="folder(1)"></div>
-                    <p >
-                        策略平台设计完成
-                    </p>
-                </div>
-                <div id="b">
-                    <div id="folder_buttom_b" onclick="folder(2)"></div>
-                    <p >回测实盘模拟设计完成
-                    </p>
-                </div>
-                <div id="c">
-                    <div id="folder_buttom_a" onclick="folder(3)"></div>
-                    <p >真实交易平台设计
-                    </p>
-                </div>
-                <div id="d">
-                    <div id="folder_buttom_b" onclick="folder(4)"></div>
-                    <p >
-                        在线编程
-                    </p>
-                </div>
-                <div id="e">
-                    <div id="folder_buttom_b" onclick="folder(5)"></div>
-                    <p >
-                        量化模块设计
-                    </p>
-                </div>
-            </div>
-        </div>-->
+
     </div>
 </div>
 <script>
@@ -352,21 +341,21 @@
     $(".list .liwrap").mouseover(function(){
 
 //      alert($(this).parent().children("a.wenzi"));
-      $(this).parent().find("a").css({'color':'#6bc30d'});
-      $(this).parent().find("b").css({'border':'7px solid rgba(107,195,13,0.6)'},{'margin':'12px 0px 0px 14px'},{'border-radius':'52px'});
+      $(this).parent().find("a").css({'color':'#05769a'});
+      $(this).parent().find("b").css({'border':'3px solid #000'},{'margin':'12px 0px 0px 14px'},{'border-radius':'52px'});
     })
       .mouseout(function () {
-        $(this).parent().find("a").css({'color':'#747474'});
-        $(this).parent().find("b").css({'border':'2px solid #6bc30d'},{'border-radius':'18px'});
+        $(this).parent().find("a").css({'color':'#4caecd'});
+        $(this).parent().find("b").css({'border':'none'},{'border-radius':'18px'});
       });
 
     $(".list .liwrap1").mouseover(function(){
-      $(this).parent().find("a").css({'color':'#6bc30d'});
-      $(this).parent().find("b").css({'border':'7px solid rgba(107,195,13,0.6)'},{'margin':'12px 0px 0px 14px'},{'border-radius':'52px'});
+      $(this).parent().find("a").css({'color':'#05769a'});
+      $(this).parent().find("b").css({'border':'3px solid #000'},{'margin':'12px 0px 0px 14px'},{'border-radius':'52px'});
     })
       .mouseout(function () {
-        $(this).parent().find("a").css({'color':'#747474'});
-        $(this).parent().find("b").css({'border':'2px solid #6bc30d'},{'border-radius':'18px'});
+        $(this).parent().find("a").css({'color':'#4caecd'});
+        $(this).parent().find("b").css({'border':'none'},{'border-radius':'18px'});
 
       })
   });
