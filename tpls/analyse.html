@@ -21,6 +21,19 @@
 			   </div>
 			</div>
 		</div>
+		<style>
+			.sel{
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+				box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+				-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+				-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+				transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+			}
+
+		</style>
+
 		<div class="row">
 			<div class="col-sm-3 col-lg-2 col-md-3  analyse-left" style="background: -webkit-linear-gradient(left top, #a9c0a9 , #bbc0bb);
     background: -o-linear-gradient(bottom right,#a9c0a9,  #bbc0bb);
@@ -50,18 +63,6 @@
 							</div><!-- /.modal-content -->
 						</div><!-- /.modal-dialog -->
 					</div><!-- /.modal -->
-					<style>
-						.sel{
-							border: 1px solid #ccc;
-							border-radius: 4px;
-							-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-							box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-							-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-							-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-							transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-						}
-
-					</style>
 					<div class="modal fade" id="analyse-modal2">
 						<div class="modal-dialog">
 							<div class="modal-content">
@@ -69,16 +70,17 @@
 									<form>
 										<div class="form-group">
 											策略：
-											<input readonly="readonly" class="sel" onChange=""   ng-model="myFirmStartDate" id="startTime" class="Wdate" type="text" onFocus="WdatePicker({skin:'twoer',minDate:startMinDate(),maxDate:startMaxDate(),dateFmt:'yyyy-MM-dd',qsEnabled:false,disabledDates:delDate()})"/>
+											<select class="sel" ng-model='myFirmStrategy' ng-options="x.name for x in myFirmStrategyList | orderBy: 'name' " ng-change='selecteStrategy()'></select>
 											<br>
 											<br>
 											开始时间：
-											<input readonly="readonly" class="sel" onChange=""  ng-model='myFirmEndDate' id="endTime" class="Wdate" type="text" onFocus="WdatePicker({minDate:endMinDate(),maxDate:endMaxDate(),dateFmt:'yyyy-MM-dd',qsEnabled:false,disabledDates:delDate()})"/>
 
+											<input readonly="readonly" class="sel" onChange=""   ng-model="myFirmStartDate" id="startTime" class="Wdate" type="text" onFocus="WdatePicker({minDate:startMinDate(),maxDate:startMaxDate(),dateFmt:'yyyy-MM-dd',qsEnabled:false,disabledDates:delDate()})"/>
 											<br>
 											<br>
 											结束时间：
-											<select ng-model='myFirmEndDate' ng-options="x for x in myFirmDateList"></select>
+											<input readonly="readonly" class="sel" onChange=""  ng-model='myFirmEndDate' id="endTime" class="Wdate" type="text" onFocus="WdatePicker({minDate:endMinDate(),maxDate:endMaxDate(),dateFmt:'yyyy-MM-dd',qsEnabled:false,disabledDates:delDate()})"/>
+
 											<br>
 											<br>
 										</div>
