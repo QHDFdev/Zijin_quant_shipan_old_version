@@ -15,7 +15,7 @@
     </style>
     <div class="zijin-table-body container sourcing-strategy;">
         <div class="zijin-table-title" style="margin-bottom: 5px">
-            <span><i class="glyphicon glyphicon-pencil btn-sm" style="margin-bottom: 4px"></i>策略代码</span>
+            <span><i class="glyphicon glyphicon-edit btn-sm" style="margin-bottom: 4px"></i>策略代码</span>
             <i style="margin-bottom: 4px" class="zijin-table-add" ng-click='openMaskSourcing()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i>
              <!--<button class="btn btn-danger sour-del" style="float:right;margin-top:20px;margin-right: 48px">删除策略 <i class="fa fa-remove"></i></button>-->
         </div>
@@ -87,7 +87,7 @@
     </div>
     <div class="zijin-table-body container firm-strategy" ng-if='user.is_admin==true'>
         <div class="zijin-table-title" style="margin-bottom: 5px">
-            <span style="color:#f0ad4e"><i class="glyphicon glyphicon-check btn-sm" style="margin-bottom: 4px;"></i>真实交易</span>
+            <span style="color:#f0ad4e"><i class="glyphicon glyphicon-ok btn-sm" style="margin-bottom: 4px;"></i>真实交易</span>
         </div>
         <div class="table-responsive" style="width: 100%;">
             <div id="mytable6" style="width: 100%;">
@@ -133,7 +133,7 @@
     </div>
      <div class="zijin-table-body container firm-strategy">
         <div class="zijin-table-title" style="margin-bottom: 5px">
-            <span style="color:#46b8da"><i class="glyphicon glyphicon-th btn-sm" style="margin-bottom: 4px"></i>实盘模拟</span>
+            <span style="color:#46b8da"><i class="glyphicon glyphicon-th-large btn-sm" style="margin-bottom: 4px"></i>实盘模拟</span>
              <!--<i class="zijin-table-add" ng-click='openMask()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i>-->
             <!--<button  class="btn btn-danger allde2" ng-click="alldel2()">删除选择<i class="fa fa-remove"></i></button>-->
             <!--<input  type="checkbox" ng-model="all2" style="margin-left: 40px;width: 20px;height:20px;vertical-align:middle;margin-right: 5px" ng-click="selectall2()"><span>全选</span>-->
@@ -183,7 +183,7 @@
     </div>
     <div class="zijin-table-body container his-strategy">
         <div class="zijin-table-title" style="margin-bottom: 5px">
-            <span style="color: #5cb85c;"><i class="glyphicon glyphicon-dashboard btn-sm" style="margin-bottom: 4px;font-size: 18px"></i>历史回测</span>
+            <span style="color: #5cb85c;"><i class="glyphicon glyphicon-time btn-sm" style="margin-bottom: 4px;font-size: 18px"></i>历史回测</span>
             <!-- <i class="zijin-table-add" ng-click='openMask()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i> -->
             <input  type="checkbox" ng-model="all3" style="margin-left: 40px;width: 20px;height:20px;vertical-align:middle;margin-right: 5px"ng-click="selectall3()"><span style="color: #5cb85c;">全选</span>
             <button  class="btn btn-success" ng-click="delsel3()" style="margin-left: 40px;margin-top: 2px;">删除选择</button>
@@ -249,7 +249,7 @@
             <div class="col-lg-6 col-md-8 col-sm-12">
 
                 <div class="zijin-table-title" style="width: 160px;" slide-toggle>
-                    <span><i class="fa fa-trash" ></i>&nbsp;回收站&nbsp;<span class="caret"></span></span>
+                    <span><i class="fa fa-trash btn-sm" ></i>回收站<span class="caret"></span></span>
                 </div>
 
                 <div class="table-responsive" style="display: none;">
@@ -479,11 +479,14 @@
                    </div>
                    <div class="form-group">
                         <label for="">开始时间：</label>
-                        <select class="sel" ng-model='hisItem.start' ng-options='x for x in hisItem.time' ng-change="checktime1()"></select>&nbsp;&nbsp;
-                   <!--</div>-->
+                       <input readonly="readonly" class="sel" onChange=""   ng-model="hisItem.start" id="startTime" class="Wdate" type="text" onFocus="WdatePicker({minDate:startMinDate(),maxDate:startMaxDate(),dateFmt:'yyyy-MM-dd',qsEnabled:false,disabledDates:delDate()})"/>
+
+                       <!--</div>-->
                    <!--<div class="form-group">-->
                         <label for="">结束时间：</label>
-                        <select class="sel" ng-model='hisItem.end' ng-options='x for x in hisItem.time'ng-change="checktime()"></select>
+                       <input readonly="readonly" class="sel" onChange=""  ng-model='hisItem.end' id="endTime" class="Wdate" type="text" onFocus="WdatePicker({minDate:endMinDate(),maxDate:endMaxDate(),dateFmt:'yyyy-MM-dd',qsEnabled:false,disabledDates:delDate()})"/>
+
+
                    </div>
                     <div class="form-group">
                         <label>代码依赖文件：</label><input type="file" name="hisFile" file-model='files' placeholder="代码依赖文件">

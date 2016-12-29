@@ -1,7 +1,7 @@
 <div class="analyse actualRes" ng-controller='actualResController'>
     <div class="container-fluid noprint">
         <div class="row analyse-title-head">
-            <div class="col-sm-3 col-lg-2 col-md-3 hidden-xs" style="background: url(../images/真实交易.png)"></div>
+            <div class="col-sm-3 col-lg-2 col-md-3 hidden-xs"><img src="images/真实交易.png" alt=""></div>
             <div class="col-sm-9 col-lg-10 col-md-9 jiaoyi">
                 <div class="remind" >
                     <div class="first">
@@ -39,11 +39,12 @@
                                             <textarea placeholder="请在此处粘贴策略交易数据……" ng-model='analyseData'></textarea>
                                             <textarea placeholder="请在此处粘贴行情数据……" ng-model='analyseJsonData'></textarea>
                                         </div>
-                                        <div class="btn-group btn-group-lg">
-                                            <!--点击以后调用makeChart()函数，输入真实交易数据，点我生成图表-->
-                                            <input type="button" value="生成图表" class="btn btn-success" data-dismiss="modal" ng-click='makeChart()' style="margin-right:15px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
-                                            <input type="button" value="关闭" class="btn btn-warnning" data-dismiss="modal" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
+
+                                        <div class="btn-group " style="width: 50%;">
+                                            <input type="button" value="交易分析" class="btn btn-success" data-dismiss="modal" ng-click='makeChart()' style="width:30%;height:40px;margin-right:15px;border-radius:5px;float: left">
+                                            <input type="button" value="关闭" class="btn btn-warnning" data-dismiss="modal" style="width:30%;height:40px;border-radius: 5px;background-color: #a0caca;color: #fff">
                                         </div>
+
                                     </form>
                                 </div>
                             </div><!-- /.modal-content -->
@@ -79,9 +80,9 @@
                                             <!--<br>-->
                                         </div>
 
-                                        <div class="btn-group btn-group-lg">
-                                            <input  type="button" value="生成图表" class="btn btn-success" data-dismiss="modal"  ng-click='makeChart1()' style="margin-right:15px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
-                                            <input type="button" value="关闭" class="btn btn-warnning" data-dismiss="modal" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
+                                        <div class="btn-group " style="width: 50%;">
+                                            <input type="button" value="交易分析" class="btn btn-success" data-dismiss="modal" ng-click='makeChart1()' style="width:30%;height:40px;margin-right:15px;border-radius:5px;float: left">
+                                            <input type="button" value="关闭" class="btn btn-warnning" data-dismiss="modal" style="width:30%;height:40px;border-radius: 5px;background-color: #a0caca;color: #fff">
                                         </div>
                                     </form>
                                 </div>
@@ -197,9 +198,9 @@
                     <div role="tabpanel" class="tab-pane" id="transaction_details_1">
                         <h2 class="analyse-charts-title">交易详细输出</h2>
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped table-bordered">
                                 <thead>
-                                <tr class='success'>
+                                <tr>
                                     <th>交易方向</th>
                                     <th>开仓时间</th>
                                     <th>委托号</th>
@@ -229,7 +230,7 @@
                                 </tr>
                                 </tbody>
                                 <tfoot>
-                                <tr class='warning'>
+                                <tr class='success'>
                                     <td>总盈亏</td>
                                     <td>￥{{allTotalpal | number : 6}}</td>
                                     <td>总手续费</td>
@@ -248,9 +249,9 @@
                     <div role="tabpanel" class="tab-pane" id="trading_yield_1">
                         <h2 class="analyse-charts-title">交易收益率输出</h2>
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped table-bordered">
                                 <thead>
-                                <tr class='success'>
+                                <tr>
                                     <th>日期</th>
                                     <th>交易方向</th>
                                     <th>开仓价</th>
@@ -270,7 +271,7 @@
                                 </tr>
                                 </tbody>
                                 <tfoot>
-                                <tr class='warning'>
+                                <tr class='success'>
                                     <td>总收益率</td>
                                     <td>{{allTotalyeild |number :6}}%</td>
                                     <td>平均收益率</td>
@@ -285,9 +286,9 @@
                     <div role="tabpanel" class="tab-pane" id="annualized_return_1">
                         <h2 class="analyse-charts-title">年化收益率</h2>
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped table-bordered">
                                 <thead>
-                                <tr class='success'>
+                                <tr>
                                     <th>日期</th>
                                     <th>交易方向</th>
                                     <th>开仓价</th>
@@ -307,7 +308,7 @@
                                 </tr>
                                 </tbody>
                                 <tfoot>
-                                <tr class='warning'>
+                                <tr class='success'>
                                     <td>年化收益率</td>
                                     <td>{{annualized_return| number : 6}}%</td>
                                     <td>&nbsp;</td>
@@ -321,9 +322,9 @@
                     <div role="tabpanel" class="tab-pane" id="annualized_date_1">
                         <h2 class="analyse-charts-title">持仓时间</h2>
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped table-bordered">
                                 <thead>
-                                <tr class='success'>
+                                <tr>
                                     <th>开仓时间</th>
                                     <th>开仓价</th>
                                     <th>平仓时间</th>
@@ -342,7 +343,7 @@
                                 </tr>
                                 </tbody>
                                 <tfoot>
-                                <tr class='warning'>
+                                <tr class='success'>
                                     <td>总持仓时间</td>
                                     <td>{{allTotalTime}}</td>
                                     <td>平均持仓时间</td>
@@ -356,9 +357,9 @@
                     <div role="tabpanel" class="tab-pane" id="winrate_1">
                         <h2 class="analyse-charts-title">胜率</h2>
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped table-bordered">
                                 <thead>
-                                <tr class='success'>
+                                <tr>
                                     <th>日期</th>
                                     <th>交易方向</th>
                                     <th>开仓价</th>
@@ -380,7 +381,7 @@
                                 </tr>
                                 </tbody>
                                 <tfoot>
-                                <tr class='warning'>
+                                <tr class='success'>
                                     <td>平均胜率</td>
                                     <td>{{average_winrate | number:2}}%</td>
                                     <td>&nbsp;</td>
@@ -396,9 +397,9 @@
                     <div role="tabpanel" class="tab-pane" id="average_earning_loss_1">
                         <h2 class="analyse-charts-title">盈亏比</h2>
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped table-bordered">
                                 <thead>
-                                <tr class='success'>
+                                <tr>
                                     <th>日期</th>
                                     <th>交易方向</th>
                                     <th>开仓价</th>
@@ -416,7 +417,7 @@
                                 </tr>
                                 </tbody>
                                 <tfoot>
-                                <tr class='warning'>
+                                <tr class='success'>
                                     <td>盈亏比</td>
                                     <td>{{average_profit|number:6}}%</td>
                                     <td>&nbsp;</td>
@@ -430,9 +431,9 @@
                     <div role="tabpanel" class="tab-pane" id="sharp_ratio_1">
                         <h2 class="analyse-charts-title">夏普比率 Sharpe Ratio</h2>
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped table-bordered">
                                 <thead>
-                                <tr class='success'>
+                                <tr>
                                     <th>日期</th>
                                     <th>交易方向</th>
                                     <th>开仓价</th>
@@ -450,7 +451,7 @@
                                 </tr>
                                 </tbody>
                                 <tfoot>
-                                <tr class='warning'>
+                                <tr class='success'>
                                     <td>平均净回报率为：{{rate1|number:6}}%</td>
                                     <td>净回报率标准差为：{{rate2|number:6}}%</td>
                                     <td>夏普比率为：{{rate3|number:6}}%</td>
@@ -464,9 +465,9 @@
                     <div role="tabpanel" class="tab-pane" id="max_drawdown_1">
                         <h2 class="analyse-charts-title">最大回撤 Max Drawdown</h2>
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped table-bordered">
                                 <thead>
-                                <tr class='success'>
+                                <tr>
                                     <th>日期</th>
                                     <th>交易方向</th>
                                     <th>开仓价</th>
@@ -484,7 +485,7 @@
                                 </tr>
                                 </tbody>
                                 <tfoot>
-                                <tr class='warning'>
+                                <tr class='success'>
                                     <td>最大回撤率为：</td>
                                     <td>{{rate4|number:6}}%</td>
                                     <td>&nbsp;</td>
@@ -499,9 +500,9 @@
                         <h2 class="analyse-charts-title">信息比率 Information Ratio</h2>
                         <!--<p class="text-center">衡量超额风险带来的超额收益。具体计算方法为: (策略每日收益 - 参考标准每日收益)的年化均值 / 年化标准差 。</p>-->
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped table-bordered">
                                 <thead>
-                                <tr class='success'>
+                                <tr>
                                     <th>日期</th>
                                     <th>交易方向</th>
                                     <th>开仓价</th>
@@ -519,7 +520,7 @@
                                 </tr>
                                 </tbody>
                                 <tfoot>
-                                <tr class='warning'>
+                                <tr class='success'>
                                     <td>信息比率为：</td>
                                     <td>{{errorYeild| number : 6}}%</td>
                                     <td>&nbsp;</td>
@@ -534,9 +535,9 @@
                         <h2 class="analyse-charts-title">策略收益波动率 Volatility</h2>
                         <!--<p class="text-center">用来测量资产的风险性，波动越大代表策略风险越高。具体计算方法为: 策略每日收益的年化标准差 。</p>-->
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped table-bordered">
                                 <thead>
-                                <tr class='success'>
+                                <tr>
                                     <th>日期</th>
                                     <th>交易方向</th>
                                     <th>开仓价</th>
@@ -554,7 +555,7 @@
                                 </tr>
                                 </tbody>
                                 <tfoot>
-                                <tr class='warning'>
+                                <tr class='success'>
                                     <td>策略收益波动率为：</td>
                                     <td>{{rate2|number:6}}%</td>
                                     <td>&nbsp;</td>
@@ -585,7 +586,14 @@
     </div>
     <div class="printform clearfix" style="display: none">
         <div class="container">
-            <p class="analyse-top-title text-left">{{analyse_title.time}}&nbsp;&nbsp;&nbsp;{{analyse_title.name}}&nbsp;&nbsp;&nbsp;{{analyse_title.symbol}}</p>
+
+            <p class="analyse-top-title text-left">
+                <span>真实交易</span>
+                <span>交易时间：{{analyse_title.time}}</span>
+                <span> 策略名：{{analyse_title.name}}</span>
+                <span>交易合约：{{analyse_title.symbol}}</span>
+                <span>交易手数：{{analyse_title.multiple}}</span>
+            </p>
             <br>
             <br>
             <div class="row">
@@ -602,7 +610,7 @@
             </div>
             <h2 class="analyse-charts-title">交易详细输出</h2>
             <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover table-striped table-bordered">
                     <thead>
                     <tr class='success'>
                         <th>交易方向</th>
@@ -653,7 +661,7 @@
             <br>
             <h2 class="analyse-charts-title">交易收益率输出</h2>
             <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover table-striped table-bordered">
                     <thead>
                     <tr class='success'>
                         <th>日期</th>
@@ -690,7 +698,7 @@
             <br>
             <h2 class="analyse-charts-title">年化收益率</h2>
             <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover table-striped table-bordered">
                     <thead>
                     <tr class='success'>
                         <th>日期</th>
@@ -726,7 +734,7 @@
             <br>
             <h2 class="analyse-charts-title">胜率</h2>
             <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover table-striped table-bordered">
                     <thead>
                     <tr class='success'>
                         <th>日期</th>
@@ -767,7 +775,7 @@
             <br>
             <h2 class="analyse-charts-title">盈亏比</h2>
             <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover table-striped table-bordered">
                     <thead>
                     <tr class='success'>
                         <th>日期</th>
@@ -801,7 +809,7 @@
             <br>
             <h2 class="analyse-charts-title">夏普比率 Sharpe Ratio</h2>
             <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover table-striped table-bordered">
                     <thead>
                     <tr class='success'>
                         <th>日期</th>
@@ -835,7 +843,7 @@
             <br>
             <h2 class="analyse-charts-title">最大回撤 Max Drawdown</h2>
             <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover table-striped table-bordered">
                     <thead>
                     <tr class='success'>
                         <th>日期</th>

@@ -2,10 +2,32 @@
 dl dd a{
 	color: #fff;
 }
+.analyse table{
+	text-align: center;
+	border-radius: 5px;
+	overflow: hidden;
+}
+.analyse table tr th{
+	text-align: center;
+	background-color:#707ea1;
+	font-size: 16px;
+	color:#fff;
+	font-weight:bold;
+}
+.analyse table tfoot{
+	color: #484848;
+	font-size: 18px;
+	border:1px solid transparent;
+
+}
 .analyse{
 	position: relative;
 	margin-top: 70px;
 	width: 100%;
+}
+.analyse .analyse-title-head .col-md-3 img{
+margin:2% 18%;
+	transform: rotate(-3deg);
 }
 @media (max-width: 767px){
 	.analyse{margin-top: 50px;}
@@ -15,7 +37,7 @@ dl dd a{
 	padding: 10px 0;
 	height: 50px;
 	line-height: 50px;
-	font-size: 20px;
+	font-size: 16px;
 
 }
 
@@ -293,4 +315,7 @@ display: inline-block;
 	.noprint{
 		display: none;
 	}
+}
+.printform .container .analyse-top-title span{
+	margin-left: 3%;
 }

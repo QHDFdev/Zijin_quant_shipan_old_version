@@ -50,20 +50,6 @@ a:focus,button:focus,input:focus{
 	box-shadow: none;
 	border: none;
 }
-@media ( min-width :769px) {
-	.main-navbar .left-nav{
-		width:80%;
-		display: inline-block;
-		float: none;
-		vertical-align: middle;
-	}
-	.main-navbar .left-nav>li{
-		width: 10%;
-	}
-	.main-navbar .navbar-collapse{
-		text-align: center;
-	}
-}
 
 .main-navbar .navbar-default {
 	background: transparent;
@@ -596,4 +582,34 @@ div.collapse.navbar-collapse ul.nav.navbar-nav.left-nav li{
 	.collapse ul.left-nav li{
 		margin: 0 auto;
 	}
+}
+
+@media ( min-width :1200px) {
+	.main-navbar .left-nav{
+		width:75%;
+		display: inline-block;
+		float: none;
+		vertical-align: middle;
+	}
+	.main-navbar .left-nav>li{
+		width: 10%;
+	}
+	.main-navbar .navbar-collapse{
+		text-align: center;
+	}
+}
+@media screen and (min-width: 769px) and (max-width: 1190px) {
+	.main-navbar .left-nav{
+		width:65%;
+		display: inline-block;
+		float: none;
+		vertical-align: middle;
+	}
+	.main-navbar .left-nav>li{
+		width: 10%;
+	}
+	.main-navbar .navbar-collapse{
+		text-align: center;
+	}
+
 }

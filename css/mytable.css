@@ -8,6 +8,7 @@
 		margin-top: 50px;
 	}
 } */
+
 .zijin-table .zijin-table-head{
 	position: relative;
 	padding:150px 0;
@@ -64,8 +65,10 @@
 .zijin-table .zijin-table-body .zijin-table-title span{
 	display: inline-block;
 	vertical-align: middle;
-	font-size: 30px;
-	color: #b22;	
+	font-size: 35px;
+	color: #b22;
+	font-family: "宋体";
+	font-weight: bold;
 }
 .zijin-table .zijin-table-body .zijin-table-title .zijin-table-add{
 	display: inline-block;
