@@ -467,7 +467,6 @@
               console.log(err);
             });
       }
-
       /**
        * 日志初始化
        */
@@ -477,7 +476,6 @@
         $('#logs').show();
         $('.loadEffect').show();
       }
-
       /**
        * 日志输出
        * @param name
@@ -849,9 +847,9 @@
           $scope.modeBarOptions = false;
           return;
         }
-        //console.log($scope.hisItem)
-        if($scope.hisItem.symbol==""){
-          Showbo.Msg.alert('请选择交易合约');
+        // console.log($scope.hisItem)
+        if($scope.hisItem.symbol==""||$scope.hisItem.symbol==undefined){
+          Showbo.Msg.alert('请输入交易合约');
           $scope.modeTickOptions = false;
           $scope.modeBarOptions = false;
           return;

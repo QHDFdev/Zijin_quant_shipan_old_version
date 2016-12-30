@@ -48,7 +48,6 @@
                                 <button class="btn btn-danger sour-del" ng-click="delsour(this)">删除策略 <i class="fa fa-remove"></i></button>
                             </div>
                         </td>
-
                     </tr>
                 </tbody>
             </table>
@@ -161,11 +160,11 @@
                     <tr ng-repeat='d in myStrategy  | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
                         <!--<td><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection2(this)" ng-checked="all2"><a hidden>{{d.flag}}</a></td>-->
-                        <td ng-bind="d.name"class="col-xs-3" ></td>
-                        <td ng-bind="d.class_name" class="" ></td>
-                        <td ng-bind="d.symbol" class="col-xs-1"></td>
-                        <td ng-bind="d.author" class="col-xs-1"></td>
-                        <td ng-bind="d.status" style="width: 10%" title="{{d.title}}"  class={{d.color}}></td>
+                        <td ng-bind="d.name" style="width: 23.2%" ></td>
+                        <td ng-bind="d.class_name" class="" style="width: 22.11%"></td>
+                        <td ng-bind="d.symbol" style="width: 7.87%"></td>
+                        <td ng-bind="d.author" style="width: 8.1%"></td>
+                        <td ng-bind="d.status" style="width:8.9%" title="{{d.title}}"  class={{d.color}}></td>
                         <td class="col-xs-4">
                             <div class="btn-group btn-group-sm">
                                <!--  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> -->
@@ -452,11 +451,11 @@
                     </div>
                     <div class="form-group">
                         <label for="">交易合约：</label>
-                        <select class="sel" ng-model='hisItem.symbol' ng-options='y.symbol as y.symbol for y in sy' ng-change="changesymbol()"></select>
-                        <!--<input class="ipt" type="text" class="form-control" name="symbol" placeholder="请输入交易合约"  ng-change="changesymbol()" ng-model='hisItem.symbol'required>-->
-                        <!--<div class="error" ng-messages='newHisStrategy.symbol.$error' ng-if='newHisStrategy.symbol.$touched' ng-message-multiple>-->
-                            <!--<small ng-message='required'style="color:red">交易合约不能为空</small>-->
-                        <!--</div>-->
+                        <!-- <select class="sel" ng-model='hisItem.symbol' ng-options='y.symbol as y.symbol for y in sy' ng-change="changesymbol()"></select> -->
+                        <input class="ipt" type="text" class="form-control" name="symbol" placeholder="请输入交易合约"  ng-change="changesymbol()" ng-model='hisItem.symbol'required>
+                        <div class="error" ng-messages='newHisStrategy.symbol.$error' ng-if='newHisStrategy.symbol.$touched' ng-message-multiple>
+                            <small ng-message='required'style="color:red">交易合约不能为空</small>
+                        </div>
                     </div>
                    <div class='form-group'>
                         <div class="checkbox">
