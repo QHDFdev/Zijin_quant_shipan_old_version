@@ -6794,7 +6794,7 @@
                 })
                 .success(function () {
                   /*$route.reload();*/
-                  scope.getFirmStrategys();
+                  scope.gettrueStrategys();
 
                 })
                 .error(function (err, sta) {
@@ -6826,7 +6826,7 @@
                 })
                 .success(function () {
                   /*$route.reload();*/
-                  scope.getFirmStrategys();
+                  scope.gettrueStrategys();
 
                 })
                 .error(function (err, sta) {
