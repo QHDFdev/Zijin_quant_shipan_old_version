@@ -26,8 +26,8 @@ dl dd a{
 	width: 100%;
 }
 .analyse .analyse-title-head .col-md-3 img{
-margin:2% 18%;
-	transform: rotate(-3deg);
+   margin:-2% 18%;
+	/*transform: rotate(-3deg);*/
 }
 @media (max-width: 767px){
 	.analyse{margin-top: 50px;}

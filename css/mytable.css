@@ -54,10 +54,32 @@
 	text-align: center;
 	vertical-align: middle;
 }
+.zijin-table .zijin-table-body .table-responsive1{
+	overflow: hidden;
+	border-radius: 5px;
+	-webkit-box-shadow: 0 0 30px #ddd;
+	-moz-box-shadow:0 0 30px #ddd;
+	box-shadow:0 0 30px #ddd;
+}
 .zijin-table .zijin-table-body table thead{
-	border:2px solid #292421;
-	background: #292421;
+	border:2px solid #707ea1;
+	font-size: 16px;
+
+	background-color: #707ea1;
+
 	color:#fff;
+}
+#container3 table td{
+	border-right: 1px solid #ccc;
+}
+#container6 table td{
+	border-right: 1px solid #ccc;
+}
+#container1 table td{
+	border-right: 1px solid #ccc;
+}
+#container table td{
+	border-right: 1px solid #ccc;
 }
 .zijin-table .zijin-table-body .zijin-table-title{
 	margin-bottom: 30px;

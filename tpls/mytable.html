@@ -17,22 +17,22 @@
         <div class="zijin-table-title" style="margin-bottom: 5px">
             <span><i class="glyphicon glyphicon-edit btn-sm" style="margin-bottom: 4px"></i>策略代码</span>
             <i style="margin-bottom: 4px" class="zijin-table-add" ng-click='openMaskSourcing()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i>
-             <!--<button class="btn btn-danger sour-del" style="float:right;margin-top:20px;margin-right: 48px">删除策略 <i class="fa fa-remove"></i></button>-->
         </div>
-        <div class="table-responsive" style="width: 100%;">
+        <div class="table-responsive1" style="width: 100%;">
             <table class="table table-bordered table-hover table-striped table-responsive"  sourcing-table style="width: 100%;">
-                <thead class="bg-success">
+                <thead class="">
                     <tr>
-                        <th class="" style="width: 24.85%">策略类名</th>
-                        <th class="" style="width: 24.85%">代码文件名</th>
-                        <th class="" style="width: 8.27%">作者</th>
+                        <th class="" style="width: 24.75%">策略类名</th>
+                        <th class="" style="width: 24.98%">代码文件名</th>
+                        <th class="" style="width: 8.32%">作者</th>
                         <th class="" style="width:8.33%">状态</th>
                         <th class="" >策略操作</th>
                     </tr>
                 </thead>
             </table>
-            <div id="container3" style="overflow-y: scroll; height: 300px;margin: -1.8% 0 0 0;">
-                <table class="table table-bordered table-responsive"  sourcing-table style="width: 100%;">
+            <div id="container3" style="overflow-y: scroll; height: 300px;margin: -1.8% 0 0 0;
+">
+                <table class="table  table-responsive"  sourcing-table style="width: 100%;">
                 <tbody >
                     <tr ng-repeat='d in mySourcingStrategy '>
                         <td class="hidden-id"  style="display: none" ng-bind='d._id'></td>
@@ -88,9 +88,9 @@
         <div class="zijin-table-title" style="margin-bottom: 5px">
             <span style="color:#f0ad4e"><i class="glyphicon glyphicon-ok btn-sm" style="margin-bottom: 4px;"></i>真实交易</span>
         </div>
-        <div class="table-responsive" style="width: 100%;">
-            <div id="mytable6" style="width: 100%;">
-                <table class="table table-bordered table-hover table-striped" strategy-table style="width: 100%;">
+        <div class="table-responsive1" style="width: 100%;">
+            <div id="mytable6" style="width: 100%;border-top-right-radius: 5px;border-top-left-radius: 5px">
+                <table class="table table-bordered table-hover table-striped" strategy-table style="width: 100%;-webkit-box-shadow: 0 0 10px #ddd;-moz-box-shadow: 0 0 10px #ddd;box-shadow: 0 0 10px #ddd;">
                     <thead class="bg-success">
                     <tr>
                         <!--<th class="col-xs-2">选择</th>-->
@@ -105,7 +105,7 @@
                 </table>
             </div>
             <div id="container6" style="width: 100%; overflow-y: scroll; height: 300px;margin-top: -1.8%">
-                <table class="table table-bordered table-responsive"  sourcing-table style="width: 100%;">
+                <table class="table table-responsive"  sourcing-table style="width: 100%;">
                     <tbody>
                     <tr ng-repeat='d in trueStrategy  | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
@@ -133,39 +133,35 @@
      <div class="zijin-table-body container firm-strategy">
         <div class="zijin-table-title" style="margin-bottom: 5px">
             <span style="color:#46b8da"><i class="glyphicon glyphicon-th-large btn-sm" style="margin-bottom: 4px"></i>实盘模拟</span>
-             <!--<i class="zijin-table-add" ng-click='openMask()' data-toggle="tooltip"  data-placement="right" title="增加策略" tooltip></i>-->
-            <!--<button  class="btn btn-danger allde2" ng-click="alldel2()">删除选择<i class="fa fa-remove"></i></button>-->
-            <!--<input  type="checkbox" ng-model="all2" style="margin-left: 40px;width: 20px;height:20px;vertical-align:middle;margin-right: 5px" ng-click="selectall2()"><span>全选</span>-->
-            <!--<button  class="btn btn-danger allde2" ng-click="delsel2()" style="margin-left: 40px;margin-top: 2px">删除选择</button>-->
         </div>
-        <div class="table-responsive" style="width: 100%;">
+        <div class="table-responsive1" style="width: 100%;">
             <div id="mytable1" style="width: 100%;">
             <table class="table table-bordered table-hover table-striped" strategy-table style="width: 100%;">
                 <thead class="bg-success">
                     <tr>
                         <!--<th class="col-xs-2">选择</th>-->
-                        <th class="" style="width: 22.85%">实盘名</th>
-                        <th class="" style="width: 22.11%">策略代码</th>
-                        <th class="" style="width: 7.87%">合约代码</th>
-                        <th class="" style="width: 8.1%">作者</th>
-                        <th class="" style="width:8.9%">状态</th>
+                        <th class="" style="width: 24.8%">实盘名</th>
+                        <th class="" style="width: 24.7%">策略代码</th>
+                        <th class="" style="width: 8.23%">合约代码</th>
+                        <th class="" style="width: 8.25%">作者</th>
+                        <th class="" style="width:6.68%">状态</th>
                         <th class="" >策略操作</th>
                     </tr>
                 </thead>
             </table>
             </div>
             <div id="container1" style="width: 100%; overflow-y: scroll; height: 300px;margin-top: -1.8%">
-                <table class="table table-bordered table-responsive"  sourcing-table style="width: 100%;">
+                <table class="table table-responsive"  sourcing-table style="width: 100%;">
                 <tbody>
                     <tr ng-repeat='d in myStrategy  | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
                         <!--<td><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection2(this)" ng-checked="all2"><a hidden>{{d.flag}}</a></td>-->
-                        <td ng-bind="d.name" style="width: 23.2%" ></td>
-                        <td ng-bind="d.class_name" class="" style="width: 22.11%"></td>
-                        <td ng-bind="d.symbol" style="width: 7.87%"></td>
-                        <td ng-bind="d.author" style="width: 8.1%"></td>
-                        <td ng-bind="d.status" style="width:8.9%" title="{{d.title}}"  class={{d.color}}></td>
-                        <td class="col-xs-4">
+                        <td ng-bind="d.name"  class="col-xs-3"></td>
+                        <td ng-bind="d.class_name"  class="col-xs-3"></td>
+                        <td ng-bind="d.symbol" class="col-xs-1"></td>
+                        <td ng-bind="d.author" class="col-xs-1"></td>
+                        <td ng-bind="d.status"   class="" title="{{d.title}}"  class={{d.color}}></td>
+                        <td >
                             <div class="btn-group btn-group-sm">
                                <!--  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> -->
                                 <button  class="btn btn-success strategy-start" ng-click="startstrategy(this)">启动 <i class="fa fa-play"></i></button>
@@ -187,33 +183,33 @@
             <input  type="checkbox" ng-model="all3" style="margin-left: 40px;width: 20px;height:20px;vertical-align:middle;margin-right: 5px"ng-click="selectall3()"><span style="color: #5cb85c;">全选</span>
             <button  class="btn btn-success" ng-click="delsel3()" style="margin-left: 40px;margin-top: 2px;">删除选择</button>
         </div>
-        <div class="table-responsive" style="width: 100%;">
+        <div class="table-responsive1" style="width: 100%;">
             <div id="mytable" style="width: 100%">
             <table class="table table-bordered table-hover table-striped" his-table style="width: 100%;">
                 <thead class="bg-success">
                     <tr>
-                        <th style="width: 4.05%" >选择</th>
-                        <th style="width: 15.51%" >回测名</th>
-                        <th style="width: 13.45%">策略代码</th>
-                        <th  style="width: 5.12%">mode</th>
-                        <th  style="width: 10.4%">开始时间</th>
-                        <th style="width: 10.4%">结束时间</th>
-                        <th style="width: 7.27%" >作者</th>
-                        <th   style="width: 7.25%">状态</th>
+                        <th style="width: 5.1%" >选择</th>
+                        <th style="width: 15%" >回测名</th>
+                        <th style="width: 13.65%">策略代码</th>
+                        <th  style="width: 4.8%">mode</th>
+                        <th  style="width: 10.3%">开始时间</th>
+                        <th style="width: 10.55%">结束时间</th>
+                        <th style="width: 5.5%" >作者</th>
+                        <th   style="width: 7.3%">状态</th>
                         <th >策略操作</th>
                     </tr>
                 </thead>
             </table>
             </div>
             <div id="container" style="width: 100%; overflow-y: scroll; height: 300px;margin-top: -1.8%">
-                <table class="table table-bordered table-responsive"  sourcing-table style="width: 100%;">
+                <table class="table table-responsive"  sourcing-table style="width: 100%;">
             <tbody>
                     <tr ng-repeat='d in myHisStrategy | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
-                        <td style="width: 4%"><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection3(this)" ng-checked="all3"><a hidden>{{d.flag}}</a></td>
+                        <td style="width: 5%"><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection3(this)" ng-checked="all3"><a hidden>{{d.flag}}</a></td>
                         <td ng-bind="d.name" style="width: 10%"></td>
                         <td ng-bind="d.class_name" style="width: 12%"></td>
-                        <td ng-bind="d.mode" style="width: 5%"></td>
+                        <td ng-bind="d.mode" style="width: 5.5%"></td>
                         <td ng-bind="d.start" style="width: 10%"></td>
                         <td ng-bind="d.end" style="width: 10%"></td>
                         <td ng-bind="d.author" style="width: 5%"></td>
@@ -247,7 +243,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-8 col-sm-12">
 
-                <div class="zijin-table-title" style="width: 160px;" slide-toggle>
+                <div class="zijin-table-title" style="width: 180px;" slide-toggle>
                     <span><i class="fa fa-trash btn-sm" ></i>回收站<span class="caret"></span></span>
                 </div>
 
@@ -451,7 +447,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">交易合约：</label>
-                        <!-- <select class="sel" ng-model='hisItem.symbol' ng-options='y.symbol as y.symbol for y in sy' ng-change="changesymbol()"></select> -->
+                        <!--<select class="sel" ng-model='hisItem.symbol' ng-options='y.symbol as y.symbol for y in sy' ng-change="changesymbol()"></select>-->
                         <input class="ipt" type="text" class="form-control" name="symbol" placeholder="请输入交易合约"  ng-change="changesymbol()" ng-model='hisItem.symbol'required>
                         <div class="error" ng-messages='newHisStrategy.symbol.$error' ng-if='newHisStrategy.symbol.$touched' ng-message-multiple>
                             <small ng-message='required'style="color:red">交易合约不能为空</small>
