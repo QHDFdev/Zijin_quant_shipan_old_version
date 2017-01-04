@@ -697,8 +697,7 @@
         //console.log($scope.ids[0]._id);
 
         var files = $scope.files;
-        console.log(files);
-        return;
+        //console.log(files);
         var formdata = new FormData();
         formdata.append('name', $scope.firmItem.name);
         formdata.append('symbol', $scope.firmItem.symbol);
@@ -6448,6 +6447,7 @@
         };
       };
 
+
       $scope.openFile = function () {
         $('.files').fadeIn();
         $('.col-sm-offset-2').hide();
@@ -6480,12 +6480,10 @@
         $('.col-sm-offset-2').fadeIn();
       };
       $scope.addImage = function () {
-        var image="0a6de4b0c7426f765df0ce8b14abafaa.png"
         if($scope.image==undefined||$scope.image==""){
           Showbo.Msg.alert("未选择图片");
           return;
         }
-
         $http({
           url: "https://sm.ms/api/upload",
           method: 'POST',
@@ -6505,7 +6503,6 @@
         });
 
       };
-
       $scope.delImage = function () {
         $("#img0").attr("src", "") ;
         $scope.image="";
@@ -7339,6 +7336,65 @@
             });
 
           });
+          scope.openFile2 = function () {
+            $('.files').fadeIn();
+            $('.col-sm-offset-2').hide();
+          };
+          scope.closeFile2 = function () {
+            $('.files').hide();
+            $('.col-sm-offset-2').fadeIn();
+          };
+          scope.delFile2 = function () {
+            $("#filename").html("未选择文件") ;
+            scope.file="";
+          };
+          scope.addFile2 = function () {
+            if(scope.file==undefined||scope.file==""){
+              Showbo.Msg.alert("未选择文件");
+              return;
+            }
+            console.log(scope.file.name)
+            $('.files').hide();
+            $('.col-sm-offset-2').fadeIn();
+          }
+
+          //插入图片
+          scope.openImage2 = function () {
+            $('.image').fadeIn();
+            $('.col-sm-offset-2').hide();
+          };
+          scope.closeImage2 = function () {
+            $('.image').hide();
+            $('.col-sm-offset-2').fadeIn();
+          };
+          scope.addImage2 = function () {
+            if(scope.image==undefined||scope.image==""){
+              Showbo.Msg.alert("未选择图片");
+              return;
+            }
+            $http({
+              url: "https://sm.ms/api/upload",
+              method: 'POST',
+              headers: {
+                'Content-Type': undefined
+              },
+              transformRequest: function() {
+                var formData = new FormData();
+                formData.append('smfile', scope.image);
+                return formData;
+              }
+            }).success(function (data) {
+              var imageUrl="![none](" + data.data.url + ")";//![Alt text](./images/4.jpg)
+              $("#content7").insertContent(imageUrl);
+              $('.image').hide();
+              $('.col-sm-offset-2').fadeIn();
+            });
+
+          };
+          scope.delImage2 = function () {
+            $("#img0").attr("src", "") ;
+            scope.image="";
+          };
 
           ele.on('click', '.btn-success', function () {
             var url = scope.mydata.classify + '/' + scope.mydata._id;
