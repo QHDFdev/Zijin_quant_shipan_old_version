@@ -7386,6 +7386,7 @@
             }).success(function (data) {
               var imageUrl="![none](" + data.data.url + ")";//![Alt text](./images/4.jpg)
               $("#content7").insertContent(imageUrl);
+              console.log($("#content7").val())
               $('.image').hide();
               $('.col-sm-offset-2').fadeIn();
             });

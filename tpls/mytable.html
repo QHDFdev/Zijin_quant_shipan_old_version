@@ -160,7 +160,7 @@
                         <td ng-bind="d.class_name"  class="col-xs-3"></td>
                         <td ng-bind="d.symbol" class="col-xs-1"></td>
                         <td ng-bind="d.author" class="col-xs-1"></td>
-                        <td ng-bind="d.status"   class="" title="{{d.title}}"  class={{d.color}}></td>
+                        <td ng-bind="d.status"   title="{{d.title}}"  class={{d.color}}></td>
                         <td >
                             <div class="btn-group btn-group-sm">
                                <!--  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> -->
@@ -207,8 +207,8 @@
                     <tr ng-repeat='d in myHisStrategy | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
                         <td style="width: 5%"><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection3(this)" ng-checked="all3"><a hidden>{{d.flag}}</a></td>
-                        <td ng-bind="d.name" style="width: 10%"></td>
-                        <td ng-bind="d.class_name" style="width: 12%"></td>
+                        <td ng-bind="d.name" style="width: 14.5%"></td>
+                        <td ng-bind="d.class_name" style="width: 13%"></td>
                         <td ng-bind="d.mode" style="width: 5.5%"></td>
                         <td ng-bind="d.start" style="width: 10%"></td>
                         <td ng-bind="d.end" style="width: 10%"></td>
