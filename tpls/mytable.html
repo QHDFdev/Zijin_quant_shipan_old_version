@@ -358,7 +358,11 @@
                     </div>
                     <div class="form-group">
                         <label for="">交易合约：</label>
-                        <select class="sel" ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>
+                        <!--<select class="sel" ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>-->
+                        <input class="ipt" type="text" class="form-control" name="symbol" placeholder="请输入交易合约"   ng-model='firmItem.symbol'required>
+                        <div class="error" ng-messages='newFirmStrategy.symbol.$error' ng-if='newFirmStrategy.symbol.$touched' ng-message-multiple>
+                            <small ng-message='required'style="color:red">交易合约不能为空</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="">交易手数：</label>
@@ -399,7 +403,11 @@
                         </div>
                         <div class="form-group">
                             <label for="">交易合约：</label>
-                            <select class="sel" ng-model='trueItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>
+                            <!--<select class="sel" ng-model='trueItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>-->
+                            <input class="ipt" type="text" class="form-control" name="symbol" placeholder="请输入交易合约"   ng-model='trueItem.symbol'required>
+                            <div class="error" ng-messages='newTrueStrategy.symbol.$error' ng-if='newTrueStrategy.symbol.$touched' ng-message-multiple>
+                                <small ng-message='required'style="color:red">交易合约不能为空</small>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="">交易手数：</label>

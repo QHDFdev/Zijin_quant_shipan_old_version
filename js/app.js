@@ -697,6 +697,8 @@
         //console.log($scope.ids[0]._id);
 
         var files = $scope.files;
+        console.log(files);
+        return;
         var formdata = new FormData();
         formdata.append('name', $scope.firmItem.name);
         formdata.append('symbol', $scope.firmItem.symbol);
@@ -1777,7 +1779,7 @@
         //console.log("所选历史回测信息:",$scope.myFirmStrategy);//所选策略名对应的属性 包含交易所名 倍数 期货还是白银
         myFirm=$scope.myFirmStrategy;
         var mydate = $filter('date')(new Date((new Date($scope.myFirmEndDate)).setDate((new Date($scope.myFirmEndDate)).getDate() + 1)), 'yyyy-MM-dd');
-        var stime=$scope.myFirmDate;
+        var stime=$scope.myFirmStartDate;
         var etime=mydate;
         function getHisTime() {
           var defer1 = $q.defer();
@@ -1916,34 +1918,37 @@
                    *    删除"0"数据并保存
                    */
                   function delzero(data){
-                    var del = [];
-                    angular.forEach(data, function (data, index,array) {
-                      if (data['price'] == 0) {
-                        del.push(index);
-                      }
-                    });
-                    for(var i=0;i<del.length;i++){
-                      //console.log(data[del[i]])
-                      var flag=data[del[i]].trans_type;
-                      data.splice(del[i],1);
-                      if(flag=="cover"||flag=="sell"){
-                        data.splice(del[i]-1,1);
-                      }
-                      else {
-                        data.splice(del[i],1);
-                      }
-                      for(k=0;k<del.length;k++){//删掉一对 下标移2个
-                        del[k]-=2;
+                    for(var i=0;i<data.length;i++){
+                      if(data[i].price==0){
+                        var flag=data[i].trans_type;
+                        data.splice(i);
+                        if(flag=="cover"||flag=="sell"){
+                          data.splice(i-1);
+                        }else {
+                          data.splice(i);
+                        }
+                        i=-1;
                       }
                     }
                   }
+                  //console.log(data);
                   delzero(data)
                   console.log("数据处理完成")
                   if(data.length<2){
                     Showbo.Msg.alert("截至目前还未成交")
                   }else {
-                    stime=data[0].datetime;
-                    etime=data[data.length-1].datetime;
+                    var min=data[0].datetime;
+                    var max=data[0].datetime;
+                    for(var i=0;i<data.length;i++){
+                      if(data[i].datetime>max){
+                        max=data[i].datetime
+                      }
+                      if(data[i].datetime<min){
+                        min=data[i].datetime
+                      }
+                    }
+                    stime=min;
+                    etime=max;
                   }
                   defer1.resolve(data);
 
@@ -3711,24 +3716,16 @@
                    *    删除"0"数据并保存
                    */
                   function delzero(data){
-                    var del = [];
-                    angular.forEach(data, function (data, index,array) {
-                      if (data['price'] == 0) {
-                        del.push(index);
-                      }
-                    });
-                    for(var i=0;i<del.length;i++){
-                      //console.log(data[del[i]])
-                      var flag=data[del[i]].trans_type;
-                      data.splice(del[i],1);
-                      if(flag=="cover"||flag=="sell"){
-                        data.splice(del[i]-1,1);
-                      }
-                      else {
-                        data.splice(del[i],1);
-                      }
-                      for(k=0;k<del.length;k++){//删掉一对 下标移2个
-                        del[k]-=2;
+                    for(var i=0;i<data.length;i++){
+                      if(data[i].price==0){
+                        var flag=data[i].trans_type;
+                        data.splice(i);
+                        if(flag=="cover"||flag=="sell"){
+                          data.splice(i-1);
+                        }else {
+                          data.splice(i);
+                        }
+                        i=-1;
                       }
                     }
                   }
@@ -3737,8 +3734,18 @@
                   if(data.length<2){
                     Showbo.Msg.alert("截至目前还未成交")
                   }else {
-                    stime=data[0].datetime;
-                    etime=data[data.length-1].datetime;
+                    var min=data[0].datetime;
+                    var max=data[0].datetime;
+                    for(var i=0;i<data.length;i++){
+                      if(data[i].datetime>max){
+                        max=data[i].datetime
+                      }
+                      if(data[i].datetime<min){
+                        min=data[i].datetime
+                      }
+                    }
+                    stime=min;
+                    etime=max;
                   }
                   defer1.resolve(data);
 
@@ -3907,7 +3914,7 @@
                 pal=Number((pal).toFixed(6));
 
                 chartArr.push({
-                  "x": data2.datetime,
+                  "x": data.datetime,
                   "y": pal, //盈亏数值
                   "volume": data.volume,
                   "direction": data.pos,
@@ -3926,7 +3933,7 @@
                   chartArr1.push({
                     "text": '开仓价：' + data.price + '<br>平仓价：￥' + data2.price + '<br>盈亏：' + pal,
                     "title":"看多",
-                    "x": data2.datetime,
+                    "x": data.datetime,
                     "y": pal,
                     "volume": data.volume,
                     "direction": data.pos,
@@ -3942,7 +3949,7 @@
                   chartArr1.push({
                     "text": '开仓价：' + data.price + '<br>平仓价：￥' + data2.price + '<br>盈亏：' + pal,
                     "title":"看空",
-                    "x": data2.datetime,
+                    "x": data.datetime,
                     "y": pal,
                     "volume": data.volume,
                     "direction": data.pos,
@@ -3958,6 +3965,19 @@
 
 
               }
+              /**
+               * 数组排序
+               * @param order desc升序asc降序
+               * @param sortBy 所要排序的字段
+               * @returns {*}
+               */
+              function getSortFun(order, sortBy) {
+                var ordAlpah = (order == 'desc') ? '>' : '<';
+                var sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1');
+                return sortFun;
+              }
+
+              chartArr.sort(getSortFun('desc','x'));
 
 
 
@@ -3999,7 +4019,8 @@
                     "opentime":alldata[2*i].datetime,
                     "closeprice":alldata[2*i+1].price,
                     "closetime":alldata[2*i+1].datetime,
-                    "time":alldata[2*i+1].datetime
+                    "time":alldata[2*i+1].datetime,
+                    "open":alldata[2*i].datetime
                   })
                 }
                 else {
@@ -4010,7 +4031,8 @@
                     "opentime":alldata[2*i].datetime,
                     "closeprice":alldata[2*i+1].price,
                     "closetime":alldata[2*i+1].datetime,
-                    "time":alldata[2*i+1].datetime
+                    "time":alldata[2*i+1].datetime,
+                    "open":alldata[2*i].datetime
                   })
                 }
                   else {
@@ -4033,6 +4055,7 @@
                 alldata3[i].opentime=(alldata2[i].opentime);
                 alldata3[i].closetime=(alldata2[i].closetime);
               }
+
 
 
               /**
@@ -4064,13 +4087,26 @@
                 return unixTimestamp.toLocaleString();
               }
 
+
               for(var i=0;i<alldata2.length;i++)
               {
                 alldata2[i].opentime=gettime(alldata2[i].opentime);
                 alldata2[i].closetime=gettime(alldata2[i].closetime);
                 alldata2[i].time=gettime(alldata2[i].time);
               }
+              /**
+               * 数组排序
+               * @param order desc升序asc降序
+               * @param sortBy 所要排序的字段
+               * @returns {*}
+               */
+              function getSortFun(order, sortBy) {
+                var ordAlpah = (order == 'desc') ? '>' : '<';
+                var sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1');
+                return sortFun;
+              }
 
+              alldata2.sort(getSortFun('desc','open'));
 
               $scope.analyseDataArr = alldata2;
 
@@ -4979,6 +5015,8 @@
       $scope.closeMask = function () {
         $('.complie-mask').fadeOut();
       };
+
+
       $scope.hisItem = {};
       $scope.modeTickOptions = false;
       $scope.modeBarOptions = false;
@@ -6409,6 +6447,72 @@
           code: ''
         };
       };
+
+      $scope.openFile = function () {
+        $('.files').fadeIn();
+        $('.col-sm-offset-2').hide();
+      };
+      $scope.closeFile = function () {
+        $('.files').hide();
+        $('.col-sm-offset-2').fadeIn();
+      };
+      $scope.delFile = function () {
+        $("#filename").html("未选择文件") ;
+        $scope.file="";
+      };
+      $scope.addFile = function () {
+        if($scope.file==undefined||$scope.file==""){
+          Showbo.Msg.alert("未选择文件");
+          return;
+        }
+        console.log($scope.file.name)
+        $('.files').hide();
+        $('.col-sm-offset-2').fadeIn();
+      }
+
+      //插入图片
+      $scope.openImage = function () {
+        $('.image').fadeIn();
+        $('.col-sm-offset-2').hide();
+      };
+      $scope.closeImage = function () {
+        $('.image').hide();
+        $('.col-sm-offset-2').fadeIn();
+      };
+      $scope.addImage = function () {
+        var image="0a6de4b0c7426f765df0ce8b14abafaa.png"
+        if($scope.image==undefined||$scope.image==""){
+          Showbo.Msg.alert("未选择图片");
+          return;
+        }
+
+        $http({
+          url: "https://sm.ms/api/upload",
+          method: 'POST',
+          headers: {
+            'Content-Type': undefined
+          },
+          transformRequest: function() {
+            var formData = new FormData();
+            formData.append('smfile', $scope.image);
+            return formData;
+          }
+        }).success(function (data) {
+          var imageUrl="![none](" + data.data.url + ")";//![Alt text](./images/4.jpg)
+          $("#content6").insertContent(imageUrl);
+          $('.image').hide();
+          $('.col-sm-offset-2').fadeIn();
+        });
+
+      };
+
+      $scope.delImage = function () {
+        $("#img0").attr("src", "") ;
+        $scope.image="";
+      };
+
+
+
       $scope.closeMask = function () {
         $('.modalRes-mask').fadeOut();
       };
@@ -6431,6 +6535,8 @@
           console.log(err);
         });
       };
+
+     
       $scope.addModalResExa = function () {
         var str = "title=" + encodeURIComponent($scope.modalResExa.title) + "&content=" + encodeURIComponent($scope.modalResExa.content) + '&code=' + encodeURIComponent($scope.modalResExa.code);
         getModalResList.addItem(str, 'model_examples').then(function () {
@@ -6679,7 +6785,7 @@
       return {
         link: function (scope, ele, attrs) {
           ele.on('click', '.user-pro', function () {
-            console.log($(this).closest('tr').children().eq(2).text());
+            //console.log($(this).closest('tr').children().eq(2).text());
             if ($(this).closest('tr').children().eq(2).text() == 'true') {
               Showbo.Msg.alert('该用户已经获得权限。')
             } else {
@@ -6694,7 +6800,8 @@
             ;
           });
           ele.on('click', '.user-min', function () {
-            if (!$(this).closest('tr').children().eq(2).text()) {
+            //console.log($(this).closest('tr').children().eq(2).text());
+            if ($(this).closest('tr').children().eq(2).text()=='false') {
               Showbo.Msg.alert('该用户权限已经被收回。')
             } else {
               var name = $(this).closest('tr').children().eq(0).text();
@@ -6849,7 +6956,6 @@
           }
 
           scope.delsel4=function(){
-
             Showbo.Msg.confirm('您确定删除所选择的吗？',function(flag){
               var a=true;
               if(flag=='yes'){
@@ -7233,6 +7339,7 @@
             });
 
           });
+
           ele.on('click', '.btn-success', function () {
             var url = scope.mydata.classify + '/' + scope.mydata._id;
             if (scope.mydata.classify == 'model_objects') {
@@ -7254,7 +7361,6 @@
             getModalResList.getList(url).then(function (data) {
               scope.mydata = data;
               angular.extend(scope.mydata, {"classify": str});
-              console.log(scope.mydata);
             });
           });
         }
@@ -7298,6 +7404,7 @@
         link: function (scope, ele, attrs) {
           scope.$watch('mydata', function (nv, ov) {
             if (nv != undefined) {
+              //console.log(marked(scope.mydata.content));//mardown转换html
               ele.html(marked(scope.mydata.content));
             }
           })

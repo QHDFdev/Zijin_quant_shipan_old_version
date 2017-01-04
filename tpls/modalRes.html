@@ -141,33 +141,82 @@
 			</div>
 		</div>
 	</div>
-
 	<!-- mask-exa -->
 	<div class="modalRes-mask modalRes-mask-exa">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-8 col-sm-offset-2">
-					<form ng-submit='addModalResExa()' name='modalResExaForm' novalidate="">
+				<div class="col-sm-8 col-sm-offset-2" style="overflow-y: scroll;overflow-x:hidden" id="test2">
+					<form  ng-submit='addModalResExa()' name='modalResExaForm' novalidate="">
 						<h3 class="text-center">量化模型</h3>
 						<div class="form-group">
 							<input type="text" class="form-control" ng-model='modalResExa.title' placeholder="主题" required="">
 						</div>
 						<div class="form-group">
-							<textarea class="form-control" ng-model='modalResExa.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
+							<i class="fa fa-plus" title="添加文件" style="margin-left: 10px"  ng-click="openFile()"></i>
+							<i class="fa fa-picture-o" title="插入图片" style="margin-left: 10px" ng-click="openImage()"></i>
+							<textarea id="content6" class="form-control" ng-model='modalResExa.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
 						</div>
 						<div class="form-group">
 							<textarea class="form-control" ng-model='modalResExa.code' placeholder="代码" required=""></textarea>
 						</div>
 						<div class="btn-group btn-group-lg" style="width:100%;position: relative;left: 40%;">
-	                        <input class="btn-success btn" type="submit" value="创建" style="margin-right: 2%">
-	                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+	                        <input style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" class="btn-success btn" type="submit" value="创建" style="margin-right: 2%">
+	                        <input style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px" class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
 	                    </div> 
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-
+	<div id="image" class="image" style="overflow-y: scroll;overflow-x:hidden" >
+		<a style="float: right"  ng-click="closeImage()"><i class="fa fa-close"></i></a>
+		<a href="javascript:;" class="file">选择图片
+		<input type="file" name="" id="file0" file-model="image" accept="image/gif,image/jpeg,image/jpg,image/png">
+		</a>
+		<a href=""  class="file" ng-click="delImage()">清空</a>
+		<a href="" class="file" ng-click="addImage()">上传</a>
+		<div><img src="" id="img0" style="width: 100%"></div>
+	</div>
+	<div id="files" class="files">
+		<a style="float: right"  ng-click="closeFile()"><i class="fa fa-close"></i></a>
+		<a href="javascript:;" class="file">选择文件
+			<input type="file" name="" id="file1" file-model="file" >
+		</a>
+		<a href=""  class="file" ng-click="delFile()">清空</a>
+		<a href="" class="file" ng-click="addFile()">上传</a>
+		<div id="filename">未选择文件</div>
+	</div>
+	<script>
+		$("#file1").change(function(){
+			if(this.files[0]==undefined){
+				$("#filename").html("没有选择文件") ;
+				return;
+			}
+			$("#filename").html(this.files[0].name) ;
+		}) ;
+		$("#file0").change(function(){
+			if(this.files[0]==undefined){
+				$("#img0").attr("src", "") ;
+				return;
+			}
+			var objUrl = getObjectURL(this.files[0]) ;
+	//			console.log("objUrl = "+objUrl) ;
+			if (objUrl) {
+				$("#img0").attr("src", objUrl) ;
+			}
+		}) ;
+		function getObjectURL(file) {
+			var url = null ;
+			if (window.createObjectURL!=undefined) { // basic
+				url = window.createObjectURL(file) ;
+			} else if (window.URL!=undefined) { // mozilla(firefox)
+				url = window.URL.createObjectURL(file) ;
+			} else if (window.webkitURL!=undefined) { // webkit or chrome
+				url = window.webkitURL.createObjectURL(file) ;
+			}
+			return url ;
+		}
+	</script>
 	<!-- mask-obj-item -->
 	<!-- <div class="modalRes-mask modalRes-mask-objItem">
 		<div class="container">
