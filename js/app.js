@@ -354,7 +354,9 @@
             })
             .success(function (data) {
                 $scope.myStrategy[i].title ="错误信息: "+data.error;
-            })
+            }).error(function(err, sta){
+          //console.log(err, sta)
+        })
       }
       $scope.geterror3=function(id,i){
         $http.get(constantUrl + "strategys/"+id+"/", {
@@ -1862,6 +1864,7 @@
                               }
                               else {
                                 nowdata.splice(i,1);
+                                i--;
                               }
                             }
                           }
@@ -1884,6 +1887,7 @@
                               else {
                                 nowdata.splice(i,1);
                                 console.log("发现无配对平仓")
+                                i--;
                               }
                             }
                           }
@@ -3660,10 +3664,13 @@
                               }
                             else {
                                 nowdata.splice(i,1);
+                                console.log("发现无配对平仓")
+                                i--;
                               }
                             }
                           }
                         }
+
                         //console.log(aloneshort,alonebuy)
                         for(var i=0;i<nowdata.length;i++){
                           if(nowdata[i].trans_type=="sell"){
@@ -3682,6 +3689,7 @@
                               else {
                                 nowdata.splice(i,1);
                                 console.log("发现无配对平仓")
+                                i--;
                               }
                             }
                           }
@@ -6510,6 +6518,10 @@
             return formData;
           }
         }).success(function (data) {
+          if(data.code=="error"){
+            Showbo.Msg.alert(data.msg);
+            return;
+          }
           var imageUrl="![none](" + data.data.url + ")";//![Alt text](./images/4.jpg)
           $("#content6").insertContent(imageUrl);
           $scope.modalResExa.content=$("#content6").val();
@@ -6874,7 +6886,8 @@
                   $scope.put($scope.trueStrategy[i].name,data.logs)
                 })
                 .error(function (err, sta) {
-
+                  $('#logs').hide()
+                  Showbo.Msg.alert("请求失败")
                 });
           }
           $scope.log2=function(a){
@@ -6888,7 +6901,8 @@
                   $scope.put($scope.myStrategy[i].name,data.logs)
                 })
                 .error(function (err, sta) {
-
+                  $('#logs').hide()
+                  Showbo.Msg.alert("请求失败")
                 });
           }
           $scope.colselog=function(){
@@ -7214,7 +7228,8 @@
                   scope.put(scope.myHisStrategy[i].name,data.logs)
                 })
                 .error(function (err, sta) {
-
+                  $('#logs').hide()
+                  Showbo.Msg.alert("请求失败")
                 });
           }
           scope.colselog=function(){
@@ -7444,6 +7459,10 @@
                 return formData;
               }
             }).success(function (data) {
+              if(data.code=="error"){
+                Showbo.Msg.alert(data.msg);
+                return;
+              }
               //console.log("上传成功")
               var imageUrl="![none](" + data.data.url + ")";//![Alt text](./images/4.jpg)
               $(".row #content8").eq(window.test).insertContent(imageUrl);
