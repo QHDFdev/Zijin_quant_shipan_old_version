@@ -185,48 +185,50 @@
         </div>
         <div class="table-responsive1" style="width: 100%;">
             <div id="mytable" style="width: 100%">
-            <table class="table table-bordered table-hover table-striped" his-table style="width: 100%;">
-                <thead class="bg-success">
+                <table class="table table-bordered table-hover table-striped" his-table style="width: 100%;">
+                    <thead class="bg-success">
                     <tr>
                         <th style="width: 5.1%" >选择</th>
-                        <th style="width: 15%" >回测名</th>
-                        <th style="width: 13.65%">策略代码</th>
-                        <th  style="width: 4.8%">mode</th>
-                        <th  style="width: 10.3%">开始时间</th>
-                        <th style="width: 10.55%">结束时间</th>
-                        <th style="width: 5.5%" >作者</th>
-                        <th   style="width: 7.3%">状态</th>
+                        <th style="width: 8.6%" >回测名</th>
+                        <th style="width: 17.13%">策略代码</th>
+                        <th  style="width: 8.52%">mode</th>
+                        <th  style="width: 8.55%">开始时间</th>
+                        <th style="width: 8.55%">结束时间</th>
+                        <th style="width: 8.6%" >作者</th>
+                        <th   style="width: 8.5%">状态</th>
                         <th >策略操作</th>
                     </tr>
-                </thead>
-            </table>
+                    </thead>
+                </table>
             </div>
             <div id="container" style="width: 100%; overflow-y: scroll; height: 300px;margin-top: -1.8%">
                 <table class="table table-responsive"  sourcing-table style="width: 100%;">
-            <tbody>
+                    <tbody>
                     <tr ng-repeat='d in myHisStrategy | filter:func'>
                         <td class="hidden-id" style="display: none;" ng-bind='d._id'></td>
-                        <td style="width: 5%"><input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection3(this)" ng-checked="all3"><a hidden>{{d.flag}}</a></td>
-                        <td ng-bind="d.name" style="width: 14.5%"></td>
-                        <td ng-bind="d.class_name" style="width: 13%"></td>
-                        <td ng-bind="d.mode" style="width: 5.5%"></td>
-                        <td ng-bind="d.start" style="width: 10%"></td>
-                        <td ng-bind="d.end" style="width: 10%"></td>
-                        <td ng-bind="d.author" style="width: 5%"></td>
-                        <td ng-bind="d.status" title="{{d.title}}" style="width: 7%" class={{d.color}}></td>
-                        <td style="width: 25%">
+                        <td style="width: 5%">
+                            <input type="checkbox"  style="width: 20px;height:20px;" ng-click="updateSelection3(this)" ng-checked="all3"><a hidden>{{d.flag}}</a>
+                        </td>
+                        <td ng-bind="d.name" class="col-xs-1"></td>
+                        <td ng-bind="d.class_name" class="col-xs-2"></td>
+                        <td ng-bind="d.mode" class="col-xs-1"></td>
+                        <td ng-bind="d.start" class="col-xs-1"></td>
+                        <td ng-bind="d.end" class="col-xs-1"></td>
+                        <td ng-bind="d.author" class="col-xs-1"></td>
+                        <td ng-bind="d.status" title="{{d.title}}" class="col-xs-1" class={{d.color}}></td>
+                        <td class="col-xs-3">
                             <div class="btn-group btn-group-sm">
-                                <button  class="btn btn-success strategy-start" ng-click="strategystart(this)">启动 <i class="fa fa-play"></i></button>
-                                <button class="btn btn-warning strategy-pause" ng-click="pausestrategy(this)">停止 <i class="fa fa-pause"></i></button>
-                                <button  class="btn btn-danger strategy-del" ng-click="strategydel(this)">删除 <i class="fa fa-remove"></i></button>
-                                <button class="btn btn-info" ng-click="log3(this)">运行日志输出 </button>
+                                <button  class="btn btn-success strategy-start" ng-click="strategystart(this)">启动 <i class="fa fa-play"></i><tton>
+                                    <button class="btn btn-warning strategy-pause" ng-click="pausestrategy(this)">停止 <i class="fa fa-pause"></i><tton>
+                                        <button  class="btn btn-danger strategy-del" ng-click="strategydel(this)">删除 <i class="fa fa-remove"></i><tton>
+                                            <button class="btn btn-info" ng-click="log3(this)">运行日志输出 <tton>
                             </div>
                         </td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
             </div>
-        </div>    
+        </div>
     </div>
     <style>
         .now{
@@ -253,7 +255,7 @@
                     <input  type="checkbox" ng-model="all4" style="margin-left: 25px;width: 20px;height:20px;margin-bottom: 20px;vertical-align:middle;margin-right: 5px"ng-click="selectall4()">
                     <span style="color: #222;font-size: 30px;">全选</span>
                     <button  class="btn btn-danger allde4" ng-click="delsel4()" style="margin-left: 40px;margin-bottom: 20px;background: #222;border-color: #222">删除选择</button>
-                    <table class="table table-bordered table-hover table-striped" strategy-table>
+                    <table class="table table-bordered table-hover table-striped" style="border-radius:5px;overflow: hidden" strategy-table>
                         <thead class="bg-success">
                             <tr>
                                 <th class="col-xs-1" style="width: 3%">选择</th>

@@ -1,16 +1,18 @@
 <div class="modalRes">
-	<img src="images/modalRes_bg.jpg" alt="" class='modalRes-bg'>
-
+	<!--<img src="images/modalRes_bg.jpg" alt="" class='modalRes-bg'>-->
 	<div class="modalRes-head">
 		<div class="container">
-			<div class="col-md-12">
-				<i class="modalRes-head-icon"></i>
-				<h2 class="modalRes-head-title">模型研究库</h2>
-				<span class="modalRes-head-text" >紫金平台-量化模型部分，研究着重于从金融数据这一最原始资源中去挖掘数据本身固有的规律。结合机器学习，时间序列数据分析，数理统计等多种量化手段来构建预测模型。针对不同交易品种数据设计相应的量化模型，我们从不相信可以设计有一个能包打天下的模型。最终基于设计好的预测模型来进行交易策略的编写，从而实现全自动量化交易过程。这整个过程中的重点则是基于金融数据的量化模型。我们分享了部分我们的研究，也期待有更多人可以分享他们自己的模型，策略。
-        </span>
-			</div>
+			<h1>模型研究库</h1>
+			<p>	紫金平台-量化模型部分，研究着重于从金融数据这一最原始资源中去挖掘数据本身固有的规律。</p>
+			<p>结合机器学习，时间序列数据分析，数理统计等多种量化手段来构建预测模型。</p>
+			<p>针对不同交易品种数据设计相应的量化模型，我们从不相信可以设计一个能包打天下的模型。</p>
+			<p>最终基于设计好的预测模型来进行交易策略的编写，从而实现全自动量化交易过程。这整个过程中的重点则是基于金融数据的量化模型。</p>
+			<p>我们分享了部分我们的研究，也期待有更多人可以分享他们自己的模型，策略。</p>
+
 		</div>
+		<div class="modalRes-bigmask"></div>
 	</div>
+
 	<div class="modalRes-body">
 		<div class="modalRes-obj modalRes-list">
 			<div class="container-fluid">
@@ -152,7 +154,7 @@
 							<input type="text" class="form-control" ng-model='modalResExa.title' placeholder="主题" required="">
 						</div>
 						<div class="form-group">
-							<i class="fa fa-plus" title="添加文件" style="margin-left: 10px"  ng-click="openFile()"></i>
+							<!--<i class="fa fa-plus" title="添加文件" style="margin-left: 10px"  ng-click="openFile()"></i>-->
 							<i class="fa fa-picture-o" title="插入图片" style="margin-left: 10px" ng-click="openImage()"></i>
 							<textarea id="content6" class="form-control" ng-model='modalResExa.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
 						</div>
@@ -200,7 +202,7 @@
 				return;
 			}
 			var objUrl = getObjectURL(this.files[0]) ;
-	//			console.log("objUrl = "+objUrl) ;
+//				console.log("objUrl = "+objUrl) ;
 			if (objUrl) {
 				$("#img0").attr("src", objUrl) ;
 			}

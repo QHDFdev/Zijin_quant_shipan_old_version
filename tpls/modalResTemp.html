@@ -27,7 +27,9 @@
 							<input type="text" class="form-control" ng-model='mydata.title' placeholder="主题" required="">
 						</div>
 						<div class="form-group">
-							<textarea class="form-control" ng-model='mydata.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
+							<!--<i class="fa fa-plus" title="添加文件" style="margin-left: 10px"  ng-click="openFile2()"></i>-->
+							<i class="fa fa-picture-o" title="插入图片" style="margin-left: 10px" ng-click="openImage2(this)"></i>
+							<textarea id="content8" class="form-control" ng-model='mydata.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
 						</div>
 						<div class="form-group" ng-show='mydata.classify=="model_methods" || mydata.classify=="model_examples"'>
 							<textarea class="form-control" ng-model='mydata.code' placeholder="内容" required=""></textarea>
@@ -41,6 +43,34 @@
 			</div>
 		</div>
 	</div>
+	<div id="image2" class="image9" style="overflow-y: scroll;overflow-x:hidden" >
+		<a style="float: right"  ng-click="closeImage2()"><i class="fa fa-close"></i></a>
+		<a href="javascript:;" class="file">选择图片
+			<input type="file" name="" id="image22" onchange="angular.element(this).scope().changeImage(this.files)" file-model="image2" accept="image/gif,image/jpeg,image/jpg,image/png">
+		</a>
+		<a href=""  class="file9" ng-click="delImage2()">清空</a>
+		<a href="" class="file9" ng-click="addImage2()">上传</a>
+		<div><img ng-src={{img02}} id="img02" style="width: 100%"></div>
+	</div>
+	<div id="files2" class="files9">
+		<a style="float: right"  ng-click="closeFile2()"><i class="fa fa-close"></i></a>
+		<a href="javascript:;" class="file9">选择文件
+			<input type="file" name="" id="file2" file-model="file2" >
+		</a>
+		<a href=""  class="file9" ng-click="delFile2()">清空</a>
+		<a href="" class="file9" ng-click="addFile2()">上传</a>
+		<div id="filename2">未选择文件</div>
+	</div>
+	<script>
+//		$("#file2").change(function(){
+//			console.log(111)
+//			if(this.files[0]==undefined){
+//				$("#filename").html("没有选择文件") ;
+//				return;
+//			}
+//			$("#filename").html(this.files[0].name) ;
+//		}) ;
+	</script>
 
 </div>
 

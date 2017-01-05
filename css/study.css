@@ -9,17 +9,10 @@
 	 background: url(../images/fupan_bg.jpg) center 20% no-repeat;
 	 background-size: 100% auto;
  }
-.zijin-introduce-head{
-	position: relative;
-	padding:150px 0;
-	text-align: center;
-	color: #f5f5ff;
-	background: url(../images/picl.jpg) center 20% no-repeat;
-	background-size: 100% auto;
-}
+
 @media screen and (max-width: 767px){
 	.zijin-study-head{
-		background-size: auto 100%;
+		background-size: auto auto;
 	}
 }
 .zijin-study .zijin-study-head .zijin-study-bigmask{

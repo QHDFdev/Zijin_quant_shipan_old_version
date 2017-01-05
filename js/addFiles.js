@@ -2,8 +2,6 @@
  * Created by Administrator on 2017/1/3.
  */
 $(function() {
-    //var height=$(window).height();//浏览器当前窗口可视区域高度
-    //$("#image").css("height", height*0.5+"px")
     /* 在textarea处插入文本--Start */
     (function($) {
         $.fn.extend({

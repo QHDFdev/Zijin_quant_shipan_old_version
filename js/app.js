@@ -6498,13 +6498,14 @@
         }).success(function (data) {
           var imageUrl="![none](" + data.data.url + ")";//![Alt text](./images/4.jpg)
           $("#content6").insertContent(imageUrl);
+          $scope.modalResExa.content=$("#content6").val();
           $('.image').hide();
           $('.col-sm-offset-2').fadeIn();
         });
 
       };
       $scope.delImage = function () {
-        $("#img0").attr("src", "") ;
+        $("#img0").attr("src", "");
         $scope.image="";
       };
 
@@ -7239,7 +7240,7 @@
           ele.on('mouseenter', 'a', function () {
             var num = $(this).parent().index();
             var dist = ele.children('li').width();
-            var dis = (num + 0.1) * dist + 'px';
+            var dis = (num + 0.07) * dist + 'px';
             $('#move-box').stop(true);
             $('#move-box').addClass('infinite');
             $('#move-box').animate({
@@ -7336,12 +7337,39 @@
             });
 
           });
+          function getObjectURL(file) {
+            var url = null ;
+            if (window.createObjectURL!=undefined) { // basic
+              url = window.createObjectURL(file) ;
+            } else if (window.URL!=undefined) { // mozilla(firefox)
+              url = window.URL.createObjectURL(file) ;
+            } else if (window.webkitURL!=undefined) { // webkit or chrome
+              url = window.webkitURL.createObjectURL(file) ;
+            }
+            return url ;
+          }
+          scope.changeImage = function (files) {
+            ////console.log(files[0])
+            if(files[0]==undefined){
+              scope.img02="";
+              scope.image2="";
+              return;
+            }
+            var objUrl = getObjectURL(files[0]) ;
+            //$("#img02").attr("src", objUrl);
+            scope.img02=objUrl;
+          };
+          scope.delImage2 = function () {
+            //$("#img02").attr("src", "");
+            scope.img02="";
+            scope.image2="";
+          };
           scope.openFile2 = function () {
-            $('.files').fadeIn();
+            $('.files9').fadeIn();
             $('.col-sm-offset-2').hide();
           };
           scope.closeFile2 = function () {
-            $('.files').hide();
+            $('.files9').hide();
             $('.col-sm-offset-2').fadeIn();
           };
           scope.delFile2 = function () {
@@ -7353,22 +7381,25 @@
               Showbo.Msg.alert("未选择文件");
               return;
             }
-            console.log(scope.file.name)
-            $('.files').hide();
+            //console.log(scope.file.name)
+            $('.files9').hide();
             $('.col-sm-offset-2').fadeIn();
           }
-
+          window.test;
           //插入图片
-          scope.openImage2 = function () {
-            $('.image').fadeIn();
+          scope.openImage2 = function (a) {
+            window.test=a.$parent.$index;
+            //var test=$(".row #content8").eq(indexs)
+            $('.image9').fadeIn();
             $('.col-sm-offset-2').hide();
           };
           scope.closeImage2 = function () {
-            $('.image').hide();
+            $('.image9').hide();
             $('.col-sm-offset-2').fadeIn();
           };
           scope.addImage2 = function () {
-            if(scope.image==undefined||scope.image==""){
+            console.log(window.test)
+            if(scope.image2==undefined||scope.image2==""){
               Showbo.Msg.alert("未选择图片");
               return;
             }
@@ -7380,22 +7411,20 @@
               },
               transformRequest: function() {
                 var formData = new FormData();
-                formData.append('smfile', scope.image);
+                formData.append('smfile', scope.image2);
                 return formData;
               }
             }).success(function (data) {
+              //console.log("上传成功")
               var imageUrl="![none](" + data.data.url + ")";//![Alt text](./images/4.jpg)
-              $("#content7").insertContent(imageUrl);
-              console.log($("#content7").val())
-              $('.image').hide();
+              $(".row #content8").eq(window.test).insertContent(imageUrl);
+              scope.mydata.content=$(".row #content8").eq(window.test).val();
+              $('.image9').hide();
               $('.col-sm-offset-2').fadeIn();
             });
 
           };
-          scope.delImage2 = function () {
-            $("#img0").attr("src", "") ;
-            scope.image="";
-          };
+
 
           ele.on('click', '.btn-success', function () {
             var url = scope.mydata.classify + '/' + scope.mydata._id;

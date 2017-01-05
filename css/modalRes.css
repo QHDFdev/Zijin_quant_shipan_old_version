@@ -2,20 +2,59 @@
 	margin-top: 70px;
 } */
 .modalRes .modalRes-bg{
-	display: block;
-	width: 100%;
-	height: auto;
+	/*display: block;*/
+	/*width: 100%;*/
+	/*height: auto;*/
+  background: #fafafa;
 }
 /* @media (max-width: 767px ){
 	.modalRes{margin-top: 50px;}
 } */
 .modalRes-head{
-	margin-bottom: 10px;
-	padding: 40px 0;
+/*	margin-bottom: 10px;
+	padding: 20px 0;
 	text-align: center;
-	box-shadow: 0 0 5px 5px #ccc;
+	box-shadow: 0 0 5px 5px #ccc;*/
+  position: relative;
+  padding:132px 0;
+  text-align: center;
+  color: #f5f5ff;
+  background: url(../images/modalRes_bg.jpg) center 20% no-repeat;
+  background-size: auto auto;
 	/*background-color: red;*/
 }
+
+.modalRes-head .modalRes-bigmask{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  background: rgba(0,0,0,.3);
+  -moz-transition: all ease 1.5s;
+  -o-transition: all ease 1.5s;
+  -webkit-transition: all ease 1.5s;
+  transition: all ease 1.5s;
+}
+.modalRes-head:hover .modalRes-bigmask{
+  background: rgba(0,0,0,.5);
+}
+.modalRes-head h1{
+  position: relative;
+  z-index: 10;
+  margin-bottom: 50px;
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,.9);
+}
+.modalRes-head p{
+  position: relative;
+  z-index: 10;
+  font-size: 18px;
+
+}
+
 .modalRes-head .modalRes-head-icon{
 	margin-right: 5px;
 	vertical-align: middle;
@@ -33,19 +72,56 @@
 }
 .modalRes-head .modalRes-head-text{
 	display: inline-block;
-	margin-left: 30px;
-	padding-left: 30px;
-
-	max-width: 75%;
-	vertical-align: middle;
+	/*margin-left: 3%;*/
+	padding: 10px;
+	/*max-width: 75%;*/
+	/*vertical-align: middle;*/
 	text-align: left;
 	color: #666;
 	/*font-weight: bold;*/
-	text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+	/*text-shadow: 1px 1px 2px rgba(0,0,0,0.4);*/
 	text-indent: 2em;
 	/*background-color: red;*/
+	position: relative;
+	/*background-color: rgba(238,238,238,0.6);*/
+
 }
 
+.modalRes-head .modalRes-head-text .top{
+	display: block;
+	width: 90%;
+
+	border:1px solid #228b22;
+
+	position: absolute;
+	top:0;
+	right: 0;
+}
+.modalRes-head .modalRes-head-text .bottom{
+	display: block;
+	width: 90%;
+	border: 1px solid #228b22;
+	position: absolute;
+	bottom:0;
+	left: 0;
+}
+.modalRes-head .modalRes-head-text .right{
+	display: block;
+
+	height: 72px;
+	border: 1px solid #228b22;
+	position: absolute;
+	top:0;
+	right: 0;
+}
+.modalRes-head .modalRes-head-text .left{
+	display: block;
+	height: 72px;
+	border: 1px solid #228b22;
+	position: absolute;
+	bottom:0;
+	left:0;
+}
 /*
 .modalRes-head .modalRes-head-text, .modalRes-head .modalRes-head-text:after {
 	!*font-weight: 900;*!
