@@ -475,7 +475,7 @@
       $scope.beginlog=function(){
         $("#log").html("");
         $("#logname").html("");
-        $('#logs').show();
+        $('.logs-mask').show();
         $('.loadEffect').show();
       }
       /**
@@ -6525,6 +6525,10 @@
           var imageUrl="![none](" + data.data.url + ")";//![Alt text](./images/4.jpg)
           $("#content6").insertContent(imageUrl);
           $scope.modalResExa.content=$("#content6").val();
+
+          $("#content5").insertContent(imageUrl);
+          $scope.modalResMet.content=$("#content5").val();
+          console.log($scope.modalResMet.content)
           $('.image').hide();
           $('.col-sm-offset-2').fadeIn();
         });
@@ -6906,7 +6910,7 @@
                 });
           }
           $scope.colselog=function(){
-            $('#logs').hide();
+            $('.logs-mask').hide();
           }
 
         },
@@ -7465,8 +7469,10 @@
               }
               //console.log("上传成功")
               var imageUrl="![none](" + data.data.url + ")";//![Alt text](./images/4.jpg)
+              console.log(window.test)
               $(".row #content8").eq(window.test).insertContent(imageUrl);
               scope.mydata.content=$(".row #content8").eq(window.test).val();
+              console.log(window.test)
               $('.image9').hide();
               $('.col-sm-offset-2').fadeIn();
             });
@@ -7476,6 +7482,7 @@
 
           ele.on('click', '.btn-success', function () {
             var url = scope.mydata.classify + '/' + scope.mydata._id;
+            //scope.mydata.content=111;
             if (scope.mydata.classify == 'model_objects') {
               var str = 'title=' + encodeURIComponent(scope.mydata.title) + '&content=' + encodeURIComponent(scope.mydata.content);
               getModalResList.reviseItem(str, url).then(function () {
