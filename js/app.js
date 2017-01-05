@@ -6446,6 +6446,9 @@
           code: ''
         };
       };
+      var height=$(window).height();//浏览器当前窗口可视区域高度
+      $("#test2").css("height", height*0.7+"px");
+
       function getObjectURL(file) {
         var url = null ;
         if (window.createObjectURL!=undefined) { // basic
@@ -6520,8 +6523,6 @@
         $scope.image0=false;
       };
       $scope.changeImage0 = function (files) {
-        console.log(files)
-        return;
         if(files[0]==undefined){
           $scope.image="";
           $scope.image0=false;
@@ -7360,6 +7361,7 @@
             });
 
           });
+
           function getObjectURL(file) {
             var url = null ;
             if (window.createObjectURL!=undefined) { // basic
@@ -7370,6 +7372,11 @@
               url = window.webkitURL.createObjectURL(file) ;
             }
             return url ;
+          }
+
+          var height=$(window).height();//浏览器当前窗口可视区域高度
+          scope.obj={
+            "height":height*0.7+"px"
           }
 
           scope.changeImage = function (files) {
