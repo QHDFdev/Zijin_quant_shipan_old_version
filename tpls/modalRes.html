@@ -173,11 +173,11 @@
 	<div id="image" class="image" style="overflow-y: scroll;overflow-x:hidden" >
 		<a style="float: right"  ng-click="closeImage()"><i class="fa fa-close"></i></a>
 		<a href="javascript:;" class="file">选择图片
-		<input type="file" name="" id="file0" file-model="image" accept="image/gif,image/jpeg,image/jpg,image/png">
+		<input type="file" name="" id="file0" onchange="angular.element(this).scope().changeImage0(this.files)" file-model="image" accept="image/gif,image/jpeg,image/jpg,image/png">
 		</a>
 		<a href=""  class="file" ng-click="delImage()">清空</a>
 		<a href="" class="file" ng-click="addImage()">上传</a>
-		<div><img src="" id="img0" style="width: 100%"></div>
+		<div ng-if='image0'><img ng-src={{img0}} id="img0" style="width: 100%"></div>
 	</div>
 	<div id="files" class="files">
 		<a style="float: right"  ng-click="closeFile()"><i class="fa fa-close"></i></a>
@@ -189,35 +189,7 @@
 		<div id="filename">未选择文件</div>
 	</div>
 	<script>
-		$("#file1").change(function(){
-			if(this.files[0]==undefined){
-				$("#filename").html("没有选择文件") ;
-				return;
-			}
-			$("#filename").html(this.files[0].name) ;
-		}) ;
-		$("#file0").change(function(){
-			if(this.files[0]==undefined){
-				$("#img0").attr("src", "") ;
-				return;
-			}
-			var objUrl = getObjectURL(this.files[0]) ;
-//				console.log("objUrl = "+objUrl) ;
-			if (objUrl) {
-				$("#img0").attr("src", objUrl) ;
-			}
-		}) ;
-		function getObjectURL(file) {
-			var url = null ;
-			if (window.createObjectURL!=undefined) { // basic
-				url = window.createObjectURL(file) ;
-			} else if (window.URL!=undefined) { // mozilla(firefox)
-				url = window.URL.createObjectURL(file) ;
-			} else if (window.webkitURL!=undefined) { // webkit or chrome
-				url = window.webkitURL.createObjectURL(file) ;
-			}
-			return url ;
-		}
+
 	</script>
 	<!-- mask-obj-item -->
 	<!-- <div class="modalRes-mask modalRes-mask-objItem">

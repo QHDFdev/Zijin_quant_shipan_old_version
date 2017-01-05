@@ -6446,6 +6446,17 @@
           code: ''
         };
       };
+      function getObjectURL(file) {
+        var url = null ;
+        if (window.createObjectURL!=undefined) { // basic
+          url = window.createObjectURL(file) ;
+        } else if (window.URL!=undefined) { // mozilla(firefox)
+          url = window.URL.createObjectURL(file) ;
+        } else if (window.webkitURL!=undefined) { // webkit or chrome
+          url = window.webkitURL.createObjectURL(file) ;
+        }
+        return url ;
+      }
 
 
       $scope.openFile = function () {
@@ -6505,8 +6516,20 @@
 
       };
       $scope.delImage = function () {
-        $("#img0").attr("src", "");
         $scope.image="";
+        $scope.image0=false;
+      };
+      $scope.changeImage0 = function (files) {
+        console.log(files)
+        return;
+        if(files[0]==undefined){
+          $scope.image="";
+          $scope.image0=false;
+          return;
+        }
+        var objUrl = getObjectURL(files[0]) ;
+        $scope.img0=objUrl;
+        $scope.image0=true;
       };
 
 
@@ -7348,20 +7371,20 @@
             }
             return url ;
           }
+
           scope.changeImage = function (files) {
-            ////console.log(files[0])
             if(files[0]==undefined){
-              scope.img02="";
+              scope.image02=false;
               scope.image2="";
               return;
             }
             var objUrl = getObjectURL(files[0]) ;
-            //$("#img02").attr("src", objUrl);
             scope.img02=objUrl;
+            scope.image02=true;
           };
+
           scope.delImage2 = function () {
-            //$("#img02").attr("src", "");
-            scope.img02="";
+            scope.image02=false;
             scope.image2="";
           };
           scope.openFile2 = function () {
@@ -7398,7 +7421,6 @@
             $('.col-sm-offset-2').fadeIn();
           };
           scope.addImage2 = function () {
-            console.log(window.test)
             if(scope.image2==undefined||scope.image2==""){
               Showbo.Msg.alert("未选择图片");
               return;

@@ -50,7 +50,7 @@
 		</a>
 		<a href=""  class="file9" ng-click="delImage2()">清空</a>
 		<a href="" class="file9" ng-click="addImage2()">上传</a>
-		<div><img ng-src={{img02}} id="img02" style="width: 100%"></div>
+		<div ng-if='image02'><img ng-src={{img02}} id="img02" style="width: 100%"></div>
 	</div>
 	<div id="files2" class="files9">
 		<a style="float: right"  ng-click="closeFile2()"><i class="fa fa-close"></i></a>
@@ -61,16 +61,5 @@
 		<a href="" class="file9" ng-click="addFile2()">上传</a>
 		<div id="filename2">未选择文件</div>
 	</div>
-	<script>
-//		$("#file2").change(function(){
-//			console.log(111)
-//			if(this.files[0]==undefined){
-//				$("#filename").html("没有选择文件") ;
-//				return;
-//			}
-//			$("#filename").html(this.files[0].name) ;
-//		}) ;
-	</script>
-
 </div>
 
