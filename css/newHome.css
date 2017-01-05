@@ -158,15 +158,15 @@
 	height: 650px;
 }
 .carImg1{
-	background: url(../images/index_car_1.jpg) center center no-repeat;
+	background: url(../images/index_car_6.png) center center no-repeat;
 	background-size: auto 100%;
 }
 .carImg2{
-	background: url(../images/index_car_2.jpg) center center no-repeat;
+	background: url(../images/index_car_1.jpg) center center no-repeat;
 	background-size: auto 100%;
 }
 .carImg3{
-	background: url(../images/index_car_3.jpg) center center no-repeat;
+	background: url(../images/index_car_7.jpg) center center no-repeat;
 	background-size: auto 100%;
 }
 .zijin-index .zijin-index-top .top_one{

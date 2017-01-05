@@ -2,9 +2,9 @@
 	margin-top: 70px;
 } */
 .modalRes .modalRes-bg{
-	/*display: block;*/
-	/*width: 100%;*/
-	/*height: auto;*/
+	display: block;
+	width: 100%;
+	height: auto;
   background: #fafafa;
 }
 /* @media (max-width: 767px ){
@@ -20,7 +20,7 @@
   text-align: center;
   color: #f5f5ff;
   background: url(../images/modalRes_bg.jpg) center 20% no-repeat;
-  background-size: auto auto;
+  background-size: 100% 100%;
 	/*background-color: red;*/
 }
 
