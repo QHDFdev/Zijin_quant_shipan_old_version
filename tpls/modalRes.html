@@ -109,8 +109,11 @@
 							<textarea class="form-control" ng-model='modalResObj.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
 						</div>
 						<div class="btn-group btn-group-lg" style="width:100%;position: relative;left: 40%;">
-							  <input class="btn-success btn" type="submit" value="创建" style="margin-right: 2%">
-	              <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+							  <input class="btn-success btn"  type="submit" value="创建" style="border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;">
+	              <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button" style="margin-left: 20px;
+			border-bottom-left-radius: 5px;
+			border-top-left-radius: 5px">
 	          </div>
 					</form>
 				</div>
@@ -122,7 +125,7 @@
 	<div class="modalRes-mask modalRes-mask-met">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-8 col-sm-offset-2">
+				<div class="col-sm-8 col-sm-offset-2" style="overflow-y: scroll;overflow-x:hidden;" id="test1" >
 					<form ng-submit='addModalResMet()' name='modalResMetForm' novalidate="">
 						<h3 class="text-center">量化策略</h3>
 						<div class="form-group">
@@ -136,8 +139,11 @@
 							<textarea class="form-control" ng-model='modalResMet.code' placeholder="代码" required=""></textarea>
 						</div>
 						<div class="btn-group btn-group-lg" style="width:100%;position: relative;left: 40%;">
-	                        <input class="btn-success btn" type="submit" value="创建" style="margin-right: 2%">
-	                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+	                        <input class="btn-success btn" type="submit" value="创建" style="border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;">
+	                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button" style="margin-left: 20px;
+			border-bottom-left-radius: 5px;
+			border-top-left-radius: 5px">
 	                    </div> 
 					</form>
 				</div>
@@ -163,8 +169,11 @@
 							<textarea class="form-control" ng-model='modalResExa.code' placeholder="代码" required=""></textarea>
 						</div>
 						<div class="btn-group btn-group-lg" style="width:100%;position: relative;left: 40%;">
-	                        <input style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" class="btn-success btn" type="submit" value="创建" style="margin-right: 2%">
-	                        <input style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px" class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+	                        <input class="btn-success btn left" type="submit" value="创建" style="border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;">
+	                        <input class="btn-warning btn right" ng-click="closeMask()" value="关闭" type="button" style="margin-left: 20px;
+			border-bottom-left-radius: 5px;
+			border-top-left-radius: 5px">
 	                    </div> 
 					</form>
 				</div>

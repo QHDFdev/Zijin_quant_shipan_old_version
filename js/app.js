@@ -2201,6 +2201,10 @@
                   hour = parseInt(min / 60);
                   min = min - hour * 60;
                 }
+                if(sec>=60){
+                  min += parseInt(sec / 60);
+                  sec = sec-parseInt(sec / 60)*60;
+                }
                 if (hour < 10) hour = "0" + hour;
                 if (min < 10) min = "0" + min;
                 if (sec < 10) sec = "0" + sec;
@@ -4002,6 +4006,10 @@
                 if (min >= 60) {
                   hour = parseInt(min / 60);
                   min = min - hour * 60;
+                }
+                if(sec>=60){
+                  min += parseInt(sec / 60);
+                  sec = sec-parseInt(sec / 60)*60;
                 }
                 if (hour < 10) hour = "0" + hour;
                 if (min < 10) min = "0" + min;
@@ -6455,7 +6463,7 @@
         };
       };
       var height=$(window).height();//浏览器当前窗口可视区域高度
-      $("#test2").css("height", height*0.7+"px");
+      $("#test2").css("height", height*0.85+"px");
 
       function getObjectURL(file) {
         var url = null ;
@@ -6492,6 +6500,8 @@
         $('.col-sm-offset-2').fadeIn();
       }
 
+      var height=$(window).height();//浏览器当前窗口可视区域高度
+      $("#test1").css("height", height*0.85+"px");
       //插入图片
       $scope.openImage = function () {
         $('.image').fadeIn();
@@ -7106,10 +7116,11 @@
                       })
                       .success(function () {
                         /*$route.reload();*/
-                        scope.allStrategys = [];
-                        scope.gettrueStrategys();
-                        scope.getFirmStrategys();
-                        scope.getHisStrategys();
+                        scope.allStrategys.splice(i,1)
+                        //scope.allStrategys = [];
+                        //scope.gettrueStrategys();
+                        //scope.getFirmStrategys();
+                        //scope.getHisStrategys();
                         /*Showbo.Msg.alert('删除成功。')*/
                       })
                       .error(function (err, sta) {
@@ -7121,10 +7132,11 @@
                       })
                       .success(function () {
                         /*$route.reload();*/
-                        scope.allStrategys = [];
-                        scope.gettrueStrategys();
-                        scope.getFirmStrategys();
-                        scope.getHisStrategys();
+                        scope.allStrategys.splice(i,1)
+                        //scope.allStrategys = [];
+                        //scope.gettrueStrategys();
+                        //scope.getFirmStrategys();
+                        //scope.getHisStrategys();
                         /*Showbo.Msg.alert('删除成功。')*/
                       })
                       .error(function (err, sta) {
@@ -7393,8 +7405,9 @@
           }
 
           var height=$(window).height();//浏览器当前窗口可视区域高度
+          //$("#test0").css("height", height*0.85+"px");
           scope.obj={
-            "height":height*0.7+"px"
+                "height":height*0.85+"px"
           }
 
           scope.changeImage = function (files) {
@@ -7415,7 +7428,7 @@
 
           window.type;
           window.test;
-          //插入图片
+          //编辑插入图片
           scope.openImage2 = function (a) {
             window.test=a.$parent.$index;
             window.type=scope.mydata.classify;
@@ -7461,31 +7474,12 @@
 
           };
 
-          //scope.openFile2 = function () {
-          //  $('.files9').fadeIn();
-          //  $('.col-sm-offset-2').hide();
-          //};
-          //scope.closeFile2 = function () {
-          //  $('.files9').hide();
-          //  $('.col-sm-offset-2').fadeIn();
-          //};
-          //scope.delFile2 = function () {
-          //  $("#filename").html("未选择文件") ;
-          //  scope.file="";
-          //};
-          //scope.addFile2 = function () {
-          //  if(scope.file==undefined||scope.file==""){
-          //    Showbo.Msg.alert("未选择文件");
-          //    return;
-          //  }
-          //  //console.log(scope.file.name)
-          //  $('.files9').hide();
-          //  $('.col-sm-offset-2').fadeIn();
-          //}
 
           ele.on('click', '.btn-success', function () {
             var url = scope.mydata.classify + '/' + scope.mydata._id;
-            scope.mydata.content=window.content;
+            if(window.content!=undefined){
+              scope.mydata.content=window.content;
+            }
             if (scope.mydata.classify == 'model_objects') {
               var str = 'title=' + encodeURIComponent(scope.mydata.title) + '&content=' + encodeURIComponent(scope.mydata.content);
               getModalResList.reviseItem(str, url).then(function () {

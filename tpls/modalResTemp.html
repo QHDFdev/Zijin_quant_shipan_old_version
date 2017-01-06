@@ -3,7 +3,7 @@
 		<a href='#/{{mydata.classify}}/{{mydata._id}}' class="modalRes-box-title" ng-bind='mydata.title'></a>
 		<!-- <p class="modalRes-box-text">{{mydata.text_content}}</p> -->
 		<i class="modalRes-box-plus" data-toggle="tooltip" data-placement="left" title="修改模型" tooltip ng-show='mydata.author==username||username=="admin"'>+</i>
-		<i class='modalRes-box-del fa fa-trash-o' ng-show='username=="admin"'></i> 
+		<i class='modalRes-box-del fa fa-trash-o' ng-show='mydata.author==username||username=="admin"'></i>
 		<div class="modalRes-box-mask"></div>
 		<div class="modalRes-box-top"></div>
 		<div class="modalRes-box-right"></div>
@@ -19,7 +19,7 @@
 	<div class="modalRes-mask modalRes-mask-objItem" >
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-8 col-sm-offset-2" style="overflow-y: scroll;overflow-x:hidden;" ng-style="obj" id="test0">
+				<div class="col-sm-8 col-sm-offset-2" style="overflow-y: scroll;overflow-x:hidden;" ng-style="obj" id="">
 					<!-- <form ng-submit='revModalResObj(mydata)' name='modalResObjForm' novalidate=""> -->
 					<form name='modalResObjForm' novalidate="">
 						<h3 class="text-center">研究对象-金融数据</h3>
