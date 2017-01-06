@@ -1,49 +1,39 @@
 <div class="analyse" ng-controller='analyseController'>
 	<div class="container-fluid noprint">
 		<div class="row analyse-title-head">
-			<div class="col-sm-3 col-lg-2 col-md-3 hidden-xs"><img src="images/lishihuice3.png" alt=""></div>
-			<div class="col-sm-9 col-lg-10 col-md-9" style="	-webkit-box-shadow:10px 3px 8px #aaa;
-	-moz-box-shadow: 10px 3px 8px #aaa;
-	box-shadow: 10px 3px 8px #aaa;">
+			<div class="col-sm-3 col-lg-2 col-md-3 hidden-xs">
+				<img src="images/lishihuice3.png" alt="">
+			</div>
+			<div class="col-sm-9 col-lg-10 col-md-9 timu">
 				<div class="remind" >
 					<div class="first">
-						交易时间：<span style="display: none">{{analyse_title.time}}</span>
+						交易时间：<span>{{analyse_title.time}}</span>
 					</div>
 					<div class="second">
-						回测名：<span style="display: none">{{analyse_title.name}}</span>
+						回测名：<span>{{analyse_title.name}}</span>
 					</div>
 					<div class="third">
-						交易合约：<span style="display: none">{{analyse_title.symbol}}</span>
+						交易合约：<span>{{analyse_title.symbol}}</span>
 					</div>
 					<div>
-						交易策略名：<span style="display: none">{{analyse_title.class_name}}</span>
+						交易策略名：<span>{{analyse_title.class_name}}</span>
 					</div>
 			   </div>
 			</div>
 		</div>
-		<style>
-			.sel{
-				border: 1px solid #ccc;
-				border-radius: 4px;
-				-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-				box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-				-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-				-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-				transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-			}
-
-		</style>
-
 		<div class="row">
-			<div class="col-sm-3 col-lg-2 col-md-3  analyse-left" style="background: -webkit-linear-gradient(left top, #a9c0a9 , #bbc0bb);
-    background: -o-linear-gradient(bottom right,#a9c0a9,  #bbc0bb);
-    background: -moz-linear-gradient(bottom right, #a9c0a9, #bbc0bb);
-    background: linear-gradient(to bottom right, #a9c0a9 , #bbc0bb);">
-				<i class='mobile-action visible-xs  fa fa-lg fa-arrow-circle-right' mobile-action></i>
+			<div class="col-sm-3 col-lg-2 col-md-3  analyse-left">
+				<i class='mobile-action visible-xs  fa fa-md fa-arrow-circle-right' mobile-action></i>
 				<div class="analyse-menu-list">
-					<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#analyse-modal1'>输入历史回测数据</button></p>
-					<p class="analyse-menu-head"><button class="btn btn-info" data-toggle='modal' data-target='#analyse-modal2'>获取历史回测数据</button></p>
-					<p class="analyse-menu-head"><button class="btn btn-danger" jspdf-action>保存研究报告</button></p>
+					<p class="analyse-menu-head">
+						<button class="btn btn-success" data-toggle='modal' data-target='#analyse-modal1'>输入历史回测数据</button>
+					</p>
+					<p class="analyse-menu-head">
+						<button class="btn btn-info" data-toggle='modal' data-target='#analyse-modal2'>获取历史回测数据</button>
+					</p>
+					<p class="analyse-menu-head">
+						<button class="btn btn-danger" jspdf-action>保存研究报告</button>
+					</p>
 					<div class="modal fade" id="analyse-modal1"> 
 						<div class="modal-dialog">
 							<div class="modal-content">

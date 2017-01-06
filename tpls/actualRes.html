@@ -202,10 +202,10 @@
 									<tr style="">
 										<th>交易方向</th>
 										<th>开仓时间</th>
-										<th>委托号</th>
+										<!--<th>委托号</th>-->
 										<th>开仓价</th>
 										<th>平仓时间</th>
-										<th>委托号</th>
+										<!--<th>委托号</th>-->
 										<th>平仓价</th>
 										<!--<th>交易手数</th>-->
 										<th>手续费</th>
@@ -217,10 +217,10 @@
 									<tr ng-repeat='x in analyseDataArr'class={{x.color}} id="all">
 										<td ng-bind='x.direction'></td>
 										<td>{{x.opentime}}</td>
-										<td>{{x.a}}</td>
+										<!--<td>{{x.a}}</td>-->
 										<td>￥{{x.openprice | number : 2}}</td>
 										<td>{{x.closetime}}</td>
-										<td>{{x.b}}</td>
+										<!--<td>{{x.b}}</td>-->
 										<td>￥{{x.closeprice | number : 2}}</td>
 										<!--<td>{{x.multiple}}</td>-->
 										<td>￥{{x.test | number : 6}}</td>
@@ -238,8 +238,7 @@
 										<td>￥{{allTotaltestpal | number : 6}}</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
+
 									</tr>
 								</tfoot>
 							</table>
