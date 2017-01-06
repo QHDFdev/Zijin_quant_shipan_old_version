@@ -302,14 +302,37 @@
       </div>
     </div>
   </div>
-
+<style>
+  #log{
+    height: 95%;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    color:#fff;
+    padding: 2%;
+  }
+  #logs{
+    background:url(images/logback.jpg);
+    /*background: #a876ba;*/
+    height: 450px;
+    /*width: 650px;*/
+  }
+  #abc{
+    height: 85%;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px dashed #fff;
+    border-radius: 10px;
+  }
+</style>
   <div class="zijin-table-mask logs-mask">
     <div class="container">
       <div class="row">
         <div id="logs" class="logs col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 ">
-          <a style="float: right" ng-click="colselog()"><i class="fa fa-remove"></i></a>
-          <div id="logname"></div>
-          <div class="loadEffect">
+          <a style="float: right" ng-click="colselog()"><i class="fa fa-remove" style="color:#fff"></i></a>
+          <div id="logname" style="color:#fff;font-size: 20px"></div>
+          <div class="loadEffect" style="margin-top: 25%">
             <span></span>
             <span></span>
             <span></span>
@@ -319,11 +342,12 @@
             <span></span>
             <span></span>
           </div>
-          <div id="log" style="height:320px;overflow:scroll"></div>
+          <div id="abc" ng-show="log">
+          <div id="log" ></div>
+          </div>
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- firm mask -->
@@ -444,7 +468,7 @@
   <div class="zijin-table-mask his-mask">
     <div class="mask-box container">
       <div class="row">
-        <div class=" col-sm-8 col-sm-offset-2"  id="test2">
+        <div class="col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2"  id="test2">
           <form ng-submit="addHisStrategy()" name="newHisStrategy" novalidate="" enctype="multipart/form-data" id="newHisStrategy">
 
             <div class="form-group">

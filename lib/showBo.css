@@ -16,8 +16,8 @@
 		width: 33.333333%;
 		overflow:hidden;
 		z-index:99999;
-		font-family: "宋体";
-		border-radius: 4px;
+		font-family: "华文细黑";
+		border-radius: 8px;
 		-webkit-box-shadow:0 0 20px rgba(0,0,0,0.9);
 		-moz-box-shadow: 0 0 20px rgba(0,0,0,0.9);
 		box-shadow: 0 0 20px rgba(0,0,0,0.9);
@@ -25,52 +25,54 @@
 	}
 	#dvMsgBox .top{
 	    font-weight: normal;
-	    border-bottom: 1px dashed #ddd;
+	    /*border-bottom: 1px dashed #ddd;*/
 	    height: 45px;
-
-		background-color: #fff;
-		/*background-color: #73b373;*/
-		color: #000;
+		/*background:url(../images/logback.jpg) center center no-repeat;*/
+		background-color: #707ea1;
+		color: #fff;
 		-webkit-box-shadow:2px 15px 10px #000;
 		-moz-box-shadow: 2px 15px 10px  #000;
 		box-shadow:2px 15px 10px  #000;
-
 	}
 	#dvMsgBox .top .right{
 		height:100%;
 		padding-right:6px;
 		padding: 0 5%;
+
 	}
 	#dvMsgBox .top .right .title{
 		font-weight: bold;
 		font-size: 20px;
-		color: #000;
+		color: #fff;
 		height: 100%;
 		line-height: 45px;
 		width: 100%;
+
 	}
 	#dvMsgBox .top .right .fa{
 		line-height: 40px;
 		color: #817d7d;
 		float: right;
 		cursor: pointer;
+
 	}
 
 
 	#dvMsgBox .top .right  .avtar{
 		width: 100px;
 	  	margin: 50px auto;
+
 	}
 	#dvMsgBox .body{
 		background:#fff;
 		/*padding-left:10px;*/
-
-
+		border: 10px;
 
 	}
 	#dvMsgBox .body .right{
 		background:#fff;
 		padding-right:2px;
+
 	}
 	#dvMsgBox .body .right .ct{
 		vertical-align: middle;
@@ -92,7 +94,7 @@
 		text-align: right;
 
 		height:10%;
-		border-top: 1px dashed #ddd;
+		/*border-top: 1px dashed #ddd;*/
 		padding: 0 5%;
 
 	}
@@ -124,7 +126,7 @@
 	}
 
 	#dvMsgBox input:nth-child(2){
-		background-color: #5cb85c;color: #fff;
+		background-color: #707ea1;color: #fff;
 	}
 	#dvMsgBox input:nth-child(1){
 

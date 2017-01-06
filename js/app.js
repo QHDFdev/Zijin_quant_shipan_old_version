@@ -500,13 +500,14 @@
              if(test[0].length>=num){
                  $("#logname").append(name+","+"前"+num+"条记录<br>")
              }else {
-                 $("#logname").append(name);
+                 $("#logname").append(name+" - "+test[0].length+"条记录");
              }
           var log=logs;
         for(var i=0;i<log.length;i++){
         $("#log").append(i+": "+log[i]+"<br>")
         }
         $('.loadEffect').hide();
+        $scope.log=true;
       }
       /* 创建实盘模拟 *///加载策略页面
       //实盘列表渲染到页面
@@ -6477,7 +6478,7 @@
         return url ;
       }
 
-
+//选择文件
       $scope.openFile = function () {
         $('.files').fadeIn();
         $('.col-sm-offset-2').hide();
@@ -6486,16 +6487,29 @@
         $('.files').hide();
         $('.col-sm-offset-2').fadeIn();
       };
-      $scope.delFile = function () {
-        $("#filename").html("未选择文件") ;
-        $scope.file="";
-      };
-      $scope.addFile = function () {
-        if($scope.file==undefined||$scope.file==""){
-          Showbo.Msg.alert("未选择文件");
+      $scope.changeFile0 = function (files) {
+        if(files[0]==undefined){
+          $scope.file="";
+          $('#filename').html("未选择任何文件");
           return;
         }
-        console.log($scope.file.name)
+        $('#filename').html(files[0].name);
+      };
+      $scope.delFile = function () {
+        $("#filename").html("未选择任何文件") ;
+        $scope.file="";
+        $scope.filename="";
+      };
+      $scope.addFile = function () {
+        if($scope.filename==undefined||$scope.filename==""){
+          Showbo.Msg.alert("未输入代码名");
+          return;
+        }
+        if($scope.file==undefined||$scope.file==""){
+          Showbo.Msg.alert("未选择任何文件");
+          return;
+        }
+        console.log($scope.filename,$scope.file)
         $('.files').hide();
         $('.col-sm-offset-2').fadeIn();
       }
@@ -6537,6 +6551,8 @@
           $scope.modalResExa.content=$("#content6").val();
           $("#content5").insertContent(imageUrl);
           $scope.modalResMet.content=$("#content5").val();
+          $("#content4").insertContent(imageUrl);
+          $scope.modalResObj.content=$("#content4").val();
           //console.log($scope.modalResMet.content)
           $('.image').hide();
           $('.col-sm-offset-2').fadeIn();
@@ -6919,6 +6935,7 @@
                 });
           }
           $scope.colselog=function(){
+            $scope.log=false;
             $('.logs-mask').hide();
           }
 
@@ -7248,6 +7265,7 @@
                 });
           }
           scope.colselog=function(){
+            $scope.log=false;
             $('#logs').hide();
           }
 //删除历史回测
@@ -7511,7 +7529,7 @@
             console.log(ele.parent().css('left'));
             if (ele.parent().css('left') == '0px') {
               ele.parent().removeClass('l0');
-            } else if (ele.parent().css('left') == '-210px') {
+            } else  {
               ele.parent().addClass('l0');
             }
             ;

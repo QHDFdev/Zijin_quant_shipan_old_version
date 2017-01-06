@@ -28,7 +28,7 @@
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class="row">
-							<box mydata='x' ng-repeat='x in modalResObjList1' username='username' close-mask='closeMask()'></box>	
+							<box mydata='x' id="model_objects" ng-repeat='x in modalResObjList1' username='username' close-mask='closeMask()'></box>
 						</div>
 					</div>
 				</div>
@@ -106,7 +106,8 @@
 							<input type="text" class="form-control" ng-model='modalResObj.title' placeholder="主题" required="">
 						</div>
 						<div class="form-group">
-							<textarea class="form-control" ng-model='modalResObj.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
+							<i class="fa fa-picture-o" title="插入图片" style="margin-left: 10px" ng-click="openImage()"></i>
+							<textarea id="content4" class="form-control" ng-model='modalResObj.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
 						</div>
 						<div class="btn-group btn-group-lg" style="width:100%;position: relative;left: 40%;">
 							  <input class="btn-success btn"  type="submit" value="创建" style="border-top-right-radius: 5px;
@@ -161,17 +162,17 @@
 							<input type="text" class="form-control" ng-model='modalResExa.title' placeholder="主题" required="">
 						</div>
 						<div class="form-group">
-							<!--<i class="fa fa-plus" title="添加文件" style="margin-left: 10px"  ng-click="openFile()"></i>-->
 							<i class="fa fa-picture-o" title="插入图片" style="margin-left: 10px" ng-click="openImage()"></i>
 							<textarea id="content6" class="form-control" ng-model='modalResExa.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
 						</div>
 						<div class="form-group">
+							<!--<i class="fa fa-plus" title="添加代码文件" style="margin-left: 10px"  ng-click="openFile()"></i>-->
 							<textarea class="form-control" ng-model='modalResExa.code' placeholder="代码" required=""></textarea>
 						</div>
 						<div class="btn-group btn-group-lg" style="width:100%;position: relative;left: 40%;">
-	                        <input class="btn-success btn left" type="submit" value="创建" style="border-top-right-radius: 5px;
+	                        <input class="btn-success btn" type="submit" value="创建" style="border-top-right-radius: 5px;
 			border-bottom-right-radius: 5px;">
-	                        <input class="btn-warning btn right" ng-click="closeMask()" value="关闭" type="button" style="margin-left: 20px;
+	                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button" style="margin-left: 20px;
 			border-bottom-left-radius: 5px;
 			border-top-left-radius: 5px">
 	                    </div> 
@@ -190,13 +191,14 @@
 		<div ng-if='image0'><img ng-src={{img0}} id="img0" style="width: 100%"></div>
 	</div>
 	<div id="files" class="files">
+		<input style="margin-bottom: 10px" class="ipt" type="text" placeholder="请输入代码名" ng-model="filename">
 		<a style="float: right"  ng-click="closeFile()"><i class="fa fa-close"></i></a>
 		<a href="javascript:;" class="file">选择文件
-			<input type="file" name="" id="file1" file-model="file" >
+			<input type="file" name="" id="file1" file-model="file" onchange="angular.element(this).scope().changeFile0(this.files)" file-model="file">
 		</a>
 		<a href=""  class="file" ng-click="delFile()">清空</a>
 		<a href="" class="file" ng-click="addFile()">上传</a>
-		<div id="filename">未选择文件</div>
+		<div style="margin-left: 2%" id="filename">未选择任何文件</div>
 	</div>
 
 	<!-- mask-obj-item -->
