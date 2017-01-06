@@ -6525,10 +6525,9 @@
           var imageUrl="![none](" + data.data.url + ")";//![Alt text](./images/4.jpg)
           $("#content6").insertContent(imageUrl);
           $scope.modalResExa.content=$("#content6").val();
-
           $("#content5").insertContent(imageUrl);
           $scope.modalResMet.content=$("#content5").val();
-          console.log($scope.modalResMet.content)
+          //console.log($scope.modalResMet.content)
           $('.image').hide();
           $('.col-sm-offset-2').fadeIn();
         });
@@ -7413,31 +7412,13 @@
             scope.image02=false;
             scope.image2="";
           };
-          scope.openFile2 = function () {
-            $('.files9').fadeIn();
-            $('.col-sm-offset-2').hide();
-          };
-          scope.closeFile2 = function () {
-            $('.files9').hide();
-            $('.col-sm-offset-2').fadeIn();
-          };
-          scope.delFile2 = function () {
-            $("#filename").html("未选择文件") ;
-            scope.file="";
-          };
-          scope.addFile2 = function () {
-            if(scope.file==undefined||scope.file==""){
-              Showbo.Msg.alert("未选择文件");
-              return;
-            }
-            //console.log(scope.file.name)
-            $('.files9').hide();
-            $('.col-sm-offset-2').fadeIn();
-          }
+
+          window.type;
           window.test;
           //插入图片
           scope.openImage2 = function (a) {
             window.test=a.$parent.$index;
+            window.type=scope.mydata.classify;
             //var test=$(".row #content8").eq(indexs)
             $('.image9').fadeIn();
             $('.col-sm-offset-2').hide();
@@ -7446,6 +7427,7 @@
             $('.image9').hide();
             $('.col-sm-offset-2').fadeIn();
           };
+          window.content;
           scope.addImage2 = function () {
             if(scope.image2==undefined||scope.image2==""){
               Showbo.Msg.alert("未选择图片");
@@ -7469,20 +7451,41 @@
               }
               //console.log("上传成功")
               var imageUrl="![none](" + data.data.url + ")";//![Alt text](./images/4.jpg)
-              console.log(window.test)
-              $(".row #content8").eq(window.test).insertContent(imageUrl);
-              scope.mydata.content=$(".row #content8").eq(window.test).val();
-              console.log(window.test)
+              $("#"+window.type+" #content8").eq(window.test).insertContent(imageUrl);
+              scope.mydata.content=$("#"+window.type+" #content8").eq(window.test).val();
+              //console.log(scope.mydata.content)
+              window.content=$("#"+window.type+" #content8").eq(window.test).val();;
               $('.image9').hide();
               $('.col-sm-offset-2').fadeIn();
             });
 
           };
 
+          //scope.openFile2 = function () {
+          //  $('.files9').fadeIn();
+          //  $('.col-sm-offset-2').hide();
+          //};
+          //scope.closeFile2 = function () {
+          //  $('.files9').hide();
+          //  $('.col-sm-offset-2').fadeIn();
+          //};
+          //scope.delFile2 = function () {
+          //  $("#filename").html("未选择文件") ;
+          //  scope.file="";
+          //};
+          //scope.addFile2 = function () {
+          //  if(scope.file==undefined||scope.file==""){
+          //    Showbo.Msg.alert("未选择文件");
+          //    return;
+          //  }
+          //  //console.log(scope.file.name)
+          //  $('.files9').hide();
+          //  $('.col-sm-offset-2').fadeIn();
+          //}
 
           ele.on('click', '.btn-success', function () {
             var url = scope.mydata.classify + '/' + scope.mydata._id;
-            //scope.mydata.content=111;
+            scope.mydata.content=window.content;
             if (scope.mydata.classify == 'model_objects') {
               var str = 'title=' + encodeURIComponent(scope.mydata.title) + '&content=' + encodeURIComponent(scope.mydata.content);
               getModalResList.reviseItem(str, url).then(function () {
