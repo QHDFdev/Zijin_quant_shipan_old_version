@@ -6518,7 +6518,7 @@
         };
       };
       var height=$(window).height();//浏览器当前窗口可视区域高度
-      $("#test2").css("height", height*0.88+"px");
+      $("#test2").css("height", height*0.85+"px");
       //$("#test3").css("height", height*0.80+"px");
 
       function getObjectURL(file) {
@@ -6582,6 +6582,20 @@
       };
       $scope.loadStaus="上传";
       $scope.addImage = function () {
+
+        //$http({
+        //  url: "https://sm.ms/api/list",
+        //  method: 'GET',
+        //  headers: {
+        //    'Content-Type': undefined
+        //  },
+        //  transformRequest: function() {
+        //
+        //  }
+        //}).success(function (data) {
+        //  console.log(data)
+        //})
+
         if($scope.image==undefined||$scope.image==""){
           Showbo.Msg.alert("未选择图片");
           return;
@@ -6601,7 +6615,7 @@
         }).success(function (data) {
           if(data.code=="error"){
             $scope.loadStaus="上传";
-            Showbo.Msg.alert(data.msg);
+            Showbo.Msg.alert("error:"+data.msg);
             return;
           }else {
             $scope.loadStaus="上传成功";
@@ -7543,7 +7557,7 @@
             }).success(function (data) {
               if(data.code=="error"){
                 scope.loadStaus="上传"
-                Showbo.Msg.alert(data.msg);
+                Showbo.Msg.alert("error:"+data.msg);
                 return;
               }else {
                 scope.loadStaus="上传成功"

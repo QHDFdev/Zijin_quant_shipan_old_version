@@ -363,3 +363,14 @@
 	padding: 3%;
 	height: 80%;
 }
+.test11{
+	width: 80%;
+	overflow: hidden;
+	/*margin: 20px auto;*/
+}
+.test1{
+	height: 100%;
+	width: 85%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}

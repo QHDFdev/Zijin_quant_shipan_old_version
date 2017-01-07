@@ -1,8 +1,10 @@
 <div class="analyse" ng-controller='analyseController'>
 	<div class="container-fluid noprint">
 		<div class="row analyse-title-head">
-			<div class="col-sm-3 col-lg-2 col-md-3 hidden-xs">
-				<img src="images/lishihuice3.png" alt="">
+			<div class="col-sm-3 col-lg-2 col-md-3 hidden-xs" >
+
+					<img src="images/lishi.gif" alt="" id="wel" style="background-color: #dddddd;">
+
 			</div>
 			<div class="col-sm-9 col-lg-10 col-md-9 timu">
 				<div class="remind" >
@@ -863,4 +865,14 @@
 		</div>
 	</div>
 </div>
-
+<script>
+  $(document).ready(function() {
+    function spectrum(){
+      var hue = 'rgb(256,' + (Math.floor(Math.random() * 100)) + ',' + (Math.floor(Math.random() * 100)) + ')';
+      console.log(hue);
+      $('#wel').css('background-color',hue);
+      setTimeout(spectrum,1000);
+    }
+    spectrum();
+  });
+</script>
