@@ -1811,6 +1811,12 @@
                         break;
                       }
                     }
+                    if (nowdata[i].trans_type == "sell") {
+                      if (i == 0 || nowdata[i - 1].trans_type != "buy") {
+                        hasNone=true;
+                        break;
+                      }
+                    }
                   }
                   if(!hasNone){
                     //console.log("没有不配对平仓，不获取单独开仓");
@@ -2247,14 +2253,20 @@
                   })
                 }
                 else {
-                  alldata2.push({
-                    "direction":"看多",
-                    "openprice":alldata[2*i].price,
-                    "opentime":alldata[2*i].datetime,
-                    "closeprice":alldata[2*i+1].price,
-                    "closetime":alldata[2*i+1].datetime,
-                    "time":alldata[2*i+1].datetime
-                  })
+                  if (alldata[2*i].trans_type=="buy") {
+                    alldata2.push({
+                      "direction":"看多",
+                      "openprice":alldata[2*i].price,
+                      "opentime":alldata[2*i].datetime,
+                      "closeprice":alldata[2*i+1].price,
+                      "closetime":alldata[2*i+1].datetime,
+                      "time":alldata[2*i+1].datetime,
+                      "open":alldata[2*i].datetime
+                    })
+                  }
+                  else {
+                    console.log("配对出错")
+                  }
                 }
               }
 
@@ -3632,6 +3644,12 @@
                         break;
                       }
                     }
+                    if (nowdata[i].trans_type == "sell") {
+                      if (i == 0 || nowdata[i - 1].trans_type != "buy") {
+                        hasNone=true;
+                        break;
+                      }
+                    }
                   }
                   if(!hasNone){
                     //console.log("没有不配对平仓，不获取单独开仓");
@@ -3712,7 +3730,7 @@
                           }
                         }
 
-                        //console.log(aloneshort,alonebuy)
+                        //console.log(nowdata)
                         for(var i=0;i<nowdata.length;i++){
                           if(nowdata[i].trans_type=="sell"){
                             if(i==0||nowdata[i-1].trans_type!="buy"){
@@ -3735,7 +3753,6 @@
                             }
                           }
                         }
-
 
                         defer6.resolve(nowdata);
                       })
@@ -6501,7 +6518,8 @@
         };
       };
       var height=$(window).height();//浏览器当前窗口可视区域高度
-      $("#test2").css("height", height*0.85+"px");
+      $("#test2").css("height", height*0.88+"px");
+      //$("#test3").css("height", height*0.80+"px");
 
       function getObjectURL(file) {
         var url = null ;
@@ -6562,11 +6580,13 @@
         $('.image').hide();
         $('.col-sm-offset-2').fadeIn();
       };
+      $scope.loadStaus="上传";
       $scope.addImage = function () {
         if($scope.image==undefined||$scope.image==""){
           Showbo.Msg.alert("未选择图片");
           return;
         }
+        $scope.loadStaus="上传中...";
         $http({
           url: "https://sm.ms/api/upload",
           method: 'POST',
@@ -6580,8 +6600,11 @@
           }
         }).success(function (data) {
           if(data.code=="error"){
+            $scope.loadStaus="上传";
             Showbo.Msg.alert(data.msg);
             return;
+          }else {
+            $scope.loadStaus="上传成功";
           }
           var imageUrl="![none](" + data.data.url + ")";//![Alt text](./images/4.jpg)
           $("#content6").insertContent(imageUrl);
@@ -6591,8 +6614,11 @@
           $("#content4").insertContent(imageUrl);
           $scope.modalResObj.content=$("#content4").val();
           //console.log($scope.modalResMet.content)
-          $('.image').hide();
-          $('.col-sm-offset-2').fadeIn();
+          setTimeout(function(){
+            $('.image').hide();
+            $('.col-sm-offset-2').fadeIn();
+            $scope.loadStaus="上传";
+          },500)
         });
 
       };
@@ -7496,11 +7522,13 @@
             $('.col-sm-offset-2').fadeIn();
           };
           window.content;
+          scope.loadStaus="上传"
           scope.addImage2 = function () {
             if(scope.image2==undefined||scope.image2==""){
               Showbo.Msg.alert("未选择图片");
               return;
             }
+            scope.loadStaus="上传中..."
             $http({
               url: "https://sm.ms/api/upload",
               method: 'POST',
@@ -7514,16 +7542,22 @@
               }
             }).success(function (data) {
               if(data.code=="error"){
+                scope.loadStaus="上传"
                 Showbo.Msg.alert(data.msg);
                 return;
+              }else {
+                scope.loadStaus="上传成功"
               }
               //console.log("上传成功")
               var imageUrl="![none](" + data.data.url + ")";//![Alt text](./images/4.jpg)
               $("#"+window.type+" #content8").eq(window.test).insertContent(imageUrl);
               scope.mydata.content=$("#"+window.type+" #content8").eq(window.test).val();
               window.content=$("#"+window.type+" #content8").eq(window.test).val();;
-              $('.image9').hide();
-              $('.col-sm-offset-2').fadeIn();
+              setTimeout(function(){
+                scope.loadStaus="上传"
+                $('.image9').hide();
+                $('.col-sm-offset-2').fadeIn();
+              },500)
             });
 
           };

@@ -10,7 +10,7 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: black;
+    background: #fff;
     position: absolute;
     -webkit-animation: load 1.04s ease infinite;
 }

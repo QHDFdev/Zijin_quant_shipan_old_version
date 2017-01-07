@@ -290,12 +290,9 @@
             <div class="form-group">
               <label>上传策略代码：</label><input type="file" name="file" file-model='sourcingCode' placeholder="代码" required="">
             </div>
-            <div class="btn-group btn-group-lg">
-              <input class="btn-success btn" type="submit" value="提交"
-                     style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
-              <input class="btn-warning btn"
-                     style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px"
-                     ng-click="closeMask()" value="关闭" type="button">
+            <div class=" btn-group-lg">
+              <input class="btn-success btn" type="submit" value="提交">
+              <input class="btn-warning btn btn-right" ng-click="closeMask()" value="关闭" type="button">
             </div>
           </form>
         </div>
@@ -308,7 +305,7 @@
         <div id="logs" class="logs col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 ">
           <a style="float: right" ng-click="colselog()"><i class="fa fa-remove" style="color:#fff"></i></a>
           <div id="logname"></div>
-          <div class="loadEffect" style="margin-top: 25%">
+          <div class="loadEffect" style="margin-top: 20%">
             <span></span>
             <span></span>
             <span></span>
@@ -369,11 +366,9 @@
             <div class="form-group">
               <label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">
             </div>
-            <div class="btn-group btn-group-lg">
-              <input style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" class="btn-success btn"
-                     type="submit" value="提交" ng-disabled='newFirmStrategy.$invalid'>
-              <input style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px"
-                     class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+            <div class=" btn-group-lg">
+              <input  class="btn-success btn" type="submit" value="提交" ng-disabled='newFirmStrategy.$invalid'>
+              <input  class="btn-warning btn btn-right" ng-click="closeMask()" value="关闭" type="button">
             </div>
           </form>
         </div>
@@ -428,11 +423,9 @@
             <div class="form-group">
               <label>代码依赖文件：</label><input type="file" name="trueFile" file-model='trueFile' placeholder="代码依赖文件">
             </div>
-            <div class="btn-group btn-group-lg">
-              <input style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" class="btn-success btn"
-                     type="submit" value="提交" ng-disabled='newTrueStrategy.$invalid'>
-              <input style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px"
-                     class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+            <div class=" btn-group-lg">
+              <input  class="btn-success btn" type="submit" value="提交" ng-disabled='newTrueStrategy.$invalid'>
+              <input class="btn-warning btn btn-right" ng-click="closeMask()" value="关闭" type="button">
             </div>
           </form>
         </div>
@@ -506,11 +499,9 @@
             <div class="form-group">
               <label>代码依赖文件：</label><input type="file" name="hisFile" file-model='files' placeholder="代码依赖文件">
             </div>
-            <div class="btn-group btn-group-lg">
-              <input style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" class="btn-success btn"
-                     type="submit" value="提交" ng-disabled='newHisStrategy.$invalid'>
-              <input style="margin-left: 20px;border-bottom-left-radius: 5px;border-top-left-radius: 5px"
-                     class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button">
+            <div class=" btn-group-lg">
+              <input  class="btn-success btn" type="submit" value="提交" ng-disabled='newHisStrategy.$invalid'>
+              <input class="btn-warning btn btn-right" ng-click="closeMask()" value="关闭" type="button">
             </div>
           </form>
         </div>

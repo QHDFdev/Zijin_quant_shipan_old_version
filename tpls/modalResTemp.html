@@ -22,6 +22,7 @@
 				<div class="col-sm-8 col-sm-offset-2" style="overflow-y: scroll;overflow-x:hidden;" ng-style="obj" id="">
 					<!-- <form ng-submit='revModalResObj(mydata)' name='modalResObjForm' novalidate=""> -->
 					<form name='modalResObjForm' novalidate="">
+						<div class="ModalBorder">
 						<h3 class="text-center">研究对象-金融数据</h3>
 						<div class="form-group">
 							<input type="text" class="form-control" ng-model='mydata.title' placeholder="主题" required="">
@@ -34,13 +35,11 @@
 						<div class="form-group" ng-show='mydata.classify=="model_methods" || mydata.classify=="model_examples"'>
 							<textarea class="form-control" ng-model='mydata.code' placeholder="内容" required=""></textarea>
 						</div>
-						<div class="btn-group btn-group-lg">
-	                        <input class="btn-success btn" type="button" value="提交修改" style="border-top-right-radius: 5px;
-			border-bottom-right-radius: 5px;">
-	                        <input class="btn-warning btn" ng-click="closeMask()" value="关闭" type="button" style="margin-left: 20px;
-			border-bottom-left-radius: 5px;
-			border-top-left-radius: 5px">
-	                    </div> 
+						<div class=" btn-group-lg">
+	                        <input class="btn-success btn" type="button" value="提交修改" >
+	                        <input class="btn-warning btn btn-right" ng-click="closeMask()" value="关闭" type="button">
+	                    </div>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -52,7 +51,7 @@
 			<input type="file" name="" id="image22" onchange="angular.element(this).scope().changeImage(this.files)" file-model="image2" accept="image/gif,image/jpeg,image/jpg,image/png">
 		</a>
 		<a href=""  class="file9" ng-click="delImage2()">清空</a>
-		<a href="" class="file9" ng-click="addImage2()">上传</a>
+		<a href="" class="file9" ng-click="addImage2()" ng-bind="loadStaus"></a>
 		<div ng-if='image02'><img ng-src={{img02}} id="img02" style="width: 100%"></div>
 	</div>
 	<div id="files2" class="files9">
