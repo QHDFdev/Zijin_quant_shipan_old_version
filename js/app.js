@@ -1887,7 +1887,7 @@
                               }
                               else {
                                 nowdata.splice(i,1);
-                                console.log("发现无配对平仓")
+                                //console.log("发现无配对平仓")
                                 i--;
                               }
                             }
@@ -1937,7 +1937,7 @@
                   }
                   //console.log(data);
                   delzero(data)
-                  console.log("数据处理完成")
+                  //console.log("数据处理完成")
                   if(data.length<2){
                     Showbo.Msg.alert("截至目前还未成交")
                   }else {
@@ -3669,7 +3669,7 @@
                               }
                             else {
                                 nowdata.splice(i,1);
-                                console.log("发现无配对平仓")
+                                //console.log("发现无配对平仓")
                                 i--;
                               }
                             }
@@ -3693,7 +3693,7 @@
                               }
                               else {
                                 nowdata.splice(i,1);
-                                console.log("发现无配对平仓")
+                                //console.log("发现无配对平仓")
                                 i--;
                               }
                             }
@@ -3742,7 +3742,7 @@
                     }
                   }
                   delzero(data)
-                  console.log("数据处理完成")
+                  //console.log("数据处理完成")
                   if(data.length<2){
                     Showbo.Msg.alert("截至目前还未成交")
                   }else {
