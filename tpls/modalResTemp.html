@@ -1,4 +1,4 @@
-<div class="modalRes-box col-lg-3 col-md-4 col-sm-6 col-xs-12">
+<div class="modalRes-box col-lg-25	 col-md-4 col-sm-6 col-xs-12">
 	<div class="modalRes-box-wrapper">
 		<a href='#/{{mydata.classify}}/{{mydata._id}}' style="text-decoration:none" class="modalRes-box-title" ng-bind='mydata.title'></a>
 		<!-- <p class="modalRes-box-text">{{mydata.text_content}}</p> -->
@@ -11,7 +11,7 @@
 		<div class="modalRes-box-left"></div>
 		<div class='modalRes-box-info'>
 			<span class="modalRes-box-author" ng-bind='mydata.author'></span>
-			<span class='modalRes-box-text'>发布于</span>
+			<span class='modalRes-box-text' >发布于</span>
 			<span class="modalRes-box-date" ng-bind='mydata.date'></span>
 		</div>	
 	</div>	
@@ -29,7 +29,7 @@
 						<div class="form-group">
 							<!--<i class="fa fa-plus" title="添加文件" style="margin-left: 10px"  ng-click="openFile2()"></i>-->
 							<i class="fa fa-picture-o" title="插入图片" style="margin-left: 10px" ng-click="openImage2(this)"></i>
-							<textarea id="content8" class="form-control" ng-model='mydata.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
+							<textarea id="content8" class="form-control" ng-change="changeContent()" ng-model='mydata.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
 						</div>
 						<div class="form-group" ng-show='mydata.classify=="model_methods" || mydata.classify=="model_examples"'>
 							<textarea class="form-control" ng-model='mydata.code' placeholder="内容" required=""></textarea>

@@ -1798,6 +1798,25 @@
                   var aloneshort=[];
                   var alonebuy=[];
                   var defer6 = $q.defer();
+                  if(nowdata.length==0){
+                    Showbo.Msg.alert("今天截至目前还未成交")
+                    defer6.reject(nowdata)
+                    return defer6.promise;
+                  }
+                  var hasNone=false;//判断今天是否有不配对平仓
+                  for(var i=0;i<nowdata.length;i++) {
+                    if (nowdata[i].trans_type == "cover") {
+                      if (i == 0 || nowdata[i - 1].trans_type != "short") {
+                        hasNone=true;
+                        break;
+                      }
+                    }
+                  }
+                  if(!hasNone){
+                    //console.log("没有不配对平仓，不获取单独开仓");
+                    defer6.resolve(nowdata);
+                    return defer6.promise;
+                  }
                   var sdate = $filter('date')(new Date((new Date($scope.myFirmStartDate)).setDate((new Date($scope.myFirmStartDate)).getDate() - 1)), 'yyyy-MM-dd');
                   $http.get(constantUrl + 'transactions/', {
                         params: {
@@ -1809,14 +1828,6 @@
                       })
                       .success(function (data) {
                         if(data[0]!=null){
-                          if(window.location.hash=="#/trueRes"){
-                            for(var i=0;i<data.length;i++){//保留已成交
-                              if(data[i].status==0||data[i].status==-1){
-                                data.splice(i,1);
-                                i=-1;
-                              }
-                            }
-                          }
                           for(var i=0;i<data.length;i++){//获取前一天所有单独short
                             if(data[i].trans_type=="short"){
                               if(i+1>=data.length||data[i+1].trans_type!="cover"){
@@ -1865,6 +1876,7 @@
                               }
                               else {
                                 nowdata.splice(i,1);
+                                //console.log("发现无配对平仓")
                                 i--;
                               }
                             }
@@ -1894,26 +1906,27 @@
                           }
                         }
 
-                        for(var i=0;i<nowdata.length;i++){//清除未配对开仓
-                          if(nowdata[i].trans_type=="short"){
-                            if(i==nowdata.length-1||nowdata[i+1].trans_type!="cover"){
-                              nowdata.splice(i,1);
-                              i--;
-                            }
-                          }
-                          else  if(nowdata[i].trans_type=="buy"){
-                            if(i==nowdata.length-1||nowdata[i+1].trans_type!="sell"){
-                              nowdata.splice(i,1);
-                              i--;
-                            }
-                          }
-                        }
+
                         defer6.resolve(nowdata);
                       })
                   return defer6.promise;
                 }
 
                 trueRes(data).then(function(nowdata){
+                  for(var i=0;i<nowdata.length;i++){//清除未配对开仓
+                    if(nowdata[i].trans_type=="short"){
+                      if(i==nowdata.length-1||nowdata[i+1].trans_type!="cover"){
+                        nowdata.splice(i,1);
+                        i--;
+                      }
+                    }
+                    else  if(nowdata[i].trans_type=="buy"){
+                      if(i==nowdata.length-1||nowdata[i+1].trans_type!="sell"){
+                        nowdata.splice(i,1);
+                        i--;
+                      }
+                    }
+                  }
                   data=nowdata;
                   for(var i in data){
                     alldata[i]=data[i];
@@ -1939,7 +1952,7 @@
                   delzero(data)
                   //console.log("数据处理完成")
                   if(data.length<2){
-                    Showbo.Msg.alert("截至目前还未成交")
+                    Showbo.Msg.alert("今天截至目前还未成交")
                   }else {
                     var min=data[0].datetime;
                     var max=data[0].datetime;
@@ -3605,6 +3618,26 @@
                       }
                     }
                   }
+                  if(nowdata.length==0){
+                    Showbo.Msg.alert("今天截至目前还未成交")
+                    defer6.reject(nowdata)
+                    return defer6.promise;
+                  }
+
+                  var hasNone=false;//判断今天是否有不配对平仓
+                  for(var i=0;i<nowdata.length;i++) {
+                    if (nowdata[i].trans_type == "cover") {
+                      if (i == 0 || nowdata[i - 1].trans_type != "short") {
+                        hasNone=true;
+                        break;
+                      }
+                    }
+                  }
+                  if(!hasNone){
+                    //console.log("没有不配对平仓，不获取单独开仓");
+                    defer6.resolve(nowdata);
+                    return defer6.promise;
+                  }
                   var sdate = $filter('date')(new Date((new Date($scope.myFirmDate)).setDate((new Date($scope.myFirmDate)).getDate() - 1)), 'yyyy-MM-dd');
                   $http.get(constantUrl + 'transactions/', {
                         params: {
@@ -3639,6 +3672,9 @@
                         }
                         else {
                           console.log("前一天没有交易")
+                        }
+                        if(nowdata[nowdata.length-1]==null){
+                          nowdata.splice(nowdata.length-1,1)
                         }
                           for(var i=0;i<nowdata.length;i++){//获取今天所有单独short
                             if(nowdata[i].trans_type=="short"){
@@ -3700,26 +3736,27 @@
                           }
                         }
 
-                        for(var i=0;i<nowdata.length;i++){//清除未配对开仓
-                          if(nowdata[i].trans_type=="short"){
-                            if(i==nowdata.length-1||nowdata[i+1].trans_type!="cover"){
-                              nowdata.splice(i,1);
-                              i--;
-                            }
-                          }
-                          else  if(nowdata[i].trans_type=="buy"){
-                            if(i==nowdata.length-1||nowdata[i+1].trans_type!="sell"){
-                              nowdata.splice(i,1);
-                              i--;
-                            }
-                          }
-                        }
+
                         defer6.resolve(nowdata);
                       })
                   return defer6.promise;
                 }
 
                 trueRes(data).then(function(nowdata){
+                  for(var i=0;i<nowdata.length;i++){//清除未配对开仓
+                    if(nowdata[i].trans_type=="short"){
+                      if(i==nowdata.length-1||nowdata[i+1].trans_type!="cover"){
+                        nowdata.splice(i,1);
+                        i--;
+                      }
+                    }
+                    else  if(nowdata[i].trans_type=="buy"){
+                      if(i==nowdata.length-1||nowdata[i+1].trans_type!="sell"){
+                        nowdata.splice(i,1);
+                        i--;
+                      }
+                    }
+                  }
                   data=nowdata;
                   for(var i in data){
                     alldata[i]=data[i];
@@ -3744,7 +3781,7 @@
                   delzero(data)
                   //console.log("数据处理完成")
                   if(data.length<2){
-                    Showbo.Msg.alert("截至目前还未成交")
+                    Showbo.Msg.alert("今天截至目前还未成交")
                   }else {
                     var min=data[0].datetime;
                     var max=data[0].datetime;
@@ -7484,7 +7521,6 @@
               var imageUrl="![none](" + data.data.url + ")";//![Alt text](./images/4.jpg)
               $("#"+window.type+" #content8").eq(window.test).insertContent(imageUrl);
               scope.mydata.content=$("#"+window.type+" #content8").eq(window.test).val();
-              //console.log(scope.mydata.content)
               window.content=$("#"+window.type+" #content8").eq(window.test).val();;
               $('.image9').hide();
               $('.col-sm-offset-2').fadeIn();
@@ -7492,6 +7528,10 @@
 
           };
 
+          scope.changeContent= function(){//jquery插入图片，angular获取不到
+            window.content=undefined;
+            //console.log(scope.mydata.content)
+          }
 
           ele.on('click', '.btn-success', function () {
             var url = scope.mydata.classify + '/' + scope.mydata._id;
@@ -7526,7 +7566,7 @@
       return {
         link: function (scope, ele, attrs) {
           ele.on('click', function () {
-            console.log(ele.parent().css('left'));
+            //console.log(ele.parent().css('left'));
             if (ele.parent().css('left') == '0px') {
               ele.parent().removeClass('l0');
             } else  {
