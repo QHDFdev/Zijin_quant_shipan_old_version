@@ -211,8 +211,8 @@
 	display: table-cell;
 	vertical-align: middle;
 	margin: 0;
-	font-weight: bold;
-	font-size: 20px;
+	/*font-weight: bold;*/
+	font-size: 18px;
 	cursor: pointer;
 	z-index: 3;
 }
@@ -233,7 +233,7 @@
 .modalRes-box-top, .modalRes-box-right, .modalRes-box-bottom, .modalRes-box-left{
 	display: inline-block;
 	position: absolute;
-	background: #228b22;
+	background: #FF8C00;
 	-webkit-transition: all ease 1s;
 	-moz-transition: all ease 1s;
 	-o-transition: all ease 1s;
