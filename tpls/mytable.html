@@ -171,14 +171,14 @@
         <table class="table table-bordered table-hover table-striped" his-table style="width: 100%;">
           <thead class="bg-success">
           <tr>
-            <th style="width: 5.1%">选择</th>
-            <th style="width: 8.6%">回测名</th>
-            <th style="width: 17.13%">策略代码</th>
-            <th style="width: 8.52%">mode</th>
-            <th style="width: 8.55%">开始时间</th>
-            <th style="width: 8.55%">结束时间</th>
+            <th style="width: 4.9%">选择</th>
+            <th style="width: 14.5%">回测名</th>
+            <th style="width: 14.8%">策略代码</th>
+            <th style="width: 5.8%">mode</th>
+            <th style="width: 8.8%">开始时间</th>
+            <th style="width: 8.8%">结束时间</th>
             <th style="width: 8.6%">作者</th>
-            <th style="width: 8.5%">状态</th>
+            <th style="width: 6.8%">状态</th>
             <th>实例运行操作</th>
           </tr>
           </thead>
@@ -193,14 +193,14 @@
               <input type="checkbox" style="width: 20px;height:20px;" ng-click="updateSelection3(this)"
                      ng-checked="all3"><a hidden>{{d.flag}}</a>
             </td>
-            <td ng-bind="d.name" class="col-xs-1"></td>
-            <td ng-bind="d.class_name" class="col-xs-2"></td>
-            <td ng-bind="d.mode" class="col-xs-1"></td>
-            <td ng-bind="d.start" class="col-xs-1"></td>
-            <td ng-bind="d.end" class="col-xs-1"></td>
-            <td ng-bind="d.author" class="col-xs-1"></td>
-            <td ng-bind="d.status" title="{{d.title}}" class="col-xs-1" class={{d.color}}></td>
-            <td class="col-xs-3">
+            <td ng-bind="d.name" style="width: 14.5%"></td>
+            <td ng-bind="d.class_name" style="width: 14.9%"></td>
+            <td ng-bind="d.mode" style="width: 6%"></td>
+            <td ng-bind="d.start"></td>
+            <td ng-bind="d.end"></td>
+            <td ng-bind="d.author"></td>
+            <td ng-bind="d.status" title="{{d.title}}"  class={{d.color}}></td>
+            <td >
               <div class="btn-group btn-group-sm">
                 <button class="btn btn-success strategy-start" ng-click="strategystart(this)">启动 <i
                     class="fa fa-play"></i></button>

@@ -1,4 +1,5 @@
-/* analyse */
+/*
+!* analyse *!
 dl dd a{
 	color: #fff;
 }
@@ -10,8 +11,8 @@ dl dd a{
 	width: 100%;
 }
 .analyse .remind>div{
-	/*display: inline-block;*/
-	/*float: left;*/
+	!*display: inline-block;*!
+	!*float: left;*!
 	background-color: red;
 }
 @media (max-width: 767px){
@@ -20,23 +21,20 @@ dl dd a{
 .analyse .analyse-left{
 	position: relative;
 	height: 700px;
-	border-right: 2px dashed #5CB7EE;
-
 }
-/*.analyse .analyse-left .btn1{
-	width: 500px !important;
-	height:90px;
-}*/
+
 .analyse .analyse-left .analyse-menu-head{
 	margin-bottom: 50px;
 	padding-left: 40px;
 }
-
+.analyse .analyse-left .modal .modal-dialog .btn_wrap input{
+	width: 60%;
+}
 
 
 .analyse .analyse-left dl{
-	/* margin:25px auto;
-	width: 120px; */
+	!* margin:25px auto;
+	width: 120px; *!
 	margin-bottom: 20px;
 	padding-left: 40px;
 }
@@ -65,8 +63,8 @@ dl dd a{
 .analyse .analyse-right{
 	position: relative;
 	height: 700px;
-	/*margin-top: 30px;*/
-	/* overflow-y:auto;  */
+	!*margin-top: 30px;*!
+	!* overflow-y:auto;  *!
 }
 .analyse .analyse-right .analyse-charts-title{
 	margin: 0 0 50px;
@@ -81,7 +79,7 @@ dl dd a{
 	height: 600px;
 	overflow-y:auto; 
 }
-/* .analyse .analyse-right .analyse-charts-title:after{
+!* .analyse .analyse-right .analyse-charts-title:after{
 	content: '';
 	display: inline-block;
 	width: 100px;
@@ -89,7 +87,7 @@ dl dd a{
 	background: #b22;
 	text-align: center;
 	
-} */
+} *!
 #total_revenue_rate_1 ul {
 	width: 240px;
 	margin: 100px auto 30px;
@@ -142,4 +140,4 @@ dl dd a{
 .highstock-item{
 	width: 90%;
 	margin: 0 auto 10px;
-}
+}*/

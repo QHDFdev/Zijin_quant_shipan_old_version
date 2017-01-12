@@ -2,7 +2,7 @@
     <div class="container-fluid noprint">
         <div class="row analyse-title-head">
             <div class="col-sm-3 col-lg-2 col-md-3 hidden-xs">
-                <img src="images/zhenshi.gif" alt=""></div>
+                <img src="images/zhenshi.gif" alt="真实交易"></div>
             <div class="col-sm-9 col-lg-10 col-md-9 jiaoyi">
                 <div class="remind" >
                     <div class="first">
@@ -41,9 +41,9 @@
                                             <textarea placeholder="请在此处粘贴行情数据……" ng-model='analyseJsonData'></textarea>
                                         </div>
 
-                                        <div class="btn-group " style="width: 50%;">
-                                            <input type="button" value="交易分析" class="btn btn-success" data-dismiss="modal" ng-click='makeChart()' style="width:30%;height:40px;margin-right:15px;border-radius:5px;float: left">
-                                            <input type="button" value="关闭" class="btn btn-warnning" data-dismiss="modal" style="width:30%;height:40px;border-radius: 5px;background-color: #a0caca;color: #fff">
+                                        <div class="btn_wrap">
+                                            <input type="button" value="交易分析" class="btn btn-success" data-dismiss="modal" ng-click='makeChart()'>
+                                            <input type="button" value="关闭" class="btn btn-warnning" data-dismiss="modal">
                                         </div>
 
                                     </form>
@@ -59,7 +59,7 @@
                                     <form name="myForm">
                                         <div class="form-group">
                                             策略：
-                                            <select style="width: 40%;" ng-model='myFirmStrategy' ng-options="x.name for x in myFirmStrategyList | orderBy: 'name' " ng-change='selecteStrategy()' required>
+                                            <select class="sel" ng-model='myFirmStrategy' ng-options="x.name for x in myFirmStrategyList | orderBy: 'name' " ng-change='selecteStrategy()' required>
                                             </select>
                                             <!--<label class="radio-inline" ng-if="isadmin">-->
                                                 <!--&nbsp;<input ng-model="checktrue" type="radio"   value="false" checked ng-click="clickfalse()">-->
@@ -72,7 +72,7 @@
                                             <br>
                                             <br>
                                             时间：
-                                            <select ng-model='myFirmDate' ng-options="x for x in myFirmDateList" required required="required"></select>
+                                            <select  class="sel" ng-model='myFirmDate' ng-options="x for x in myFirmDateList" required required="required"></select>
                                             <br>
                                             <br>
                                             <!--结束时间：-->
@@ -80,10 +80,9 @@
                                             <!--<br>-->
                                             <!--<br>-->
                                         </div>
-
-                                        <div class="btn-group " style="width: 50%;">
-                                            <input type="button" value="交易分析" class="btn btn-success" data-dismiss="modal" ng-click='makeChart1()' style="width:30%;height:40px;margin-right:15px;border-radius:5px;float: left">
-                                            <input type="button" value="关闭" class="btn btn-warnning" data-dismiss="modal" style="width:30%;height:40px;border-radius: 5px;background-color: #a0caca;color: #fff">
+                                        <div class="btn_wrap">
+                                            <input type="button" value="交易分析" class="btn btn-success" data-dismiss="modal" ng-click='makeChart1()'>
+                                            <input type="button" value="关闭" class="btn btn-warnning" data-dismiss="modal">
                                         </div>
                                     </form>
                                 </div>
@@ -91,7 +90,7 @@
                         </div>
                     </div>
                     <dl class="analyse-menu-item">
-                        <dt slide-toggle style="color: #fff"><i class="fa fa-line-chart"></i>真实交易走势图</dt>
+                        <dt slide-toggle><i class="fa fa-line-chart"></i>真实交易走势图</dt>
                         <dd>
                             <a data-target="#return_mapping_1" aria-controls="return_mapping_1" role="tab" data-toggle="tab">
                                 交易走势图
@@ -105,7 +104,7 @@
                         </dd>
                     </dl>
                     <dl class="analyse-menu-item">
-                        <dt slide-toggle style="color: #fff"><i class="fa fa-pie-chart"></i>策略交易统计</dt>
+                        <dt slide-toggle><i class="fa fa-pie-chart"></i>策略交易统计</dt>
                         <!-- <dd>
                             <a data-target="#total_revenue_rate_1" aria-controls="total_revenue_rate_1" role="tab" data-toggle="tab">
                                 策略得分
@@ -133,7 +132,7 @@
                         </dd>
                     </dl>
                     <dl class="analyse-menu-item">
-                        <dt slide-toggle style="color: #fff"><i class="fa fa-newspaper-o"></i>策略风险分析</dt>
+                        <dt slide-toggle><i class="fa fa-newspaper-o"></i>策略风险分析</dt>
                         <dd>
                             <a data-target="#winrate_1" aria-controls="winrate_1" role="tab" data-toggle="tab">
                                 胜率
@@ -165,20 +164,43 @@
                             </a>
                         </dd>
                     </dl>
+                    <dl class="analyse-menu-item">
+                        <dt slide-toggle><i class="fa fa-bar-chart"></i>模型评估</dt>
+                        <dd>
+                            <a  role="tab" data-toggle="tab">
+                                模型预测图形化输出
+                            </a>
+                        </dd>
+                        <dd>
+                            <a  role="tab" data-toggle="tab">
+                                预测准确率统计
+                            </a>
+                        </dd>
+                        <dd>
+                            <a  role="tab" data-toggle="tab">
+                                模型耗时
+                            </a>
+                        </dd>
+                        <dd>
+                            <a  role="tab" data-toggle="tab">
+                                模型评分
+                            </a>
+                        </dd>
+                    </dl>
 
                 </div>
             </div>
-            <div class="col-sm-9 col-lg-10 col-md-9 analyse-right" style="margin-top: 20px">
+            <div class="col-sm-9 col-lg-10 col-md-9 analyse-right" >
                 <div class="tab-content" id="tab-content-1">
                     <div role="tabpanel" class="tab-pane active" id="return_mapping_1">
                         <h2 class="analyse-charts-title mb0">交易走势图</h2>
 
-                        <div id="return_map_big_1" style="height:600px;width: 96%;margin: 0 auto;background:#fff;">
+                        <div id="return_map_big_1">
                         </div>
                     </div>
                     <div role="tabpanel" id="return_mapping_2"  class="tab-pane">
                         <h2 class="analyse-charts-title mb0">收益曲线图</h2>
-                        <div id="return_map_big_2" style="height:600px;width: 96%;margin: 0 auto;background:#fff;" >
+                        <div id="return_map_big_2">
                         </div>
                     </div>
                     <!-- <div role="tabpanel" class="tab-pane" id="total_revenue_rate_1">
@@ -190,12 +212,7 @@
                         </ul>
                         <p class="text-center"><a ng-href="" class="btn btn-danger">加入竞赛</a></p>
                     </div> -->
-                    <style>
-                        .error{
-                            color:red;
-                            text-decoration:line-through;
-                        }
-                    </style>
+
                     <div role="tabpanel" class="tab-pane" id="transaction_details_1">
                         <h2 class="analyse-charts-title">交易详细输出</h2>
                         <div class="table-responsive">
@@ -575,7 +592,7 @@
     <div class="analyse-modal-big noprint">
         <div class="container">
             <div class="analyse-select-box text-center">
-                <i class="fa fa-remove" style="float: right;color: #817d7d;cursor: pointer" ng-click='closeModal()'></i>
+                <i class="fa fa-remove" ng-click='closeModal()'></i>
                 <!--点击后调用closeModal()函数，功能：.analyse-modal-big隐藏-->
                 <div class="select">
                     <p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal1' ng-click='closeModal()'>输入真实交易数据</button></p>
@@ -585,7 +602,7 @@
             </div>
         </div>
     </div>
-    <div class="printform clearfix" style="display: none">
+    <div class="printform clearfix">
         <div class="container">
 
             <p class="analyse-top-title text-left">
@@ -599,13 +616,13 @@
             <br>
             <div class="row">
                 <div class="col-xs-12">
-                    <h2  style="text-align: center;margin-top: 30px">交易走势图</h2>
+                    <h2>交易走势图</h2>
                     <div id="return_map_big_form" style="height:600px;background:#fff;width:90%;max-width: 1000px;"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <h2 style="text-align: center;margin-top: 30px">收益曲线图</h2>
+                    <h2>收益曲线图</h2>
                     <div id="return_map_big_form1" style="height:600px;background:#fff;width:90%;max-width: 1000px;"></div>
                 </div>
             </div>

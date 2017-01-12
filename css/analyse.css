@@ -1,7 +1,5 @@
 /* analyse */
-dl dd a{
-	color: #fff;
-}
+
 .analyse table{
 	text-align: center;
 	border-radius: 5px;
@@ -93,11 +91,11 @@ display: inline-block;
 	-moz-box-shadow: 5px 0 10px #aaa;
 	box-shadow: 5px 0 10px #aaa;
 	background-color:#f2f2f2;
+
 	background: -webkit-linear-gradient(left top, #a9c0a9 , #bbc0bb);
 	background: -o-linear-gradient(bottom right,#a9c0a9,  #bbc0bb);
 	background: -moz-linear-gradient(bottom right, #a9c0a9, #bbc0bb);
 	background: linear-gradient(to bottom right, #a9c0a9 , #bbc0bb);
-
 }
 .analyse .analyse-left .mobile-action{
 	position: absolute;
@@ -129,6 +127,22 @@ display: inline-block;
 	margin-bottom: 20px;
 	padding-left: 40px;
 }
+.analyse .analyse-left .modal .modal-dialog .btn_wrap{
+	width: 35%;
+	height: 40px;
+
+}
+.analyse .analyse-left .btn_wrap input{
+width: 43%;
+	height: 40px;
+	float: left;
+	margin-left: 4%;
+	outline: none;
+}
+.analyse .analyse-left .btn_wrap input:nth-child(2){
+	background-color: #a0caca;color: #fff
+}
+
 .analyse .analyse-left dl{
 	/* margin:25px auto;
 	width: 120px; */
@@ -137,20 +151,20 @@ display: inline-block;
 }
 .analyse .analyse-left dt{
 	position: relative;
-	color: rgba(92, 161, 228, 1);
+	color:#fff;
     font-size: 18px;
 	letter-spacing: 2px;
 	line-height: 40px;
 	cursor: pointer;
 }
 .analyse .analyse-left dd{
-	color: rgba(124, 181, 236, 1);
-    font-size: 16px;
+	font-size: 16px;
 	letter-spacing: 1px;
 	line-height: 25px;
 }
 .analyse .analyse-left dd a{
 	cursor: pointer;
+	color: #fff;
 }
 .analyse .analyse-left dt i{
 	position: absolute;
@@ -160,33 +174,25 @@ display: inline-block;
 .analyse .analyse-right{
 	position: relative;
 	height: 650px;
-	margin-top: 20px;
-
-
-	/* overflow-y:auto;  */
+	margin-top: 25px;
 }
+
 .analyse .analyse-right .analyse-charts-title{
-	margin: 0 0 50px ;
+	margin: 0 0 15px;
 	text-align:center;
 	color:#b22;
 	letter-spacing: 2px;
 	font-weight:bold;
-	text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb,
-	0 4px 0 #b9b9b9,
-0 5px 0 #aaa,
-0 6px 1px rgba(0,0,0,.1),
-0 0 5px rgba(0,0,0,.1),
-0 1px 3px rgba(0,0,0,.3),
-
-0 5px 10px rgba(0,0,0,.25),
-0 10px 10px rgba(0,0,0,.2);
-	/*background: url("../images/zi.png");*/
+	text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa,
+	0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2);
+}
+#return_map_big_1,#return_map_big_2,#return_map_big,#return_map_big1{
+	height:600px;
+	width: 96%;
+	margin: 0 auto;
+	background:#fff;
 }
 
-
-.analyse .analyse-right .mb0{
-	margin-bottom: 15px;
-}
 .analyse .analyse-right .table-responsive{
 	height: 550px;
 	overflow-y:auto; 
@@ -266,6 +272,9 @@ display: inline-block;
 	background:rgba(0,0,0,.7);
 	z-index: 999;
 }
+.analyse-modal-big .fa-remove{
+	float: right;color: #817d7d;cursor: pointer
+}
 .analyse-modal-big .analyse-select-box{
 	margin:150px auto 0;
 	padding: 10px 10px 0 0;
@@ -313,13 +322,20 @@ display: inline-block;
 	z-index: 1000000;
 	/*overflow: hidden;*/
 }
+.printform{
+	display: none;
+}
+.printform .container .analyse-top-title span{
+	margin-left: 3%;
+}
+.printform h2{
+	text-align: center;margin-top: 30px
+}
+
 @media print {
 	.noprint{
 		display: none;
 	}
-}
-.printform .container .analyse-top-title span{
-	margin-left: 3%;
 }
 
 .sel{
