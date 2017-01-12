@@ -13,27 +13,27 @@
           .when('/login', {
             templateUrl: 'tpls/login.html'
           })
-          .when('/introduce',{
+          .when('/PlatformInfo',{
             templateUrl:'tpls/introduce.html'
           })
           .when('/register', {
             templateUrl: 'tpls/register.html'
           })
-          .when('/analyse', {
+          .when('/BackTest', {
             templateUrl: 'tpls/analyse.html'
           })
-          .when('/trueRes', {
+          .when('/AccountTrade', {
             templateUrl: 'tpls/trueRes.html'
           })
-          .when('/study', {
+          .when('/StrategyRunPanel', {
             templateUrl: 'tpls/study.html',
             controller: 'studyController'
           })
-          .when('/mytable', {
+          .when('/StrategyConPanel', {
             templateUrl: 'tpls/mytable.html',
             controller: 'tableController'
           })
-          .when('/actualRes', {
+          .when('/SimRealTimeTrade', {
             templateUrl: 'tpls/actualRes.html',
             controller: 'actualResController'
           })
@@ -49,7 +49,7 @@
             templateUrl: "tpls/complie.html",
             controller: 'complieItemController'
           })
-          .when('/modalRes', {
+          .when('/AccountTrade', {
             templateUrl: 'tpls/modalRes.html',
             controller: 'modalResController'
           })
@@ -95,21 +95,40 @@
       /*var editor = ace.edit("editor");
        editor.setTheme("ace/theme/chrome");
        editor.getSession().setMode("ace/mode/java");*/
-      if (($location.url() == '/study') || ($location.url() == '/home') || ($location.url() == '/mytable') || ($location.url() == '/modalRes') || ($location.url() == '/modalRes')||($location.url()=='/introduce')) {
+      if (($location.url() == '/StrategyRunPanel') ||
+          ($location.url() == '/home') ||
+          ($location.url() == '/StrategyConPanel') ||
+          ($location.url() == '/AccountTrade') ||
+          ($location.url() == '/AccountTrade')||
+          ($location.url()=='/PlatformInfo')) {
         $rootScope.isactive = false;
       }
       ;
       $(window).on('scroll', function () {
-        if ((($('html').scrollTop() > 100) || ($('body').scrollTop() > 100)) && (($location.url() == '/study') || ($location.url() == '/home') || ($location.url() == '/modalRes') || ($location.url() == '/mytable')||($location.url()=='/introduce'))) {
+        if ((($('html').scrollTop() > 100) ||
+            ($('body').scrollTop() > 100)) &&
+            (($location.url() == '/StrategyRunPanel') ||
+            ($location.url() == '/home') ||
+            ($location.url() == '/AccountTrade') ||
+            ($location.url() == '/StrategyConPanel')||
+            ($location.url()=='/PlatformInfo'))) {
           $rootScope.isactive = true;
           $rootScope.$apply();
-        } else if ((($('html').scrollTop() < 100) && ($('body').scrollTop() < 100)) && (($location.url() == '/study') || ($location.url() == '/home') || ($location.url() == '/modalRes') || ($location.url() == '/mytable'))||($location.url()=='/introduce')) {
+        } else if ((($('html').scrollTop() < 100) &&
+            ($('body').scrollTop() < 100)) &&
+            (($location.url() == '/StrategyRunPanel') ||
+            ($location.url() == '/home') ||
+            ($location.url() == '/AccountTrade') ||
+            ($location.url() == '/StrategyConPanel'))||
+            ($location.url()=='/PlatformInfo')) {
           $rootScope.isactive = false;
           $rootScope.$apply();
 
         }
       });
-      if (($location.url() == '/analyse') || ($location.url() == '/complie') || ($location.url() == '/adminCenter')) {
+      if (($location.url() == '/BackTest') ||
+          ($location.url() == '/complie') ||
+          ($location.url() == '/adminCenter')) {
         $rootScope.isactive = true;
       }
       ;
@@ -131,25 +150,42 @@
         }
         ;
         $('html,body').scrollTop(0);
-        if (($location.url() == '/study') || ($location.url() == '/home') || ($location.url() == '/modalRes') || ($location.url() == '/mytable')) {
+        if (($location.url() == '/StrategyRunPanel') ||
+            ($location.url() == '/home') ||
+            ($location.url() == '/AccountTrade') ||
+            ($location.url() == '/StrategyConPanel')) {
           $rootScope.isactive = false;
         }
         ;
         $(window).on('scroll', function () {
-          if ((($('html').scrollTop() > 100) || ($('body').scrollTop() > 100)) && (($location.url() == '/study') || ($location.url() == '/modalRes') || ($location.url() == '/home') || ($location.url() == '/mytable'))) {
+          if ((($('html').scrollTop() > 100) ||
+              ($('body').scrollTop() > 100)) &&
+              (($location.url() == '/StrategyRunPanel') ||
+              ($location.url() == '/AccountTrade') ||
+              ($location.url() == '/home') ||
+              ($location.url() == '/StrategyConPanel'))) {
             $rootScope.isactive = true;
             $rootScope.$apply();
-          } else if ((($('html').scrollTop() < 100) && ($('body').scrollTop() < 100)) && (($location.url() == '/study') || ($location.url() == '/modalRes') || ($location.url() == '/home') || ($location.url() == '/mytable'))) {
+          } else if ((($('html').scrollTop() < 100) &&
+              ($('body').scrollTop() < 100)) &&
+              (($location.url() == '/StrategyRunPanel') ||
+              ($location.url() == '/AccountTrade') ||
+              ($location.url() == '/home') ||
+              ($location.url() == '/StrategyConPanel'))) {
             $rootScope.isactive = false;
             $rootScope.$apply();
 
           }
         });
-        if (($location.url() == '/analyse') || ($location.url() == '/complie') || ($location.url() == '/adminCenter')) {
+        if (($location.url() == '/BackTest') ||
+            ($location.url() == '/complie') ||
+            ($location.url() == '/adminCenter')) {
           $rootScope.isactive = true;
         }
         ;
-        if (typeof(cur) !== 'undefined' && (next.loadedTemplateUrl == 'tpls/complie.html') && (cur.loadedTemplateUrl == 'tpls/complie.html')) {
+        if (typeof(cur) !== 'undefined' &&
+            (next.loadedTemplateUrl == 'tpls/complie.html') &&
+            (cur.loadedTemplateUrl == 'tpls/complie.html')) {
           $window.location.reload();
         }
         ;
@@ -3554,10 +3590,10 @@
                 data[i].account_id==null?falsedata.push(data[i]):truedata.push(data[i])
               }
               var action = {
-                "#/trueRes":function(){
+                "#/AccountTrade":function(){
                   $scope.myFirmStrategyList=truedata;
                 },
-              "#/actualRes":function(){
+              "#/SimRealTimeTrade":function(){
                 $scope.myFirmStrategyList=falsedata;
               }
               }
@@ -3622,7 +3658,7 @@
                   var aloneshort=[];
                   var alonebuy=[];
                   var defer6 = $q.defer();
-                  if(window.location.hash=="#/trueRes"){
+                  if(window.location.hash=="#/AccountTrade"){
                     for(var i=0;i<nowdata.length;i++){//保留已成交
                       if(nowdata[i].status==0||nowdata[i].status==-1){
                         nowdata.splice(i,1);
@@ -3667,7 +3703,7 @@
                       })
                       .success(function (data) {
                         if(data[0]!=null){
-                          if(window.location.hash=="#/trueRes"){
+                          if(window.location.hash=="#/AccountTrade"){
                             for(var i=0;i<data.length;i++){//保留已成交
                               if(data[i].status==0||data[i].status==-1){
                                 data.splice(i,1);
