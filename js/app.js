@@ -49,7 +49,7 @@
             templateUrl: "tpls/complie.html",
             controller: 'complieItemController'
           })
-          .when('/AccountTrade', {
+          .when('/QuantModelShare', {
             templateUrl: 'tpls/modalRes.html',
             controller: 'modalResController'
           })
@@ -98,8 +98,7 @@
       if (($location.url() == '/StrategyRunPanel') ||
           ($location.url() == '/home') ||
           ($location.url() == '/StrategyConPanel') ||
-          ($location.url() == '/AccountTrade') ||
-          ($location.url() == '/AccountTrade')||
+          ($location.url() == '/QuantModelShare')||
           ($location.url()=='/PlatformInfo')) {
         $rootScope.isactive = false;
       }
@@ -109,7 +108,7 @@
             ($('body').scrollTop() > 100)) &&
             (($location.url() == '/StrategyRunPanel') ||
             ($location.url() == '/home') ||
-            ($location.url() == '/AccountTrade') ||
+            ($location.url() == '/QuantModelShare') ||
             ($location.url() == '/StrategyConPanel')||
             ($location.url()=='/PlatformInfo'))) {
           $rootScope.isactive = true;
@@ -118,7 +117,7 @@
             ($('body').scrollTop() < 100)) &&
             (($location.url() == '/StrategyRunPanel') ||
             ($location.url() == '/home') ||
-            ($location.url() == '/AccountTrade') ||
+            ($location.url() == '/QuantModelShare') ||
             ($location.url() == '/StrategyConPanel'))||
             ($location.url()=='/PlatformInfo')) {
           $rootScope.isactive = false;
@@ -146,13 +145,13 @@
       $rootScope.$on('$routeChangeSuccess', function (eve, next, cur) {
 
         if ($location.url() == '/complie') {
-          console.log('/complie');
+          //console.log('/complie');
         }
         ;
         $('html,body').scrollTop(0);
         if (($location.url() == '/StrategyRunPanel') ||
             ($location.url() == '/home') ||
-            ($location.url() == '/AccountTrade') ||
+            ($location.url() == '/QuantModelShare') ||
             ($location.url() == '/StrategyConPanel')) {
           $rootScope.isactive = false;
         }
@@ -161,7 +160,7 @@
           if ((($('html').scrollTop() > 100) ||
               ($('body').scrollTop() > 100)) &&
               (($location.url() == '/StrategyRunPanel') ||
-              ($location.url() == '/AccountTrade') ||
+              ($location.url() == '/QuantModelShare') ||
               ($location.url() == '/home') ||
               ($location.url() == '/StrategyConPanel'))) {
             $rootScope.isactive = true;
@@ -169,7 +168,7 @@
           } else if ((($('html').scrollTop() < 100) &&
               ($('body').scrollTop() < 100)) &&
               (($location.url() == '/StrategyRunPanel') ||
-              ($location.url() == '/AccountTrade') ||
+              ($location.url() == '/QuantModelShare') ||
               ($location.url() == '/home') ||
               ($location.url() == '/StrategyConPanel'))) {
             $rootScope.isactive = false;
@@ -2550,135 +2549,140 @@
               //修改的highchart1
               // console.log(chartArr[0].Earn);
 
-              $('#return_map_big').highcharts('StockChart', {
+                $('#return_map_big').highcharts('StockChart', {
 
-                credits: {
-                  enabled: false
-                },
-                exporting: {
-                  enabled: false
-                },
-                plotOptions: {
-                  series: {
-                    turboThreshold: 0
-                  }
-                },
-                tooltip: {
-                  useHTML: true,
-                  xDateFormat: "%Y-%m-%d %H:%M:%S",
-                  valueDecimals: 2
-                },
-                legend: {
-                  enabled: true,
-                  align: 'right',
-                  verticalAlign: 'top',
-                  x: 0,
-                  y: 0
-                },
-                rangeSelector: {
-                  buttons: [
-                    {
-                      type: 'minute',
-                      count: 10,
-                      text: '10m'
+                    credits: {
+                        enabled: false
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            turboThreshold: 0
+                        },
+                        candlestick: {//红涨绿跌
+                            color: 'green',
+                            upColor: 'red'
+                        }
+                    },
+                    tooltip: {
+                        useHTML: true,
+                        xDateFormat: "%Y-%m-%d %H:%M:%S",
+                        valueDecimals: 2
+                    },
+                    legend: {
+                        enabled: true,
+                        align: 'right',
+                        verticalAlign: 'top',
+                        x: 0,
+                        y: 0
+                    },
+                    rangeSelector: {
+                        buttons: [
+                            {
+                                type: 'minute',
+                                count: 10,
+                                text: '10m'
+                            }, {
+                                type: 'minute',
+                                count: 30,
+                                text: '30m'
+                            }, {
+                                type: 'hour',
+                                count: 1,
+                                text: '1h'
+                            }, {
+                                type: 'day',
+                                count: 1,
+                                text: '1d'
+                            }, {
+                                type: 'week',
+                                count: 1,
+                                text: '1w'
+                            }, {
+                                type: 'all',
+                                text: '所有'
+                            }],
+                        selected: 5,
+                        buttonSpacing: 2
+                    },
+                    yAxis: [{
+                        labels: {
+                            align: 'right',
+                            x: -3
+                        },
+                        title: {
+                            text: '股价'
+                        },
+                        lineWidth: 1,
+                        height: '60%'
                     }, {
-                      type: 'minute',
-                      count: 30,
-                      text: '30m'
-                    }, {
-                      type: 'hour',
-                      count: 1,
-                      text: '1h'
-                    }, {
-                      type: 'day',
-                      count: 1,
-                      text: '1d'
-                    }, {
-                      type: 'week',
-                      count: 1,
-                      text: '1w'
-                    }, {
-                      type: 'all',
-                      text: '所有'
+                        labels: {
+                            align: 'right',
+                            x: -3
+                        },
+                        title: {
+                            text: '盈亏'
+                        },
+                        opposite: true,
+                        offset: 0,
+                        height: '35%',
+                        top: '65%'
                     }],
-                  selected: 5,
-                  buttonSpacing: 2
-                },
-                yAxis: [{
-                  labels: {
-                    align: 'right',
-                    x: -3
-                  },
-                  title: {
-                    text: '股价'
-                  },
-                  lineWidth: 1,
-                  height: '60%'
-                }, {
-                  labels: {
-                    align: 'right',
-                    x: -3
-                  },
-                  title: {
-                    text: '盈亏'
-                  },
-                  opposite: true,
-                  offset: 0,
-                  height: '35%',
-                  top: '65%'
-                }],
-                series: [
-                  {
-                    type: 'line',
-                    name: '股价',
-                    data: chartJsonDataArr,
-                    lineWidth: 2,
-                    id: 'dataseries'
-                  }, {
-                    type: 'flags',
-                    data: shortYArr,
-                    onSeries: "dataseries",
-                    shape: 'squarepin',
-                    width: 36,
-                    color: '#ff9912',
-                    fillColor: 'transparent',
-                    style: {
-                      color: '#333'
-                    },
-                    y: -40,
-                    name: '看空',
-                  }, {
-                    type: 'flags',
-                    data: buyYArr,
-                    onSeries: "dataseries",
-                    shape: 'squarepin',
-                    width: 36,
-                    color: "#4169e1",
-                    fillColor: 'transparent',
-                    style: {
-                      color: '#333'
-                    },
-                    y: 20,
-                    name: '看多',
-                  }, {
-                    type: 'column',
-                    data: chartArr,
-                    name: '盈亏',
-                    /*lineWidth:2,*/
-                    yAxis: 1,
-                    threshold: 0,
-                    negativeColor: 'green',
-                    color: 'red'
-                    /*color:'#e3170d',*/
-                    /*marker:{
-                     enabled:true,
-                     symbol:'circle',
-                     fillColor:'#0b1746',
-                     radius:5
-                     }*/
-                  }]
-              });
-              $('#return_map_big_1').highcharts('StockChart', {
+                    series: [
+                        {
+                            type: 'candlestick',
+                            name: '股价',
+                            data: chartJsonDataArr,
+                            lineWidth: 2,
+                            id: 'dataseries'
+                        }, {
+                            type: 'flags',
+                            data: shortYArr,
+                            onSeries: "dataseries",
+                            shape: 'squarepin',
+                            width: 36,
+                            color: '#ff9912',
+                            fillColor: 'transparent',
+                            style: {
+                                color: '#333'
+                            },
+                            y: -40,
+                            name: '看空',
+                        }, {
+                            type: 'flags',
+                            data: buyYArr,
+                            onSeries: "dataseries",
+                            shape: 'squarepin',
+                            width: 36,
+                            color: "#4169e1",
+                            fillColor: 'transparent',
+                            style: {
+                                color: '#333'
+                            },
+                            y: 20,
+                            name: '看多',
+                        }, {
+                            type: 'column',
+                            data: chartArr,
+                            name: '盈亏',
+                            /*lineWidth:2,*/
+                            yAxis: 1,
+                            threshold: 0,
+                            negativeColor: 'green',
+                            color: 'red'
+                            /*color:'#e3170d',*/
+                            /*marker:{
+                             enabled:true,
+                             symbol:'circle',
+                             fillColor:'#0b1746',
+                             radius:5
+                             }*/
+                        }]
+                });
+
+                $('#return_map_big_1').highcharts('StockChart', {
                 credits: {
                   enabled: false
                 },
@@ -4016,7 +4020,7 @@
                 pal=Number((pal).toFixed(6));
 
                 chartArr.push({
-                  "x": data.datetime,
+                  "x": data2.datetime,
                   "y": pal, //盈亏数值
                   "volume": data.volume,
                   "direction": data.pos,
@@ -4414,8 +4418,13 @@
                 plotOptions: {
                   series: {
                     turboThreshold: 0
-                  }
-                },
+                  },
+                 candlestick: {//红涨绿跌
+                     color: 'green',
+                         upColor: 'red'
+                 }
+
+            },
                 tooltip: {
                   useHTML: true,
                   xDateFormat: "%Y-%m-%d %H:%M:%S",
@@ -4482,7 +4491,7 @@
                 }],
                 series: [
                   {
-                    type: 'line',
+                    type: 'candlestick',
                     name: '股价',
                     data: chartJsonDataArr,
                     lineWidth: 2,
@@ -4609,7 +4618,7 @@
                   top: '65%'
                 }],
                 series: [{
-                  type: 'line',
+                  type: 'candlestick',
                   name: '股价',
                   data: chartJsonDataArr,
                   lineWidth: 2,
@@ -6517,6 +6526,25 @@
       $scope.getExa();
       $scope.getMet();
       /*storageModalRes.storage(str1);*/
+
+      $scope.start = function(id){
+        $('.modalRes-new').hide();
+        $('.modalRes-method').hide();
+        $('.modalRes-exa').hide();
+        $('.modalRes-obj').hide();
+        $('.modalRes-mac').hide();
+        $('.modalRes-'+ id).show();
+      }
+      $scope.start('new');
+
+      $('.nav-item').click(function(){
+        var id=$(this).attr('href');
+        $('.item-tutorial').removeClass('active');
+        $(id).addClass('active');
+        $('.nav-item').find('span').removeClass('sanjiao').prev('.nav-title').removeClass('active');
+        $(this).find('span').addClass('sanjiao').prev('.nav-title').addClass('active');
+        $scope.start(id);
+      })
 
       $scope.modalResObj = {
         title: '',

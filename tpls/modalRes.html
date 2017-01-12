@@ -13,18 +13,74 @@
 		<div class="modalRes-bigmask"></div>
 	</div>
 
+
 	<div class="modalRes-body">
+
+		<div class="body-nav">
+			<div class="navbox relative">
+				<div class="mobile-scroll clear">
+					<div class="nav-item" href="new">
+						<img class="mr_10" src="https://cdn.joinquant.com/help/img/new.png" alt="">
+						<div class="inline-block nav-title active">宽客入门</div>
+						<span class="sanjiao"></span>
+					</div>
+					<div class="nav-item" href="obj">
+						<img class="mr_10" src="https://cdn.joinquant.com/help/img/python.png" alt="">
+						<div class="inline-block nav-title">金融数据</div>
+						<span class=""></span>
+					</div>
+					<div class="nav-item" href="method">
+						<img class="mr_10" src="https://cdn.joinquant.com/help/img/ceying.png" alt="">
+						<div class="inline-block nav-title">量化策略</div>
+						<span class=""></span>
+					</div>
+					<div class="nav-item" href="exa">
+						<img class="mr_10" src="https://cdn.joinquant.com/help/img/math.png" alt="">
+						<div class="inline-block nav-title">量化模型</div>
+						<span class=""></span>
+					</div>
+					<div class="nav-item" href="mac">
+						<img class="mr_10" src="https://cdn.joinquant.com/help/img/jinr.png" alt="">
+						<div class="inline-block nav-title">机器学习</div>
+						<span class=""></span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="modalRes-new modalRes-list">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1">
+						<h3 class="modalRes-list-title">
+							<!--<i class="modalRes-list-icon modalRes-list-icon1"></i>-->
+							<span class="modalRes-list-text blue">宽客入门</span>
+							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="left" tooltip title="增加模型" ng-click='openModalResNew()'>+</i>
+						</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1">
+						<div class="row">
+							<box mydata='x' id="model_new" ng-repeat='x in modalResObjList4' username='username' close-mask='closeMask()'></box>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="modalRes-obj modalRes-list">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<h3 class="modalRes-list-title">
-							<i class="modalRes-list-icon modalRes-list-icon1"></i>
-							<span class="modalRes-list-text">金融数据</span>
-							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="right" tooltip title="增加模型" ng-click='openModalResObj()'>+</i>
+							<!--<i class="modalRes-list-icon modalRes-list-icon1"></i>-->
+							<span class="modalRes-list-text blue">金融数据</span>
+							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="left" tooltip title="增加模型" ng-click='openModalResObj()'>+</i>
 						</h3>
-					</div>	
-				</div>		
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class="row">
@@ -39,12 +95,12 @@
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<h3 class="modalRes-list-title">
-							<i class="modalRes-list-icon modalRes-list-icon2"></i>
-							<span class="modalRes-list-text">量化策略</span>
-							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="right" tooltip title="增加模型" ng-click='openModalResMet()'>+</i>
+							<!--<i class="modalRes-list-icon modalRes-list-icon2"></i>-->
+							<span class="modalRes-list-text blue">量化策略</span>
+							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="left" tooltip title="增加模型" ng-click='openModalResMet()'>+</i>
 						</h3>
-					</div>	
-				</div>		
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class="row">
@@ -59,12 +115,12 @@
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<h3 class="modalRes-list-title">
-							<i class="modalRes-list-icon modalRes-list-icon3"></i>
-							<span class="modalRes-list-text">量化模型</span>
-							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="right" tooltip title="增加模型" ng-click='openModalResExa()'>+</i>
+							<!--<i class="modalRes-list-icon modalRes-list-icon3"></i>-->
+							<span class="modalRes-list-text blue">量化模型</span>
+							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="left" tooltip title="增加模型" ng-click='openModalResExa()'>+</i>
 						</h3>
-					</div>	
-				</div>		
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-sm-10 col-md-10 col-sm-offset-1">
 						<div class="row">
@@ -73,6 +129,26 @@
 					</div>
 				</div>
 			</div>	
+		</div>
+		<div class="modalRes-mac modalRes-list">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1">
+						<h3 class="modalRes-list-title">
+							<!--<i class="modalRes-list-icon modalRes-list-icon1"></i>-->
+							<span class="modalRes-list-text blue">机器学习</span>
+							<i class="modalRes-list-plus" data-toggle="tooltip" data-placement="left" tooltip title="增加模型" ng-click='openModalResMac()'>+</i>
+						</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1">
+						<div class="row">
+							<box mydata='x' id="model_mac" ng-repeat='x in modalResObjList5' username='username' close-mask='closeMask()'></box>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<!-- <div class="modalRes-data modalRes-list">
 			<div class="container-fluid">
@@ -99,7 +175,7 @@
 	<div class="modalRes-mask modalRes-mask-obj">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-8 col-sm-offset-2">
+				<div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
 					<form ng-submit='addModalResObj()' name='modalResObjForm' novalidate="">
 						<div class="ModalBorder">
 						<h3 class="text-center">金融数据</h3>
@@ -124,7 +200,7 @@
 	<div class="modalRes-mask modalRes-mask-met">
 		<div class="container">
 			<div class="row">
-				<div class="test11 col-sm-8 col-md-6 col-md-offset-2 col-sm-offset-0">
+				<div class="test11 col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-0">
 				<div class="test1" id="test1" >
 					<form ng-submit='addModalResMet()' name='modalResMetForm' novalidate="">
 						<div class="ModalBorder">
@@ -154,7 +230,7 @@
 	<div class="modalRes-mask modalRes-mask-exa">
 		<div class="container">
 			<div class="row">
-				<div class="test11 col-sm-8 col-md-6 col-md-offset-2 col-sm-offset-0">
+				<div class="test11 col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-0">
 				<div class="test1" id="test2">
 					<form  ng-submit='addModalResExa()' name='modalResExaForm' novalidate="" >
 						<div class="ModalBorder">
