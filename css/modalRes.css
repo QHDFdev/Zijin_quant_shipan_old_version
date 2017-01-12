@@ -364,13 +364,13 @@
 	height: 80%;
 }
 .test11{
-	width: 80%;
 	overflow: hidden;
-	/*margin: 20px auto;*/
 }
 .test1{
 	height: 100%;
-	width: 85%;
+	/*width: 103.4%;*/
+	width: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;
+	-webkit-scrollbar:red;
 }
