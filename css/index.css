@@ -25,7 +25,7 @@ a:focus,button:focus,input:focus{
 /* 导航 */
 
 .main-navbar {
-	padding:0 2% 0 5%;
+	padding:0 2% 0 2%;
 	margin-bottom: 0;
 	z-index: 1000;
 	background: -webkit-linear-gradient(to right, #13285F 0%, #1C2C62 33%, #001641 66%,
@@ -589,9 +589,8 @@ HTML {
 }
 
 @media ( min-width :1200px) {
-
 	.main-navbar .left-nav{
-		width:79%;
+		width:88%;
 		/*background-color: rebeccapurple;*/
 		display: inline-block;
 		float: none;
@@ -602,8 +601,9 @@ HTML {
 		/*background-color: red;*/
 	/*}*/
 	.main-navbar .left-nav>li{
-		width: 15%;
+		width: 16%;
 		font-size: 14px;
+		/*background-color: red;*/
 	}
 
 	.main-navbar .navbar-collapse{
@@ -625,5 +625,4 @@ HTML {
 	.main-navbar .navbar-collapse{
 		text-align: center;
 	}
-
 }

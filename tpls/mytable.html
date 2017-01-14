@@ -15,10 +15,9 @@
       <i style="margin-bottom: 4px" class="zijin-table-add" ng-click='openMaskSourcing()' data-toggle="tooltip"
          data-placement="right" title="增加策略" tooltip></i>
     </div>
-    <div class="table-responsive1" style="width: 100%;">
-      <table class="table table-bordered table-hover table-striped table-responsive" sourcing-table
-             style="width: 100%;">
-        <thead class="">
+    <div class="table-responsive1">
+      <table class="table table-bordered table-hover table-striped table-responsive" sourcing-table>
+        <thead>
         <tr>
           <th class="" style="width: 24.75%">策略类名</th>
           <th class="" style="width: 24.98%">代码文件名</th>
@@ -30,27 +29,28 @@
       </table>
       <div id="container3" style="overflow-y: scroll; height: 300px;margin: -1.8% 0 0 0;
 ">
-        <table class="table  table-responsive" sourcing-table style="width: 100%;">
+        <table class="table  table-responsive" sourcing-table>
           <tbody>
           <tr ng-repeat='d in mySourcingStrategy '>
             <td class="hidden-id" style="display: none" ng-bind='d._id'></td>
             <!--<td><a href="#/complie/{{d._id}}" ng-bind="d.class_name"></a></td>-->
             <td class="col-xs-3" ng-bind="d.class_name"></td>
-            <td><a id="downpy" style="text-decoration:none" ng-bind="d.code_name" title="点击下载代码" href=""
-                   ng-click="downpy(d._id)" target="_blank"></a></td>
+            <!--<td><a id="downpy" style="text-decoration:none" ng-bind="d.code_name" title="点击下载代码" href=""-->
+            <!--ng-click="downpy(d._id)" target="_blank"></a></td>-->
+            <td><a style="text-decoration:none" ng-bind="d.code_name" title="点击编写代码" href="#/complie/{{d._id}}" ng-click="downpy(d._id,d.code_name)"></a></td>
             <td class="col-xs-1" ng-bind="d.author"></td>
             <td class="col-xs-1" ng-bind="d.status" title="{{d.title}}" class={{d.color}}></td>
             <td class="col-xs-4">
               <div class="btn-group btn-group-sm">
                 <button class="btn btn-success his-add" ng-click="addhis(this)">历史回测 <i class="fa fa-plus"></i></button>
-                <button class="btn btn-info firm-add" ng-click="addfirm(this)">实盘模拟<i class="fa fa-plus"></i></button>
-                <button ng-if='user.is_admin==true' class="btn btn-warning strategy-pause" ng-click="addtrue(this)">真实交易<i
-                    class="fa fa-plus"></i></button>
-                <button class="btn btn-danger sour-del" ng-click="delsour(this)">删除策略 <i class="fa fa-remove"></i>
-                </button>
+                  <button class="btn btn-info firm-add" ng-click="addfirm(this)">实盘模拟<i class="fa fa-plus"></i></button>
+                    <button ng-if='user.is_admin==true' class="btn btn-warning strategy-pause" ng-click="addtrue(this)">真实交易<i
+                        class="fa fa-plus"></i></button>
+                      <button class="btn btn-danger sour-del" ng-click="delsour(this)">删除策略 <i class="fa fa-remove"></i></button>
               </div>
             </td>
           </tr>
+
           </tbody>
         </table>
       </div>

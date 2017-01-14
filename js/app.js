@@ -267,7 +267,7 @@
          }*/
       };
     }])
-    .controller('tableController', ['$scope', 'strategyResources', 'strategyResource', '$http', '$timeout', '$cookieStore', 'constantUrl', 'strategysValue', 'myStrategysValue', '$filter', function ($scope, strategyResourcess, strategyResource, $http, $timeout, $cookieStore, constantUrl, strategysValue, myStrategysValue, $filter) {
+    .controller('tableController', ['$scope','$location', 'strategyResources', 'strategyResource', '$http', '$timeout', '$cookieStore', 'constantUrl', 'strategysValue', 'myStrategysValue', '$filter', function ($scope,$location, strategyResourcess, strategyResource, $http, $timeout, $cookieStore, constantUrl, strategysValue, myStrategysValue, $filter) {
       $scope.func = function (e) {
         return e["status"] != -2;
       };
@@ -486,23 +486,30 @@
 
 
       function download(text, name, type) {
-        var file = new Blob([text], {type: type})
-        var a = $('<a hidden>Download py</a>').appendTo('#container3')
+        var file = new Blob([text], {type: type});
+        var a = $('<a hidden id="downa">Download py</a>').appendTo('body');
         a[0].href = URL.createObjectURL(file)
-        a[0].download = name
-        a[0].click()
+        a[0].download = name;
+        a[0].click();
       }
-
-      $scope.downpy=function(id){
-        $http.get(constantUrl + 'classs/' + id + '/', {
+      $scope.downpy=function(id,name){
+        Showbo.Msg.confirm("您需要下载"+name+"吗？",function (flag) {
+          if(flag=='yes'){
+            $http.get(constantUrl + 'classs/' + id + '/', {
               headers: {'Authorization': 'token ' + $cookieStore.get('user').token}
             })
-            .success(function (data) {
-              download(data.code,data.code_name,'text/plain')
-            })
-            .error(function (err, sta) {
-              console.log(err);
-            });
+              .success(function (data) {
+                download(data.code,data.code_name,'text/plain');
+              })
+              .error(function (err, sta) {
+                console.log(err);
+              });
+          }
+          else {
+            return;
+          }
+        });
+
       }
       /**
        * 日志初始化
@@ -2631,12 +2638,19 @@
                         top: '65%'
                     }],
                     series: [
+                      {
+                        type: 'line',
+                        name: '股价',
+                        data: chartJsonDataArr,
+                        lineWidth: 3,
+                        id: 'dataseries'
+                      },
                         {
                             type: 'candlestick',
                             name: '股价',
                             data: chartJsonDataArr,
-                            lineWidth: 2,
-                            id: 'dataseries'
+                            lineWidth: 3,
+
                         }, {
                             type: 'flags',
                             data: shortYArr,
@@ -4039,7 +4053,7 @@
                   chartArr1.push({
                     "text": '开仓价：' + data.price + '<br>平仓价：￥' + data2.price + '<br>盈亏：' + pal,
                     "title":"看多",
-                    "x": data.datetime,
+                    "x": data2.datetime,
                     "y": pal,
                     "volume": data.volume,
                     "direction": data.pos,
@@ -4055,7 +4069,7 @@
                   chartArr1.push({
                     "text": '开仓价：' + data.price + '<br>平仓价：￥' + data2.price + '<br>盈亏：' + pal,
                     "title":"看空",
-                    "x": data.datetime,
+                    "x": data2.datetime,
                     "y": pal,
                     "volume": data.volume,
                     "direction": data.pos,
@@ -4419,12 +4433,12 @@
                   series: {
                     turboThreshold: 0
                   },
-                 candlestick: {//红涨绿跌
-                     color: 'green',
-                         upColor: 'red'
-                 }
+                  candlestick: {//红涨绿跌
+                    color:'transparent',
 
-            },
+                     upColor: 'red'
+                   }
+                },
                 tooltip: {
                   useHTML: true,
                   xDateFormat: "%Y-%m-%d %H:%M:%S",
@@ -4491,11 +4505,17 @@
                 }],
                 series: [
                   {
-                    type: 'candlestick',
+                    type: 'line',
                     name: '股价',
                     data: chartJsonDataArr,
+
                     lineWidth: 2,
                     id: 'dataseries'
+                  },
+                  {
+                    type: 'candlestick',
+                    data: chartJsonDataArr,
+                    lineWidth: 2,
                   }, {
                     type: 'flags',
                     data: shortYArr,
@@ -4669,6 +4689,12 @@
               });
               //页面显示的收益曲线图
               $('#return_map_big_2').highcharts('StockChart', {
+                credits: {
+                  enabled: false
+                },
+                exporting: {
+                  enabled: false
+                },
                 chart:{
                   width:1300,
                   height:600
@@ -5107,6 +5133,7 @@
           + "        \"\"\"收到成交推送（必须由用户继承实现）\"\"\"\n"
           + "        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n"
           + "        pass";
+
       $scope.$watch('$viewContentLoaded', function () {
         editor = ace.edit("editor");
         editor.$blockScrolling = Infinity;
@@ -6792,6 +6819,7 @@
       };
     })
 
+
     .factory('getModalResList', ['$q', '$http', 'constantUrl', '$cookieStore', function ($q, $http, constantUrl, $cookieStore) {
       return {
         getList: function (url) {
@@ -6854,6 +6882,7 @@
         }
       };
     }])
+  
     .directive('slideupDown', function () {
       return {
         restrict: 'AE',
