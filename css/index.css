@@ -590,7 +590,7 @@ HTML {
 
 @media ( min-width :1200px) {
 	.main-navbar .left-nav{
-		width:88%;
+		width:80%;
 		/*background-color: rebeccapurple;*/
 		display: inline-block;
 		float: none;
@@ -601,7 +601,7 @@ HTML {
 		/*background-color: red;*/
 	/*}*/
 	.main-navbar .left-nav>li{
-		width: 16%;
+		width: 16.5%;
 		font-size: 14px;
 		/*background-color: red;*/
 	}
