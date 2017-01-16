@@ -1,7 +1,7 @@
 
 .zijin-table .zijin-table-head{
 	position: relative;
-	padding:150px 0;
+	padding:160px 0 50px;
 	text-align: center;
 	color: #f5f5ff;
 	background: url(../images/m5655d57ce7646.jpg) center 35% no-repeat;
@@ -14,7 +14,7 @@
 	top: 0;
 	left: 0;
 	z-index: 5;
-	background: rgba(0,0,0,.3);
+	background: rgba(0,0,0,.4);
 	-moz-transition: all ease 1.5s;
 	-o-transition: all ease 1.5s;
 	-webkit-transition: all ease 1.5s;
@@ -23,18 +23,19 @@
 .zijin-table .zijin-table-head:hover .zijin-table-bigmask{
 	background: rgba(0,0,0,.5);
 }
-.zijin-table .zijin-table-head h1{
+.zijin-table .zijin-table-head h3{
 	position: relative;
 	z-index: 10;
-	margin-bottom: 50px;
+	margin-bottom: 35px;
 	letter-spacing: 2px;
-	color: #fff;
+	color: #d4d3d3;
 	text-shadow: 1px 1px 2px rgba(0,0,0,.9);
 }
 .zijin-table .zijin-table-head p{
 	position: relative;
 	z-index: 10;
-	font-size: 18px;
+	font-size: 15px;
+	color: #d4d3d3;
 }
 .zijin-table .zijin-table-body{
 	margin-top: 50px;
