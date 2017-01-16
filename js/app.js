@@ -2649,8 +2649,7 @@
                             type: 'candlestick',
                             name: '股价',
                             data: chartJsonDataArr,
-                            lineWidth: 3,
-
+                            lineWidth: 1
                         }, {
                             type: 'flags',
                             data: shortYArr,
@@ -4508,14 +4507,13 @@
                     type: 'line',
                     name: '股价',
                     data: chartJsonDataArr,
-
                     lineWidth: 2,
                     id: 'dataseries'
                   },
                   {
                     type: 'candlestick',
                     data: chartJsonDataArr,
-                    lineWidth: 2,
+                    lineWidth: 1
                   }, {
                     type: 'flags',
                     data: shortYArr,
