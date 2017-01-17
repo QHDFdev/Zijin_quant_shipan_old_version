@@ -16,7 +16,7 @@
 	text-align: center;
 	box-shadow: 0 0 5px 5px #ccc;*/
   position: relative;
-  padding:140px 0 50px;
+	padding:120px 0 80px;
   text-align: center;
   color: #f5f5ff;
   background: url(../images/modalRes_bg.jpg) center 20% no-repeat;
@@ -31,7 +31,7 @@
   top: 0;
   left: 0;
   z-index: 5;
-  background: rgba(0,0,0,.4);
+  background: rgba(0,0,0,.6);
   -moz-transition: all ease 1.5s;
   -o-transition: all ease 1.5s;
   -webkit-transition: all ease 1.5s;
@@ -40,7 +40,7 @@
 .modalRes-head:hover .modalRes-bigmask{
   background: rgba(0,0,0,.5);
 }
-.modalRes-head h3{
+/*.modalRes-head h3{
   position: relative;
   z-index: 10;
   margin-bottom:35px;
@@ -49,12 +49,13 @@
   text-shadow: 1px 1px 2px rgba(0,0,0,.9);
 }
 .modalRes-head p{
+	font-family: "Sans-serif";
   position: relative;
   z-index: 10;
-  font-size: 15px;
-	color: #d4d3d3;
+  font-size: 17px;
+	color: #ebebeb;
 }
-
+*/
 .modalRes-head .modalRes-head-icon{
 	margin-right: 5px;
 	vertical-align: middle;
@@ -276,7 +277,10 @@
 	width: 100%;
 }
 .modalRes-list{
-	padding: 60px 0 80px;
+
+
+	padding:20px 0 80px;
+
 	box-shadow: inset 0 -2px 0 2px rgba(9,9,9,.1);
 }
 .modalRes-list .modalRes-list-title{

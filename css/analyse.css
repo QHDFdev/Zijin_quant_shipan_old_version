@@ -90,8 +90,6 @@ display: inline-block;
 	/*background-color: red;*/
     border-bottom: 1px solid #ccc;
 	/*background: url("../images/真实交易.png") no-repeat;*/
-
-
 }
 
 .analyse .analyse-left{
@@ -157,7 +155,7 @@ width: 43%;
 .analyse .analyse-left dl{
 	/* margin:25px auto;
 	width: 120px; */
-	margin-bottom: 20px;
+	/*margin-bottom: 20px;*/
 	padding-left: 40px;
 }
 .analyse .analyse-left dt{

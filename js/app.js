@@ -53,10 +53,15 @@
         templateUrl: 'tpls/modalRes.html',
         controller: 'modalResController'
       })
+      .when('/model_quants/:id',{
+        templateUrl: 'tpls/modalResTemplate.html',
+        controller: 'modalResItemController'
+      })
       .when('/model_objects/:id', {
         templateUrl: 'tpls/modalResTemplate.html',
         controller: 'modalResItemController'
       })
+
       .when('/model_methods/:id', {
         templateUrl: 'tpls/modalResTemplate.html',
         controller: 'modalResItemController'
@@ -65,6 +70,10 @@
         templateUrl: 'tpls/modalResTemplate.html',
         controller: 'modalResItemController'
       })
+      .when('/model_mls/:id', {
+      templateUrl: 'tpls/modalResTemplate.html',
+      controller: 'modalResItemController'
+    })
       .when('/adminCenter', {
         templateUrl: 'tpls/adminCenter.html',
         controller: 'adminCenterController'
@@ -191,6 +200,7 @@
     "author": 'abc'
   })
   .value('myStrategysValue', [])
+  .value('modalResObjList0', [])
   .value('modalResObjList1', [])
   .value('modalResObjList2', [])
   .value('modalResObjList3', [])
@@ -499,24 +509,31 @@
       var file = new Blob([text], {
         type: type
       })
-      var a = $('<a hidden>Download py</a>').appendTo('#container3')
+      var a = $('<a hidden>Download py</a>').appendTo('body')
       a[0].href = URL.createObjectURL(file)
       a[0].download = name
       a[0].click()
     }
 
-    $scope.downpy = function(id) {
-      $http.get(constantUrl + 'classs/' + id + '/', {
-        headers: {
-          'Authorization': 'token ' + $cookieStore.get('user').token
+    $scope.downpy = function(id,name) {
+      Showbo.Msg.confirm("您需要下载"+name+"吗？",function (flag) {
+        if(flag=='yes'){
+          $http.get(constantUrl + 'classs/' + id + '/', {
+            headers: {
+              'Authorization': 'token ' + $cookieStore.get('user').token
+            }
+          })
+            .success(function(data) {
+              download(data.code, data.code_name, 'text/plain')
+            })
+            .error(function(err, sta) {
+              console.log(err);
+            });
+        }
+        else{
+
         }
       })
-        .success(function(data) {
-          download(data.code, data.code_name, 'text/plain')
-        })
-        .error(function(err, sta) {
-          console.log(err);
-        });
     }
     /**
      * 日志初始化
@@ -2563,7 +2580,7 @@
                   turboThreshold: 0
                 },
                 candlestick: { //红涨绿跌
-                  color: 'green',
+                  color: '#fff',
                   upColor: 'red'
                 }
               },
@@ -2640,7 +2657,7 @@
                 type: 'candlestick',
                 name: '股价',
                 data: chartJsonDataArr,
-                lineWidth: 2,
+                lineWidth: 1,
                 id: 'dataseries'
               }, {
                 type: 'flags',
@@ -2697,6 +2714,10 @@
               plotOptions: {
                 series: {
                   turboThreshold: 0
+                },
+                candlestick: { //红涨绿跌
+                  color: '#fff',
+                  upColor: 'red'
                 }
               },
               tooltip: {
@@ -2770,10 +2791,10 @@
                 lineWidth: 2,
                 id: 'dataseries'
               },{
-                type: 'line',
+                type: ' candlestick',
                 name: '股价',
                 data: chartJsonDataArr,
-                lineWidth: 2,
+                lineWidth: 1,
                 id: 'dataseries'
               }, {
                 type: 'flags',
@@ -4415,7 +4436,7 @@
                   turboThreshold: 0
                 },
                 candlestick: { //红涨绿跌
-                  color: 'green',
+                  color: '#fff',
                   upColor: 'red'
                 }
 
@@ -4493,7 +4514,7 @@
                 type: 'candlestick',
                 name: '股价',
                 data: chartJsonDataArr,
-                lineWidth: 2,
+                lineWidth: 1,
                 id: 'dataseries'
               }, {
                 type: 'flags',
@@ -4549,6 +4570,10 @@
               plotOptions: {
                 series: {
                   turboThreshold: 0
+                },
+                candlestick: { //红涨绿跌
+                  color: '#fff',
+                  upColor: 'red'
                 }
               },
               tooltip: {
@@ -4625,7 +4650,7 @@
                 type: 'candlestick',
                 name: '股价',
                 data: chartJsonDataArr,
-                lineWidth: 2,
+                lineWidth: 1,
                 id: 'dataseries'
               }, {
                 type: 'flags',
@@ -6243,9 +6268,22 @@
         });
     };
   }])
-  .controller('modalResController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', 'modalResObjList1', 'modalResObjList2', 'modalResObjList3', 'modalResObjList4', 'storageModalRes', 'getModalResList', 'modalResObjItems', function($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, modalResObjList1, modalResObjList2, modalResObjList3, modalResObjList4, storageModalRes, getModalResList, modalResObjItems) {
+  .controller('modalResController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl','modalResObjList0', 'modalResObjList1', 'modalResObjList2', 'modalResObjList3', 'modalResObjList4', 'storageModalRes', 'getModalResList', 'modalResObjItems', function($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl,modalResObjList0, modalResObjList1, modalResObjList2, modalResObjList3, modalResObjList4, storageModalRes, getModalResList, modalResObjItems) {
     $scope.modalResObjItem = modalResObjItems;
     $scope.username = $cookieStore.get('user').username;
+    $scope.getOpen=function () {
+      getModalResList.getList('model_quants').then(function(data) {
+        modalResObjList0 = [];
+        angular.forEach(data, function(data, index) {
+          angular.extend(data, {
+            "classify": 'model_quants'
+          });
+          this.push(data);
+        }, modalResObjList0);
+        $scope.modalResObjList0 = modalResObjList0;
+      });
+    };
+
     $scope.getObj = function() {
       getModalResList.getList('model_objects').then(function(data) {
         modalResObjList1 = [];
@@ -6283,9 +6321,23 @@
         $scope.modalResObjList3 = modalResObjList3;
       });
     };
+    $scope.getRobot = function() {
+      getModalResList.getList('model_mls').then(function(data) {
+        modalResObjList4 = [];
+        angular.forEach(data, function(data, index) {
+          angular.extend(data, {
+            "classify": 'model_mls'
+          });
+          this.push(data);
+        }, modalResObjList4);
+        $scope.modalResObjList4 = modalResObjList4;
+      });
+    };
+    $scope.getOpen();
     $scope.getObj();
     $scope.getExa();
     $scope.getMet();
+    $scope.getRobot();
     /*storageModalRes.storage(str1);*/
 
     $scope.start = function(id) {
@@ -6306,7 +6358,10 @@
       $(this).find('span').addClass('sanjiao').prev('.nav-title').addClass('active');
       $scope.start(id);
     })
-
+    $scope.modalResOpen ={
+      title:'',
+      content:''
+    }
     $scope.modalResObj = {
       title: '',
       content: ''
@@ -6319,6 +6374,13 @@
       title: '',
       content: ''
     };
+    $scope.openModalResNew =function () {
+      $('.modalRes-mask-open').fadeIn();
+      $scope.modalResOpen ={
+        title:'',
+        content:''
+      }
+    }
     $scope.openModalResObj = function() {
       $('.modalRes-mask-obj').fadeIn();
       $scope.modalResObj = {
@@ -6342,6 +6404,15 @@
         code: ''
       };
     };
+    $scope.openModalResMac =function () {
+      $('.modalRes-mask-robot').fadeIn();
+      $scope.modalResRobot ={
+        title: '',
+        content: '',
+        code: ''
+      }
+
+    }
     var height = $(window).height(); //浏览器当前窗口可视区域高度
     $("#test2").css("height", height * 0.85 + "px");
     //$("#test3").css("height", height*0.80+"px");
@@ -6482,6 +6553,16 @@
       $('.modalRes-mask').fadeOut();
     };
 
+    $scope.addModalResOpen = function() {
+      var str = "title=" + encodeURIComponent($scope.modalResOpen.title) + "&content=" + encodeURIComponent($scope.modalResOpen.content) +"&code=" + encodeURIComponent($scope.modalResOpen.code);
+
+      getModalResList.addItem(str, 'model_quants').then(function() {
+        $scope.getOpen();
+        $scope.closeMask();
+      }, function(err) {
+        // console.log(err);
+      });
+    };
     $scope.addModalResObj = function() {
       var str = "title=" + encodeURIComponent($scope.modalResObj.title) + "&content=" + encodeURIComponent($scope.modalResObj.content);
       getModalResList.addItem(str, 'model_objects').then(function() {
@@ -6493,6 +6574,7 @@
     };
     $scope.addModalResMet = function() {
       var str = "title=" + encodeURIComponent($scope.modalResMet.title) + "&content=" + encodeURIComponent($scope.modalResMet.content) + '&code=' + encodeURIComponent($scope.modalResMet.code);
+
       getModalResList.addItem(str, 'model_methods').then(function() {
         $scope.getMet();
         $scope.closeMask();
@@ -6511,6 +6593,15 @@
         console.log(err);
       });
     };
+    $scope.addModalResRobot = function() {
+      var str = "title=" + encodeURIComponent($scope.modalResRobot.title) + "&content=" + encodeURIComponent($scope.modalResRobot.content) + '&code=' + encodeURIComponent($scope.modalResRobot.code);
+      getModalResList.addItem(str, 'model_mls').then(function() {
+        $scope.getRobot();
+        $scope.closeMask();
+      }, function(err) {
+        console.log(err);
+      });
+    };
     /*$scope.revModalResObj=function(x){
      var url=x.classify+'/'+x._id
      if(x.code){
@@ -6519,7 +6610,7 @@
      console.log($scope.mydata);
      }*/
   }])
-  .controller('modalResItemController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', '$routeParams', 'modalResObjList1', 'modalResObjList2', 'modalResObjList3', 'modalResObjList4', 'storageModalRes', 'getModalResList', function($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, $routeParams, modalResObjList1, modalResObjList2, modalResObjList3, modalResObjList4, storageModalRes, getModalResList) {
+  .controller('modalResItemController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', '$routeParams','modalResObjList0', 'modalResObjList1', 'modalResObjList2', 'modalResObjList3', 'modalResObjList4', 'storageModalRes', 'getModalResList', function($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, $routeParams,modalResObjList0,modalResObjList1, modalResObjList2, modalResObjList3, modalResObjList4, storageModalRes, getModalResList) {
     /\/(\w*)\/(\w*)/i.exec($location.url());
     var id = RegExp.$2;
     var str = RegExp.$1;
@@ -6572,6 +6663,7 @@
       },
       addItem: function(obj, url) {
         var defer = $q.defer();
+        // console.log(obj, url)
         $http.post(constantUrl + url + '/', obj, {
           headers: {
             'Authorization': 'token ' + $cookieStore.get('user').token,
@@ -6579,6 +6671,7 @@
           }
         })
           .success(function(data) {
+
             defer.resolve(data);
           })
           .error(function(err, sta) {

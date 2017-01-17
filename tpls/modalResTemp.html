@@ -33,7 +33,7 @@
 							<i class="fa fa-picture-o" title="插入图片" style="margin-left: 10px" ng-click="openImage2(this)"></i>
 							<textarea id="content8" class="form-control" ng-change="changeContent()" ng-model='mydata.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
 						</div>
-						<div class="form-group" ng-show='mydata.classify=="model_methods" || mydata.classify=="model_examples"'>
+						<div class="form-group" ng-show='mydata.classify=="model_methods" || mydata.classify=="model_examples"|| mydata.classify=="model_quants" || mydata.classify=="model_mls"'>
 							<textarea class="form-control" ng-model='mydata.code' placeholder="内容" required=""></textarea>
 						</div>
 						<div class=" btn-group-lg">

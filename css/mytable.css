@@ -1,7 +1,6 @@
-
 .zijin-table .zijin-table-head{
 	position: relative;
-	padding:160px 0 50px;
+	padding:135px 0 105px;
 	text-align: center;
 	color: #f5f5ff;
 	background: url(../images/m5655d57ce7646.jpg) center 35% no-repeat;
@@ -23,19 +22,23 @@
 .zijin-table .zijin-table-head:hover .zijin-table-bigmask{
 	background: rgba(0,0,0,.5);
 }
-.zijin-table .zijin-table-head h3{
+.zijin-table .zijin-table-head h3,.zijin-study .zijin-study-head h3,.modalRes-head h3{
 	position: relative;
 	z-index: 10;
-	margin-bottom: 35px;
+	margin-bottom: 25px;
 	letter-spacing: 2px;
-	color: #d4d3d3;
-	text-shadow: 1px 1px 2px rgba(0,0,0,.9);
+	color: #e3e1e1;
+	font-family: "Sans-serif";
+	font-weight: bold;
+	/*text-shadow: 1px 1px 2px rgba(0,0,0,.9);*/
 }
-.zijin-table .zijin-table-head p{
+.zijin-table .zijin-table-head p,.zijin-study .zijin-study-head p,.modalRes-head p{
+	font-family: "Sans-serif";
+	font-weight: bold;
 	position: relative;
 	z-index: 10;
-	font-size: 15px;
-	color: #d4d3d3;
+	font-size: 17px;
+	color: #e3e1e1;
 }
 .zijin-table .zijin-table-body{
 	margin-top: 50px;

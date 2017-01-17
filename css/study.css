@@ -3,7 +3,7 @@
 }
 .zijin-study-head{
 	 position: relative;
-	 padding:150px 0 50px;
+	padding:130px 0 100px;
 	 text-align: center;
 	 color: #f5f5ff;
 	 background: url(../images/fupan_bg.jpg) center 35% no-repeat;
@@ -31,7 +31,7 @@
 .zijin-study .zijin-study-head:hover .zijin-study-bigmask{
 	background: rgba(0,0,0,.5);
 }
-.zijin-study .zijin-study-head h3{
+/*.zijin-study .zijin-study-head h3{
 	position: relative;
 	z-index: 10;
 	margin-bottom: 35px;
@@ -40,11 +40,12 @@
 	text-shadow: 1px 1px 2px rgba(0,0,0,.9);
 }
 .zijin-study .zijin-study-head p{
+	font-family: "Sans-serif";
 	position: relative;
 	z-index: 10;
-	font-size: 15px;
-	color: #d4d3d3;
-}
+	font-size: 17px;
+	color: #ebebeb;
+}*/
 /* .zijin-study-head p.zijin-study-text1{
 	margin-bottom:10px;
 	font-size: 26px;

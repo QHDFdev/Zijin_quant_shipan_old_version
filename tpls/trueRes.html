@@ -28,9 +28,9 @@
     background: linear-gradient(to bottom right, #eac99b , #ebd4b3);">
                 <i class='mobile-action visible-xs fa fa-lg fa-arrow-circle-right' mobile-action></i>
                 <div class="analyse-menu-list">
-                    <p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal1'>输入真实交易数据</button></p>
+                   <!-- <p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#actualRes-modal1'>输入真实交易数据</button></p>
                     <p class="analyse-menu-head"><button class="btn btn-info" data-toggle='modal' data-target='#actualRes-modal2'>获取真实交易数据</button></p>
-                    <p class="analyse-menu-head"><button class="btn btn-danger" jspdf-action>保存研究报告</button></p>
+                    <p class="analyse-menu-head"><button class="btn btn-danger" jspdf-action>保存研究报告</button></p>-->
                     <div class="modal fade" id="actualRes-modal1">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -90,12 +90,27 @@
                         </div>
                     </div>
                     <dl class="analyse-menu-item">
+                        <dt slide-toggle><i class="fa fa-edit"></i>数据操作</dt>
+                        <dd>
+                            <a data-toggle='modal' data-target='#actualRes-modal1'>
+                                输入真实交易数据
+                            </a>
+                        </dd>
+                        <dd>
+                            <a data-toggle='modal' data-target='#actualRes-modal2'>
+                                获取真实交易数据
+                            </a>
+                        </dd>
+                        <dd>
+                            <a jspdf-action>保存研究报告</a>
+                        </dd>
+                    </dl>
+                    <dl class="analyse-menu-item">
                         <dt slide-toggle><i class="fa fa-line-chart"></i>真实交易走势图</dt>
                         <dd>
                             <a data-target="#return_mapping_1" aria-controls="return_mapping_1" role="tab" data-toggle="tab">
                                 交易走势图
                             </a>
-
                         </dd>
                         <dd>
                             <a data-target="#return_mapping_2" aria-controls="return_mapping_2" role="tab" data-toggle="tab">
