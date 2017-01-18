@@ -156,7 +156,8 @@ width: 43%;
 	/* margin:25px auto;
 	width: 120px; */
 	/*margin-bottom: 20px;*/
-	padding-left: 40px;
+	/*padding-left: 40px;*/
+	margin-left: 60px;
 }
 .analyse .analyse-left dt{
 	position: relative;
@@ -169,11 +170,15 @@ width: 43%;
 .analyse .analyse-left dd{
 	font-size: 16px;
 	letter-spacing: 1px;
-	line-height: 25px;
+	line-height: 40px;
+}
+.analyse .analyse-left dd:hover{
+	background-color: #798979;
 }
 .analyse .analyse-left dd a{
 	cursor: pointer;
 	color: #fff;
+	text-decoration: none;
 }
 .analyse .analyse-left dt i{
 	position: absolute;

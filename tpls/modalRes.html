@@ -177,25 +177,27 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
-					<form ng-submit='addModalResOpen()' name='modalResObjForm' novalidate="">
-						<div class="ModalBorder">
-							<h3 class="text-center">宽客入门</h3>
-							<div class="form-group">
-								<input type="text" class="form-control" ng-model='modalResOpen.title' placeholder="主题" required="">
+					<div class="test1" id="test0">
+						<form ng-submit='addModalResOpen()' name='modalResObjForm' novalidate="">
+							<div class="ModalBorder">
+								<h3 class="text-center">宽客入门</h3>
+								<div class="form-group">
+									<input type="text" class="form-control" ng-model='modalResOpen.title' placeholder="主题" required="">
+								</div>
+								<div class="form-group">
+									<i class="fa fa-picture-o" title="插入图片" style="margin-left: 10px" ng-click="openImage()"></i>
+									<textarea id="content3" class="form-control" ng-model='modalResOpen.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
+								</div>
+								<div class="form-group">
+									<textarea class="form-control" ng-model='modalResMet.code' placeholder="代码" required=""></textarea>
+								</div>
+								<div class="btn-group-lg" style="width:100%;position: relative;left: 38%;">
+									<input class="btn-success btn"  type="submit" value="创建" >
+									<input class="btn-warning btn btn-right" ng-click="closeMask()" value="关闭" type="button" >
+								</div>
 							</div>
-							<div class="form-group">
-								<i class="fa fa-picture-o" title="插入图片" style="margin-left: 10px" ng-click="openImage()"></i>
-								<textarea id="content3" class="form-control" ng-model='modalResOpen.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required=""></textarea>
-							</div>
-							<div class="form-group">
-								<textarea class="form-control" ng-model='modalResMet.code' placeholder="代码" required=""></textarea>
-							</div>
-							<div class="btn-group-lg" style="width:100%;position: relative;left: 38%;">
-								<input class="btn-success btn"  type="submit" value="创建" >
-								<input class="btn-warning btn btn-right" ng-click="closeMask()" value="关闭" type="button" >
-							</div>
-						</div>
-					</form>
+						</form>
+					</div>
 				</div>
 
 			</div>
@@ -292,7 +294,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="test11 col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-0">
-					<div class="test1" id="test">
+					<div class="test1" id="test4">
 						<form  ng-submit='addModalResRobot()' name='modalResExaForm' novalidate="" >
 							<div class="ModalBorder">
 								<h3 class="text-center">机器学习</h3>
