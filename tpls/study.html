@@ -15,35 +15,35 @@
     </div>
 	<div class="zijin-study-body">
 		<div class="container"> 
-			<div class="row">
-				<div class="col-md-3 col-sm-6 zijin-study-item study-item-one">
+			<div class="zijin-study-wrap">
+				<div class="zijin-study-item study-item-one">
 					<div class="zijin-study-box">
 						<i></i>
-						<h3>一站式研究</h3>
+						<h4>一站式研究</h4>
 						<p>与“数据”，“历史回测”，“实盘测试”四大模块组合成一站式模型测试研究平台</p>
 						<span class="zijin-study-line study-line1"></span>
 					</div>	
 				</div>
-				<div class="col-md-3 col-sm-6 zijin-study-item study-item-two">
+				<div class="zijin-study-item study-item-two">
 					<div class="zijin-study-box">
 						<i></i>
-						<h3>报告自动生成</h3>
+						<h4>报告自动生成</h4>
 						<p>依据由测试产生的交易数据，自动生成具有重点，易于理解的研究报告。</p>
 						<span class="zijin-study-line study-line2"></span>
 					</div>	
 				</div>
-				<div class="col-md-3 col-sm-6 zijin-study-item study-item-three">
+				<div class="zijin-study-item study-item-three">
 					<div class="zijin-study-box">
 						<i></i>
-						<h3>人工辅助研究</h3>
+						<h4>人工辅助研究</h4>
 						<p>结合测试结果，也可人为参与到研究报告的撰写与分享。</p>
 						<span class="zijin-study-line study-line3"></span>
 					</div>	
 				</div>
-				<div class="col-md-3 col-sm-6 zijin-study-item study-item-four">
+				<div class="zijin-study-item study-item-four">
 					<div class="zijin-study-box">
 						<i></i>
-						<h3>从研究中学习</h3>
+						<h4>从研究中学习</h4>
 						<p>结合每日的研究结果，依赖学习模型，更好的优化模型，为下一步自动优化模型提供了可能。</p>
 						<span class="zijin-study-line study-line4"></span>
 					</div>	
@@ -53,7 +53,7 @@
 		<div class="zijin-study-footer">
 			<div class="container">
 				<div class="row text-center" ng-if='user.is_admin!=true'>
-					<div class="col-md-2 col-md-offset-3" style="margin-left: 20%">
+					<div class="col-md-2 col-xs-1 col-md-offset-3" style="margin-left: 20%">
 						<button class="zijin-study-leftbtn" ng-click='hisActtoryRes("/BackTest")'>历史回测</button>
 					</div>
 
@@ -62,13 +62,13 @@
 					</div>
 				</div>
 				<div class="row text-center" ng-if='user.is_admin==true'>
-					<div class="col-md-2 col-md-offset-3" style="margin-left: 12%">
+					<div class="col-md-3 col-md-offset-3" style="margin-left: 10%">
 						<button class="zijin-study-leftbtn" ng-click='hisActtoryRes("/BackTest")'>历史回测</button>
 					</div>
-					<div class="col-md-2" style="margin-left: 12%">
+					<div class="col-md-2" style="margin-left: 10%">
 						<button class="zijin-study-rightbtn" ng-click='hisActtoryRes("/SimRealTimeTrade")'>实盘模拟</button>
 					</div>
-					<div class="col-md-2" style="margin-left: 12%">
+					<div class="col-md-2" style="margin-left: 10%">
 						<button class="zijin-study-middlebtn" ng-click='hisActtoryRes("/AccountTrade")'>真实交易</button>
 					</div>
 				</div>

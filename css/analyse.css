@@ -170,10 +170,7 @@ width: 43%;
 .analyse .analyse-left dd{
 	font-size: 16px;
 	letter-spacing: 1px;
-	line-height: 40px;
-}
-.analyse .analyse-left dd:hover{
-	background-color: #798979;
+	line-height: 30px;
 }
 .analyse .analyse-left dd a{
 	cursor: pointer;
