@@ -4056,7 +4056,7 @@
                 chartArr1.push({
                   "text": '开仓价：' + data.price + '<br>平仓价：￥' + data2.price + '<br>盈亏：' + pal,
                   "title": "看多",
-                  "x": data.datetime,
+                  "x": data2.datetime,
                   "y": pal,
                   "volume": data.volume,
                   "direction": data.pos,
@@ -4072,7 +4072,7 @@
                 chartArr1.push({
                   "text": '开仓价：' + data.price + '<br>平仓价：￥' + data2.price + '<br>盈亏：' + pal,
                   "title": "看空",
-                  "x": data.datetime,
+                  "x": data2.datetime,
                   "y": pal,
                   "volume": data.volume,
                   "direction": data.pos,
@@ -6470,7 +6470,7 @@
     var height = $(window).height(); //浏览器当前窗口可视区域高度
     $("#test1").css("height", height * 0.85 + "px");
     $("#test0").css("height", height * 0.85 + "px");
-    $("#test4").css("height", height * 0.85 + "px");
+    $("#test0").css("height", height * 0.85 + "px");
     //插入图片
     $scope.openImage = function() {
       $('.image').fadeIn();

@@ -136,10 +136,22 @@ display: inline-block;
 	margin-bottom: 20px;
 	padding-left: 40px;
 }
+.analyse .analyse-left .analyse-menu-head button{
+	/*border:1px solid #5bc0de;*/
+	outline: none;
+	width: 50%;
+	border-radius: 6px;
+	box-shadow:0 10px 14px -7px #3e7327;
+}
+.analyse .analyse-left .analyse-menu-head .btn-info{
+	box-shadow:0 10px 14px -7px #5bc0de;
+}
+.analyse .analyse-left .analyse-menu-head .btn-danger{
+	box-shadow:0 10px 14px -7px #d9534f;
+}
 .analyse .analyse-left .modal .modal-dialog .btn_wrap{
 	width: 35%;
 	height: 40px;
-
 }
 .analyse .analyse-left .btn_wrap input{
 width: 43%;
@@ -158,19 +170,20 @@ width: 43%;
 	/*margin-bottom: 20px;*/
 	/*padding-left: 40px;*/
 	margin-left: 60px;
+
 }
 .analyse .analyse-left dt{
 	position: relative;
 	color:#fff;
     font-size: 18px;
 	letter-spacing: 2px;
-	line-height: 40px;
+	line-height: 30px;
 	cursor: pointer;
 }
 .analyse .analyse-left dd{
 	font-size: 16px;
 	letter-spacing: 1px;
-	line-height: 30px;
+	line-height: 35px;
 }
 .analyse .analyse-left dd a{
 	cursor: pointer;
@@ -185,7 +198,7 @@ width: 43%;
 .analyse .analyse-right{
 	position: relative;
 	height: 650px;
-	margin-top: 25px;
+	margin-top: 40px;
 }
 
 .analyse .analyse-right .analyse-charts-title{
@@ -200,7 +213,7 @@ width: 43%;
 #return_map_big_1,#return_map_big_2,#return_map_big,#return_map_big1{
 	height:600px;
 	width: 96%;
-	margin: 0 auto;
+	margin: 40px auto;
 	background:#fff;
 }
 

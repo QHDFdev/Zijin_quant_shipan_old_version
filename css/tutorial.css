@@ -58,8 +58,11 @@
 .nav-title{
     color:#6e6e6e;
 }
+
 .nav-title.active{
-    color:#067dd9;
+    color:#d9534f;
+    font-size: 17px;
+    font-weight: bold;
 }
 span.sanjiao{
     width:25px;
