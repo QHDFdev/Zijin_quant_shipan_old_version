@@ -99,7 +99,7 @@
       mobile: false,
       live: true
     });
-
+window.flag = 'model_quants'
     wow.init();
     /*var editor = ace.edit("editor");
      editor.setTheme("ace/theme/chrome");
@@ -134,7 +134,10 @@
       }
     });
     if (($location.url() == '/BackTest') ||
+      ($location.url()=='/SimRealTimeTrade') ||
+      ($location.url()=='/AccountTrade') ||
       ($location.url() == '/complie') ||
+      ($location.url()=='/complie'+ '/'+'/^[A-z\d]{0,n}$/') ||
       ($location.url() == '/adminCenter')) {
       $rootScope.isactive = true;
     };
@@ -182,6 +185,8 @@
         }
       });
       if (($location.url() == '/BackTest') ||
+        ($location.url()=='/SimRealTimeTrade')||
+        ($location.url()=='/AccountTrade') ||
         ($location.url() == '/complie') ||
         ($location.url() == '/adminCenter')) {
         $rootScope.isactive = true;
@@ -236,6 +241,7 @@
       $scope.natived = str;
     });
     $rootScope.user = $cookieStore.get('user');
+    $rootScope.flag = 'null';
     $rootScope.logout = function() {
       $cookieStore.remove('user');
       $rootScope.user = null;
@@ -303,7 +309,7 @@
     var accounts = [];
     //策略代码渲染到页面
     $scope.getSourcingStrategys = function() {
-      console.log('token ' + $cookieStore.get('user').token)
+      // console.log('token ' + $cookieStore.get('user').token)
       $http.get(constantUrl + "classs/", {
         headers: {
           'Authorization': 'token ' + $cookieStore.get('user').token
@@ -423,7 +429,7 @@
     //91aa354c022f7d7ba1fe541669b2b2db6bc3010f
     //真实交易列表渲染到页面
     $scope.gettrueStrategys = function() {
-      console.log('token ' + $cookieStore.get('user').token)
+      // console.log('token ' + $cookieStore.get('user').token)
       $http.get(constantUrl + "strategys/", {
         headers: {
           'Authorization': 'token ' + $cookieStore.get('user').token
@@ -6266,7 +6272,14 @@
         });
     };
   }])
+
   .controller('modalResController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl','modalResObjList0', 'modalResObjList1', 'modalResObjList2', 'modalResObjList3', 'modalResObjList4', 'storageModalRes', 'getModalResList', 'modalResObjItems', function($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl,modalResObjList0, modalResObjList1, modalResObjList2, modalResObjList3, modalResObjList4, storageModalRes, getModalResList, modalResObjItems) {
+
+
+
+
+
+
     $scope.modalResObjItem = modalResObjItems;
     $scope.username = $cookieStore.get('user').username;
     $scope.getOpen=function () {
@@ -6346,7 +6359,27 @@
       $('.modalRes-mac').hide();
       $('.modalRes-' + id).show();
     }
-    $scope.start('new');
+    $scope.start2 = function(b) {
+      $('.nav-item').find('span').removeClass('sanjiao').prev('.nav-title').removeClass('active');
+      $('.nav-item'+b).find('span').addClass('sanjiao').prev('.nav-title').addClass('active');
+    }
+
+    // model_quants
+    // model_methods
+    // model_examples
+    // model_mls
+
+    var a,b;
+    switch (window.flag){
+      case 'model_quants': a ='new';b=1;break;
+      case 'model_objects':a ='obj';b=2;break;
+      case 'model_methods':a ='method';b=3;break;
+      case 'model_examples':a ='exa';b=4;break;
+      case 'model_mls':a ='mac';b=5;break;
+    }
+    $scope.start(a);
+    $scope.start2(b);
+
 
     $('.nav-item').click(function() {
       var id = $(this).attr('href');
@@ -6355,7 +6388,8 @@
       $('.nav-item').find('span').removeClass('sanjiao').prev('.nav-title').removeClass('active');
       $(this).find('span').addClass('sanjiao').prev('.nav-title').addClass('active');
       $scope.start(id);
-    })
+    });
+
     $scope.modalResOpen ={
       title:'',
       content:''
@@ -6619,6 +6653,7 @@
       $scope.mydata = data;
       /*$scope.hash=$scope.mydata._id;*/
     });
+
     /*switch(str){
      case 'study_object':
      $scope.title=storageModalRes.data[$routeParams.id]["name"];
@@ -7451,6 +7486,14 @@
           });
 
         });
+
+        scope.toDetail=function(classify,id){
+          // console.log(classify,id)
+          // console.log(window.flag)
+          window.flag=classify;
+          // href='#/{{mydata.classify}}/{{mydata._id}}'
+          window.location.href='#/'+classify+'/'+id;
+        }
 
         function getObjectURL(file) {
           var url = null;
