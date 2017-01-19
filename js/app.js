@@ -1848,7 +1848,7 @@
             var alonebuy = [];
             var defer6 = $q.defer();
             if (nowdata.length == 0) {
-              Showbo.Msg.alert("今天截至目前还未成交");
+              Showbo.Msg.alert("今天截至目前还未成交")
               defer6.reject(nowdata)
               return defer6.promise;
             }
@@ -2582,7 +2582,7 @@
                   turboThreshold: 0
                 },
                 candlestick: { //红涨绿跌
-                  color: '#fff',
+                  color: 'green',
                   upColor: 'red'
                 }
               },
@@ -2716,10 +2716,6 @@
               plotOptions: {
                 series: {
                   turboThreshold: 0
-                },
-                candlestick: { //红涨绿跌
-                  color: '#fff',
-                  upColor: 'red'
                 }
               },
               tooltip: {
@@ -2792,13 +2788,13 @@
                 data: chartJsonDataArr,
                 lineWidth: 2,
                 id: 'dataseries'
-              },{
-                type: ' candlestick',
+              }, {
+                type: 'candlestick',
                 name: '股价',
                 data: chartJsonDataArr,
                 lineWidth: 1,
                 id: 'dataseries'
-              }, {
+              },{
                 type: 'flags',
                 data: shortYArr,
                 onSeries: "dataseries",
@@ -6470,7 +6466,7 @@
     var height = $(window).height(); //浏览器当前窗口可视区域高度
     $("#test1").css("height", height * 0.85 + "px");
     $("#test0").css("height", height * 0.85 + "px");
-    $("#test0").css("height", height * 0.85 + "px");
+    $("#test4").css("height", height * 0.85 + "px");
     //插入图片
     $scope.openImage = function() {
       $('.image').fadeIn();

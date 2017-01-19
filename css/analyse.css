@@ -139,7 +139,7 @@ display: inline-block;
 .analyse .analyse-left .analyse-menu-head button{
 	/*border:1px solid #5bc0de;*/
 	outline: none;
-	width: 50%;
+	width: 140px;
 	border-radius: 6px;
 	box-shadow:0 10px 14px -7px #3e7327;
 }
@@ -218,7 +218,7 @@ width: 43%;
 }
 
 .analyse .analyse-right .table-responsive{
-	height: 550px;
+	height: 750px;
 	overflow-y:auto; 
 }
 /* .analyse .analyse-right .analyse-charts-title:after{
