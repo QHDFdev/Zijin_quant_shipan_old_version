@@ -1,6 +1,5 @@
 ﻿angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngCookies', 'ngMessages', 'ngResource', 'myService', 'hljs'])
   .config(['$routeProvider', 'hljsServiceProvider', function($routeProvider, hljsServiceProvider) {
-
     $routeProvider
       .when('/home', {
         templateUrl: 'tpls/newHome.html',
@@ -73,7 +72,7 @@
       .when('/model_mls/:id', {
       templateUrl: 'tpls/modalResTemplate.html',
       controller: 'modalResItemController'
-    })
+       })
       .when('/adminCenter', {
         templateUrl: 'tpls/adminCenter.html',
         controller: 'adminCenterController'
@@ -99,7 +98,8 @@
       mobile: false,
       live: true
     });
-window.flag = 'model_quants'
+     window.flag = 'model_quants';
+
     wow.init();
     /*var editor = ace.edit("editor");
      editor.setTheme("ace/theme/chrome");
@@ -133,18 +133,18 @@ window.flag = 'model_quants'
 
       }
     });
+
     if (($location.url() == '/BackTest') ||
       ($location.url()=='/SimRealTimeTrade') ||
       ($location.url()=='/AccountTrade') ||
       ($location.url() == '/complie') ||
-      ($location.url()=='/complie'+ '/'+'/^[A-z\d]{0,n}$/') ||
       ($location.url() == '/adminCenter')) {
       $rootScope.isactive = true;
     };
     $rootScope.$on('$routeChangeStart', function(eve, next, cur) {
       $('html,body').scrollTop(0);
       var wow = new WOW({
-        boxClass: 'wow',
+          boxClass: 'wow',
         animateClass: 'animated',
         offset: 0,
         mobile: false,
@@ -442,7 +442,8 @@ window.flag = 'model_quants'
               i = -1;
             }
           }
-          $scope.trueStrategy = data
+
+          $scope.trueStrategy = data;
           for (var i = 0; i < data.length; i++) {
             $scope.trueStrategy[i].class_name = "none"; //策略代码初始化
             var class_id = data[i].class_id;
@@ -522,6 +523,7 @@ window.flag = 'model_quants'
     }
 
     $scope.downpy = function(id,name) {
+
       Showbo.Msg.confirm("您需要下载"+name+"吗？",function (flag) {
         if(flag=='yes'){
           $http.get(constantUrl + 'classs/' + id + '/', {

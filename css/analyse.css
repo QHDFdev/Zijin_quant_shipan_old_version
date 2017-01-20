@@ -100,7 +100,6 @@ display: inline-block;
 	-moz-box-shadow: 5px 0 10px #aaa;
 	box-shadow: 5px 0 10px #aaa;
 	background-color:#f2f2f2;
-
 	background: -webkit-linear-gradient(left top, #a9c0a9 , #bbc0bb);
 	background: -o-linear-gradient(bottom right,#a9c0a9,  #bbc0bb);
 	background: -moz-linear-gradient(bottom right, #a9c0a9, #bbc0bb);
@@ -121,7 +120,6 @@ display: inline-block;
 		left: -55%;
 		border:none;
 		padding-top: 20px;
-
 		-webkit-transition: all ease 1.5s;
 		-moz-transition: all ease 1.5s;
 		-o-transition: all ease 1.5s;
@@ -136,34 +134,68 @@ display: inline-block;
 	margin-bottom: 20px;
 	padding-left: 40px;
 }
-
 .analyse .analyse-left .analyse-menu-head button{
-	border:1px solid #5bc0de;
-/*	outline: none;
-	width: 140px;
-	border-radius: 6px;
-	box-shadow:0 10px 14px -7px #3e7327;*/
-	background-color: #3bb3e0;
 	font-size: 14px;
-	color: #3b5e6a;
-	font-weight: bold;
 	padding: 6px 12px;
+	font-weight: bold;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+}
+.analyse .analyse-left .analyse-menu-head .btn1{
+	border:1px solid #54be54;
+	background-color: #5cb85c;
+	color: #457445;
+	background-image: linear-gradient(bottom, #579e57 0%, rgb(92,184,92) 100%);
+	background-image: -o-linear-gradient(bottom, #579e57 0%, rgb(92,184,92) 100%);
+	background-image: -moz-linear-gradient(bottom, #579e57 0%, rgb(92,184,92) 100%);
+	background-image: -webkit-linear-gradient(bottom, #579e57 0%, rgb(92,184,92) 100%);
+	background-image: -ms-linear-gradient(bottom, #579e57 0%, rgb(92,184,92) 100%);
+	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, #579e57), color-stop(1, rgb(92,184,92)) );
+
+	-webkit-box-shadow: inset 0 1px 0 #56B85C, 0 3px 0 0 #4b704b, 0 8px 4px #999;
+	-moz-box-shadow: inset 0 1px 0 #56B85C, 0 3px 0 0 #4b704b, 0 8px 4px #999;
+	-o-box-shadow: inset 0 1px 0 #56B85C, 0 3px  0 #4b704b, 0 8px 4px #999;
+	box-shadow: inset 0 1px 0 #56B85C, 0 3px 0 0 #4b704b, 0 8px 4px #999;
+}
+.analyse .analyse-left .analyse-menu-head .btn1:active{
+	top:3px;
+	background-image: linear-gradient(bottom, rgb(92,184,92) 0%, #579e57 100%);
+	background-image: -o-linear-gradient(bottom, rgb(92,184,92) 0%, #579e57 100%);
+	background-image: -moz-linear-gradient(bottom, rgb(92,184,92) 0%, #579e57 100%);
+	background-image: -webkit-linear-gradient(bottom, rgb(92,184,92) 0%, #579e57 100%);
+	background-image: -ms-linear-gradient(bottom, rgb(92,184,92) 0%, #579e57 100%);
+	background-image: -webkit-gradient(
+			linear,
+			left bottom,
+			left top,
+			color-stop(0,rgb(92,184,92)),
+			color-stop(1,#579e57)
+	);
+	-webkit-box-shadow: inset 0 1px 0 #56B85C, 0 2px 0 0 #4b704b, 0 5px 3px #999;
+	-moz-box-shadow: inset 0 1px 0 #56B85C, 0 2px 0 0 #4b704b, 0 5px 3px #999;
+	-o-box-shadow: inset 0 1px 0 #56B85C, 0 2px 0 0 #4b704b, 0 5px 3px #999;
+	box-shadow: inset 0 1px 0 #56B85C, 0 2px 0 0 #4b704b, 0 5px 3px #999;
+}
+
+.analyse .analyse-left .analyse-menu-head .btn2{
+	border:1px solid #5bc0de;
+	background-color: #3bb3e0;
+	color: #3b5e6a;
 	background-image: linear-gradient(bottom, rgb(44,160,202) 0%, rgb(62,184,229) 100%);
 	background-image: -o-linear-gradient(bottom, rgb(44,160,202) 0%, rgb(62,184,229) 100%);
 	background-image: -moz-linear-gradient(bottom, rgb(44,160,202) 0%, rgb(62,184,229) 100%);
 	background-image: -webkit-linear-gradient(bottom, rgb(44,160,202) 0%, rgb(62,184,229) 100%);
 	background-image: -ms-linear-gradient(bottom, rgb(44,160,202) 0%, rgb(62,184,229) 100%);
 	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(44,160,202)), color-stop(1, rgb(62,184,229)) );
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-o-border-radius: 5px;
-	border-radius: 5px;
+
 	-webkit-box-shadow: inset 0 1px 0 #2ab7ec, 0 3px 0 0 #156785, 0 8px 4px #999;
 	-moz-box-shadow: inset 0 1px 0 #2ab7ec, 0 3px 0 0 #156785, 0 8px 4px #999;
 	-o-box-shadow: inset 0 1px 0 #2ab7ec, 0 3px  0 #156785, 0 8px 4px #999;
 	box-shadow: inset 0 1px 0 #2ab7ec, 0 3px 0 0 #156785, 0 8px 4px #999;
 }
-.analyse .analyse-left .analyse-menu-head button:active{
+.analyse .analyse-left .analyse-menu-head .btn2:active{
 	top:3px;
 	background-image: linear-gradient(bottom, rgb(62,184,229) 0%, rgb(44,160,202) 100%);
 	background-image: -o-linear-gradient(bottom, rgb(62,184,229) 0%, rgb(44,160,202) 100%);
@@ -177,10 +209,45 @@ display: inline-block;
 			color-stop(0, rgb(62,184,229)),
 			color-stop(1, rgb(44,160,202))
 	);
-	-webkit-box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #156785, 0px 5px 3px #999;
-	-moz-box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #156785, 0px 5px 3px #999;
-	-o-box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #156785, 0px 5px 3px #999;
-	box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #156785, 0px 5px 3px #999;
+	-webkit-box-shadow: inset 0 1px 0 #2ab7ec, 0 2px 0 0 #156785, 0 5px 3px #999;
+	-moz-box-shadow: inset 0 1px 0 #2ab7ec, 0 2px 0 0 #156785, 0 5px 3px #999;
+	-o-box-shadow: inset 0 1px 0 #2ab7ec, 0 2px 0 0 #156785, 0 5px 3px #999;
+	box-shadow: inset 0 1px 0 #2ab7ec, 0 2px 0 0 #156785, 0 5px 3px #999;
+}
+.analyse .analyse-left .analyse-menu-head .btn3{
+	border:1px solid #e46461;
+	background-color: #d9534f;
+	color: #863d3b;
+	background-image: linear-gradient(bottom, #c1504c 0%, #d9534f 100%);
+	background-image: -o-linear-gradient(bottom, #c1504c 0%,  #d9534f 100%);
+	background-image: -moz-linear-gradient(bottom, #c1504c 0%,  #d9534f 100%);
+	background-image: -webkit-linear-gradient(bottom, #c1504c 0%,#d9534f 100%);
+	background-image: -ms-linear-gradient(bottom, #c1504c 0%, #d9534f 100%);
+	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, #c1504c), color-stop(1, #d9534f) );
+
+	-webkit-box-shadow: inset 0 1px 0 #e14e4a, 0 3px 0 0 #8d4b4a, 0 8px 4px #999;
+	-moz-box-shadow: inset 0 1px 0 #e14e4a, 0 3px 0 0 #8d4b4a, 0 8px 4px #999;
+	-o-box-shadow: inset 0 1px 0 #e14e4a, 0 3px  0 #8d4b4a, 0 8px 4px #999;
+	box-shadow: inset 0 1px 0 #e14e4a, 0 3px 0 0 #8d4b4a, 0 8px 4px #999;
+}
+.analyse .analyse-left .analyse-menu-head .btn3:active{
+	top:3px;
+	background-image: linear-gradient(bottom, #d9534f 0%,  #c1504c 100%);
+	background-image: -o-linear-gradient(bottom, #d9534f 0%,  #c1504c 100%);
+	background-image: -moz-linear-gradient(bottom, #d9534f 0%, #c1504c 100%);
+	background-image: -webkit-linear-gradient(bottom, #d9534f 0%, #c1504c 100%);
+	background-image: -ms-linear-gradient(bottom, #d9534f 0%, #c1504c 100%);
+	background-image: -webkit-gradient(
+			linear,
+			left bottom,
+			left top,
+			color-stop(0, #d9534f),
+			color-stop(1, #c1504c)
+	);
+	-webkit-box-shadow: inset 0 1px 0 #e14e4a, 0 2px 0 0 #8d4b4a, 0 5px 3px #999;
+	-moz-box-shadow: inset 0 1px 0 #e14e4a, 0 2px 0 0 #8d4b4a, 0 5px 3px #999;
+	-o-box-shadow: inset 0 1px 0 #e14e4a, 0 2px 0 0 #8d4b4a, 0 5px 3px #999;
+	box-shadow: inset 0 1px 0 #e14e4a, 0 2px 0 0 #8d4b4a, 0 5px 3px #999;
 }
 
 /*.analyse .analyse-left .analyse-menu-head .btn1{
