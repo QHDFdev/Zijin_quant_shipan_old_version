@@ -6,7 +6,7 @@
       <p>无论你策略在历史数据上回撤多么优秀，一切见真章，你必须要做实验模拟，来检测你策略真正运行效果。</p>
       <p>平台支持 策略加载，基于策略分别可以创建历史回测，实盘模拟，真实交易。由回测到模拟到真实交易，交易条件越来越苛刻。</p>-->
       <p> 一站到底式环境配置，从加载策略，到创建回测/实盘模拟/真实交易，再到启动实例进行全流程测试。
-        </p>
+      </p>
       <p>成熟有效的策略开发往往需经历历史回撤（研究模型），实盘模拟（检验模型），真实交易（账户trade）三阶段，交易条件越发严苛平台均提供支持。
         一切只为提高您的开发效率服务！</p>
     </div>
@@ -332,14 +332,12 @@
     <div class="mask-box container">
       <div class="row">
         <div class=" col-sm-8 col-sm-offset-2"  id="test">
-          <form ng-submit="addFirmStrategy()" name="newFirmStrategy" novalidate="" enctype="multipart/form-data"
-                id="newFirmStrategy" novalidate>
+          <form ng-submit="addFirmStrategy()" name="newFirmStrategy" novalidate="" enctype="multipart/form-data"  id="newFirmStrategy" novalidate>
             <div class="form-group">
               <label for="">实盘名：</label>&nbsp;&nbsp;&nbsp;
-              <input type="text" class="ipt" name="name" ng-model='firmItem.name' placeholder="请输入实盘名" required>
-              <div class="error" ng-messages='newFirmStrategy.name.$error' ng-if='newFirmStrategy.name.$touched'
-                   ng-message-multiple>
-                <small ng-message='required' style="color:red">实盘名不能为空</small>
+              <input type="text" class="ipt" name="name" ng-model='firmItem.name' placeholder="请输入实盘名" ng-blur="change=true" ng-focus="change=false" required>
+              <div class="error" ng-show='newFirmStrategy.name.$error.required && change'>
+                <small  style="color:red">实盘名不能为空</small>
               </div>
             </div>
             <div class="form-group">
@@ -350,22 +348,18 @@
             <div class="form-group">
               <label for="">交易合约：</label>
               <!--<select class="sel" ng-model='firmItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>-->
-              <input class="ipt" type="text" class="form-control" name="symbol" placeholder="请输入交易合约"
+              <input class="ipt" type="text" class="form-control" name="symbol" placeholder="请输入交易合约" ng-blur="change1=true" ng-focus="change1=false"
                      ng-model='firmItem.symbol' required>
-              <div class="error" ng-messages='newFirmStrategy.symbol.$error' ng-if='newFirmStrategy.symbol.$touched'
-                   ng-message-multiple>
-                <small ng-message='required' style="color:red">交易合约不能为空</small>
+              <div class="error" ng-show='newFirmStrategy.symbol.$error.required && change1'>
+                <small style="color:red">交易合约不能为空</small>
               </div>
             </div>
             <div class="form-group">
               <label for="">交易手数：</label>
-              <input type="text" class="ipt" name="multiple" ng-model='firmItem.multiple' placeholder="策略交易手数的倍数"
-                     required>
-              <div class="error" ng-messages='newFirmStrategy.multiple.$error' ng-if='newFirmStrategy.multiple.$touched'
-                   ng-message-multiple>
-                <small ng-message='required' style="color:red">请填写交易手数</small>
+              <input type="text" class="ipt" name="multiple" ng-model='firmItem.multiple' placeholder="策略交易手数的倍数" ng-blur="change2=true" ng-focus="change2=false"  required>
+              <div class="error" ng-show='newFirmStrategy.multiple.$error.required && change2' >
+                <small  style="color:red">请填写交易手数</small>
               </div>
-
             </div>
             <div class="form-group">
               <label>代码依赖文件：</label><input type="file" name="firmFile" file-model='files' placeholder="代码依赖文件">

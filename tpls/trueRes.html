@@ -167,22 +167,22 @@
                     <dl class="analyse-menu-item">
                         <dt slide-toggle><i class="fa fa-bar-chart"></i>模型评估</dt>
                         <dd>
-                            <a  role="tab" data-toggle="tab">
+                            <a  role="tab" data-toggle="tab" data-target="#assessment">
                                 模型预测图形化输出
                             </a>
                         </dd>
                         <dd>
-                            <a  role="tab" data-toggle="tab">
+                            <a  role="tab" data-toggle="tab" data-target="#accuracy">
                                 预测准确率统计
                             </a>
                         </dd>
                         <dd>
-                            <a  role="tab" data-toggle="tab">
+                            <a  role="tab" data-toggle="tab" data-target="#consume">
                                 模型耗时
                             </a>
                         </dd>
                         <dd>
-                            <a  role="tab" data-toggle="tab">
+                            <a  role="tab" data-toggle="tab" data-target="#score">
                                 模型评分
                             </a>
                         </dd>
@@ -583,6 +583,23 @@
                                 </tfoot>
                             </table>
                         </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="assessment">
+                        <h2 class="analyse-charts-title">模型预测图形化输出</h2>
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="accuracy">
+                        <h2 class="analyse-charts-title">预测准确率统计</h2>
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="consume">
+                        <h2 class="analyse-charts-title">模型耗时</h2>
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="score">
+                        <h2 class="analyse-charts-title">模型评分</h2>
+
                     </div>
 
                 </div>

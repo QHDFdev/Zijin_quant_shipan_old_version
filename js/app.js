@@ -758,6 +758,7 @@
 
     //创建实盘模拟策略
     $scope.addFirmStrategy = function() {
+
       if ($scope.firmItem == undefined) {
         Showbo.Msg.alert('请填入信息');
         return;
@@ -813,6 +814,14 @@
           $('.zijin-table-mask').fadeOut();
           Showbo.Msg.alert('添加失败，请稍后再试。');
         });
+      $scope.firmItem.name=null;
+      $scope.firmItem.exchange=null;
+      $scope.firmItem.symbol=null;
+      $scope.firmItem.multiple=null;
+      $scope.change=false;
+      $scope.change1=false;
+      $scope.change2=false;
+
     };
     //创建真实交易
     $scope.addTrueStrategy = function() {
@@ -875,6 +884,8 @@
           $('.zijin-table-mask').fadeOut();
           Showbo.Msg.alert('添加失败，请稍后再试。');
         });
+
+      $scope.flag=false;
     };
     $scope.new = function() {
       $http.get(constantUrl + "accounts/", {
@@ -6825,6 +6836,7 @@
           i = a.$index; //点击的第几个
           strategysValue.id = scope.mySourcingStrategy[i]._id;
           strategysValue.author = scope.mySourcingStrategy[i].author;
+
           $('.his-mask').fadeIn();
           //strategysValue.id = $(this).closest('tr').children().eq(0).text();
           //console.log(strategysValue);
@@ -6833,7 +6845,10 @@
           i = a.$index; //点击的第几个
           strategysValue.id = scope.mySourcingStrategy[i]._id;
           strategysValue.author = scope.mySourcingStrategy[i].author;
+
           $('.firm-mask').fadeIn();
+
+
           //strategysValue.id = $(this).closest('tr').children().eq(0).text();
           //strategysValue.author = $(this).closest('tr').children().eq(3).text();
           //console.log(strategysValue);
