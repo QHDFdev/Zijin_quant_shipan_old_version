@@ -884,8 +884,15 @@
           $('.zijin-table-mask').fadeOut();
           Showbo.Msg.alert('添加失败，请稍后再试。');
         });
-
-      $scope.flag=false;
+      $scope.trueItem.name=null;
+      $scope.trueItem.exchange=null;
+      $scope.trueItem.symbol=null;
+      $scope.trueItem.multiple=null;
+      $scope.trueItem.account=null;
+      $scope.trueFile=null;
+      $scope.f=false;
+      $scope.f1=false;
+      $scope.f2=false;
     };
     $scope.new = function() {
       $http.get(constantUrl + "accounts/", {
@@ -1106,6 +1113,17 @@
           $('.zijin-table-mask').fadeOut();
           Showbo.Msg.alert('添加失败，请稍后再试。');
         });
+      $scope.hisItem.name=null;
+      $scope.hisItem.exchange=null;
+      $scope.hisItem.symbol=null;
+      $scope.modeBarOptions=null;
+      $scope.modeTickOptions=null;
+      $scope.hisItem.start=null;
+      $scope.hisItem.end=null;
+      $scope.files=null;
+      $scope.fl=false;
+      $scope.fl1=false;
+      $scope.fl2=false;
     };
 
 

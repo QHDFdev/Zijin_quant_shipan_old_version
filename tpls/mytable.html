@@ -381,10 +381,9 @@
                 id="newTrueStrategy2" novalidate>
             <div class="form-group">
               <label for="">交易名：</label>&nbsp;&nbsp;&nbsp;
-              <input type="text" class="ipt" name="name" ng-model='trueItem.name' placeholder="请输入交易名" required>
-              <div class="error" ng-messages='newTrueStrategy.name.$error' ng-if='newTrueStrategy.name.$touched'
-                   ng-message-multiple>
-                <small ng-message='required' style="color:red">交易名不能为空</small>
+              <input type="text" class="ipt" name="name" ng-model='trueItem.name' placeholder="请输入交易名" ng-blur="f=true" ng-focus="f=false" required>
+              <div class="error" ng-show='newTrueStrategy.name.$error.required && f'>
+                <small style="color:red">交易名不能为空</small>
               </div>
             </div>
             <div class="form-group">
@@ -396,21 +395,17 @@
               <label for="">交易合约：</label>
               <!--<select class="sel" ng-model='trueItem.symbol'   ng-options='y.symbol as y.symbol for y in sy'></select>-->
               <input class="ipt" type="text" class="form-control" name="symbol" placeholder="请输入交易合约"
-                     ng-model='trueItem.symbol' required>
-              <div class="error" ng-messages='newTrueStrategy.symbol.$error' ng-if='newTrueStrategy.symbol.$touched'
-                   ng-message-multiple>
-                <small ng-message='required' style="color:red">交易合约不能为空</small>
+                     ng-model='trueItem.symbol'  ng-blur="f1=true" ng-focus="f1=false" required>
+              <div class="error" ng-show='newTrueStrategy.symbol.$error.required && f1' >
+                <small style="color:red">交易合约不能为空</small>
               </div>
             </div>
             <div class="form-group">
               <label for="">交易手数：</label>
-              <input type="text" class="ipt" name="multiple" ng-model='trueItem.multiple' placeholder="策略交易手数的倍数"
-                     required>
-              <div class="error" ng-messages='newTrueStrategy.multiple.$error' ng-if='newTrueStrategy.multiple.$touched'
-                   ng-message-multiple>
-                <small ng-message='required' style="color:red">请填写交易手数</small>
+              <input type="text" class="ipt" name="multiple" ng-model='trueItem.multiple' placeholder="策略交易手数的倍数" ng-blur="f2=true" ng-focus="f2=false" required>
+              <div class="error" ng-show='newTrueStrategy.multiple.$error.required && f2' >
+                <small style="color:red">请填写交易手数</small>
               </div>
-
             </div>
             <div class="form-group" ng-if='user.is_admin==true'>
               <select class="sel" name="" id="" ng-model="trueItem.account"
@@ -437,12 +432,11 @@
       <div class="row">
         <div class="col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2"  id="test2">
           <form ng-submit="addHisStrategy()" name="newHisStrategy" novalidate="" enctype="multipart/form-data" id="newHisStrategy">
-
             <div class="form-group">
               <label for="">回测名：</label>&nbsp;&nbsp;&nbsp;
-              <input type="text" class="form-control" name="name" ng-model='hisItem.name' placeholder="请输入回测名" required>
-              <div class="error" ng-messages='newHisStrategy.name.$error' ng-if='newHisStrategy.name.$touched' ng-message-multiple>
-                <small ng-message='required' style="color:red">回测名不能为空</small>
+              <input type="text" class="ipt" name="name" ng-model='hisItem.name' placeholder="请输入回测名" ng-blur="fl=true" ng-focus="fl=false" required>
+              <div class="error" ng-show='newHisStrategy.name.$error.required && fl'>
+                <small style="color:red">回测名不能为空</small>
               </div>
             </div>
             <div class="form-group">
@@ -454,10 +448,9 @@
               <label for="">交易合约：</label>
               <!--<select class="sel" ng-model='hisItem.symbol' ng-options='y.symbol as y.symbol for y in sy' ng-change="changesymbol()"></select>-->
               <input class="ipt" type="text" class="form-control" name="symbol" placeholder="请输入交易合约"
-                     ng-change="changesymbol()" ng-model='hisItem.symbol' required>
-              <div class="error" ng-messages='newHisStrategy.symbol.$error' ng-if='newHisStrategy.symbol.$touched'
-                   ng-message-multiple>
-                <small ng-message='required' style="color:red">交易合约不能为空</small>
+                     ng-change="changesymbol()" ng-model='hisItem.symbol'  ng-blur="fl1=true" ng-focus="fl1=false" required>
+              <div class="error" ng-show='newHisStrategy.symbol.$error.required && fl1'>
+                <small style="color:red">交易合约不能为空</small>
               </div>
             </div>
             <div class='form-group'>
@@ -495,7 +488,8 @@
 
             </div>
             <div class="form-group">
-              <label>代码依赖文件：</label><input type="file" name="hisFile" file-model='files' placeholder="代码依赖文件">
+              <label>代码依赖文件：</label>
+              <input type="file" name="hisFile" file-model='files' placeholder="代码依赖文件">
             </div>
             <div class=" btn-group-lg">
               <input  class="btn-success btn" type="submit" value="提交" ng-disabled='newHisStrategy.$invalid'>
