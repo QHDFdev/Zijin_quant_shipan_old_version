@@ -235,9 +235,11 @@
       var str = null;
       var href = window.location.href;
       var index = href.indexOf('#/');
+
       if (index != -1) {
         str = href.substring(index);
       };
+
       $scope.natived = str;
     });
     $rootScope.user = $cookieStore.get('user');
@@ -681,7 +683,7 @@
         }
       }
 
-      console.log('end')
+
     }
     var flag = false;
     $scope.selectall2 = function() {
@@ -2604,10 +2606,23 @@
             ////////////////////////////////////////////////////////////////////////////////////////
 
             //修改的highchart1
-            // console.log(chartArr[0].Earn);
+
+            var volume=[];
+            angular.forEach(chartJsonData,function (data,index) {
+              volume.push({
+                "x": data.datetime,
+                "y": data.volume,
+                'low': data.low,
+                'high': data.high,
+                'close': data.close,
+                'open': data.open,
+                'volume': data.volume
+              })
+            })
+
+            // console.log(volume)
 
             $('#return_map_big').highcharts('StockChart', {
-
               credits: {
                 enabled: false
               },
@@ -2672,7 +2687,20 @@
                   text: '股价'
                 },
                 lineWidth: 1,
-                height: '60%'
+                height: '50%'
+              }, {
+                labels: {
+                  align: 'right',
+                  x: -3
+                },
+                title: {
+                  text: '成交量'
+                },
+
+                opposite: true,
+                offset: 0,
+                height: '20%',
+                top: '52%'
               }, {
                 labels: {
                   align: 'right',
@@ -2683,8 +2711,8 @@
                 },
                 opposite: true,
                 offset: 0,
-                height: '35%',
-                top: '65%'
+                height: '20%',
+                top: '74%'
               }],
               series: [{
                 type: 'line',
@@ -2725,21 +2753,20 @@
                 y: 20,
                 name: '看多',
               }, {
+                type:'column',
+                data:volume,
+                name:'成交量',
+                yAxis:1,
+                color:'#e6e843'
+
+              },{
                 type: 'column',
                 data: chartArr,
                 name: '盈亏',
-                /*lineWidth:2,*/
-                yAxis: 1,
+                yAxis: 2,
                 threshold: 0,
                 negativeColor: 'green',
                 color: 'red'
-                /*color:'#e3170d',*/
-                /*marker:{
-                 enabled:true,
-                 symbol:'circle',
-                 fillColor:'#0b1746',
-                 radius:5
-                 }*/
               }]
             });
 
@@ -2753,6 +2780,10 @@
               plotOptions: {
                 series: {
                   turboThreshold: 0
+                },
+                candlestick: { //红涨绿跌
+                  color: 'green',
+                  upColor: 'red'
                 }
               },
               tooltip: {
@@ -2802,10 +2833,22 @@
                   x: -3
                 },
                 title: {
-                  text: '股价abc'
+                  text: '股价'
                 },
                 lineWidth: 1,
-                height: '60%'
+                height: '50%'
+              },{
+                labels: {
+                  align: 'right',
+                  x: -3
+                },
+                title: {
+                  text: '成交量'
+                },
+                opposite: true,
+                offset: 0,
+                height: '20%',
+                top: '52%'
               }, {
                 labels: {
                   align: 'right',
@@ -2816,8 +2859,8 @@
                 },
                 opposite: true,
                 offset: 0,
-                height: '35%',
-                top: '65%'
+                height: '20%',
+                top: '74%'
               }],
               series: [{
                 type: 'line',
@@ -2858,11 +2901,18 @@
                 y: 20,
                 name: '看多',
               }, {
+                type:'column',
+                data:volume,
+                name:'成交量',
+                yAxis:1,
+                color:'#e6e843'
+
+              }, {
                 type: 'column',
                 data: chartArr,
                 name: '盈亏',
                 /*lineWidth:2,*/
-                yAxis: 1,
+                yAxis: 2,
                 threshold: 0,
                 negativeColor: 'green',
                 color: 'red'
@@ -4458,6 +4508,18 @@
 
             //修改的highchart1
             // console.log(chartArr[0].Earn);
+            var volume=[];
+            angular.forEach(chartJsonData,function (data,index) {
+              volume.push({
+                "x": data.datetime,
+                "y": data.volume,
+                'low': data.low,
+                'high': data.high,
+                'close': data.close,
+                'open': data.open,
+                'volume': data.volume
+              })
+            })
 
             $('#return_map_big_1').highcharts('StockChart', {
               credits: {
@@ -4474,7 +4536,6 @@
                   color: '#fff',
                   upColor: 'red'
                 }
-
               },
               tooltip: {
                 useHTML: true,
@@ -4525,7 +4586,19 @@
                   text: '股价'
                 },
                 lineWidth: 1,
-                height: '60%'
+                height: '50%'
+              }, {
+                labels: {
+                  align: 'right',
+                  x: -3
+                },
+                title: {
+                  text: '成交量'
+                },
+                opposite: true,
+                offset: 0,
+                height: '20%',
+                top: '52%'
               }, {
                 labels: {
                   align: 'right',
@@ -4536,8 +4609,8 @@
                 },
                 opposite: true,
                 offset: 0,
-                height: '35%',
-                top: '65%'
+                height: '20%',
+                top: '74%'
               }],
               series: [{
                 type: 'line',
@@ -4578,21 +4651,20 @@
                 y: 20,
                 name: '看多',
               }, {
+                type:'column',
+                data:volume,
+                name:'成交量',
+                yAxis:1,
+                color:'#e6e843'
+
+              },{
                 type: 'column',
                 data: chartArr,
                 name: '盈亏',
-                /*lineWidth:2,*/
-                yAxis: 1,
+                yAxis: 2,
                 threshold: 0,
                 negativeColor: 'green',
                 color: 'red'
-                /*color:'#e3170d',*/
-                /*marker:{
-                 enabled:true,
-                 symbol:'circle',
-                 fillColor:'#0b1746',
-                 radius:5
-                 }*/
               }]
             });
             $('#return_map_big_form').highcharts('StockChart', {
@@ -4661,7 +4733,19 @@
                   text: '股价abc'
                 },
                 lineWidth: 1,
-                height: '60%'
+                height: '50%'
+              }, {
+                labels: {
+                  align: 'right',
+                  x: -3
+                },
+                title: {
+                  text: '成交量'
+                },
+                opposite: true,
+                offset: 0,
+                height: '20%',
+                top: '52%'
               }, {
                 labels: {
                   align: 'right',
@@ -4672,8 +4756,8 @@
                 },
                 opposite: true,
                 offset: 0,
-                height: '35%',
-                top: '65%'
+                height: '20%',
+                top: '74%'
               }],
               series: [{
                 type: 'line',
@@ -4714,11 +4798,18 @@
                 y: 20,
                 name: '看多',
               }, {
+                type:'column',
+                data:volume,
+                name:'成交量',
+                yAxis:1,
+                color:'#e6e843'
+
+              }, {
                 type: 'column',
                 data: chartArr,
                 name: '盈亏',
                 /*lineWidth:2,*/
-                yAxis: 1,
+                yAxis: 2,
                 threshold: 0,
                 negativeColor: 'green',
                 color: 'red'
@@ -7426,7 +7517,7 @@
         ele.on('mouseenter', 'a', function() {
           var num = $(this).parent().index();
           var dist = ele.children('li').width();
-          var dis = (num + 0.07) * dist + 'px';
+          var dis = (num + 0.05) * dist + 'px';
           $('#move-box').stop(true);
           $('#move-box').addClass('infinite');
           $('#move-box').animate({
