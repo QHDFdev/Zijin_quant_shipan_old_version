@@ -2606,6 +2606,7 @@
             ////////////////////////////////////////////////////////////////////////////////////////
 
             //修改的highchart1
+            // console.log(chartJsonDataArr)
 
             var volume=[];
             angular.forEach(chartJsonData,function (data,index) {
@@ -2621,6 +2622,79 @@
             })
 
             // console.log(volume)
+
+
+            //MA5
+            var averline5=[];
+            for(var i=chartJsonDataArr.length-1;i>=4;i--){
+              var aver=chartJsonDataArr[i].close,n=0;
+              for(var j=i;n<4;j--){
+                aver=aver+chartJsonDataArr[j-1].close;
+                n++;
+              }
+              averline5.push({
+                'average':aver/5,
+                "x":chartJsonDataArr[i].x,
+                "y":aver/5,
+              })
+            }
+
+            averline5 = $filter('orderBy')(averline5, 'x');
+            console.log("aaaaaaaaa");
+            console.log(averline5);
+
+            //MA10
+
+            var averline10=[];
+            for(var i=chartJsonDataArr.length-1;i>=9;i--){
+              var aver10=chartJsonDataArr[i].close,n=0;
+              for(var j=i;n<9;j--){
+                aver10=aver10+chartJsonDataArr[j-1].close;
+                n++;
+              }
+              averline10.push({
+                'average':aver10/10,
+                "x":chartJsonDataArr[i].x,
+                "y":aver10/10,
+              })
+            }
+
+            averline10=$filter('orderBy')(averline10, 'x');
+
+            //MA30
+            var averline30=[];
+            for(var i=chartJsonDataArr.length-1;i>=29;i--){
+              var aver30=chartJsonDataArr[i].close,n=0;
+              for(var j=i;n<29;j--){
+                aver30=aver30+chartJsonDataArr[j-1].close;
+                n++;
+              }
+              averline30.push({
+                'average':aver30/30,
+                "x":chartJsonDataArr[i].x,
+                "y":aver30/30,
+              })
+            }
+
+            averline30=$filter('orderBy')(averline30, 'x');
+
+            //MA60
+            var averline60=[];
+            for(var i=chartJsonDataArr.length-1;i>=59;i--){
+              var aver60=chartJsonDataArr[i].close,n=0;
+              for(var j=i;n<59;j--){
+                aver60=aver60+chartJsonDataArr[j-1].close;
+                n++;
+              }
+              averline60.push({
+                'average':aver60/60,
+                "x":chartJsonDataArr[i].x,
+                "y":aver60/60,
+              })
+            }
+            averline60=$filter('orderBy')(averline60, 'x');
+
+
 
             $('#return_map_big').highcharts('StockChart', {
               credits: {
@@ -2716,10 +2790,28 @@
               }],
               series: [{
                 type: 'line',
-                name: '股价',
-                data: chartJsonDataArr,
+                name: 'MA5',
+                data: averline5,
                 lineWidth: 2,
-                id: 'dataseries'
+                color:'#c23531'
+              },{
+                type: 'line',
+                name: 'MA10',
+                data: averline10,
+                lineWidth: 2,
+                color:'#2f4554'
+              },{
+                type: 'line',
+                name: 'MA30',
+                data: averline30,
+                lineWidth: 2,
+                color:'#61a0a8'
+              },{
+                type: 'line',
+                name: 'MA60',
+                data: averline60,
+                lineWidth: 2,
+                color:'#d48265'
               },{
                 type: 'candlestick',
                 name: '股价',
@@ -4018,7 +4110,7 @@
             var buySellNum = 1;
             var buyYArr = []; //看多flag信息 颜色不一样
             var shortYArr = []; //看空flag信息
-            //console.log("无异常数据",chartData11);//去除异常数据的数据
+            console.log("无异常数据",chartData11);//去除异常数据的数据
             for (var i = 0; i < chartData11.length; i++) {
               var data = chartData11[i]; //保存开仓价信息
               //console.log(data.trans_type);
@@ -4507,7 +4599,10 @@
             ////////////////////////////////////////////////////////////////////////////////////////
 
             //修改的highchart1
-            // console.log(chartArr[0].Earn);
+
+
+            //成交量图表
+            console.log(chartJsonDataArr);
             var volume=[];
             angular.forEach(chartJsonData,function (data,index) {
               volume.push({
@@ -4519,7 +4614,91 @@
                 'open': data.open,
                 'volume': data.volume
               })
+
             })
+
+            // console.log((1483067700000-1483048799000)/1000/60/60);
+         /*   var avarline=[];
+            for(var i=0;i<chartJsonDataArr.length;i++){
+              var avar=chartJsonDataArr[i].close,n=0;
+              for(var j=i;n<5;j++){
+                if(parseInt((chartJsonDataArr[j+1].x-chartJsonDataArr[j].x)/1000/60)==1){
+                  avar=avar+chartJsonDataArr[j+1].close;
+                  n++;
+                }
+              }
+              avarline[i]=avar;
+            }*/
+
+         //MA5
+         var averline5=[];
+         for(var i=chartJsonDataArr.length-1;i>=4;i--){
+           var aver=chartJsonDataArr[i].close,n=0;
+           for(var j=i;n<4;j--){
+             aver=aver+chartJsonDataArr[j-1].close;
+             n++;
+           }
+           averline5.push({
+             'average':aver/5,
+             "x":chartJsonDataArr[i].x,
+             "y":aver/5,
+           })
+         }
+
+            averline5 = $filter('orderBy')(averline5, 'x');
+         console.log("aaaaaaaaa");
+            console.log(averline5);
+
+            //MA10
+
+            var averline10=[];
+            for(var i=chartJsonDataArr.length-1;i>=9;i--){
+              var aver10=chartJsonDataArr[i].close,n=0;
+              for(var j=i;n<9;j--){
+                aver10=aver10+chartJsonDataArr[j-1].close;
+                n++;
+              }
+              averline10.push({
+                'average':aver10/10,
+                "x":chartJsonDataArr[i].x,
+                "y":aver10/10,
+              })
+            }
+
+            averline10=$filter('orderBy')(averline10, 'x');
+
+            //MA30
+            var averline30=[];
+            for(var i=chartJsonDataArr.length-1;i>=29;i--){
+              var aver30=chartJsonDataArr[i].close,n=0;
+              for(var j=i;n<29;j--){
+                aver30=aver30+chartJsonDataArr[j-1].close;
+                n++;
+              }
+              averline30.push({
+                'average':aver30/30,
+                "x":chartJsonDataArr[i].x,
+                "y":aver30/30,
+              })
+            }
+
+            averline30=$filter('orderBy')(averline30, 'x');
+
+            //MA60
+            var averline60=[];
+            for(var i=chartJsonDataArr.length-1;i>=59;i--){
+              var aver60=chartJsonDataArr[i].close,n=0;
+              for(var j=i;n<59;j--){
+                aver60=aver60+chartJsonDataArr[j-1].close;
+                n++;
+              }
+              averline60.push({
+                'average':aver60/60,
+                "x":chartJsonDataArr[i].x,
+                "y":aver60/60,
+              })
+            }
+            averline60=$filter('orderBy')(averline60, 'x');
 
             $('#return_map_big_1').highcharts('StockChart', {
               credits: {
@@ -4614,10 +4793,28 @@
               }],
               series: [{
                 type: 'line',
-                name: '股价',
-                data: chartJsonDataArr,
+                name: 'MA5',
+                data: averline5,
                 lineWidth: 2,
-                id: 'dataseries'
+                color:'#c23531'
+              },{
+                type: 'line',
+                name: 'MA10',
+                data: averline10,
+                lineWidth: 2,
+                color:'#2f4554'
+              },{
+                type: 'line',
+                name: 'MA30',
+                data: averline30,
+                lineWidth: 2,
+                color:'#61a0a8'
+              },{
+                type: 'line',
+                name: 'MA60',
+                data: averline60,
+                lineWidth: 2,
+                color:'#d48265'
               },{
                 type: 'candlestick',
                 name: '股价',
