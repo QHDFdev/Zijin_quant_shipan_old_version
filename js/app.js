@@ -2715,7 +2715,14 @@
               tooltip: {
                 useHTML: true,
                 xDateFormat: "%Y-%m-%d %H:%M:%S",
-                valueDecimals: 2
+                valueDecimals: 2,
+                backgroundColor: '#eeeeee',   // 背景颜色
+                borderColor: '#ccc',         // 边框颜色
+                borderRadius: 10,             // 边框圆角
+                borderWidth: 1,               // 边框宽度
+                shadow: true,                 // 是否显示阴影
+                animation: true,               // 是否启用动画效果
+
               },
               legend: {
                 enabled: true,
@@ -2770,7 +2777,6 @@
                 title: {
                   text: '成交量'
                 },
-
                 opposite: true,
                 offset: 0,
                 height: '20%',
@@ -2793,25 +2799,25 @@
                 name: 'MA5',
                 data: averline5,
                 lineWidth: 2,
-                color:'#c23531'
+                color:'red'
               },{
                 type: 'line',
                 name: 'MA10',
                 data: averline10,
                 lineWidth: 2,
-                color:'#2f4554'
+                color:'yellow'
               },{
                 type: 'line',
                 name: 'MA30',
                 data: averline30,
                 lineWidth: 2,
-                color:'#61a0a8'
+                color:'blue'
               },{
                 type: 'line',
                 name: 'MA60',
                 data: averline60,
                 lineWidth: 2,
-                color:'#d48265'
+                color:'green'
               },{
                 type: 'candlestick',
                 name: '股价',
@@ -4719,7 +4725,13 @@
               tooltip: {
                 useHTML: true,
                 xDateFormat: "%Y-%m-%d %H:%M:%S",
-                valueDecimals: 2
+                valueDecimals: 2,
+                backgroundColor: '#eeeeee',   // 背景颜色
+                borderColor: '#ccc',         // 边框颜色
+                borderRadius: 10,             // 边框圆角
+                borderWidth: 1,               // 边框宽度
+                shadow: true,                 // 是否显示阴影
+                animation: true,               // 是否启用动画效果
               },
               legend: {
                 enabled: true,
@@ -4796,25 +4808,25 @@
                 name: 'MA5',
                 data: averline5,
                 lineWidth: 2,
-                color:'#c23531'
+                color:'red'
               },{
                 type: 'line',
                 name: 'MA10',
                 data: averline10,
                 lineWidth: 2,
-                color:'#2f4554'
+                color:'yellow'
               },{
                 type: 'line',
                 name: 'MA30',
                 data: averline30,
                 lineWidth: 2,
-                color:'#61a0a8'
+                color:'blue'
               },{
                 type: 'line',
                 name: 'MA60',
                 data: averline60,
                 lineWidth: 2,
-                color:'#d48265'
+                color:'green'
               },{
                 type: 'candlestick',
                 name: '股价',
