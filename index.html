@@ -34,7 +34,7 @@
 <body ng-controller='homeController'>
 	<div ng-class="{true:'zijin-main-wrapper',false:'transparent'}[isactive]"> 
 		<div class="main-navbar navbar navbar-default navbar-fixed-top noprint">
-			<div class="container-fluid">
+			<div class="container">
 				<div class="navbar-header">
 					<button class="navbar-toggle" type="button" data-toggle='collapse' data-target='.navbar-collapse'>
 						<span class="sr-only">toggle</span>
@@ -50,18 +50,18 @@
 							<a ng-click='hashLocation("/home")' ng-class="{active:natived=='#/home'}">首页</a>
 							<i id="move-box" class="hidden-xs"></i>
 						</li>
-						<li><a href="#">数据</a></li>
+						<!--<li><a href="#">数据</a></li>-->
+            <li>
+              <a ng-href='#/StrategyRunPanel'  ng-class="{active:natived=='#/StrategyRunPanel'}">运行中心</a>
+            </li>
+            <li>
+              <a ng-click='hashLocation("/StrategyConPanel")' ng-class="{active:natived=='#/StrategyConPanel'}">配置中心</a>
+            </li>
 						<li>
-              <a ng-click='hashLocation("/complie")' ng-class="{active:natived=='#/complie'}">在线编程(Python)</a>
+              <a ng-click='hashLocation("/complie")' ng-class="{active:natived=='#/complie'}">在线代码</a>
                                 </li>
 						<li>
-							<a ng-click='hashLocation("/StrategyConPanel")' ng-class="{active:natived=='#/StrategyConPanel'}">策略运行配置</a>
-						</li>
-						<li>
-							<a ng-href='#/StrategyRunPanel'  ng-class="{active:natived=='#/StrategyRunPanel'}">回测/实盘模拟/真实交易</a>
-						</li>
-						<li>
-							<a ng-click='hashLocation("/QuantModelShare")' ng-class="{active:natived=='#/QuantModelShare'}">模型研究分享</a>
+							<a ng-click='hashLocation("/QuantModelShare")' ng-class="{active:natived=='#/QuantModelShare'}">模型智库</a>
 						</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">

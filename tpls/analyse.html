@@ -26,7 +26,7 @@
 				<i class='mobile-action visible-xs  fa fa-md fa-arrow-circle-right' mobile-action></i>
 				<div class="analyse-menu-list">
 					<p class="analyse-menu-head">
-						<button class="btn1" data-toggle='modal' data-target='#analyse-modal1'>输入历史回测数据</button>
+						<button class="btn1" data-toggle='modal' data-target='#analyse-modal1'>策略历史回测排名</button>
 					</p>
 					<p class="analyse-menu-head">
 						<button class="btn2" data-toggle='modal' data-target='#analyse-modal2'>获取历史回测数据</button>
@@ -63,7 +63,6 @@
 											<br>
 											<br>
 											开始时间：
-
 											<input readonly="readonly" class="sel" onChange=""   ng-model="myFirmStartDate" id="startTime" class="Wdate" type="text" onFocus="WdatePicker({minDate:startMinDate(),maxDate:startMaxDate(),dateFmt:'yyyy-MM-dd',qsEnabled:false,disabledDates:delDate()})"/>
 											<br>
 											<br>
@@ -572,6 +571,37 @@
 					</div>
 					<div role="tabpanel" class="tab-pane" id="accuracy">
 						<h3 class="analyse-charts-title">预测准确率统计</h3>
+						<div class="table-responsive">
+							<table class="table table-hover table-striped table-bordered">
+								<thead>
+								<tr>
+									<th>日期</th>
+									<th>预期值</th>
+									<th>实际值</th>
+									<th>准确率</th>
+									<th>收益率</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr ng-repeat='x in analyseDataArr' class={{x.color}}>
+									<td ng-bind='x.time'></td>
+									<td ng-bind='x.direction'></td>
+									<td>￥{{x.openprice | number : 2}}</td>
+									<td>￥{{x.closeprice | number : 2}}</td>
+									<td>{{x.yeild|number:6}}%</td>
+								</tr>
+								</tbody>
+								<tfoot>
+								<tr class='success'>
+									<td>策略收益波动率为：</td>
+									<td>{{rate2|number:6}}%</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+								</tr>
+								</tfoot>
+							</table>
+						</div>
 
 					</div>
 					<div role="tabpanel" class="tab-pane" id="consume">
@@ -592,10 +622,13 @@
 				<i class="fa fa-remove" ng-click='closeModal()'></i>
 				<!--点击后调用closeModal()函数，功能：.analyse-modal-big隐藏-->
 				<div class="select">
-					<p class="analyse-menu-head"><button class="btn btn-success" data-toggle='modal' data-target='#analyse-modal1' ng-click='closeModal()'>输入历史回测数据</button></p>
-					<p class="analyse-menu-head"><button class="btn btn-primary" data-toggle='modal' data-target='#analyse-modal2' ng-click='closeModal()'>获取历史回测数据</button></p>
+					<p class="analyse-menu-head">
+						<button class="btn btn-success" data-toggle='modal' data-target='#analyse-modal1' ng-click='closeModal()'>策略历史回测排名</button>
+					</p>
+					<p class="analyse-menu-head">
+						<button class="btn btn-primary" data-toggle='modal' data-target='#analyse-modal2' ng-click='closeModal()'>获取历史回测数据</button>
+					</p>
 				</div>
-
 			</div>
 		</div>
 	</div>

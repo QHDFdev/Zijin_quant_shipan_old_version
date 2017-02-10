@@ -138,6 +138,7 @@ display: inline-block;
 .analyse .analyse-left .analyse-menu-head button{
 	font-size: 12px;
 	padding: 5px 10px;
+
 	font-weight: bold;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -300,7 +301,7 @@ width: 43%;
 	margin-top: 40px;
 }
 
-.analyse .analyse-right .analyse-charts-title{
+.analyse .analyse-charts-title{
 	margin: 0 0 15px;
 	text-align:center;
 	color:#b22;
@@ -418,6 +419,7 @@ width: 43%;
 	margin-top: 20px;
 }
 .analyse-modal-big .analyse-select-box p button{
+
 	box-shadow: 2px 2px 1px rgba(0,0,0,.2);
 }
 .mr30{

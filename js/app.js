@@ -1869,6 +1869,25 @@
       var stime = $scope.myFirmStartDate;
       var etime = mydate;
 
+      function model() {
+        $http.get(constantUrl + 'model_datas/', {
+          params: {
+            "id": $scope.myFirmStrategy._id,
+            "date": $scope.myFirmStartDate,
+          },
+          headers: {
+            'Authorization': 'token ' + $cookieStore.get('user').token
+          }
+        })
+          .success(function (data) {
+            console.log(data)
+            $scope.accuracy=data;
+
+          })
+      }
+      model();
+      console.log($scope.myFirmStrategy)
+
       function getHisTime() {
         var defer1 = $q.defer();
         //返回交易详情输出
@@ -2147,7 +2166,7 @@
               if (data.trans_type == "short") {
                 shortYArr.push({
                   "buy": "buy",
-                  "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
+                  "text":  '成交价：￥' + data.price + '<br>成交量：' + data.volume +'<br>操作：卖开仓' +'<br>方向：看空',
                   "volume": data.volume,
                   "pos": data.pos,
                   "price": data.price,
@@ -2163,7 +2182,7 @@
                 data = chartData11[i]; //保存平仓价信息
                 shortYArr.push({
                   "buy": "buy",
-                  "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
+                  "text": '成交价：￥' + data.price + '<br>成交量：' + data.volume + '<br>操作：买平仓' +'<br>方向：看空',
                   "volume": data.volume,
                   "pos": data.pos,
                   "price": data.price,
@@ -2175,7 +2194,7 @@
               } else {
                 buyYArr.push({
                   "short": "short",
-                  "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
+                  "text": '成交价：￥' + data.price + '<br>成交量：' + data.volume + '<br>操作：买开仓' +'<br>方向：看多',
                   "volume": data.volume,
                   "pos": data.pos,
                   "price": data.price,
@@ -2191,7 +2210,7 @@
                 data = chartData11[i]; //保存平仓价信息
                 buyYArr.push({
                   "short": "short",
-                  "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
+                  "text": '成交价：￥' + data.price + '<br>成交量：' + data.volume +'<br>操作：卖平仓' + '<br>方向：看多',
                   "volume": data.volume,
                   "pos": data.pos,
                   "price": data.price,
@@ -2638,10 +2657,8 @@
                 "y":aver/5,
               })
             }
-
             averline5 = $filter('orderBy')(averline5, 'x');
-            console.log("aaaaaaaaa");
-            console.log(averline5);
+
 
             //MA10
 
@@ -2717,11 +2734,12 @@
                 xDateFormat: "%Y-%m-%d %H:%M:%S",
                 valueDecimals: 2,
                 backgroundColor: '#eeeeee',   // 背景颜色
-                borderColor: '#ccc',         // 边框颜色
+                // borderColor: '#ccc',         // 边框颜色
                 borderRadius: 10,             // 边框圆角
                 borderWidth: 1,               // 边框宽度
                 shadow: true,                 // 是否显示阴影
                 animation: true,               // 是否启用动画效果
+
 
               },
               legend: {
@@ -2837,6 +2855,8 @@
                 },
                 y: -40,
                 name: '看空',
+
+
               }, {
                 type: 'flags',
                 data: buyYArr,
@@ -3228,6 +3248,7 @@
     $scope.closeModal = function() {
       $('.analyse-modal-big').hide();
     };
+
     var chartData1 = [];
     //输入实盘交易数据，点我生成图表功能
     $scope.makeChart = function() {
@@ -3768,6 +3789,7 @@
       })
         .success(function(data) {
           allStrategy = data;
+          data=$filter('orderBy')(data,'name')
           for (var i = 0; i < data.length; i++) {
             data[i].account_id == null ? falsedata.push(data[i]) : truedata.push(data[i])
           }
@@ -3780,10 +3802,12 @@
             }
           }
           action[window.location.hash]();
+
+
         });
+
     };
     getSelect();
-
 
 
     $scope.selecteStrategy = function() {
@@ -3807,6 +3831,8 @@
     };
 
 
+
+
     /**
      * 实盘/真实交易数据处理
      */
@@ -3826,6 +3852,26 @@
       var mydate = $filter('date')(new Date((new Date($scope.myFirmDate)).setDate((new Date($scope.myFirmDate)).getDate() + 1)), 'yyyy-MM-dd');
       var stime = $scope.myFirmDate;
       var etime = $scope.myFirmDate;
+
+      function model() {
+        $http.get(constantUrl + 'model_datas/', {
+          params: {
+            "id": $scope.myFirmStrategy._id,
+            "date": $scope.myFirmDate,
+          },
+          headers: {
+            'Authorization': 'token ' + $cookieStore.get('user').token
+          }
+        })
+          .success(function (data) {
+
+            $scope.accuracy=data;
+
+          })
+      }
+      model();
+
+
 
       function getFirmTime() {
         var defer1 = $q.defer(); //通过$q服务注册一个延迟对象 defer1
@@ -3853,9 +3899,9 @@
                 }
               }
               if (nowdata.length == 0) {
-                Showbo.Msg.alert("今天截至目前还未成交.")
+                Showbo.Msg.alert("今天截至目前还未成交.");
                 //console.log(stime,etime)
-                defer6.resolve(data)
+                defer6.resolve(data);
                 return defer6.promise;
               }
 
@@ -4116,13 +4162,13 @@
             var buySellNum = 1;
             var buyYArr = []; //看多flag信息 颜色不一样
             var shortYArr = []; //看空flag信息
-            console.log("无异常数据",chartData11);//去除异常数据的数据
+            // console.log("无异常数据",chartData11);//去除异常数据的数据
             for (var i = 0; i < chartData11.length; i++) {
               var data = chartData11[i]; //保存开仓价信息
               //console.log(data.trans_type);
               if (data.trans_type == "short") {
                 shortYArr.push({
-                  "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
+                  "text":  '成交价：￥' + data.price + '<br>成交量：' + data.volume +'<br>操作：卖开仓' + '<br>方向：看空',
                   "volume": data.volume,
                   "pos": data.pos,
                   "price": data.price,
@@ -4137,7 +4183,7 @@
                 }
                 data = chartData11[i]; //保存平仓价信息
                 shortYArr.push({
-                  "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
+                  "text": '成交价：￥' + data.price + '<br>成交量：' + data.volume +'<br>操作：买平仓' + '<br>方向：看空',
                   "volume": data.volume,
                   "pos": data.pos,
                   "price": data.price,
@@ -4148,7 +4194,7 @@
                 });
               } else {
                 buyYArr.push({
-                  "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
+                  "text": '成交价：￥' + data.price + '<br>成交量：' + data.volume +'<br>操作：买开仓' + '<br>方向：看多',
                   "volume": data.volume,
                   "pos": data.pos,
                   "price": data.price,
@@ -4163,7 +4209,7 @@
                 }
                 data = chartData11[i]; //保存平仓价信息
                 buyYArr.push({
-                  "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
+                  "text":'成交价：￥' + data.price + '<br>成交量：' + data.volume + '<br>操作：卖平仓' + '<br/>方向：看多',
                   "volume": data.volume,
                   "pos": data.pos,
                   "price": data.price,
@@ -4608,7 +4654,7 @@
 
 
             //成交量图表
-            console.log(chartJsonDataArr);
+            // console.log(chartJsonDataArr);
             var volume=[];
             angular.forEach(chartJsonData,function (data,index) {
               volume.push({
@@ -4650,10 +4696,7 @@
              "y":aver/5,
            })
          }
-
             averline5 = $filter('orderBy')(averline5, 'x');
-         console.log("aaaaaaaaa");
-            console.log(averline5);
 
             //MA10
 
@@ -4727,11 +4770,12 @@
                 xDateFormat: "%Y-%m-%d %H:%M:%S",
                 valueDecimals: 2,
                 backgroundColor: '#eeeeee',   // 背景颜色
-                borderColor: '#ccc',         // 边框颜色
+                // borderColor: '#ccc',         // 边框颜色
                 borderRadius: 10,             // 边框圆角
                 borderWidth: 1,               // 边框宽度
                 shadow: true,                 // 是否显示阴影
                 animation: true,               // 是否启用动画效果
+                // pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
               },
               legend: {
                 enabled: true,
