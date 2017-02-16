@@ -8,8 +8,14 @@
 		margin-top: 50px;
 	}
 } */
+.zijin-index{
+
+	/*top: 60px;*/
+	/*left: 140px ;*/
+	/*background-color: rebeccapurple;*/
+}
 .zijin-index .zijin-index-head{
-	position: relative;
+	/*position: relative;*/
 }
 .zijin-index .zijin-index-head .zijin-index-title{
 	position: absolute;
@@ -23,8 +29,8 @@
 .zijin-index .zijin-index-title h2{
 	position: relative;
 	z-index: 5;
-	margin: 0 0 30px;
-	font-size: 80px;
+	margin: -70px auto 30px;
+	font-size: 50px;
 	font-weight: 100;
 	color: #fff;
 	letter-spacing: 5px;
@@ -138,7 +144,7 @@
 	position: relative;
 }
 .zijin-index  .zijin-index-carousel img{
-	width: 100%;
+	width: 89%;
 	height: 650px;
 }
 .zijin-index  .zijin-index-carousel .carousel-control{
@@ -155,7 +161,7 @@
 }
 .zijin-index .zijin-index-carImg{
 	width: 100%;
-	height: 650px;
+	height: 450px;
 }
 .carImg1{
 	background: url(../images/index_car_6.png) center center no-repeat;

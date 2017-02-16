@@ -1,4 +1,4 @@
-.zijin-table .zijin-table-head{
+/*.zijin-table .zijin-table-head{
 	position: relative;
 	padding:135px 0 105px;
 	text-align: center;
@@ -30,7 +30,7 @@
 	color: #e3e1e1;
 	font-family: "Sans-serif";
 	font-weight: bold;
-	/*text-shadow: 1px 1px 2px rgba(0,0,0,.9);*/
+	!*text-shadow: 1px 1px 2px rgba(0,0,0,.9);*!
 }
 .zijin-table .zijin-table-head p,.zijin-study .zijin-study-head p,.modalRes-head p{
 	font-family: "Sans-serif";
@@ -39,30 +39,40 @@
 	z-index: 10;
 	font-size: 16px;
 	color: #e3e1e1;
-}
-.zijin-table .zijin-table-body{
-	margin-top: 50px;
-	margin-bottom: 50px;
+}*/
+
+.zijin-table,.analyse,.zijin-index,.zijin-complie,.modalRes,.runCenter,.trueR,.admincenter {
+	padding: 4.5rem 0 0 10rem;
+	/*background-color: rgb(233, 237, 239);*/
+	/*margin-top: 50px;
+	margin-bottom: 50px;*/
 }
 .zijin-table .zijin-table-body table td ,.zijin-table .zijin-table-body table th{
 	text-align: center;
 	vertical-align: middle;
 }
 .zijin-table .zijin-table-body .table-responsive1{
-	overflow: hidden;
+	/*overflow: hidden;
 	border-radius: 5px;
 	-webkit-box-shadow: 0 0 30px #ddd;
 	-moz-box-shadow:0 0 30px #ddd;
-	box-shadow:0 0 30px #ddd;
+	box-shadow:0 0 30px #ddd;*/
+}
+.zijin-table .zijin-table-body table{
+	font-size: 1rem;
+}
+.zijin-table .zijin-table-body table button{
+	font-size: 1rem;
 }
 .zijin-table .zijin-table-body table thead{
-	border:2px solid #707ea1;
-	font-size: 16px;
+	/*border:2px solid #707ea1;*/
+	/*font-size: 16px;*/
+	font-weight: 500;
 
 	background-color: #707ea1;
-
 	color:#fff;
 }
+
 #container3 table td{
 	border-right: 1px solid #ccc;
 }
@@ -102,7 +112,7 @@
 	display: none;
 	z-index: 100;
 	top: 0;
-	padding-top: 12%;
+	padding-top: 6%;
 	width: 100%;
 	height: 100%;
 	background:rgba(0,0,0,.2);
@@ -135,18 +145,17 @@
 	color:#222;
 }
 
-
 .error{
 	color:red;
 }
 .now{
-	color:#46b8da
+	color:#46b8da;
 }
 .his{
-	color:#5cb85c
+	color:#5cb85c;
 }
 .true{
-	color:#f0ad4e
+	color:#f0ad4e;
 }
 .ipt{
 	width: 85%;
@@ -211,4 +220,77 @@
 }
 .btn-right{
 	margin-left: 2%;
+}
+
+/*新加的*/
+ .guide{
+	/*height: 40px;*/
+
+	/*border-bottom: 1px solid #ccc;*/
+}
+ .guide ul{
+	 background-color: #fff;
+	 height: 2.91667rem;
+	 margin: 0;
+	 border-bottom: 1px solid #ccc;
+}
+ .guide ul li{
+	 float: left;
+	 line-height: 2.83333rem;
+	 width: 12.33333rem;
+	 border-right: 1px solid #ccc;
+	 font-size: 1.2rem;
+	 font-weight: 400;
+	 text-align: center;
+	 color: #b4b4b4;
+	 cursor: pointer;
+}
+
+ .guide ul .active{
+	color: #2c50a9;
+	border-bottom: 2px solid #2c50a9;
+}
+ .zijin-table .trading{
+	 margin: 0;
+ }
+ .zijin-table .tip{
+	 margin: 0;
+	 padding: 0;
+	 font-size: 1.16667rem;
+	 height: 3.2rem;
+	 line-height: 3.2rem;
+
+	 background-color: #fff;
+ }
+ .zijin-table .tip .btn{
+	 margin-left: 2.91667rem;
+	 padding: .3em .6em;
+	 text-decoration: none;
+ }
+ .zijin-table .tip ul {
+	 display: block;
+	 background-color: #fff;
+
+	 /*padding: 0;*/
+	 padding: 0.1rem 0 0 3.7rem;
+ }
+ .zijin-table .tip ul li{
+	 float: left;
+ }
+ .zijin-table .tip ul li.li{
+	 margin-left: 2rem;
+ }
+ .zijin-table .tip .operation{
+float: right;
+	 /*margin-left: 3.5rem;*/
+	 margin-right: 8rem;
+ }
+.zijin-table .table-responsive1{
+	/*padding-top: 20px;*/
+	width: 91%;
+	margin:20px;
+	background-color: #fff;
+}
+.zijin-table .firm-strategy,.his-strategy,.rec-strategy{
+	display: none;
 }

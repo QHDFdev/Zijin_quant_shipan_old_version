@@ -29,12 +29,12 @@
 	<link rel="stylesheet" href="css/addFile.css">
 	<link rel="stylesheet" href="css/tutorial.css">
 	<link rel="stylesheet" href="css/common.min.css">
-
+  <link rel="stylesheet" href="css/runCenter.css">
 </head>
 <body ng-controller='homeController'>
-	<div ng-class="{true:'zijin-main-wrapper',false:'transparent'}[isactive]"> 
+	<div class="zijin-main-wrapper">
 		<div class="main-navbar navbar navbar-default navbar-fixed-top noprint">
-			<div class="container">
+			<div class="container-fluid">
 				<div class="navbar-header">
 					<button class="navbar-toggle" type="button" data-toggle='collapse' data-target='.navbar-collapse'>
 						<span class="sr-only">toggle</span>
@@ -45,12 +45,13 @@
 					<a ng-href="#" class="navbar-brand"><img src="images/logo.png"></a>
 				</div>
 				<div class="collapse navbar-collapse">
-					<ul class="nav navbar-nav left-nav" move-box>
+          <!--<ul class="nav navbar-left">紫金量化平台</ul>-->
+					<!--<ul class="nav navbar-nav left-nav" move-box>
 						<li>
 							<a ng-click='hashLocation("/home")' ng-class="{active:natived=='#/home'}">首页</a>
 							<i id="move-box" class="hidden-xs"></i>
 						</li>
-						<!--<li><a href="#">数据</a></li>-->
+						&lt;!&ndash;<li><a href="#">数据</a></li>&ndash;&gt;
             <li>
               <a ng-href='#/StrategyRunPanel'  ng-class="{active:natived=='#/StrategyRunPanel'}">运行中心</a>
             </li>
@@ -63,13 +64,13 @@
 						<li>
 							<a ng-click='hashLocation("/QuantModelShare")' ng-class="{active:natived=='#/QuantModelShare'}">模型智库</a>
 						</li>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
+					</ul>-->
+					<ul class="nav navbar-nav navbar-right" >
 						<li ng-hide='user.username!=null'>
-							<a ng-href="#/login">登录</a>
+							<a ng-href="#/login" style="color: #fff">登录</a>
 						</li>
 						<li ng-hide='user.username!=null'>
-							<a ng-href="#" class="reg-btn">注册(暂未开放)</a>
+							<a ng-href="#" class="reg-btn" style="color: #fff">注册(暂未开放)</a>
 						</li>
 						<!-- <li class="dropdown" ng-show='user.username!=null'>
 							<a ng-href="" class="dropdown-toggle" data-toggle='dropdown'>
@@ -79,8 +80,8 @@
 								<li><a ng-href="" ng-click='logout()'>退出</a></li>
 							</ul>
 						</li> -->
-						<li ng-show='user.username!=null' mouse-show>
-							<a ng-href="" ng-bind='user.username'></a>
+						<li ng-show='user.username!=null' class="name" mouse-show>
+							<a ng-href="" ng-bind='user.username' style="color: #fff"></a>
 							<div class="list-group">
 								<a ng-href="#/adminCenter"  ng-show='user.is_admin==true' class="list-group-item"><i class='info-icon'></i><span>个人中心</span></a>
 								<a href="" ng-click='logout()' class="list-group-item"><i class="logout-icon"></i><span>退出</span></a>
@@ -90,51 +91,315 @@
 				</div>
 			</div>
 		</div>
-		<div class="zijin-ngview" ng-view></div>
+		<!--<div class="zijin-ngview" ng-view></div>-->
 	</div>
-	<footer class="noprint">
-		<div class="container-fluid">
-			<div class='bill-footer row'>
-				<img src="images/footer_logo_3.png" alt="" class="visible-lg zijin-footer-logo">
-				<div class="col-sm-2 col-sm-offset-2 col-xs-6">
-					<div class="zijin-footer-itembox">
-						<p class="footer-text-head">关于</p>
-						<p><a href="">关于紫金量化</a></p>
-						<p><a ng-href="#/login">登录开发</a></p>
-						<p><a href="">联系我们</a></p>
-					</div>	
-				</div>
-				<div class="col-sm-2 col-xs-6">
-					<div class="zijin-footer-itembox">
-						<p class="footer-text-head">数据</p>
-						<p><a href="">数据研究</a></p>
-						<p><a href="">金融期货数据</a></p>
-						<p><a href="">行业研究数据</a></p>
-					</div>	
-				</div>
-				<div class="col-sm-2 col-xs-6">
-					<div class="zijin-footer-itembox">
-						<p class="footer-text-head">帮助</p>
-						<p><a ng-href='#/PlatformInfo'  ng-class="{active:natived=='#/introduce'}" >平台介绍</a></p>
-						<p><a href="">常见问题</a></p>
-					</div>
-				</div>
+  <aside id="nav-sidebar">
+    <nav class="nav-main">
+      <ul class="list-unstyled">
+        <li class="active">
+          <a title="首页" ng-click='hashLocation("/home")'>
+            <i class="iconYCJ icon-home-ycj"></i> 首页
+          </a>
+        </li>
 
-				<div class="col-sm-2 col-xs-6">
-					<div class="zijin-footer-itembox">
-						<p class="footer-text-head">友情链接</p>
-						<p><a href="http://www.tuling.me">图灵科技集团</a></p>
-					</div>	
-				</div>
+     <li class="dropdown-submenu ">
+          <a ng-click='hashLocation("/StrategyConPanel")'>
+            <i class="iconYCJ icon-hot-ycj" ></i> 配置中心
+          </a>
+          <!--<ul class="dropdown-menu">
+            <li>
+              <a ng-click='hashLocation("/StrategyConPanel")'>策略代码</a>
+            </li>
+            <li>
+              <a ng-click='hashLocation("/StrategyConPanel")'>真实交易</a>
+            </li>
+            <li>
+              <a ng-click='hashLocation("/StrategyConPanel")'>实盘模拟</a>
+            </li>
+            <li>
+              <a ng-click='hashLocation("/StrategyConPanel")'>历史回测</a>
+            </li>
+            <li>
+              <a ng-click='hashLocation("/StrategyConPanel")'>策略回收站</a>
+            </li>
+          </ul>-->
+        </li>
+        <li class="dropdown-submenu ">
+          <a ng-click="hashLocation('/runCenter')">
+            <i class="iconYCJ icon-news-live-ycj"></i> 交易中心
+          </a>
+          <!--<ul class="dropdown-menu">
+            <li>
+              <a ng-click='hashLocation("/BackTest")'>历史回测</a>
+            </li>
+            <li>
+              <a ng-click='hashLocation("/SimRealTimeTrade")'>实盘模拟</a>
+            </li>
+            <li>
+              <a ng-click='hashLocation("/AccountTrade")'>真实交易</a>
+            </li>
+          </ul>-->
+        </li>
+        <li>
+          <a ng-click="hashLocation('/complie')">
+            <i class="iconYCJ icon-data-center-ycj"></i> 在线代码
+          </a>
+        </li>
+        <li>
+          <a ng-click="hashLocation('/QuantModelShare')">
+            <i class="iconYCJ icon-quote-ycj"></i> 模型智库
+          </a>
+        </li>
+       <!-- <li class="dropdown-submenu ">
+          <a href="javascript:;" title="增值服务">
+            <i class="iconYCJ icon-service-ycj"></i> 历史回测
+          </a>
+          <ul class="dropdown-menu horizontal">
+            <div class="part-left">
+              <li>
+                <a href="/apps/vip.html" title="VIP参考">VIP参考</a>
+              </li>
+              <li>
+                <a href="/apps/hdd/observe.html" title="高级席位数据">高级席位数据</a>
+              </li>
+              <li>
+                <a href="/apps/navigator.html" title="趋势领航者">趋势领航者</a>
+              </li>
+              <li>
+                <a href="/apps/crline.html" title="搓揉优选大师">搓揉优选大师</a>
+              </li>
+            </div>
+            <div class="part-right">
+              <li>
+                <a href="/apps/monster.html" title="早盘捉妖">早盘捉妖</a>
+              </li>
+              <li>
+                <a href="/apps/gtt.html" title="金色两点半">金色两点半</a>
+              </li>
+              <li>
+                <a href="/quote/sh601668_hmoney.html" title="主力多空">主力多空</a>
+              </li>
+              <li>
+                <a href="/apps/kpgs.html" title="看盘高手">看盘高手</a>
+              </li>
+            </div>
+          </ul>
+        </li>-->
 
-			</div>
-			<div class="copyright row">
-				<p>Copyright © 2017 图灵科技集团 , All Rights Reserved</p>
-				<p>隐私保护 图灵科技集团 版权所有 粤ICP备15034414号</p>
-			</div>
-		</div>
-	</footer>
-	<div id="zijin-modal" class="noprint">
+      </ul>
+    </nav>
+
+  </aside>
+  <div class="zijin-ngview" ng-view></div>
+ <!-- <section>
+    <div class="zijin-index">
+      <div class="zijin-index-head">
+        <div class="zijin-index-title">
+          <div class="container">
+            <h2>让投资更轻松</h2>
+            <p>紫金量化 — 高效实用的量化策略平台</p>
+            <a ng-href="" class="zijin-index-btn">
+              <span class=" hidden-sm hidden-xs line line-top"></span>
+              <span class=" hidden-sm hidden-xs line line-left"></span>
+              <span class=" hidden-sm hidden-xs line line-right"></span>
+              <span class=" hidden-sm hidden-xs line line-bottom"></span>
+              <button ng-click='complie()'>加入我们</button>
+              <ul class="zijin-index-messages">
+                <li>  极简易用的策略部署模式，回测，实盘，真实交易，逐步递进，任意切换。</li>
+                <li>  策略交易结果可视化，标准化交易分析报告自动生成，迭代优化策略。</li>
+                <li>  日内G级别的金融数据，智能化，高鲁棒的量化模型研究，测试支持。</li>
+              </ul>
+            </a>
+          </div>
+        </div>
+        <div class="zijin-index-carousel carousel slide">
+          <ol class="carousel-indicators">
+            <li data-target='.zijin-index-carousel' data-slide-to='0' class="active"></li>
+            <li data-target='.zijin-index-carousel' data-slide-to='1'></li>
+            <li data-target='.zijin-index-carousel' data-slide-to='2'></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="item active">
+              &lt;!&ndash; <img src="images/index_car_1.jpg" alt=""> &ndash;&gt;
+              <div class="zijin-index-carImg carImg1"></div>
+            </div>
+            <div class="item">
+              <div class="zijin-index-carImg carImg2"></div>
+              &lt;!&ndash; <img src="images/index_car_2.jpg" alt=""> &ndash;&gt;
+            </div>
+            <div class="item">
+              <div class="zijin-index-carImg carImg3"></div>
+              &lt;!&ndash; <img src="images/index_car_1.jpg" alt=""> &ndash;&gt;
+            </div>
+            &lt;!&ndash; <div class="item">
+              <img src="images/4.jpg" alt="">
+            </div> &ndash;&gt;
+          </div>
+          <a data-target='.zijin-index-carousel' class="carousel-control left" data-slide='prev'>
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <a data-target=".zijin-index-carousel" class="carousel-control right" data-slide='next'>
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
+        </div>
+      </div>
+      <div class="zijin-index-top">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-2 col-sm-4 col-lg-offset-1 top_one ">
+              <div class="top-box">
+                <i class="needbgi"></i>
+                <h3>数据研究</h3>
+                <p>基于分钟</p>
+                <p>tick数据研究</p>
+                <a ng-href="" class="">了解更多</a>
+              </div>
+              <div class="top-one-top"></div>
+              <div class="top-one-bottom"></div>
+            </div>
+            <div class="col-lg-2 col-sm-4 top_five ">
+              <div class="top-box">
+                <i class="needbgi"></i>
+                <h3>量化模型</h3>
+                <p>学习分享量化模型</p>
+                <p>了解智能的模型设计</p>
+                <a ng-click='hashLocation("/modalRes")' class="">了解更多</a>
+              </div>
+              <div class="top-five-top"></div>
+              <div class="top-five-bottom"></div>
+            </div>
+            <div class="col-lg-2 col-sm-4 top_three">
+              <div class="top-box">
+                <i class="needbgi"></i>
+                <h3>策略开发</h3>
+                <p>支持策略代码开发</p>
+                <p>直接在交易平台回测</p>
+                <a ng-click='hashLocation("/complie")' class="">了解更多</a>
+              </div>
+              <div class="top-three-top"></div>
+              <div class="top-three-bottom"></div>
+            </div>
+            <div class="col-lg-2 col-sm-4 col-lg-offset-0 col-sm-offset-2 top_four">
+              <div class="top-box">
+                <i class="needbgi"></i>
+                <h3>实盘模拟</h3>
+                <p>一键实盘模拟</p>
+                <p>云端托管，自动交易</p>
+                <a ng-click='hashLocation("/mytable")' class="">了解更多</a>
+              </div>
+              <div class="top-four-top"></div>
+              <div class="top-four-bottom"></div>
+            </div>
+            <div class="col-lg-2 col-sm-4 top_two">
+              <div class="top-box">
+                <i class="needbgi"></i>
+                <h3>在线编程</h3>
+                <p>实时编写代码</p>
+                <p>边研究，边测试</p>
+                <a ng-href="#/study" class="">了解更多</a>
+              </div>
+              <div class="top-two-top"></div>
+              <div class="top-two-bottom"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="zijin-index-body">
+        <div class="zijin-index-item item-one">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 wow bounceInLeft" data-wow-offset="25">
+                <h1>云端部署</h1>
+                <br>
+                <p>高性能云平台支持</p>
+                <p>快速部署交易策略</p>
+              </div>
+              <div class="col-md-6 wow bounceInRight" data-wow-offset="25">
+                <div class="zijin-index-image"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="zijin-index-item item-two">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 wow bounceInLeft" data-wow-offset="25">
+                <div class="zijin-index-image"></div>
+              </div>
+              <div class="col-md-6 wow bounceInRight" data-wow-offset="25">
+                <h1>自动交易</h1>
+                <br>
+                <p>策略指导产生交易信号</p>
+                <p>交易记录全过程展现</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="zijin-index-item item-three">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 wow bounceInLeft" data-wow-offset="25">
+                <h1>多策略多产品</h1>
+                <br>
+                <p>平台支持用户运行多个交易策略</p>
+                <p>支持多品种产品交易</p>
+              </div>
+              <div class="col-md-6 wow bounceInRight" data-wow-offset="25">
+                <div class="zijin-index-image"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="zijin-index-item item-four">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 wow bounceInLeft" data-wow-offset="25">
+                <div class="zijin-index-image"></div>
+              </div>
+              <div class="col-md-6 wow bounceInRight" data-wow-offset="25">
+                <h1>策略测试多样化</h1>
+                <br>
+                <p>策略代码可创建实盘交易，实盘模拟</p>
+                <p>支持对历史行情进行长周期回测</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="zijin-index-item item-five">
+          <div class="container">
+            <div class="row">
+
+              <div class="col-md-6 wow bounceInRight" data-wow-offset="25">
+                <h1>策略效果定量分析</h1>
+                <br>
+                <p>对实盘及回测结果均支持量化分析及可视化展现</p>
+              </div>
+              <div class="col-md-6 wow bounceInLeft" data-wow-offset="25">
+                <div class="zijin-index-image"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="zijin-index-item item-six">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 wow bounceInLeft" data-wow-offset="25">
+                <div class="zijin-index-image"></div>
+              </div>
+              <div class="col-md-6 wow bounceInRight" data-wow-offset="25">
+                <h1>智能量化模型 研究分享</h1>
+                <br>
+                <p>提供了我们量化组一些模型研究实例</p>
+                <p>平台也支持用户及时分享自己的量化模型研究成果</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>-->
+
+	<!--<div id="zijin-modal" class="noprint">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-12">
@@ -142,7 +407,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>-->
 
 
 	<!--<script src="lib/date/calendar.js"></script>-->

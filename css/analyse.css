@@ -20,7 +20,6 @@
 }
 .analyse{
 	position: relative;
-	margin-top: 70px;
 	width: 100%;
 }
 .analyse .analyse-title-head .col-md-3 img{
@@ -33,7 +32,7 @@
 	-moz-box-shadow: 10px 3px 8px #aaa;
 	box-shadow: 10px 3px 8px #aaa;
 }
-@media screen and (min-width: 1200px) and (max-width: 1470px){
+/*@media screen and (min-width: 1200px) and (max-width: 1470px){
 	.analyse{
 		margin-top: 90px;
 	}
@@ -47,7 +46,7 @@
 	.analyse{
 		margin-top: 50px;
 	}
-}
+}*/
 .analyse .analyse-top-title{
 	margin: 0;
 	padding: 10px 0;
@@ -55,23 +54,33 @@
 	line-height: 50px;
 	font-size: 16px;
 }
+.analyse .remind{
+	background-color: #fff;
+	padding: 0.1rem 0 0 2rem;
+
+}
 
 .analyse .remind>div{
 display: inline-block;
 	line-height: 50px;
 	margin-left: 10px;
-	font-size: 16px;
+	font-size: 1.15rem;
+
+}
+.analyse .remind .import{
+	float: right;
+	margin-right: 7.5rem;
 }
 .analyse .remind span{
-	display: none;
-	width: 60px;
+	/*display: none;*/
+/*	width: 60px;
 	background-color: #eee;
 	font-size: 14px;
-	/*display: block;*/
+	!*display: block;*!
 	padding: 5px;
 	-webkit-box-shadow: inset 0 0 3px #545556;
 	-moz-box-shadow: inset 0 0 3px #545556;
-	box-shadow: inset 0 0 3px #545556;
+	box-shadow: inset 0 0 3px #545556;*/
 }
 .analyse .container-fluid .row .jiaoyi{
 	-webkit-box-shadow:10px 3px 8px #aaa;
@@ -80,10 +89,10 @@ display: inline-block;
 
 }
 
-.analyse .tab-content{
+/*.analyse .tab-content{
 	background:#fff;
 
-}
+}*/
 .analyse .analyse-title-head{
 
 	/*margin-bottom: 20px;*/
@@ -93,9 +102,9 @@ display: inline-block;
 	/*background: url("../images/真实交易.png") no-repeat;*/
 }
 
-.analyse .analyse-left{
+/*.analyse .analyse-left{
 	position: relative;
-	/*height: 650px;*/
+	!*height: 650px;*!
 	padding: 20px 5px;
 	-webkit-box-shadow: 5px 0 10px #aaa;
 	-moz-box-shadow: 5px 0 10px #aaa;
@@ -251,7 +260,7 @@ display: inline-block;
 	-o-box-shadow: inset 0 1px 0 #e14e4a, 0 2px 0 0 #8d4b4a, 0 5px 3px #999;
 	box-shadow: inset 0 1px 0 #e14e4a, 0 2px 0 0 #8d4b4a, 0 5px 3px #999;
 }
-
+*/
 .analyse .analyse-left .modal .modal-dialog .btn_wrap{
 	width: 35%;
 	height: 40px;
@@ -297,28 +306,38 @@ width: 43%;
 }
 .analyse .analyse-right{
 	position: relative;
-	height: 650px;
-	margin-top: 40px;
+	width: 91%;
+	/*height: 650px;*/
+	margin: 20px;
+}
+.analyse .analyse-right .block{
+	margin-top: 20px;
+	background-color: #fff;
+	padding: 5px;
 }
 
 .analyse .analyse-charts-title{
-	margin: 0 0 15px;
+	/*margin: 0 0 15px;
 	text-align:center;
 	color:#b22;
 	letter-spacing: 2px;
 	font-weight:bold;
 	text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa,
-	0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2);
+	0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2);*/
+	font-size: 1.5rem;
+	font-weight: 700;
+	margin-bottom: 1.25rem;
+	text-align: center;
 }
 #return_map_big_1,#return_map_big_2,#return_map_big,#return_map_big1{
 	height:700px;
-	width: 96%;
-	margin: 20px auto;
+
+	/*margin: 20px auto;*/
 	background:#fff;
 }
 
 .analyse .analyse-right .table-responsive{
-	height: 750px;
+	/*height: 750px;*/
 	overflow-y:auto; 
 }
 /* .analyse .analyse-right .analyse-charts-title:after{
@@ -429,14 +448,10 @@ width: 43%;
 	width: 96%;
 	margin: 20px auto 0;
 }
-@media screen and (max-width: 767px){
-	.modal-backdrop{
-		z-index: 9;
-	}
-	.modal-dialog{
-		margin-top: 60px;
-	}
+.modal-dialog{
+	margin-top: 100px;
 }
+
 .analyse .printform{
 	display: none;
 	position: absolute;
