@@ -51,7 +51,7 @@
                 templateUrl: 'tpls/actualResForm.html',
                 controller: 'actualResController'
             })
-            .when('/complie', {
+            .when('/codeview', {
                 templateUrl: 'tpls/complie.html',
                 controller: 'complieController'
             })
@@ -88,11 +88,9 @@
                 templateUrl: 'tpls/adminCenter.html',
                 controller: 'adminCenterController'
             })
-            .when('/runCenter', {
+            .when('/strategyruncenter', {
                 templateUrl: 'tpls/runCenter.html'
             })
-
-
             .otherwise({
                 redirectTo: '/home'
             });
@@ -1478,8 +1476,6 @@
 
                     //实盘
 
-
-
                     /*function gettime(id){
                      $http.get(constantUrl + 'dates/', {
                      params: {
@@ -1505,36 +1501,45 @@
                      }*/
                     //console.log(times)
                     //$scope.trust.time = "none";
-                    var n = 0;
-                    var i = 0;
-                    var timeList = [];
-                    function getTimes(i) {
-                        $http.get(constantUrl + 'dates/', {
-                                params: {
-                                    "date_type": 'transaction',
-                                    "sty_id": truedata[i]._id
-                                },
-                                headers: {
-                                    'Authorization': 'token ' + $cookieStore.get('user').token
-                                }
-                            })
-                            .success(function (data) {
-                                timeList[n++] = data[data.length - 1];
-                                i++;
-                                if (i >= truedata.length) {
-                                    getIdDate();
-                                    return;
-                                }
-                                getTimes(i);
-                            })
 
+                    /*console.log($cookieStore.get('user').is_admin)*/
+                    if($cookieStore.get('user').is_admin){
+                        getTimes(0);
+                    }else{
+                        getTimes2(0);
                     }
-                    getTimes(0);
-                    var n2 = 0;
-                    var i = 0;
-                    var timeList2 = [];
-                    function getTimes2(i) {
-                        var url = 'dates/?date_type=data&exchange='+falsedata[i].exchange+'&symbol='+falsedata[i].symbol+'&type=tick';
+                        var n = 0;
+                        var i = 0;
+                        var timeList = [];
+                        function getTimes(i) {
+                            $http.get(constantUrl + 'dates/', {
+                                    params: {
+                                        "date_type": 'transaction',
+                                        "sty_id": truedata[i]._id
+                                    },
+                                    headers: {
+                                        'Authorization': 'token ' + $cookieStore.get('user').token
+                                    }
+                                })
+                                .success(function (data) {
+                                    timeList[n++] = data[data.length - 1];
+                                    i++;
+                                    if (i >= truedata.length) {
+                                        getIdDate();
+                                        return;
+                                    }
+                                    getTimes(i);
+                                })
+
+                        }
+
+
+
+                        var n2 = 0;
+                        var i = 0;
+                        var timeList2 = [];
+                        function getTimes2(i) {
+                            var url = 'dates/?date_type=data&exchange='+falsedata[i].exchange+'&symbol='+falsedata[i].symbol+'&type=tick';
                             $http.get(constantUrl + url, {
                                     headers: {
                                         'Authorization': 'token ' + $cookieStore.get('user').token
@@ -1549,45 +1554,47 @@
                                     }
                                     getTimes2(i);
                                 })
-                        //if(falsedata[i].exchange=='OKCoin'){
-                        //    $http.get(constantUrl + 'dates/?date_type=data&exchange=OKCoin&symbol=btc&type=tick', {
-                        //            headers: {
-                        //                'Authorization': 'token ' + $cookieStore.get('user').token
-                        //            }
-                        //        })
-                        //        .success(function (data) {
-                        //            timeList2[n++] = data[data.length - 1];
-                        //            i++;
-                        //            if (i >= falsedata.length) {
-                        //                getIdDate2();
-                        //                return;
-                        //            }
-                        //            getTimes2(i);
-                        //        })
-                        //
-                        //}else {
-                        //    $http.get(constantUrl + 'dates/', {
-                        //            params: {
-                        //                "date_type": 'transaction',
-                        //                "sty_id": falsedata[i]._id
-                        //            },
-                        //            headers: {
-                        //                'Authorization': 'token ' + $cookieStore.get('user').token
-                        //            }
-                        //        })
-                        //        .success(function (data) {
-                        //            timeList2[n++] = data[data.length - 1];
-                        //            i++;
-                        //            if (i >= falsedata.length) {
-                        //                getIdDate2();
-                        //                return;
-                        //            }
-                        //            getTimes2(i);
-                        //        })
-                        //}
+                            //if(falsedata[i].exchange=='OKCoin'){
+                            //    $http.get(constantUrl + 'dates/?date_type=data&exchange=OKCoin&symbol=btc&type=tick', {
+                            //            headers: {
+                            //                'Authorization': 'token ' + $cookieStore.get('user').token
+                            //            }
+                            //        })
+                            //        .success(function (data) {
+                            //            timeList2[n++] = data[data.length - 1];
+                            //            i++;
+                            //            if (i >= falsedata.length) {
+                            //                getIdDate2();
+                            //                return;
+                            //            }
+                            //            getTimes2(i);
+                            //        })
+                            //
+                            //}else {
+                            //    $http.get(constantUrl + 'dates/', {
+                            //            params: {
+                            //                "date_type": 'transaction',
+                            //                "sty_id": falsedata[i]._id
+                            //            },
+                            //            headers: {
+                            //                'Authorization': 'token ' + $cookieStore.get('user').token
+                            //            }
+                            //        })
+                            //        .success(function (data) {
+                            //            timeList2[n++] = data[data.length - 1];
+                            //            i++;
+                            //            if (i >= falsedata.length) {
+                            //                getIdDate2();
+                            //                return;
+                            //            }
+                            //            getTimes2(i);
+                            //        })
+                            //}
 
 
-                    }
+                        }
+
+
 
 
                     var IdDateList = [];
@@ -1686,7 +1693,7 @@
                                 i++;
                                 if (i >= IdDateList2.length) {
                                     //console.log(allDataList);
-                                    Strategy2 = allDataList2[0][0];
+                                    Strategy = allDataList2[0][0];
                                     //console.log(allDataList);
                                     getAllNianHua2(0);
                                     return;
@@ -1781,6 +1788,7 @@
                         $scope.trust = truedata;
                         m=0;
                         p=0;
+                        Strategy =[];
                         //console.log('----------------------');
                         getTimes2(0);
                     }
@@ -2106,7 +2114,7 @@
 
                     //计算手续费，无手续费盈亏
                     function gettest(a, b) {
-                        //console.log(Strategy)
+                        //console.log(Strategy);
                         var symbol = Strategy.symbol[0] + Strategy.symbol[1];
                         var charge;
                         if (symbol == "IF" || symbol == "IC" || symbol || "IH") {
@@ -4820,13 +4828,13 @@
             $scope.myFirmStrategyList = truedata;
         }
 
-        // if($cookieStore.get('user').is_admin){
-        //   //$scope.isadmin=true;
-        // }
-        // else{
-        //   $scope.isadmin=false;
-        //   return;
-        // }
+      /*  if($cookieStore.get('user').is_admin){
+          $scope.isadmin=true;
+         }
+        else{
+         $scope.isadmin=false;
+           return;
+         }*/
         $scope.type = "实盘模拟"
         $scope.checktrue = 'false';
         var truedata = [];

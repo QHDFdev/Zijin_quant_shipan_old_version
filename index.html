@@ -93,7 +93,7 @@
 		</div>
 		<!--<div class="zijin-ngview" ng-view></div>-->
 	</div>
-  <aside id="nav-sidebar">
+  <aside id="nav-sidebar" ng-show='user.username!=null'>
     <nav class="nav-main">
       <ul class="list-unstyled">
         <li class="active">
@@ -124,8 +124,8 @@
             </li>
           </ul>-->
         </li>
-        <li class="dropdown-submenu ">
-          <a ng-click="hashLocation('/runCenter')">
+        <li class="dropdown-submenu">
+          <a ng-click="hashLocation('/strategyruncenter')">
             <i class="iconYCJ icon-news-live-ycj"></i> 交易中心
           </a>
           <!--<ul class="dropdown-menu">
@@ -141,7 +141,7 @@
           </ul>-->
         </li>
         <li>
-          <a ng-click="hashLocation('/complie')">
+          <a ng-click="hashLocation('/codeview')">
             <i class="iconYCJ icon-data-center-ycj"></i> 在线代码
           </a>
         </li>
@@ -188,7 +188,6 @@
 
       </ul>
     </nav>
-
   </aside>
   <div class="zijin-ngview" ng-view></div>
  <!-- <section>
