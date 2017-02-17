@@ -15,7 +15,7 @@
       <div role="tabpanel" class="tab-pane active" id="trust_deal">
         <div class="container-fluid">
           <div class="row">
-            <div class="tip1" style="width:100%;background-color: #fff;padding: 0.1rem 0 0 3rem;font-size: 1.16667rem;  height: 3.2rem;    line-height: 3.2rem;">
+            <div class="tip1" style="width:100%;background-color: #fff;padding: 0.1rem 0 0 3rem;font-size: 1.16667rem;height: 3.2rem;line-height: 3.2rem;">
               <div class="tip1_1" style="float: left">
                 <div class="ul1">
                   <span>正在运行：<code>{{sRun}}</code></span>
@@ -37,14 +37,12 @@
             </div>
           </div>
         </div>
-        <ul ng-repeat="x in trust" style=" width: 76.6667rem;
-  margin-left: 0.83333rem;
-  margin-top: 0.83333rem;">
+        <ul ng-repeat="x in trust" style=" width: 76.6667rem;  margin-left: 0.83333rem;  margin-top: 0.83333rem;">
           <li>
             <div class="{{x.color}}">{{$index+1}}</div>
             <div>
               <a ng-click="jump('AccountTrade',x._id)" style="font-weight: 700;font-size:1.2rem ">{{x.name}}<br/></a>
-              <span>策略代码:{{x.class_name}}</span>
+              <span>策略代码:<a href="#/codeview/{{x._id}}">{{x.class_name}}</a></span>
               <span  class="span">作者：{{x.author}}</span>
               <span  class="span">交易合约：{{x.symbol}}</span>
             </div>

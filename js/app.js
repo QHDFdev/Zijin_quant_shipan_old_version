@@ -35,7 +35,7 @@
                 templateUrl: 'tpls/study.html',
                 controller: 'studyController'
             })
-            .when('/StrategyConPanel', {
+            .when('/strategyconpanel', {
                 templateUrl: 'tpls/mytable.html',
                 controller: 'tableController'
             })
@@ -55,11 +55,11 @@
                 templateUrl: 'tpls/complie.html',
                 controller: 'complieController'
             })
-            .when('/complie/:id', {
+            .when('/codeview/:id', {
                 templateUrl: "tpls/complie.html",
                 controller: 'complieItemController'
             })
-            .when('/QuantModelShare', {
+            .when('/quantmodelshare', {
                 templateUrl: 'tpls/modalRes.html',
                 controller: 'modalResController'
             })
@@ -280,7 +280,15 @@
         $rootScope.logout = function () {
             $cookieStore.remove('user');
             $rootScope.user = null;
+            if($cookieStore.get('user')==null){
+                $scope.aside='full';
+            }
+            else{
+                $scope.aside='zijin-index';
+            }
             $location.path('/home'); //页面跳转
+
+
         };
         $scope.complie = function () {
             $location.path('/register');
@@ -369,7 +377,7 @@
                     data.sort(getSortFun('desc', 'class_name')); //按classname升序存放
                     accounts = data;
                     $scope.mySourcingStrategy = data;
-                    // console.log("aaaaaa")
+                     console.log($scope.mySourcingStrategy)
                     $scope.allS = $scope.mySourcingStrategy.length;
                     // console.log( $scope.mySourcingStrategy.length)
                     for (var i = 0; i < data.length; i++) {
@@ -1789,10 +1797,11 @@
 
                                     truedata[j].y = nianhua>0?'glyphicon glyphicon-arrow-up':'glyphicon glyphicon-arrow-down';
                                     truedata[j].y1 = average_winrate>0?'glyphicon glyphicon-arrow-up':'glyphicon glyphicon-arrow-down';
-
                                 }
                             }
                         }
+                        //console.log(truedata);
+                        truedata = $filter('orderBy')(truedata, 'a');
                         $scope.trust = truedata;
                         m=0;
                         p=0;
@@ -1824,6 +1833,12 @@
                             }
                         }
                         falsedata = $filter('orderBy')(falsedata, 'a');
+                        for (var i = 0; i < falsedata.length; i++) {
+                            falsedata[i].class_name = "none"; //策略代码初始化
+                           var class_id1 = falsedata[i].class_id;
+                            var status = data[i].status;
+                            falsedata[i].class_name = getcelve(class_id1);
+                        }
 
                         $scope.flase = falsedata;
                     }
@@ -2155,12 +2170,7 @@
                      return times[times.length-2];
                      get(id);
                      }*/
-                    //for (var i = 0; i < falsedata.length; i++) {
-                    //    $scope.flase[i].class_name = "none"; //策略代码初始化
-                    //    var class_id1 = falsedata[i].class_id;
-                    //    //var status = data[i].status;
-                    //    $scope.flase[i].class_name = getcelve(class_id1);
-                    //}
+
                     //console.log($scope.trust)
                 });
 
