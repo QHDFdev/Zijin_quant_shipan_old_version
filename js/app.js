@@ -2085,10 +2085,7 @@
                             'nowId':nowId,
                             'nianhua':Number(total_yeild * 250).toFixed(2)
                         })
-
-
                     }
-
 
                     //计算前一天 后一天日期 ，传入日期字符串 例：2016-12-12
                     function getedate(sdate) {
