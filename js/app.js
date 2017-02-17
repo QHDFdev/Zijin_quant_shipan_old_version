@@ -105,6 +105,7 @@
      });
      })*/
     .run(['$rootScope', '$location', '$window', '$route', '$templateCache', function ($rootScope, $location, $window, $route, $templateCache) {
+
         var wow = new WOW({
             boxClass: 'wow',
             animateClass: 'animated',
@@ -255,6 +256,13 @@
         $scope.getAllUsers();
     }])
     .controller('homeController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl) {
+        if($cookieStore.get('user')==null){
+            $scope.aside='full';
+        }
+        else{
+            $scope.aside='zijin-index';
+        }
+
         $scope.$watch(function () {
             var str = null;
             var href = window.location.href;
@@ -333,13 +341,13 @@
          * @param sortBy 所要排序的字段
          * @returns {*}
          */
-        $(".zijin-table .guide ul li").each(function (index) {
+       /* $(".zijin-table .guide ul li").each(function (index) {
             $(this).click(function () {
                 $(".zijin-table .guide ul li.active").removeClass("active");
                 $(this).addClass("active");
                 $(".trading>div:eq(" + index + ")").show().siblings().hide();
             })
-        });
+        });*/
 
         function getSortFun(order, sortBy) {
             var ordAlpah = (order == 'desc') ? '>' : '<';
@@ -1815,6 +1823,7 @@
                                 }
                             }
                         }
+                        falsedata = $filter('orderBy')(falsedata, 'a');
 
                         $scope.flase = falsedata;
                     }
@@ -2225,7 +2234,7 @@
         if (index != -1) {
             str = href.substring(index + 3);
         }
-        console.log(str);
+        //console.log(str);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         $scope.makeChart = function () {
             draw1();
@@ -2849,14 +2858,14 @@
                         }
                     })
                     .success(function (data) {
-                        console.log(data)
+                        //console.log(data)
                         $scope.accuracy = data;
 
                     })
             }
 
             model();
-            console.log($scope.myFirmStrategy)
+            //console.log($scope.myFirmStrategy)
 
             function getHisTime() {
                 var defer1 = $q.defer();
@@ -3541,7 +3550,7 @@
                         }
 
 
-                        console.log("成交数：", num)
+                        //console.log("成交数：", num)
 
                         $scope.allTotaltest = totaltest;
                         $scope.allTotaltestpal = totaltestpal;
@@ -3577,6 +3586,33 @@
                             }
                         });
 
+
+                   /*     var originalDrawPoints = Highcharts.seriesTypes.column.prototype.drawPoints;
+                        Highcharts.seriesTypes.column.prototype.drawPoints = function () {
+                            var merge  = Highcharts.merge,
+                                series = this,
+                                chart  = this.chart,
+                                points = series.points,
+                                i      = points.length;
+
+                            while (i--) {
+                                var candlePoint = chart.series[0].points[i];
+                                if(candlePoint.open != undefined && candlePoint.close !=  undefined){  //如果是K线图 改变矩形条颜色，否则不变
+                                    var color = (candlePoint.open < candlePoint.close) ? '#DD2200' : '#33AA11';
+                                    var seriesPointAttr = merge(series.pointAttr);
+                                    seriesPointAttr[''].fill = color;
+                                    seriesPointAttr.hover.fill = Highcharts.Color(color).brighten(0.3).get();
+                                    seriesPointAttr.select.fill = color;
+                                }else{
+                                    var seriesPointAttr = merge(series.pointAttr);
+                                }
+
+                                points[i].pointAttr = seriesPointAttr;
+                            }
+
+                            originalDrawPoints.call(this);
+                        }
+*/
                         /*chartJsonData=angular.fromJson($scope.analyseJsonData);*/
                         angular.forEach(chartJsonData, function (data, index) {
                             chartJsonDataArr.push({
@@ -3678,7 +3714,13 @@
                             })
                         }
                         averline60 = $filter('orderBy')(averline60, 'x');
+                        function a(series){
+                            var series = series[0];
+                            if (series.visible) {
+                                series.hide();
 
+                            }
+                        }
 
                         $('#return_map_big').highcharts('StockChart', {
                             credits: {
@@ -3689,12 +3731,21 @@
                             },
                             plotOptions: {
                                 series: {
-                                    turboThreshold: 0
+                                    turboThreshold: 0,
                                 },
                                 candlestick: { //红涨绿跌
-                                    color: 'green',
-                                    upColor: 'red'
-                                }
+                                    color: '#33AA11',
+                                    upColor: '#DD2200',
+                                    lineColor: '#33AA11',
+                                    upLineColor: '#DD2200',
+                                    maker: {
+                                        states: {
+                                            hover: {
+                                                enabled: false,
+                                            }
+                                        }
+                                    }
+                                },
                             },
                             tooltip: {
                                 useHTML: true,
@@ -3706,8 +3757,6 @@
                                 borderWidth: 1,               // 边框宽度
                                 shadow: true,                 // 是否显示阴影
                                 animation: true,               // 是否启用动画效果
-
-
                             },
                             legend: {
                                 enabled: true,
@@ -3780,35 +3829,41 @@
                                 top: '74%'
                             }],
                             series: [{
-                                type: 'line',
+                                type: 'spline',
                                 name: 'MA5',
                                 data: averline5,
-                                lineWidth: 2,
-                                color: 'red'
+                                lineWidth: 1,
+                                color: 'red',
+                                visible:false
                             }, {
-                                type: 'line',
+                                type: 'spline',
                                 name: 'MA10',
                                 data: averline10,
-                                lineWidth: 2,
-                                color: 'yellow'
+                                lineWidth: 1,
+                                color: 'yellow',
+                                visible:false
                             }, {
-                                type: 'line',
+                                type: 'spline',
                                 name: 'MA30',
                                 data: averline30,
-                                lineWidth: 2,
-                                color: 'blue'
+                                lineWidth: 1,
+                                color: 'blue',
+                                visible:false
                             }, {
-                                type: 'line',
+                                type: 'spline',
                                 name: 'MA60',
                                 data: averline60,
-                                lineWidth: 2,
-                                color: 'green'
+                                lineWidth: 1,
+                                color: 'green',
+                                visible:false
                             }, {
                                 type: 'candlestick',
                                 name: '股价',
                                 data: chartJsonDataArr,
-                                lineWidth: 1,
-                                id: 'dataseries'
+                                id: 'dataseries',
+                                color: 'green',
+                                upColor: 'red',
+                                showInLegend: false
                             }, {
                                 type: 'flags',
                                 data: shortYArr,
@@ -3822,8 +3877,6 @@
                                 },
                                 y: -40,
                                 name: '看空',
-
-
                             }, {
                                 type: 'flags',
                                 data: buyYArr,
@@ -3957,7 +4010,7 @@
                                 type: 'candlestick',
                                 name: '股价',
                                 data: chartJsonDataArr,
-                                lineWidth: 1,
+
                                 id: 'dataseries'
                             }, {
                                 type: 'flags',
@@ -4011,6 +4064,11 @@
                             }]
                         });
                         //页面显示的收益曲线图
+                        for(var i=1;i<chartArr.length;i++){
+                            chartArr[i].Earn=chartArr[i-1].Earn+chartArr[i].Earn;
+                            chartArr[i].y=chartArr[i-1].y+chartArr[i].y;
+                        }
+
                         $('#return_map_big1').highcharts('StockChart', {
                             credits: {
                                 enabled: false
@@ -4032,7 +4090,6 @@
                                     width: 2 //标示线的宽度，2px
                                 }],
                             }],
-
                             rangeSelector: {
                                 buttons: [{
                                     type: 'minute',
@@ -4061,7 +4118,6 @@
                                 selected: 5,
                                 buttonSpacing: 2
                             },
-
                             plotOptions: {
                                 spline: {
                                     lineWidth: 1.5,
@@ -4238,7 +4294,7 @@
         if (index != -1) {
             str = href.substring(index + 3);
         }
-        console.log(str);
+        //console.log(str);
         // var a;
 
         $scope.g = function () {
@@ -4251,8 +4307,8 @@
                 .success(function (data) {
                     $scope.myFirmStrategy = data;
                     $scope.myFirmStrategy.symbol = data.symbol;
-                    console.log($scope.myFirmStrategy.symbol)
-                    console.log($scope.myFirmStrategy)
+                    //console.log($scope.myFirmStrategy.symbol)
+                    //console.log($scope.myFirmStrategy)
                     defer1.resolve(data);
                 })
                 .error(function (err, sta) {
@@ -4279,7 +4335,7 @@
                     $scope.my = data;
                     $scope.myFirmDate = data[data.length - 2];
                     $scope.makeChart1();
-                    console.log($scope.my)
+                    //console.log($scope.my)
                 })
                 .error(function (err, sta) {
                     if (sta == 400) {
@@ -5656,7 +5712,7 @@
                             num++;
                         }
 
-                        console.log("成交数：", num)
+                        //console.log("成交数：", num)
 
                         $scope.allTotaltest = totaltest;
                         $scope.allTotaltestpal = totaltestpal;
@@ -5708,8 +5764,6 @@
                         ////////////////////////////////////////////////////////////////////////////////////////
 
                         //修改的highchart1
-
-
                         //成交量图表
                         // console.log(chartJsonDataArr);
                         var volume = [];
@@ -5818,8 +5872,17 @@
                                     turboThreshold: 0
                                 },
                                 candlestick: { //红涨绿跌
-                                    color: '#fff',
-                                    upColor: 'red'
+                                    color: '#33AA11',
+                                    upColor: '#DD2200',
+                                    lineColor: '#33AA11',
+                                    upLineColor: '#DD2200',
+                                    maker: {
+                                        states: {
+                                            hover: {
+                                                enabled: false,
+                                            }
+                                        }
+                                    }
                                 }
                             },
                             tooltip: {
@@ -5905,35 +5968,39 @@
                                 top: '74%'
                             }],
                             series: [{
-                                type: 'line',
+                                type: 'spline',
                                 name: 'MA5',
                                 data: averline5,
-                                lineWidth: 2,
-                                color: 'red'
+                                lineWidth: 1,
+                                color: 'red',
+                                visible:false,
                             }, {
-                                type: 'line',
+                                type: 'spline',
                                 name: 'MA10',
                                 data: averline10,
-                                lineWidth: 2,
-                                color: 'yellow'
+                                lineWidth: 1,
+                                color: 'yellow',
+                                visible:false
                             }, {
-                                type: 'line',
+                                type: 'spline',
                                 name: 'MA30',
                                 data: averline30,
-                                lineWidth: 2,
-                                color: 'blue'
+                                lineWidth: 1,
+                                color: 'blue',
+                                visible:false
                             }, {
-                                type: 'line',
+                                type: 'spline',
                                 name: 'MA60',
                                 data: averline60,
-                                lineWidth: 2,
-                                color: 'green'
+                                lineWidth: 1,
+                                color: 'green',
+                                visible:false
                             }, {
                                 type: 'candlestick',
                                 name: '股价',
                                 data: chartJsonDataArr,
-                                lineWidth: 1,
-                                id: 'dataseries'
+                                id: 'dataseries',
+                                showInLegend: false
                             }, {
                                 type: 'flags',
                                 data: shortYArr,
@@ -5989,7 +6056,7 @@
                                     turboThreshold: 0
                                 },
                                 candlestick: { //红涨绿跌
-                                    color: '#fff',
+                                    color: 'green',
                                     upColor: 'red'
                                 }
                             },
@@ -6079,7 +6146,7 @@
                                 type: 'candlestick',
                                 name: '股价',
                                 data: chartJsonDataArr,
-                                lineWidth: 1,
+
                                 id: 'dataseries'
                             }, {
                                 type: 'flags',
@@ -6132,6 +6199,12 @@
                                  }*/
                             }]
                         });
+                        //console.log(chartArr);
+                        for(var i=1;i<chartArr.length;i++){
+                            chartArr[i].Earn=chartArr[i-1].Earn+chartArr[i].Earn;
+                            chartArr[i].y=chartArr[i-1].y+chartArr[i].y;
+                        }
+                        //console.log(chartArr);
                         //页面显示的收益曲线图
                         $('#return_map_big_2').highcharts('StockChart', {
                             credits: {

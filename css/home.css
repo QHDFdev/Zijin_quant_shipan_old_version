@@ -246,7 +246,7 @@
     -ms-transform:rotate(360deg);
     -webkit-transform:rotate(360deg);
   }
-}
+
 }
 @-webkit-keyframes myrotate{
    0% {
