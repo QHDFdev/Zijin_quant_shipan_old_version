@@ -6,52 +6,54 @@
         <img src="images/demo-yellow-arrow.gif" alt="" ng-hide='fate==1'>
 	</div>
 	<div class="zijin-complie-body">
-		<div class="row">
-			<div class="col-lg-7 col-md-8 col-sm-12">
+		<div class="container-fluid">
+			<div class="row">
 				<div class="zijin-complie-left">
 					<div class="zijin-complie-top">
-						<button ng-click='addNew()'>保存</button>
+						<!--<button ng-click='addNew()'>导出代码</button>-->
+						<button ng-click='save()'>导出代码</button>
 						<!-- <button>编译策略</button> -->
 					</div>
 					<div id="editor"></div>
-				</div>	
-			</div>
-			<div class="col-lg-5 col-md-4 col-md-12">
-				<div class="zijin-complie-right">
-					<div class="zijin-complie-top">
-						<!-- <span>从</span>
-                        <input type="text">
-                        <span>至</span>
-                        <input type="text">
-                        <span>￥</span>
-                        <input type="text"> -->
-						<button ng-click='openMask()'>运行回测</button>
-					</div>
-					<div class="zijin-complie-highcharts">
-						<div id="complie-highcharts" style="height: 400px; width: 98%;"></div>
-						<p class="zijin-complie-placeholder">请编译你的策略</p>
-					</div>
 				</div>
-				<div class="zijin-complie-bottom">
-					<ul class="nav nav-tabs">
-						<li class="active">
-							<a href="" data-toggle='tab' data-target='.zijin-complie-item1'>日志</a>
-						</li>
-						<li>
-							<a href="" data-toggle='tab' data-target='.zijin-complie-item2'>运行时错误</a>
-						</li>
-					</ul>
-					<div class="tab-content">
-						<div class="tab-pane fade in active zijin-complie-item1" >
-                            <p ng-repeat='x in logs'>{{x}}</p>
-						</div>
-						<div class="tab-pane fade  zijin-complie-item2" >
-                            <p ng-repeat='x in errors'>{{x}}</p>
-						</div>
-					</div>
-				</div>
+				<!--<div class="col-lg-5 col-md-4 col-md-12">
+                    <div class="zijin-complie-right">
+                        <div class="zijin-complie-top">
+                            &lt;!&ndash; <span>从</span>
+                            <input type="text">
+                            <span>至</span>
+                            <input type="text">
+                            <span>￥</span>
+                            <input type="text"> &ndash;&gt;
+                            <button ng-click='openMask()'>运行回测</button>
+                        </div>
+                        <div class="zijin-complie-highcharts">
+                            <div id="complie-highcharts" style="height: 400px; width: 98%;"></div>
+                            <p class="zijin-complie-placeholder">请编译你的策略</p>
+                        </div>
+                    </div>
+                    <div class="zijin-complie-bottom">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="" data-toggle='tab' data-target='.zijin-complie-item1'>日志</a>
+                            </li>
+                            <li>
+                                <a href="" data-toggle='tab' data-target='.zijin-complie-item2'>运行时错误</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active zijin-complie-item1" >
+                                <p ng-repeat='x in logs'>{{x}}</p>
+                            </div>
+                            <div class="tab-pane fade  zijin-complie-item2" >
+                                <p ng-repeat='x in errors'>{{x}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
 			</div>
 		</div>
+
 	</div>
 </div>
 <div class="zijin-table-mask complie-mask">

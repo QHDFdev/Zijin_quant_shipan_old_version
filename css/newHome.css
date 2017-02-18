@@ -331,7 +331,7 @@
 	left: 0;
 	bottom: 0;
 	background:url(../images/content_uqer01.png) center center no-repeat;
-	background-size: auto 100%;
+	/*background-size: auto 100%;*/
 }
  .zijin-index-body .item-one .zijin-index-image{
 	background-image:url(../images/content_uqer01.png);
@@ -349,7 +349,7 @@
 	background-image:url("../images/celvxiaoguo.png") ;
 }
  .zijin-index-body .item-six .zijin-index-image{
-	background-image: url("../images/content_uqer04.png");
+	background-image: url("../images/pic5.png");
 }
 
 

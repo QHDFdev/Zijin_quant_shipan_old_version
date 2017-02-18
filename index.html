@@ -33,7 +33,7 @@
 </head>
 <body ng-controller='homeController'>
 	<div class="zijin-main-wrapper">
-		<div class="main-navbar navbar navbar-default navbar-fixed-top noprint">
+		<div class="main-navbar navbar navbar-default navbar-fixed-top noprint nav">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<button class="navbar-toggle" type="button" data-toggle='collapse' data-target='.navbar-collapse'>
@@ -98,104 +98,41 @@
 			</div>
 		</div>
 		<!--<div class="zijin-ngview" ng-view></div>-->
+		<aside id="nav-sidebar" class="noprint" ng-show='user.username!=null'>
+			<nav class="nav-main">
+				<ul class="list-unstyled">
+					<li class="active">
+						<a ng-click='hashLocation("/home")'>
+							<i class="iconYCJ icon-home-ycj"></i> 首页
+						</a>
+					</li>
+
+					<li class="dropdown-submenu ">
+						<a ng-click='hashLocation("/strategyconpanel")'>
+							<i class="iconYCJ icon-hot-ycj" ></i> 配置中心
+						</a>
+					</li>
+					<li class="dropdown-submenu">
+						<a ng-click="hashLocation('/strategyruncenter')">
+							<i class="iconYCJ icon-news-live-ycj"></i> 交易中心
+						</a>
+					</li>
+					<li>
+						<a ng-click="hashLocation('/codeview')">
+							<i class="iconYCJ icon-data-center-ycj"></i> 在线代码
+						</a>
+					</li>
+					<li>
+						<a ng-click="hashLocation('/quantmodelshare')">
+							<i class="iconYCJ icon-quote-ycj"></i> 模型智库
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</aside>
+		<div class="zijin-ngview" ng-view></div>
 	</div>
-  <aside id="nav-sidebar" ng-show='user.username!=null'>
-    <nav class="nav-main">
-      <ul class="list-unstyled">
-        <li class="active">
-          <a ng-click='hashLocation("/home")'>
-            <i class="iconYCJ icon-home-ycj"></i> 首页
-          </a>
-        </li>
 
-     <li class="dropdown-submenu ">
-          <a ng-click='hashLocation("/strategyconpanel")'>
-            <i class="iconYCJ icon-hot-ycj" ></i> 配置中心
-          </a>
-          <!--<ul class="dropdown-menu">
-            <li>
-              <a ng-click='hashLocation("/StrategyConPanel")'>策略代码</a>
-            </li>
-            <li>
-              <a ng-click='hashLocation("/StrategyConPanel")'>真实交易</a>
-            </li>
-            <li>
-              <a ng-click='hashLocation("/StrategyConPanel")'>实盘模拟</a>
-            </li>
-            <li>
-              <a ng-click='hashLocation("/StrategyConPanel")'>历史回测</a>
-            </li>
-            <li>
-              <a ng-click='hashLocation("/StrategyConPanel")'>策略回收站</a>
-            </li>
-          </ul>-->
-        </li>
-        <li class="dropdown-submenu">
-          <a ng-click="hashLocation('/strategyruncenter')">
-            <i class="iconYCJ icon-news-live-ycj"></i> 交易中心
-          </a>
-          <!--<ul class="dropdown-menu">
-            <li>
-              <a ng-click='hashLocation("/BackTest")'>历史回测</a>
-            </li>
-            <li>
-              <a ng-click='hashLocation("/SimRealTimeTrade")'>实盘模拟</a>
-            </li>
-            <li>
-              <a ng-click='hashLocation("/AccountTrade")'>真实交易</a>
-            </li>
-          </ul>-->
-        </li>
-        <li>
-          <a ng-click="hashLocation('/codeview')">
-            <i class="iconYCJ icon-data-center-ycj"></i> 在线代码
-          </a>
-        </li>
-        <li>
-          <a ng-click="hashLocation('/quantmodelshare')">
-            <i class="iconYCJ icon-quote-ycj"></i> 模型智库
-          </a>
-        </li>
-       <!-- <li class="dropdown-submenu ">
-          <a href="javascript:;" title="增值服务">
-            <i class="iconYCJ icon-service-ycj"></i> 历史回测
-          </a>
-          <ul class="dropdown-menu horizontal">
-            <div class="part-left">
-              <li>
-                <a href="/apps/vip.html" title="VIP参考">VIP参考</a>
-              </li>
-              <li>
-                <a href="/apps/hdd/observe.html" title="高级席位数据">高级席位数据</a>
-              </li>
-              <li>
-                <a href="/apps/navigator.html" title="趋势领航者">趋势领航者</a>
-              </li>
-              <li>
-                <a href="/apps/crline.html" title="搓揉优选大师">搓揉优选大师</a>
-              </li>
-            </div>
-            <div class="part-right">
-              <li>
-                <a href="/apps/monster.html" title="早盘捉妖">早盘捉妖</a>
-              </li>
-              <li>
-                <a href="/apps/gtt.html" title="金色两点半">金色两点半</a>
-              </li>
-              <li>
-                <a href="/quote/sh601668_hmoney.html" title="主力多空">主力多空</a>
-              </li>
-              <li>
-                <a href="/apps/kpgs.html" title="看盘高手">看盘高手</a>
-              </li>
-            </div>
-          </ul>
-        </li>-->
-
-      </ul>
-    </nav>
-  </aside>
-  <div class="zijin-ngview" ng-view></div>
  <!-- <section>
     <div class="zijin-index">
       <div class="zijin-index-head">

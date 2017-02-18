@@ -194,9 +194,9 @@
                         <li class="li">运行结束<code ng-bind="over2"></code></li>
                         <li class="li">错误：<code ng-bind="error2"></code></li>
                         <li class="operation">
-                            <input type="checkbox" ng-model="all3" ng-click="selectall3()"><span
-                                style="color: #5cb85c;">全选</span>
-                            <button class="btn btn-success btn-sm" ng-click="delsel3()">删除选择</button>
+                            <input type="checkbox" ng-model="all3" ng-click="selectall3()">全选
+                            <a class="btn btn-danger btn-sm" ng-click="delsel3()">删除选择</a>
+
                         </li>
                     </ul>
                 </div>
@@ -262,10 +262,8 @@
                         <li>历史回测：<code ng-bind="histroy"></code></li>
                         <li class="li">实盘模拟：<code ng-bind="offer"></code></li>
                         <li class="li">真实交易：<code ng-bind="trust"></code></li>
-
                         <li class="operation">
-                            <input type="checkbox" ng-model="all4" ng-click="selectall4()">
-                            <span>全选</span>
+                            <input type="checkbox" ng-model="all4" ng-click="selectall4()">全选
                             <button class="btn btn-danger allde4 btn-sm" ng-click="delsel4()">删除选择</button>
                         </li>
                     </ul>
@@ -343,9 +341,9 @@
         </div>
     </div>
     <div class="zijin-table-mask logs-mask">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div id="logs" class="logs col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 ">
+                <div id="logs" class="logs col-sm-8 col-sm-offset-2 col-md-4 ">
                     <a style="float: right" ng-click="colselog()"><i class="fa fa-remove" style="color:#fff"></i></a>
                     <div id="logname"></div>
                     <div class="loadEffect" style="margin-top: 20%">

@@ -5,17 +5,21 @@
 	text-align: center;
 	border-radius: 5px;
 	overflow: hidden;
+	font-size: 1rem;
+}
+.analyse table thead{
+	font-weight: 500;
 }
 .analyse table tr th{
 	text-align: center;
 	background-color:#707ea1;
-	font-size: 16px;
+	/*font-size: 16px;*/
 	color:#fff;
-	font-weight:bold;
+	/*font-weight:bold;*/
 }
 .analyse table tfoot{
 	color: #484848;
-	font-size: 18px;
+	/*font-size: 18px;*/
 	border:1px solid transparent;
 }
 .analyse{
@@ -48,11 +52,12 @@
 	}
 }*/
 .analyse .analyse-top-title{
-	margin: 0;
-	padding: 10px 0;
+
+
 	height: 50px;
 	line-height: 50px;
 	font-size: 16px;
+	margin:20px 0 20px 0;
 }
 .analyse .remind{
 	background-color: #fff;
@@ -467,17 +472,16 @@ width: 43%;
 }
 .printform .container .analyse-top-title span{
 	margin-left: 3%;
+	/*display: block;*/
 }
 .printform h2{
 	text-align: center;margin-top: 30px
 }
-
 @media print {
 	.noprint{
 		display: none;
 	}
 }
-
 .sel{
 	border: 1px solid #ccc;
 	border-radius: 4px;

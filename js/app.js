@@ -5,10 +5,6 @@
                 templateUrl: 'tpls/newHome.html',
                 controller: 'homeController'
             })
-            /*.when('/beta',{
-             templateUrl:'tpls/beta.html',
-             controller:"queryStrategy"
-             })*/
             .when('/login', {
                 templateUrl: 'tpls/login.html'
             })
@@ -105,7 +101,6 @@
      });
      })*/
     .run(['$rootScope', '$location', '$window', '$route', '$templateCache', function ($rootScope, $location, $window, $route, $templateCache) {
-
         var wow = new WOW({
             boxClass: 'wow',
             animateClass: 'animated',
@@ -115,14 +110,12 @@
         });
         window.flag = 'model_quants';
         window.a;
-
         wow.init();
         /*var editor = ace.edit("editor");
          editor.setTheme("ace/theme/chrome");
          editor.getSession().setMode("ace/mode/java");*/
         if (
             ($location.url() == '/home') ||
-
             ($location.url() == '/QuantModelShare') ||
             ($location.url() == '/PlatformInfo')) {
             $rootScope.isactive = false;
@@ -146,7 +139,6 @@
                 ($location.url() == '/PlatformInfo')) {
                 $rootScope.isactive = false;
                 $rootScope.$apply();
-
             }
         });
 
@@ -262,17 +254,14 @@
         else{
             $scope.aside='zijin-index';
         }
-
         $scope.$watch(function () {
             var str = null;
             var href = window.location.href;
             var index = href.indexOf('#/');
-
             if (index != -1) {
                 str = href.substring(index);
             }
             ;
-
             $scope.natived = str;
         });
         $rootScope.user = $cookieStore.get('user');
@@ -349,14 +338,6 @@
          * @param sortBy 所要排序的字段
          * @returns {*}
          */
-       /* $(".zijin-table .guide ul li").each(function (index) {
-            $(this).click(function () {
-                $(".zijin-table .guide ul li.active").removeClass("active");
-                $(this).addClass("active");
-                $(".trading>div:eq(" + index + ")").show().siblings().hide();
-            })
-        });*/
-
         function getSortFun(order, sortBy) {
             var ordAlpah = (order == 'desc') ? '>' : '<';
             var sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1');
@@ -377,7 +358,7 @@
                     data.sort(getSortFun('desc', 'class_name')); //按classname升序存放
                     accounts = data;
                     $scope.mySourcingStrategy = data;
-                     console.log($scope.mySourcingStrategy)
+                     //console.log($scope.mySourcingStrategy)
                     $scope.allS = $scope.mySourcingStrategy.length;
                     // console.log( $scope.mySourcingStrategy.length)
                     for (var i = 0; i < data.length; i++) {
@@ -1373,29 +1354,19 @@
     }])
     .controller('runCenterController', ['$scope', '$http', 'constantUrl', '$cookieStore', '$filter', '$routeParams', '$q','$timeout', function ($scope, $http, constantUrl, $cookieStore, $filter, $routeParams, $q,$timeout) {
         var falsedata = [], truedata = [];
-
-
-        function getSortFun(order, sortBy) {
-            var ordAlpah = (order == 'desc') ? '>' : '<';
-            var sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1');
-            return sortFun;
-        }
-
         var accounts = [];
         //策略代码渲染到页面
         $scope.getSourcingStrategys = function () {
             accounts = [];
-            // console.log('token ' + $cookieStore.get('user').token)
             $http.get(constantUrl + "classs/", {
                     headers: {
                         'Authorization': 'token ' + $cookieStore.get('user').token
                     }
                 })
                 .success(function (data) {
-                    //data.sort(getSortFun('desc', 'class_name')); //按classname升序存放
                     accounts = data;
                     getSelect();
-                    //console.log(data);
+                    getHisSelect();
                 })
                 .error(function (err, sta) {
                     Showbo.Msg.alert('网络错误，请稍后再试。');
@@ -1407,7 +1378,7 @@
             //console.log(accounts)
             for (var i = 0; i < accounts.length; i++) {
                 if (accounts[i]._id == class_id) {
-                    return accounts[i].class_name;
+                    return accounts[i].code_name;
                 }
             }
         }
@@ -1426,8 +1397,6 @@
                     for (var i = 0; i < data.length; i++) {
                         data[i].account_id == null ? falsedata.push(data[i]) : truedata.push(data[i]);
                     }
-                    //truedata = $filter('orderBy')(truedata,'status');
-
                     angular.forEach(truedata, function (item, index) {
                         //item.time="none"
                         if (item.status == -2) {
@@ -1487,7 +1456,7 @@
                         var class_id = truedata[i].class_id;
                         //console.log(class_id)
                         //var status = data[i].status;
-                        truedata[i].class_name = getcelve(class_id);
+                        truedata[i].code_name = getcelve(class_id);
                     }
 
                     //实盘
@@ -1549,8 +1518,6 @@
 
                         }
 
-
-
                         var n2 = 0;
                         var i = 0;
                         var timeList2 = [];
@@ -1610,9 +1577,6 @@
 
                         }
 
-
-
-
                     var IdDateList = [];
                     var IdDateList2 = [];
                     //console.log(timeList2);
@@ -1660,6 +1624,7 @@
                      * 获取所有策略前一天的数据
                      * @param i
                      */
+                    //console.log(IdDateList)
                     function getAllData(i) {
                         $http.get(constantUrl + 'transactions/', {
                                 params: {
@@ -1675,9 +1640,8 @@
                                 allDataList[m++] = data;
                                 i++;
                                 if (i >= IdDateList.length) {
-                                    //console.log(allDataList);
                                     Strategy = allDataList[0][0];
-                                    //console.log(allDataList);
+
                                     getAllNianHua(0);
                                     return;
                                 }
@@ -1710,6 +1674,7 @@
                                 if (i >= IdDateList2.length) {
                                     //console.log(allDataList);
                                     Strategy = allDataList2[0][0];
+                                    //console.log(allDataList2[0][0])
                                     //console.log(allDataList);
                                     getAllNianHua2(0);
                                     return;
@@ -1733,7 +1698,7 @@
                         if (i >= allDataList.length) {
                             $timeout(function(){
                                 putScreen();
-                            },1000);
+                            },500);
                             //console.log($scope.trust);
                             return;
                         }
@@ -1756,14 +1721,12 @@
                         if (i >= allDataList2.length) {
                             $timeout(function(){
                                 putScreen2();
-                            },1000);
+                            },500);
                             //console.log($scope.trust);
                             return;
                         }
-                        //console.log(i)
                         getAllNianHua2(i);
                     }
-
                    /* function getAllNianHua(i) {
                         var nowData = allDataList[i];
                         //console.log(nowData);
@@ -1781,7 +1744,6 @@
                         //console.log(i)
                         getAllNianHua(i);
                     }*/
-
                     function putScreen(){
                         for(var i=0;i<nianHuaList.length;i++){
                             var id = nianHuaList[i].nowId;
@@ -1801,8 +1763,9 @@
                             }
                         }
                         //console.log(truedata);
-                        truedata = $filter('orderBy')(truedata, 'a');
+                        //truedata = $filter('orderBy')(truedata, 'a');
                         $scope.trust = truedata;
+                        $scope.yeild='yeild';
                         m=0;
                         p=0;
                         Strategy =[];
@@ -1832,12 +1795,11 @@
                                 }
                             }
                         }
-                        falsedata = $filter('orderBy')(falsedata, 'a');
+                        //falsedata = $filter('orderBy')(falsedata, 'a');
                         for (var i = 0; i < falsedata.length; i++) {
                             falsedata[i].class_name = "none"; //策略代码初始化
                            var class_id1 = falsedata[i].class_id;
-                            var status = data[i].status;
-                            falsedata[i].class_name = getcelve(class_id1);
+                            falsedata[i].code_name = getcelve(class_id1);
                         }
 
                         $scope.flase = falsedata;
@@ -2051,6 +2013,7 @@
                         }
                         // console.log(data)
                         var num = parseInt(alldata.length / 2);
+                        //console.log(alldata)
                         //console.log(num)
                         for (var i = 0; i < num; i++) {
                             //console.log(alldata[2*i].trans_type,alldata[2*i+1].trans_type)
@@ -2107,7 +2070,7 @@
                         nianHuaList.push({
                             'average_winrate':Number(average_winrate).toFixed(2),
                             'nowId':nowId,
-                            'nianhua':Number(total_yeild * 250).toFixed(2)
+                            'nianhua':Number(total_yeild * 250).toFixed(4)
                         })
                     }
 
@@ -2135,8 +2098,8 @@
 
                     //计算手续费，无手续费盈亏
                     function gettest(a, b) {
-                        //console.log(Strategy);
                         var symbol = Strategy.symbol[0] + Strategy.symbol[1];
+                        //console.log(symbol)
                         var charge;
                         if (symbol == "IF" || symbol == "IC" || symbol || "IH") {
                             charge = 0.00015;
@@ -2147,6 +2110,10 @@
                         if (symbol == "D6") {
                             charge = 0.00035;
                         }
+                        if(Strategy.exchange=='OKCoin'){
+                            charge=0.002;
+                        }
+
                         var test = (a + b) * charge * Strategy.volume;
                         return Number((test).toFixed(6));
                     }
@@ -2211,17 +2178,18 @@
                         }
 
                     });
-                    histroy = $filter('orderBy')(histroy, 'a');
+
                     $scope.histroy = histroy;
 
                     //console.log($scope.histroy)
                     for (var i = 0; i < histroy.length; i++) {
-                        $scope.histroy[i].class_name = "none"; //策略代码初始化
                         var class_id = histroy[i].class_id;
                         //var status = data[i].status;
-                        $scope.histroy[i].class_name = getcelve(class_id);
+                        histroy[i].code_name = getcelve(class_id);
                     }
                     //console.log($scope.histroy)
+                    histroy = $filter('orderBy')(histroy, 'a');
+                    $scope.histroy = histroy;
                 });
 
         };
@@ -3423,10 +3391,7 @@
                             alldata2[i].closetime = gettime(alldata2[i].closetime);
                             alldata2[i].time = gettime(alldata2[i].time);
                         }
-
-
                         $scope.analyseDataArr = alldata2;
-
                         /**封装计算手续费方法
                          *
                          * @param i
@@ -3443,6 +3408,9 @@
                             }
                             if (symbol == "D6") {
                                 charge = 0.00035;
+                            }
+                            if($scope.myFirmStrategy.exchange=='OKCoin'){
+                                charge=0.002
                             }
                             var test = ($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
 
@@ -3930,8 +3898,17 @@
                                     turboThreshold: 0
                                 },
                                 candlestick: { //红涨绿跌
-                                    color: 'green',
-                                    upColor: 'red'
+                                    color: '#33AA11',
+                                    upColor: '#DD2200',
+                                    lineColor: '#33AA11',
+                                    upLineColor: '#DD2200',
+                                    maker: {
+                                        states: {
+                                            hover: {
+                                                enabled: false,
+                                            }
+                                        }
+                                    }
                                 }
                             },
                             tooltip: {
@@ -4178,7 +4155,12 @@
 
                         //打印中的收益曲线
                         $('#return_map_big1_1').highcharts('StockChart', {
-
+                            credits: {
+                                enabled: false
+                            },
+                            exporting: {
+                                enabled: false
+                            },
                             xAxis: {
                                 tickInterval: 1
                             },
@@ -5608,6 +5590,10 @@
                             if (symbol == "D6") {
                                 charge = 0.00035;
                             }
+                            if($scope.myFirmStrategy.exchange=='OKCoin'){
+                                charge=0.;
+
+                            }
                             var test = ($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
                             test = test * $scope.myFirmStrategy.multiple;
                             test = Number((test).toFixed(6));
@@ -6066,8 +6052,17 @@
                                     turboThreshold: 0
                                 },
                                 candlestick: { //红涨绿跌
-                                    color: 'green',
-                                    upColor: 'red'
+                                    color: '#33AA11',
+                                    upColor: '#DD2200',
+                                    lineColor: '#33AA11',
+                                    upLineColor: '#DD2200',
+                                    maker: {
+                                        states: {
+                                            hover: {
+                                                enabled: false,
+                                            }
+                                        }
+                                    }
                                 }
                             },
                             tooltip: {
@@ -6316,7 +6311,12 @@
 
                         //打印中的收益曲线
                         $('#return_map_big_form1').highcharts('StockChart', {
-
+                            credits: {
+                                enabled: false
+                            },
+                            exporting: {
+                                enabled: false
+                            },
                             xAxis: {
                                 tickInterval: 1
                             },
@@ -6422,6 +6422,9 @@
         var editor;
         var myClassId;
         $scope.code = "# encoding: UTF-8\n" + "\"\"\"\n" + "这里的Demo是一个最简单的策略实现，并未考虑太多实盘中的交易细节，如：\n" + "1. 委托价格超出涨跌停价导致的委托失败\n" + "2. 委托未成交，需要撤单后重新委托\n" + "3. 断网后恢复交易状态\n" + "\"\"\"\n" + "from ctaBase import *\n" + "from ctaTemplate import CtaTemplate\n\n" + "########################################################################\n" + "class Demo(CtaTemplate):\n" + "    \"\"\"双指数均线策略Demo\"\"\"\n" + "    className = 'Demo'\n" + "    author = u'coder name'\n\n" + "    # 策略参数\n" + "    fastK = 0.9     # 快速EMA参数\n" + "    slowK = 0.1     # 慢速EMA参数\n" + "    initDays = 10   # 初始化数据所用的天数\n\n" + "    # 策略变量\n" + "    bar = None\n" + "    barMinute = EMPTY_STRING\n\n" + "    fastMa = []             # 快速EMA均线数组\n" + "    fastMa0 = EMPTY_FLOAT   # 当前最新的快速EMA\n" + "    fastMa1 = EMPTY_FLOAT   # 上一根的快速EMA\n\n" + "    slowMa = []             # 与上面相同\n" + "    slowMa0 = EMPTY_FLOAT\n" + "    slowMa1 = EMPTY_FLOAT\n\n" + "    # 参数列表，保存了参数的名称\n" + "    paramList = ['name',\n" + "                 'className',\n" + "                 'author',\n" + "                 'vtSymbol',\n" + "                 'fastK',\n" + "                 'slowK']\n\n" + "    # 变量列表，保存了变量的名称\n" + "    varList = ['inited',\n" + "               'trading',\n" + "               'pos',\n" + "               'fastMa0',\n" + "               'fastMa1',\n" + "               'slowMa0',\n" + "               'slowMa1']\n\n" + "    #----------------------------------------------------------------------\n" + "    def __init__(self, ctaEngine, setting):\n" + "        \"\"\"Constructor\"\"\"\n" + "        super(Demo, self).__init__(ctaEngine, setting)\n\n" + "       # 注意策略类中的可变对象属性（通常是list和dict等），在策略初始化时需要重新创建，\n" + "        # 否则会出现多个策略实例之间数据共享的情况，有可能导致潜在的策略逻辑错误风险，\n" + "        # 策略类中的这些可变对象属性可以选择不写，全都放在__init__下面，写主要是为了阅读\n" + "        # 策略时方便（更多是个编程习惯的选择）\n" + "        self.fastMa = []\n" + "        self.slowMa = []\n\n" + "    #----------------------------------------------------------------------\n" + "    def onInit(self):\n" + "        \"\"\"初始化策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略初始化')\n\n" + "        initData = self.loadBar(self.initDays)\n" + "        for bar in initData:\n" + "            self.onBar(bar)\n\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onStart(self):\n" + "        \"\"\"启动策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略启动')\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onStop(self):\n" + "        \"\"\"停止策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略停止')\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onTick(self, tick):\n" + "        \"\"\"收到行情TICK推送（必须由用户继承实现）\"\"\"\n" + "        # 计算K线\n" + "        tickMinute = tick.datetime.minute\n\n" + "        if tickMinute != self.barMinute:\n" + "            if self.bar:\n" + "                self.onBar(self.bar)\n\n" + "            bar = CtaBarData()\n" + "            bar.vtSymbol = tick.vtSymbol\n" + "            bar.symbol = tick.symbol\n" + "            bar.exchange = tick.exchange\n\n" + "            bar.open = tick.lastPrice\n" + "            bar.high = tick.lastPrice\n" + "            bar.low = tick.lastPrice\n" + "            bar.close = tick.lastPrice\n\n" + "            bar.date = tick.date\n" + "            bar.time = tick.time\n" + "            bar.datetime = tick.datetime    # K线的时间设为第一个Tick的时间\n\n" + "            # 实盘中用不到的数据可以选择不算，从而加快速度\n\n" + "            #bar.volume = tick.volume\n" + "            #bar.openInterest = tick.openInterest\n\n" + "            self.bar = bar                  # 这种写法为了减少一层访问，加快速度\n" + "            self.barMinute = tickMinute     # 更新当前的分钟\n\n" + "        else:                               # 否则继续累加新的K线\n\n" + "            bar = self.bar                  # 写法同样为了加快速度\n\n" + "            bar.high = max(bar.high, tick.lastPrice)\n" + "            bar.low = min(bar.low, tick.lastPrice)\n" + "            bar.close = tick.lastPrice\n\n" + "    #----------------------------------------------------------------------\n\n" + "    def onBar(self, bar):\n" + "        \"\"\"收到Bar推送（必须由用户继承实现）\"\"\"\n" + "		\"\"\"算法核心，接受到Bar数据后算法逻辑判断\"\"\"\n\n" + "		# 计算快慢均线\n" + "        if not self.fastMa0:\n" + "            self.fastMa0 = bar.close\n" + "            self.fastMa.append(self.fastMa0)\n" + "        else:\n" + "            self.fastMa1 = self.fastMa0\n" + "            self.fastMa0 = bar.close * self.fastK + self.fastMa0 * (1 - self.fastK)\n" + "            self.fastMa.append(self.fastMa0)\n\n" + "        if not self.slowMa0:\n" + "            self.slowMa0 = bar.close\n" + "            self.slowMa.append(self.slowMa0)\n" + "        else:\n" + "            self.slowMa1 = self.slowMa0\n" + "            self.slowMa0 = bar.close * self.slowK + self.slowMa0 * (1 - self.slowK)\n" + "            self.slowMa.append(self.slowMa0)\n\n" + "        # 判断买卖\n" + "        crossOver = self.fastMa0>self.slowMa0 and self.fastMa1<self.slowMa1     # 金叉上穿\n" + "        crossBelow = self.fastMa0<self.slowMa0 and self.fastMa1>self.slowMa1    # 死叉下穿\n\n" + "        # 金叉和死叉的条件是互斥\n" + "        # 所有的委托均以K线收盘价委托（这里有一个实盘中无法成交的风险，考虑添加对模拟市价单类型的支持）\n" + "        if crossOver:\n" + "            # 如果金叉时手头没有持仓，则直接做多\n" + "            if self.pos == 0:\n" + "                self.buy(bar.close, 1)\n" + "            # 如果有空头持仓，则先平空，再做多\n" + "            elif self.pos < 0:\n" + "                self.cover(bar.close, 1)\n" + "                self.buy(bar.close, 1)\n" + "        # 死叉和金叉相反\n" + "        elif crossBelow:\n" + "            if self.pos == 0:\n" + "                self.short(bar.close, 1)\n" + "            elif self.pos > 0:\n" + "                self.sell(bar.close, 1)\n" + "                self.short(bar.close, 1)\n\n" + "        # 发出状态更新事件\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onOrder(self, order):\n" + "        \"\"\"收到委托变化推送（必须由用户继承实现）\"\"\"\n" + "        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n" + "        pass\n\n" + "    #----------------------------------------------------------------------\n" + "    def onTrade(self, trade):\n" + "        \"\"\"收到成交推送（必须由用户继承实现）\"\"\"\n" + "        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n" + "        pass\n\n\n" + "########################################################################################\n" + "class OrderManagementDemo(CtaTemplate):\n" + "    \"\"\"基于tick级别细粒度撤单追单测试demo\"\"\"\n\n" + "    className = 'OrderManagementDemo'\n" + "    author = u'用Python的交易员'\n\n" + "    # 策略参数\n" + "    initDays = 10   # 初始化数据所用的天数\n\n" + "    # 策略变量\n" + "    bar = None\n" + "    barMinute = EMPTY_STRING\n\n\n" + "    # 参数列表，保存了参数的名称\n" + "    paramList = ['name',\n" + "                 'className',\n" + "                 'author',\n" + "                 'vtSymbol']\n\n" + "    # 变量列表，保存了变量的名称\n" + "    varList = ['inited',\n" + "               'trading',\n" + "               'pos']\n\n" + "    #----------------------------------------------------------------------\n" + "    def __init__(self, ctaEngine, setting):\n" + "        \"\"\"Constructor\"\"\"\n" + "        super(OrderManagementDemo, self).__init__(ctaEngine, setting)\n\n" + "        self.lastOrder = None\n" + "        self.orderType = ''\n\n" + "    #----------------------------------------------------------------------\n" + "    def onInit(self):\n" + "       \"\"\"初始化策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略初始化')\n\n" + "        initData = self.loadBar(self.initDays)\n" + "        for bar in initData:\n" + "            self.onBar(bar)\n\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onStart(self):\n" + "        \"\"\"启动策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略启动')\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onStop(self):\n" + "        \"\"\"停止策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略停止')\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onTick(self, tick):\n" + "        \"\"\"收到行情TICK推送（必须由用户继承实现）\"\"\"\n\n" + "        # 建立不成交买单测试单\n" + "        if self.lastOrder == None:\n" + "            self.buy(tick.lastprice - 10.0, 1)\n\n" + "        # CTA委托类型映射\n" + "        if self.lastOrder != None and self.lastOrder.direction == u'多' and self.lastOrder.offset == u'开仓':\n" + "            self.orderType = u'买开'\n\n" + "        elif self.lastOrder != None and self.lastOrder.direction == u'多' and self.lastOrder.offset == u'平仓':\n" + "            self.orderType = u'买平'\n\n" + "        elif self.lastOrder != None and self.lastOrder.direction == u'空' and self.lastOrder.offset == u'开仓':\n" + "            self.orderType = u'卖开'\n\n" + "        elif self.lastOrder != None and self.lastOrder.direction == u'空' and self.lastOrder.offset == u'平仓':\n" + "            self.orderType = u'卖平'\n\n" + "        # 不成交，即撤单，并追单\n" + "        if self.lastOrder != None and self.lastOrder.status == u'未成交':\n\n" + "            self.cancelOrder(self.lastOrder.vtOrderID)\n" + "            self.lastOrder = None\n" + "        elif self.lastOrder != None and self.lastOrder.status == u'已撤销':\n" + "        # 追单并设置为不能成交\n\n" + "            self.sendOrder(self.orderType, self.tick.lastprice - 10, 1)\n" + "            self.lastOrder = None\n\n" + "    #----------------------------------------------------------------------\n" + "    def onBar(self, bar):\n" + "        \"\"\"收到Bar推送（必须由用户继承实现）\"\"\"\n" + "        pass\n\n" + "    #----------------------------------------------------------------------\n" + "    def onOrder(self, order):\n" + "        \"\"\"收到委托变化推送（必须由用户继承实现）\"\"\"\n" + "        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n" + "        self.lastOrder = order\n\n" + "    #----------------------------------------------------------------------\n\n" + "    def onTrade(self, trade):\n" + "        \"\"\"收到成交推送（必须由用户继承实现）\"\"\"\n" + "        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n" + "        pass";
+
+
+
         $scope.$watch('$viewContentLoaded', function () {
             editor = ace.edit("editor");
             editor.$blockScrolling = Infinity;
@@ -6435,7 +6438,7 @@
             editor.getSession().setMode("ace/mode/python");
             editor.setValue($scope.code);
         });
-        $scope.openMask = function () {
+        $scope.openMask = function () {actualResController
             if (!myClassId) {
                 Showbo.Msg.alert('先修改策略名（即策略类名），并保存策略。');
                 return;
@@ -7104,7 +7107,6 @@
                 Showbo.Msg.alert('请修改策略名(即策略类名)');
                 return;
             }
-            ;
             var postInfo = 'class_name=' + encodeURIComponent($scope.name) + '&code=' + encodeURIComponent(editor.getValue());
             $http.post(constantUrl + "classs/", postInfo, {
                     headers: {
@@ -7122,6 +7124,37 @@
         };
     }])
     .controller('complieItemController', ['$scope', '$rootScope', '$http', '$location', '$cookieStore', 'constantUrl', '$routeParams', '$interval', '$q', '$filter', function ($scope, $rootScope, $http, $location, $cookieStore, constantUrl, $routeParams, $interval, $q, $filter) {
+        var str=null;
+        var hash=window.location.hash;
+        var index=hash.indexOf('58');
+        if(index!=-1){
+            str=hash.substring(index);
+        }
+        //console.log(str)
+        function download(text, name, type) {
+            var file = new Blob([text], {
+                type: type
+            })
+            var a = $('<a hidden>Download py</a>').appendTo('body');
+            a[0].href = URL.createObjectURL(file);
+            a[0].download = name;
+            a[0].click();
+        }
+        $scope.save=function(){
+            $http.get(constantUrl + 'classs/' + str + '/', {
+                    headers: {
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                    }
+                })
+                .success(function (data) {
+                    download(data.code, data.code_name, 'text/plain');
+                    //console.log(data)
+                })
+                .error(function (err, sta) {
+                    console.log(err);
+                });
+        }
+
         $scope.fate = 1;
         var editor;
         var myClassId = $routeParams.id;

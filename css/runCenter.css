@@ -16,6 +16,12 @@
   background: rgb(255, 255, 255);
 
 }
+.runCenter .kind .tip1{
+  width:100%;background-color: #fff;padding: 0.1rem 0 0 3rem;font-size: 1.16667rem;height: 3.2rem;line-height: 3.2rem;
+}
+.runCenter .kind .tip1 .tip1_1{
+  float: left;
+}
 .runCenter .kind .tip1 .tip1_1 .ul1 span{
   margin-left: 10px;
 }
