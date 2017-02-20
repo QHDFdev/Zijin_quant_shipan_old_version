@@ -248,11 +248,11 @@
         $scope.getAllUsers();
     }])
     .controller('homeController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl) {
-        if($cookieStore.get('user')==null){
-            $scope.aside='full';
+        if ($cookieStore.get('user') == null) {
+            $scope.aside = 'full';
         }
-        else{
-            $scope.aside='zijin-index';
+        else {
+            $scope.aside = 'zijin-index';
         }
         $scope.$watch(function () {
             var str = null;
@@ -269,11 +269,11 @@
         $rootScope.logout = function () {
             $cookieStore.remove('user');
             $rootScope.user = null;
-            if($cookieStore.get('user')==null){
-                $scope.aside='full';
+            if ($cookieStore.get('user') == null) {
+                $scope.aside = 'full';
             }
-            else{
-                $scope.aside='zijin-index';
+            else {
+                $scope.aside = 'zijin-index';
             }
             $location.path('/home'); //页面跳转
 
@@ -358,7 +358,7 @@
                     data.sort(getSortFun('desc', 'class_name')); //按classname升序存放
                     accounts = data;
                     $scope.mySourcingStrategy = data;
-                     //console.log($scope.mySourcingStrategy)
+                    //console.log($scope.mySourcingStrategy)
                     $scope.allS = $scope.mySourcingStrategy.length;
                     // console.log( $scope.mySourcingStrategy.length)
                     for (var i = 0; i < data.length; i++) {
@@ -1352,7 +1352,7 @@
              })*/
         };
     }])
-    .controller('runCenterController', ['$scope', '$http', 'constantUrl', '$cookieStore', '$filter', '$routeParams', '$q','$timeout', function ($scope, $http, constantUrl, $cookieStore, $filter, $routeParams, $q,$timeout) {
+    .controller('runCenterController', ['$scope', '$http', 'constantUrl', '$cookieStore', '$filter', '$routeParams', '$q', '$timeout', function ($scope, $http, constantUrl, $cookieStore, $filter, $routeParams, $q, $timeout) {
         var falsedata = [], truedata = [];
         var accounts = [];
         //策略代码渲染到页面
@@ -1384,7 +1384,7 @@
         }
 
         var times;
-        $scope.sRun=0,$scope.sStop=0,$scope.sHui=0,$scope.fRun=0,$scope.fStop=0,$scope.fHui=0;
+        $scope.sRun = 0, $scope.sStop = 0, $scope.sHui = 0, $scope.fRun = 0, $scope.fStop = 0, $scope.fHui = 0;
         function getSelect() {
             $http.get(constantUrl + "strategys/", {
                     headers: {
@@ -1400,6 +1400,7 @@
                     angular.forEach(truedata, function (item, index) {
                         //item.time="none"
                         if (item.status == -2) {
+                            //console.log(item)
                             //c.push(item);
                             item.color = 'del'
                             item.a = 3;
@@ -1431,6 +1432,7 @@
                      item.color='stop';
                      }
                      })*/
+
                     angular.forEach(falsedata, function (item, index) {
                         if (item.status == -2) {
                             //c.push(item);
@@ -1450,6 +1452,7 @@
                             $scope.fStop++;
                         }
                     })
+                    //console.log(falsedata)
                     //falsedata = $filter('orderBy')(falsedata, 'a');
                     //$scope.flase = falsedata;
                     for (var i = 0; i < truedata.length; i++) {
@@ -1461,125 +1464,107 @@
 
                     //实盘
 
-                    /*function gettime(id){
-                     $http.get(constantUrl + 'dates/', {
-                     params: {
-                     "date_type": 'transaction',
-                     "sty_id": id
-                     },
-                     headers: {
-                     'Authorization': 'token ' + $cookieStore.get('user').token
-                     }
-                     })
-                     .success(function(data) {
-                     //return data[data.length-2];
-                     times=data;
-                     //console.log(times)
-                     })
-                     .error(function(err, sta) {
-                     if (sta == 400) {
-                     Showbo.Msg.alert('没有数据');
-                     };
-                     });
-                     console.log(times)
-                     return times;
-                     }*/
-                    //console.log(times)
-                    //$scope.trust.time = "none";
-
-                    /*console.log($cookieStore.get('user').is_admin)*/
-                    if($cookieStore.get('user').is_admin){
+                    if ($cookieStore.get('user').is_admin) {
                         getTimes(0);
-                    }else{
+
+                    } else {
                         getTimes2(0);
                     }
-                        var n = 0;
-                        var i = 0;
-                        var timeList = [];
-                        function getTimes(i) {
-                            $http.get(constantUrl + 'dates/', {
-                                    params: {
-                                        "date_type": 'transaction',
-                                        "sty_id": truedata[i]._id
-                                    },
-                                    headers: {
-                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                    }
-                                })
-                                .success(function (data) {
-                                    timeList[n++] = data[data.length - 1];
-                                    i++;
-                                    if (i >= truedata.length) {
-                                        getIdDate();
-                                        return;
-                                    }
-                                    getTimes(i);
-                                })
+                    var n = 0;
+                    var i = 0;
+                    var timeList = [];
 
-                        }
+                    function getTimes(i) {
+                        $http.get(constantUrl + 'dates/', {
+                                params: {
+                                    "date_type": 'transaction',
+                                    "sty_id": truedata[i]._id
+                                },
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
+                            .success(function (data) {
+                                timeList[n++] = data[data.length - 1];
+                                i++;
+                                if (i == truedata.length) {
+                                    getIdDate();
+                                    return;
+                                }
+                                getTimes(i);
+                            })
+                            .error(function(data){
+                                //console.log(truedata[i]._id);
+                                timeList[n++]=0;
+                                i++;
+                                getTimes(i);
+                            })
 
-                        var n2 = 0;
-                        var i = 0;
-                        var timeList2 = [];
-                        function getTimes2(i) {
-                            var url = 'dates/?date_type=data&exchange='+falsedata[i].exchange+'&symbol='+falsedata[i].symbol+'&type=tick';
-                            $http.get(constantUrl + url, {
-                                    headers: {
-                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                    }
-                                })
-                                .success(function (data) {
-                                    timeList2[n2++] = data[data.length - 1];
-                                    i++;
-                                    if (i >= falsedata.length) {
-                                        getIdDate2();
-                                        return;
-                                    }
-                                    getTimes2(i);
-                                })
-                            //if(falsedata[i].exchange=='OKCoin'){
-                            //    $http.get(constantUrl + 'dates/?date_type=data&exchange=OKCoin&symbol=btc&type=tick', {
-                            //            headers: {
-                            //                'Authorization': 'token ' + $cookieStore.get('user').token
-                            //            }
-                            //        })
-                            //        .success(function (data) {
-                            //            timeList2[n++] = data[data.length - 1];
-                            //            i++;
-                            //            if (i >= falsedata.length) {
-                            //                getIdDate2();
-                            //                return;
-                            //            }
-                            //            getTimes2(i);
-                            //        })
-                            //
-                            //}else {
-                            //    $http.get(constantUrl + 'dates/', {
-                            //            params: {
-                            //                "date_type": 'transaction',
-                            //                "sty_id": falsedata[i]._id
-                            //            },
-                            //            headers: {
-                            //                'Authorization': 'token ' + $cookieStore.get('user').token
-                            //            }
-                            //        })
-                            //        .success(function (data) {
-                            //            timeList2[n++] = data[data.length - 1];
-                            //            i++;
-                            //            if (i >= falsedata.length) {
-                            //                getIdDate2();
-                            //                return;
-                            //            }
-                            //            getTimes2(i);
-                            //        })
-                            //}
+                    }
+
+                    var n2 = 0;
+                    var i = 0;
+                    var timeList2 = [];
+                    function getTimes2(i) {
+                        var url = 'dates/?date_type=data&exchange=' + falsedata[i].exchange + '&symbol=' + falsedata[i].symbol + '&type=tick';
+                        $http.get(constantUrl + url, {
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
+                            .success(function (data) {
+                                timeList2[n2++] = data[data.length - 1];
+                                i++;
+                                if (i >= falsedata.length) {
+                                    getIdDate2();
+                                    return;
+                                }
+                                getTimes2(i);
+                            })
+                        //if(falsedata[i].exchange=='OKCoin'){
+                        //    $http.get(constantUrl + 'dates/?date_type=data&exchange=OKCoin&symbol=btc&type=tick', {
+                        //            headers: {
+                        //                'Authorization': 'token ' + $cookieStore.get('user').token
+                        //            }
+                        //        })
+                        //        .success(function (data) {
+                        //            timeList2[n++] = data[data.length - 1];
+                        //            i++;
+                        //            if (i >= falsedata.length) {
+                        //                getIdDate2();
+                        //                return;
+                        //            }
+                        //            getTimes2(i);
+                        //        })
+                        //
+                        //}else {
+                        //    $http.get(constantUrl + 'dates/', {
+                        //            params: {
+                        //                "date_type": 'transaction',
+                        //                "sty_id": falsedata[i]._id
+                        //            },
+                        //            headers: {
+                        //                'Authorization': 'token ' + $cookieStore.get('user').token
+                        //            }
+                        //        })
+                        //        .success(function (data) {
+                        //            timeList2[n++] = data[data.length - 1];
+                        //            i++;
+                        //            if (i >= falsedata.length) {
+                        //                getIdDate2();
+                        //                return;
+                        //            }
+                        //            getTimes2(i);
+                        //        })
+                        //}
 
 
-                        }
+                    }
+                    //console.log(timeList2)
 
                     var IdDateList = [];
                     var IdDateList2 = [];
-                    //console.log(timeList2);
+
                     /**
                      * 获取所有策略id 和前一天时间
                      */
@@ -1598,6 +1583,8 @@
                         //console.log(IdDateList);
                         getAllData(0);
                     }
+
+
                     function getIdDate2() {
                         //console.log(timeList2)
                         for (var i = 0; i < falsedata.length; i++) {
@@ -1641,13 +1628,21 @@
                                 i++;
                                 if (i >= IdDateList.length) {
                                     Strategy = allDataList[0][0];
-
+                                    console.log(allDataList[0][0])
                                     getAllNianHua(0);
                                     return;
                                 }
                                 getAllData(i);
                             })
+                            .error(function(data){
+                                    allDataList[m++] = 0;
+                                    i++;
+                                    getAllData(i);
+                            })
+
                     }
+
+
                     var Strategy2 = [];
                     var i = 0;
                     var allDataList2 = [];
@@ -1670,10 +1665,12 @@
                             })
                             .success(function (data) {
                                 allDataList2[m++] = data;
+                                //console.log(allDataList2[m][0])
                                 i++;
                                 if (i >= IdDateList2.length) {
                                     //console.log(allDataList);
-                                    Strategy = allDataList2[0][0];
+                                    Strategy = allDataList2[1][1];
+                                    //console.log(allDataList2[0][0]);
                                     //console.log(allDataList2[0][0])
                                     //console.log(allDataList);
                                     getAllNianHua2(0);
@@ -1681,9 +1678,19 @@
                                 }
                                 getAllData2(i);
                             })
+                            .error(function(data){
+                                allDataList2[m++] = 0;
+                                i++;
+                                getAllData2(i);
+                            })
                     }
+
+
+
+
                     var nianHuaList = [];
                     var p = 0;
+
                     /**
                      * 获取所有策略前一天的年化收益率
                      * @param i
@@ -1696,21 +1703,23 @@
                         //return;
                         i++;
                         if (i >= allDataList.length) {
-                            $timeout(function(){
+                            $timeout(function () {
                                 putScreen();
-                            },500);
+                            }, 500);
                             //console.log($scope.trust);
                             return;
                         }
                         //console.log(i)
                         getAllNianHua(i);
                     }
-                     nianHuaList = [];
+
+                    nianHuaList = [];
                     var p = 0;
                     /**
                      * 获取所有策略前一天的年化收益率
                      * @param i
                      */
+
                     function getAllNianHua2(i) {
                         var nowData = allDataList2[i];
                         //console.log(nowData);
@@ -1719,78 +1728,108 @@
                         //return;
                         i++;
                         if (i >= allDataList2.length) {
-                            $timeout(function(){
+                            $timeout(function () {
                                 putScreen2();
-                            },500);
+                            }, 500);
                             //console.log($scope.trust);
                             return;
                         }
                         getAllNianHua2(i);
                     }
-                   /* function getAllNianHua(i) {
-                        var nowData = allDataList[i];
-                        //console.log(nowData);
-                        handledata(true, nowData, timeList[i], IdDateList[i].id);
-                        //console.log(IdDateList[i].id)
-                        //return;
-                        i++;
-                        if (i >= allDataList.length) {
-                            $timeout(function(){
-                                putScreen();
-                            },1000);
-                            //console.log($scope.trust);
-                            return;
-                        }
-                        //console.log(i)
-                        getAllNianHua(i);
-                    }*/
-                    function putScreen(){
-                        for(var i=0;i<nianHuaList.length;i++){
+
+                    /* function getAllNianHua(i) {
+                     var nowData = allDataList[i];
+                     //console.log(nowData);
+                     handledata(true, nowData, timeList[i], IdDateList[i].id);
+                     //console.log(IdDateList[i].id)
+                     //return;
+                     i++;
+                     if (i >= allDataList.length) {
+                     $timeout(function(){
+                     putScreen();
+                     },1000);
+                     //console.log($scope.trust);
+                     return;
+                     }
+                     //console.log(i)
+                     getAllNianHua(i);
+                     }*/
+                    function putScreen() {
+                        //console.log(nianHuaList)
+                        for (var i = 0; i < nianHuaList.length; i++) {
                             var id = nianHuaList[i].nowId;
                             var nianhua = nianHuaList[i].nianhua;
                             var average_winrate = nianHuaList[i].average_winrate;
                             //console.log(id,nianhua,average_winrate)
-                            for(j=0;j<truedata.length;j++){
-                                if(truedata[j]._id==id){
-                                    truedata[j].yeild=nianhua;
-                                    truedata[j].average_winrate=average_winrate;
-                                    truedata[j].yeildColor = nianhua>0?'zheng':'fu';
-                                    truedata[j].yeildColor1 = average_winrate>0?'zheng':'fu';
+                            for (j = 0; j < truedata.length; j++) {
+                                if (truedata[j]._id == id) {
+                                    truedata[j].yeild = nianhua;
+                                    truedata[j].average_winrate = average_winrate;
+                                    truedata[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
+                                    truedata[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
 
-                                    truedata[j].y = nianhua>0?'glyphicon glyphicon-arrow-up':'glyphicon glyphicon-arrow-down';
-                                    truedata[j].y1 = average_winrate>0?'glyphicon glyphicon-arrow-up':'glyphicon glyphicon-arrow-down';
+                                    truedata[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down';
+                                    truedata[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down';
                                 }
                             }
                         }
+
+
                         //console.log(truedata);
                         //truedata = $filter('orderBy')(truedata, 'a');
+                        //console.log(truedata);
                         $scope.trust = truedata;
-                        $scope.yeild='yeild';
-                        m=0;
-                        p=0;
-                        Strategy =[];
+                        var symbolList = [];
+                        //for(var i=0;i<truedata.length;i++){
+                        //    symbolList[i]=truedata[i].symbol
+                        //}
+
+                        for (var i = 0; i < truedata.length; i++) {
+                            if (symbolList.indexOf(truedata[i].symbol) == -1) {
+                                symbolList.push(truedata[i].symbol)
+                            }
+                        }
+
+                        var symbolList1 = [];
+                        for (var i = 0; i < symbolList.length; i++) {
+                            if (symbolList1.indexOf(symbolList[i]) == -1) {
+                                symbolList1.push(symbolList[i])
+                            }
+                        }
+
+                        $scope.symbolList = symbolList1;
+
+
+                        $scope.yeild = 'yeild';
+                        $scope.key = 'D1_AG';
+
+
+                        m = 0;
+                        p = 0;
+                        Strategy = [];
                         //console.log('----------------------');
                         getTimes2(0);
                     }
-                    function putScreen2(){
-                        for(j=0;j<falsedata.length;j++){
-                            falsedata[j].yeild=0.00;
-                            falsedata[j].average_winrate=0.00;
+
+                    function putScreen2() {
+                        for (j = 0; j < falsedata.length; j++) {
+                            falsedata[j].yeild = 0.00;
+                            falsedata[j].average_winrate = 0.00;
                         }
-                        for(var i=0;i<nianHuaList.length;i++){
+                        for (var i = 0; i < nianHuaList.length; i++) {
                             var id = nianHuaList[i].nowId;
                             var nianhua = nianHuaList[i].nianhua;
                             var average_winrate = nianHuaList[i].average_winrate;
                             //console.log(id,nianhua,average_winrate)
-                            for(j=0;j<falsedata.length;j++){
-                                if(falsedata[j]._id==id){
-                                    falsedata[j].yeild=nianhua;
-                                    falsedata[j].average_winrate=average_winrate;
-                                    falsedata[j].yeildColor = nianhua>0?'zheng':'fu';
-                                    falsedata[j].yeildColor1 = average_winrate>0?'zheng':'fu';
+                            for (j = 0; j < falsedata.length; j++) {
+                                if (falsedata[j]._id == id) {
+                                    falsedata[j].yeild = nianhua;
+                                    falsedata[j].average_winrate = average_winrate;
+                                    falsedata[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
+                                    falsedata[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
 
-                                    falsedata[j].y = nianhua>0?'glyphicon glyphicon-arrow-up':'glyphicon glyphicon-arrow-down';
-                                    falsedata[j].y1 = average_winrate>0?'glyphicon glyphicon-arrow-up':'glyphicon glyphicon-arrow-down';
+                                    falsedata[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down';
+                                    falsedata[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down';
 
                                 }
                             }
@@ -1798,12 +1837,32 @@
                         //falsedata = $filter('orderBy')(falsedata, 'a');
                         for (var i = 0; i < falsedata.length; i++) {
                             falsedata[i].class_name = "none"; //策略代码初始化
-                           var class_id1 = falsedata[i].class_id;
+                            var class_id1 = falsedata[i].class_id;
                             falsedata[i].code_name = getcelve(class_id1);
                         }
 
                         $scope.flase = falsedata;
+                        //实盘过滤
+                        var symbolList2 = [];
+
+                        for (var i = 0; i < falsedata.length; i++) {
+                            if (symbolList2.indexOf(falsedata[i].symbol) == -1) {
+                                symbolList2.push(falsedata[i].symbol)
+                            }
+                        }
+
+                        var symbolList3 = [];
+                        for (var i = 0; i < symbolList2.length; i++) {
+                            if (symbolList3.indexOf(symbolList2[i]) == -1) {
+                                symbolList3.push(symbolList2[i])
+                            }
+                        }
+
+                        $scope.symbolList1 = symbolList3;
+                        $scope.key1 = "D1_AG";
+
                     }
+
                     function handledata(flag, nowdata, nowDay, nowId) {
                         //console.log(nowdata)
                         //console.log(nowId,nowDay)
@@ -1820,12 +1879,14 @@
                         }
                         if (nowdata.length == 0) {
                             //console.log(nowId,nowDay,"今天截至目前还未成交.")
-                            trueRes(nowdata,nowId);
+                            trueRes(nowdata, nowId);
                             return;
                         }
                         var hasNone = false; //判断今天是否有不配对平仓
                         //console.log(nowdata)
-                        if(nowdata[0]==null){return;}
+                        if (nowdata[0] == null) {
+                            return;
+                        }
                         for (var i = 0; i < nowdata.length; i++) {
                             if (nowdata[i].trans_type == "cover") {
                                 if (i == 0 || nowdata[i - 1].trans_type != "short") {
@@ -1842,7 +1903,7 @@
                         }
                         if (!hasNone) {
                             //console.log("没有不配对平仓，不获取单独开仓");
-                            trueRes(nowdata,nowId);
+                            trueRes(nowdata, nowId);
                             return;
                         }
                         var yesday = getPreDay(nowDay);
@@ -1947,14 +2008,15 @@
                                 }
                                 //console.log(nowdata.length)
 
-                                    trueRes(nowdata,nowId);
+                                trueRes(nowdata, nowId);
+                                //console.log(nowdata)
 
 
                             })
                     }
 
-                    function trueRes(nowdata,nowId) {
 
+                    function trueRes(nowdata, nowId) {
                         var alldata = [];
                         var alldata2 = [];
                         for (var i = 0; i < nowdata.length; i++) { //清除未配对开仓
@@ -2013,9 +2075,11 @@
                         }
                         // console.log(data)
                         var num = parseInt(alldata.length / 2);
-                        //console.log(alldata)
+                        console.log(alldata)
                         //console.log(num)
                         for (var i = 0; i < num; i++) {
+                            //console.log(alldata)
+
                             //console.log(alldata[2*i].trans_type,alldata[2*i+1].trans_type)
                             if (alldata[2 * i].trans_type == "short") { //看空
                                 alldata2.push({
@@ -2028,10 +2092,10 @@
                                     "closeserialno": alldata[2 * i + 1].serialno,
                                     "time": alldata[2 * i + 1].datetime,
                                     "open": alldata[2 * i].datetime,
-                                    "test": gettest(alldata[2 * i + 1].price, alldata[2 * i].price),
-                                    "notestpal": notest("看空", alldata[2 * i + 1].price, alldata[2 * i].price),
-                                    "pal": Number((notest("看空", alldata[2 * i + 1].price, alldata[2 * i].price) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price)).toFixed(6)),
-                                    "yeild": Number(((notest("看空", alldata[2 * i + 1].price, alldata[2 * i].price) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price)) / alldata[2 * i].price).toFixed(6))
+                                    "test": gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume),
+                                    "notestpal": notest("看空", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume),
+                                    "pal": Number((notest("看空", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume)).toFixed(6)),
+                                    "yeild": Number(((notest("看空", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume)) / alldata[2 * i].price).toFixed(6))
                                 })
                             } else {
                                 if (alldata[2 * i].trans_type == "buy") {
@@ -2045,10 +2109,10 @@
                                         "closeserialno": alldata[2 * i + 1].serialno,
                                         "time": alldata[2 * i + 1].datetime,
                                         "open": alldata[2 * i].datetime,
-                                        "test": gettest(alldata[2 * i + 1].price, alldata[2 * i].price),
-                                        "notestpal": notest("看多", alldata[2 * i + 1].price, alldata[2 * i].price),
-                                        "pal": Number((notest("看多", alldata[2 * i + 1].price, alldata[2 * i].price) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price)).toFixed(6)),
-                                        "yeild": Number(((notest("看多", alldata[2 * i + 1].price, alldata[2 * i].price) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price)) / alldata[2 * i].price).toFixed(6))
+                                        "test": gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume),
+                                        "notestpal": notest("看多", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume),
+                                        "pal": Number((notest("看多", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume)).toFixed(6)),
+                                        "yeild": Number(((notest("看多", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume)) / alldata[2 * i].price).toFixed(6))
 
                                     })
                                 } else {
@@ -2061,16 +2125,16 @@
                         var zheng = 0;
                         for (var i = 0; i < alldata2.length; i++) {
                             total_yeild += alldata2[i].yeild;
-                            if(alldata2[i].pal>0){
-                                zheng ++;
+                            if (alldata2[i].pal > 0) {
+                                zheng++;
                             }
                         }
-                        var average_winrate = alldata2.length==0?0:(zheng/alldata2.length)*100;
+                        var average_winrate = alldata2.length == 0 ? 0 : (zheng / alldata2.length) * 100;
 
                         nianHuaList.push({
-                            'average_winrate':Number(average_winrate).toFixed(2),
-                            'nowId':nowId,
-                            'nianhua':Number(total_yeild * 250).toFixed(4)
+                            'average_winrate': Number(average_winrate).toFixed(2),
+                            'nowId': nowId,
+                            'nianhua': Number(total_yeild * 250).toFixed(4)
                         })
                     }
 
@@ -2097,8 +2161,8 @@
                     }
 
                     //计算手续费，无手续费盈亏
-                    function gettest(a, b) {
-                        var symbol = Strategy.symbol[0] + Strategy.symbol[1];
+                    function gettest(a,b,s,v) {
+                        var symbol = s[0] + s[1];
                         //console.log(symbol)
                         var charge;
                         if (symbol == "IF" || symbol == "IC" || symbol || "IH") {
@@ -2110,15 +2174,15 @@
                         if (symbol == "D6") {
                             charge = 0.00035;
                         }
-                        if(Strategy.exchange=='OKCoin'){
-                            charge=0.002;
+                        if (symbol == "ct") {
+                            charge = 0.002;
                         }
 
-                        var test = (a + b) * charge * Strategy.volume;
+                        var test = (a + b) * charge * v;
                         return Number((test).toFixed(6));
                     }
 
-                    function notest(flag, a, b) {
+                    function notest(flag, a, b,v) {
                         var test;
                         if (flag == "看多") {
                             //console.log("看多");
@@ -2127,7 +2191,7 @@
                             //console.log("看空");
                             test = b - a;
                         }
-                        test = test * Strategy.volume;
+                        test = test * v;
                         return Number((test).toFixed(6));
                     }
 
@@ -2144,7 +2208,7 @@
         };
 
         $scope.histroy = [];
-        $scope.hRun=0,$scope.hStop=0,$scope.hHui=0;
+        $scope.hRun = 0, $scope.hStop = 0, $scope.hHui = 0;
         function getHisSelect() {
             $http.get(constantUrl + "btstrategys/", {
                     headers: {
@@ -2181,6 +2245,8 @@
 
                     $scope.histroy = histroy;
 
+
+
                     //console.log($scope.histroy)
                     for (var i = 0; i < histroy.length; i++) {
                         var class_id = histroy[i].class_id;
@@ -2190,6 +2256,24 @@
                     //console.log($scope.histroy)
                     histroy = $filter('orderBy')(histroy, 'a');
                     $scope.histroy = histroy;
+
+                    var histroySymbolList = [];
+
+                    for (var i = 0; i < histroy.length; i++) {
+                        if (histroySymbolList.indexOf(histroy[i].symbol) == -1) {
+                            histroySymbolList.push(histroy[i].symbol)
+                        }
+                    }
+
+                    var histroySymbolList1 = [];
+                    for (var i = 0; i < histroySymbolList.length; i++) {
+                        if (histroySymbolList1.indexOf(histroySymbolList[i]) == -1) {
+                            histroySymbolList1.push(histroySymbolList[i])
+                        }
+                    }
+
+                    $scope.histroySymbolList = histroySymbolList1;
+                    $scope.key2 = "D1_AG";
                 });
 
         };
@@ -3409,8 +3493,8 @@
                             if (symbol == "D6") {
                                 charge = 0.00035;
                             }
-                            if($scope.myFirmStrategy.exchange=='OKCoin'){
-                                charge=0.002
+                            if ($scope.myFirmStrategy.exchange == 'OKCoin') {
+                                charge = 0.002
                             }
                             var test = ($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
 
@@ -3565,32 +3649,32 @@
                         });
 
 
-                   /*     var originalDrawPoints = Highcharts.seriesTypes.column.prototype.drawPoints;
-                        Highcharts.seriesTypes.column.prototype.drawPoints = function () {
-                            var merge  = Highcharts.merge,
-                                series = this,
-                                chart  = this.chart,
-                                points = series.points,
-                                i      = points.length;
+                        /*     var originalDrawPoints = Highcharts.seriesTypes.column.prototype.drawPoints;
+                         Highcharts.seriesTypes.column.prototype.drawPoints = function () {
+                         var merge  = Highcharts.merge,
+                         series = this,
+                         chart  = this.chart,
+                         points = series.points,
+                         i      = points.length;
 
-                            while (i--) {
-                                var candlePoint = chart.series[0].points[i];
-                                if(candlePoint.open != undefined && candlePoint.close !=  undefined){  //如果是K线图 改变矩形条颜色，否则不变
-                                    var color = (candlePoint.open < candlePoint.close) ? '#DD2200' : '#33AA11';
-                                    var seriesPointAttr = merge(series.pointAttr);
-                                    seriesPointAttr[''].fill = color;
-                                    seriesPointAttr.hover.fill = Highcharts.Color(color).brighten(0.3).get();
-                                    seriesPointAttr.select.fill = color;
-                                }else{
-                                    var seriesPointAttr = merge(series.pointAttr);
-                                }
+                         while (i--) {
+                         var candlePoint = chart.series[0].points[i];
+                         if(candlePoint.open != undefined && candlePoint.close !=  undefined){  //如果是K线图 改变矩形条颜色，否则不变
+                         var color = (candlePoint.open < candlePoint.close) ? '#DD2200' : '#33AA11';
+                         var seriesPointAttr = merge(series.pointAttr);
+                         seriesPointAttr[''].fill = color;
+                         seriesPointAttr.hover.fill = Highcharts.Color(color).brighten(0.3).get();
+                         seriesPointAttr.select.fill = color;
+                         }else{
+                         var seriesPointAttr = merge(series.pointAttr);
+                         }
 
-                                points[i].pointAttr = seriesPointAttr;
-                            }
+                         points[i].pointAttr = seriesPointAttr;
+                         }
 
-                            originalDrawPoints.call(this);
-                        }
-*/
+                         originalDrawPoints.call(this);
+                         }
+                         */
                         /*chartJsonData=angular.fromJson($scope.analyseJsonData);*/
                         angular.forEach(chartJsonData, function (data, index) {
                             chartJsonDataArr.push({
@@ -3692,7 +3776,7 @@
                             })
                         }
                         averline60 = $filter('orderBy')(averline60, 'x');
-                        function a(series){
+                        function a(series) {
                             var series = series[0];
                             if (series.visible) {
                                 series.hide();
@@ -3812,28 +3896,28 @@
                                 data: averline5,
                                 lineWidth: 1,
                                 color: 'red',
-                                visible:false
+                                visible: false
                             }, {
                                 type: 'spline',
                                 name: 'MA10',
                                 data: averline10,
                                 lineWidth: 1,
                                 color: 'yellow',
-                                visible:false
+                                visible: false
                             }, {
                                 type: 'spline',
                                 name: 'MA30',
                                 data: averline30,
                                 lineWidth: 1,
                                 color: 'blue',
-                                visible:false
+                                visible: false
                             }, {
                                 type: 'spline',
                                 name: 'MA60',
                                 data: averline60,
                                 lineWidth: 1,
                                 color: 'green',
-                                visible:false
+                                visible: false
                             }, {
                                 type: 'candlestick',
                                 name: '股价',
@@ -4051,9 +4135,9 @@
                             }]
                         });
                         //页面显示的收益曲线图
-                        for(var i=1;i<chartArr.length;i++){
-                            chartArr[i].Earn=chartArr[i-1].Earn+chartArr[i].Earn;
-                            chartArr[i].y=chartArr[i-1].y+chartArr[i].y;
+                        for (var i = 1; i < chartArr.length; i++) {
+                            chartArr[i].Earn = chartArr[i - 1].Earn + chartArr[i].Earn;
+                            chartArr[i].y = chartArr[i - 1].y + chartArr[i].y;
                         }
 
                         $('#return_map_big1').highcharts('StockChart', {
@@ -4873,12 +4957,12 @@
             $scope.myFirmStrategyList = truedata;
         }
 
-      /*  if($cookieStore.get('user').is_admin){
-          $scope.isadmin=true;
+        /*  if($cookieStore.get('user').is_admin){
+         $scope.isadmin=true;
          }
-        else{
+         else{
          $scope.isadmin=false;
-           return;
+         return;
          }*/
         $scope.type = "实盘模拟"
         $scope.checktrue = 'false';
@@ -5590,8 +5674,8 @@
                             if (symbol == "D6") {
                                 charge = 0.00035;
                             }
-                            if($scope.myFirmStrategy.exchange=='OKCoin'){
-                                charge=0.;
+                            if ($scope.myFirmStrategy.exchange == 'OKCoin') {
+                                charge = 0.;
 
                             }
                             var test = ($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
@@ -5969,28 +6053,28 @@
                                 data: averline5,
                                 lineWidth: 1,
                                 color: 'red',
-                                visible:false,
+                                visible: false,
                             }, {
                                 type: 'spline',
                                 name: 'MA10',
                                 data: averline10,
                                 lineWidth: 1,
                                 color: 'yellow',
-                                visible:false
+                                visible: false
                             }, {
                                 type: 'spline',
                                 name: 'MA30',
                                 data: averline30,
                                 lineWidth: 1,
                                 color: 'blue',
-                                visible:false
+                                visible: false
                             }, {
                                 type: 'spline',
                                 name: 'MA60',
                                 data: averline60,
                                 lineWidth: 1,
                                 color: 'green',
-                                visible:false
+                                visible: false
                             }, {
                                 type: 'candlestick',
                                 name: '股价',
@@ -6205,9 +6289,9 @@
                             }]
                         });
                         //console.log(chartArr);
-                        for(var i=1;i<chartArr.length;i++){
-                            chartArr[i].Earn=chartArr[i-1].Earn+chartArr[i].Earn;
-                            chartArr[i].y=chartArr[i-1].y+chartArr[i].y;
+                        for (var i = 1; i < chartArr.length; i++) {
+                            chartArr[i].Earn = chartArr[i - 1].Earn + chartArr[i].Earn;
+                            chartArr[i].y = chartArr[i - 1].y + chartArr[i].y;
                         }
                         //console.log(chartArr);
                         //页面显示的收益曲线图
@@ -6424,7 +6508,6 @@
         $scope.code = "# encoding: UTF-8\n" + "\"\"\"\n" + "这里的Demo是一个最简单的策略实现，并未考虑太多实盘中的交易细节，如：\n" + "1. 委托价格超出涨跌停价导致的委托失败\n" + "2. 委托未成交，需要撤单后重新委托\n" + "3. 断网后恢复交易状态\n" + "\"\"\"\n" + "from ctaBase import *\n" + "from ctaTemplate import CtaTemplate\n\n" + "########################################################################\n" + "class Demo(CtaTemplate):\n" + "    \"\"\"双指数均线策略Demo\"\"\"\n" + "    className = 'Demo'\n" + "    author = u'coder name'\n\n" + "    # 策略参数\n" + "    fastK = 0.9     # 快速EMA参数\n" + "    slowK = 0.1     # 慢速EMA参数\n" + "    initDays = 10   # 初始化数据所用的天数\n\n" + "    # 策略变量\n" + "    bar = None\n" + "    barMinute = EMPTY_STRING\n\n" + "    fastMa = []             # 快速EMA均线数组\n" + "    fastMa0 = EMPTY_FLOAT   # 当前最新的快速EMA\n" + "    fastMa1 = EMPTY_FLOAT   # 上一根的快速EMA\n\n" + "    slowMa = []             # 与上面相同\n" + "    slowMa0 = EMPTY_FLOAT\n" + "    slowMa1 = EMPTY_FLOAT\n\n" + "    # 参数列表，保存了参数的名称\n" + "    paramList = ['name',\n" + "                 'className',\n" + "                 'author',\n" + "                 'vtSymbol',\n" + "                 'fastK',\n" + "                 'slowK']\n\n" + "    # 变量列表，保存了变量的名称\n" + "    varList = ['inited',\n" + "               'trading',\n" + "               'pos',\n" + "               'fastMa0',\n" + "               'fastMa1',\n" + "               'slowMa0',\n" + "               'slowMa1']\n\n" + "    #----------------------------------------------------------------------\n" + "    def __init__(self, ctaEngine, setting):\n" + "        \"\"\"Constructor\"\"\"\n" + "        super(Demo, self).__init__(ctaEngine, setting)\n\n" + "       # 注意策略类中的可变对象属性（通常是list和dict等），在策略初始化时需要重新创建，\n" + "        # 否则会出现多个策略实例之间数据共享的情况，有可能导致潜在的策略逻辑错误风险，\n" + "        # 策略类中的这些可变对象属性可以选择不写，全都放在__init__下面，写主要是为了阅读\n" + "        # 策略时方便（更多是个编程习惯的选择）\n" + "        self.fastMa = []\n" + "        self.slowMa = []\n\n" + "    #----------------------------------------------------------------------\n" + "    def onInit(self):\n" + "        \"\"\"初始化策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略初始化')\n\n" + "        initData = self.loadBar(self.initDays)\n" + "        for bar in initData:\n" + "            self.onBar(bar)\n\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onStart(self):\n" + "        \"\"\"启动策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略启动')\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onStop(self):\n" + "        \"\"\"停止策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略停止')\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onTick(self, tick):\n" + "        \"\"\"收到行情TICK推送（必须由用户继承实现）\"\"\"\n" + "        # 计算K线\n" + "        tickMinute = tick.datetime.minute\n\n" + "        if tickMinute != self.barMinute:\n" + "            if self.bar:\n" + "                self.onBar(self.bar)\n\n" + "            bar = CtaBarData()\n" + "            bar.vtSymbol = tick.vtSymbol\n" + "            bar.symbol = tick.symbol\n" + "            bar.exchange = tick.exchange\n\n" + "            bar.open = tick.lastPrice\n" + "            bar.high = tick.lastPrice\n" + "            bar.low = tick.lastPrice\n" + "            bar.close = tick.lastPrice\n\n" + "            bar.date = tick.date\n" + "            bar.time = tick.time\n" + "            bar.datetime = tick.datetime    # K线的时间设为第一个Tick的时间\n\n" + "            # 实盘中用不到的数据可以选择不算，从而加快速度\n\n" + "            #bar.volume = tick.volume\n" + "            #bar.openInterest = tick.openInterest\n\n" + "            self.bar = bar                  # 这种写法为了减少一层访问，加快速度\n" + "            self.barMinute = tickMinute     # 更新当前的分钟\n\n" + "        else:                               # 否则继续累加新的K线\n\n" + "            bar = self.bar                  # 写法同样为了加快速度\n\n" + "            bar.high = max(bar.high, tick.lastPrice)\n" + "            bar.low = min(bar.low, tick.lastPrice)\n" + "            bar.close = tick.lastPrice\n\n" + "    #----------------------------------------------------------------------\n\n" + "    def onBar(self, bar):\n" + "        \"\"\"收到Bar推送（必须由用户继承实现）\"\"\"\n" + "		\"\"\"算法核心，接受到Bar数据后算法逻辑判断\"\"\"\n\n" + "		# 计算快慢均线\n" + "        if not self.fastMa0:\n" + "            self.fastMa0 = bar.close\n" + "            self.fastMa.append(self.fastMa0)\n" + "        else:\n" + "            self.fastMa1 = self.fastMa0\n" + "            self.fastMa0 = bar.close * self.fastK + self.fastMa0 * (1 - self.fastK)\n" + "            self.fastMa.append(self.fastMa0)\n\n" + "        if not self.slowMa0:\n" + "            self.slowMa0 = bar.close\n" + "            self.slowMa.append(self.slowMa0)\n" + "        else:\n" + "            self.slowMa1 = self.slowMa0\n" + "            self.slowMa0 = bar.close * self.slowK + self.slowMa0 * (1 - self.slowK)\n" + "            self.slowMa.append(self.slowMa0)\n\n" + "        # 判断买卖\n" + "        crossOver = self.fastMa0>self.slowMa0 and self.fastMa1<self.slowMa1     # 金叉上穿\n" + "        crossBelow = self.fastMa0<self.slowMa0 and self.fastMa1>self.slowMa1    # 死叉下穿\n\n" + "        # 金叉和死叉的条件是互斥\n" + "        # 所有的委托均以K线收盘价委托（这里有一个实盘中无法成交的风险，考虑添加对模拟市价单类型的支持）\n" + "        if crossOver:\n" + "            # 如果金叉时手头没有持仓，则直接做多\n" + "            if self.pos == 0:\n" + "                self.buy(bar.close, 1)\n" + "            # 如果有空头持仓，则先平空，再做多\n" + "            elif self.pos < 0:\n" + "                self.cover(bar.close, 1)\n" + "                self.buy(bar.close, 1)\n" + "        # 死叉和金叉相反\n" + "        elif crossBelow:\n" + "            if self.pos == 0:\n" + "                self.short(bar.close, 1)\n" + "            elif self.pos > 0:\n" + "                self.sell(bar.close, 1)\n" + "                self.short(bar.close, 1)\n\n" + "        # 发出状态更新事件\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onOrder(self, order):\n" + "        \"\"\"收到委托变化推送（必须由用户继承实现）\"\"\"\n" + "        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n" + "        pass\n\n" + "    #----------------------------------------------------------------------\n" + "    def onTrade(self, trade):\n" + "        \"\"\"收到成交推送（必须由用户继承实现）\"\"\"\n" + "        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n" + "        pass\n\n\n" + "########################################################################################\n" + "class OrderManagementDemo(CtaTemplate):\n" + "    \"\"\"基于tick级别细粒度撤单追单测试demo\"\"\"\n\n" + "    className = 'OrderManagementDemo'\n" + "    author = u'用Python的交易员'\n\n" + "    # 策略参数\n" + "    initDays = 10   # 初始化数据所用的天数\n\n" + "    # 策略变量\n" + "    bar = None\n" + "    barMinute = EMPTY_STRING\n\n\n" + "    # 参数列表，保存了参数的名称\n" + "    paramList = ['name',\n" + "                 'className',\n" + "                 'author',\n" + "                 'vtSymbol']\n\n" + "    # 变量列表，保存了变量的名称\n" + "    varList = ['inited',\n" + "               'trading',\n" + "               'pos']\n\n" + "    #----------------------------------------------------------------------\n" + "    def __init__(self, ctaEngine, setting):\n" + "        \"\"\"Constructor\"\"\"\n" + "        super(OrderManagementDemo, self).__init__(ctaEngine, setting)\n\n" + "        self.lastOrder = None\n" + "        self.orderType = ''\n\n" + "    #----------------------------------------------------------------------\n" + "    def onInit(self):\n" + "       \"\"\"初始化策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略初始化')\n\n" + "        initData = self.loadBar(self.initDays)\n" + "        for bar in initData:\n" + "            self.onBar(bar)\n\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onStart(self):\n" + "        \"\"\"启动策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略启动')\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onStop(self):\n" + "        \"\"\"停止策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略停止')\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onTick(self, tick):\n" + "        \"\"\"收到行情TICK推送（必须由用户继承实现）\"\"\"\n\n" + "        # 建立不成交买单测试单\n" + "        if self.lastOrder == None:\n" + "            self.buy(tick.lastprice - 10.0, 1)\n\n" + "        # CTA委托类型映射\n" + "        if self.lastOrder != None and self.lastOrder.direction == u'多' and self.lastOrder.offset == u'开仓':\n" + "            self.orderType = u'买开'\n\n" + "        elif self.lastOrder != None and self.lastOrder.direction == u'多' and self.lastOrder.offset == u'平仓':\n" + "            self.orderType = u'买平'\n\n" + "        elif self.lastOrder != None and self.lastOrder.direction == u'空' and self.lastOrder.offset == u'开仓':\n" + "            self.orderType = u'卖开'\n\n" + "        elif self.lastOrder != None and self.lastOrder.direction == u'空' and self.lastOrder.offset == u'平仓':\n" + "            self.orderType = u'卖平'\n\n" + "        # 不成交，即撤单，并追单\n" + "        if self.lastOrder != None and self.lastOrder.status == u'未成交':\n\n" + "            self.cancelOrder(self.lastOrder.vtOrderID)\n" + "            self.lastOrder = None\n" + "        elif self.lastOrder != None and self.lastOrder.status == u'已撤销':\n" + "        # 追单并设置为不能成交\n\n" + "            self.sendOrder(self.orderType, self.tick.lastprice - 10, 1)\n" + "            self.lastOrder = None\n\n" + "    #----------------------------------------------------------------------\n" + "    def onBar(self, bar):\n" + "        \"\"\"收到Bar推送（必须由用户继承实现）\"\"\"\n" + "        pass\n\n" + "    #----------------------------------------------------------------------\n" + "    def onOrder(self, order):\n" + "        \"\"\"收到委托变化推送（必须由用户继承实现）\"\"\"\n" + "        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n" + "        self.lastOrder = order\n\n" + "    #----------------------------------------------------------------------\n\n" + "    def onTrade(self, trade):\n" + "        \"\"\"收到成交推送（必须由用户继承实现）\"\"\"\n" + "        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n" + "        pass";
 
 
-
         $scope.$watch('$viewContentLoaded', function () {
             editor = ace.edit("editor");
             editor.$blockScrolling = Infinity;
@@ -6438,7 +6521,8 @@
             editor.getSession().setMode("ace/mode/python");
             editor.setValue($scope.code);
         });
-        $scope.openMask = function () {actualResController
+        $scope.openMask = function () {
+            actualResController
             if (!myClassId) {
                 Showbo.Msg.alert('先修改策略名（即策略类名），并保存策略。');
                 return;
@@ -7124,11 +7208,11 @@
         };
     }])
     .controller('complieItemController', ['$scope', '$rootScope', '$http', '$location', '$cookieStore', 'constantUrl', '$routeParams', '$interval', '$q', '$filter', function ($scope, $rootScope, $http, $location, $cookieStore, constantUrl, $routeParams, $interval, $q, $filter) {
-        var str=null;
-        var hash=window.location.hash;
-        var index=hash.indexOf('58');
-        if(index!=-1){
-            str=hash.substring(index);
+        var str = null;
+        var hash = window.location.hash;
+        var index = hash.indexOf('58');
+        if (index != -1) {
+            str = hash.substring(index);
         }
         //console.log(str)
         function download(text, name, type) {
@@ -7140,7 +7224,8 @@
             a[0].download = name;
             a[0].click();
         }
-        $scope.save=function(){
+
+        $scope.save = function () {
             $http.get(constantUrl + 'classs/' + str + '/', {
                     headers: {
                         'Authorization': 'token ' + $cookieStore.get('user').token

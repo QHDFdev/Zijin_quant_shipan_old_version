@@ -21,6 +21,8 @@
                   <span>正在运行：<code>{{sRun}}</code></span>
                   <span>停止运行：<code>{{sStop}}</code></span>
                   <span>回收站：<code>{{sHui}}</code></span>
+                  <span style="margin-left: 20px">交易合约：<select ngc-select-search class="common-select" ng-model="key" ng-options="x for x in symbolList" name="country"></select></span>
+                  <!--<option value="">请选择</option></select>-->
                 </div>
               </div>
               <div style="float: right;margin-right: 60px">
@@ -37,7 +39,7 @@
             </div>
           </div>
         </div>
-        <ul ng-repeat="x in trust|orderBy:yeild:true" style=" width: 76.6667rem;  margin-left: 0.83333rem;  margin-top: 0.83333rem;">
+        <ul ng-repeat="x in trust|orderBy:yeild:true |filter:{symbol:key}" style=" width: 76.6667rem;  margin-left: 0.83333rem;  margin-top: 0.83333rem;">
           <li>
             <div class="{{x.color}}">{{$index+1}}</div>
             <div>
@@ -65,6 +67,14 @@
                   <span>正在运行：<code>{{fRun}}</code></span>
                   <span>停止运行：<code>{{fStop}}</code></span>
                   <span>回收站：<code>{{fHui}}</code></span>
+                  <span style="margin-left: 20px">交易合约：<select name="" ng-options="x for x in symbolList1" ng-model="key1"></select></span>
+                    <!--<option value="">D1_AG</option>-->
+                    <!--<option value="">IF1701</option>-->
+                    <!--<option value="">btc</option>-->
+                    <!--<option value="">IC1701</option>-->
+                    <!--<option value="">IF</option>-->
+                  </select>
+                  <!--<input type="text" ng-model="key">-->
                 </div>
               </div>
               <div style="float: right;margin-right: 60px">
@@ -81,7 +91,7 @@
             </div>
           </div>
         </div>
-        <ul ng-repeat="x in flase |orderBy:yeild:true" style=" width: 76.6667rem; margin-left: 0.83333rem; margin-top: 0.83333rem;">
+        <ul ng-repeat="x in flase |orderBy:yeild:true |filter:{symbol:key1}" style=" width: 76.6667rem; margin-left: 0.83333rem; margin-top: 0.83333rem;">
           <li>
             <div class="{{x.color}}">{{$index+1}}</div>
             <div>
@@ -106,9 +116,9 @@
             <div class="tip1">
               <div class="tip1_1">
                 <div class="ul1">
-
                   <span>停止运行：<code>{{hStop}}</code></span>
                   <span>回收站：<code>{{hHui}}</code></span>
+                  <span style="margin-left: 20px">交易合约：<select name="" id="" ng-options="x for x in histroySymbolList" ng-model="key2"></select></span>
                 </div>
               </div>
               <div style="float: right;margin-right: 60px">
@@ -123,7 +133,7 @@
             </div>
           </div>
         </div>
-        <ul ng-repeat="x in histroy" style=" width: 76.6667rem;
+        <ul ng-repeat="x in histroy | filter:{symbol:key2}" style=" width: 76.6667rem;
   margin-left: 0.83333rem;
   margin-top: 0.83333rem;">
           <li>
