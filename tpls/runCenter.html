@@ -39,7 +39,7 @@
             </div>
           </div>
         </div>
-        <ul ng-repeat="x in trust|orderBy:yeild:true |filter:{symbol:key}" style=" width: 76.6667rem;  margin-left: 0.83333rem;  margin-top: 0.83333rem;">
+        <ul ng-repeat="x in trust|filter:{symbol:key}" style=" width: 76.6667rem;  margin-left: 0.83333rem;  margin-top: 0.83333rem;">
           <li>
             <div class="{{x.color}}">{{$index+1}}</div>
             <div>
@@ -91,7 +91,7 @@
             </div>
           </div>
         </div>
-        <ul ng-repeat="x in flase |orderBy:yeild:true |filter:{symbol:key1}" style=" width: 76.6667rem; margin-left: 0.83333rem; margin-top: 0.83333rem;">
+        <ul ng-repeat="x in flase |filter:{symbol:key1}" style=" width: 76.6667rem; margin-left: 0.83333rem; margin-top: 0.83333rem;">
           <li>
             <div class="{{x.color}}">{{$index+1}}</div>
             <div>
@@ -145,8 +145,7 @@
               <span class="span">交易合约：{{x.symbol}}</span>
             </div>
             <div>
-              <span>年化收益率：</span>
-              <span>胜率：</span>
+
             </div>
           </li>
         </ul>

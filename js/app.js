@@ -1397,27 +1397,7 @@
                     for (var i = 0; i < data.length; i++) {
                         data[i].account_id == null ? falsedata.push(data[i]) : truedata.push(data[i]);
                     }
-                    angular.forEach(truedata, function (item, index) {
-                        //item.time="none"
-                        if (item.status == -2) {
-                            //console.log(item)
-                            //c.push(item);
-                            item.color = 'del'
-                            item.a = 3;
-                            $scope.sHui++;
-                        }
-                        if (item.status == 2) {
-                            //a.push(item);
-                            item.color = 'run';
-                            $scope.sRun++;
-                            item.a = 1;
-                        }
-                        if (item.status == 3) {
-                            item.color = 'stop';
-                            $scope.sStop++;
-                            item.a = 2;
-                        }
-                    })
+
                     //$scope.trust = truedata;
 
                     //console.log($scope.trust);
@@ -1433,25 +1413,7 @@
                      }
                      })*/
 
-                    angular.forEach(falsedata, function (item, index) {
-                        if (item.status == -2) {
-                            //c.push(item);
-                            item.color = 'del';
-                            item.a = 3;
-                            $scope.fHui++;
-                        }
-                        if (item.status == 2) {
-                            //a.push(item);
-                            item.color = 'run';
-                            item.a = 1;
-                            $scope.fRun++;
-                        }
-                        if (item.status == 3) {
-                            item.color = 'stop';
-                            item.a = 2;
-                            $scope.fStop++;
-                        }
-                    })
+
                     //console.log(falsedata)
                     //falsedata = $filter('orderBy')(falsedata, 'a');
                     //$scope.flase = falsedata;
@@ -1628,7 +1590,7 @@
                                 i++;
                                 if (i >= IdDateList.length) {
                                     Strategy = allDataList[0][0];
-                                    console.log(allDataList[0][0])
+                                    //console.log(allDataList[0][0])
                                     getAllNianHua(0);
                                     return;
                                 }
@@ -1778,12 +1740,49 @@
                         //console.log(truedata);
                         //truedata = $filter('orderBy')(truedata, 'a');
                         //console.log(truedata);
-                        $scope.trust = truedata;
-                        var symbolList = [];
-                        //for(var i=0;i<truedata.length;i++){
-                        //    symbolList[i]=truedata[i].symbol
-                        //}
+                        var delStrategy=[],a= 0,runStrategy=[],b= 0,stopStrategy=[],c=0;
+                        angular.forEach(truedata, function (item, index) {
+                            //item.time="none"
+                            if (item.status == -2) {
+                                //console.log(item)
+                                //c.push(item);
+                                item.color = 'del';
+                                item.a = 3;
+                                $scope.sHui++;
+                                delStrategy[a++]=item;
+                            }
+                            if (item.status == 2) {
+                                //a.push(item);
+                                item.color = 'run';
 
+                                $scope.sRun++;
+                                item.a = 1;
+                                runStrategy[b++]=item;
+                            }
+                            if (item.status == 3) {
+                                item.color = 'stop';
+                                $scope.sStop++;
+                                item.a = 2;
+                                stopStrategy[c++]=item;
+                            }
+                        })
+
+                        delStrategy=$filter('orderBy')(delStrategy,'-yeild');
+                        runStrategy=$filter('orderBy')(runStrategy,'-yeild');
+                        stopStrategy=$filter('orderBy')(stopStrategy,'-yeild');
+                        var truedata1=[],d=0;
+                        //console.log(runStrategy[2])
+                        for(var i=0;i<runStrategy.length;i++){
+                            truedata1[d++]=runStrategy[i];
+                        }
+                        for(var j=0;j<stopStrategy.length;j++){
+                            truedata1[d++]=stopStrategy[j]
+                        }
+                        for(var j=0;j<delStrategy.length;j++){
+                            truedata1[d++]=delStrategy[j]
+                        }
+                        $scope.trust = truedata1;
+                        var symbolList = [];
                         for (var i = 0; i < truedata.length; i++) {
                             if (symbolList.indexOf(truedata[i].symbol) == -1) {
                                 symbolList.push(truedata[i].symbol)
@@ -1796,18 +1795,11 @@
                                 symbolList1.push(symbolList[i])
                             }
                         }
-
                         $scope.symbolList = symbolList1;
-
-
-                        $scope.yeild = 'yeild';
                         $scope.key = 'D1_AG';
-
-
                         m = 0;
                         p = 0;
                         Strategy = [];
-                        //console.log('----------------------');
                         getTimes2(0);
                     }
 
@@ -1841,7 +1833,46 @@
                             falsedata[i].code_name = getcelve(class_id1);
                         }
 
-                        $scope.flase = falsedata;
+                        var delStrategy1=[],a= 0,runStrategy1=[],b= 0,stopStrategy1=[],c=0;
+                        angular.forEach(falsedata, function (item, index) {
+                            if (item.status == -2) {
+
+                                //c.push(item);
+                                item.color = 'del';
+                                item.a = 3;
+                                $scope.fHui++;
+                                delStrategy1[a++]=item;
+                            }
+                            if (item.status == 2) {
+                                //a.push(item);
+                                item.color = 'run';
+                                item.a = 1;
+                                $scope.fRun++;
+                                runStrategy1[b++]=item;
+                            }
+                            if (item.status == 3) {
+                                item.color = 'stop';
+                                item.a = 2;
+                                $scope.fStop++;
+                                stopStrategy1[b++]=item;
+                            }
+                        })
+                        delStrategy1=$filter('orderBy')(delStrategy1,'-yeild');
+                        runStrategy1=$filter('orderBy')(runStrategy1,'-yeild');
+                        stopStrategy1=$filter('orderBy')(stopStrategy1,'-yeild');
+                        var falsedata1=[],d=0;
+                        //console.log(runStrategy[2])
+                        for(var i=0;i<runStrategy1.length;i++){
+                            falsedata1[d++]=runStrategy1[i];
+                        }
+                        for(var j=0;j<stopStrategy1.length;j++){
+                            falsedata1[d++]=stopStrategy1[j]
+                        }
+                        for(var j=0;j<delStrategy1.length;j++){
+                            falsedata1[d++]=delStrategy1[j]
+                        }
+
+                        $scope.flase = falsedata1;
                         //实盘过滤
                         var symbolList2 = [];
 
@@ -2075,10 +2106,10 @@
                         }
                         // console.log(data)
                         var num = parseInt(alldata.length / 2);
-                        console.log(alldata)
+                            console.log(alldata)
                         //console.log(num)
                         for (var i = 0; i < num; i++) {
-                            //console.log(alldata)
+                            //console.log(alldata[2*i].symbol)
 
                             //console.log(alldata[2*i].trans_type,alldata[2*i+1].trans_type)
                             if (alldata[2 * i].trans_type == "short") { //看空
@@ -2165,8 +2196,8 @@
                         var symbol = s[0] + s[1];
                         //console.log(symbol)
                         var charge;
-                        if (symbol == "IF" || symbol == "IC" || symbol || "IH") {
-                            charge = 0.00015;
+                        if (symbol == "IF" || symbol == "IC" || symbol == "IH") {
+                            charge = 0.00092;
                         }
                         if (symbol == "D1") {
                             charge = 0.00035;
@@ -2174,7 +2205,7 @@
                         if (symbol == "D6") {
                             charge = 0.00035;
                         }
-                        if (symbol == "ct") {
+                        if (symbol == "bt") {
                             charge = 0.002;
                         }
 
@@ -3290,7 +3321,7 @@
                             //计算手续费
                             var symbol = data.symbol[0] + data.symbol[1];
                             var charge;
-                            if (symbol == "IF" || symbol == "IC" || symbol || "IH") {
+                            if (symbol == "IF" || symbol == "IC" || symbol == "IH") {
                                 charge = 0.00015;
                             }
                             if (symbol == "D1") {
@@ -3319,7 +3350,6 @@
                                 "symbol": myFirm.symbol,
                                 "text": '开仓价：￥' + data.price + '<br>平仓价：￥' + data2.price + '<br>手续费：' + test2 + '<br/>盈亏：' + pal
                             });
-
 
                             if (data.trans_type == "buy") {
                                 chartArr1.push({
@@ -3481,11 +3511,12 @@
                          * @param i
                          * @returns {number}
                          */
+                        console.log( $scope.myFirmStrategy.name)
                         function gettest(i) {
                             var symbol = $scope.myFirmStrategy.symbol[0] + $scope.myFirmStrategy.symbol[1];
                             var charge;
                             if (symbol == "IF" || symbol == "IC" || symbol || "IH") {
-                                charge = 0.00015;
+                                charge = 0.00092;
                             }
                             if (symbol == "D1") {
                                 charge = 0.00035;
@@ -3498,9 +3529,11 @@
                             }
                             var test = ($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
 
+
                             test = Number((test).toFixed(6));
                             return test;
                         }
+
 
                         /**无手续费盈亏
                          *
@@ -5666,7 +5699,7 @@
                             var symbol = $scope.myFirmStrategy.symbol[0] + $scope.myFirmStrategy.symbol[1];
                             var charge;
                             if (symbol == "IF" || symbol == "IC" || symbol || "IH") {
-                                charge = 0.00015;
+                                charge = 0.00092;
                             }
                             if (symbol == "D1") {
                                 charge = 0.00035;
@@ -5675,7 +5708,7 @@
                                 charge = 0.00035;
                             }
                             if ($scope.myFirmStrategy.exchange == 'OKCoin') {
-                                charge = 0.;
+                                charge = 0.002;
 
                             }
                             var test = ($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
