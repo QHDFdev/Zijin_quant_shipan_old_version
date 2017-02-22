@@ -694,7 +694,26 @@ em, i {
 		font-size: 16px
 	}
 }
+#nav-sidebar .mobile-action{
+	z-index: 99999;
+	float: right;
+	margin-top: 23px;
+	color: #00b0e8
+}
+@media (max-width: 767px) {
+	#nav-sidebar{
+		position: absolute;
+		left: -21%;
+		-webkit-transition: all ease 1.5s;
+		-moz-transition: all ease 1.5s;
+		-o-transition: all ease 1.5s;
+		transition: all ease 1.5s;
 
+	}
+}
+.l0{
+	left: 0!important;
+}
 /*
 @media all and (min-width: 1024px) {
 	.nf-s1, .nf-s2, .nf-s3 {

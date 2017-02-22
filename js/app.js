@@ -276,8 +276,6 @@
                 $scope.aside = 'zijin-index';
             }
             $location.path('/home'); //页面跳转
-
-
         };
         $scope.complie = function () {
             $location.path('/register');
@@ -492,9 +490,7 @@
                         $scope.trueStrategy[i].class_name = "none"; //策略代码初始化
                         var class_id = data[i].class_id;
                         var status = data[i].status;
-                        if (status != -2) {
-                            $scope.trueStrategy[i].class_name = getcelve(class_id);
-                        }
+                        $scope.trueStrategy[i].class_name = getcelve(class_id);
                         if (status != -2 && status == -1) {
                             $scope.trueStrategy[i].color = "error";
                             $scope.trueStrategy[i].status = "错误";
@@ -529,12 +525,17 @@
 
                         }
                     }
+                     $scope.histroyTrue=[];
+                    //console.log(data)
                     angular.forEach(data, function (item, index) {
                         if (item.status == -2) {
                             item.color = "true";
                             item.type = "真实交易";
                             $scope.allStrategys.push(item);
                             $scope.trust++;
+                            $scope.histroyTrue.push(item);
+
+
                         }
                     });
                 })
@@ -657,9 +658,7 @@
                         $scope.myStrategy[i].class_name = "none"; //策略代码初始化
                         var class_id = data[i].class_id;
                         var status = data[i].status;
-                        if (status != -2) {
-                            $scope.myStrategy[i].class_name = getcelve(class_id);
-                        }
+                         $scope.myStrategy[i].class_name = getcelve(class_id);
                         if (status != -2 && status == -1) {
                             $scope.myStrategy[i].color = "error";
                             $scope.myStrategy[i].status = "错误";
@@ -695,12 +694,15 @@
                         }
                     }
 
+                    $scope.histroySim=[];
                     angular.forEach(data, function (item, index) {
                         if (item.status == -2) {
                             item.color = "now";
                             item.type = "实盘模拟";
                             $scope.offer++;
                             $scope.allStrategys.push(item);
+                            $scope.histroySim.push(item);
+                            //console.log($scope.histroySim)
                             //console.log($scope.allStrategys)
                         }
                     });
@@ -1325,7 +1327,20 @@
                             is_zijin: data.is_zijin
                         });
                         //console.log($cookieStore.get('user'));
-                        $location.path('/home');
+
+                        if ($cookieStore.get('user').is_admin){
+                            $location.path('/strategyruncenter');
+                            $scope.aside = 'zijin-index';
+                            $("#nav-sidebar li.active").removeClass('active');
+                            $("#nav-sidebar li:nth-child(3)").addClass('active');
+                        }
+                        else{
+                            $location.path('/home');
+                            $("#nav-sidebar li.active").removeClass('active');
+                            $("#nav-sidebar li:nth-child(1)").addClass('active');
+                        }
+                        //$location.path('/home');
+
                     })
                     .error(function (err, sta) {
                         Showbo.Msg.alert('登录失败。');
@@ -1352,9 +1367,19 @@
              })*/
         };
     }])
-    .controller('runCenterController', ['$scope', '$http', 'constantUrl', '$cookieStore', '$filter', '$routeParams', '$q', '$timeout', function ($scope, $http, constantUrl, $cookieStore, $filter, $routeParams, $q, $timeout) {
+    .controller('runCenterController', ['$scope', '$http', 'constantUrl', '$cookieStore', '$filter', '$routeParams', '$q', '$timeout','$rootScope', function ($scope, $http, constantUrl, $cookieStore, $filter, $routeParams, $q, $timeout,$rootScope) {
+        $rootScope.user = $cookieStore.get('user');
+        /*if ($cookieStore.get('user') == null) {
+            $scope.aside = 'full';
+        }
+        else {
+            $scope.aside = 'zijin-index';
+        }*/
         var falsedata = [], truedata = [];
         var accounts = [];
+       var allSymbol=new Array();
+        var trueSymbolList=[],flaseSymbolList=[],allSymbolList=[]
+
         //策略代码渲染到页面
         $scope.getSourcingStrategys = function () {
             accounts = [];
@@ -1382,7 +1407,6 @@
                 }
             }
         }
-
         var times;
         $scope.sRun = 0, $scope.sStop = 0, $scope.sHui = 0, $scope.fRun = 0, $scope.fStop = 0, $scope.fHui = 0;
         function getSelect() {
@@ -1398,34 +1422,12 @@
                         data[i].account_id == null ? falsedata.push(data[i]) : truedata.push(data[i]);
                     }
 
-                    //$scope.trust = truedata;
-
-                    //console.log($scope.trust);
-                    /* angular.forEach(truedata,function(item,index){
-                     if(item.status==-2){
-                     item.color='del';
-                     }
-                     if(item.status==2){
-                     item.color='run';
-                     }
-                     if(item.status==3){
-                     item.color='stop';
-                     }
-                     })*/
-
-
-                    //console.log(falsedata)
-                    //falsedata = $filter('orderBy')(falsedata, 'a');
-                    //$scope.flase = falsedata;
                     for (var i = 0; i < truedata.length; i++) {
                         var class_id = truedata[i].class_id;
-                        //console.log(class_id)
-                        //var status = data[i].status;
                         truedata[i].code_name = getcelve(class_id);
                     }
 
                     //实盘
-
                     if ($cookieStore.get('user').is_admin) {
                         getTimes(0);
 
@@ -1463,6 +1465,8 @@
                             })
 
                     }
+
+                    //console.log(timeList)
 
                     var n2 = 0;
                     var i = 0;
@@ -1575,6 +1579,7 @@
                      */
                     //console.log(IdDateList)
                     function getAllData(i) {
+                        var nothing = new Array();
                         $http.get(constantUrl + 'transactions/', {
                                 params: {
                                     "sty_id": IdDateList[i].id,
@@ -1586,26 +1591,23 @@
                                 }
                             })
                             .success(function (data) {
+                                //console.log(data)
                                 allDataList[m++] = data;
                                 i++;
                                 if (i >= IdDateList.length) {
-                                    Strategy = allDataList[0][0];
-                                    //console.log(allDataList[0][0])
                                     getAllNianHua(0);
                                     return;
                                 }
                                 getAllData(i);
                             })
                             .error(function(data){
-                                    allDataList[m++] = 0;
+                                    allDataList[m++] =nothing;
                                     i++;
                                     getAllData(i);
                             })
-
                     }
+                        //console.log(allDataList);
 
-
-                    var Strategy2 = [];
                     var i = 0;
                     var allDataList2 = [];
                     var m = 0;
@@ -1648,8 +1650,6 @@
                     }
 
 
-
-
                     var nianHuaList = [];
                     var p = 0;
 
@@ -1658,8 +1658,9 @@
                      * @param i
                      */
                     function getAllNianHua(i) {
+                        //console.log(allDataList[i])
                         var nowData = allDataList[i];
-                        //console.log(nowData);
+                                //console.log(nowData);
                         handledata(true, nowData, timeList[i], IdDateList[i].id);
                         //console.log(IdDateList[i].id)
                         //return;
@@ -1746,7 +1747,7 @@
                             if (item.status == -2) {
                                 //console.log(item)
                                 //c.push(item);
-                                item.color = 'del';
+                                item.color = 'tdel';
                                 item.a = 3;
                                 $scope.sHui++;
                                 delStrategy[a++]=item;
@@ -1754,7 +1755,6 @@
                             if (item.status == 2) {
                                 //a.push(item);
                                 item.color = 'run';
-
                                 $scope.sRun++;
                                 item.a = 1;
                                 runStrategy[b++]=item;
@@ -1781,21 +1781,35 @@
                         for(var j=0;j<delStrategy.length;j++){
                             truedata1[d++]=delStrategy[j]
                         }
-                        $scope.trust = truedata1;
-                        var symbolList = [];
-                        for (var i = 0; i < truedata.length; i++) {
-                            if (symbolList.indexOf(truedata[i].symbol) == -1) {
-                                symbolList.push(truedata[i].symbol)
+                        $scope.trust=[],$scope.histroyTrust=[];
+                        for(var i=0;i<truedata1.length;i++){
+                            if(truedata1[i].status!=-2){
+                                $scope.trust[i]=truedata1[i];
+                            }
+                            if(truedata1[i].status==-2){
+                                //$scope.histroyTrust[a++]=truedata1[i];
+                                $scope.histroyTrust.push(truedata1[i]);
+                                trueSymbolList.push(truedata1[i].symbol);
                             }
                         }
 
-                        var symbolList1 = [];
+                        //console.log(trueSymbolList);
+                        //console.log(truedata1)
+                        //$scope.trust = truedata1;
+                        var symbolList = [];
+                        for (var i = 0; i < $scope.trust.length; i++) {
+                            if (symbolList.indexOf($scope.trust[i].symbol) == -1) {
+                                symbolList.push($scope.trust[i].symbol)
+                            }
+                        }
+                        var symbolList1=[];
                         for (var i = 0; i < symbolList.length; i++) {
                             if (symbolList1.indexOf(symbolList[i]) == -1) {
                                 symbolList1.push(symbolList[i])
                             }
                         }
                         $scope.symbolList = symbolList1;
+                        //console.log($scope.symbolList)
                         $scope.key = 'D1_AG';
                         m = 0;
                         p = 0;
@@ -1838,7 +1852,7 @@
                             if (item.status == -2) {
 
                                 //c.push(item);
-                                item.color = 'del';
+                                item.color = 'sdel';
                                 item.a = 3;
                                 $scope.fHui++;
                                 delStrategy1[a++]=item;
@@ -1871,18 +1885,38 @@
                         for(var j=0;j<delStrategy1.length;j++){
                             falsedata1[d++]=delStrategy1[j]
                         }
+                        $scope.flase=[],$scope.histroyFlase=[];
+                        for(var i=0;i<falsedata1.length;i++){
+                            if(falsedata1[i].status!=-2){
+                                $scope.flase[i]=falsedata1[i];
+                            }
+                            if(falsedata1[i].status==-2){
+                                $scope.histroyFlase.push(falsedata1[i])
+                                flaseSymbolList.push(falsedata1[i].symbol)
+                            }
 
-                        $scope.flase = falsedata1;
+                        }
+                        //console.log(flaseSymbolList);
+                        allSymbolList=trueSymbolList.concat(flaseSymbolList)
+                        //console.log(allSymbolList);
+                        var allSymbolList1=[];
+                        for(var i=0;i<allSymbolList.length;i++){
+                            if(allSymbolList1.indexOf(allSymbolList[i])==-1){
+                                allSymbolList1.push(allSymbolList[i])
+                            }
+                        }
+                        $scope.allSymbolList=allSymbolList1;
+
+                        //$scope.flase = falsedata1;
                         //实盘过滤
                         var symbolList2 = [];
 
-                        for (var i = 0; i < falsedata.length; i++) {
-                            if (symbolList2.indexOf(falsedata[i].symbol) == -1) {
-                                symbolList2.push(falsedata[i].symbol)
+                        for (var i = 0; i <$scope.flase.length; i++) {
+                            if (symbolList2.indexOf( $scope.flase[i].symbol) == -1) {
+                                symbolList2.push( $scope.flase[i].symbol)
                             }
                         }
-
-                        var symbolList3 = [];
+                        var symbolList3=[];
                         for (var i = 0; i < symbolList2.length; i++) {
                             if (symbolList3.indexOf(symbolList2[i]) == -1) {
                                 symbolList3.push(symbolList2[i])
@@ -1891,6 +1925,7 @@
 
                         $scope.symbolList1 = symbolList3;
                         $scope.key1 = "D1_AG";
+                        $scope.key4 = "D1_AG";
 
                     }
 
@@ -2038,7 +2073,6 @@
                                     }
                                 }
                                 //console.log(nowdata.length)
-
                                 trueRes(nowdata, nowId);
                                 //console.log(nowdata)
 
@@ -2106,7 +2140,7 @@
                         }
                         // console.log(data)
                         var num = parseInt(alldata.length / 2);
-                            console.log(alldata)
+                            //console.log(alldata)
                         //console.log(num)
                         for (var i = 0; i < num; i++) {
                             //console.log(alldata[2*i].symbol)
@@ -2124,9 +2158,9 @@
                                     "time": alldata[2 * i + 1].datetime,
                                     "open": alldata[2 * i].datetime,
                                     "test": gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume),
-                                    "notestpal": notest("看空", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume),
-                                    "pal": Number((notest("看空", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume)).toFixed(6)),
-                                    "yeild": Number(((notest("看空", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume)) / alldata[2 * i].price).toFixed(6))
+                                    "notestpal": notest("看空", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume,alldata[2*i].symbol),
+                                    "pal": Number((notest("看空", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume,alldata[2*i].symbol) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume)).toFixed(6)),
+                                    "yeild": Number(((notest("看空", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume,alldata[2*i].symbol) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume)) / alldata[2 * i].price).toFixed(6))
                                 })
                             } else {
                                 if (alldata[2 * i].trans_type == "buy") {
@@ -2141,9 +2175,9 @@
                                         "time": alldata[2 * i + 1].datetime,
                                         "open": alldata[2 * i].datetime,
                                         "test": gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume),
-                                        "notestpal": notest("看多", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume),
-                                        "pal": Number((notest("看多", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume)).toFixed(6)),
-                                        "yeild": Number(((notest("看多", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume)) / alldata[2 * i].price).toFixed(6))
+                                        "notestpal": notest("看多", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume,alldata[2*i].symbol),
+                                        "pal": Number((notest("看多", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume,alldata[2*i].symbol) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume)).toFixed(6)),
+                                        "yeild": Number(((notest("看多", alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].volume,alldata[2*i].symbol) - gettest(alldata[2 * i + 1].price, alldata[2 * i].price,alldata[2*i].symbol,alldata[2*i].volume)) / alldata[2 * i].price).toFixed(6))
 
                                     })
                                 } else {
@@ -2207,14 +2241,15 @@
                         }
                         if (symbol == "bt") {
                             charge = 0.002;
+                            return Number(((a+b)*charge*v*0.01).toFixed(6));
                         }
-
                         var test = (a + b) * charge * v;
                         return Number((test).toFixed(6));
                     }
 
-                    function notest(flag, a, b,v) {
+                    function notest(flag, a, b,v,s) {
                         var test;
+                        var symbol = s[0] + s[1];
                         if (flag == "看多") {
                             //console.log("看多");
                             test = a - b;
@@ -2222,25 +2257,19 @@
                             //console.log("看空");
                             test = b - a;
                         }
+                        if(symbol == "bt"){
+                            return Number((test*v*0.01).toFixed(6));
+                        }
                         test = test * v;
                         return Number((test).toFixed(6));
                     }
-
-
-                    //console.log(times)
-                    /*function gettime(id){
-                     return times[times.length-2];
-                     get(id);
-                     }*/
-
-                    //console.log($scope.trust)
                 });
-
         };
 
         $scope.histroy = [];
-        $scope.hRun = 0, $scope.hStop = 0, $scope.hHui = 0;
+
         function getHisSelect() {
+            $scope.hRun = 0, $scope.hStop = 0, $scope.hHui = 0;
             $http.get(constantUrl + "btstrategys/", {
                     headers: {
                         'Authorization': 'token ' + $cookieStore.get('user').token
@@ -2262,7 +2291,7 @@
 
                     angular.forEach(histroy, function (item, index) {
                         if (item.status == -2) {
-                            item.color = 'del';
+                            item.color = 'hdel';
                             item.a = 2;
                             $scope.hHui++;
                         }
@@ -2271,12 +2300,8 @@
                             item.a = 1;
                             $scope.hStop++;
                         }
-
                     });
-
                     $scope.histroy = histroy;
-
-
 
                     //console.log($scope.histroy)
                     for (var i = 0; i < histroy.length; i++) {
@@ -2286,6 +2311,17 @@
                     }
                     //console.log($scope.histroy)
                     histroy = $filter('orderBy')(histroy, 'a');
+                    //$scope.histroy=[],$scope.histroyH=[];
+                   /* for(var i=0;i<histroy.length;i++){
+                        if(histroy[i].status!=-2){
+                            $scope.histroy[i]=histroy[i];
+                        }
+                        if(histroy[i].status==-2){
+                            $scope.histroyH.push(histroy[i])
+                        }
+
+                    }*/
+
                     $scope.histroy = histroy;
 
                     var histroySymbolList = [];
@@ -2295,8 +2331,8 @@
                             histroySymbolList.push(histroy[i].symbol)
                         }
                     }
+                    var  histroySymbolList1=[];
 
-                    var histroySymbolList1 = [];
                     for (var i = 0; i < histroySymbolList.length; i++) {
                         if (histroySymbolList1.indexOf(histroySymbolList[i]) == -1) {
                             histroySymbolList1.push(histroySymbolList[i])
@@ -2308,10 +2344,14 @@
                 });
 
         };
-        getHisSelect();
+
         $scope.jump = function (classname, id) {
             window.location.href = '#/' + classname + '/id=' + id;
         }
+
+
+
+
 
 
     }])
@@ -2415,7 +2455,6 @@
                                     chartArr.push({
                                         "volume": data.volume,
                                         "direction": -1,
-                                        //"Earn":$filter('number')(chartData1[i].price-data.price,2),
                                         "Earn": Earn,
                                         "openprice": data.price,
                                         "closeprice": chartData1[i].price,
@@ -2978,7 +3017,7 @@
                             var alonebuy = [];
                             var defer6 = $q.defer();
                             if (nowdata.length == 0) {
-                                Showbo.Msg.alert("今天截至目前还未成交")
+                                Showbo.Msg.alert("今天尚未有交易信号")
                                 defer6.reject(nowdata)
                                 return defer6.promise;
                             }
@@ -3135,7 +3174,7 @@
                             delzero(data)
                             //console.log("数据处理完成")
                             if (data.length < 2) {
-                                Showbo.Msg.alert("今天截至目前还未成交")
+                                Showbo.Msg.alert("今天尚未有交易信号")
                             } else {
                                 var min = data[0].datetime;
                                 var max = data[0].datetime;
@@ -3245,7 +3284,7 @@
                                     "x": data.datetime,
                                     "name": data.name,
                                     "symbol": data.symbol,
-                                    "title": data.trans_type + ' ' + buySellNum
+                                    "title": buySellNum + 'th_' + data.trans_type
                                 });
                                 i++;
                                 if (i >= chartData11.length) {
@@ -3261,7 +3300,7 @@
                                     "x": data.datetime,
                                     "name": data.name,
                                     "symbol": data.symbol,
-                                    "title": data.trans_type + ' ' + buySellNum
+                                    "title":buySellNum + 'th_' + data.trans_type
                                 });
                             } else {
                                 buyYArr.push({
@@ -3273,7 +3312,7 @@
                                     "x": data.datetime,
                                     "name": data.name,
                                     "symbol": data.symbol,
-                                    "title": data.trans_type + ' ' + buySellNum
+                                    "title":buySellNum + 'th_' + data.trans_type
                                 });
                                 i++;
                                 if (i >= chartData11.length) {
@@ -3289,7 +3328,7 @@
                                     "x": data.datetime,
                                     "name": data.name,
                                     "symbol": data.symbol,
-                                    "title": data.trans_type + ' ' + buySellNum
+                                    "title": buySellNum + 'th_' + data.trans_type
                                 });
                             }
                             buySellNum++;
@@ -3297,8 +3336,9 @@
                         }
 
                         //console.log(myFirm.multiple)
-                        for (var i = 0; i < chartData11.length; i++) {
+                        var allPal=0;
 
+                        for (var i = 0; i < chartData11.length; i++) {
                             if (i + 1 >= chartData11.length) {
                                 break;
                             }
@@ -3314,8 +3354,6 @@
                                 //console.log("看空");
                                 var test = data.price - data2.price;
                             }
-
-
                             test = Number((test).toFixed(6));
                             //console.log(test)
                             //计算手续费
@@ -3330,11 +3368,15 @@
                             if (symbol == "D6") {
                                 charge = 0.00035;
                             }
+                            if(symbol == "bt"){
+                                charge = 0.002;
+                            }
                             var test2 = (data2.price + data.price) * charge;
 
                             test2 = Number((test2).toFixed(6));
-                            var pal = test - test2;
+                             var pal = test - test2;
                             pal = Number((pal).toFixed(6));
+                            allPal +=pal;
 
                             chartArr.push({
                                 "x": data2.datetime,
@@ -3353,7 +3395,7 @@
 
                             if (data.trans_type == "buy") {
                                 chartArr1.push({
-                                    "text": '开仓价：' + data.price + '<br>平仓价：￥' + data2.price + '<br>盈亏：' + pal,
+                                    "text": '开仓价：' + data.price + '<br>平仓价：￥' + data2.price + '<br>盈亏：' + allPal,
                                     "title": "看多",
                                     "x": data2.datetime,
                                     "y": pal,
@@ -3369,7 +3411,7 @@
                                 })
                             } else {
                                 chartArr1.push({
-                                    "text": '开仓价：' + data.price + '<br>平仓价：￥' + data2.price + '<br>盈亏：' + pal,
+                                    "text": '开仓价：' + data.price + '<br>平仓价：￥' + data2.price + '<br>盈亏：' + allPal,
                                     "title": "看空",
                                     "x": data2.datetime,
                                     "y": pal,
@@ -3511,7 +3553,6 @@
                          * @param i
                          * @returns {number}
                          */
-                        console.log( $scope.myFirmStrategy.name)
                         function gettest(i) {
                             var symbol = $scope.myFirmStrategy.symbol[0] + $scope.myFirmStrategy.symbol[1];
                             var charge;
@@ -3525,10 +3566,10 @@
                                 charge = 0.00035;
                             }
                             if ($scope.myFirmStrategy.exchange == 'OKCoin') {
-                                charge = 0.002
+                                charge = 0.002;
+                                return Number((($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge *0.01).toFixed(6));
                             }
                             var test = ($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
-
 
                             test = Number((test).toFixed(6));
                             return test;
@@ -3548,7 +3589,9 @@
                                 //console.log("看空");
                                 var test = $scope.analyseDataArr[i].openprice - $scope.analyseDataArr[i].closeprice;
                             }
-
+                            if ($scope.myFirmStrategy.exchange == 'OKCoin'){
+                                return Number((test *0.01).toFixed(6));
+                            }
                             test = Number((test).toFixed(6));
                             return test;
                         }
@@ -3816,6 +3859,10 @@
 
                             }
                         }
+                        for (var i = 1; i < chartArr.length; i++) {
+                            chartArr[i].Earn = chartArr[i - 1].Earn + chartArr[i].Earn;
+                            chartArr[i].y = chartArr[i - 1].y + chartArr[i].y;
+                        }
 
                         $('#return_map_big').highcharts('StockChart', {
                             credits: {
@@ -3847,7 +3894,7 @@
                                 xDateFormat: "%Y-%m-%d %H:%M:%S",
                                 valueDecimals: 2,
                                 backgroundColor: '#eeeeee',   // 背景颜色
-                                // borderColor: '#ccc',         // 边框颜色
+                                borderColor: '#ccc',         // 边框颜色
                                 borderRadius: 10,             // 边框圆角
                                 borderWidth: 1,               // 边框宽度
                                 shadow: true,                 // 是否显示阴影
@@ -3894,7 +3941,7 @@
                                     x: -3
                                 },
                                 title: {
-                                    text: '股价'
+                                    text: '价格'
                                 },
                                 lineWidth: 1,
                                 height: '50%'
@@ -3964,12 +4011,15 @@
                                 data: shortYArr,
                                 onSeries: "dataseries",
                                 shape: 'squarepin',
-                                width: 36,
+                                width: 50,
                                 color: '#ff9912',
                                 fillColor: 'transparent',
-                                style: {
-                                    color: '#333'
+                                style:{
+                                    color:'#333'
                                 },
+                                //style: {
+                                //    color: '#333'
+                                //},
                                 y: -40,
                                 name: '看空',
                             }, {
@@ -3977,7 +4027,7 @@
                                 data: buyYArr,
                                 onSeries: "dataseries",
                                 shape: 'squarepin',
-                                width: 36,
+                                width: 50,
                                 color: "#4169e1",
                                 fillColor: 'transparent',
                                 style: {
@@ -4075,7 +4125,7 @@
                                     x: -3
                                 },
                                 title: {
-                                    text: '股价'
+                                    text: '价格'
                                 },
                                 lineWidth: 1,
                                 height: '50%'
@@ -4168,10 +4218,6 @@
                             }]
                         });
                         //页面显示的收益曲线图
-                        for (var i = 1; i < chartArr.length; i++) {
-                            chartArr[i].Earn = chartArr[i - 1].Earn + chartArr[i].Earn;
-                            chartArr[i].y = chartArr[i - 1].y + chartArr[i].y;
-                        }
 
                         $('#return_map_big1').highcharts('StockChart', {
                             credits: {
@@ -4249,7 +4295,8 @@
                                     radius: 5
                                 },
                                 id: "yingkui",
-                                color: '#eec710'
+                                color: '#eec710',
+
                             }, {
                                 type: 'flags',
                                 data: chartArr1,
@@ -4262,11 +4309,9 @@
                                     color: '#333'
                                 },
                                 name: "详情",
-                                y: -50
-
+                                y: -50,
 
                             }
-
                             ]
                         });
 
@@ -5123,7 +5168,7 @@
                                 }
                             }
                             if (nowdata.length == 0) {
-                                Showbo.Msg.alert("今天截至目前还未成交.");
+                                Showbo.Msg.alert("今天尚未有交易信号");
                                 //console.log(stime,etime)
                                 defer6.resolve(data);
                                 return defer6.promise;
@@ -5292,7 +5337,7 @@
                             if (data.length < 2) {
                                 stime = $scope.myFirmDate;
                                 etime = mydate;
-                                Showbo.Msg.alert("今天截至目前还未成交...")
+                                Showbo.Msg.alert("今天尚未有交易信号")
                                 defer1.resolve(data)
                             } else {
                                 var min = data[0].datetime;
@@ -5400,7 +5445,7 @@
                                     "x": data.datetime,
                                     "name": data.name,
                                     "symbol": data.symbol,
-                                    "title": data.trans_type + ' ' + buySellNum
+                                    "title":buySellNum + 'th_' + data.trans_type
                                 });
                                 i++;
                                 if (i >= chartData11.length) {
@@ -5415,7 +5460,7 @@
                                     "x": data.datetime,
                                     "name": data.name,
                                     "symbol": data.symbol,
-                                    "title": data.trans_type + ' ' + buySellNum
+                                    "title":buySellNum + 'th_' + data.trans_type
                                 });
                             } else {
                                 buyYArr.push({
@@ -5426,7 +5471,7 @@
                                     "x": data.datetime,
                                     "name": data.name,
                                     "symbol": data.symbol,
-                                    "title": data.trans_type + ' ' + buySellNum
+                                    "title": buySellNum + 'th_' + data.trans_type
                                 });
                                 i++;
                                 if (i >= chartData11.length) {
@@ -5441,7 +5486,7 @@
                                     "x": data.datetime,
                                     "name": data.name,
                                     "symbol": data.symbol,
-                                    "title": data.trans_type + ' ' + buySellNum
+                                    "title": buySellNum + 'th_' + data.trans_type
                                 });
                             }
                             buySellNum++;
@@ -5449,6 +5494,7 @@
                         }
 
                         //console.log(myFirm.multiple)
+                        var allPal=0;
                         for (var i = 0; i < chartData11.length; i++) {
 
                             if (i + 1 >= chartData11.length) {
@@ -5486,8 +5532,9 @@
                             test2 = test2 * myFirm.multiple;
                             test2 = Number((test2).toFixed(6));
                             var pal = test - test2;
-                            pal = Number((pal).toFixed(6));
 
+                            pal = Number((pal).toFixed(6));
+                            allPal +=pal;
                             chartArr.push({
                                 "x": data2.datetime,
                                 "y": pal, //盈亏数值
@@ -5506,7 +5553,7 @@
 
                             if (data.trans_type == "buy") {
                                 chartArr1.push({
-                                    "text": '开仓价：' + data.price + '<br>平仓价：￥' + data2.price + '<br>盈亏：' + pal,
+                                    "text": '开仓价：' + data.price + '<br>平仓价：' + data2.price + '<br>盈亏：' + allPal,
                                     "title": "看多",
                                     "x": data2.datetime,
                                     "y": pal,
@@ -5522,7 +5569,7 @@
                                 })
                             } else {
                                 chartArr1.push({
-                                    "text": '开仓价：' + data.price + '<br>平仓价：￥' + data2.price + '<br>盈亏：' + pal,
+                                    "text": '开仓价：' + data.price + '<br>平仓价：' + data2.price + '<br>盈亏：' + allPal,
                                     "title": "看空",
                                     "x": data2.datetime,
                                     "y": pal,
@@ -5709,7 +5756,7 @@
                             }
                             if ($scope.myFirmStrategy.exchange == 'OKCoin') {
                                 charge = 0.002;
-
+                                return Number((($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge * $scope.myFirmStrategy.multiple*0.01).toFixed(6));
                             }
                             var test = ($scope.analyseDataArr[i].closeprice + $scope.analyseDataArr[i].openprice) * charge;
                             test = test * $scope.myFirmStrategy.multiple;
@@ -5729,6 +5776,9 @@
                             } else {
                                 //console.log("看空");
                                 var test = $scope.analyseDataArr[i].openprice - $scope.analyseDataArr[i].closeprice;
+                            }
+                            if ($scope.myFirmStrategy.exchange == 'OKCoin'){
+                                return Number((test * $scope.myFirmStrategy.multiple*0.01).toFixed(6));
                             }
                             test = test * $scope.myFirmStrategy.multiple;
                             test = Number((test).toFixed(6));
@@ -6003,7 +6053,7 @@
                                 xDateFormat: "%Y-%m-%d %H:%M:%S",
                                 valueDecimals: 2,
                                 backgroundColor: '#eeeeee',   // 背景颜色
-                                // borderColor: '#ccc',         // 边框颜色
+                                borderColor: '#ccc',         // 边框颜色
                                 borderRadius: 10,             // 边框圆角
                                 borderWidth: 1,               // 边框宽度
                                 shadow: true,                 // 是否显示阴影
@@ -6051,7 +6101,7 @@
                                     x: -3
                                 },
                                 title: {
-                                    text: '股价'
+                                    text: '价格'
                                 },
                                 lineWidth: 1,
                                 height: '50%'
@@ -6119,7 +6169,7 @@
                                 data: shortYArr,
                                 onSeries: "dataseries",
                                 shape: 'squarepin',
-                                width: 36,
+                                width: 50,
                                 color: '#ff9912',
                                 fillColor: 'transparent',
                                 style: {
@@ -6132,7 +6182,7 @@
                                 data: buyYArr,
                                 onSeries: "dataseries",
                                 shape: 'squarepin',
-                                width: 36,
+                                width: 50,
                                 color: "#4169e1",
                                 fillColor: 'transparent',
                                 style: {
@@ -6229,7 +6279,7 @@
                                     x: -3
                                 },
                                 title: {
-                                    text: '股价abc'
+                                    text: '价格'
                                 },
                                 lineWidth: 1,
                                 height: '50%'
@@ -6322,10 +6372,12 @@
                             }]
                         });
                         //console.log(chartArr);
+
                         for (var i = 1; i < chartArr.length; i++) {
                             chartArr[i].Earn = chartArr[i - 1].Earn + chartArr[i].Earn;
                             chartArr[i].y = chartArr[i - 1].y + chartArr[i].y;
                         }
+
                         //console.log(chartArr);
                         //页面显示的收益曲线图
                         $('#return_map_big_2').highcharts('StockChart', {
@@ -6394,6 +6446,7 @@
                                     shadow: false
                                 }
                             },
+
                             //收益曲线
                             series: [{
                                 data: chartArr,
@@ -6405,7 +6458,9 @@
                                     radius: 5
                                 },
                                 id: "yingkui",
-                                color: '#eec710'
+
+                                color: '#eec710',
+
                             }, {
                                 type: 'flags',
                                 data: chartArr1,
@@ -8667,6 +8722,16 @@
     .directive('strategyTable', ['$route', '$location', '$http', 'constantUrl', '$cookieStore', function ($route, $location, $http, constantUrl, $cookieStore) {
         return {
             controller: function ($scope, $element, $http) {
+                function download(text, name, type) {
+                    var file = new Blob([text], {
+                        type: type
+                    })
+                    var a = $('<a hidden>Download py</a>').appendTo('body');
+                    a[0].href = URL.createObjectURL(file);
+                    a[0].download = name;
+                    a[0].click();
+                }
+
                 $scope.log1 = function (a) {
                     $scope.beginlog();
                     i = a.$index; //点击的第几个
@@ -8683,6 +8748,23 @@
                             $('#logs').hide()
                             Showbo.Msg.alert("请求失败")
                         });
+                };
+                $scope.log1Load = function(a){
+                    //$scope.beginlog();
+                    i= a.$index;
+                    var url = $scope.trueStrategy[i]._id;
+                    $http.get(constantUrl + "strategys/" + url + '/', {
+                            headers: {
+                                'Authorization': 'token ' + $cookieStore.get('user').token
+                            }
+                        })
+                        .success(function (data) {
+                            download(data.logs, $scope.trueStrategy[i].name, 'text/plain');
+                        })
+                        .error(function (err, sta) {
+                            Showbo.Msg.alert("请求失败")
+                        });
+
                 }
                 $scope.log2 = function (a) {
                     $scope.beginlog();
@@ -8700,6 +8782,23 @@
                             $('#logs').hide()
                             Showbo.Msg.alert("请求失败")
                         });
+                }
+                $scope.log2Load = function(a){
+                    //$scope.beginlog();
+                    i= a.$index;
+                    var url = $scope.myStrategy[i]._id;
+                    $http.get(constantUrl + "strategys/" + url + '/', {
+                            headers: {
+                                'Authorization': 'token ' + $cookieStore.get('user').token
+                            }
+                        })
+                        .success(function (data) {
+                            download(data.logs, $scope.myStrategy[i].name, 'text/plain');
+                        })
+                        .error(function (err, sta) {
+                            Showbo.Msg.alert("请求失败")
+                        });
+
                 }
                 $scope.colselog = function () {
                     $scope.log = false;
@@ -9019,6 +9118,15 @@
     .directive('hisTable', ['$route', '$location', '$http', 'constantUrl', '$cookieStore', function ($route, $location, $http, constantUrl, $cookieStore) {
         return {
             link: function (scope, ele, attrs) {
+                function download(text, name, type) {
+                    var file = new Blob([text], {
+                        type: type
+                    })
+                    var a = $('<a hidden>Download py</a>').appendTo('body');
+                    a[0].href = URL.createObjectURL(file);
+                    a[0].download = name;
+                    a[0].click();
+                }
                 scope.strategystart = function (a) {
                     i = a.$index; //点击的第几个
                     var url = scope.myHisStrategy[i]._id;
@@ -9071,6 +9179,24 @@
                             $('#logs').hide()
                             Showbo.Msg.alert("请求失败")
                         });
+                };
+                scope.log3Load = function(a){
+                    //$scope.beginlog();
+                    i= a.$index;
+                    var url = scope.myHisStrategy[i]._id;
+                    $http.get(constantUrl + "btstrategys/" + url + '/', {
+                            headers: {
+                                'Authorization': 'token ' + $cookieStore.get('user').token
+                            }
+                        })
+                        .success(function (data) {
+                            //$scope.put($scope.myHisStrategy[i].name, data.logs);
+                            download(data.logs, scope.myHisStrategy[i].name, 'text/plain');
+                        })
+                        .error(function (err, sta) {
+                            Showbo.Msg.alert("请求失败")
+                        });
+
                 }
                 scope.colselog = function () {
                     $scope.log = false;

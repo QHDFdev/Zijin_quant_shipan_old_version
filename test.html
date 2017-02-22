@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <span style="white-space:pre">    </span><meta charset="UTF-8">
+    <span style="white-space:pre">    </span><title>Table选项卡切换</title>
+    <span style="white-space:pre">    </span><style type="text/css">
+    *{
+        <span style="white-space:pre">    </span>margin: 0px;
+        <span style="white-space:pre">    </span>padding: 0px;
+        <span style="white-space:pre">    </span>font:12px normal "microsoft yahei";
+    }
+    #tab{
+        <span style="white-space:pre">    </span>width: 290px;
+        <span style="white-space:pre">    </span>height: 50px;
+        <span style="white-space:pre">    </span>margin: 20px auto;
+        <span style="white-space:pre">    </span>padding: 5px;
+    }
+    #tab div{
+        <span style="white-space:pre">    </span>line-height: 25px;
+        <span style="white-space:pre">    </span>border:1px solid #000;
+        <span style="white-space:pre">    </span>border-top: none;
+        <span style="white-space:pre">    </span>padding: 5px;
+    }
+    #tab ul{
+        <span style="white-space:pre">    </span>list-style: none;
+        <span style="white-space:pre">    </span>display: block;
+        <span style="white-space:pre">    </span>height: 30px;
+        <span style="white-space:pre">    </span>line-height: 30px;
+        <span style="white-space:pre">    </span>border-bottom: 2px solid #5C2038;
+    }
+    #tab ul li{
+        <span style="white-space:pre">    </span>float: left;
+        <span style="white-space:pre">    </span>margin:0px 3px;
+        <span style="white-space:pre">    </span>padding: 0px 8px;
+        <span style="white-space:pre">    </span>border:1px solid #aaa;
+        <span style="white-space:pre">    </span>height: 28px;
+        <span style="white-space:pre">    </span>width: 70px;
+        <span style="white-space:pre">    </span>text-align: center;
+        <span style="white-space:pre">    </span>line-height: 28px;
+    }
+    /*点击后添加的样式*/
+    #tab ul li.on{
+        <span style="white-space:pre">    </span>border-bottom: 2px solid #fff;
+        <span style="white-space:pre">    </span>border-top: 2px solid #5C2038;
+    }
+    /*div跟随隐藏*/
+    .hide{
+        <span style="white-space:pre">    </span>display: none;
+    }
+</style>
+    <script type="text/javascript">
+        window.onload = function(){
+            var mTab = document.getElementById("tab");
+            var mUl = mTab.getElementsByTagName("ul")[0];
+            var mLis = mUl.getElementsByTagName("li");
+            var mDivs= mTab.getElementsByTagName("div");
+
+
+            for(var i=0;i<mLis.length;i++){
+                mLis[i].index = i;
+// 添加鼠标点击事件
+                mLis[i].onclick = function(){
+                    for (var n = 0; n < mLis.length; n++) {
+                        mLis[n].className= "";
+                        mDivs[n].className="hide";
+                    }
+                    this.className= "on";
+                    mDivs[this.index].className = "";
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="tab">
+    <ul>
+        <li class="on">Java</li>
+        <li>JQuery</li>
+        <li>Html5+css</li>
+    </ul>
+    <div>
+        Java基础课程<br>
+        Java基础课程<br>
+        Java基础课程<br>
+        Java基础课程<br>
+    </div>
+    <div class="hide">JavaScript基础修炼圣典<br>
+        JavaScript基础修炼圣典<br>
+        JavaScript基础修炼圣典<br>
+        JavaScript基础修炼圣典<br></div>
+    <div class="hide">
+        Html5+css基础课程<br>
+        Html5+css基础课程<br>
+        Html5+css基础课程<br>
+        Html5+css基础课程<br>
+    </div>
+</div>
+</body>
+</html>

@@ -7,10 +7,10 @@
               data-toggle="tab">策略实盘图表
           </li>
           <li data-target="#transaction_details_1" aria-controls="transaction_details_1" role="tab" data-toggle="tab">
-            策略交易分析
+            交易结果分析
           </li>
-          <li data-target="#winrate_1" aria-controls="winrate_1" role="tab" data-toggle="tab">策略风险分析</li>
-          <li role="tab" data-toggle="tab" data-target="#assessment">模型评估</li>
+          <!--<li data-target="#winrate_1" aria-controls="winrate_1" role="tab" data-toggle="tab">策略风险分析</li>-->
+          <!--<li role="tab" data-toggle="tab" data-target="#assessment">模型评估</li>-->
         </ul>
       </nav>
     </div>
@@ -44,7 +44,7 @@
     </div>
     <div class="row">
       <div class="">
-        <i class='mobile-action visible-xs fa fa-lg fa-arrow-circle-right' mobile-action></i>
+        <!--<i class='mobile-action visible-xs fa fa-lg fa-arrow-circle-right' mobile-action></i>-->
         <div class="analyse-menu-list">
           <!-- <p class="analyse-menu-head"><button class="btn1" data-toggle='modal' data-target='#actualRes-modal1'>策略实盘模拟排名</button></p>
           <p class="analyse-menu-head"><button class="btn2" data-toggle='modal' data-target='#actualRes-modal2' >获取实盘模拟数据</button></p>
@@ -215,7 +215,7 @@
         <div class="tab-content" id="tab-content-1">
           <div role="tabpanel" class="tab-pane active" id="return_mapping_1">
             <div class="block">
-              <h3 class="analyse-charts-title mb0">交易走势图</h3>
+              <h3 class="analyse-charts-title mb0">交易走势图<span style="font-size: 1.2rem;color: #858585;">(交易最小单位时间：1分钟)</span></h3>
               <div id="return_map_big_1"></div>
             </div>
             <div class="block">
@@ -254,7 +254,7 @@
                     <!--<th>交易手数</th>-->
                     <th>手续费</th>
                     <th>无手续费盈亏</th>
-                    <th>盈亏</th>
+                    <th>有手续费盈亏</th>
                   </tr>
                   </thead>
                   <tbody class="tbodyall">
@@ -298,7 +298,7 @@
                     <th>交易方向</th>
                     <th>开仓价</th>
                     <th>平仓价</th>
-                    <th>盈亏</th>
+                    <th>有手续费盈亏</th>
                     <th>收益率</th>
                   </tr>
                   </thead>
@@ -396,17 +396,6 @@
                 </table>
               </div>
             </div>
-          </div>
-          <!--<div role="tabpanel" class="tab-pane" id="trading_yield_1">
-
-          </div>
-          <div role="tabpanel" class="tab-pane" id="annualized_return_1">
-
-          </div>
-          <div role="tabpanel" class="tab-pane" id="annualized_date_1">
-
-          </div>-->
-          <div role="tabpanel" class="tab-pane" id="winrate_1">
             <div class="block">
               <h3 class="analyse-charts-title">胜率</h3>
               <div class="table-responsive">
@@ -619,6 +608,18 @@
               </div>
             </div>
           </div>
+          <!--<div role="tabpanel" class="tab-pane" id="trading_yield_1">
+
+          </div>
+          <div role="tabpanel" class="tab-pane" id="annualized_return_1">
+
+          </div>
+          <div role="tabpanel" class="tab-pane" id="annualized_date_1">
+
+          </div>-->
+         <!-- <div role="tabpanel" class="tab-pane" id="winrate_1">
+
+          </div>-->
           <!--<div role="tabpanel" class="tab-pane" id="average_earning_loss_1">-->
           <!---->
           <!--</div>-->
@@ -691,7 +692,7 @@
     </p>
     <div class="row">
       <div class="col-xs-12">
-        <h2>交易走势图</h2>
+        <h2>交易走势图<span style="font-size: 1.2rem;color: #858585;">(交易周期1分钟)</span></h2>
         <div id="return_map_big_form" style="height:600px;background:#fff;width:90%;max-width: 1000px;"></div>
       </div>
     </div>
@@ -716,7 +717,7 @@
           <!--<th>交易手数</th>-->
           <th>手续费</th>
           <th>无手续费盈亏</th>
-          <th>盈亏</th>
+          <th>有手续费盈亏</th>
         </tr>
         </thead>
         <tbody>
@@ -761,7 +762,7 @@
           <th>交易方向</th>
           <th>开仓价</th>
           <th>平仓价</th>
-          <th>盈亏</th>
+          <th>有手续费盈亏</th>
           <th>收益率</th>
         </tr>
         </thead>

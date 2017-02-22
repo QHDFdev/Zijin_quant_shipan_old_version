@@ -60,6 +60,7 @@
 }
 .zijin-table .zijin-table-body table{
 	font-size: 1rem;
+	background-color: #fff;
 }
 .zijin-table .zijin-table-body table button{
 	font-size: 1rem;
@@ -280,7 +281,6 @@
  .zijin-table .tip ul {
 	 display: block;
 	 background-color: #fff;
-
 	 /*padding: 0;*/
 	 padding: 0.1rem 0 0 3.7rem;
  }
@@ -299,5 +299,10 @@ float: right;
 	/*padding-top: 20px;*/
 	width: 91%;
 	margin:20px;
-	background-color: #fff;
+
+}
+@media (max-width: 767px){
+	.zijin-table,.analyse,.zijin-index,.zijin-complie,.modalRes,.runCenter,.trueR,.admincenter{
+		padding: 0;
+	}
 }

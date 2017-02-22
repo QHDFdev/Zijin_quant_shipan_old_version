@@ -2,7 +2,7 @@
 <html lang="en" ng-app='myapp'>
 <head>
 	<meta charset="UTF-8">
-	<title>图灵紫金量化 beta 2</title>
+	<title>图灵紫金量化 beta 4</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
 	<!-- <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"> -->
@@ -35,21 +35,14 @@
 	<div class="zijin-main-wrapper">
 		<div class="main-navbar navbar navbar-default navbar-fixed-top noprint nav">
 			<div class="container-fluid">
-				<div class="navbar-header">
-					<button class="navbar-toggle" type="button" data-toggle='collapse' data-target='.navbar-collapse'>
-						<span class="sr-only">toggle</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a ng-href="#" class="navbar-brand">
-						<img src="images/logo.png">
-					</a>
-					<a href="" style="display: block;width: 5rem;height: 4.5rem;background: url('images/beta3.png') no-repeat;background-size: 98%;margin: 0 0 0 2rem">
-						<!--<img src="images/beta3.png">-->
-					</a>
-				</div>
-				<div class="collapse navbar-collapse">
+					<ul style="float: left">
+						<a ng-href="#" class="navbar-brand">
+							<img src="images/logo.png">
+						</a>
+						<a href="" style="display: block;width: 5rem;height: 4.5rem;background: url('images/beta3.png') no-repeat;background-size: 98%;margin: 0 0 0 2rem">
+							<!--<img src="images/beta3.png">-->
+						</a>
+					</ul>
           <!--<ul class="nav navbar-left">紫金量化平台</ul>-->
 					<!--<ul class="nav navbar-nav left-nav" move-box>
 						<li>
@@ -70,7 +63,7 @@
 							<a ng-click='hashLocation("/QuantModelShare")' ng-class="{active:natived=='#/QuantModelShare'}">模型智库</a>
 						</li>
 					</ul>-->
-					<ul class="nav navbar-nav navbar-right" style="margin-top: 2px">
+					<ul class="nav navbar-nav navbar-right">
 						<li ng-hide='user.username!=null'>
 							<a ng-href="#/login" style="color: #fff">登录</a>
 						</li>
@@ -93,19 +86,19 @@
 							</div>
 						</li>
 					</ul>
-				</div>
 			</div>
 		</div>
 		<!--<div class="zijin-ngview" ng-view></div>-->
 		<aside id="nav-sidebar" class="noprint" ng-show='user.username!=null'>
+			<i class='mobile-action visible-xs fa fa-lg fa-arrow-circle-right' mobile-action></i>
 			<nav class="nav-main">
 				<ul class="list-unstyled">
 					<li class="active">
 						<a ng-click='hashLocation("/home")'>
 							<i class="iconYCJ icon-home-ycj"></i> 首页
+
 						</a>
 					</li>
-
 					<li class="dropdown-submenu ">
 						<a ng-click='hashLocation("/strategyconpanel")'>
 							<i class="iconYCJ icon-hot-ycj" ></i> 配置中心

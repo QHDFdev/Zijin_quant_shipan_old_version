@@ -56,8 +56,14 @@
   width: 18.5833rem;
   display: table-cell;
 }
-.del{
-  background-color: #bebebe;
+.tdel{
+  background-color: #f0ad4e;
+}
+.sdel{
+  background-color: #5bc0de;
+}
+.hdel{
+  background-color: #c7c7c7;
 }
 .stop{
   background-color:rgb(255,255,0) ;
