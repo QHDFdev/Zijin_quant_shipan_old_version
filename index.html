@@ -33,8 +33,8 @@
 </head>
 <body ng-controller='homeController'>
 	<div class="zijin-main-wrapper">
-		<div class="main-navbar navbar navbar-default navbar-fixed-top noprint nav">
-			<div class="container-fluid">
+		<div class="main-navbar navbar-fixed-top noprint ">
+			<div class="">
 					<ul style="float: left">
 						<a ng-href="#" class="navbar-brand">
 							<img src="images/logo.png">
@@ -63,12 +63,12 @@
 							<a ng-click='hashLocation("/QuantModelShare")' ng-class="{active:natived=='#/QuantModelShare'}">模型智库</a>
 						</li>
 					</ul>-->
-					<ul class="nav navbar-nav navbar-right">
+					<ul class="userLogin">
 						<li ng-hide='user.username!=null'>
-							<a ng-href="#/login" style="color: #fff">登录</a>
+							<a ng-href="#/login" style="color: #fff;text-decoration: none">登录 &nbsp;</a>
 						</li>
 						<li ng-hide='user.username!=null'>
-							<a ng-href="#" class="reg-btn" style="color: #fff">注册(暂未开放)</a>
+							<a ng-href="#" class="reg-btn" style="color: #fff"> &nbsp;注册(暂未开放)</a>
 						</li>
 						<!-- <li class="dropdown" ng-show='user.username!=null'>
 							<a ng-href="" class="dropdown-toggle" data-toggle='dropdown'>

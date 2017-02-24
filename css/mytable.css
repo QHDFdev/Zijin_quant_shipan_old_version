@@ -47,6 +47,7 @@
 	/*margin-top: 50px;
 	margin-bottom: 50px;*/
 }
+
 .zijin-table .zijin-table-body table td ,.zijin-table .zijin-table-body table th{
 	text-align: center;
 	vertical-align: middle;
@@ -231,8 +232,9 @@
 }
  .guide ul{
 	 background-color: #fff;
-	 height: 2.91667rem;
+
 	 margin: 0;
+	 height: 2.91667rem;
 	 border-bottom: 1px solid #ccc;
 }
  .guide ul li{
@@ -301,8 +303,67 @@ float: right;
 	margin:20px;
 
 }
+.rec_table{
+	width: 70%;
+}
 @media (max-width: 767px){
 	.zijin-table,.analyse,.zijin-index,.zijin-complie,.modalRes,.runCenter,.trueR,.admincenter{
+		padding: 4.5rem 0 0 1.3rem;
+	}
+	.zijin-table .guide{
+		height: 55px;
+	}
+	.zijin-table .guide ul{
+		background-color: #fff;
+		width: 100%;
+		height: 6rem;
+		margin: 0;
+		border: none;
+
+
+	}
+	.zijin-table .guide ul li{
+		width:8rem;
+		height: 2.91667rem;
+		border-bottom: 1px solid #ccc;
+		background-color: #fff;
+	}
+	.guide ul .active {
+		color: #2c50a9;
+		border-bottom: solid 2px;
+		transition: color .3s ease-in-out;
+		/* transition: width .2s ease-in-out; */
+	}
+	.zijin-table .table-responsive1{
+
+		margin: 0;
+	}
+	.zijin-table .table{
+		width: 50%!important;
+	}
+	.zijin-table .tip {
+		padding: 0 0 0 10px;
+
+		font-size: 1.16667rem;
+		height: 3.2rem;
+		line-height: 3.2rem;
+		background-color: #fff;
+	}
+	.zijin-table .tip ul{
+		width: 100%;
+		margin-top: -2px;
 		padding: 0;
 	}
+		.zijin-table .tip ul li{
+			background-color: #fff;
+
+		}
+	.zijin-table .tip ul li.li{
+		margin:0;
+	}
+
+	.zijin-table .tip .operation{
+		margin-right: 0;
+	}
+
 }

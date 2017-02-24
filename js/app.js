@@ -1417,15 +1417,18 @@
                 })
                 .success(function (data) {
                     allStrategy = data;
+
                     //data = $filter('orderBy')(data, 'name')
                     for (var i = 0; i < data.length; i++) {
                         data[i].account_id == null ? falsedata.push(data[i]) : truedata.push(data[i]);
                     }
+                    //console.log(truedata)
 
                     for (var i = 0; i < truedata.length; i++) {
                         var class_id = truedata[i].class_id;
                         truedata[i].code_name = getcelve(class_id);
                     }
+
 
                     //实盘
                     if ($cookieStore.get('user').is_admin) {
@@ -1629,6 +1632,7 @@
                             })
                             .success(function (data) {
                                 allDataList2[m++] = data;
+                                //console.log(allDataList2)
                                 //console.log(allDataList2[m][0])
                                 i++;
                                 if (i >= IdDateList2.length) {
@@ -1648,6 +1652,7 @@
                                 getAllData2(i);
                             })
                     }
+
 
 
                     var nianHuaList = [];
@@ -1793,9 +1798,6 @@
                             }
                         }
 
-                        //console.log(trueSymbolList);
-                        //console.log(truedata1)
-                        //$scope.trust = truedata1;
                         var symbolList = [];
                         for (var i = 0; i < $scope.trust.length; i++) {
                             if (symbolList.indexOf($scope.trust[i].symbol) == -1) {
@@ -3267,6 +3269,7 @@
                         var chartJsonDataArr = []; //股价
                         var chartArr = []; //盈亏
                         var chartArr1 = []; //收益曲线
+                        var chartArr2 = []; //收益曲线
                         var buySellNum = 1;
                         var buyYArr = []; //看多flag信息 颜色不一样
                         var shortYArr = []; //看空flag信息
@@ -3410,7 +3413,7 @@
                                     "symbol": myFirm.symbol
                                 })
                             } else {
-                                chartArr1.push({
+                                chartArr2.push({
                                     "text": '开仓价：' + data.price + '<br>平仓价：￥' + data2.price + '<br>盈亏：' + allPal,
                                     "title": "看空",
                                     "x": data2.datetime,
@@ -3556,7 +3559,7 @@
                         function gettest(i) {
                             var symbol = $scope.myFirmStrategy.symbol[0] + $scope.myFirmStrategy.symbol[1];
                             var charge;
-                            if (symbol == "IF" || symbol == "IC" || symbol || "IH") {
+                            if (symbol == "IF" || symbol == "IC" || symbol == "IH") {
                                 charge = 0.00092;
                             }
                             if (symbol == "D1") {
@@ -3859,10 +3862,7 @@
 
                             }
                         }
-                        for (var i = 1; i < chartArr.length; i++) {
-                            chartArr[i].Earn = chartArr[i - 1].Earn + chartArr[i].Earn;
-                            chartArr[i].y = chartArr[i - 1].y + chartArr[i].y;
-                        }
+
 
                         $('#return_map_big').highcharts('StockChart', {
                             credits: {
@@ -4011,11 +4011,11 @@
                                 data: shortYArr,
                                 onSeries: "dataseries",
                                 shape: 'squarepin',
-                                width: 50,
+                                width:60,
                                 color: '#ff9912',
                                 fillColor: 'transparent',
                                 style:{
-                                    color:'#333'
+                                    color:'#ff9912'
                                 },
                                 //style: {
                                 //    color: '#333'
@@ -4027,11 +4027,11 @@
                                 data: buyYArr,
                                 onSeries: "dataseries",
                                 shape: 'squarepin',
-                                width: 50,
+                                width: 60,
                                 color: "#4169e1",
                                 fillColor: 'transparent',
                                 style: {
-                                    color: '#333'
+                                    color: '#4169e1'
                                 },
                                 y: 20,
                                 name: '看多',
@@ -4175,7 +4175,7 @@
                                 color: '#ff9912',
                                 fillColor: 'transparent',
                                 style: {
-                                    color: '#333'
+                                    color: '#ff9912'
                                 },
                                 y: -40,
                                 name: '看空',
@@ -4188,7 +4188,7 @@
                                 color: "#4169e1",
                                 fillColor: 'transparent',
                                 style: {
-                                    color: '#333'
+                                    color: '#4169e1'
                                 },
                                 y: 20,
                                 name: '看多',
@@ -4218,6 +4218,10 @@
                             }]
                         });
                         //页面显示的收益曲线图
+                        for (var i = 1; i < chartArr.length; i++) {
+                            chartArr[i].Earn = chartArr[i - 1].Earn + chartArr[i].Earn;
+                            chartArr[i].y = chartArr[i - 1].y + chartArr[i].y;
+                        }
 
                         $('#return_map_big1').highcharts('StockChart', {
                             credits: {
@@ -4306,12 +4310,26 @@
                                 color: "#4169e1",
                                 fillColor: 'transparent',
                                 style: {
-                                    color: '#333'
+                                    color: '#4169e1'
                                 },
                                 name: "详情",
                                 y: -50,
 
-                            }
+                            },
+                                {
+                                    type: 'flags',
+                                    data: chartArr2,
+                                    onSeries: "yingkui",
+                                    shape: 'squarepin',
+                                    width: 36,
+                                    color: "#ff9912",
+                                    fillColor: 'transparent',
+                                    style: {
+                                        color: '#ff9912'
+                                    },
+                                    name: "详情",
+                                    y: -50
+                                }
                             ]
                         });
 
@@ -5429,6 +5447,7 @@
                         var chartJsonDataArr = []; //股价
                         var chartArr = []; //盈亏
                         var chartArr1 = []; //收益曲线
+                        var  chartArr2=[];
                         var buySellNum = 1;
                         var buyYArr = []; //看多flag信息 颜色不一样
                         var shortYArr = []; //看空flag信息
@@ -5504,37 +5523,58 @@
                             i++;
                             var data2 = chartData11[i]; //保存平仓价信息
 
+
+                            var symbol = data.symbol[0] + data.symbol[1];
                             //无手续费盈亏
                             if (data.trans_type == "buy") {
                                 //console.log("看多");
-                                var test = data2.price - data.price;
+                                if(symbol == "bt"){
+                                    var  test = (data2.price - data.price)*0.01
+                                }
+                                else {
+                                    var test = data2.price - data.price;
+                                }
+
                             } else {
                                 //console.log("看空");
-                                var test = data.price - data2.price;
+                                if(symbol == "bt"){
+                                    var test = (data.price - data2.price)*0.01;
+                                }
+                                else{
+                                    var test = data.price - data2.price;
+                                }
                             }
 
                             test = test * myFirm.multiple;
                             test = Number((test).toFixed(6));
                             //console.log(test)
                             //计算手续费
-                            var symbol = data.symbol[0] + data.symbol[1];
+
                             var charge;
-                            if (symbol == "IF" || symbol == "IC" || symbol || "IH") {
+                            if (symbol == "IF" || symbol == "IC" || symbol == "IH") {
                                 charge = 0.00015;
+                                var test2 = (data2.price + data.price) * charge;
                             }
                             if (symbol == "D1") {
                                 charge = 0.00035;
+                                var test2 = (data2.price + data.price) * charge;
                             }
                             if (symbol == "D6") {
                                 charge = 0.00035;
+                                var test2 = (data2.price + data.price) * charge;
                             }
-                            var test2 = (data2.price + data.price) * charge;
+                            if(symbol == "bt"){
+                                charge = 0.002;
+                                var test2 = (data2.price + data.price) * charge*0.01;
+                            }
+
                             test2 = test2 * myFirm.multiple;
                             test2 = Number((test2).toFixed(6));
                             var pal = test - test2;
 
                             pal = Number((pal).toFixed(6));
                             allPal +=pal;
+
                             chartArr.push({
                                 "x": data2.datetime,
                                 "y": pal, //盈亏数值
@@ -5549,7 +5589,6 @@
                                 "symbol": myFirm.symbol,
                                 "text": '开仓价：￥' + data.price + '<br>平仓价：￥' + data2.price + '<br>手续费：' + test2 + '<br/>盈亏：' + pal
                             });
-
 
                             if (data.trans_type == "buy") {
                                 chartArr1.push({
@@ -5568,7 +5607,7 @@
                                     "symbol": myFirm.symbol
                                 })
                             } else {
-                                chartArr1.push({
+                                chartArr2.push({
                                     "text": '开仓价：' + data.price + '<br>平仓价：' + data2.price + '<br>盈亏：' + allPal,
                                     "title": "看空",
                                     "x": data2.datetime,
@@ -5745,7 +5784,7 @@
                         function gettest(i) {
                             var symbol = $scope.myFirmStrategy.symbol[0] + $scope.myFirmStrategy.symbol[1];
                             var charge;
-                            if (symbol == "IF" || symbol == "IC" || symbol || "IH") {
+                            if (symbol == "IF" || symbol == "IC" || symbol == "IH") {
                                 charge = 0.00092;
                             }
                             if (symbol == "D1") {
@@ -6169,11 +6208,11 @@
                                 data: shortYArr,
                                 onSeries: "dataseries",
                                 shape: 'squarepin',
-                                width: 50,
+                                width: 60,
                                 color: '#ff9912',
                                 fillColor: 'transparent',
                                 style: {
-                                    color: '#333'
+                                    color: '#ff9912'
                                 },
                                 y: -40,
                                 name: '看空',
@@ -6182,11 +6221,11 @@
                                 data: buyYArr,
                                 onSeries: "dataseries",
                                 shape: 'squarepin',
-                                width: 50,
+                                width: 60,
                                 color: "#4169e1",
                                 fillColor: 'transparent',
                                 style: {
-                                    color: '#333'
+                                    color: '#4169e1'
                                 },
                                 y: 20,
                                 name: '看多',
@@ -6373,6 +6412,7 @@
                         });
                         //console.log(chartArr);
 
+
                         for (var i = 1; i < chartArr.length; i++) {
                             chartArr[i].Earn = chartArr[i - 1].Earn + chartArr[i].Earn;
                             chartArr[i].y = chartArr[i - 1].y + chartArr[i].y;
@@ -6458,10 +6498,23 @@
                                     radius: 5
                                 },
                                 id: "yingkui",
-
                                 color: '#eec710',
-
-                            }, {
+                            },
+                                {
+                                    type: 'flags',
+                                    data: chartArr2,
+                                    onSeries: "yingkui",
+                                    shape: 'squarepin',
+                                    width: 36,
+                                    color: "#ff9912",
+                                    fillColor: 'transparent',
+                                    style: {
+                                        color: '#ff9912'
+                                    },
+                                    name: "详情",
+                                    y: -50
+                                }
+                                , {
                                 type: 'flags',
                                 data: chartArr1,
                                 onSeries: "yingkui",
@@ -6470,14 +6523,11 @@
                                 color: "#4169e1",
                                 fillColor: 'transparent',
                                 style: {
-                                    color: '#333'
+                                    color: '#4169e1'
                                 },
                                 name: "详情",
                                 y: -50
-
-
                             }
-
                             ]
                         });
 
@@ -9488,6 +9538,8 @@
                     //console.log(ele.parent().css('left'));
                     if (ele.parent().css('left') == '0px') {
                         ele.parent().removeClass('l0');
+
+                        //$(ele).css("class")
                     } else {
                         ele.parent().addClass('l0');
                     }

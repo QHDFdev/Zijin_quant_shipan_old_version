@@ -660,6 +660,10 @@
 }
 .fa-arrow-circle-right:before {
   content: "\f0a9";
+  padding: 5px;
+  display: block;
+  height: 50px;
+  background-color: red;
 }
 .fa-arrow-circle-up:before {
   content: "\f0aa";

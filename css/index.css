@@ -678,12 +678,32 @@ HTML {
 	height: 100%;
 	/*margin-top: 2%;*/
 }
+.main-navbar .userLogin{
+	width: 150px;;
+	float: right;
+	/*background-color: rebeccapurple;*/
+}
+.main-navbar .userLogin li:nth-child(1){
+	float: left;
+
+}
+.main-navbar .userLogin li:nth-child(2){
+	float: left;
+}
+.main-navbar .userLogin li.name{
+	float: right;
+}
+.main-navbar .userLogin li a{
+	text-decoration: none;
+
+}
 .zijin-main-wrapper .collapse .nav{
 	color: #fff;
 	font-size: 14px;
 	margin-left: 10px;
 	/*padding: 5px;*/
 }
+
 /*.zijin-main-wrapper .collapse ul li a{
 	!*color: #fff;*!
 	font-size: 13px ;
@@ -692,8 +712,8 @@ HTML {
 	content: '|';
 	font-weight: bold;
 	color: #fff;
-	position: absolute;
-	left: -2px;
+	/*position: absolute;*/
+	left: -15px;
 }
 .zijin-ngview{
 	/*padding: 4.5rem 0 0 10rem;*/
@@ -706,7 +726,7 @@ HTML {
 	position: absolute;
 	font-size: 13px;
 	letter-spacing: 2px;
-	width: 120%;
+	/*width: 120%;*/
 	/*background-color: red;*/
 	min-width: 160px;
 	margin-bottom: 0;
@@ -721,9 +741,16 @@ HTML {
 	.main-navbar .list-group{
 		width: 30%;
 		margin: 0 auto;
-		position: relative;
-		top:10px;
-		left: -80px;
+		position: absolute;
+		top: 4.5rem;
+		/*left: -80px;*/
+	}
+	.main-navbar .list-group span {
+		/* display: inline-block; */
+		vertical-align: middle;
+		position: absolute;
+		top: -4px;
+		left: 40px;
 	}
 }
 
@@ -781,6 +808,7 @@ HTML {
 		float: left;
 		margin-top: 2px;
 	}
+
 }
 
 footer {
@@ -858,4 +886,9 @@ footer .footer-text-head .glyphicon {
 footer .footer-text-head span {
 	vertical-align: middle;
 }
-
+@media (max-width: 767px) {
+	.main-navbar .navbar-brand img {
+		width: auto;
+		height: 80%;
+	}
+}

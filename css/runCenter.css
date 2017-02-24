@@ -5,6 +5,9 @@
   /*margin-left: 0.83333rem;*/
   /*margin-top: 0.83333rem;*/
 }
+.runCenter .kind .contentS{
+  width: 76.6667rem;  margin-left: 0.83333rem;  margin-top: 0.83333rem;
+}
 
 .runCenter .kind ul li{
   display: table;
@@ -22,6 +25,9 @@
 .runCenter .kind .tip1 .tip1_1{
   float: left;
 }
+.runCenter .kind .tip1 .intro{
+  float: right;margin-right: 60px
+}
 .runCenter .kind .tip1 .tip1_1 .ul1 span{
   margin-left: 10px;
 }
@@ -35,22 +41,30 @@
 .runCenter .kind ul li>div:first-of-type{
   /*background: rgb(190, 190, 190);*/
   display: table-cell;
-  width: 4.5rem;
+  width: 3rem;
   font-weight: 700;
   font-size: 2.75rem;
   color: rgb(255, 255, 255);
   text-align: center;
 }
 .runCenter .kind ul li >div:nth-of-type(2){
-  width: 20rem;
+  width: 26rem;
   display: table-cell;
   padding: 1rem;
   text-align: left;
   /*background-color: red;*/
 
 }
+/*.runCenter .kind ul li >div:nth-of-type(2) span{
+  display: block;
+  width: 14rem;
+  float: left;
+  !*background-color: royalblue;*!
+  font-size: 1rem;
+}*/
 .runCenter .kind ul li >div:nth-of-type(2) .span{
   margin-left: 1rem;
+
 }
 .runCenter .kind ul li>div:nth-of-type(3){
   width: 18.5833rem;
@@ -76,4 +90,77 @@
 }
 .fu{
   color:green
+}
+@media (max-width: 767px) {
+  .runCenter .guide  ul li{
+    float: left;
+    line-height: 2.83333rem;
+    width:8rem;
+    border-right: 1px solid #ccc;
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-align: center;
+
+    cursor: pointer;
+  }
+  .runCenter .kind .tip1 {
+    width: 100%;
+    background-color: #fff;
+    padding: 0.1rem 0 0 0;
+    font-size: 1.16667rem;
+    height: 3.2rem;
+    line-height: 3.2rem;
+  }
+  .runCenter .kind .tip1 .intro{
+    margin-right: 0;
+  }
+  .runCenter .kind .contentS {
+    width: 100%;;
+    margin-left: 0;
+    margin-top: 0.83333rem;
+  }
+
+
+  .runCenter .kind ul li>div {
+    text-align: center;
+    border-right: 1px solid rgb(204, 204, 204);
+    border-left: 1px solid rgb(204, 204, 204);
+    height: 100%;
+    vertical-align: middle;
+    word-wrap: break-word;
+  }
+  .runCenter .kind ul li>div:first-of-type {
+    /* background: rgb(190, 190, 190); */
+    display: table-cell;
+    width: 7rem;
+    font-weight: 700;
+    font-size: 2.75rem;
+    color: rgb(255, 255, 255);
+    text-align: center;
+  }
+  .runCenter .kind ul li >div:nth-of-type(2) {
+    width:18rem;
+    display: table-cell;
+    padding: 1rem;
+    text-align: left;
+    /* background-color: red; */
+  }
+  .runCenter .kind ul li>div:nth-of-type(3) {
+    width: 15rem;
+    display: table-cell;
+  }
+  .runCenter .kind ul li >div:nth-of-type(2) span{
+    display: block;
+    /*width: 20rem ;*/
+    margin-left: 0;
+  }
+  .runCenter .kind ul li >div:nth-of-type(2) .span{
+
+    margin-left: 0;
+  }
+  .runCenter .kind ul li >div:nth-of-type(3) span{
+    display: block;
+    /*width: 20rem ;*/
+    margin-left: 0;
+  }
 }

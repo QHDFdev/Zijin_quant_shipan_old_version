@@ -14,8 +14,12 @@
         <div class="tab-content" id="tab-content">
             <div role="tabpanel" id="code" class="tab-pane active zijin-table-body sourcing-strategy">
                 <div class="tip">
-                    <ul>共<code ng-bind="allS"></code>条策略
-                        <a class="btn btn-success btn-sm" ng-click='openMaskSourcing()' data-toggle="tooltip">增加策略</a></ul>
+                    <ul>
+                        <li>
+                            共<code ng-bind="allS"></code>条策略
+                            <a class="btn btn-success btn-sm" ng-click='openMaskSourcing()' data-toggle="tooltip">增加策略</a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="zijin-table-title">
                     <!--<span>
@@ -116,7 +120,7 @@
                                             class="fa fa-pause"></i>
                                     </button>
                                     <button class="btn btn-default" style="color: #fff; background-color: #f4e228;
-    border-color: #f4e228;">移至历史交易</button>
+    border-color: #f4e228;" ng-click="deltrue(this)">移至历史交易</button>
                                     <button class="btn btn-danger strategy-del" ng-click="deltrue(this)">丢至回收站<i
                                             class="fa fa-remove"></i>
                                     </button>
@@ -177,7 +181,7 @@
                                         <button class="btn btn-warning strategy-pause" ng-click="strategypause(this)">停止 <i
                                                 class="fa fa-pause"></i></button>
                                         <button class="btn btn-default" style="color: #fff; background-color: #f4e228;
-    border-color: #f4e228;">移至历史交易</button>
+    border-color: #f4e228;" ng-click="delstrategy(this)">移至历史交易</button>
                                         <button class="btn btn-danger strategy-del" ng-click="delstrategy(this)">丢至回收站<i
                                                 class="fa fa-remove"></i>
                                         </button>
@@ -335,7 +339,7 @@
                     </ul>
                 </div>
                 <div class="zijin-table-title"></div>
-                <div class="table-responsive1" style="width: 70%">
+                <div class="table-responsive1 rec_table" style="width: 80%">
                     <!--<button  class="btn btn-danger" style="margin-top:0px;background: #222;border-color: #222" ng-click="alldel()">-->
                     <!--清空回收站</button>-->
                     <table class="table table-bordered table-hover table-striped" strategy-table>
@@ -369,7 +373,6 @@
 
             </div>
         </div>
-
     </div>
 
     <!-- sourcing-mask -->
