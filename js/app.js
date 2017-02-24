@@ -1369,16 +1369,12 @@
     }])
     .controller('runCenterController', ['$scope', '$http', 'constantUrl', '$cookieStore', '$filter', '$routeParams', '$q', '$timeout','$rootScope', function ($scope, $http, constantUrl, $cookieStore, $filter, $routeParams, $q, $timeout,$rootScope) {
         $rootScope.user = $cookieStore.get('user');
-        /*if ($cookieStore.get('user') == null) {
-            $scope.aside = 'full';
-        }
-        else {
-            $scope.aside = 'zijin-index';
-        }*/
+
         var falsedata = [], truedata = [];
         var accounts = [];
-       var allSymbol=new Array();
-        var trueSymbolList=[],flaseSymbolList=[],allSymbolList=[]
+        var trueSymbolList=[],flaseSymbolList=[],allSymbolList=[];
+
+
 
         //策略代码渲染到页面
         $scope.getSourcingStrategys = function () {
@@ -1813,6 +1809,158 @@
                         $scope.symbolList = symbolList1;
                         //console.log($scope.symbolList)
                         $scope.key = 'D1_AG';
+                        console.log($scope.key)
+
+
+                        var  charrJson1=[];
+
+                        function chartJson(){
+
+                            var exchagne1,key;
+                            key=$scope.key[0]+$scope.key[1];
+                            if(key == "D1" || key == 'D6'){
+                                exchagne1 = 'CSRPME'
+                            }
+                            else if(key == 'IF' || key == 'IC'){
+                                exchagne1 ='CTP'
+                            }
+                            else if(key == 'bt'){
+                                exchagne1 = 'OKCoin'
+                            }
+
+                            $http.get(constantUrl + 'datas/', {
+                                    params: {
+                                        "type": 'bar',
+                                        "exchange": exchagne1,
+                                        //"exchange": "CTP",
+                                        "symbol": $scope.key,
+                                        //"symbol": "IF",
+                                        "start": getNowFormatDate(),
+                                        "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
+                                    },
+                                    headers: {
+                                        'Authorization': 'token ' + $cookieStore.get('user').token
+                                    }
+                                })
+                                .success(function (data) {
+
+                                    angular.forEach(data, function (data, index) {
+                                        charrJson1.push({
+                                            "x": data.datetime,
+                                            "y": data.close,
+                                            'low': data.low,
+                                            'high': data.high,
+                                            'close': data.close,
+                                            'open': data.open,
+                                            'volume': data.volume
+                                        });
+                                    });
+
+                                    Highcharts.setOptions({
+                                        global: {
+                                            useUTC: false
+                                        }
+                                    });
+
+                                    $('#highchart_view').highcharts('StockChart', {
+                                        title:{
+                                            text:'行情图',
+                                            align:'left',
+                                            style:{
+                                                fontSize:'1.3rem'
+                                            }
+
+                                        },
+                                        credits: {
+                                            enabled: false
+                                        },
+                                        exporting: {
+                                            enabled: false
+                                        },
+
+                                        xAxis: {
+                                            tickInterval: 1
+                                        },
+                                        yAxis: [{
+                                            labels: {
+                                                align: 'right',
+                                                x: -3
+                                            },
+                                            title: {
+                                                text: '价格'
+                                            },
+                                            lineWidth: 1,
+
+                                        }],
+                                        rangeSelector: {
+                                            buttons: [{
+                                                type: 'minute',
+                                                count: 10,
+                                                text: '10m'
+                                            }, {
+                                                type: 'minute',
+                                                count: 30,
+                                                text: '30m'
+                                            }, {
+                                                type: 'hour',
+                                                count: 1,
+                                                text: '1h'
+                                            }, {
+                                                type: 'day',
+                                                count: 1,
+                                                text: '1d'
+                                            }, {
+                                                type: 'week',
+                                                count: 1,
+                                                text: '1w'
+                                            }, {
+                                                type: 'all',
+                                                text: '所有'
+                                            }],
+                                            selected: 5,
+                                            buttonSpacing: 2
+                                        },
+                                        plotOptions: {
+                                            series: {
+                                                turboThreshold: 0,
+                                            },
+                                            candlestick: { //红涨绿跌
+                                                color: '#33AA11',
+                                                upColor: '#DD2200',
+                                                lineColor: '#33AA11',
+                                                upLineColor: '#DD2200',
+                                                maker: {
+                                                    states: {
+                                                        hover: {
+                                                            enabled: false,
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                        },
+                                        tooltip: {
+                                            useHTML: true,
+                                            xDateFormat: "%Y-%m-%d %H:%M:%S",
+                                            valueDecimals: 2,
+                                            backgroundColor: '#eeeeee',   // 背景颜色
+                                            borderColor: '#ccc',         // 边框颜色
+                                            borderRadius: 10,             // 边框圆角
+                                            borderWidth: 1,               // 边框宽度
+                                            shadow: true,                 // 是否显示阴影
+                                            animation: true,               // 是否启用动画效果
+                                        },
+                                        //收益曲线
+                                        series: [{
+                                            type:'candlestick',
+                                            name: '价格',
+                                            data: charrJson1,
+
+                                        }]
+                                    });
+                                });
+                        }
+                        chartJson();
+
                         m = 0;
                         p = 0;
                         Strategy = [];
@@ -1928,6 +2076,303 @@
                         $scope.symbolList1 = symbolList3;
                         $scope.key1 = "D1_AG";
                         $scope.key4 = "D1_AG";
+
+
+
+                        $scope.chartJson2 =function(){
+                            var  charrJson1=[];
+                            var exchagne1,key;
+                            key=$scope.key1[0]+$scope.key1[1];
+                            if(key == "D1" || key == 'D6'){
+                                exchagne1 = 'CSRPME'
+                            }
+                            else if(key == 'IF' || key == 'IC'){
+                                exchagne1 ='CTP'
+                            }
+                            else if(key == 'bt'){
+                                exchagne1 = 'OKCoin'
+                            }
+
+                            $http.get(constantUrl + 'datas/', {
+                                    params: {
+                                        "type": 'bar',
+                                        "exchange": exchagne1,
+                                        //"exchange": "CTP",
+                                        "symbol": $scope.key1,
+                                        //"symbol": "IF",
+                                        "start": getNowFormatDate(),
+                                        "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
+                                    },
+                                    headers: {
+                                        'Authorization': 'token ' + $cookieStore.get('user').token
+                                    }
+                                })
+                                .success(function (data) {
+
+                                    angular.forEach(data, function (data, index) {
+                                        charrJson1.push({
+                                            "x": data.datetime,
+                                            "y": data.close,
+                                            'low': data.low,
+                                            'high': data.high,
+                                            'close': data.close,
+                                            'open': data.open,
+                                            'volume': data.volume
+                                        });
+                                    });
+
+                                    Highcharts.setOptions({
+                                        global: {
+                                            useUTC: false
+                                        }
+                                    });
+
+                                    $('#highchart_moni').highcharts('StockChart', {
+                                        title:{
+                                            text:'行情图',
+                                            align:'left',
+                                            style:{
+                                                fontSize:'1.3rem'
+                                            }
+
+                                        },
+                                        credits: {
+                                            enabled: false
+                                        },
+                                        exporting: {
+                                            enabled: false
+                                        },
+
+                                        xAxis: {
+                                            tickInterval: 1
+                                        },
+                                        yAxis: [{
+                                            labels: {
+                                                align: 'right',
+                                                x: -3
+                                            },
+                                            title: {
+                                                text: '价格'
+                                            },
+                                            lineWidth: 1,
+
+                                        }],
+                                        rangeSelector: {
+                                            buttons: [{
+                                                type: 'minute',
+                                                count: 10,
+                                                text: '10m'
+                                            }, {
+                                                type: 'minute',
+                                                count: 30,
+                                                text: '30m'
+                                            }, {
+                                                type: 'hour',
+                                                count: 1,
+                                                text: '1h'
+                                            }, {
+                                                type: 'day',
+                                                count: 1,
+                                                text: '1d'
+                                            }, {
+                                                type: 'week',
+                                                count: 1,
+                                                text: '1w'
+                                            }, {
+                                                type: 'all',
+                                                text: '所有'
+                                            }],
+                                            selected: 5,
+                                            buttonSpacing: 2
+                                        },
+                                        plotOptions: {
+                                            series: {
+                                                turboThreshold: 0,
+                                            },
+                                            candlestick: { //红涨绿跌
+                                                color: '#33AA11',
+                                                upColor: '#DD2200',
+                                                lineColor: '#33AA11',
+                                                upLineColor: '#DD2200',
+                                                maker: {
+                                                    states: {
+                                                        hover: {
+                                                            enabled: false,
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                        },
+                                        tooltip: {
+                                            useHTML: true,
+                                            xDateFormat: "%Y-%m-%d %H:%M:%S",
+                                            valueDecimals: 2,
+                                            backgroundColor: '#eeeeee',   // 背景颜色
+                                            borderColor: '#ccc',         // 边框颜色
+                                            borderRadius: 10,             // 边框圆角
+                                            borderWidth: 1,               // 边框宽度
+                                            shadow: true,                 // 是否显示阴影
+                                            animation: true,               // 是否启用动画效果
+                                        },
+                                        //收益曲线
+                                        series: [{
+                                            type:'candlestick',
+                                            name: '价格',
+                                            data: charrJson1,
+
+                                        }]
+                                    });
+                                });
+                        }
+                        $scope.chartJson2();
+
+
+                        $scope.chartJson4 =function(){
+                            var  charrJson1=[];
+                            var exchagne1,key;
+                            key=$scope.key4[0]+$scope.key4[1];
+                            if(key == "D1" || key == 'D6'){
+                                exchagne1 = 'CSRPME'
+                            }
+                            else if(key == 'IF' || key == 'IC'){
+                                exchagne1 ='CTP'
+                            }
+                            else if(key == 'bt'){
+                                exchagne1 = 'OKCoin'
+                            }
+
+                            $http.get(constantUrl + 'datas/', {
+                                    params: {
+                                        "type": 'bar',
+                                        "exchange": exchagne1,
+                                        //"exchange": "CTP",
+                                        "symbol": $scope.key4,
+                                        //"symbol": "IF",
+                                        "start": getNowFormatDate(),
+                                        "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
+                                    },
+                                    headers: {
+                                        'Authorization': 'token ' + $cookieStore.get('user').token
+                                    }
+                                })
+                                .success(function (data) {
+
+                                    angular.forEach(data, function (data, index) {
+                                        charrJson1.push({
+                                            "x": data.datetime,
+                                            "y": data.close,
+                                            'low': data.low,
+                                            'high': data.high,
+                                            'close': data.close,
+                                            'open': data.open,
+                                            'volume': data.volume
+                                        });
+                                    });
+
+                                    Highcharts.setOptions({
+                                        global: {
+                                            useUTC: false
+                                        }
+                                    });
+
+                                    $('#highchart_last').highcharts('StockChart', {
+                                        title:{
+                                            text:'行情图',
+                                            align:'left',
+                                            style:{
+                                                fontSize:'1.3rem'
+                                            }
+
+                                        },
+                                        credits: {
+                                            enabled: false
+                                        },
+                                        exporting: {
+                                            enabled: false
+                                        },
+
+                                        xAxis: {
+                                            tickInterval: 1
+                                        },
+                                        yAxis: [{
+                                            labels: {
+                                                align: 'right',
+                                                x: -3
+                                            },
+                                            title: {
+                                                text: '价格'
+                                            },
+                                            lineWidth: 1,
+
+                                        }],
+                                        rangeSelector: {
+                                            buttons: [{
+                                                type: 'minute',
+                                                count: 10,
+                                                text: '10m'
+                                            }, {
+                                                type: 'minute',
+                                                count: 30,
+                                                text: '30m'
+                                            }, {
+                                                type: 'hour',
+                                                count: 1,
+                                                text: '1h'
+                                            }, {
+                                                type: 'day',
+                                                count: 1,
+                                                text: '1d'
+                                            }, {
+                                                type: 'week',
+                                                count: 1,
+                                                text: '1w'
+                                            }, {
+                                                type: 'all',
+                                                text: '所有'
+                                            }],
+                                            selected: 5,
+                                            buttonSpacing: 2
+                                        },
+                                        plotOptions: {
+                                            series: {
+                                                turboThreshold: 0,
+                                            },
+                                            candlestick: { //红涨绿跌
+                                                color: '#33AA11',
+                                                upColor: '#DD2200',
+                                                lineColor: '#33AA11',
+                                                upLineColor: '#DD2200',
+                                                maker: {
+                                                    states: {
+                                                        hover: {
+                                                            enabled: false,
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                        },
+                                        tooltip: {
+                                            useHTML: true,
+                                            xDateFormat: "%Y-%m-%d %H:%M:%S",
+                                            valueDecimals: 2,
+                                            backgroundColor: '#eeeeee',   // 背景颜色
+                                            borderColor: '#ccc',         // 边框颜色
+                                            borderRadius: 10,             // 边框圆角
+                                            borderWidth: 1,               // 边框宽度
+                                            shadow: true,                 // 是否显示阴影
+                                            animation: true,               // 是否启用动画效果
+                                        },
+                                        //收益曲线
+                                        series: [{
+                                            type:'candlestick',
+                                            name: '价格',
+                                            data: charrJson1,
+
+                                        }]
+                                    });
+                                });
+                        }
+                        $scope.chartJson4();
 
                     }
 
@@ -2265,6 +2710,10 @@
                         test = test * v;
                         return Number((test).toFixed(6));
                     }
+
+
+
+
                 });
         };
 
@@ -2343,6 +2792,151 @@
 
                     $scope.histroySymbolList = histroySymbolList1;
                     $scope.key2 = "D1_AG";
+
+                    $scope.chartJson3=function(){
+                        var  charrJson1=[];
+                        var exchagne1,key;
+                        key=$scope.key2[0]+$scope.key2[1];
+                        if(key == "D1" || key == 'D6'){
+                            exchagne1 = 'CSRPME'
+                        }
+                        else if(key == 'IF' || key == 'IC'){
+                            exchagne1 ='CTP'
+                        }
+                        else if(key == 'bt'){
+                            exchagne1 = 'OKCoin'
+                        }
+
+                        $http.get(constantUrl + 'datas/', {
+                                params: {
+                                    "type": 'bar',
+                                    "exchange": exchagne1,
+                                    //"exchange": "CTP",
+                                    "symbol": $scope.key2,
+                                    //"symbol": "IF",
+                                    "start": getNowFormatDate(),
+                                    "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
+                                },
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
+                            .success(function (data) {
+
+                                angular.forEach(data, function (data, index) {
+                                    charrJson1.push({
+                                        "x": data.datetime,
+                                        "y": data.close,
+                                        'low': data.low,
+                                        'high': data.high,
+                                        'close': data.close,
+                                        'open': data.open,
+                                        'volume': data.volume
+                                    });
+                                });
+                                Highcharts.setOptions({
+                                    global: {
+                                        useUTC: false
+                                    }
+                                });
+                                $('#highchart_his').highcharts('StockChart', {
+                                    title:{
+                                        text:'行情图',
+                                        align:'left',
+                                        style:{
+                                            fontSize:'1.3rem'
+                                        }
+
+                                    },
+                                    credits: {
+                                        enabled: false
+                                    },
+                                    exporting: {
+                                        enabled: false
+                                    },
+
+                                    xAxis: {
+                                        tickInterval: 1
+                                    },
+                                    yAxis: [{
+                                        labels: {
+                                            align: 'right',
+                                            x: -3
+                                        },
+                                        title: {
+                                            text: '价格'
+                                        },
+                                        lineWidth: 1,
+
+                                    }],
+                                    rangeSelector: {
+                                        buttons: [{
+                                            type: 'minute',
+                                            count: 10,
+                                            text: '10m'
+                                        }, {
+                                            type: 'minute',
+                                            count: 30,
+                                            text: '30m'
+                                        }, {
+                                            type: 'hour',
+                                            count: 1,
+                                            text: '1h'
+                                        }, {
+                                            type: 'day',
+                                            count: 1,
+                                            text: '1d'
+                                        }, {
+                                            type: 'week',
+                                            count: 1,
+                                            text: '1w'
+                                        }, {
+                                            type: 'all',
+                                            text: '所有'
+                                        }],
+                                        selected: 5,
+                                        buttonSpacing: 2
+                                    },
+                                    plotOptions: {
+                                        series: {
+                                            turboThreshold: 0,
+                                        },
+                                        candlestick: { //红涨绿跌
+                                            color: '#33AA11',
+                                            upColor: '#DD2200',
+                                            lineColor: '#33AA11',
+                                            upLineColor: '#DD2200',
+                                            maker: {
+                                                states: {
+                                                    hover: {
+                                                        enabled: false,
+                                                    }
+                                                }
+                                            }
+                                        },
+                                    },
+                                    tooltip: {
+                                        useHTML: true,
+                                        xDateFormat: "%Y-%m-%d %H:%M:%S",
+                                        valueDecimals: 2,
+                                        backgroundColor: '#eeeeee',   // 背景颜色
+                                        borderColor: '#ccc',         // 边框颜色
+                                        borderRadius: 10,             // 边框圆角
+                                        borderWidth: 1,               // 边框宽度
+                                        shadow: true,                 // 是否显示阴影
+                                        animation: true,               // 是否启用动画效果
+                                    },
+                                    //收益曲线
+                                    series: [{
+                                        type:'candlestick',
+                                        name: '价格',
+                                        data: charrJson1,
+
+                                    }]
+                                });
+                            });
+                    }
+                    $scope.chartJson3();
                 });
 
         };
@@ -2350,6 +2944,31 @@
         $scope.jump = function (classname, id) {
             window.location.href = '#/' + classname + '/id=' + id;
         }
+
+
+       /* console.log($scope.trust)
+        console.log(truedata)*/
+        //console.log(truedata[1].exchange)
+
+        function getNowFormatDate() {
+            var date = new Date();
+            var seperator1 = "-";
+            var seperator2 = ":";
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+            console.log(currentdate)
+            return currentdate;
+        }
+        //$scope.getNowFormatDate()
+     /*   var mydate = $filter('date')(new Date((new Date($scope.myFirmEndDate)).setDate((new Date($scope.myFirmEndDate)).getDate() + 1)), 'yyyy-MM-dd');*/
+
 
 
 
@@ -2738,7 +3357,7 @@
                                 x: -3
                             },
                             title: {
-                                text: '股价'
+                                text: '价格'
                             },
 
                             lineWidth: 1
@@ -2746,7 +3365,7 @@
 
                         series: [{
                             type: 'line',
-                            name: '股价',
+                            name: '价格',
                             data: chartJsonDataArr,
                             lineWidth: 2,
                             id: 'dataseries',
@@ -3766,6 +4385,7 @@
                                 'volume': data.volume
                             });
                         });
+
                         chartJsonDataArr = $filter('orderBy')(chartJsonDataArr, 'x');
                         ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -4000,7 +4620,7 @@
                                 visible: false
                             }, {
                                 type: 'candlestick',
-                                name: '股价',
+                                name: '价格',
                                 data: chartJsonDataArr,
                                 id: 'dataseries',
                                 color: 'green',
@@ -4156,13 +4776,13 @@
                             }],
                             series: [{
                                 type: 'line',
-                                name: '股价',
+                                name: '价格',
                                 data: chartJsonDataArr,
                                 lineWidth: 2,
                                 id: 'dataseries'
                             }, {
                                 type: 'candlestick',
-                                name: '股价',
+                                name: '价格',
                                 data: chartJsonDataArr,
 
                                 id: 'dataseries'
@@ -4890,7 +5510,7 @@
                                 x: -3
                             },
                             title: {
-                                text: '股价'
+                                text: '价格'
                             },
 
                             lineWidth: 1
@@ -4898,7 +5518,7 @@
 
                         series: [{
                             type: 'line',
-                            name: '股价',
+                            name: '价格',
                             data: chartJsonDataArr,
                             lineWidth: 2,
                             id: 'dataseries',
@@ -5438,7 +6058,6 @@
                         'name': $scope.myFirmStrategy.name,
                         'symbol': $scope.myFirmStrategy.symbol,
                         "multiple": $scope.myFirmStrategy.multiple,
-
                     };
 
                     draws();
@@ -6199,7 +6818,7 @@
                                 visible: false
                             }, {
                                 type: 'candlestick',
-                                name: '股价',
+                                name: '价格',
                                 data: chartJsonDataArr,
                                 id: 'dataseries',
                                 showInLegend: false
@@ -6349,13 +6968,13 @@
                             }],
                             series: [{
                                 type: 'line',
-                                name: '股价',
+                                name: '价格',
                                 data: chartJsonDataArr,
                                 lineWidth: 2,
                                 id: 'dataseries'
                             }, {
                                 type: 'candlestick',
-                                name: '股价',
+                                name: '价格',
                                 data: chartJsonDataArr,
 
                                 id: 'dataseries'
@@ -7228,7 +7847,7 @@
                                                                     x: -3
                                                                 },
                                                                 title: {
-                                                                    text: '股价'
+                                                                    text: '价格'
                                                                 },
                                                                 lineWidth: 1,
                                                                 height: '60%'
@@ -7247,7 +7866,7 @@
                                                             }],
                                                             series: [{
                                                                 type: 'line',
-                                                                name: '股价',
+                                                                name: '价格',
                                                                 data: chartJsonDataArr,
                                                                 lineWidth: 2,
                                                                 id: 'dataseries'
@@ -7969,7 +8588,7 @@
                                                                     x: -3
                                                                 },
                                                                 title: {
-                                                                    text: '股价'
+                                                                    text: '价格'
                                                                 },
                                                                 lineWidth: 1,
                                                                 height: '60%'
@@ -7988,7 +8607,7 @@
                                                             }],
                                                             series: [{
                                                                 type: 'line',
-                                                                name: '股价',
+                                                                name: '价格',
                                                                 data: chartJsonDataArr,
                                                                 lineWidth: 2,
                                                                 id: 'dataseries'
@@ -9133,11 +9752,65 @@
                     });
 
                 }
+                //真实交易移至历史交易
+                scope.romoveTrue = function (a) {
+                    i = a.$index; //点击的第几个
+                    var url = scope.trueStrategy[i]._id;
+                    Showbo.Msg.confirm('将' + scope.trueStrategy[i].name + "移到历史交易中？", function (flag) {
+                        if (flag == 'yes') {
+                            $http.delete(constantUrl + "strategys/" + url + '/', {
+                                    headers: {
+                                        'Authorization': 'token ' + $cookieStore.get('user').token
+                                    }
+                                })
+                                .success(function () {
+                                    /*$route.reload();*/
+                                    scope.gettrueStrategys();
+                                    /*Showbo.Msg.alert('删除成功。')*/
+                                })
+                                .error(function (err, sta) {
+                                    Showbo.Msg.alert('删除失败，请稍后再试。')
+                                });
+
+                        } else if (flag == 'no') {
+                        }
+                    });
+
+                }
                 //删除实盘
                 scope.delstrategy = function (a) {
                     i = a.$index; //点击的第几个
                     var url = scope.myStrategy[i]._id;
                     Showbo.Msg.confirm('您确定删除' + scope.myStrategy[i].name + "吗？", function (flag) {
+                        if (flag == 'yes') {
+                            $http.delete(constantUrl + "strategys/" + url + '/', {
+                                    headers: {
+                                        'Authorization': 'token ' + $cookieStore.get('user').token
+                                    }
+                                })
+                                .success(function () {
+                                    /*$route.reload();*/
+                                    scope.allStrategys = [];
+                                    scope.gettrueStrategys();
+                                    scope.getFirmStrategys(); //刷新实盘/回测列表/回收站
+                                    scope.getHisStrategys();
+                                    /*Showbo.Msg.alert('删除成功。')*/
+                                })
+                                .error(function (err, sta) {
+                                    Showbo.Msg.alert('删除失败，请稍后再试。')
+                                });
+
+                        } else if (flag == 'no') {
+                        }
+                    });
+
+                }
+
+                //实盘模拟移至历史交易
+                scope.removeStrategy = function (a) {
+                    i = a.$index; //点击的第几个
+                    var url = scope.myStrategy[i]._id;
+                    Showbo.Msg.confirm('将' + scope.myStrategy[i].name + "移到历史交易中？", function (flag) {
                         if (flag == 'yes') {
                             $http.delete(constantUrl + "strategys/" + url + '/', {
                                     headers: {
