@@ -365,5 +365,9 @@ float: right;
 	.zijin-table .tip .operation{
 		margin-right: 0;
 	}
+	.zijin-table .table-responsive1{
+		width:100%;
+
+	}
 
 }
