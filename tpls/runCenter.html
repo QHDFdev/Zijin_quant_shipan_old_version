@@ -4,9 +4,9 @@
       <nav class="guide">
         <ul>
           <li class="active"  data-target="#trust_deal"  role="tab" data-toggle="tab">真实交易</li>
-          <li  data-target="#firm_offer"  role="tab" data-toggle="tab">实盘模拟</li>
-          <li  data-target="#history_back"  role="tab" data-toggle="tab">回测</li>
-          <li  data-target="#history_deal"  role="tab" data-toggle="tab">历史交易</li>
+          <li  data-target="#firm_offer"  role="tab" data-toggle="tab" ng-click="firm()">实盘模拟</li>
+          <li  data-target="#history_back"  role="tab" data-toggle="tab" ng-click="getHisSelect()">回测</li>
+          <li  data-target="#history_deal"  role="tab" data-toggle="tab" ng-click="histroyDeals()">历史交易</li>
         </ul>
       </nav>
     </div>
@@ -38,6 +38,15 @@
           </div>
         </div>
         <div class="section">
+          <div id="container">
+            <div class="stick"></div>
+            <div class="stick"></div>
+            <div class="stick"></div>
+            <div class="stick"></div>
+            <div class="stick"></div>
+            <div class="stick"></div>
+            <h1>Loading...</h1>
+          </div>
           <ul class="contentS" >
             <li ng-repeat="x in trust|filter:{symbol:key}">
               <div class="{{x.color}}">{{$index+1}}</div>
@@ -87,6 +96,15 @@
           </div>
         </div>
         <div class="section">
+          <div id="container1">
+            <div class="stick"></div>
+            <div class="stick"></div>
+            <div class="stick"></div>
+            <div class="stick"></div>
+            <div class="stick"></div>
+            <div class="stick"></div>
+            <h1>Loading...</h1>
+          </div>
           <ul class="contentS">
             <li ng-repeat="x in flase |filter:{symbol:key1}" >
               <div class="{{x.color}}">{{$index+1}}</div>
@@ -96,7 +114,6 @@
                 <span class="span">作者：{{x.author}}</span>
                 <span >交易产品：{{x.symbol}}</span>
                 <span  class="span">交易手数：{{x.multiple}}</span>
-
               </div>
               <div>
                <span >年化收益率：
@@ -119,7 +136,7 @@
               <div class="tip1_1">
                 <div class="ul1">
                   <span>停止运行：<code>{{hStop}}</code></span>
-                  <!--<span>回收站：<code>{{hHui}}</code></span>-->
+                  <span>回收站：<code>{{hHui}}</code></span>
                   <span style="margin-left: 20px">交易产品：<select name="" id="" ng-options="x for x in histroySymbolList" ng-model="key2" ng-change="chartJson3()"></select></span>
                 </div>
               </div>
@@ -144,9 +161,13 @@
                 <span class="span">作者：{{x.author}}</span>
                 <span >交易产品：{{x.symbol}}</span>
                 <span  class="span">交易手数：{{x.multiple}}</span>
-
               </div>
               <div>
+                 <span >年化收益率：<e class={{x.yeildColor}}>{{x.yeild}}%</e>
+                <i class={{x.y}}></i>
+              </span>&nbsp;&nbsp;
+                <span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}%</e><i class="{{x.y1}}"></i></span>
+
               </div>
             </li>
           </ul>
@@ -161,24 +182,32 @@
             <div class="tip1">
               <div class="tip1_1">
                 <div class="ul1">
-                  <span>真实交易：<code>{{sHui}}</code></span>
-                  <span>实盘模拟：<code>{{fHui}}</code></span>
-                  <span style="margin-left: 20px">交易产品：<select name="" ng-options="x for x in allSymbolList" ng-model="key4"></select></span>
+                  <span>[历史]真实交易：<code>{{sHui}}</code></span>
+                  <span>[历史]实盘模拟：<code>{{fHui}}</code></span>
+                  <span style="margin-left: 20px">交易产品：<select name="" ng-options="x for x in allSymbolList" ng-model="key4" ng-change="chartJson4()"></select></span>
                 </div>
               </div>
               <div class="intro">
                 <div>
-                  <em style="background-color: #f0ad4e;"></em><span>真实交易</span>
+                  <em style="background-color: #f0ad4e;"></em><span>[历史]真实交易</span>
                 </div>
                 <div>
-                  <em style="background-color: #5bc0de;"></em><span>实盘模拟</span>
+                  <em style="background-color: #5bc0de;"></em><span>[历史]实盘模拟</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
        <div class="section">
-
+         <div id="container2">
+           <div class="stick"></div>
+           <div class="stick"></div>
+           <div class="stick"></div>
+           <div class="stick"></div>
+           <div class="stick"></div>
+           <div class="stick"></div>
+           <h1>Loading...</h1>
+         </div>
            <ul class="contentS">
              <li  ng-repeat="x in histroyTrust |filter:{symbol:key4}">
                <div class="{{x.color}}">{{$index+1}}</div>
@@ -188,7 +217,6 @@
                  <span class="span">作者：{{x.author}}</span>
                  <span >交易产品：{{x.symbol}}</span>
                  <span  class="span">交易手数：{{x.multiple}}</span>
-
                </div>
                <div>
               <span >年化收益率：
@@ -237,4 +265,5 @@
       </div>
     </div>
   </div>
+
 </div>

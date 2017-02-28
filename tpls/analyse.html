@@ -240,7 +240,7 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped table-bordered">
                                     <thead>
-                                    <tr class=''>
+                                    <tr>
                                         <th>交易方向</th>
                                         <th>开仓时间</th>
                                         <th>开仓价</th>
@@ -316,7 +316,7 @@
                             </div>
                         </div>
                         <div class="block">
-                            <h3 class="analyse-charts-title">交易收益率输出</h3>
+                            <h3 class="analyse-charts-title">年化收益率</h3>
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped table-bordered">
                                     <thead>
@@ -325,8 +325,8 @@
                                         <th>交易方向</th>
                                         <th>开仓价</th>
                                         <th>平仓价</th>
-                                        <th>盈亏</th>
                                         <th>收益率</th>
+                                        <!-- <th>年化收益率</th> -->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -335,15 +335,14 @@
                                         <td ng-bind='x.direction'></td>
                                         <td>￥{{x.openprice | number : 2}}</td>
                                         <td>￥{{x.closeprice | number : 2}}</td>
-                                        <td>￥{{x.pal | number : 6}}</td>
                                         <td>{{x.yeild|number:6}}%</td>
+                                        <!-- <td>{{annualized_return}}%</td> -->
                                     </tr>
                                     </tbody>
                                     <tfoot>
                                     <tr class='success'>
-                                        <td>总收益率</td>
-                                        <td>{{allTotalyeild|number:6}}%</td>
-                                        <td>&nbsp;</td>
+                                        <td>年化收益率</td>
+                                        <td>{{annualized_return|number:6}}%</td>
                                         <td>&nbsp;</td>
                                         <td>&nbsp;</td>
                                         <td>&nbsp;</td>
@@ -1292,8 +1291,6 @@
             <br>
             <br>
             <h2 class="analyse-charts-title">最大回撤 Max Drawdown</h2>
-
-
             <div class="table-responsive">
                 <table class="table table-hover table-striped table-bordered">
                     <thead>
