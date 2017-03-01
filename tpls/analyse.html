@@ -4,9 +4,9 @@
             <nav class="guide">
                 <ul>
                     <li class="active" href="code" data-target="#return_mapping" aria-controls="return_mapping"
-                        role="tab" data-toggle="tab">策略回测图表
+                        role="tab" data-toggle="tab">历史回测
                     </li>
-                    <li data-target="#transaction_details" aria-controls="transaction_details" role="tab" data-toggle="tab">交易结果分析
+                    <li data-target="#transaction_details" aria-controls="transaction_details" role="tab" data-toggle="tab">交易分析
                     </li>
                     <!--<li data-target="#winrate" aria-controls="winrate" role="tab" data-toggle="tab">策略风险分析</li>-->
                     <!--<li role="tab" data-toggle="tab" data-target="#assessment">模型评估</li>-->
@@ -19,26 +19,26 @@
             </div>-->
             <div class="remind">
                 <div class="second">
-                    回测名：<span><input type="text" ng-model="myFirmStrategy.name" style="border: 1px solid transparent;"></span>
+                    回测名 &nbsp;<span><input type="text" ng-model="myFirmStrategy.name" style="border: 1px solid transparent;background-color: #e8e8e8;height: 30px;font-weight: 700;"></span>
                 </div>
                 <div class="first">
-                    开始时间：
+                    开始时间 &nbsp;
                     <span>
                         <input readonly="readonly" class="sel" ng-model="myFirmStartDate" id="startTime" class="Wdate" type="text"
                                        onFocus="WdatePicker({minDate:startMinDate(),maxDate:startMaxDate(),dateFmt:'yyyy-MM-dd',qsEnabled:false,disabledDates:delDate()})" style="width: 8rem;height:2rem"/>
                     </span>
                 </div>
                 <div>
-                    结束时间：
+                    结束时间 &nbsp;
                     <input readonly="readonly" class="sel" onChange="" ng-model='myFirmEndDate' ng-change="makeChart1()"
                            id="endTime" class="Wdate" type="text"
                            onFocus="WdatePicker({minDate:endMinDate(),maxDate:endMaxDate(),dateFmt:'yyyy-MM-dd',qsEnabled:false,disabledDates:delDate()})" style="width: 8rem;height:2rem"/>
                 </div>
                 <div class="third">
-                    交易合约：<span>{{analyse_title.symbol}}</span>
+                    交易合约 &nbsp;<span style="background-color: #e8e8e8; height: 30px; margin-top: 10px;line-height: 30px;font-weight: 700;">{{analyse_title.symbol}}</span>
                 </div>
                 <div>
-                    交易策略名：<span>{{analyse_title.class_name}}</span>
+                    交易策略名 &nbsp;<span style="background-color: #e8e8e8; height: 30px; margin-top: 10px;line-height: 30px;font-weight: 700;">{{analyse_title.class_name}}</span>
                 </div>
                 <div class="import">
                     <div class="btn btn-success btn-sm" jspdf-action>导出报告</div>
@@ -236,7 +236,7 @@
                         </div>-->
                     <div role="tabpanel" class="tab-pane" id="transaction_details">
                         <div class="block">
-                            <h3 class="analyse-charts-title">交易详细输出</h3>
+                            <h3 class="analyse-charts-title">交易详细</h3>
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped table-bordered">
                                     <thead>
@@ -279,7 +279,7 @@
                             </div>
                         </div>
                         <div class="block">
-                            <h3 class="analyse-charts-title">交易收益率输出</h3>
+                            <h3 class="analyse-charts-title">收益率</h3>
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped table-bordered">
                                     <thead>
@@ -1059,7 +1059,7 @@
                 </div>
             </div>
 
-            <h2 class="analyse-charts-title">交易详细输出</h2>
+            <h2 class="analyse-charts-title">交易详细</h2>
             <div class="table-responsive">
                 <table class="table table-hover table-striped table-bordered">
                     <thead>
@@ -1108,7 +1108,7 @@
             </div>
             <br>
             <br>
-            <h2 class="analyse-charts-title">交易收益率输出</h2>
+            <h2 class="analyse-charts-title">收益率</h2>
             <div class="table-responsive">
                 <table class="table table-hover table-striped table-bordered">
                     <thead>

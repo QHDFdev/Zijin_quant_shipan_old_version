@@ -37,17 +37,17 @@
 }
 .zijin-complie-head{
 	position: relative;
-	padding: 10px 15px;
-	height: 50px;
-	font-size: 20px;
-	line-height: 1.5;
+	/* padding: 10px 15px; */
+	height: 40px;
+	font-size: 1.2rem;
+	line-height: 40px;
 	background: #f2f2f2;
 	border-bottom: 1px solid #ccc;
 }
 .zijin-complie-head .zijin-complie-name{
 	margin-left: 50px;
 	padding-right: 25px;
-	background: url(../images/552cc33d78a5f_16.png) right 7px no-repeat;
+	/*background: url(../images/552cc33d78a5f_16.png) right 7px no-repeat;*/
 	cursor: pointer;
 }
 .zijin-complie-head  img{
@@ -63,9 +63,9 @@
 	font-size: 16px; 
 }
 .zijin-complie-top{
-	padding: 10px 15px;
-	height: 50px;
-	border-bottom:1px solid #999;
+	height: 40px;
+	line-height: 40px;
+	border-bottom: 1px solid #999;
 }
 .zijin-complie-left .zijin-complie-top{
 	text-align: right;

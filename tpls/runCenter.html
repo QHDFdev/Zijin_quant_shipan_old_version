@@ -1,269 +1,303 @@
 <div class="runCenter" ng-controller='runCenterController'>
-  <div class="container-fluid">
-    <div class="row">
-      <nav class="guide">
-        <ul>
-          <li class="active"  data-target="#trust_deal"  role="tab" data-toggle="tab">真实交易</li>
-          <li  data-target="#firm_offer"  role="tab" data-toggle="tab" ng-click="firm()">实盘模拟</li>
-          <li  data-target="#history_back"  role="tab" data-toggle="tab" ng-click="getHisSelect()">回测</li>
-          <li  data-target="#history_deal"  role="tab" data-toggle="tab" ng-click="histroyDeals()">历史交易</li>
-        </ul>
-      </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="guide">
+                <ul>
+                    <li class="active" data-target="#trust_deal" role="tab" data-toggle="tab">真实交易</li>
+                    <li data-target="#firm_offer" role="tab" data-toggle="tab" ng-click="firm()">实盘模拟</li>
+                    <li data-target="#history_back" role="tab" data-toggle="tab" ng-click="getHisSelect()">回测</li>
+                    <li data-target="#history_deal" role="tab" data-toggle="tab" ng-click="histroyDeals()">历史交易</li>
+                </ul>
+            </nav>
+        </div>
     </div>
-  </div>
-  <div class="kind">
-    <div class="tab-content" id="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="trust_deal">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="tip1">
-              <div class="tip1_1">
-                <div class="ul1">
-                  <span>正在运行：<code>{{sRun}}</code></span>
-                  <span>停止运行：<code>{{sStop}}</code></span>
-                  <!--<span>回收站：<code>{{sHui}}</code></span>-->
-                  <span style="margin-left: 20px">交易产品：<select class="common-select" ng-model="key" ng-options="x for x in symbolList" name="country"></select></span>
-                  <!--<option value="">请选择</option></select>-->
+    <div class="kind">
+        <div class="tab-content" id="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="trust_deal">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="tip1">
+                            <div class="tip1_1">
+                                <div class="ul1">
+                                    <span>正在运行：<code>{{sRun}}</code></span>
+                                    <span>停止运行：<code>{{sStop}}</code></span>
+                                    <!--<span>回收站：<code>{{sHui}}</code></span>-->
+                                    <span style="margin-left: 20px">交易产品：<select class="common-select" ng-model="key"
+                                                                                 ng-options="x for x in symbolList"
+                                                                                 name="country"
+                                                                                 ng-change="chartJson()"></select></span>
+                                </div>
+                            </div>
+                            <div class="intro">
+                                <div>
+                                    <em style="background-color: red"></em><span>正在运行</span>
+                                </div>
+                                <div>
+                                    <em style="background-color: yellow"></em><span>停止运行</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="intro" >
-                <div>
-                  <em style="background-color: red"></em><span>正在运行</span>
+                <div class="section">
+                    <div id="container">
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <h1>calculating...</h1>
+                    </div>
+                    <ul class="contentS">
+                        <li ng-repeat="x in trust|filter:{symbol:key}">
+                            <div>
+                                <div class="name">
+                                    <span class="{{x.color}}">{{$index+1}}</span>
+                                    <span><a ng-click="jump('AccountTrade',x._id)">{{x.name}}</a></span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="left">
+                                    <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
+                                    <span class="span">作者：{{x.author}}<br/></span>
+                                    <span>交易产品：{{x.symbol}}</span>
+                                    <span class="span">交易手数：{{x.multiple}}</span>
+                                </div>
+                                <div class="right">
+                                    <p>
+                                        <span>年化收益率：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span>
+                                        <i class={{x.y}}></i>
+                                    </p>
+                                    <p>
+                                        <span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}%</e></span>
+                                        <i class="{{x.y1}}"></i>
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <a class="more" ng-click="jump('AccountTrade',x._id)">详情</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="draw">
+                        <div id="highchart_view"></div>
+                    </div>
                 </div>
-                <div>
-                  <em style="background-color: yellow"></em><span>停止运行</span>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-        <div class="section">
-          <div id="container">
-            <div class="stick"></div>
-            <div class="stick"></div>
-            <div class="stick"></div>
-            <div class="stick"></div>
-            <div class="stick"></div>
-            <div class="stick"></div>
-            <h1>Loading...</h1>
-          </div>
-          <ul class="contentS" >
-            <li ng-repeat="x in trust|filter:{symbol:key}">
-              <div class="{{x.color}}">{{$index+1}}</div>
-              <div>
-                <a ng-click="jump('AccountTrade',x._id)">{{x.name}}<br/></a>
-                <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                <span  class="span">作者：{{x.author}}<br/></span>
-                <span >交易产品：{{x.symbol}}</span>
-                <span  class="span">交易手数：{{x.multiple}}</span>
+            <div role="tabpanel" class="tab-pane" id="firm_offer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="tip1">
+                            <div class="tip1_1">
+                                <div class="ul1">
+                                    <span>正在运行：<code>{{fRun}}</code></span>
+                                    <span>停止运行：<code>{{fStop}}</code></span>
+                                    <span style="margin-left: 20px">交易产品：<select name=""
+                                                                                 ng-options="x for x in symbolList1"
+                                                                                 ng-model="key1"
+                                                                                 ng-change='chartJson2()'></select></span>
+                                </div>
+                            </div>
+                            <div class="intro">
+                                <div>
+                                    <em style="background-color: red"></em><span>正在运行</span>
+                                </div>
+                                <div>
+                                    <em style="background-color: yellow"></em><span>停止运行</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div id="container1">
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <h1>calculating...</h1>
+                    </div>
+                    <ul class="contentS">
+                        <li ng-repeat="x in flase |filter:{symbol:key1}">
+                            <div class="name">
+                                <span class="{{x.color}}">{{$index+1}}</span>
+                                <span><a ng-click="jump('SimRealTimeTrade',x._id)">{{x.name}}</a></span>
+                            </div>
+                            <div>
+                                <div class="left">
+                                    <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
+                                    <span class="span">作者：{{x.author}}</span>
+                                    <span>交易产品：{{x.symbol}}</span>
+                                    <span class="span">交易手数：{{x.multiple}}</span>
+                                </div>
+                                <div class="right">
+                                    <p><span>年化收益率：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
+                                    <p><span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
+                                </div>
+                            </div>
+                            <div>
+                                <a class="more" ng-click="jump('SimRealTimeTrade',x._id)">详情</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="draw">
+                        <div id="highchart_moni"></div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="history_back">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="tip1">
+                            <div class="tip1_1">
+                                <div class="ul1">
+                                    <span>停止运行：<code>{{hStop}}</code></span>
+                                    <span style="margin-left: 20px">交易产品：<select name="" id=""
+                                                                                 ng-options="x for x in histroySymbolList"
+                                                                                 ng-model="key2"
+                                                                                 ng-change="chartJson3()"></select></span>
+                                </div>
+                            </div>
+                            <div class="intro">
+                                <div>
+                                    <em style="background-color: yellow;"></em><span>停止运行</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div id="container3">
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <h1>calculating...</h1>
+                    </div>
+                    <ul class="contentS">
+                        <li ng-repeat="x in histroy | filter:{symbol:key2}">
+                            <div class="name">
+                                <span class="{{x.color}}">{{$index+1}}</span>
+                                <span><a ng-click="jump('BackTest',x._id)">{{x.name}}</a></span>
+                            </div>
+                            <div>
+                                <div class="left">
+                                    <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
+                                    <span class="span">作者：{{x.author}}</span>
+                                    <span>交易产品：{{x.symbol}}</span>
+                                </div>
+                                <div class="right">
+                                    <p><span>年化收益率：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
+                                    <p><span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}%</e></span><i class="{{x.y1}}"></i></p>
+                                </div>
+                            </div>
+                            <div>
+                                <a class="more" ng-click="jump('BackTest',x._id)">详情</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="draw">
+                        <div id="highchart_his"></div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="history_deal">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="tip1">
+                            <div class="tip1_1">
+                                <div class="ul1">
+                                    <span>[历史]真实交易：<code>{{sHui}}</code></span>
+                                    <span>[历史]实盘模拟：<code>{{fHui}}</code></span>
+                                    <span style="margin-left: 20px">交易产品：<select name=""
+                                                                                 ng-options="x for x in allSymbolList"
+                                                                                 ng-model="key4"
+                                                                                 ng-change="chartJson4()"></select></span>
+                                </div>
+                            </div>
+                            <div class="intro">
+                                <div>
+                                    <em style="background-color: #f0ad4e;"></em><span>[历史]真实交易</span>
+                                </div>
+                                <div>
+                                    <em style="background-color: #5bc0de;"></em><span>[历史]实盘模拟</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div id="container2">
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <div class="stick"></div>
+                        <h1>calculating...</h1>
+                    </div>
+                    <div class="contentS">
+                        <ul>
+                            <li ng-repeat="x in histroyTrust |filter:{symbol:key4}">
+                                <div class="name">
+                                    <span class="{{x.color}}">{{$index+1}}</span>
+                                    <span><a ng-click="jump('AccountTrade',x._id)">{{x.name}}</a></span>
+                                </div>
+                                <div>
+                                    <div class="left">
+                                        <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
+                                        <span class="span">作者：{{x.author}}</span>
+                                        <span>交易产品：{{x.symbol}}</span>
+                                        <span class="span">交易手数：{{x.multiple}}</span>
+                                    </div>
+                                    <div class="right">
+                                        <p><span>年化收益率：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i
+                                                class={{x.y}}></i></p>
 
-              </div>
-              <div>
-              <span >年化收益率：
-                <e class={{x.yeildColor}}>{{x.yeild}}%</e>
-                <i class={{x.y}}></i>
-              </span>&nbsp;&nbsp;
-                <span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}%</e><i class="{{x.y1}}"></i></span>
-              </div>
-            </li>
-          </ul>
-          <div class="draw">
-            <div id="highchart_view"></div>
-          </div>
-        </div>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="firm_offer">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="tip1">
-              <div class="tip1_1">
-                <div class="ul1">
-                  <span>正在运行：<code>{{fRun}}</code></span>
-                  <span>停止运行：<code>{{fStop}}</code></span>
-                  <!--<span>回收站：<code>{{fHui}}</code></span>-->
-                  <span style="margin-left: 20px">交易产品：<select name="" ng-options="x for x in symbolList1" ng-model="key1" ng-change='chartJson2()'></select></span>
+                                        <p><span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}%
+                                        </e></span><i class="{{x.y1}}"></i></p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <a class="more" ng-click="jump('AccountTrade',x._id)">详情</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li ng-repeat="x in histroyFlase |filter:{symbol:key4}">
+                                <div class="name">
+                                    <span class="{{x.color}}">{{$index+1}}</span>
+                                    <span><a ng-click="jump('SimRealTimeTrade',x._id)">{{x.name}}</a></span>
+                                </div>
+                                <div>
+                                    <div class="left">
+                                        <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
+                                        <span class="span">作者：{{x.author}}</span>
+                                        <span>交易产品：{{x.symbol}}</span>
+                                        <span class="span">交易手数：{{x.multiple}}</span>
+                                    </div>
+                                    <div class="right">
+                                        <p><span>年化收益率：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
+                                        <p><span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}%</e></span><i class="{{x.y1}}"></i></p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <a class="more" ng-click="jump('SimRealTimeTrade',x._id)">详情</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="draw">
+                        <div id="highchart_last"></div>
+                    </div>
                 </div>
-              </div>
-              <div class="intro">
-                <div>
-                  <em style="background-color: red"></em><span>正在运行</span>
-                </div>
-                <div>
-                  <em style="background-color: yellow"></em><span>停止运行</span>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-        <div class="section">
-          <div id="container1">
-            <div class="stick"></div>
-            <div class="stick"></div>
-            <div class="stick"></div>
-            <div class="stick"></div>
-            <div class="stick"></div>
-            <div class="stick"></div>
-            <h1>Loading...</h1>
-          </div>
-          <ul class="contentS">
-            <li ng-repeat="x in flase |filter:{symbol:key1}" >
-              <div class="{{x.color}}">{{$index+1}}</div>
-              <div>
-                <a ng-click="jump('SimRealTimeTrade',x._id)" style="font-weight: 700;font-size:1.2rem ">{{x.name}}<br/></a>
-                <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                <span class="span">作者：{{x.author}}</span>
-                <span >交易产品：{{x.symbol}}</span>
-                <span  class="span">交易手数：{{x.multiple}}</span>
-              </div>
-              <div>
-               <span >年化收益率：
-                <e class={{x.yeildColor}}>{{x.yeild}}%</e>
-                <i class={{x.y}}></i>
-              </span>&nbsp;&nbsp;
-                <span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}%</e><i class="{{x.y1}}"></i></span>
-              </div>
-            </li>
-          </ul>
-          <div class="draw">
-            <div id="highchart_moni"></div>
-          </div>
-        </div>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="history_back">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="tip1">
-              <div class="tip1_1">
-                <div class="ul1">
-                  <span>停止运行：<code>{{hStop}}</code></span>
-                  <span>回收站：<code>{{hHui}}</code></span>
-                  <span style="margin-left: 20px">交易产品：<select name="" id="" ng-options="x for x in histroySymbolList" ng-model="key2" ng-change="chartJson3()"></select></span>
-                </div>
-              </div>
-              <div class="intro">
-                <div>
-                  <em style="background-color: yellow;"></em><span>停止运行</span>
-                </div>
-                <div>
-                  <em style="background-color: rgb(199,199,199);"></em><span>回收站</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="section">
-          <ul  class="contentS">
-            <li ng-repeat="x in histroy | filter:{symbol:key2}">
-              <div class="{{x.color}}">{{$index+1}}</div>
-              <div>
-                <a ng-click="jump('BackTest',x._id)" style="font-weight: 700;font-size:1.2rem ">{{x.name}}<Br/></a>
-                <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                <span class="span">作者：{{x.author}}</span>
-                <span >交易产品：{{x.symbol}}</span>
-                <span  class="span">交易手数：{{x.multiple}}</span>
-              </div>
-              <div>
-                 <span >年化收益率：<e class={{x.yeildColor}}>{{x.yeild}}%</e>
-                <i class={{x.y}}></i>
-              </span>&nbsp;&nbsp;
-                <span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}%</e><i class="{{x.y1}}"></i></span>
-
-              </div>
-            </li>
-          </ul>
-          <div class="draw">
-            <div id="highchart_his"></div>
-          </div>
-        </div>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="history_deal">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="tip1">
-              <div class="tip1_1">
-                <div class="ul1">
-                  <span>[历史]真实交易：<code>{{sHui}}</code></span>
-                  <span>[历史]实盘模拟：<code>{{fHui}}</code></span>
-                  <span style="margin-left: 20px">交易产品：<select name="" ng-options="x for x in allSymbolList" ng-model="key4" ng-change="chartJson4()"></select></span>
-                </div>
-              </div>
-              <div class="intro">
-                <div>
-                  <em style="background-color: #f0ad4e;"></em><span>[历史]真实交易</span>
-                </div>
-                <div>
-                  <em style="background-color: #5bc0de;"></em><span>[历史]实盘模拟</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-       <div class="section">
-         <div id="container2">
-           <div class="stick"></div>
-           <div class="stick"></div>
-           <div class="stick"></div>
-           <div class="stick"></div>
-           <div class="stick"></div>
-           <div class="stick"></div>
-           <h1>Loading...</h1>
-         </div>
-           <ul class="contentS">
-             <li  ng-repeat="x in histroyTrust |filter:{symbol:key4}">
-               <div class="{{x.color}}">{{$index+1}}</div>
-               <div>
-                 <a ng-click="jump('AccountTrade',x._id)" >{{x.name}}<Br/></a>
-                 <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                 <span class="span">作者：{{x.author}}</span>
-                 <span >交易产品：{{x.symbol}}</span>
-                 <span  class="span">交易手数：{{x.multiple}}</span>
-               </div>
-               <div>
-              <span >年化收益率：
-                <e class={{x.yeildColor}}>{{x.yeild}}%</e>
-                <i class={{x.y}}></i>
-              </span>&nbsp;&nbsp;
-                 <span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}%</e><i class="{{x.y1}}"></i></span>
-               </div>
-             </li>
-           </ul>
-           <ul class="contentS">
-             <li ng-repeat="x in histroyFlase |filter:{symbol:key4}">
-               <div class="{{x.color}}">{{$index+1}}</div>
-               <div>
-                 <a ng-click="jump('SimRealTimeTrade',x._id)" >{{x.name}}<Br/></a>
-                 <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                 <span class="span">作者：{{x.author}}</span>
-                 <span>交易产品：{{x.symbol}}</span>
-                 <span  class="span">交易手数：{{x.multiple}}</span>
-               </div>
-               <div>
-              <span >年化收益率：
-                <e class={{x.yeildColor}}>{{x.yeild}}%</e>
-                <i class={{x.y}}></i>
-              </span>&nbsp;&nbsp;
-                 <span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}%</e><i class="{{x.y1}}"></i></span>
-               </div>
-             </li>
-           </ul>
-         <div class="draw">
-           <div id="highchart_last" style="margin-top: -820px"></div>
-         </div>
-       </div>
-        <!--<ul ng-repeat="x in histroyH |filter:{symbol:key4}" style=" width: 76.6667rem;margin-left: 0.83333rem;margin-top: 0.83333rem;">
-          <li>
-            <div class="{{x.color}}">{{$index+1}}</div>
-            <div>
-              <a ng-click="jump('BackTest',x._id)" style="font-weight: 700;font-size:1.2rem ">{{x.name}}<Br/></a>
-              <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-              <span class="span">作者：{{x.author}}</span>
-              <span class="span">交易合约：{{x.symbol}}</span>
-            </div>
-            <div></div>
-          </li>
-        </ul>-->
-      </div>
     </div>
-  </div>
 
 </div>

@@ -6,7 +6,7 @@
           <li class="active" data-target="#return_mapping_1" aria-controls="return_mapping_1" role="tab" data-toggle="tab">真实交易
           </li>
           <li data-target="#transaction_details_1" aria-controls="transaction_details_1" role="tab"  data-toggle="tab">
-            交易结果分析
+            交易分析
           </li>
           <!--<li data-target="#winrate_1" aria-controls="winrate_1" role="tab" data-toggle="tab">策略风险分析</li>-->
           <!--<li role="tab" data-toggle="tab" data-target="#assessment">模型评估</li>-->
@@ -21,15 +21,17 @@
       </div>-->
       <div class="remind">
         <div>
-          策略名：<span><input type="text" ng-model="myFirmStrategy.name" style="border: 1px solid transparent;"></span>
+          <div>
+            策略名 &nbsp;<span><input type="text" ng-model="myFirmStrategy.name" style="border: 1px solid transparent;background-color: #e8e8e8;height: 30px;font-weight: 700;"></span>
+          </div>
           <!--策略名：<span><select name="" class="sel" ng-model="myFirmStrategy.name"></select>-->
         <!--<option value="{{myFirmStrategy.name}}">{{myFirmStrategy.name}}"</option>-->
 
           <!--策略名：<span><input type="text" ng-model="myFirmStrategy.name" style="border: 1px solid transparent;"></span>-->
         </div>
-        <div class="first">
+        <div class="first">交易时间&nbsp;
          <span>
-            交易时间：
+
               <select class="sel" ng-model='myFirmDate' ng-options="x for x in my"  ng-change='makeChart1()' required ></select>
          </span>
 
@@ -38,10 +40,10 @@
           策略名：<span>{{analyse_title.name}}</span>
         </div>-->
         <div class="third">
-          交易合约：<span>{{analyse_title.symbol}}</span>
+          交易合约 &nbsp;<span style="display: block;background-color: #e8e8e8; height: 30px; margin-top: 10px;line-height: 30px;font-weight: 700;">{{analyse_title.symbol}}</span>
         </div>
         <div class="fourth">
-          交易手数：<span>{{analyse_title.multiple}}</span>
+          交易手数 &nbsp;<span style="background-color: #e8e8e8; height: 30px; margin-top: 10px;line-height: 30px;font-weight: 700;">{{analyse_title.multiple}}</span>
         </div>
         <div class="import">
           <div class="btn btn-success btn-sm" jspdf-action>导出报告</div>
@@ -261,7 +263,7 @@
 
           <div role="tabpanel" class="tab-pane" id="transaction_details_1">
             <div class="block">
-              <h3 class="analyse-charts-title">交易详细输出</h3>
+              <h3 class="analyse-charts-title">交易详细</h3>
               <div class="table-responsive">
                 <table class="table table-hover table-striped table-bordered">
                   <thead>
@@ -312,7 +314,7 @@
               </div>
             </div>
             <div class="block">
-              <h3 class="analyse-charts-title">交易收益率输出</h3>
+              <h3 class="analyse-charts-title">收益率</h3>
               <div class="table-responsive">
                 <table class="table table-hover table-striped table-bordered">
                   <thead>
@@ -871,7 +873,7 @@
           </div>-->
 
           <div role="tabpanel" class="tab-pane" id="assessment">
-            <h3 class="analyse-charts-title">模型预测图形化输出</h3>
+            <h3 class="analyse-charts-title">模型预测图形化</h3>
             <h3 class="analyse-charts-title">预测准确率统计</h3>
             <h3 class="analyse-charts-title">模型耗时</h3>
             <h3 class="analyse-charts-title">模型评分</h3>
@@ -932,7 +934,7 @@
           <div id="return_map_big_form1" style="height:600px;background:#fff;width:90%;max-width: 1000px;"></div>
         </div>
       </div>
-      <h2 class="analyse-charts-title">交易详细输出</h2>
+      <h2 class="analyse-charts-title">交易详细</h2>
       <div class="table-responsive">
         <table class="table table-hover table-striped table-bordered">
           <thead>
@@ -983,7 +985,7 @@
       </div>
       <br>
       <br>
-      <h2 class="analyse-charts-title">交易收益率输出</h2>
+      <h2 class="analyse-charts-title">收益率</h2>
       <div class="table-responsive">
         <table class="table table-hover table-striped table-bordered">
           <thead>

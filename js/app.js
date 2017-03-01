@@ -110,6 +110,8 @@
         });
         window.flag = 'model_quants';
         window.a;
+        window.b=0;
+        window.c=0;
         wow.init();
         /*var editor = ace.edit("editor");
          editor.setTheme("ace/theme/chrome");
@@ -1199,7 +1201,7 @@
                 })
                 .success(function (data) {
                     $scope.myHisStrategy = data;
-                    //console.log(data);
+                    console.log(data);
                     $scope.error2 = 0, $scope.loading2 = 0, $scope.loaded2 = 0, $scope.start2 = 0, $scope.stop2 = 0, $scope.over2 = 0, $scope.histroy = 0;
                     for (var i = 0; i < data.length; i++) {
                         var class_id = data[i].class_id;
@@ -1368,7 +1370,7 @@
     }])
     .controller('runCenterController', ['$scope', '$http', 'constantUrl', '$cookieStore', '$filter', '$routeParams', '$q', '$timeout','$rootScope', function ($scope, $http, constantUrl, $cookieStore, $filter, $routeParams, $q, $timeout,$rootScope) {
         $rootScope.user = $cookieStore.get('user');
-        var falsedata = [], truedata = [],delTrust=[],delFirm=[];
+        var falsedata = [], truedata = [],delTrust=[],delFirm=[],truedata2=[],falsedata2=[];
         var accounts = [];
         //var trueSymbolList=[],flaseSymbolList=[],allSymbolList=[];
         var nianHuaList = [];
@@ -1392,14 +1394,12 @@
         $scope.getSourcingStrategys();
 
         function getcelve(class_id) {
-            //console.log(accounts)
             for (var i = 0; i < accounts.length; i++) {
                 if (accounts[i]._id == class_id) {
                     return accounts[i].code_name;
                 }
             }
         }
-        var times;
         $scope.sRun = 0, $scope.sStop = 0, $scope.sHui = 0,$scope.fHui = 0;
         //判断真实交易、实盘模拟
         function judge(){
@@ -1460,9 +1460,12 @@
                         getTimes(i);
                     })
                     .error(function(data){
-                        //console.log(truedata[i]._id);
                         timeList[n++]=0;
                         i++;
+                        if (i == truedata2.length) {
+                            getIdDate();
+                            return;
+                        }
                         getTimes(i);
                     })
             }
@@ -1519,6 +1522,10 @@
                     .error(function(data){
                         allDataList[m++] =nothing;
                         i++;
+                        if (i >= IdDateList.length) {
+                            getAllNianHua(0);
+                            return;
+                        }
                         getAllData(i);
                     })
             }
@@ -1559,8 +1566,8 @@
                             truedata2[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
                             truedata2[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
 
-                            truedata2[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down';
-                            truedata2[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down';
+                            truedata2[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
+                            truedata2[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
                         }
                     }
                 }
@@ -1586,23 +1593,10 @@
                         stopStrategy[c++]=item;
                     }
                 })
-                //delStrategy=$filter('orderBy')(delStrategy,'-yeild');
-                //runStrategy=$filter('orderBy')(runStrategy,'-yeild');
-                //stopStrategy=$filter('orderBy')(stopStrategy,'-yeild');
-
-
 
                 runStrategy.sort(function(a,b){return b.yeild-a.yeild;});
                 stopStrategy.sort(function(a,b){return b.yeild-a.yeild;});
-               /* console.log(obj);
 
-                runStrategy.sort(getSortFun('asc', 'yeild'));
-                stopStrategy.sort(getSortFun('asc', 'yeild'));*/
-
-
-            /*    runStrategy=bubbleSort(runStrategy);
-
-                stopStrategy=bubbleSort(stopStrategy);*/
                 var truedata1=[],d=0;
                 //console.log(runStrategy[2])
                 for(var i=0;i<runStrategy.length;i++){
@@ -1615,20 +1609,6 @@
 
                 $scope.trust=truedata1;
 
-                /*  for(var j=0;j<delStrategy.length;j++){
-                 truedata1[d++]=delStrategy[j]
-                 }*/
-                /* $scope.trust=[],$scope.histroyTrust=[];
-                 for(var i=0;i<truedata1.length;i++){
-                 if(truedata1[i].status!=-2){
-                 $scope.trust[i]=truedata1[i];
-                 }
-                 if(truedata1[i].status==-2){
-                 //$scope.histroyTrust[a++]=truedata1[i];
-                 $scope.histroyTrust.push(truedata1[i]);
-                 trueSymbolList.push(truedata1[i].symbol);
-                 }
-                 }*/
 
                 var symbolList = [];
                 for (var i = 0; i < $scope.trust.length; i++) {
@@ -1649,13 +1629,94 @@
 
 
             }
-        }
-        $scope.key = 'D1_AG';
-        console.log($scope.key)
-        var  charrJson1=[];
 
-        function chartJson(){
-            var exchagne1,key;
+            //$scope.trust=truedata2;
+        }
+
+
+        //MA5
+        function averline5(data){
+            var averline5 = [];
+            for (var i = data.length - 1; i >= 4; i--) {
+                var aver = data[i].close, n = 0;
+                for (var j = i; n < 4; j--) {
+                    aver = aver + data[j - 1].close;
+                    n++;
+                }
+                averline5.push({
+                    'average': aver / 5,
+                    "x": data[i].x,
+                    "y": aver / 5,
+                })
+            }
+            averline5 = $filter('orderBy')(averline5, 'x');
+            return averline5;
+        }
+
+        //MA10
+
+     function averline10(data){
+         var averline10 = [];
+         for (var i = data.length - 1; i >= 9; i--) {
+             var aver10 = data[i].close, n = 0;
+             for (var j = i; n < 9; j--) {
+                 aver10 = aver10 + data[j - 1].close;
+                 n++;
+             }
+             averline10.push({
+                 'average': aver10 / 10,
+                 "x": data[i].x,
+                 "y": aver10 / 10,
+             })
+         }
+
+         averline10 = $filter('orderBy')(averline10, 'x');
+         return averline10;
+     }
+
+        //MA30
+        function averline30(data){
+            var averline30 = [];
+            for (var i = data.length - 1; i >= 29; i--) {
+                var aver30 = data[i].close, n = 0;
+                for (var j = i; n < 29; j--) {
+                    aver30 = aver30 + data[j - 1].close;
+                    n++;
+                }
+                averline30.push({
+                    'average': aver30 / 30,
+                    "x": data[i].x,
+                    "y": aver30 / 30,
+                })
+            }
+            averline30 = $filter('orderBy')(averline30, 'x');
+            return averline30;
+        }
+
+          //MA60
+       function averline60(data){
+           var averline60 = [];
+           for (var i = data.length - 1; i >= 59; i--) {
+               var aver60 = data[i].close, n = 0;
+               for (var j = i; n < 59; j--) {
+                   aver60 = aver60 + data[j - 1].close;
+                   n++;
+               }
+               averline60.push({
+                   'average': aver60 / 60,
+                   "x": data[i].x,
+                   "y": aver60 / 60,
+               })
+           }
+           averline60 = $filter('orderBy')(averline60, 'x');
+           return averline60;
+       }
+
+
+
+        $scope.key = 'D1_AG';
+        $scope.chartJson =function(){
+            var exchagne1,charrJson1=[],key,line5=[],line10=[],line30=[],line60=[];
             key=$scope.key[0]+$scope.key[1];
             if(key == "D1" || key == 'D6'){
                 exchagne1 = 'CSRPME'
@@ -1666,7 +1727,6 @@
             else if(key == 'bt'){
                 exchagne1 = 'OKCoin'
             }
-
             $http.get(constantUrl + 'datas/', {
                     params: {
                         "type": 'bar',
@@ -1682,7 +1742,6 @@
                     }
                 })
                 .success(function (data) {
-
                     angular.forEach(data, function (data, index) {
                         charrJson1.push({
                             "x": data.datetime,
@@ -1694,22 +1753,16 @@
                             'volume': data.volume
                         });
                     });
-
+                    line5=averline5(charrJson1);
+                    line10=averline10(charrJson1);
+                    line30=averline30(charrJson1);
+                    line60=averline60(charrJson1);
                     Highcharts.setOptions({
                         global: {
                             useUTC: false
                         }
                     });
-
                     $('#highchart_view').highcharts('StockChart', {
-                        title:{
-                            text:'行情图',
-                            align:'left',
-                            style:{
-                                fontSize:'1.3rem'
-                            }
-
-                        },
                         credits: {
                             enabled: false
                         },
@@ -1717,8 +1770,41 @@
                             enabled: false
                         },
 
-                        xAxis: {
-                            tickInterval: 1
+                        plotOptions: {
+                            series: {
+                                turboThreshold: 0,
+                            },
+                            candlestick: { //红涨绿跌
+                                color: '#33AA11',
+                                upColor: '#DD2200',
+                                lineColor: '#33AA11',
+                                upLineColor: '#DD2200',
+                                maker: {
+                                    states: {
+                                        hover: {
+                                            enabled: false,
+                                        }
+                                    }
+                                }
+                            },
+                        },
+                        tooltip: {
+                            useHTML: true,
+                            xDateFormat: "%Y-%m-%d %H:%M:%S",
+                            valueDecimals: 2,
+                            backgroundColor: '#eeeeee',   // 背景颜色
+                            borderColor: '#ccc',         // 边框颜色
+                            borderRadius: 10,             // 边框圆角
+                            borderWidth: 1,               // 边框宽度
+                            shadow: true,                 // 是否显示阴影
+                            animation: true,               // 是否启用动画效果
+                        },
+                        legend: {
+                            enabled: true,
+                            align: 'right',
+                            verticalAlign: 'top',
+                            x: 0,
+                            y: 0
                         },
                         yAxis: [{
                             labels: {
@@ -1759,37 +1845,36 @@
                             selected: 5,
                             buttonSpacing: 2
                         },
-                        plotOptions: {
-                            series: {
-                                turboThreshold: 0,
-                            },
-                            candlestick: { //红涨绿跌
-                                color: '#33AA11',
-                                upColor: '#DD2200',
-                                lineColor: '#33AA11',
-                                upLineColor: '#DD2200',
-                                maker: {
-                                    states: {
-                                        hover: {
-                                            enabled: false,
-                                        }
-                                    }
-                                }
-                            },
-                        },
-                        tooltip: {
-                            useHTML: true,
-                            xDateFormat: "%Y-%m-%d %H:%M:%S",
-                            valueDecimals: 2,
-                            backgroundColor: '#eeeeee',   // 背景颜色
-                            borderColor: '#ccc',         // 边框颜色
-                            borderRadius: 10,             // 边框圆角
-                            borderWidth: 1,               // 边框宽度
-                            shadow: true,                 // 是否显示阴影
-                            animation: true,               // 是否启用动画效果
-                        },
                         //收益曲线
                         series: [{
+                            type: 'spline',
+                            name: 'MA5',
+                            data: line5,
+                            lineWidth: 1,
+                            color: 'red',
+                            visible: false
+                        },{
+                            type: 'spline',
+                            name: 'MA10',
+                            data: line10,
+                            lineWidth: 1,
+                            color: 'yellow',
+                            visible: false
+                        },{
+                            type: 'spline',
+                            name: 'MA30',
+                            data: line30,
+                            lineWidth: 1,
+                            color: 'blue',
+                            visible: false
+                        },{
+                            type: 'spline',
+                            name: 'MA60',
+                            data: line60,
+                            lineWidth: 1,
+                            color: 'green',
+                            visible: false
+                        },{
                             type:'candlestick',
                             name: '价格',
                             data: charrJson1,
@@ -1799,14 +1884,22 @@
                     $('#container').hide();
                 });
         }
-        chartJson();
-        //$('#container').hide();
+        $scope.chartJson();
+
         //实盘模拟
+
+
+
         $scope.firm=function(){
+
+            if(window.b ==1){
+                return;
+            }
+
+
             $scope.key1 = "D1_AG";
             $scope.chartJson2 =function(){
-                var  charrJson1=[];
-                var exchagne1,key;
+                var exchagne1,key,charrJson1=[],line5=[],line10=[],line30=[],line60=[];
                 key=$scope.key1[0]+$scope.key1[1];
                 if(key == "D1" || key == 'D6'){
                     exchagne1 = 'CSRPME'
@@ -1817,7 +1910,6 @@
                 else if(key == 'bt'){
                     exchagne1 = 'OKCoin'
                 }
-
                 $http.get(constantUrl + 'datas/', {
                         params: {
                             "type": 'bar',
@@ -1833,7 +1925,6 @@
                         }
                     })
                     .success(function (data) {
-
                         angular.forEach(data, function (data, index) {
                             charrJson1.push({
                                 "x": data.datetime,
@@ -1846,6 +1937,10 @@
                             });
                         });
 
+                        line5=averline5(charrJson1);
+                        line10=averline10(charrJson1);
+                        line30=averline30(charrJson1);
+                        line60=averline60(charrJson1);
                         Highcharts.setOptions({
                             global: {
                                 useUTC: false
@@ -1853,14 +1948,7 @@
                         });
 
                         $('#highchart_moni').highcharts('StockChart', {
-                            title:{
-                                text:'行情图',
-                                align:'left',
-                                style:{
-                                    fontSize:'1.3rem'
-                                }
 
-                            },
                             credits: {
                                 enabled: false
                             },
@@ -1868,8 +1956,41 @@
                                 enabled: false
                             },
 
-                            xAxis: {
-                                tickInterval: 1
+                            plotOptions: {
+                                series: {
+                                    turboThreshold: 0,
+                                },
+                                candlestick: { //红涨绿跌
+                                    color: '#33AA11',
+                                    upColor: '#DD2200',
+                                    lineColor: '#33AA11',
+                                    upLineColor: '#DD2200',
+                                    maker: {
+                                        states: {
+                                            hover: {
+                                                enabled: false,
+                                            }
+                                        }
+                                    }
+                                },
+                            },
+                            tooltip: {
+                                useHTML: true,
+                                xDateFormat: "%Y-%m-%d %H:%M:%S",
+                                valueDecimals: 2,
+                                backgroundColor: '#eeeeee',   // 背景颜色
+                                borderColor: '#ccc',         // 边框颜色
+                                borderRadius: 10,             // 边框圆角
+                                borderWidth: 1,               // 边框宽度
+                                shadow: true,                 // 是否显示阴影
+                                animation: true,               // 是否启用动画效果
+                            },
+                            legend: {
+                                enabled: true,
+                                align: 'right',
+                                verticalAlign: 'top',
+                                x: 0,
+                                y: 0
                             },
                             yAxis: [{
                                 labels: {
@@ -1910,44 +2031,42 @@
                                 selected: 5,
                                 buttonSpacing: 2
                             },
-                            plotOptions: {
-                                series: {
-                                    turboThreshold: 0,
-                                },
-                                candlestick: { //红涨绿跌
-                                    color: '#33AA11',
-                                    upColor: '#DD2200',
-                                    lineColor: '#33AA11',
-                                    upLineColor: '#DD2200',
-                                    maker: {
-                                        states: {
-                                            hover: {
-                                                enabled: false,
-                                            }
-                                        }
-                                    }
-                                },
-                            },
-                            tooltip: {
-                                useHTML: true,
-                                xDateFormat: "%Y-%m-%d %H:%M:%S",
-                                valueDecimals: 2,
-                                backgroundColor: '#eeeeee',   // 背景颜色
-                                borderColor: '#ccc',         // 边框颜色
-                                borderRadius: 10,             // 边框圆角
-                                borderWidth: 1,               // 边框宽度
-                                shadow: true,                 // 是否显示阴影
-                                animation: true,               // 是否启用动画效果
-                            },
-                            //收益曲线
                             series: [{
+                                type: 'spline',
+                                name: 'MA5',
+                                data: line5,
+                                lineWidth: 1,
+                                color: 'red',
+                                visible: false
+                            },{
+                                type: 'spline',
+                                name: 'MA10',
+                                data: line10,
+                                lineWidth: 1,
+                                color: 'yellow',
+                                visible: false
+                            },{
+                                type: 'spline',
+                                name: 'MA30',
+                                data: line30,
+                                lineWidth: 1,
+                                color: 'blue',
+                                visible: false
+                            },{
+                                type: 'spline',
+                                name: 'MA60',
+                                data: line60,
+                                lineWidth: 1,
+                                color: 'green',
+                                visible: false
+                            },{
                                 type:'candlestick',
                                 name: '价格',
                                 data: charrJson1,
 
                             }]
                         });
-                        $("#container1").hide()
+
                     });
             }
             $scope.chartJson2();
@@ -1961,8 +2080,28 @@
                     delFirm.push(falsedata[i]);
                 }
             }
-            //$scope.getSourcingStrategys();
-            //console.log(falsedata2);
+            for (var i = 0; i < falsedata2.length; i++) {
+                falsedata2[i].class_name = "none"; //策略代码初始化
+                var class_id1 = falsedata2[i].class_id;
+                falsedata2[i].code_name = getcelve(class_id1);
+            }
+            var delStrategy1=[],a= 0,runStrategy1=[],b= 0,stopStrategy1=[];
+            $scope.fRun = 0, $scope.fStop = 0,
+                angular.forEach(falsedata2, function (item, index) {
+                    if (item.status == 2) {
+                        item.color = 'run';
+                        item.a = 1;
+                        $scope.fRun++;
+                        runStrategy1[b++]=item;
+                    }
+                    if (item.status == 3) {
+                        item.color = 'stop';
+                        item.a = 2;
+                        $scope.fStop++;
+                        stopStrategy1[b++]=item;
+                    }
+                })
+
             var n2 = 0;
             var i = 0;
             var timeList2 = [];
@@ -1991,10 +2130,14 @@
                     .error(function(data){
                         timeList2[n2++]=0;
                         i++;
+                        if (i >= falsedata2.length) {
+                            getIdDate2();
+                            return;
+                        }
                         getTimes2(i)
                     })
             }
-console.log(timeList2)
+
             var IdDateList2 = [];
             function getIdDate2() {
                 //console.log(timeList2)
@@ -2012,7 +2155,7 @@ console.log(timeList2)
                 //console.log(IdDateList2);
                 getAllData2(0);
             }
-            console.log(IdDateList2)
+
             var i = 0;
             var allDataList2 = [];
             var m = 0;
@@ -2034,8 +2177,6 @@ console.log(timeList2)
                     })
                     .success(function (data) {
                         allDataList2[m++] = data;
-                        //console.log(allDataList2)
-                        //console.log(allDataList2[m][0])
                         i++;
                         if (i >= IdDateList2.length) {
 
@@ -2047,6 +2188,10 @@ console.log(timeList2)
                     .error(function(data){
                         allDataList2[m++] = 0;
                         i++;
+                        if (i >= IdDateList2.length) {
+                            getAllNianHua2(0);
+                            return;
+                        }
                         getAllData2(i);
                     })
             }
@@ -2057,7 +2202,6 @@ console.log(timeList2)
                 if(nowData == 0){
                     nowData=a
                 }
-
                 handledata(false, nowData, timeList2[i], IdDateList2[i].id);
                 //console.log(IdDateList[i].id)
                 //return;
@@ -2083,61 +2227,17 @@ console.log(timeList2)
                     //console.log(id,nianhua,average_winrate)
                     for (j = 0; j < falsedata2.length; j++) {
                         if (falsedata2[j]._id == id) {
-
                             falsedata2[j].yeild = nianhua;
                             falsedata2[j].average_winrate = average_winrate;
                             falsedata2[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
                             falsedata2[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
 
-                            falsedata2[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down';
-                            falsedata2[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down';
+                            falsedata2[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
+                            falsedata2[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
 
                         }
                     }
                 }
-                //falsedata = $filter('orderBy')(falsedata, 'a');
-                for (var i = 0; i < falsedata2.length; i++) {
-                    falsedata2[i].class_name = "none"; //策略代码初始化
-                    var class_id1 = falsedata2[i].class_id;
-                    falsedata2[i].code_name = getcelve(class_id1);
-                }
-
-                var delStrategy1=[],a= 0,runStrategy1=[],b= 0,stopStrategy1=[];
-
-                $scope.fRun = 0, $scope.fStop = 0,
-                    angular.forEach(falsedata2, function (item, index) {
-                        //if (item.status == -2) {
-                        //
-                        //    //c.push(item);
-                        //    item.color = 'sdel';
-                        //    item.a = 3;
-                        //    $scope.fHui++;
-                        //    delStrategy1[a++]=item;
-                        //}
-                        if (item.status == 2) {
-                            //a.push(item);
-                            item.color = 'run';
-                            item.a = 1;
-                            $scope.fRun++;
-                            runStrategy1[b++]=item;
-                        }
-                        if (item.status == 3) {
-                            item.color = 'stop';
-                            item.a = 2;
-                            $scope.fStop++;
-                            stopStrategy1[b++]=item;
-                        }
-                    })
-                //delStrategy1=$filter('orderBy')(delStrategy1,'-yeild');
-              /*  runStrategy1=$filter('orderBy')(runStrategy1,'-yeild');
-                stopStrategy1=$filter('orderBy')(stopStrategy1,'-yeild');*/
-
-                //var obj=[{a:44,b:55,c:66},{a:11,b:22,C:33},{a:77,b:88,c:99}];
-             /*   obj.sort(function(a,b){return a.a-b.a;});
-                for(var i=0;i <obj.length;i++){
-                    alert(obj[i].a);
-                }*/
-
                 runStrategy1.sort(function(a,b){return b.yeild-a.yeild;});
                 stopStrategy1.sort(function(a,b){return b.yeild-a.yeild;});
                 //stopStrategy1.sort(sortBy('yeild', true, parseInt));
@@ -2201,10 +2301,11 @@ console.log(timeList2)
 
 
             }
+
+            $scope.flase=falsedata2;
+            $("#container1").hide()
+            window.b=1;
         }
-
-
-
 
         function handledata(flag, nowdata, nowDay, nowId) {
             //console.log(nowdata)
@@ -2530,43 +2631,35 @@ console.log(timeList2)
 
         //排序
 
-
         //历史回测
         $scope.histroy = [],histroy = [];
         $scope.getHisSelect=function(){
-            $scope.hRun = 0, $scope.hStop = 0, $scope.hHui = 0;
-            var  histroyStop=[],histroyDel=[],histroy = []
+            if(window.c==1){
+                return;
+            }
+            $scope.key2 = "D1_AG";
+            $scope.hRun = 0, $scope.hStop = 0;
+            var histroy = []
             $http.get(constantUrl + "btstrategys/", {
                     headers: {
                         'Authorization': 'token ' + $cookieStore.get('user').token
                     }
                 })
                 .success(function (data) {
-                    angular.forEach(data, function (x, y) {
-                        this.push({
-                            "name": x["name"],
-                            '_id': x["_id"],
-                            'status': x["status"],
-                            'exchange': x["exchange"],
-                            'symbol': x["symbol"],
-                            'class_id': x["class_id"],
-                        });
-                    }, histroy);
-
-                    angular.forEach(histroy, function (item, index) {
-                        if (item.status == -2) {
-                            item.color = 'hdel';
-                            item.a = 2;
-                            $scope.hHui++;
-                            histroyDel.push(item)
-                        }
-                        if (item.status == 4) {
-                            item.color = 'stop';
-                            item.a = 1;
+                    angular.forEach(data,function(item,index){
+                        if(item.status == 4){
+                            item.color='stop';
                             $scope.hStop++;
-                            histroyStop.push(item)
+                            histroy.push(item)
                         }
-                    });
+                    })
+                    for (var i = 0; i < histroy.length; i++) {
+                        var class_id = histroy[i].class_id;
+                        //var status = data[i].status;
+                        histroy[i].code_name = getcelve(class_id);
+                    }
+
+
 
                     var timeList=[],n= 0,i=0;
                     getTimes(0);
@@ -2592,10 +2685,14 @@ console.log(timeList2)
                             .error(function(data){
                                 timeList[n++]=0;
                                 i++;
+                                if (i == histroy.length) {
+                                    getIdDate();
+                                    return;
+                                }
                                 getTimes(i);
                             })
                     }
-                    console.log(timeList);
+
                     var IdDateList=[];
                     function getIdDate() {
                         for (var i = 0; i < histroy.length; i++) {
@@ -2611,7 +2708,7 @@ console.log(timeList2)
                         }
                         getAllData(0);
                     }
-                    console.log(IdDateList);
+
                     var i = 0;
                     var allDataList = [];
                     var m = 0;
@@ -2646,10 +2743,13 @@ console.log(timeList2)
                             .error(function(data){
                                 allDataList[m++] =nothing;
                                 i++;
+                                if (i >= IdDateList.length) {
+                                    getAllNianHua(0);
+                                    return;
+                                }
                                 getAllData(i);
                             })
                     }
-                    console.log(allDataList)
 
 
 
@@ -2689,8 +2789,8 @@ console.log(timeList2)
                                     histroy[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
                                     histroy[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
 
-                                    histroy[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down';
-                                    histroy[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down';
+                                    histroy[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
+                                    histroy[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
                                 }
                             }
                         }
@@ -2727,90 +2827,22 @@ console.log(timeList2)
                         //histroy.sort(function(a,b){return b.yeild-a.yeild;});
                         $scope.histroy = histroy1;*/
 
-                       /* runStrategy.sort(function(a,b){return b.yeild-a.yeild;});
-                        stopStrategy.sort(function(a,b){return b.yeild-a.yeild;});*/
 
-                        for (var i = 0; i < histroy.length; i++) {
-                            var class_id = histroy[i].class_id;
-                            //var status = data[i].status;
-                            histroy[i].code_name = getcelve(class_id);
-                        }
-                        histroyDel.sort(function(a,b){return b.yeild-a.yeild;});
-                        //console.log(histroyDel)
-                        histroyStop.sort(function(a,b){return b.yeild-a.yeild;});
+                        histroy.sort(function(a,b){return b.yeild-a.yeild;});
 
-                        for(var i=0;i<histroyStop.length;i++){
-                            console.log(histroyStop[i].yeild)
-                        }
-                        for(var i=0;i<histroyDel.length;i++){
-                            console.log(histroyDel[i].yeild)
-                        }
-
-                        var histroy1=[],k=0;
-                        for(var i=0;i<histroyStop.length;i++){
-                            histroy1[k++]=histroyStop[i]
-                        }
-                        for(var j=0;j<histroyDel.length;j++){
-                            histroy1[k++]=histroyDel[j]
-                        }
-
-
-                        $scope.histroy = histroy1;
+                        $scope.histroy = histroy;
+                        //console.log(histroy1)
                     }
 
-                    //console.log($scope.histroy)
-
-                    //console.log($scope.histroy)
-                    //histroy = $filter('orderBy')(histroy, 'a');
-
-//console.log(histroy)
-
-                   /* angular.forEach(histroy, function (item, index) {
-                        if (item.status == -2) {
-                            item.color = 'hdel';
-                            item.a = 2;
-                            $scope.hHui++;
-                            histroyDel.push(histroy)
-                        }
-                        if (item.status == 4) {
-                            item.color = 'stop';
-                            item.a = 1;
-                            $scope.hStop++;
-                            histroyStop.push(histroy)
-                        }
-                    });
-                    //console.log(histroyStop)
-                    histroyDel.sort(function(a,b){return b.yeild-a.yeild;});
-                    histroyStop.sort(function(a,b){return b.yeild-a.yeild;});
-                    var histroy1=[],k=0;
-                    for(var i=0;i<histroyStop.length;i++){
-                        histroy1[k++]=histroyStop[i]
-                    }
-                    for(var i=0;i<histroyDel.length;i++){
-                        histroy1[k++]=histroyDel[i]
-                    }
-                    console.log(histroy1)
-*/
 
 
+                    $scope.histroy = histroy;
+                    $("#container3").hide()
 
-                    //histroy.sort(function(a,b){return b.yeild-a.yeild;});
-                    //console.log(histroyDel[0])
-                    //console.log(histroyStop[0])
-
-
-
-                    //console.log(histroy1)
-
-
-                    //$scope.histroy = histroy;
 
                     var histroySymbolList = [];
 
                     for (var i = 0; i < histroy.length; i++) {
-                       /* if (histroySymbolList.indexOf(histroy1[i].symbol) == -1) {
-                            histroySymbolList.push(histroy1[i].symbol)
-                        }*/
                         histroySymbolList.push(histroy[i].symbol)
                     }
                     var  histroySymbolList1=[];
@@ -2820,155 +2852,8 @@ console.log(timeList2)
                             histroySymbolList1.push(histroySymbolList[i])
                         }
                     }
-
                     $scope.histroySymbolList = histroySymbolList1;
-                    console.log($scope.histroySymbolList)
-                    $scope.key2 = "D1_AG";
-
-                    $scope.chartJson3=function(){
-                        var  charrJson1=[];
-                        var exchagne1,key;
-                        key=$scope.key2[0]+$scope.key2[1];
-                        if(key == "D1" || key == 'D6'){
-                            exchagne1 = 'CSRPME'
-                        }
-                        else if(key == 'IF' || key == 'IC'){
-                            exchagne1 ='CTP'
-                        }
-                        else if(key == 'bt'){
-                            exchagne1 = 'OKCoin'
-                        }
-
-                        $http.get(constantUrl + 'datas/', {
-                                params: {
-                                    "type": 'bar',
-                                    "exchange": exchagne1,
-                                    //"exchange": "CTP",
-                                    "symbol": $scope.key2,
-                                    //"symbol": "IF",
-                                    "start": getNowFormatDate(),
-                                    "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
-                                },
-                                headers: {
-                                    'Authorization': 'token ' + $cookieStore.get('user').token
-                                }
-                            })
-                            .success(function (data) {
-
-                                angular.forEach(data, function (data, index) {
-                                    charrJson1.push({
-                                        "x": data.datetime,
-                                        "y": data.close,
-                                        'low': data.low,
-                                        'high': data.high,
-                                        'close': data.close,
-                                        'open': data.open,
-                                        'volume': data.volume
-                                    });
-                                });
-                                Highcharts.setOptions({
-                                    global: {
-                                        useUTC: false
-                                    }
-                                });
-                                $('#highchart_his').highcharts('StockChart', {
-                                    title:{
-                                        text:'行情图',
-                                        align:'left',
-                                        style:{
-                                            fontSize:'1.3rem'
-                                        }
-
-                                    },
-                                    credits: {
-                                        enabled: false
-                                    },
-                                    exporting: {
-                                        enabled: false
-                                    },
-
-                                    xAxis: {
-                                        tickInterval: 1
-                                    },
-                                    yAxis: [{
-                                        labels: {
-                                            align: 'right',
-                                            x: -3
-                                        },
-                                        title: {
-                                            text: '价格'
-                                        },
-                                        lineWidth: 1,
-
-                                    }],
-                                    rangeSelector: {
-                                        buttons: [{
-                                            type: 'minute',
-                                            count: 10,
-                                            text: '10m'
-                                        }, {
-                                            type: 'minute',
-                                            count: 30,
-                                            text: '30m'
-                                        }, {
-                                            type: 'hour',
-                                            count: 1,
-                                            text: '1h'
-                                        }, {
-                                            type: 'day',
-                                            count: 1,
-                                            text: '1d'
-                                        }, {
-                                            type: 'week',
-                                            count: 1,
-                                            text: '1w'
-                                        }, {
-                                            type: 'all',
-                                            text: '所有'
-                                        }],
-                                        selected: 5,
-                                        buttonSpacing: 2
-                                    },
-                                    plotOptions: {
-                                        series: {
-                                            turboThreshold: 0,
-                                        },
-                                        candlestick: { //红涨绿跌
-                                            color: '#33AA11',
-                                            upColor: '#DD2200',
-                                            lineColor: '#33AA11',
-                                            upLineColor: '#DD2200',
-                                            maker: {
-                                                states: {
-                                                    hover: {
-                                                        enabled: false,
-                                                    }
-                                                }
-                                            }
-                                        },
-                                    },
-                                    tooltip: {
-                                        useHTML: true,
-                                        xDateFormat: "%Y-%m-%d %H:%M:%S",
-                                        valueDecimals: 2,
-                                        backgroundColor: '#eeeeee',   // 背景颜色
-                                        borderColor: '#ccc',         // 边框颜色
-                                        borderRadius: 10,             // 边框圆角
-                                        borderWidth: 1,               // 边框宽度
-                                        shadow: true,                 // 是否显示阴影
-                                        animation: true,               // 是否启用动画效果
-                                    },
-                                    //收益曲线
-                                    series: [{
-                                        type:'candlestick',
-                                        name: '价格',
-                                        data: charrJson1,
-
-                                    }]
-                                });
-                            });
-                    }
-                    $scope.chartJson3();
+                    window.c=1;
                 });
 
         };
@@ -2977,161 +2862,14 @@ console.log(timeList2)
         //历史交易
 
         $scope.histroyDeals=function(){
-
             $scope.key4 = "D1_AG";
-            $scope.chartJson4 =function(){
-                var  charrJson1=[];
-                var exchagne1,key;
-                key=$scope.key4[0]+$scope.key4[1];
-                if(key == "D1" || key == 'D6'){
-                    exchagne1 = 'CSRPME'
-                }
-                else if(key == 'IF' || key == 'IC'){
-                    exchagne1 ='CTP'
-                }
-                else if(key == 'bt'){
-                    exchagne1 = 'OKCoin'
-                }
 
-                $http.get(constantUrl + 'datas/', {
-                        params: {
-                            "type": 'bar',
-                            "exchange": exchagne1,
-                            //"exchange": "CTP",
-                            "symbol": $scope.key4,
-                            //"symbol": "IF",
-                            "start": getNowFormatDate(),
-                            "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
-                    .success(function (data) {
+            $("#container2").hide()
 
-                        angular.forEach(data, function (data, index) {
-                            charrJson1.push({
-                                "x": data.datetime,
-                                "y": data.close,
-                                'low': data.low,
-                                'high': data.high,
-                                'close': data.close,
-                                'open': data.open,
-                                'volume': data.volume
-                            });
-                        });
-
-                        Highcharts.setOptions({
-                            global: {
-                                useUTC: false
-                            }
-                        });
-
-                        $('#highchart_last').highcharts('StockChart', {
-                            title:{
-                                text:'行情图',
-                                align:'left',
-                                style:{
-                                    fontSize:'1.3rem'
-                                }
-
-                            },
-                            credits: {
-                                enabled: false
-                            },
-                            exporting: {
-                                enabled: false
-                            },
-
-                            xAxis: {
-                                tickInterval: 1
-                            },
-                            yAxis: [{
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '价格'
-                                },
-                                lineWidth: 1,
-
-                            }],
-                            rangeSelector: {
-                                buttons: [{
-                                    type: 'minute',
-                                    count: 10,
-                                    text: '10m'
-                                }, {
-                                    type: 'minute',
-                                    count: 30,
-                                    text: '30m'
-                                }, {
-                                    type: 'hour',
-                                    count: 1,
-                                    text: '1h'
-                                }, {
-                                    type: 'day',
-                                    count: 1,
-                                    text: '1d'
-                                }, {
-                                    type: 'week',
-                                    count: 1,
-                                    text: '1w'
-                                }, {
-                                    type: 'all',
-                                    text: '所有'
-                                }],
-                                selected: 5,
-                                buttonSpacing: 2
-                            },
-                            plotOptions: {
-                                series: {
-                                    turboThreshold: 0,
-                                },
-                                candlestick: { //红涨绿跌
-                                    color: '#33AA11',
-                                    upColor: '#DD2200',
-                                    lineColor: '#33AA11',
-                                    upLineColor: '#DD2200',
-                                    maker: {
-                                        states: {
-                                            hover: {
-                                                enabled: false,
-                                            }
-                                        }
-                                    }
-                                },
-                            },
-                            tooltip: {
-                                useHTML: true,
-                                xDateFormat: "%Y-%m-%d %H:%M:%S",
-                                valueDecimals: 2,
-                                backgroundColor: '#eeeeee',   // 背景颜色
-                                borderColor: '#ccc',         // 边框颜色
-                                borderRadius: 10,             // 边框圆角
-                                borderWidth: 1,               // 边框宽度
-                                shadow: true,                 // 是否显示阴影
-                                animation: true,               // 是否启用动画效果
-                            },
-                            //收益曲线
-                            series: [{
-                                type:'candlestick',
-                                name: '价格',
-                                data: charrJson1,
-
-                            }]
-                        });
-                    });
-            }
-            $scope.chartJson4();
-
-
-            var histroyDeals=[],k= 0,n= 0,j= 0,delTrustSymbol=[],delFirmSymbol=[],delAllSymbol=[];
+            var k= 0,n= 0,j= 0,delTrustSymbol=[],delFirmSymbol=[],delAllSymbol=[];
             $scope.sHui=delTrust.length;
             for (var i = 0; i < delTrust.length; i++) {
                 delTrustSymbol[n++]=delTrust[i].symbol;
-                histroyDeals[k++]=delTrust[i]
                 delTrust[i].color='tdel'
                 var class_id = delTrust[i].class_id;
                 delTrust[i].code_name = getcelve(class_id);
@@ -3142,24 +2880,17 @@ console.log(timeList2)
             //console.log(delFirm)
             for(var i=0;i<delFirm.length;i++){
                 delFirmSymbol[j++]=delFirm[i].symbol;
-                histroyDeals[k++]=delFirm[i]
                 delFirm[i].color='sdel';
                 var class_id1 = delFirm[i].class_id;
                 delFirm[i].code_name = getcelve(class_id1);
             }
             delTrustSymbol=delTrustSymbol.concat(delFirmSymbol);
-            console.log(delTrustSymbol[0]);
             for(var i=0;i<delTrustSymbol.length;i++){
                 if(delAllSymbol.indexOf(delTrustSymbol[i]) == -1){
                     delAllSymbol.push(delTrustSymbol[i])
                 }
             }
             $scope.allSymbolList = delAllSymbol
-
-            //console.log(delAllSymbol)
-
-
-
 
 
             var n = 0,i=0;
@@ -3179,7 +2910,7 @@ console.log(timeList2)
                     .success(function (data) {
                         timeList[n++] = data[data.length - 1];
                         i++;
-                        if (i == delTrust.length) {
+                        if (i >= delTrust.length) {
                             getIdDate();
                             return;
                         }
@@ -3189,6 +2920,10 @@ console.log(timeList2)
                         //console.log(truedata[i]._id);
                         timeList[n++]=0;
                         i++;
+                        if (i >= delTrust.length) {
+                            getIdDate();
+                            return;
+                        }
                         getTimes(i);
                     })
             }
@@ -3245,6 +2980,10 @@ console.log(timeList2)
                     .error(function(data){
                         allDataList[m++] =nothing;
                         i++;
+                        if (i >= IdDateList.length) {
+                            getAllNianHua(0);
+                            return;
+                        }
                         getAllData(i);
                     })
             }
@@ -3285,42 +3024,14 @@ console.log(timeList2)
                             delTrust[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
                             delTrust[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
 
-                            delTrust[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down';
-                            delTrust[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down';
+                            delTrust[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
+                            delTrust[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
                         }
                     }
                 }
                 delTrust.sort(function(a,b){return b.yeild-a.yeild;});
                 //delTrust=$filter('orderBy')(delTrust,'-yeild');
                 $scope.histroyTrust=delTrust;
-                $("#container2").hide()
-               /* runStrategy=$filter('orderBy')(runStrategy,'-yeild');
-                stopStrategy=$filter('orderBy')(stopStrategy,'-yeild');
-                var truedata1=[],d=0;
-                //console.log(runStrategy[2])
-                for(var i=0;i<runStrategy.length;i++){
-                    truedata1[d++]=runStrategy[i];
-                }
-                for(var j=0;j<stopStrategy.length;j++){
-                    truedata1[d++]=stopStrategy[j]
-                }
-                console.log(truedata1)
-                $scope.trust=truedata1;
-                $('#container').hide();*/
-                /*  for(var j=0;j<delStrategy.length;j++){
-                 truedata1[d++]=delStrategy[j]
-                 }*/
-                /* $scope.trust=[],$scope.histroyTrust=[];
-                 for(var i=0;i<truedata1.length;i++){
-                 if(truedata1[i].status!=-2){
-                 $scope.trust[i]=truedata1[i];
-                 }
-                 if(truedata1[i].status==-2){
-                 //$scope.histroyTrust[a++]=truedata1[i];
-                 $scope.histroyTrust.push(truedata1[i]);
-                 trueSymbolList.push(truedata1[i].symbol);
-                 }
-                 }*/
 
                /* var symbolList = [];
                 for (var i = 0; i < $scope.trust.length; i++) {
@@ -3485,17 +3196,19 @@ console.log(timeList2)
                         });
                 }
                 chartJson();*/
-
-
             }
 
             var n2 = 0;
             var i = 0;
             var timeList2 = [];
             getTimes2(0)
+            //console.log(delFirm)
             function getTimes2(i) {
-                var url = 'dates/?date_type=data&exchange=' + delFirm[i].exchange + '&symbol=' + delFirm[i].symbol + '&type=tick';
-                $http.get(constantUrl + url, {
+                $http.get(constantUrl + 'dates/', {
+                        params: {
+                            "date_type": 'transaction',
+                            "sty_id": delFirm[i]._id
+                        },
                         headers: {
                             'Authorization': 'token ' + $cookieStore.get('user').token
                         }
@@ -3509,7 +3222,17 @@ console.log(timeList2)
                         }
                         getTimes2(i);
                     })
+                    .error(function(data){
+                        timeList2[n2++]=0;
+                        i++;
+                        if (i >= delFirm.length) {
+                            getIdDate2();
+                            return;
+                        }
+                        getTimes2(i)
+                    })
             }
+
             var IdDateList2 = [];
             function getIdDate2() {
                 //console.log(timeList2)
@@ -3527,6 +3250,7 @@ console.log(timeList2)
                 //console.log(IdDateList2);
                 getAllData2(0);
             }
+            console.log(IdDateList2)
             var i = 0;
             var allDataList2 = [];
             var p = 0;
@@ -3560,6 +3284,11 @@ console.log(timeList2)
                     .error(function(data){
                         allDataList2[p++] = 0;
                         i++;
+                        if (i >= IdDateList2.length) {
+
+                            getAllNianHua2(0);
+                            return;
+                        }
                         getAllData2(i);
                     })
             }
@@ -3599,8 +3328,8 @@ console.log(timeList2)
                             delFirm[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
                             delFirm[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
 
-                            delFirm[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down';
-                            delFirm[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up' : 'glyphicon glyphicon-arrow-down';
+                            delFirm[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
+                            delFirm[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
 
                         }
                     }
@@ -3641,34 +3370,9 @@ console.log(timeList2)
                 //delStrategy1=$filter('orderBy')(delStrategy1,'-yeild');
                 delFirm=$filter('orderBy')(delFirm,'-yeild');
                 $scope.histroyFlase=delFirm;
-               /* runStrategy1=$filter('orderBy')(runStrategy1,'-yeild');
-                stopStrategy1=$filter('orderBy')(stopStrategy1,'-yeild');
-                var falsedata1=[],d=0;
-                //console.log(runStrategy[2])
-                for(var i=0;i<runStrategy1.length;i++){
-                    falsedata1[d++]=runStrategy1[i];
-                }
-                for(var j=0;j<stopStrategy1.length;j++){
-                    falsedata1[d++]=stopStrategy1[j]
-                }
-                $('#container1').hide();
-                $scope.flase=falsedata1;*/
 
-                //for(var j=0;j<delStrategy1.length;j++){
-                //    falsedata1[d++]=delStrategy1[j]
-                //}
-                //$scope.flase=[],$scope.histroyFlase=[];
-                //for(var i=0;i<falsedata1.length;i++){
-                //    if(falsedata1[i].status!=-2){
-                //        $scope.flase[i]=falsedata1[i];
-                //    }
-                //    if(falsedata1[i].status==-2){
-                //        $scope.histroyFlase.push(falsedata1[i])
-                //        flaseSymbolList.push(falsedata1[i].symbol)
-                //    }
-                //
-                //}
-                //console.log(flaseSymbolList);
+
+
                /* allSymbolList=trueSymbolList.concat(flaseSymbolList)
                 //console.log(allSymbolList);
                 var allSymbolList1=[];
@@ -3696,305 +3400,7 @@ console.log(timeList2)
                 }
 
                 $scope.symbolList1 = symbolList3;*/
-                $scope.key1 = "D1_AG";
-                $scope.key4 = "D1_AG";
 
-
-
-                $scope.chartJson2 =function(){
-                    var  charrJson1=[];
-                    var exchagne1,key;
-                    key=$scope.key1[0]+$scope.key1[1];
-                    if(key == "D1" || key == 'D6'){
-                        exchagne1 = 'CSRPME'
-                    }
-                    else if(key == 'IF' || key == 'IC'){
-                        exchagne1 ='CTP'
-                    }
-                    else if(key == 'bt'){
-                        exchagne1 = 'OKCoin'
-                    }
-
-                    $http.get(constantUrl + 'datas/', {
-                            params: {
-                                "type": 'bar',
-                                "exchange": exchagne1,
-                                //"exchange": "CTP",
-                                "symbol": $scope.key1,
-                                //"symbol": "IF",
-                                "start": getNowFormatDate(),
-                                "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
-                            },
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
-                        .success(function (data) {
-
-                            angular.forEach(data, function (data, index) {
-                                charrJson1.push({
-                                    "x": data.datetime,
-                                    "y": data.close,
-                                    'low': data.low,
-                                    'high': data.high,
-                                    'close': data.close,
-                                    'open': data.open,
-                                    'volume': data.volume
-                                });
-                            });
-
-                            Highcharts.setOptions({
-                                global: {
-                                    useUTC: false
-                                }
-                            });
-
-                            $('#highchart_moni').highcharts('StockChart', {
-                                title:{
-                                    text:'行情图',
-                                    align:'left',
-                                    style:{
-                                        fontSize:'1.3rem'
-                                    }
-
-                                },
-                                credits: {
-                                    enabled: false
-                                },
-                                exporting: {
-                                    enabled: false
-                                },
-
-                                xAxis: {
-                                    tickInterval: 1
-                                },
-                                yAxis: [{
-                                    labels: {
-                                        align: 'right',
-                                        x: -3
-                                    },
-                                    title: {
-                                        text: '价格'
-                                    },
-                                    lineWidth: 1,
-
-                                }],
-                                rangeSelector: {
-                                    buttons: [{
-                                        type: 'minute',
-                                        count: 10,
-                                        text: '10m'
-                                    }, {
-                                        type: 'minute',
-                                        count: 30,
-                                        text: '30m'
-                                    }, {
-                                        type: 'hour',
-                                        count: 1,
-                                        text: '1h'
-                                    }, {
-                                        type: 'day',
-                                        count: 1,
-                                        text: '1d'
-                                    }, {
-                                        type: 'week',
-                                        count: 1,
-                                        text: '1w'
-                                    }, {
-                                        type: 'all',
-                                        text: '所有'
-                                    }],
-                                    selected: 5,
-                                    buttonSpacing: 2
-                                },
-                                plotOptions: {
-                                    series: {
-                                        turboThreshold: 0,
-                                    },
-                                    candlestick: { //红涨绿跌
-                                        color: '#33AA11',
-                                        upColor: '#DD2200',
-                                        lineColor: '#33AA11',
-                                        upLineColor: '#DD2200',
-                                        maker: {
-                                            states: {
-                                                hover: {
-                                                    enabled: false,
-                                                }
-                                            }
-                                        }
-                                    },
-                                },
-                                tooltip: {
-                                    useHTML: true,
-                                    xDateFormat: "%Y-%m-%d %H:%M:%S",
-                                    valueDecimals: 2,
-                                    backgroundColor: '#eeeeee',   // 背景颜色
-                                    borderColor: '#ccc',         // 边框颜色
-                                    borderRadius: 10,             // 边框圆角
-                                    borderWidth: 1,               // 边框宽度
-                                    shadow: true,                 // 是否显示阴影
-                                    animation: true,               // 是否启用动画效果
-                                },
-                                //收益曲线
-                                series: [{
-                                    type:'candlestick',
-                                    name: '价格',
-                                    data: charrJson1,
-
-                                }]
-                            });
-                        });
-                }
-                $scope.chartJson2();
-
-
-                $scope.chartJson4 =function(){
-                    var  charrJson1=[];
-                    var exchagne1,key;
-                    key=$scope.key4[0]+$scope.key4[1];
-                    if(key == "D1" || key == 'D6'){
-                        exchagne1 = 'CSRPME'
-                    }
-                    else if(key == 'IF' || key == 'IC'){
-                        exchagne1 ='CTP'
-                    }
-                    else if(key == 'bt'){
-                        exchagne1 = 'OKCoin'
-                    }
-
-                    $http.get(constantUrl + 'datas/', {
-                            params: {
-                                "type": 'bar',
-                                "exchange": exchagne1,
-                                //"exchange": "CTP",
-                                "symbol": $scope.key4,
-                                //"symbol": "IF",
-                                "start": getNowFormatDate(),
-                                "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
-                            },
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
-                        .success(function (data) {
-
-                            angular.forEach(data, function (data, index) {
-                                charrJson1.push({
-                                    "x": data.datetime,
-                                    "y": data.close,
-                                    'low': data.low,
-                                    'high': data.high,
-                                    'close': data.close,
-                                    'open': data.open,
-                                    'volume': data.volume
-                                });
-                            });
-
-                            Highcharts.setOptions({
-                                global: {
-                                    useUTC: false
-                                }
-                            });
-
-                            $('#highchart_last').highcharts('StockChart', {
-                                title:{
-                                    text:'行情图',
-                                    align:'left',
-                                    style:{
-                                        fontSize:'1.3rem'
-                                    }
-
-                                },
-                                credits: {
-                                    enabled: false
-                                },
-                                exporting: {
-                                    enabled: false
-                                },
-
-                                xAxis: {
-                                    tickInterval: 1
-                                },
-                                yAxis: [{
-                                    labels: {
-                                        align: 'right',
-                                        x: -3
-                                    },
-                                    title: {
-                                        text: '价格'
-                                    },
-                                    lineWidth: 1,
-
-                                }],
-                                rangeSelector: {
-                                    buttons: [{
-                                        type: 'minute',
-                                        count: 10,
-                                        text: '10m'
-                                    }, {
-                                        type: 'minute',
-                                        count: 30,
-                                        text: '30m'
-                                    }, {
-                                        type: 'hour',
-                                        count: 1,
-                                        text: '1h'
-                                    }, {
-                                        type: 'day',
-                                        count: 1,
-                                        text: '1d'
-                                    }, {
-                                        type: 'week',
-                                        count: 1,
-                                        text: '1w'
-                                    }, {
-                                        type: 'all',
-                                        text: '所有'
-                                    }],
-                                    selected: 5,
-                                    buttonSpacing: 2
-                                },
-                                plotOptions: {
-                                    series: {
-                                        turboThreshold: 0,
-                                    },
-                                    candlestick: { //红涨绿跌
-                                        color: '#33AA11',
-                                        upColor: '#DD2200',
-                                        lineColor: '#33AA11',
-                                        upLineColor: '#DD2200',
-                                        maker: {
-                                            states: {
-                                                hover: {
-                                                    enabled: false,
-                                                }
-                                            }
-                                        }
-                                    },
-                                },
-                                tooltip: {
-                                    useHTML: true,
-                                    xDateFormat: "%Y-%m-%d %H:%M:%S",
-                                    valueDecimals: 2,
-                                    backgroundColor: '#eeeeee',   // 背景颜色
-                                    borderColor: '#ccc',         // 边框颜色
-                                    borderRadius: 10,             // 边框圆角
-                                    borderWidth: 1,               // 边框宽度
-                                    shadow: true,                 // 是否显示阴影
-                                    animation: true,               // 是否启用动画效果
-                                },
-                                //收益曲线
-                                series: [{
-                                    type:'candlestick',
-                                    name: '价格',
-                                    data: charrJson1,
-
-                                }]
-                            });
-                        });
-                }
-                $scope.chartJson4();
 
             }
         }
@@ -5526,13 +4932,7 @@ console.log(timeList2)
                             })
                         }
                         averline60 = $filter('orderBy')(averline60, 'x');
-                        function a(series) {
-                            var series = series[0];
-                            if (series.visible) {
-                                series.hide();
 
-                            }
-                        }
 
 
                         $('#return_map_big').highcharts('StockChart', {
