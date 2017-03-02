@@ -321,6 +321,11 @@
         };
     }])
     .controller('tableController', ['$scope', 'strategyResources', 'strategyResource', '$http', '$timeout', '$cookieStore', 'constantUrl', 'strategysValue', 'myStrategysValue', '$filter', function ($scope, strategyResourcess, strategyResource, $http, $timeout, $cookieStore, constantUrl, strategysValue, myStrategysValue, $filter) {
+        /*$('.edit').hide()
+       /!* $(".opera").click(function(){
+            $(".right .edit").show()
+
+        })*!/*/
         $scope.func = function (e) {
             return e["status"] != -2;
         };
@@ -2297,13 +2302,15 @@
                 }
 
                 $scope.symbolList1 = symbolList3;
+                $("#container1").hide()
+
 
 
 
             }
 
-            $scope.flase=falsedata2;
-            $("#container1").hide()
+            //$scope.flase=falsedata2;
+
             window.b=1;
         }
 
@@ -2831,13 +2838,12 @@
                         histroy.sort(function(a,b){return b.yeild-a.yeild;});
 
                         $scope.histroy = histroy;
+                        $("#container3").hide()
                         //console.log(histroy1)
                     }
 
+                    //$scope.histroy = histroy;
 
-
-                    $scope.histroy = histroy;
-                    $("#container3").hide()
 
 
                     var histroySymbolList = [];
@@ -2864,7 +2870,7 @@
         $scope.histroyDeals=function(){
             $scope.key4 = "D1_AG";
 
-            $("#container2").hide()
+
 
             var k= 0,n= 0,j= 0,delTrustSymbol=[],delFirmSymbol=[],delAllSymbol=[];
             $scope.sHui=delTrust.length;
@@ -3032,6 +3038,7 @@
                 delTrust.sort(function(a,b){return b.yeild-a.yeild;});
                 //delTrust=$filter('orderBy')(delTrust,'-yeild');
                 $scope.histroyTrust=delTrust;
+                $("#container2").hide()
 
                /* var symbolList = [];
                 for (var i = 0; i < $scope.trust.length; i++) {
@@ -9782,6 +9789,8 @@
     .directive('sourcingTable', ['$route', '$location', '$http', 'constantUrl', '$cookieStore', 'strategysValue', function ($route, $location, $http, constantUrl, $cookieStore, strategysValue) {
         return {
             link: function (scope, ele, attrs) {
+                //$('.edit').hide()
+
                 //创建实盘模拟、历史回测、删除策略代码
                 scope.addhis = function (a) {
                     if (scope.modeBarOptions == false && scope.modeTickOptions == false) {

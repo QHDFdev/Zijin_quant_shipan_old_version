@@ -8,7 +8,6 @@
             <li data-target="#historyDeals" role="tab" data-toggle="tab">历史交易</li>
             <li data-target="#rec"  role="tab" data-toggle="tab">回收站</li>
         </ul>
-        <!--<button>增加策略</button>-->
     </nav>
     <div class="trading">
         <div class="tab-content" id="tab-content">
@@ -21,15 +20,68 @@
                         </li>
                     </ul>
                 </div>
-                <div class="zijin-table-title">
-                    <!--<span>
-                      <i class="glyphicon glyphicon-edit btn-sm" style="margin-bottom: 4px"></i>策略代码
-                    </span>-->
-                    <!--<i style="margin-bottom: 4px" class="zijin-table-add" ng-click='openMaskSourcing()' data-toggle="tooltip"
-                       data-placement="right" title="增加策略" tooltip></i>-->
-                </div>
-                <div class="table-responsive table-responsive1">
-                    <table class="table table-bordered table-hover table-striped table-responsive" sourcing-table>
+
+                <div class="table-responsive1">
+                   <!-- <ul class="contentS">
+                        <li ng-repeat='d in mySourcingStrategy' sourcing-table>
+                            <div>
+                                <div class="name">
+                                    <span class="run">{{$index+1}}</span>
+                                    <span><a href="">{{d.class_name}}</a></span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="left">
+                                        <span>代码文件名：<a ng-bind="d.code_name" title="点击编写代码" href="#/codeview/{{d._id}}"
+                                                       ng-click="downpy(d._id,d.code_name)"></a>
+                                        </span>
+                                    <span>作者：{{d.author}}</span>
+                                    <span class={{d.color}}>状态：{{d.status}}</span>
+                                </div>
+                                <div class="right">
+
+
+                                   &lt;!&ndash; <ul class="edit">
+                                        <li>
+                                            <a class="b" ng-click="addhis(this)">回测 <i class="fa fa-plus"></i></a>
+                                        </li>
+                                        <li>
+                                            <a class="b" ng-click="addfirm(this)" >实盘模拟 <i class="fa fa-plus"></i></a>
+                                        </li>
+                                        <li>
+                                            <a class="b" ng-if='user.is_admin==true' ng-click="addtrue(this)">真实交易 <i class="fa fa-plus"></i></a>
+                                        </li>
+                                        <li>
+                                            <a class="b" ng-click="delsour(this)">删除策略 <i class="fa fa-remove"></i></a>
+                                        </li>
+                                    </ul>
+                                    <div class="caozuo">操作</div>&ndash;&gt;
+                                    &lt;!&ndash;<div class="caozuo">操作</div>
+                                    <ul class="edit">
+                                        <li>
+                                            <a class="b" ng-click="addhis(this)">回测 <i class="fa fa-plus"></i></a>
+                                        </li>
+                                        <li>
+                                            <a class="b" ng-click="addfirm(this)" >实盘模拟 <i class="fa fa-plus"></i></a>
+                                        </li>
+                                        <li>
+                                            <a class="b" ng-if='user.is_admin==true' ng-click="addtrue(this)">真实交易 <i class="fa fa-plus"></i></a>
+                                        </li>
+                                        <li>
+                                            <a class="b" ng-click="delsour(this)">删除策略 <i class="fa fa-remove"></i></a>
+                                        </li>
+                                    </ul>&ndash;&gt;
+
+                                    &lt;!&ndash;<a class="" ng-click="addhis(this)">回测 <i class="fa fa-plus"></i></a>
+                                    <a ng-click="addfirm(this)" >实盘模拟 <i class="fa fa-plus"></i></a>
+                                    <a ng-if='user.is_admin==true' ng-click="addtrue(this)">真实交易 <i class="fa fa-plus"></i></a>
+                                    <a ng-click="delsour(this)">删除策略 <i class="fa fa-remove"></i></a>&ndash;&gt;
+                                </div>
+
+                            </div>
+                        </li>
+                    </ul>-->
+                    <table class="table table-hover table-striped table-responsive" sourcing-table>
                         <thead>
                         <tr>
                             <th>序号</th>
@@ -55,7 +107,17 @@
                             <td ng-bind="d.author"></td>
                             <td ng-bind="d.status" title="{{d.title}}" class={{d.color}}></td>
                             <td>
-                                <div class="btn-group btn-group-sm">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"><i class="fa fa-wrench"></i> 操作
+                                        <span class="caret"></span></button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="addhis(this)">回测 <i class="fa fa-plus"></i></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1"  ng-click="addfirm(this)">实盘模拟 <i class="fa fa-plus"></i></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1"  ng-click="addtrue(this)">真实交易 <i class="fa fa-plus"></i></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="delsour(this)">删除策略 <i class="fa fa-remove"></i></a></li>
+                                    </ul>
+                                </div>
+                               <!-- <div class="btn-group btn-group-sm">
                                     <button class="btn btn-success his-add" ng-click="addhis(this)">回测 <i
                                             class="fa fa-plus"></i></button>
                                     <button class="btn btn-info firm-add" ng-click="addfirm(this)">实盘模拟<i
@@ -65,11 +127,21 @@
                                     <button class="btn btn-danger sour-del" ng-click="delsour(this)">删除策略 <i
                                             class="fa fa-remove"></i>
                                     </button>
-                                </div>
+                                </div>-->
                             </td>
                         </tr>
                         </tbody>
                     </table>
+
+                    <ul class="pagination">
+                        <li><a href="#">&laquo;</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">&raquo;</a></li>
+                    </ul>
                 </div>
             </div>
             <div role="tabpanel" id="change" class="tab-pane zijin-table-body firm-strategy" ng-show='user.is_admin==true'>
@@ -78,15 +150,36 @@
                         <li>加载中：<code ng-bind="loading"></code></li>
                         <li class="li">加载完成：<code ng-bind="loaded"></code></li>
                         <li class="li">运行中：<code ng-bind="start"></code></li>
-                        <li class="li">停止运行<code ng-bind="stop"></code></li>
-                        <li class="li">运行结束<code ng-bind="over"></code></li>
+                        <li class="li">停止运行: <code ng-bind="stop"></code></li>
+                        <li class="li">运行结束: <code ng-bind="over"></code></li>
                         <li class="li">错误：<code ng-bind="error"></code></li>
                     </ul>
                 </div>
-                <div class="zijin-table-title">
-                    <!-- <span style="color:#f0ad4e"><i class="glyphicon glyphicon-ok btn-sm" style="margin-bottom: 4px;"></i>真实交易</span>-->
-                </div>
-                <div class="table-responsive table-responsive1">
+                <div class="table-responsive1">
+                    <!--<ul class="contentS" strategy-table>
+                        <li ng-repeat='d in trueStrategy  | filter:func'>
+                            <div class="name">
+                                <span class="run">{{$index+1}}</span>
+                                <span><a href="">{{d.name}}</a></span>
+                            </div>
+                            <div>
+                                <div class="left">
+                                    <span>策略代码：{{d.class_name}}</span>
+                                    <span>合约代码：{{d.symbol}}</span>
+                                    <span>作者：{{d.author}}</span>
+                                    <span class={{d.color}}>状态：{{d.status}}</span>
+                                </div>
+                                <div class="right">
+                                    <a href="" ng-click="starttrue(this)">启动  <i class="fa fa-play"></i></a>
+                                    <a href="" ng-click="truepause(this)">停止  <i class="fa fa-pause"></i></a>
+                                    <a href="" ng-click="romoveTrue(this)">移至历史交易  <i class="fa fa-minus"></i></a>
+                                    <a href="" ng-click="deltrue(this)">丢至回收站  <i class="fa fa-trash"></i></a>
+                                    <a href="" ng-click="log1(this)">显示运行日志  <i class="fa fa-desktop"></i></a>
+                                    <a href="" ng-click="log1Load(this)">导出运行日志  <i class="fa fa-download"></i></a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>-->
                     <table class="table table-bordered table-hover table-striped" strategy-table>
                         <thead>
                         <tr>
@@ -111,8 +204,20 @@
                             <td ng-bind="d.author"></td>
                             <td ng-bind="d.status" title="{{d.title}}" class={{d.color}}></td>
                             <td>
-                                <div class="btn-group btn-group-sm">
-                                    <!--  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> -->
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="menu3" data-toggle="dropdown"><i class="fa fa-wrench"></i> 操作
+                                        <span class="caret"></span></button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="starttrue(this)">启动 <i class="fa fa-play"></i></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1"  ng-click="truepause(this)">停止 <i class="fa fa-pause"></i></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1"  ng-click="romoveTrue(this)">移至历史交易 <i class="fa fa-minus"></i></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1"  ng-click="deltrue(this)">丢至回收站 <i class="fa fa-trash"></i></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="log1(this)">显示运行日志 <i class="fa fa-desktop"></i></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="log1Load(this)">导出运行日志 <i class="fa fa-download"></i></a></li>
+                                    </ul>
+                                </div>
+                               <!-- <div class="btn-group btn-group-sm">
+                                    &lt;!&ndash;  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> &ndash;&gt;
                                     <button class="btn btn-success strategy-start" ng-click="starttrue(this)">启动 <i
                                             class="fa fa-play"></i>
                                     </button>
@@ -126,7 +231,7 @@
                                     </button>
                                     <button class="btn btn-info" ng-click="log1(this)">显示运行日志</button>
                                     <button class="btn btn-primary" ng-click="log1Load(this)">导出运行日志</button>
-                                </div>
+                                </div>-->
                             </td>
                         </tr>
                         </tbody>
@@ -139,16 +244,37 @@
                         <li>加载中：<code ng-bind="loading1"></code></li>
                         <li class="li">加载完成：<code ng-bind="loaded1"></code></li>
                         <li class="li">运行中：<code ng-bind="start1"></code></li>
-                        <li class="li">停止运行<code ng-bind="stop1"></code></li>
-                        <li class="li">运行结束<code ng-bind="over1"></code></li>
+                        <li class="li">停止运行: <code ng-bind="stop1"></code></li>
+                        <li class="li">运行结束: <code ng-bind="over1"></code></li>
                         <li class="li">错误：<code ng-bind="error1"></code></li>
                     </ul>
                 </div>
-                <div class="zijin-table-title">
-                    <!--   <span style="color:#46b8da"><i class="glyphicon glyphicon-th-large btn-sm"
-                                                      style="margin-bottom: 4px"></i>实盘模拟</span>-->
-                </div>
-                <div class="table-responsive table-responsive1">
+
+                <div class="table-responsive1">
+                   <!-- <ul class="contentS" strategy-table>
+                        <li ng-repeat='d in myStrategy  | filter:func'>
+                            <div class="name">
+                                <span class="run">{{$index+1}}</span>
+                                <span><a href="">{{d.name}}</a></span>
+                            </div>
+                            <div>
+                                <div class="left">
+                                    <span>策略代码：{{d.class_name}}</span>
+                                    <span>合约代码：{{d.symbol}}</span>
+                                    <span>作者：{{d.author}}</span>
+                                    <span class={{d.color}}>状态：{{d.status}}</span>
+                                </div>
+                                <div class="right">
+                                    <a href="" ng-click="startstrategy(this)">启动 <i class="fa fa-play"></i></a>
+                                    <a href="" ng-click="strategypause(this)">停止 <i  class="fa fa-pause"></i></a>
+                                    <a href="" ng-click="removeStrategy(this)">移至历史交易  <i class="fa fa-minus"></i></a>
+                                    <a href="" ng-click="delstrategy(this)">丢至回收站  <i class="fa fa-trash"></i></a>
+                                    <a href="" ng-click="log2(this)">显示运行日志   <i class="fa fa-desktop"></i></a>
+                                    <a href="" ng-click="log2Load(this)">导出运行日志  <i class="fa fa-download"></i></a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>-->
                     <div id="mytable1">
                         <table class="table table-bordered table-hover table-striped" strategy-table>
                             <thead>
@@ -174,8 +300,20 @@
                                 <td ng-bind="d.author"></td>
                                 <td ng-bind="d.status" title="{{d.title}}" class={{d.color}}></td>
                                 <td>
-                                    <div class="btn-group btn-group-sm">
-                                        <!--  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> -->
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="menu4" data-toggle="dropdown"><i class="fa fa-wrench"></i> 操作
+                                            <span class="caret"></span></button>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="startstrategy(this)">启动 <i class="fa fa-play"></i></a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1"  ng-click="strategypause(this)">停止 <i class="fa fa-pause"></i></a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1"  ng-click="removeStrategy(this)">移至历史交易 <i class="fa fa-minus"></i></a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1"  ng-click="delstrategy(this)">丢至回收站 <i class="fa fa-trash"></i></a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="log2(this)">显示运行日志 <i class="fa fa-desktop"></i></a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="log2Load(this)">导出运行日志 <i class="fa fa-download"></i></a></li>
+                                        </ul>
+                                    </div>
+                                   <!-- <div class="btn-group btn-group-sm">
+                                        &lt;!&ndash;  <button  class="btn btn-info strategy-ini">初始化 <i class="icon-circle-blank"></i></button> &ndash;&gt;
                                         <button class="btn btn-success strategy-start" ng-click="startstrategy(this)">启动 <i
                                                 class="fa fa-play"></i></button>
                                         <button class="btn btn-warning strategy-pause" ng-click="strategypause(this)">停止 <i
@@ -187,7 +325,7 @@
                                         </button>
                                         <button class="btn btn-info" ng-click="log2(this)">显示运行日志</button>
                                         <button class="btn btn-primary" ng-click="log2Load(this)">导出运行日志</button>
-                                    </div>
+                                    </div>-->
                                 </td>
                             </tr>
                             </tbody>
@@ -201,8 +339,8 @@
                         <li>加载中：<code ng-bind="loading2"></code></li>
                         <li class="li">加载完成：<code ng-bind="loaded2"></code></li>
                         <li class="li">开始运行：<code ng-bind="start2"></code></li>
-                        <li class="li">停止运行<code ng-bind="stop2"></code></li>
-                        <li class="li">运行结束<code ng-bind="over2"></code></li>
+                        <li class="li">停止运行: <code ng-bind="stop2"></code></li>
+                        <li class="li">运行结束: <code ng-bind="over2"></code></li>
                         <li class="li">错误：<code ng-bind="error2"></code></li>
                         <li class="operation">
                             <input type="checkbox" ng-model="all3" ng-click="selectall3()">全选
@@ -211,9 +349,36 @@
                         </li>
                     </ul>
                 </div>
-                <div class="zijin-table-title">
-                </div>
-                <div class="table-responsive table-responsive1">
+               <!-- <div class="zijin-table-title">
+                </div>-->
+                <div class="table-responsive1">
+                  <!--  <ul class="contentS" his-table>
+                        <li ng-repeat='d in myHisStrategy | filter:func'>
+                            <div>
+                                <div class="name">
+                                    <span class="run">{{$index+1}}</span>
+                                    <span><a href="">{{d.name}}</a></span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="left">
+                                    <span>策略代码：{{d.class_name}}</span>
+                                    <span>mode：{{d.mode}}</span>
+                                    <span>开始时间：{{d.start}}</span>
+                                    <span>结束时间：{{d.end}}</span>
+                                    <span>作者：{{d.author}}</span>
+                                    <span class={{d.color}}>状态：{{d.status}}</span>
+                                </div>
+                                <div class="right">
+                                    <a href="" ng-click="strategystart(this)">启动 <i class="fa fa-play"></i></a>
+                                    <a href="" ng-click="pausestrategy(this)">停止 <i  class="fa fa-pause"></i></a>
+                                    <a href="" ng-click="strategydel(this)">丢至回收站 <i class="fa fa-trash"></i></a>
+                                    <a href="" ng-click="log3(this)">显示运行日志  <i class="fa fa-desktop"></i></a>
+                                    <a href="" ng-click="log3Load(this)">导出运行日志 <i class="fa fa-download"></i></a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>-->
                     <div id="mytable">
                         <table class="table table-bordered table-hover table-striped" his-table>
                             <thead>
@@ -244,7 +409,21 @@
                                 <td ng-bind="d.author"></td>
                                 <td ng-bind="d.status" title="{{d.title}}" class={{d.color}}></td>
                                 <td>
-                                    <div class="btn-group btn-group-sm">
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="menu2" data-toggle="dropdown"><i class="fa fa-wrench"></i> 操作
+                                            <span class="caret"></span></button>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="strategystart(this)">启动 <i
+                                                    class="fa fa-play"></i></a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="pausestrategy(this)">停止 <i
+                                                    class="fa fa-pause"></i></a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="strategydel(this)">丢至回收站 <i
+                                                    class="fa fa-remove"></i></a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="log3(this)">显示运行日志 <i class="fa fa-desktop"></i></a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="log3Load(this)">导出运行日志 <i class="fa fa-download"></i></a></li>
+                                        </ul>
+                                    </div>
+                                   <!-- <div class="btn-group btn-group-sm">
                                         <button class="btn btn-success strategy-start" ng-click="strategystart(this)">启动 <i
                                                 class="fa fa-play"></i></button>
                                         <button class="btn btn-warning strategy-pause" ng-click="pausestrategy(this)">停止 <i
@@ -255,11 +434,20 @@
                                         </button>
                                         <button class="btn btn-info" ng-click="log3(this)">显示运行日志</button>
                                         <button class="btn btn-primary" ng-click="log3Load(this)">导出运行日志</button>
-                                    </div>
+                                    </div>-->
                                 </td>
                             </tr>
                             </tbody>
                         </table>
+                        <ul class="pagination">
+                            <li><a href="#">&laquo;</a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#">&raquo;</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -267,11 +455,10 @@
                 <div class="tip">
                     <ul>
                         <li>实盘模拟：<code ng-bind="offer"></code></li>
-                        <li class="li">真实交易<code ng-bind="trust"></code></li>
+                        <li class="li">真实交易: <code ng-bind="trust"></code></li>
                     </ul>
                 </div>
-                <div class="zijin-table-title">
-                </div>
+
                 <div class="table-responsive table-responsive1" >
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
@@ -295,7 +482,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <table class="table table-bordered table-hover table-striped" style="">
+                    <table class="table table-bordered table-hover table-striped">
                         <thead>
                         <tr>
                             <th>序号</th>
@@ -332,14 +519,14 @@
                         </li>
                     </ul>
                 </div>
-                <div class="zijin-table-title"></div>
-                <div class="table-responsive table-responsive1 rec_table" style="width: 80%">
+
+                <div class="table-responsive rec_table">
                     <!--<button  class="btn btn-danger" style="margin-top:0px;background: #222;border-color: #222" ng-click="alldel()">-->
                     <!--清空回收站</button>-->
                     <table class="table table-bordered table-hover table-striped" strategy-table>
                         <thead>
                         <tr>
-                            <th>选择</th>
+                            <th style="width: 5%">选择</th>
                             <th>测试用例</th>
                             <th>类型</th>
                             <th>操作</th>
@@ -368,7 +555,6 @@
             </div>
         </div>
     </div>
-
     <!-- sourcing-mask -->
     <div class="zijin-table-mask sourcing-mask">
         <div class="mask-box container">
@@ -426,7 +612,6 @@
             </div>
         </div>
     </div>
-
     <!-- firm mask -->
     <div class="zijin-table-mask firm-mask">
         <div class="mask-box container">
@@ -554,7 +739,6 @@
             </div>
         </div>
     </div>
-
     <!-- his mask -->
     <div class="zijin-table-mask his-mask">
         <div class="mask-box container">
@@ -639,6 +823,7 @@
             </div>
         </div>
     </div>
-
-
 </div>
+<script>
+
+</script>

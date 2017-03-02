@@ -476,14 +476,14 @@ ul li{
   background-position: 0px -144px;
 }
 
-#content {
+/*#content {
   width: 100%;
-  /*height: 555px;*/
-  /*width: 1180px;*/
-  /*overflow: hidden;*/
+  !*height: 555px;*!
+  !*width: 1180px;*!
+  !*overflow: hidden;*!
   background: url(../images/vertical.png) repeat-y center;
 
-}
+}*/
 
 .list {
   width: 100%;

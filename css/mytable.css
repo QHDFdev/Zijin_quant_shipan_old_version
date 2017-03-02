@@ -69,9 +69,10 @@
 .zijin-table .zijin-table-body table thead{
 	/*border:2px solid #707ea1;*/
 	/*font-size: 16px;*/
-	font-weight: 700;
-	font-size: 1.2rem;
-	background-color: #707ea1;
+	/*font-weight: 700;*/
+	font-family: "宋体";
+	font-size: 1rem;
+	background-color: #6e9cbd;
 	color:#fff;
 }
 
@@ -302,12 +303,73 @@ float: right;
 .zijin-table .table-responsive1{
 	/*padding-top: 20px;*/
 	width: 90%;
-	margin: -25px 0 0 20px;
+	margin-left:2rem;
+	margin-top: 1rem;
 
 }
 .rec_table{
-	width: 70%;
+	width:65%;
+	/*float: left;*/
+	margin-left:2rem;
+	margin-top: 1rem;
 }
+
+.trading .section{
+	width: 100%;
+	margin-left:2rem;
+	margin-top: 1rem;
+}
+
+.trading .section .contentS li>div:nth-of-type(2) .right{
+	text-align: center;
+}
+.trading .section .contentS li>div:nth-of-type(2) .right .edit{
+	display: none;
+	width: 100%;
+	height: 50px;
+
+}
+.trading .section .contentS li>div:nth-of-type(2) .right .edit li{
+	display: block;
+	float: left;
+	width: 30%;
+	height: 30px;
+	border-radius: 50%;
+	background-color: red;
+	/*display: block;*/
+	/*background-color: red;*/
+}
+
+
+.trading .section .contentS .cd-bouncy-nav-trigger{
+	text-align: center;
+	width: 70%;
+	padding:5px 20px;
+	/*height: 20px;*/
+	margin: 0 auto;
+	background: #DC965A;
+	color: #ffffff;
+	cursor: pointer;
+	/* padding: 1.2em 2.5em; */
+	border-radius:5px;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 5px #171718;
+
+}
+
+
+
+/*.table-responsive1 .contentS li>div:first-of-type{
+	width: 100%;
+	padding: 1.5% 5% 1.5% 0;
+	font-size: 1.5rem;
+
+	border-bottom: 1px solid #ddd;
+}*/
+
+
+
+
+
 @media (max-width: 767px){
 	.zijin-table,.analyse,.zijin-index,.zijin-complie,.modalRes,.runCenter,.trueR,.admincenter{
 		padding: 4.5rem 0 0 1.3rem;
@@ -370,6 +432,20 @@ float: right;
 	.zijin-table .table-responsive1{
 		width:100%;
 
+	}
+	.trading .section{
+		width: 100%;
+		margin-left:1rem;
+		margin-top: 1rem;
+	}
+	.trading .section .contentS{
+		margin-left:0.5rem;
+	}
+	.rec_table{
+		width:100%;
+		/*float: left;*/
+		margin-left:1rem;
+		margin-top: 1rem;
 	}
 
 }

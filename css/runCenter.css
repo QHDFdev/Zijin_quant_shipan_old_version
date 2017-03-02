@@ -5,11 +5,12 @@
   /*margin-left: 0.83333rem;*/
   /*margin-top: 0.83333rem;*/
 }
-.runCenter .kind .section{
+.section{
   width: 100%;margin-left: 0.83333rem;  margin-top: 0.83333rem;
 }
-.runCenter .kind .contentS{
-  width: 53%;  float: left;
+.contentS{
+  width: 53%;
+  float: left;
 }
 .runCenter .kind .draw{
   width: 45%;
@@ -44,7 +45,8 @@
   margin-left: 10px;
 }
 
-.runCenter .kind ul li{
+.contentS li{
+  display: block;
   /*display: table;*/
   width: 100%;
   /*height: 280px;*/
@@ -55,11 +57,11 @@
   background: rgb(255, 255, 255);
 
 }
-.runCenter .kind ul li>div{
+.contentS li>div{
   /*height: 20%;*/
 
 }
-.runCenter .kind ul li>div:first-of-type{
+.contentS li>div:first-of-type{
   /*display: table;*/
   width: 100%;
   padding: 1.5% 5% 1.5% 0;
@@ -69,22 +71,22 @@
 }
 
 
-.runCenter .kind ul li>div:first-of-type a{
+.contentS li>div:first-of-type a{
   font-weight: 700;font-size:1.2rem
 }
-.runCenter .kind ul li>div:first-of-type .name{
+.contentS li>div:first-of-type .name{
   /*display: table-cell;*/
   /*vertical-align: middle;*/
 
 }
-.runCenter .kind ul li >div:nth-of-type(2){
+.contentS li >div:nth-of-type(2){
   width: 100%;
   /*height: 60%;*/
   padding: 4% 9%;
   display: table;
   border-bottom: 1px solid #ddd;
 }
-.runCenter .kind ul li >div:nth-of-type(2) .left{
+.contentS li >div:nth-of-type(2) .left{
   width: 60%;
   display: table-cell;
   vertical-align: middle;
@@ -92,32 +94,32 @@
   /*background-color: #0a0a0a;*/
 }
 
-.runCenter .kind ul li >div:nth-of-type(2) .right{
+.contentS li >div:nth-of-type(2) .right{
   width: 40%;
   text-align: right;
   display: table-cell;
   vertical-align: middle;
 }
-.runCenter .kind ul li >div:nth-of-type(2)>a{/*
+.contentS li >div:nth-of-type(2)>a{/*
   font-weight: 700;
   font-size:1.3rem*/
 }
 
-.runCenter .kind ul li >div:nth-of-type(2) .left span{
+.contentS li >div:nth-of-type(2) .left span{
   display: block;
 }
-.runCenter .kind ul li >div:nth-of-type(2) .span{
+.contentS li >div:nth-of-type(2) .span{
   /*width: 35%;*/
 }
 
-.runCenter .kind ul li>div:nth-of-type(3){
+.contentS li>div:nth-of-type(3){
   width: 100%;
   /*margin: 0 auto;*/
   display: table;
   padding: 1.2% 5%;
   /*text-align: right;*/
 }
-.runCenter .kind ul li>div:nth-of-type(3) .more{
+.contentS li>div:nth-of-type(3) .more{
   display: table-cell;
   vertical-align: middle;
   width: 17%;
@@ -129,7 +131,7 @@
   /*margin-right: 0;*/
   float: right;
 }
-.runCenter .kind ul li>div:nth-of-type(3) .more:hover{
+.contentS li>div:nth-of-type(3) .more:hover{
   background-color: red;
   color: #fff;
   cursor: pointer;
@@ -198,6 +200,7 @@
   float: left;
   position: relative;
   left: -5px;
+  color: #fff;
 
 }
 .run:after{
@@ -239,41 +242,46 @@
   .runCenter .kind .tip1 .intro{
     margin-right: 0;
   }
-  .runCenter .kind .contentS {
-    width: 100%;;
-    margin-left: 0;
-    margin-top: 0.83333rem;
+  .contentS{
+    width: 95%;;
+    margin-left: 0.5rem;
   }
-
-
-  .runCenter .kind ul li>div {
-    text-align: center;
-    border-right: 1px solid rgb(204, 204, 204);
-    border-left: 1px solid rgb(204, 204, 204);
+  .contentS li>div {
     height: 100%;
     vertical-align: middle;
     word-wrap: break-word;
   }
-  .runCenter .kind ul li>div:first-of-type {
-    /* background: rgb(190, 190, 190); */
+/*  .runCenter .kind ul li>div:first-of-type {
     display: table-cell;
     width: 7rem;
     font-weight: 700;
     font-size: 2.75rem;
     color: rgb(255, 255, 255);
     text-align: center;
-  }
-  .runCenter .kind ul li >div:nth-of-type(2) {
-    width:18rem;
-    display: table-cell;
+  }*/
+  .contentS li >div:nth-of-type(2) {
+    width:100%;
+    display: table;
     padding: 1rem;
     text-align: left;
     /* background-color: red; */
   }
-  .runCenter .kind ul li>div:nth-of-type(3) {
-    width: 15rem;
-    display: table-cell;
+  .contentS li >div:nth-of-type(2) .left{
+    width: 50%;
   }
+  .contentS li >div:nth-of-type(2) .right p{
+    width: 80%;
+    margin: 0 auto;
+  }
+  .contentS li >div:nth-of-type(2) .right span{
+    float: left;
+    /*padding-right: 2rem;*/
+  }
+  .contentS li >div:nth-of-type(2) .right span i{
+    float: right;
+  }
+
+
   .runCenter .kind ul li >div:nth-of-type(2) span{
     display: block;
     /*width: 20rem ;*/
@@ -288,12 +296,18 @@
     /*width: 20rem ;*/
     margin-left: 0;
   }
+  .runCenter .kind .draw{
+    width: 94%;
+  }
 }
-
 
 #container,#container1,#container2,#container3{
   width: 180px;
   margin:12% auto;
+  position: absolute;
+  top:30%;
+  left:50%;
+  z-index: 9999;
 }
 #container h1,#container1 h1,#container2 h1,#container3 h1 {
   font-family: 'Lato';
