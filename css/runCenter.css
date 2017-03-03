@@ -1,9 +1,6 @@
+
 .runCenter .kind{
-
-
   height: 100%;
-  /*margin-left: 0.83333rem;*/
-  /*margin-top: 0.83333rem;*/
 }
 .section{
   width: 100%;margin-left: 0.83333rem;  margin-top: 0.83333rem;
@@ -13,11 +10,16 @@
   float: left;
 }
 .runCenter .kind .draw{
-  width: 45%;
+  width: 43%;
   height: 500px;
   margin-left:1%;
   float: left;
 
+}
+.runCenter .kind .draw .latest{
+  font-size: 1.2rem;
+
+  padding: 10px;
 }
 .runCenter .kind .draw  #highchart_view,#highchart_moni{
   width: 100%;
@@ -29,6 +31,9 @@
 }
 .runCenter .kind .tip1 .tip1_1{
   float: left;
+
+  width: 55%;
+
 }
 .runCenter .kind .tip1 .intro{
   float: right;margin-right: 60px
@@ -43,6 +48,34 @@
 
 .runCenter .kind .tip1 .tip1_1 .ul1 span{
   margin-left: 10px;
+  float: left;
+
+}
+.runCenter .kind .tip1 .tip1_1 .ul1 .product{
+  display: block;
+  width: 40%;
+  /*background-color: red;*/
+  margin-left: 20px;
+  /*float: right;*/
+
+}
+.runCenter .kind .tip1 .tip1_1 .ul1 .product select{
+  margin-left: 1rem;
+  width:35%;
+  /*height: 34px;*/
+  /*padding: 6px 12px;*/
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
 .contentS li{
@@ -298,6 +331,15 @@
   }
   .runCenter .kind .draw{
     width: 94%;
+  }
+  .runCenter .kind .tip1 .tip1_1 .ul1 .product{
+    display:inline-block;
+    width: 70%;
+   float: right;
+    position: relative;
+    left: 150px;
+    top: -33px;
+
   }
 }
 

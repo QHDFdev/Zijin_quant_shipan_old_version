@@ -358,18 +358,6 @@ float: right;
 
 
 
-/*.table-responsive1 .contentS li>div:first-of-type{
-	width: 100%;
-	padding: 1.5% 5% 1.5% 0;
-	font-size: 1.5rem;
-
-	border-bottom: 1px solid #ddd;
-}*/
-
-
-
-
-
 @media (max-width: 767px){
 	.zijin-table,.analyse,.zijin-index,.zijin-complie,.modalRes,.runCenter,.trueR,.admincenter{
 		padding: 4.5rem 0 0 1.3rem;
