@@ -21,11 +21,13 @@
                                 <div class="ul1">
                                     <span>正在运行：<code>{{sRun}}</code></span>
                                     <span>停止运行：<code>{{sStop}}</code></span>
-                                    <!--<span>回收站：<code>{{sHui}}</code></span>-->
-                                    <span class="product">
+
+                                </div>
+                            </div>
+                            <div class="dealProduct">
+                                <div class="product">
                                         交易产品：
-                                        <select class="common-select" ng-model="key"  ng-options="x for x in symbolList" name="country"  ng-change="chartJson()"></select>
-                                    </span>
+                                        <select class="common-select " ng-model="key"  ng-options="x for x in symbolList" name="country"  ng-change="chartJson()"></select>
                                 </div>
                             </div>
                             <div class="intro">
@@ -97,11 +99,14 @@
                                 <div class="ul1">
                                     <span>正在运行：<code>{{fRun}}</code></span>
                                     <span>停止运行：<code>{{fStop}}</code></span>
-                                    <span class="product">
+
+                                </div>
+                            </div>
+                            <div class="dealProduct">
+                                <div class="product">
                                         交易产品：
                                         <select  class="common-select" ng-options="x for x in symbolList1" ng-model="key1" class="form-control input-sm" ng-change='chartJson2()'></select>
-                                    </span>
-                                </div>
+                                    </div>
                             </div>
                             <div class="intro">
                                 <div>
@@ -140,8 +145,8 @@
                     </ul>
                     <div class="draw">
                         <div class="latest">
-                            <span>最新价格：<code>{{close}}</code></span>
-                            <span>最新成交量：<code>{{volume}}</code></span>
+                            <span>最新价格：<code>{{close1}}</code></span>
+                            <span>最新成交量：<code>{{volume1}}</code></span>
                         </div>
                         <div id="highchart_moni"></div>
 
@@ -164,10 +169,16 @@
                             <div class="tip1_1">
                                 <div class="ul1">
                                     <span>停止运行：<code>{{hStop}}</code></span>
-                                    <span class="product">交易产品：<select name="" id=""
-                                                                                 ng-options="x for x in histroySymbolList"
-                                                                                 ng-model="key2"
-                                                                                 ng-change="chartJson3()"></select></span>
+
+                                </div>
+                            </div>
+                            <div class="dealProduct">
+                                <div class="product">
+                                    交易产品：
+                                    <select name="" id=""
+                                                                   ng-options="x for x in histroySymbolList"
+                                                                   ng-model="key2"
+                                                                   ng-change="chartJson3()"></select>
                                 </div>
                             </div>
                             <div class="intro">
@@ -219,16 +230,20 @@
             <div role="tabpanel" class="tab-pane" id="history_deal">
                 <div class="container-fluid">
                     <div class="row">
+
                         <div class="tip1">
                             <div class="tip1_1">
                                 <div class="ul1">
                                     <span>[历史]真实交易：<code>{{sHui}}</code></span>
                                     <span>[历史]实盘模拟：<code>{{fHui}}</code></span>
-                                    <span class="product">
+
+                                </div>
+                            </div>
+                            <div class="dealProduct">
+                                <div class="product productMore">
                                         交易产品：
                                         <select ng-options="x for x in allSymbolList" ng-model="key4" ng-change="chartJson4()"></select>
-                                    </span>
-                                </div>
+                                    </div>
                             </div>
                             <div class="intro">
                                 <div>

@@ -29,12 +29,14 @@
 .runCenter .kind .tip1{
   width:100%;background-color: #fff;padding: 0.1rem 0 0 3rem;font-size: 1.16667rem;height: 3.2rem;line-height: 3.2rem;
 }
-.runCenter .kind .tip1 .tip1_1{
+.runCenter .kind .tip1>div{
   float: left;
-
+}
+/*.runCenter .kind .tip1 .tip1_1{
+  float: left;
   width: 55%;
 
-}
+}*/
 .runCenter .kind .tip1 .intro{
   float: right;margin-right: 60px
 }
@@ -51,17 +53,13 @@
   float: left;
 
 }
-.runCenter .kind .tip1 .tip1_1 .ul1 .product{
-  display: block;
-  width: 40%;
-  /*background-color: red;*/
-  margin-left: 20px;
-  /*float: right;*/
+.runCenter .kind .tip1  .dealProduct{
+ margin-left: 30px;
 
 }
-.runCenter .kind .tip1 .tip1_1 .ul1 .product select{
-  margin-left: 1rem;
-  width:35%;
+.runCenter .kind .tip1  .product select{
+  /*margin-left: 1rem;*/
+  /*width: 45%;*/
   /*height: 34px;*/
   /*padding: 6px 12px;*/
   font-size: 14px;
@@ -332,15 +330,20 @@
   .runCenter .kind .draw{
     width: 94%;
   }
-  .runCenter .kind .tip1 .tip1_1 .ul1 .product{
-    display:inline-block;
-    width: 70%;
-   float: right;
-    position: relative;
-    left: 150px;
-    top: -33px;
-
+  .productMore{
+    margin: 35px -60px 0;
   }
+
+  #container,#container1,#container2,#container3{
+    width: 180px;
+    margin: 12% auto;
+    position: relative;
+    top: 30%;
+    left: 20%;
+    z-index: 9999;
+  }
+
+
 }
 
 #container,#container1,#container2,#container3{

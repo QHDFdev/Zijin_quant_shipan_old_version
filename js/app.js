@@ -333,6 +333,8 @@
             $('.zijin-table-mask').fadeOut();
         };
         $scope.allStrategys = [];
+        var allRecStrategys=[],c=0;
+
         /* 源策略 */
         $scope.openMaskSourcing = function () {
             $('.sourcing-mask').fadeIn();
@@ -354,12 +356,15 @@
         var strategyList=[];
         //策略代码渲染到页面
        $scope.putScreen=function(page){
-           $scope.page=page;
+
+            $scope.page=page;
+           $scope.currentPage=page;
+           console.log($scope.currentPage)
             $scope.mySourcingStrategy=[];
             $scope.mySourcingStrategy = strategyList[page];
             for (var i = 0; i < $scope.mySourcingStrategy.length; i++) {
                 var status = $scope.mySourcingStrategy[i].status;
-                //console.log(status)
+
                 if (status == -1) {
                     $scope.mySourcingStrategy[i].color = "error"
                     $scope.mySourcingStrategy[i].status = "错误"
@@ -375,15 +380,20 @@
             $scope.getFirmStrategys(); //显示实盘/回测列表
             $scope.getHisStrategys();
             $scope.gettrueStrategys();
-        }
+       }
 
-        $(".pagination li").click(function(){
+        /*$(".pagination li").click(function(){
             $(".pagination li.checked").removeClass('checked');
             $(this).addClass('checked')
+        })*/
+        $("#trustPage .page1").click(function(){
+           console.log("a")
+            $(this).children('a').addClass("clicked");
+            $(this).siblings('li').children('a').removeClass('clicked')
         })
 
         $scope.getSourcingStrategys = function () {
-            // console.log('token ' + $cookieStore.get('user').token)
+
             $http.get(constantUrl + "classs/", {
                     headers: {
                         'Authorization': 'token ' + $cookieStore.get('user').token
@@ -394,73 +404,25 @@
                     accounts = data;
                     $scope.allS=data.length;
                     var count=0;
-
+                    var count1=[];
                     for(var i=0;i<data.length;i=i+10){
 
                         var list=[];
                         for(var j=0;(i+j)<data.length&&j<10;j++){
                             list.push(data[i+j])
                         }
-
                         strategyList[count]=list;
+                        count1.push({
+                            'page':count,
 
+                        })
                         count++;
                     }
-                    //putScreen(0)
+
+                    $scope.count = count1;
+
                     $scope.putScreen(0)
 
-
-                    console.log(strategyList)
-
-                 /*   var dataPage1=[];
-
-
-
-                    var dataPage2=[];
-                    var dataPage3=[];
-                    var dataPage4=[];
-                    var dataPage5=[];
-                    console.log(data)
-
-                    for(var i=0;i<10;i++){
-                        dataPage1.push(data[i])
-                    }
-                    for(var j=i;j<20;j++){
-                        dataPage2.push(data[j])
-                    }
-                    for(var m=j;m<30;m++){
-                        dataPage3.push(data[m])
-                    }
-                    for(var k=m;k<40;k++){
-                        dataPage4.push(data[k])
-                    }
-                    for(var n=k;k<data.length;k++){
-                        dataPage5.push(data[k])
-                    }
-
-
-                    $scope.mySourcingStrategy = dataPage1;
-                    $scope.mySourcingStrategy2=dataPage2;
-                    $scope.mySourcingStrategy3=dataPage3;
-                    $scope.mySourcingStrategy4=dataPage4;
-                    $scope.mySourcingStrategy5=dataPage5;*/
-
-                    //console.log($scope.mySourcingStrategy)
-                    //$scope.allS = $scope.mySourcingStrategy.length;
-                    // console.log( $scope.mySourcingStrategy.length)
-
-
-
-
-
-
-
-                  /*  $(".pagination li").each(function(index){
-                        $(this).click(function(){
-                          $(".stratege_code table:eq("+index+")").show().siblings().hide()
-                        })
-                    });
-*/
                    /* $("#menu li").each(function(index){
                         $(this).click(function(){
 //                    移除已经选中的样式
@@ -470,7 +432,6 @@
                             $("#content li:eq("+index+")").show().siblings().hide();
                         })
                     })*/
-
 
 
                     //console.log(data);
@@ -623,17 +584,66 @@
                     }
                     $scope.histroyTrue=[];
                     //console.log(data)
+                    var histroyTrue=[]
                     angular.forEach(data, function (item, index) {
                         if (item.status == -2) {
                             item.color = "true";
                             item.type = "真实交易";
-                            $scope.allStrategys.push(item);
+                            //$scope.allStrategys.push(item);
+                            allRecStrategys[c++]=item;
                             $scope.trust++;
-                            $scope.histroyTrue.push(item);
-
-
+                            histroyTrue.push(item);
                         }
                     });
+
+
+                    var q= 0,trueDel=[],trueDelPageSize=[];
+
+                    for(var i=0;i<histroyTrue.length;i=i+10){
+                        var list = [];
+                        for(var j=0;(i+j)<histroyTrue.length&&j<10;j++){
+                            list.push(histroyTrue[i+j]);
+                        }
+                        trueDel[q]=list;
+
+                        trueDelPageSize.push({
+                            "page":q
+                        })
+
+                       q++;
+                    }
+                    $scope.trueDelPageSize =trueDelPageSize
+
+
+
+                    $scope.putScreenTureDel=function(page){
+                        $scope.tureDelPage=page;
+                        $scope.histroyTrue=[];
+                        $scope.histroyTrue = trueDel[page]
+                    }
+                    $scope.putScreenTureDel(0)
+
+
+
+                    var m= 0,stratgeListRec=[],recPageSize=[];
+                    for(var i=0;i<allRecStrategys.length;i=i+10){
+                        var list = [];
+                        for(var j=0;(i+j)<allRecStrategys.length&&j<10;j++){
+                            list.push(allRecStrategys[i+j]);
+                        }
+                        stratgeListRec[m]=list;
+                        recPageSize.push({
+                            "page":m
+                        })
+                        m++;
+                    }
+                    $scope.recPageSize=recPageSize
+                    $scope.putScreenRec =function(page){
+                        $scope.recPageSizeCurrent=page
+                        $scope.allStrategys=[];
+                        $scope.allStrategys = stratgeListRec[page]
+                    }
+                    $scope.putScreenRec(0)
                 })
                 .error(function (err, sta) {
                     Showbo.Msg.alert('网络错误，请稍后再试。');
@@ -733,6 +743,7 @@
         }
         /* 创建实盘模拟 */ //加载策略页面
         //实盘列表渲染到页面
+        var strategyList1=[]
         $scope.getFirmStrategys = function () {
             $http.get(constantUrl + "strategys/", {
                     headers: {
@@ -746,68 +757,153 @@
                             i = -1;
                         }
                     }
-                    $scope.myStrategy = data;
-                    //console.log(data);
-                    //鼠标悬浮文字
+
                     $scope.error1 = 0, $scope.loading1 = 0, $scope.loaded1 = 0, $scope.start1 = 0, $scope.stop1 = 0, $scope.over1 = 0, $scope.offer = 0;
-                    for (var i = 0; i < data.length; i++) {
-                        $scope.myStrategy[i].class_name = "none"; //策略代码初始化
-                        var class_id = data[i].class_id;
-                        var status = data[i].status;
-                        $scope.myStrategy[i].class_name = getcelve(class_id);
-                        if (status != -2 && status == -1) {
-                            $scope.myStrategy[i].color = "error";
-                            $scope.myStrategy[i].status = "错误";
-                            $scope.geterror($scope.myStrategy[i]._id, i);
+                    $scope.histroySim=[];
+                    var histroySim=[]
+                    angular.forEach(data,function(item,index){
+                        if (item.status != -2 && item.status == -1) {
+                            item.color = "error";
+                            item.status = "错误";
+                            $scope.geterror(item[i]._id, i);
                             $scope.error1++;
                         }
-                        if (status == 0) {
-                            $scope.myStrategy[i].title = "加载中";
-                            $scope.myStrategy[i].status = "加载中";
+                        if (item.status == 0) {
+                            item.title = "加载中";
+                            item.status = "加载中";
                             $scope.loading1++;
                         }
-                        if (status == 1) {
-                            $scope.myStrategy[i].title = "加载完成";
-                            $scope.myStrategy[i].status = "加载完成";
+                        if (item.status == 1) {
+                            item.title = "加载完成";
+                            item.status = "加载完成";
                             $scope.loaded1++;
                         }
-                        if (status == 2) {
-                            $scope.myStrategy[i].title = "运行中";
-                            $scope.myStrategy[i].status = "运行中";
+                        if (item.status == 2) {
+                            item.title = "运行中";
+                            item.status = "运行中";
                             $scope.start1++;
 
                         }
-                        if (status == 3) {
-                            $scope.myStrategy[i].title = "停止运行";
-                            $scope.myStrategy[i].status = "停止运行";
+                        if (item.status == 3) {
+                            item.title = "停止运行";
+                            item.status = "停止运行";
                             $scope.stop1++;
-
                         }
-                        if (status == 4) {
-                            $scope.myStrategy[i].title = "运行结束";
-                            $scope.myStrategy[i].status = "运行结束";
+                        if (item.status == 4) {
+                            item.title = "运行结束";
+                            item.status = "运行结束";
                             $scope.over1++;
                         }
-                    }
-
-                    $scope.histroySim=[];
-                    angular.forEach(data, function (item, index) {
-                        if (item.status == -2) {
+                        if(item.status == -2){
                             item.color = "now";
                             item.type = "实盘模拟";
                             $scope.offer++;
-                            $scope.allStrategys.push(item);
-                            $scope.histroySim.push(item);
-                            //console.log($scope.histroySim)
-                            //console.log($scope.allStrategys)
+                            //$scope.allStrategys.push(item);
+                            allRecStrategys[c++]=item;
+                            histroySim.push(item);
                         }
-                    });
+
+                    })
+
+                    var simStragey=[]
+                    angular.forEach(data,function(item,index){
+                        if(item.status !=-2){
+                            simStragey.push(item)
+                        }
+                    })
+
+
+                    //删除的实盘
+                    var x= 0,simDel=[],simDelPageSize=[];
+                    for(var i=0;i<histroySim.length;i=i+10){
+                        var list = [];
+                        for(var j=0;(i+j)<histroySim.length&&j<10;j++){
+                            list.push(histroySim[i+j]);
+                        }
+                        simDel[x]=list;
+                        simDelPageSize.push({
+                            "page":x
+                        })
+                        x++;
+                    }
+                    $scope.simDelPageSize=simDelPageSize
+
+
+
+                    $scope.putScreenSimDel=function(page){
+                        $scope.simDelPage=page;
+                        $scope.histroySim=[];
+                        $scope.histroySim = simDel[page]
+                        for (var i = 0; i < $scope.histroySim.length; i++) {
+                            $scope.histroySim[i].class_name = "none";  //策略代码初始化
+                            var class_id = $scope.histroySim[i].class_id;
+                            var status = $scope.histroySim[i].status;
+                            $scope.histroySim[i].class_name = getcelve(class_id);
+
+                        }
+
+                    }
+                    $scope.putScreenSimDel(0);
+
+
+
+                    //没有删除的实盘
+                    var n= 0,simPageSize=[];
+
+                    for(var i=0;i<simStragey.length;i=i+10){
+                        var list = [];
+                        for(var j=0;(i+j)<simStragey.length&&j<10;j++){
+                            list.push(simStragey[i+j]);
+                        }
+                        strategyList1[n]=list;
+                        simPageSize.push({
+                            'page':n
+                        })
+                        n++;
+                    }
+                    $scope.simPageSize=simPageSize;
+
+
+
+                    $scope.putScreen1=function(page){
+                        $scope.page1=page;
+                        $scope.currentPage1=page;
+                        $scope.myStrategy = [];
+
+                        $scope.myStrategy = strategyList1[page];
+
+                        for (var i = 0; i < $scope.myStrategy.length; i++) {
+                            $scope.myStrategy[i].class_name = "none";  //策略代码初始化
+                            var class_id = $scope.myStrategy[i].class_id;
+                            var status = $scope.myStrategy[i].status;
+                            $scope.myStrategy[i].class_name = getcelve(class_id);
+
+                        }
+
+                      /*  $scope.histroySim=[];
+                        angular.forEach($scope.myStrategy, function (item, index) {
+                            if (item.status == -2) {
+                                item.color = "now";
+                                item.type = "实盘模拟";
+                                $scope.offer++;
+                                $scope.allStrategys.push(item);
+                                $scope.histroySim.push(item);
+                            }
+                        });*/
+                    }
+
+                    $scope.putScreen1(0)
+
+                    //$scope.myStrategy = data;
+
+                    //鼠标悬浮文字
+
+
 
                 })
                 .error(function (err, sta) {
                     Showbo.Msg.alert('网络错误，请稍后再试。');
-                    //console.log(err);
-                    //console.log(sta);
+
                 });
         };
 
@@ -1341,10 +1437,12 @@
                         if (item.status == -2) {
                             item.color = "his";
                             item.type = "历史回测";
-                            $scope.allStrategys.push(item);
+                            //$scope.allStrategys.push(item);
+                            allRecStrategys[c++]=item;
                             $scope.histroy++;
                         }
                     });
+
                 })
                 .error(function (err, sta) {
                     Showbo.Msg.alert('网络错误，请稍后再试。');
@@ -1375,6 +1473,33 @@
                     $('#title').hide()
                 })
         })
+
+
+
+        //$scope.allStrategys = allRecStrategys
+
+/*
+
+        var m= 0,stratgeListRec=[];
+
+        for(var i=0;i<allRecStrategys.length;i=i+10){
+            var list = [];
+            for(var j=0;(i+j)<allRecStrategys.length&&j<10;j++){
+                list.push(allRecStrategys[i+j]);
+            }
+            stratgeListRec[m]=list;
+
+            m++;
+        }
+
+
+        $scope.putScreenRec =function(page){
+            $scope.allStrategys=[];
+            $scope.allStrategys = stratgeListRec[page]
+        }
+        $scope.putScreenRec(0)
+*/
+
 
 
 
@@ -1516,6 +1641,8 @@
                 });
         }
         judge();
+
+
 
         //真实交易
         function trustDeals(){
@@ -1810,10 +1937,10 @@
        }
 
 
-
         $scope.key = 'D1_AG';
         $scope.chartJson =function(){
             var exchagne1,charrJson1=[],volume=[],latest=[],key,line5=[],line10=[],line30=[],line60=[];
+            var marketData=[]
             key=$scope.key[0]+$scope.key[1];
             if(key == "D1" || key == 'D6'){
                 exchagne1 = 'CSRPME'
@@ -1839,181 +1966,30 @@
                     }
                 })
                 .success(function (data) {
-                    angular.forEach(data, function (data, index) {
-                        charrJson1.push({
-                            "x": data.datetime,
-                            "y": data.close,
-                            'low': data.low,
-                            'high': data.high,
-                            'close': data.close,
-                            'open': data.open,
-                            'volume': data.volume
-                        });
-                        volume.push({
-                            "x": data.datetime,
-                            "y": data.volume,
-                            'low': data.low,
-                            'high': data.high,
-                            'close': data.close,
-                            'open': data.open,
-                            'volume': data.volume
+                    marketData=data;
+                    draw(marketData)
+
+                })
+                .error(function(){
+                    $http.get(constantUrl + 'datas/', {
+                            params: {
+                                "type": 'bar',
+                                "exchange": exchagne1,
+                                "symbol": $scope.key,
+                                "start": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() -1)), 'yyyy-MM-dd'),
+                                "end":getNowFormatDate()
+                            },
+                            headers: {
+                                'Authorization': 'token ' + $cookieStore.get('user').token
+                            }
                         })
-                    });
+                        .success(function (data) {
+                            marketData=data;
 
-                    latest[0]=charrJson1[charrJson1.length-1].close;
-                    latest[1]=charrJson1[volume.length-1].volume;
-                    $scope.close=latest[0];
-                    $scope.volume = latest[1]
-                    line5=averline5(charrJson1);
-                    line10=averline10(charrJson1);
-                    line30=averline30(charrJson1);
-                    line60=averline60(charrJson1);
-                    Highcharts.setOptions({
-                        global: {
-                            useUTC: false
-                        }
-                    });
-                    $('#highchart_view').highcharts('StockChart', {
+                            draw(marketData);
 
-                        credits: {
-                            enabled: false
-                        },
-                        exporting: {
-                            enabled: false
-                        },
-
-                        plotOptions: {
-                            series: {
-                                turboThreshold: 0,
-                            },
-                            candlestick: { //红涨绿跌
-                                color: '#33AA11',
-                                upColor: '#DD2200',
-                                lineColor: '#33AA11',
-                                upLineColor: '#DD2200',
-                                maker: {
-                                    states: {
-                                        hover: {
-                                            enabled: false,
-                                        }
-                                    }
-                                }
-                            },
-                        },
-                        tooltip: {
-                            useHTML: true,
-                            xDateFormat: "%Y-%m-%d %H:%M:%S",
-                            valueDecimals: 2,
-                            backgroundColor: '#eeeeee',   // 背景颜色
-                            borderColor: '#ccc',         // 边框颜色
-                            borderRadius: 10,             // 边框圆角
-                            borderWidth: 1,               // 边框宽度
-                            shadow: true,                 // 是否显示阴影
-                            animation: true,               // 是否启用动画效果
-                        },
-                        legend: {
-                            enabled: true,
-                            align: 'right',
-                            verticalAlign: 'top',
-                            x: 0,
-                            y: 0
-                        },
-                        yAxis: [{
-                            labels: {
-                                align: 'right',
-                                x: -3
-                            },
-                            title: {
-                                text: '价格'
-                            },
-                            lineWidth: 1,
-                            height:'55%'
-
-                        }, {
-                            labels: {
-                                align: 'right',
-                                x: -3
-                            },
-                            title: {
-                                text: '成交量'
-                            },
-                            opposite: true,
-                            offset: 0,
-                            height: '30%',
-                            top: '60%'
-                        }],
-                        rangeSelector: {
-                            buttons: [{
-                                type: 'minute',
-                                count: 10,
-                                text: '10m'
-                            }, {
-                                type: 'minute',
-                                count: 30,
-                                text: '30m'
-                            }, {
-                                type: 'hour',
-                                count: 1,
-                                text: '1h'
-                            }, {
-                                type: 'day',
-                                count: 1,
-                                text: '1d'
-                            }, {
-                                type: 'week',
-                                count: 1,
-                                text: '1w'
-                            }, {
-                                type: 'all',
-                                text: '所有'
-                            }],
-                            selected: 5,
-                            buttonSpacing: 2
-                        },
-
-                        series: [{
-                            type: 'spline',
-                            name: 'MA5',
-                            data: line5,
-                            lineWidth: 1,
-                            color: 'red',
-                            visible: false
-                        },{
-                            type: 'spline',
-                            name: 'MA10',
-                            data: line10,
-                            lineWidth: 1,
-                            color: 'yellow',
-                            visible: false
-                        },{
-                            type: 'spline',
-                            name: 'MA30',
-                            data: line30,
-                            lineWidth: 1,
-                            color: 'blue',
-                            visible: false
-                        },{
-                            type: 'spline',
-                            name: 'MA60',
-                            data: line60,
-                            lineWidth: 1,
-                            color: 'green',
-                            visible: false
-                        },{
-                            type:'candlestick',
-                            name: '价格',
-                            data: charrJson1,
-                        }, {
-                            type: 'column',
-                            data: volume,
-                            name: '成交量',
-                            yAxis: 1,
-                            color: '#e6e843'
-
-                        }]
-                    });
-
-                });
+                        });
+                })
             $timeout(function(){
                 $scope.chartJson();
             },60000);
@@ -2021,18 +1997,196 @@
         $scope.chartJson();
 
 
+        function draw(marketData){
+            var charrJson1=[],volume=[],latest=[],key,line5=[],line10=[],line30=[],line60=[];
+            angular.forEach(marketData, function (data, index) {
+                charrJson1.push({
+                    "x": data.datetime,
+                    "y": data.close,
+                    'low': data.low,
+                    'high': data.high,
+                    'close': data.close,
+                    'open': data.open,
+                    'volume': data.volume
+                });
+                volume.push({
+                    "x": data.datetime,
+                    "y": data.volume,
+                    'low': data.low,
+                    'high': data.high,
+                    'close': data.close,
+                    'open': data.open,
+                    'volume': data.volume
+                })
+            });
+
+            latest[0]=charrJson1[charrJson1.length-1].close;
+            latest[1]=charrJson1[volume.length-1].volume;
+            $scope.close=latest[0];
+            $scope.volume = latest[1]
+            line5=averline5(charrJson1);
+            line10=averline10(charrJson1);
+            line30=averline30(charrJson1);
+            line60=averline60(charrJson1);
+            Highcharts.setOptions({
+                global: {
+                    useUTC: false
+                }
+            });
+            $('#highchart_view').highcharts('StockChart', {
+
+                credits: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
+
+                plotOptions: {
+                    series: {
+                        turboThreshold: 0,
+                    },
+                    candlestick: { //红涨绿跌
+                        color: '#33AA11',
+                        upColor: '#DD2200',
+                        lineColor: '#33AA11',
+                        upLineColor: '#DD2200',
+                        maker: {
+                            states: {
+                                hover: {
+                                    enabled: false,
+                                }
+                            }
+                        }
+                    },
+                },
+                tooltip: {
+                    useHTML: true,
+                    xDateFormat: "%Y-%m-%d %H:%M:%S",
+                    valueDecimals: 2,
+                    backgroundColor: '#eeeeee',   // 背景颜色
+                    borderColor: '#ccc',         // 边框颜色
+                    borderRadius: 10,             // 边框圆角
+                    borderWidth: 1,               // 边框宽度
+                    shadow: true,                 // 是否显示阴影
+                    animation: true,               // 是否启用动画效果
+                },
+                legend: {
+                    enabled: true,
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: 0,
+                    y: 0
+                },
+                yAxis: [{
+                    labels: {
+                        align: 'right',
+                        x: -3
+                    },
+                    title: {
+                        text: '价格'
+                    },
+                    lineWidth: 1,
+                    height:'55%'
+
+                }, {
+                    labels: {
+                        align: 'right',
+                        x: -3
+                    },
+                    title: {
+                        text: '成交量'
+                    },
+                    opposite: true,
+                    offset: 0,
+                    height: '30%',
+                    top: '60%'
+                }],
+                rangeSelector: {
+                    buttons: [{
+                        type: 'minute',
+                        count: 10,
+                        text: '10m'
+                    }, {
+                        type: 'minute',
+                        count: 30,
+                        text: '30m'
+                    }, {
+                        type: 'hour',
+                        count: 1,
+                        text: '1h'
+                    }, {
+                        type: 'day',
+                        count: 1,
+                        text: '1d'
+                    }, {
+                        type: 'week',
+                        count: 1,
+                        text: '1w'
+                    }, {
+                        type: 'all',
+                        text: '所有'
+                    }],
+                    selected: 5,
+                    buttonSpacing: 2
+                },
+
+                series: [{
+                    type: 'spline',
+                    name: 'MA5',
+                    data: line5,
+                    lineWidth: 1,
+                    color: 'red',
+                    visible: false
+                },{
+                    type: 'spline',
+                    name: 'MA10',
+                    data: line10,
+                    lineWidth: 1,
+                    color: 'yellow',
+                    visible: false
+                },{
+                    type: 'spline',
+                    name: 'MA30',
+                    data: line30,
+                    lineWidth: 1,
+                    color: 'blue',
+                    visible: false
+                },{
+                    type: 'spline',
+                    name: 'MA60',
+                    data: line60,
+                    lineWidth: 1,
+                    color: 'green',
+                    visible: false
+                },{
+                    type:'candlestick',
+                    name: '价格',
+                    data: charrJson1,
+                }, {
+                    type: 'column',
+                    data: volume,
+                    name: '成交量',
+                    yAxis: 1,
+                    color: '#e6e843'
+
+                }]
+            });
+        }
+
+
         //实盘模拟
 
 
 
         $scope.firm=function(){
-
             if(window.b ==1){
                 return;
             }
             $scope.key1 = "D1_AG";
             $scope.chartJson2 =function(){
                 var exchagne1,key,charrJson1=[],volume=[],latest=[],line5=[],line10=[],line30=[],line60=[];
+                var marketData1=[]
                 key=$scope.key1[0]+$scope.key1[1];
                 if(key == "D1" || key == 'D6'){
                     exchagne1 = 'CSRPME'
@@ -2058,188 +2212,219 @@
                         }
                     })
                     .success(function (data) {
-                        angular.forEach(data, function (data, index) {
-                            charrJson1.push({
-                                "x": data.datetime,
-                                "y": data.close,
-                                'low': data.low,
-                                'high': data.high,
-                                'close': data.close,
-                                'open': data.open,
-                                'volume': data.volume
-                            });
-                            volume.push({
-                                "x": data.datetime,
-                                "y": data.volume,
-                                'low': data.low,
-                                'high': data.high,
-                                'close': data.close,
-                                'open': data.open,
-                                'volume': data.volume
+                        marketData1 = data;
+                        console.log(marketData1)
+                        draw1(marketData1)
+
+                    })
+                    .error(function(data){
+                        $http.get(constantUrl + 'datas/', {
+                                params: {
+                                    "type": 'bar',
+                                    "exchange": exchagne1,
+                                    //"exchange": "CTP",
+                                    "symbol": $scope.key1,
+                                    //"symbol": "IF",
+                                    "start": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() - 1)), 'yyyy-MM-dd'),
+                                    "end": getNowFormatDate()
+                                },
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
                             })
-                        });
+                            .success(function (data) {
+                                marketData1 = data;
 
-                        latest[0]=charrJson1[charrJson1.length-1].close;
-                        latest[1]=charrJson1[volume.length-1].volume;
-                        $scope.close=latest[0];
-                        $scope.volume = latest[1]
+                                draw1(marketData1)
 
-                        line5=averline5(charrJson1);
-                        line10=averline10(charrJson1);
-                        line30=averline30(charrJson1);
-                        line60=averline60(charrJson1);
-                        Highcharts.setOptions({
-                            global: {
-                                useUTC: false
-                            }
-                        });
-
-                        $('#highchart_moni').highcharts('StockChart', {
-
-                            credits: {
-                                enabled: false
-                            },
-                            exporting: {
-                                enabled: false
-                            },
-
-                            plotOptions: {
-                                series: {
-                                    turboThreshold: 0,
-                                },
-                                candlestick: { //红涨绿跌
-                                    color: '#33AA11',
-                                    upColor: '#DD2200',
-                                    lineColor: '#33AA11',
-                                    upLineColor: '#DD2200',
-                                    maker: {
-                                        states: {
-                                            hover: {
-                                                enabled: false,
-                                            }
-                                        }
-                                    }
-                                },
-                            },
-                            tooltip: {
-                                useHTML: true,
-                                xDateFormat: "%Y-%m-%d %H:%M:%S",
-                                valueDecimals: 2,
-                                backgroundColor: '#eeeeee',   // 背景颜色
-                                borderColor: '#ccc',         // 边框颜色
-                                borderRadius: 10,             // 边框圆角
-                                borderWidth: 1,               // 边框宽度
-                                shadow: true,                 // 是否显示阴影
-                                animation: true,               // 是否启用动画效果
-                            },
-                            legend: {
-                                enabled: true,
-                                align: 'right',
-                                verticalAlign: 'top',
-                                x: 0,
-                                y: 0
-                            },
-                            yAxis: [{
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '价格'
-                                },
-                                lineWidth: 1,
-                                height:'55%'
-
-                            }, {
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '成交量'
-                                },
-                                opposite: true,
-                                offset: 0,
-                                height: '30%',
-                                top: '60%'
-                            }],
-                            rangeSelector: {
-                                buttons: [{
-                                    type: 'minute',
-                                    count: 10,
-                                    text: '10m'
-                                }, {
-                                    type: 'minute',
-                                    count: 30,
-                                    text: '30m'
-                                }, {
-                                    type: 'hour',
-                                    count: 1,
-                                    text: '1h'
-                                }, {
-                                    type: 'day',
-                                    count: 1,
-                                    text: '1d'
-                                }, {
-                                    type: 'week',
-                                    count: 1,
-                                    text: '1w'
-                                }, {
-                                    type: 'all',
-                                    text: '所有'
-                                }],
-                                selected: 5,
-                                buttonSpacing: 2
-                            },
-                            series: [{
-                                type: 'spline',
-                                name: 'MA5',
-                                data: line5,
-                                lineWidth: 1,
-                                color: 'red',
-                                visible: false
-                            },{
-                                type: 'spline',
-                                name: 'MA10',
-                                data: line10,
-                                lineWidth: 1,
-                                color: 'yellow',
-                                visible: false
-                            },{
-                                type: 'spline',
-                                name: 'MA30',
-                                data: line30,
-                                lineWidth: 1,
-                                color: 'blue',
-                                visible: false
-                            },{
-                                type: 'spline',
-                                name: 'MA60',
-                                data: line60,
-                                lineWidth: 1,
-                                color: 'green',
-                                visible: false
-                            },{
-                                type:'candlestick',
-                                name: '价格',
-                                data: charrJson1,
-
-                            }, {
-                                type: 'column',
-                                data: volume,
-                                name: '成交量',
-                                yAxis: 1,
-                                color: '#e6e843'
-
-                            }]
-                        });
-
-                    });
+                            })
+                    })
                 $timeout(function(){
                     $scope.chartJson2();
                 },60000);
             }
             $scope.chartJson2();
+
+            function draw1(marketData1){
+                var charrJson1=[],volume=[],latest=[],line5=[],line10=[],line30=[],line60=[];
+                angular.forEach(marketData1, function (data, index) {
+                    charrJson1.push({
+                        "x": data.datetime,
+                        "y": data.close,
+                        'low': data.low,
+                        'high': data.high,
+                        'close': data.close,
+                        'open': data.open,
+                        'volume': data.volume
+                    });
+                    volume.push({
+                        "x": data.datetime,
+                        "y": data.volume,
+                        'low': data.low,
+                        'high': data.high,
+                        'close': data.close,
+                        'open': data.open,
+                        'volume': data.volume
+                    })
+                });
+
+                latest[0]=charrJson1[charrJson1.length-1].close;
+                latest[1]=charrJson1[volume.length-1].volume;
+                $scope.close1=latest[0];
+                $scope.volume1 = latest[1]
+
+                line5=averline5(charrJson1);
+                line10=averline10(charrJson1);
+                line30=averline30(charrJson1);
+                line60=averline60(charrJson1);
+                Highcharts.setOptions({
+                    global: {
+                        useUTC: false
+                    }
+                });
+
+                $('#highchart_moni').highcharts('StockChart', {
+
+                    credits: {
+                        enabled: false
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+
+                    plotOptions: {
+                        series: {
+                            turboThreshold: 0,
+                        },
+                        candlestick: { //红涨绿跌
+                            color: '#33AA11',
+                            upColor: '#DD2200',
+                            lineColor: '#33AA11',
+                            upLineColor: '#DD2200',
+                            maker: {
+                                states: {
+                                    hover: {
+                                        enabled: false,
+                                    }
+                                }
+                            }
+                        },
+                    },
+                    tooltip: {
+                        useHTML: true,
+                        xDateFormat: "%Y-%m-%d %H:%M:%S",
+                        valueDecimals: 2,
+                        backgroundColor: '#eeeeee',   // 背景颜色
+                        borderColor: '#ccc',         // 边框颜色
+                        borderRadius: 10,             // 边框圆角
+                        borderWidth: 1,               // 边框宽度
+                        shadow: true,                 // 是否显示阴影
+                        animation: true,               // 是否启用动画效果
+                    },
+                    legend: {
+                        enabled: true,
+                        align: 'right',
+                        verticalAlign: 'top',
+                        x: 0,
+                        y: 0
+                    },
+                    yAxis: [{
+                        labels: {
+                            align: 'right',
+                            x: -3
+                        },
+                        title: {
+                            text: '价格'
+                        },
+                        lineWidth: 1,
+                        height:'55%'
+
+                    }, {
+                        labels: {
+                            align: 'right',
+                            x: -3
+                        },
+                        title: {
+                            text: '成交量'
+                        },
+                        opposite: true,
+                        offset: 0,
+                        height: '30%',
+                        top: '60%'
+                    }],
+                    rangeSelector: {
+                        buttons: [{
+                            type: 'minute',
+                            count: 10,
+                            text: '10m'
+                        }, {
+                            type: 'minute',
+                            count: 30,
+                            text: '30m'
+                        }, {
+                            type: 'hour',
+                            count: 1,
+                            text: '1h'
+                        }, {
+                            type: 'day',
+                            count: 1,
+                            text: '1d'
+                        }, {
+                            type: 'week',
+                            count: 1,
+                            text: '1w'
+                        }, {
+                            type: 'all',
+                            text: '所有'
+                        }],
+                        selected: 5,
+                        buttonSpacing: 2
+                    },
+                    series: [{
+                        type: 'spline',
+                        name: 'MA5',
+                        data: line5,
+                        lineWidth: 1,
+                        color: 'red',
+                        visible: false
+                    },{
+                        type: 'spline',
+                        name: 'MA10',
+                        data: line10,
+                        lineWidth: 1,
+                        color: 'yellow',
+                        visible: false
+                    },{
+                        type: 'spline',
+                        name: 'MA30',
+                        data: line30,
+                        lineWidth: 1,
+                        color: 'blue',
+                        visible: false
+                    },{
+                        type: 'spline',
+                        name: 'MA60',
+                        data: line60,
+                        lineWidth: 1,
+                        color: 'green',
+                        visible: false
+                    },{
+                        type:'candlestick',
+                        name: '价格',
+                        data: charrJson1,
+
+                    }, {
+                        type: 'column',
+                        data: volume,
+                        name: '成交量',
+                        yAxis: 1,
+                        color: '#e6e843'
+
+                    }]
+                });
+
+            }
+
             var falsedata2=[];   /*存放没有被删除的策略*/
             delFirm=[];
             for(var i=0; i<falsedata.length; i++){
