@@ -1705,6 +1705,7 @@
                 //console.log(truedata1)
 
                 $scope.trust=truedata1;
+                $('#container').hide();
 
 
                 var symbolList = [];
@@ -1858,13 +1859,11 @@
                             'volume': data.volume
                         })
                     });
+
                     latest[0]=charrJson1[charrJson1.length-1].close;
                     latest[1]=charrJson1[volume.length-1].volume;
                     $scope.close=latest[0];
                     $scope.volume = latest[1]
-
-
-
                     line5=averline5(charrJson1);
                     line10=averline10(charrJson1);
                     line30=averline30(charrJson1);
@@ -2013,7 +2012,7 @@
 
                         }]
                     });
-                    $('#container').hide();
+
                 });
             $timeout(function(){
                 $scope.chartJson();
