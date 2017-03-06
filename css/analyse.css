@@ -1,6 +1,4 @@
 ﻿/* analyse */
-
-
 .analyse table{
 	text-align: center;
 	border-radius: 5px;
@@ -13,13 +11,10 @@
 .analyse table tr th{
 	text-align: center;
 	background-color:#707ea1;
-	/*font-size: 16px;*/
 	color:#fff;
-	/*font-weight:bold;*/
 }
 .analyse table tfoot{
 	color: #484848;
-	/*font-size: 18px;*/
 	border:1px solid transparent;
 }
 .analyse{
@@ -28,7 +23,6 @@
 }
 .analyse .analyse-title-head .col-md-3 img{
    margin:2% 18%;
-	/*transform: rotate(-3deg);*/
 }
 
 .analyse .analyse-title-head .timu{
@@ -36,24 +30,7 @@
 	-moz-box-shadow: 10px 3px 8px #aaa;
 	box-shadow: 10px 3px 8px #aaa;
 }
-/*@media screen and (min-width: 1200px) and (max-width: 1470px){
-	.analyse{
-		margin-top: 90px;
-	}
-}
-@media screen and (min-width: 768px) and (max-width: 1199px){
-	.analyse{
-		margin-top: 120px;
-	}
-}
-@media (max-width: 767px){
-	.analyse{
-		margin-top: 50px;
-	}
-}*/
 .analyse .analyse-top-title{
-
-
 	height: 50px;
 	line-height: 50px;
 	font-size: 16px;
@@ -62,219 +39,31 @@
 .analyse .remind{
 	background-color: #fff;
 	padding: 0.1rem 0 0 2rem;
-
 }
-
 .analyse .remind>div{
 display: inline-block;
 	line-height: 50px;
 	margin-left: 10px;
 	font-size: 1rem;
-
 }
 .analyse .remind .import{
 	float: right;
 	margin-right: 7.5rem;
 }
 .analyse .remind span{
-
 	color:#539ad7;
-	/*padding: 0 1rem 0 1rem;*/
-
 	float: right;
-
 	display: block;
-	/*height: 30px;*/
-	/*background-color: #ccc;*/
-	/*display: none;*/
-/*	width: 60px;
-	background-color: #eee;
-	font-size: 14px;
-	!*display: block;*!
-	padding: 5px;
-	-webkit-box-shadow: inset 0 0 3px #545556;
-	-moz-box-shadow: inset 0 0 3px #545556;
-	box-shadow: inset 0 0 3px #545556;*/
 }
 .analyse .container-fluid .row .jiaoyi{
 	-webkit-box-shadow:10px 3px 8px #aaa;
 	-moz-box-shadow: 10px 3px 8px #aaa;
 	box-shadow: 10px 3px 8px #aaa;
-
 }
-
-/*.analyse .tab-content{
-	background:#fff;
-
-}*/
 .analyse .analyse-title-head{
-
-	/*margin-bottom: 20px;*/
 	background: #f2f2f2;
-	/*background-color: red;*/
     border-bottom: 1px solid #ccc;
-	/*background: url("../images/真实交易.png") no-repeat;*/
 }
-
-/*.analyse .analyse-left{
-	position: relative;
-	!*height: 650px;*!
-	padding: 20px 5px;
-	-webkit-box-shadow: 5px 0 10px #aaa;
-	-moz-box-shadow: 5px 0 10px #aaa;
-	box-shadow: 5px 0 10px #aaa;
-	background-color:#f2f2f2;
-	background: -webkit-linear-gradient(left top, #a9c0a9 , #bbc0bb);
-	background: -o-linear-gradient(bottom right,#a9c0a9,  #bbc0bb);
-	background: -moz-linear-gradient(bottom right, #a9c0a9, #bbc0bb);
-	background: linear-gradient(to bottom right, #a9c0a9 , #bbc0bb);
-}
-.analyse .analyse-left .mobile-action{
-	position: absolute;
-	top: 20px;
-	right: 0;
-	color: #fff;
-	cursor: pointer;
-}
-@media screen and (max-width: 767px){
-	.analyse .analyse-left{
-		width: 60%;
-		position: absolute;
-		top: 50px;
-		left: -55%;
-		border:none;
-		padding-top: 20px;
-		-webkit-transition: all ease 1.5s;
-		-moz-transition: all ease 1.5s;
-		-o-transition: all ease 1.5s;
-		transition: all ease 1.5s;
-		z-index: 10;
-	}
-}
-.l0{
-	left: 0!important;
-}
-.analyse .analyse-left .analyse-menu-head{
-	margin-bottom: 20px;
-	padding-left: 40px;
-}
-.analyse .analyse-left .analyse-menu-head button{
-	font-size: 12px;
-	padding: 5px 10px;
-
-	font-weight: bold;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-o-border-radius: 5px;
-	border-radius: 5px;
-}
-.analyse .analyse-left .analyse-menu-head .btn1{
-	border:1px solid #54be54;
-	background-color: #5cb85c;
-	color: #457445;
-	background-image: linear-gradient(bottom, #579e57 0%, rgb(92,184,92) 100%);
-	background-image: -o-linear-gradient(bottom, #579e57 0%, rgb(92,184,92) 100%);
-	background-image: -moz-linear-gradient(bottom, #579e57 0%, rgb(92,184,92) 100%);
-	background-image: -webkit-linear-gradient(bottom, #579e57 0%, rgb(92,184,92) 100%);
-	background-image: -ms-linear-gradient(bottom, #579e57 0%, rgb(92,184,92) 100%);
-	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, #579e57), color-stop(1, rgb(92,184,92)) );
-
-	-webkit-box-shadow: inset 0 1px 0 #56B85C, 0 3px 0 0 #4b704b, 0 8px 4px #999;
-	-moz-box-shadow: inset 0 1px 0 #56B85C, 0 3px 0 0 #4b704b, 0 8px 4px #999;
-	-o-box-shadow: inset 0 1px 0 #56B85C, 0 3px  0 #4b704b, 0 8px 4px #999;
-	box-shadow: inset 0 1px 0 #56B85C, 0 3px 0 0 #4b704b, 0 8px 4px #999;
-}
-.analyse .analyse-left .analyse-menu-head .btn1:active{
-	top:3px;
-	background-image: linear-gradient(bottom, rgb(92,184,92) 0%, #579e57 100%);
-	background-image: -o-linear-gradient(bottom, rgb(92,184,92) 0%, #579e57 100%);
-	background-image: -moz-linear-gradient(bottom, rgb(92,184,92) 0%, #579e57 100%);
-	background-image: -webkit-linear-gradient(bottom, rgb(92,184,92) 0%, #579e57 100%);
-	background-image: -ms-linear-gradient(bottom, rgb(92,184,92) 0%, #579e57 100%);
-	background-image: -webkit-gradient(
-			linear,
-			left bottom,
-			left top,
-			color-stop(0,rgb(92,184,92)),
-			color-stop(1,#579e57)
-	);
-	-webkit-box-shadow: inset 0 1px 0 #56B85C, 0 2px 0 0 #4b704b, 0 5px 3px #999;
-	-moz-box-shadow: inset 0 1px 0 #56B85C, 0 2px 0 0 #4b704b, 0 5px 3px #999;
-	-o-box-shadow: inset 0 1px 0 #56B85C, 0 2px 0 0 #4b704b, 0 5px 3px #999;
-	box-shadow: inset 0 1px 0 #56B85C, 0 2px 0 0 #4b704b, 0 5px 3px #999;
-}
-
-.analyse .analyse-left .analyse-menu-head .btn2{
-	border:1px solid #5bc0de;
-	background-color: #3bb3e0;
-	color: #3b5e6a;
-	background-image: linear-gradient(bottom, rgb(44,160,202) 0%, rgb(62,184,229) 100%);
-	background-image: -o-linear-gradient(bottom, rgb(44,160,202) 0%, rgb(62,184,229) 100%);
-	background-image: -moz-linear-gradient(bottom, rgb(44,160,202) 0%, rgb(62,184,229) 100%);
-	background-image: -webkit-linear-gradient(bottom, rgb(44,160,202) 0%, rgb(62,184,229) 100%);
-	background-image: -ms-linear-gradient(bottom, rgb(44,160,202) 0%, rgb(62,184,229) 100%);
-	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(44,160,202)), color-stop(1, rgb(62,184,229)) );
-
-	-webkit-box-shadow: inset 0 1px 0 #2ab7ec, 0 3px 0 0 #156785, 0 8px 4px #999;
-	-moz-box-shadow: inset 0 1px 0 #2ab7ec, 0 3px 0 0 #156785, 0 8px 4px #999;
-	-o-box-shadow: inset 0 1px 0 #2ab7ec, 0 3px  0 #156785, 0 8px 4px #999;
-	box-shadow: inset 0 1px 0 #2ab7ec, 0 3px 0 0 #156785, 0 8px 4px #999;
-}
-.analyse .analyse-left .analyse-menu-head .btn2:active{
-	top:3px;
-	background-image: linear-gradient(bottom, rgb(62,184,229) 0%, rgb(44,160,202) 100%);
-	background-image: -o-linear-gradient(bottom, rgb(62,184,229) 0%, rgb(44,160,202) 100%);
-	background-image: -moz-linear-gradient(bottom, rgb(62,184,229) 0%, rgb(44,160,202) 100%);
-	background-image: -webkit-linear-gradient(bottom, rgb(62,184,229) 0%, rgb(44,160,202) 100%);
-	background-image: -ms-linear-gradient(bottom, rgb(62,184,229) 0%, rgb(44,160,202) 100%);
-	background-image: -webkit-gradient(
-			linear,
-			left bottom,
-			left top,
-			color-stop(0, rgb(62,184,229)),
-			color-stop(1, rgb(44,160,202))
-	);
-	-webkit-box-shadow: inset 0 1px 0 #2ab7ec, 0 2px 0 0 #156785, 0 5px 3px #999;
-	-moz-box-shadow: inset 0 1px 0 #2ab7ec, 0 2px 0 0 #156785, 0 5px 3px #999;
-	-o-box-shadow: inset 0 1px 0 #2ab7ec, 0 2px 0 0 #156785, 0 5px 3px #999;
-	box-shadow: inset 0 1px 0 #2ab7ec, 0 2px 0 0 #156785, 0 5px 3px #999;
-}
-.analyse .analyse-left .analyse-menu-head .btn3{
-	border:1px solid #e46461;
-	background-color: #d9534f;
-	color: #863d3b;
-	background-image: linear-gradient(bottom, #c1504c 0%, #d9534f 100%);
-	background-image: -o-linear-gradient(bottom, #c1504c 0%,  #d9534f 100%);
-	background-image: -moz-linear-gradient(bottom, #c1504c 0%,  #d9534f 100%);
-	background-image: -webkit-linear-gradient(bottom, #c1504c 0%,#d9534f 100%);
-	background-image: -ms-linear-gradient(bottom, #c1504c 0%, #d9534f 100%);
-	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, #c1504c), color-stop(1, #d9534f) );
-
-	-webkit-box-shadow: inset 0 1px 0 #e14e4a, 0 3px 0 0 #8d4b4a, 0 8px 4px #999;
-	-moz-box-shadow: inset 0 1px 0 #e14e4a, 0 3px 0 0 #8d4b4a, 0 8px 4px #999;
-	-o-box-shadow: inset 0 1px 0 #e14e4a, 0 3px  0 #8d4b4a, 0 8px 4px #999;
-	box-shadow: inset 0 1px 0 #e14e4a, 0 3px 0 0 #8d4b4a, 0 8px 4px #999;
-}
-.analyse .analyse-left .analyse-menu-head .btn3:active{
-	top:3px;
-	background-image: linear-gradient(bottom, #d9534f 0%,  #c1504c 100%);
-	background-image: -o-linear-gradient(bottom, #d9534f 0%,  #c1504c 100%);
-	background-image: -moz-linear-gradient(bottom, #d9534f 0%, #c1504c 100%);
-	background-image: -webkit-linear-gradient(bottom, #d9534f 0%, #c1504c 100%);
-	background-image: -ms-linear-gradient(bottom, #d9534f 0%, #c1504c 100%);
-	background-image: -webkit-gradient(
-			linear,
-			left bottom,
-			left top,
-			color-stop(0, #d9534f),
-			color-stop(1, #c1504c)
-	);
-	-webkit-box-shadow: inset 0 1px 0 #e14e4a, 0 2px 0 0 #8d4b4a, 0 5px 3px #999;
-	-moz-box-shadow: inset 0 1px 0 #e14e4a, 0 2px 0 0 #8d4b4a, 0 5px 3px #999;
-	-o-box-shadow: inset 0 1px 0 #e14e4a, 0 2px 0 0 #8d4b4a, 0 5px 3px #999;
-	box-shadow: inset 0 1px 0 #e14e4a, 0 2px 0 0 #8d4b4a, 0 5px 3px #999;
-}
-*/
 .analyse .analyse-left .modal .modal-dialog .btn_wrap{
 	width: 35%;
 	height: 40px;
@@ -474,14 +263,12 @@ width: 43%;
 	right: 0;
 	background: #fff;
 	z-index: 1000000;
-	/*overflow: hidden;*/
 }
 .printform{
 	display: none;
 }
 .printform .container .analyse-top-title span{
 	margin-left: 3%;
-	/*display: block;*/
 }
 .printform h2{
 	text-align: center;margin-top: 30px

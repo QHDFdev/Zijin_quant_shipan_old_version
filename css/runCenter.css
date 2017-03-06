@@ -282,20 +282,11 @@
     vertical-align: middle;
     word-wrap: break-word;
   }
-/*  .runCenter .kind ul li>div:first-of-type {
-    display: table-cell;
-    width: 7rem;
-    font-weight: 700;
-    font-size: 2.75rem;
-    color: rgb(255, 255, 255);
-    text-align: center;
-  }*/
   .contentS li >div:nth-of-type(2) {
     width:100%;
     display: table;
     padding: 1rem;
     text-align: left;
-    /* background-color: red; */
   }
   .contentS li >div:nth-of-type(2) .left{
     width: 50%;
@@ -306,7 +297,6 @@
   }
   .contentS li >div:nth-of-type(2) .right span{
     float: left;
-    /*padding-right: 2rem;*/
   }
   .contentS li >div:nth-of-type(2) .right span i{
     float: right;
@@ -315,7 +305,6 @@
 
   .runCenter .kind ul li >div:nth-of-type(2) span{
     display: block;
-    /*width: 20rem ;*/
     margin-left: 0;
   }
   .runCenter .kind ul li >div:nth-of-type(2) .span{
@@ -324,7 +313,6 @@
   }
   .runCenter .kind ul li >div:nth-of-type(3) span{
     display: block;
-    /*width: 20rem ;*/
     margin-left: 0;
   }
   .runCenter .kind .draw{
@@ -342,8 +330,6 @@
     left: 20%;
     z-index: 9999;
   }
-
-
 }
 
 #container,#container1,#container2,#container3{
@@ -357,16 +343,13 @@
 #container h1,#container1 h1,#container2 h1,#container3 h1 {
   font-family: 'Lato';
   color: black;
-  /*text-transform: uppercase;*/
   font-size: 1.5em;
-  /*letter-spacing: 1.5px;*/
   text-align: center;
   width: 155px;
   margin-top: 20px;
   -webkit-animation: fade 2s infinite;
   -moz-animation: fade 2s infinite;
 }
-
 .stick {
   width: 30px;
   height: 3px;
@@ -374,7 +357,6 @@
   display: inline-block;
   margin-left: -8px;
 }
-
 .stick:nth-child(n) {
   transform: rotate(30deg);
   -ms-transform: rotate(30deg);

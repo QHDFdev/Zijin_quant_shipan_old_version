@@ -1,19 +1,8 @@
-/* new-home */
-/* .zijin-index{
-	margin-top: 90px;
-	
-}
-@media (max-width: 768px){
-	.zijin-index{
-		margin-top: 50px;
-	}
-} */
 .zijin-index{
 	height: 400px;
 }
 .zijin-index-head{
 	position: relative;
-
 }
 .zijin-index-head .zijin-index-title{
 	position: absolute;
@@ -42,7 +31,6 @@
 	color: #fff;
 	text-shadow: 1px 1px 4px rgba(0,0,0,.8);
 }
-
  .zijin-index-title .zijin-index-btn{
 	position: relative;
 	display: inline-block;
@@ -143,7 +131,7 @@
 }
  .zijin-index-carousel img{
 	width: 100%;
-	height: 650px;
+	/*height: 650px;*/
 }
  .zijin-index-carousel .carousel-control{
 	z-index: 10;
@@ -162,7 +150,7 @@
 	height: 650px;
 }
 .carImg1{
-	background: url(../images/index_car_6.png) center center no-repeat;
+	background: url(../images/index_car_6.jpg) center center no-repeat;
 	background-size: auto 100%;
 }
 .carImg2{
@@ -268,9 +256,8 @@
 	}
 }
  .zijin-index-top .top-box{
-	/* position: absolute; */
 	top:0;
-	left:0
+	left:0;
 	width:100%;
 	color:#fff;
 	text-align:center;
@@ -331,7 +318,6 @@
 	left: 0;
 	bottom: 0;
 	background:url(../images/content_uqer01.png) center center no-repeat;
-	/*background-size: auto 100%;*/
 }
  .zijin-index-body .item-one .zijin-index-image{
 	background-image:url(../images/content_uqer01.png);
