@@ -245,7 +245,7 @@
                 if (status == -1) {
                     $scope.mySourcingStrategy[i].color = "error";
                     $scope.mySourcingStrategy[i].status = "错误";
-                    $scope.mySourcingStrategy[i].title = data[i].error;
+                    $scope.mySourcingStrategy[i].title = $scope.mySourcingStrategy[i].error;
                 }
                 if (status == 0) {
                     $scope.mySourcingStrategy[i].status = "加载中"
@@ -258,7 +258,6 @@
             $scope.getHisStrategys();
             $scope.gettrueStrategys();
        };
-
         $scope.getSourcingStrategys = function () {
             $http.get(constantUrl + "classs/", {
                     headers: {
@@ -316,7 +315,6 @@
                     Showbo.Msg.alert('添加失败，请稍后再试。');
                 });
         };
-
         /**
          * 根据id获取策略
          * @param class_id
@@ -330,7 +328,6 @@
                 }
             }
         }
-
         /**
          * 获取历史回测的错误信息
          * @param id 根据id获取错误信息
@@ -376,6 +373,7 @@
 
         //真实交易列表渲染到页面
         $scope.gettrueStrategys = function () {
+            c=0;
             $http.get(constantUrl + "strategys/", {
                     headers: {
                         'Authorization': 'token ' + $cookieStore.get('user').token
@@ -425,11 +423,9 @@
                             $scope.trueStrategy[i].title = "运行结束";
                             $scope.trueStrategy[i].status = "运行结束";
                             $scope.over++;
-
                         }
                     }
-                    $scope.histroyTrue=[];
-                    //console.log(data)
+
                     var histroyTrue=[]
                     angular.forEach(data, function (item, index) {
                         if (item.status == -2) {
@@ -437,14 +433,12 @@
                             item.type = "真实交易";
                             //$scope.allStrategys.push(item);
                             allRecStrategys[c++]=item;
+                            //$scope.allStrategys.push(item)
                             $scope.trust++;
                             histroyTrue.push(item);
                         }
                     });
-
-
                     var q= 0,trueDel=[],trueDelPageSize=[];
-
                     for(var i=0;i<histroyTrue.length;i=i+10){
                         var list = [];
                         for(var j=0;(i+j)<histroyTrue.length&&j<10;j++){
@@ -454,8 +448,7 @@
 
                         trueDelPageSize.push({
                             "page":q
-                        })
-
+                        });
                        q++;
                     }
                     $scope.trueDelPageSize =trueDelPageSize;
@@ -481,7 +474,6 @@
                     }
                     $scope.recPageSize=recPageSize
 
-                    console.log($scope.recPageSize)
                     $scope.putScreenRec =function(page){
                         $scope.recPageSizeCurrent=page
                         $scope.allStrategys=[];
@@ -495,6 +487,8 @@
                     //console.log(sta);
                 });
         };
+
+
         /**
          * 转义换行
          * @param content
@@ -511,8 +505,6 @@
             }
             return string;
         }
-
-
         function download(text, name, type) {
             var file = new Blob([text], {
                 type: type
@@ -522,7 +514,6 @@
             a[0].download = name
             a[0].click()
         }
-
         $scope.downpy = function (id, name) {
             Showbo.Msg.confirm("您需要下载" + name + "吗？", function (flag) {
                 if (flag == 'yes') {
@@ -586,7 +577,7 @@
         }
         /* 创建实盘模拟 */ //加载策略页面
         //实盘列表渲染到页面
-        var strategyList1=[]
+        var strategyList1=[];
         $scope.getFirmStrategys = function () {
             $http.get(constantUrl + "strategys/", {
                     headers: {
@@ -600,15 +591,13 @@
                             i = -1;
                         }
                     }
-
                     $scope.error1 = 0, $scope.loading1 = 0, $scope.loaded1 = 0, $scope.start1 = 0, $scope.stop1 = 0, $scope.over1 = 0, $scope.offer = 0;
                     $scope.histroySim=[];
-                    var histroySim=[]
+                    var histroySim=[];
                     angular.forEach(data,function(item,index){
                         if (item.status != -2 && item.status == -1) {
                             item.color = "error";
                             item.status = "错误";
-                            $scope.geterror(item._id, index);
                             $scope.error1++;
                         }
                         if (item.status == 0) {
@@ -641,11 +630,10 @@
                             item.color = "now";
                             item.type = "实盘模拟";
                             $scope.offer++;
-                            //$scope.allStrategys.push(item);
                             allRecStrategys[c++]=item;
+                            //$scope.allStrategys.push(item)
                             histroySim.push(item);
                         }
-
                     })
 
                     var simStragey=[]
@@ -653,9 +641,7 @@
                         if(item.status !=-2){
                             simStragey.push(item)
                         }
-                    })
-
-
+                    });
                     //删除的实盘
                     var x= 0,simDel=[],simDelPageSize=[];
                     for(var i=0;i<histroySim.length;i=i+10){
@@ -669,10 +655,7 @@
                         })
                         x++;
                     }
-                    $scope.simDelPageSize=simDelPageSize
-
-
-
+                    $scope.simDelPageSize=simDelPageSize;
                     $scope.putScreenSimDel=function(page){
                         $scope.simDelPage=page;
                         $scope.histroySim=[];
@@ -682,14 +665,9 @@
                             var class_id = $scope.histroySim[i].class_id;
                             var status = $scope.histroySim[i].status;
                             $scope.histroySim[i].class_name = getcelve(class_id);
-
                         }
-
-                    }
+                    };
                     $scope.putScreenSimDel(0);
-
-
-
                     //没有删除的实盘
                     var n= 0,simPageSize=[];
 
@@ -705,43 +683,23 @@
                         n++;
                     }
                     $scope.simPageSize=simPageSize;
-
-
-
                     $scope.putScreen1=function(page){
                         $scope.page1=page;
-
                         $scope.myStrategy = [];
-
                         $scope.myStrategy = strategyList1[page];
-
                         for (var i = 0; i < $scope.myStrategy.length; i++) {
                             $scope.myStrategy[i].class_name = "none";  //策略代码初始化
                             var class_id = $scope.myStrategy[i].class_id;
                             var status = $scope.myStrategy[i].status;
                             $scope.myStrategy[i].class_name = getcelve(class_id);
 
-                        }
+                            if($scope.myStrategy[i].status =="错误"){
+                                $scope.geterror($scope.myStrategy[i]._id, i);
 
-                      /*  $scope.histroySim=[];
-                        angular.forEach($scope.myStrategy, function (item, index) {
-                            if (item.status == -2) {
-                                item.color = "now";
-                                item.type = "实盘模拟";
-                                $scope.offer++;
-                                $scope.allStrategys.push(item);
-                                $scope.histroySim.push(item);
                             }
-                        });*/
+                        }
                     }
-
-                    $scope.putScreen1(0)
-
-                    //$scope.myStrategy = data;
-
-                    //鼠标悬浮文字
-
-
+                    $scope.putScreen1(0);
 
                 })
                 .error(function (err, sta) {
@@ -856,7 +814,6 @@
 
         //创建实盘模拟策略
         $scope.addFirmStrategy = function () {
-
             if ($scope.firmItem == undefined) {
                 Showbo.Msg.alert('请填入信息');
                 return;
@@ -877,11 +834,7 @@
                 Showbo.Msg.alert('请输入交易手数');
                 return;
             }
-
-            //console.log($scope.ids[0]._id);
-
             var files = $scope.files;
-            //console.log(files);
             var formdata = new FormData();
             formdata.append('name', $scope.firmItem.name);
             formdata.append('symbol', $scope.firmItem.symbol);
@@ -901,7 +854,9 @@
                 })
                 .success(function (data) {
                     setTimeout(function () {
-                        $scope.getFirmStrategys();
+                        scope.gettrueStrategys();//真实交易
+                        scope.getFirmStrategys(); //刷新实盘
+                        scope.getHisStrategys();//回测列表
                     }, 100)
                     $('.zijin-table-mask').fadeOut();
                     Showbo.Msg.alert('添加成功');
@@ -947,9 +902,6 @@
                 Showbo.Msg.alert('请选择accout_id');
                 return;
             }
-
-            //console.log($scope.trueItem,$scope.trueFile);
-            //return;
             var files = $scope.trueFile;
             var formdata = new FormData();
             formdata.append('name', $scope.trueItem.name);
@@ -970,9 +922,10 @@
                     }
                 })
                 .success(function (data) {
-                    setTimeout(function () {
-                        $scope.gettrueStrategys();
-                    }, 100)
+                    $scope.gettrueStrategys();
+                    $scope.getFirmStrategys();
+                    $scope.addHisStrategy();
+
                     $('.zijin-table-mask').fadeOut();
                     Showbo.Msg.alert('添加成功');
                 })
@@ -1201,7 +1154,9 @@
                 })
                 .success(function (data) {
                     setTimeout(function () {
-                        $scope.getHisStrategys();
+                        scope.gettrueStrategys();//真实交易
+                        scope.getFirmStrategys(); //刷新实盘
+                        scope.getHisStrategys();//回测列表
                     }, 100)
                     $('.zijin-table-mask').fadeOut();
                     Showbo.Msg.alert('添加成功');
@@ -1512,6 +1467,7 @@
                     })
                     .success(function (data) {
                         timeList[n++] = data[data.length - 1];
+                        truedata2[i].time=data[data.length-1]
                         i++;
                         if (i == truedata2.length) {
                             getIdDate();
@@ -1521,6 +1477,7 @@
                     })
                     .error(function(data){
                         timeList[n++]=0;
+                        truedata2[i].time=data[data.length-1]
                         i++;
                         if (i == truedata2.length) {
                             getIdDate();
@@ -1571,6 +1528,7 @@
                     })
                     .success(function (data) {
                         allDataList[m++] = data;
+
                         i++;
                         if (i >= IdDateList.length) {
                             getAllNianHua(0);
@@ -1587,27 +1545,29 @@
                         }
                         getAllData(i);
                     })
+
             }
+
 
             /**
              * 获取所有策略前一天的年化收益率
              * @param i
              */
+
+
             function getAllNianHua(i) {
+                var shortYArr=[],buyYArr=[],buySellNum=1;
                 var nowData = allDataList[i];
-                //console.log(nowData);
                 handledata(true, nowData, timeList[i], IdDateList[i].id);
-                //console.log(IdDateList[i].id)
-                //return;
                 i++;
                 if (i >= allDataList.length) {
                     $timeout(function () {
                         putScreen();
                     }, 500);
-                    //console.log($scope.trust);
+
                     return;
                 }
-                //console.log(i)
+
                 getAllNianHua(i);
             }
 
@@ -1658,8 +1618,10 @@
                     truedata1[d++]=stopStrategy[j]
                 }
 
-
                 $scope.trust=truedata1;
+                //console.log($scope.trust)
+
+
                 $('#container').hide();
 
 
@@ -1676,12 +1638,9 @@
                     }
                 }
                 $scope.symbolList = symbolList1;
+                //asdfasf();
             }
         }
-
-
-
-
 
         //MA5
         function averline5(data){
@@ -1762,10 +1721,9 @@
        }
 
 
-        $scope.key = 'D1_AG';
+        $scope.key = 'D1_AG';var marketData=[]
         $scope.chartJson =function(){
-            var exchagne1,charrJson1=[],volume=[],latest=[],key,line5=[],line10=[],line30=[],line60=[];
-            var marketData=[]
+            var exchagne1,key;
             key=$scope.key[0]+$scope.key[1];
             if(key == "D1" || key == 'D6'){
                 exchagne1 = 'CSRPME'
@@ -1780,9 +1738,7 @@
                     params: {
                         "type": 'bar',
                         "exchange": exchagne1,
-                        //"exchange": "CTP",
                         "symbol": $scope.key,
-                        //"symbol": "IF",
                         "start": getNowFormatDate(),
                         "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
                     },
@@ -1792,8 +1748,7 @@
                 })
                 .success(function (data) {
                     marketData=data;
-                    draw(marketData)
-
+                    draw(marketData);
                 })
                 .error(function(){
                     $http.get(constantUrl + 'datas/', {
@@ -1810,11 +1765,10 @@
                         })
                         .success(function (data) {
                             marketData=data;
-
                             draw(marketData);
 
                         });
-                })
+                });
             $timeout(function(){
                 $scope.chartJson();
             },60000);
@@ -1822,8 +1776,311 @@
         $scope.chartJson();
 
 
+        $scope.drawEach =function(item,flag){
+            var beginData=[]
+            function getFirmTime() {
+                var defer1 = $q.defer(); //通过$q服务注册一个延迟对象 defer1
+                $http.get(constantUrl + 'transactions/', {
+                        params: {
+                            "sty_id": item._id,
+                            "start": item.time,
+                            "end": $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate() + 1)), 'yyyy-MM-dd')
+                        },
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
+                    .success(function (data) {
+
+                        for(var i =0; i< data.length;i++) {
+                            beginData[i] = data[i];
+                        }
+
+                        var nowdata=data;
+                        if(flag){
+                            handledata(true,nowdata,item.time,item._id)
+                        }
+                        else{
+                            handledata(false,nowdata,item.time,item._id)
+                        }
+
+                        defer1.resolve(nowdata);
+
+                    })
+                    .error(function (err, sta) {
+                        defer1.reject(err);
+                    });
+                return defer1.promise;
+            };
+            //获取当前股价行情 时间根据交易时间的第一笔截至
+            function getTransTime(chartData11) {
+                var defer2 = $q.defer();
+
+                var a = $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate())), 'yyyy-MM-dd');
+
+                var b = $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate() + 1)), 'yyyy-MM-dd');
+                if (chartData11.length == 0) {
+                    b = $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate())), 'yyyy-MM-dd');
+                }
+                $http.get(constantUrl + 'datas/', {
+                        params: {
+                            "type": 'bar',
+                            "start": a,
+                            "symbol": item.symbol,
+                            "exchange": item.exchange,
+                            "multiple": item.multiple,
+                            "end": b
+                        },
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
+                    .success(function (data) {
+                        if (chartData11.length == 0) {
+                            defer2.resolve(data);
+                        }
+                        defer2.resolve(data); //返回需要显示的股价区间
+                    })
+                    .error(function (err, sta) {
+
+                        $http.get(constantUrl + 'datas/', {
+                                params: {
+                                    "type": 'bar',
+                                    "start": $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate()-1)), 'yyyy-MM-dd'),
+                                    "symbol": item.symbol,
+                                    "exchange": item.exchange,
+                                    "multiple": item.multiple,
+                                    "end": $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate())), 'yyyy-MM-dd')
+                                },
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
+                            .success(function (data) {
+                                if (chartData11.length == 0) {
+                                    defer2.resolve(data);
+                                }
+                                defer2.resolve(data); //返回需要显示的股价区间
+                            })
+
+                    });
+                return defer2.promise;
+            };
+            ///////////////////////////////////////////////////////////////////////////
+            getFirmTime().then(function (data) {
+                var chartData11 = data; //保存去除异常数据的数据
+
+                getTransTime(chartData11).then(function (data) {
+                    var chartJsonData = data; //data股价曲线数据
+
+                    draws();
+                    //画曲线图
+                    function draws() {
+                        var chartJsonDataArr = []; //股价
+                        var buySellNum = 1;
+                        var buyYArr = []; //看多flag信息 颜色不一样
+                        var shortYArr = []; //看空flag信息
+                        for (var i = 0; i < chartData11.length; i++) {
+                            var data = chartData11[i]; //保存开仓价信息
+                            if (data.trans_type == "short") {
+                                shortYArr.push({
+                                    "text": '成交价：￥' + data.price + '<br>成交量：' + data.volume + '<br>操作：卖开仓' + '<br>方向：看空',
+                                    "volume": data.volume,
+                                    "pos": data.pos,
+                                    "price": data.price,
+                                    "x": data.datetime,
+                                    "name": data.name,
+                                    "symbol": data.symbol,
+                                    "title":buySellNum +data.trans_type
+                                });
+                                i++;
+                                if (i >= chartData11.length) {
+                                    break;
+                                }
+                                data = chartData11[i]; //保存平仓价信息
+                                shortYArr.push({
+                                    "text": '成交价：￥' + data.price + '<br>成交量：' + data.volume + '<br>操作：买平仓' + '<br>方向：看空',
+                                    "volume": data.volume,
+                                    "pos": data.pos,
+                                    "price": data.price,
+                                    "x": data.datetime,
+                                    "name": data.name,
+                                    "symbol": data.symbol,
+                                    "title":buySellNum + data.trans_type
+                                });
+                            } else {
+                                buyYArr.push({
+                                    "text": '成交价：￥' + data.price + '<br>成交量：' + data.volume + '<br>操作：买开仓' + '<br>方向：看多',
+                                    "volume": data.volume,
+                                    "pos": data.pos,
+                                    "price": data.price,
+                                    "x": data.datetime,
+                                    "name": data.name,
+                                    "symbol": data.symbol,
+                                    "title": buySellNum + data.trans_type
+                                });
+                                i++;
+                                if (i >= chartData11.length) {
+                                    break;
+                                }
+                                data = chartData11[i]; //保存平仓价信息
+                                buyYArr.push({
+                                    "text": '成交价：￥' + data.price + '<br>成交量：' + data.volume + '<br>操作：卖平仓' + '<br/>方向：看多',
+                                    "volume": data.volume,
+                                    "pos": data.pos,
+                                    "price": data.price,
+                                    "x": data.datetime,
+                                    "name": data.name,
+                                    "symbol": data.symbol,
+                                    "title": buySellNum +data.trans_type
+                                });
+                            }
+                            buySellNum++;
+                        }
+                        var allPal=0;
+
+                        var buy = [];
+                        //封装的计算时间的方法，这里只需要传进毫秒数 自动return HH:MM:SS 格式的时间；
+                        $scope.newTotalTime = function (time) {
+                            var hour = 0;
+                            //这里因为都需要把 小时数归零 所以 hour = 0 定义在外面
+                            var min = parseInt((time) / 1000 / 60);
+                            //分钟 的计算 除以 1000 是除去毫秒 之后 除以 60 计算出带小数点的分钟数 这里需要取整
+                            var sec = Math.ceil((((time) / 1000 / 60) - min) * 60);
+                            //秒 的计算 同分钟 这里用带毫秒的分钟数 减去 取整 后的分钟数 得到小数点后的 数值 之后 *60 向上取整 得到正确 秒
+                            if (min >= 60) {
+                                hour = parseInt(min / 60);
+                                min = min - hour * 60;
+                            }
+                            if (sec >= 60) {
+                                min += parseInt(sec / 60);
+                                sec = sec - parseInt(sec / 60) * 60;
+                            }
+                            if (hour < 10) hour = "0" + hour;
+                            if (min < 10) min = "0" + min;
+                            if (sec < 10) sec = "0" + sec;
+                            var totalTime = hour + ":" + min + ":" + sec;
+                            return totalTime;
+                        }
+                        var alldata3 = []; //为了持仓时间
+                        var alldata2 = []; //开仓平仓合并后的数据
+                        var del = [];
+
+
+
+                        Highcharts.setOptions({
+                            global: {
+                                useUTC: false
+                            }
+                        });
+                        angular.forEach(chartJsonData, function (data, index) {
+                            chartJsonDataArr.push({
+                                "x": data.datetime,
+                                "y": data.close,
+                                'low': data.low,
+                                'high': data.high,
+                                'close': data.close,
+                                'open': data.open,
+                                'volume': data.volume
+                            });
+                        });
+                        chartJsonDataArr = $filter('orderBy')(chartJsonDataArr, 'x');
+
+                        //修改的highchart1
+                        //成交量图表
+
+                        $("."+item._id).highcharts('StockChart', {
+                            credits: {
+                                enabled: false
+                            },
+                            exporting: {
+                                enabled: false
+                            },
+                            plotOptions: {
+                                series: {
+                                    turboThreshold: 0
+                                },
+                                candlestick: { //红涨绿跌
+                                    color: '#33AA11',
+                                    upColor: '#DD2200',
+                                    lineColor: '#33AA11',
+                                    upLineColor: '#DD2200',
+                                    maker: {
+                                        states: {
+                                            hover: {
+                                                enabled: false,
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            legend: {
+                                enabled: false
+                            },
+                            scrollbar:{
+                              enabled:false
+                            },
+                            navigator:{
+                              enabled:false
+                            },
+                            rangeSelector:{
+                              enabled:false
+                            },
+                            yAxis: [{
+                                lineWidth: 1
+
+                            }],
+                            series: [{
+                                type: 'candlestick',
+                                name: '价格',
+                                data: chartJsonDataArr,
+                                id: 'dataseries',
+                                showInLegend: false
+                            }, {
+                                type: 'flags',
+                                data: shortYArr,
+                                onSeries: "dataseries",
+                                shape: 'squarepin',
+                                width: 30,
+                                color: '#ff9912',
+                                fillColor: 'transparent',
+                                style: {
+                                    color: '#ff9912'
+                                },
+                                y: -30,
+                                name: '看空',
+                            },{
+                                type: 'flags',
+                                data: buyYArr,
+                                onSeries: "dataseries",
+                                shape: 'squarepin',
+                                width: 30,
+                                color: "#4169e1",
+                                fillColor: 'transparent',
+                                style: {
+                                    color: '#4169e1'
+                                },
+                                y: 10,
+                                name: '看多',
+                            }]
+                        });
+
+
+                    };
+                });
+            });
+
+            $("."+item._id).css('display','block');
+        }
+
+        $scope.over1 = function(index){
+            $("."+index).css('display','none');
+        }
+
+
+        var charrJson1=[]
         function draw(marketData){
-            var charrJson1=[],volume=[],latest=[],key,line5=[],line10=[],line30=[],line60=[];
+            var volume=[],latest=[],key,line5=[],line10=[],line30=[],line60=[];
             angular.forEach(marketData, function (data, index) {
                 charrJson1.push({
                     "x": data.datetime,
@@ -1845,6 +2102,7 @@
                 })
             });
 
+
             latest[0]=charrJson1[charrJson1.length-1].close;
             latest[1]=charrJson1[volume.length-1].volume;
             $scope.close=latest[0];
@@ -1859,7 +2117,6 @@
                 }
             });
             $('#highchart_view').highcharts('StockChart', {
-
                 credits: {
                     enabled: false
                 },
@@ -1997,7 +2254,13 @@
 
                 }]
             });
+
         }
+
+
+
+
+
         //实盘模拟
         $scope.firm=function(){
             if(window.b ==1){
@@ -2033,7 +2296,6 @@
                     })
                     .success(function (data) {
                         marketData1 = data;
-                        console.log(marketData1)
                         draw1(marketData1)
 
                     })
@@ -2289,6 +2551,7 @@
                     .success(function (data) {
                         //console.log(data)
                         timeList2[n2++] = data[data.length - 1];
+                        falsedata2[i].time = data[data.length - 1];
                         i++;
                         if (i >= falsedata2.length) {
                             getIdDate2();
@@ -2526,7 +2789,6 @@
                                     aloneshort.splice(j, 1);
                                 } else {
                                     nowdata.splice(i, 1);
-                                    //console.log("发现无配对平仓")
                                     i--;
                                 }
                             }
@@ -2547,7 +2809,6 @@
                                     alonebuy.splice(j, 1);
                                 } else {
                                     nowdata.splice(i, 1);
-                                    //console.log("发现无配对平仓")
                                     i--;
                                 }
                             }
@@ -2760,6 +3021,7 @@
                         })
                             .success(function(data){
                                  timeList[n++] = data[data.length-1];
+                                 histroy[i].time = data[data.length-1];
                                 i++;
                                 if (i >= histroy.length) {
                                     getIdDate();
@@ -2928,6 +3190,7 @@
                     })
                     .success(function (data) {
                         timeList[n++] = data[data.length - 1];
+                        delTrust[i].time = data[data.length - 1];
                         i++;
                         if (i >= delTrust.length) {
                             getIdDate();
@@ -3053,6 +3316,7 @@
                     })
                     .success(function (data) {
                         timeList2[n2++] = data[data.length - 1];
+                        delFirm[i].time = data[data.length - 1];
                         i++;
                         if (i >= delFirm.length) {
                             getIdDate2();
@@ -4768,7 +5032,7 @@
             model();
             function getFirmTime() {
                 var defer1 = $q.defer(); //通过$q服务注册一个延迟对象 defer1
-                              $http.get(constantUrl + 'transactions/', {
+                $http.get(constantUrl + 'transactions/', {
                         params: {
                             "sty_id": myFirm._id,
                             "start": $scope.myFirmDate,
@@ -4782,8 +5046,6 @@
                         for(var i =0; i< data.length;i++) {
                             beginData[i] = data[i];
                         }
-                        console.log(beginData)
-
                         function trueRes(nowdata) {
                             var aloneshort = [];
                             var alonebuy = [];
@@ -4982,7 +5244,9 @@
             //获取当前股价行情 时间根据交易时间的第一笔截至
             function getTransTime(chartData11) {
                 var defer2 = $q.defer();
+
                 var a = $filter('date')(new Date((new Date(stime)).setDate((new Date(stime)).getDate())), 'yyyy-MM-dd');
+
                 var b = $filter('date')(new Date((new Date(etime)).setDate((new Date(etime)).getDate() + 1)), 'yyyy-MM-dd');
                 if (chartData11.length == 0) {
                     b = $filter('date')(new Date((new Date(etime)).setDate((new Date(etime)).getDate())), 'yyyy-MM-dd');
@@ -5332,7 +5596,7 @@
                             return sortFun;
                         }
                         alldata2.sort(getSortFun('desc', 'open'));
-                        console.log(alldata2);
+
                         if(alldata2.length==0){
                             for (var i = 0; i < beginData.length; i++) {
                                 if(beginData[i].trans_type=='cover'){
@@ -5602,12 +5866,9 @@
                             })
                         }
                         function nullToData(chartData11){
-
                             for (var i = 0; i < chartData11.length; i++) {
                                 var data = chartData11[i]; //保存开仓价信息
-
                                 if (data.trans_type == "short") {
-
                                     shortYArr.push({
                                         "text": '成交价：￥' + data.price + '<br>成交量：' + data.volume + '<br>操作：卖开仓' + '<br>方向：看空',
                                         "volume": data.volume,
@@ -5851,6 +6112,7 @@
                                 color: 'red'
                             }]
                         });
+
                         $('#return_map_big_form').highcharts('StockChart', {
                             credits: {
                                 enabled: false
@@ -8034,7 +8296,6 @@
                     i = a.$index; //点击的第几个
                     strategysValue.id = scope.mySourcingStrategy[i]._id;
                     strategysValue.author = scope.mySourcingStrategy[i].author;
-
                     $('.his-mask').fadeIn();
                 }
 
@@ -8042,7 +8303,6 @@
                     i = a.$index; //点击的第几个
                     strategysValue.id = scope.mySourcingStrategy[i]._id;
                     strategysValue.author = scope.mySourcingStrategy[i].author;
-
                     $('.firm-mask').fadeIn();
                 }
                 scope.addtrue = function (a) {
@@ -8479,9 +8739,11 @@
                                     }
                                 })
                                 .success(function () {
-                                    /*$route.reload();*/
-                                    scope.gettrueStrategys();
-                                    /*Showbo.Msg.alert('删除成功。')*/
+                                    //scope.allStrategys = [];
+                                    scope.gettrueStrategys();//真实交易
+                                    scope.getFirmStrategys(); //刷新实盘
+                                    scope.getHisStrategys();//回测列表
+
                                 })
                                 .error(function (err, sta) {
                                     Showbo.Msg.alert('删除失败，请稍后再试。')
@@ -8529,11 +8791,11 @@
                                     }
                                 })
                                 .success(function () {
-                                    /*$route.reload();*/
-                                    scope.allStrategys = [];
-                                    scope.gettrueStrategys();
-                                    scope.getFirmStrategys(); //刷新实盘/回测列表/回收站
-                                    scope.getHisStrategys();
+
+                                    //scope.allStrategys = [];
+                                    scope.gettrueStrategys();//真实交易
+                                    scope.getFirmStrategys(); //刷新实盘
+                                    scope.getHisStrategys();//回测列表
                                     /*Showbo.Msg.alert('删除成功。')*/
                                 })
                                 .error(function (err, sta) {
@@ -8543,8 +8805,7 @@
                         } else if (flag == 'no') {
                         }
                     });
-
-                }
+                };
 
                 //实盘模拟移至历史交易
                 scope.removeStrategy = function (a) {

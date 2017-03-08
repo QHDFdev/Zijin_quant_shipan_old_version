@@ -56,7 +56,27 @@
                             <div>
                                 <div class="name">
                                     <span class="{{x.color}}">{{$index+1}}</span>
-                                    <span><a ng-click="jump('AccountTrade',x._id)">{{x.name}}</a></span>
+                                    <span>
+                                        <a ng-click="drawEach(x,true)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
+                                        <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
+                                    </span>
+                                    <!--<span class="time">交易时间：<e>{{x.time}}</e></span>-->
+                                </div>
+                                <div class="drawEach">
+
+                                    <div class="{{x._id}}">
+                                        <div class="loadEffect">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                             <div>
@@ -99,7 +119,6 @@
                                 <div class="ul1">
                                     <span>正在运行：<code>{{fRun}}</code></span>
                                     <span>停止运行：<code>{{fStop}}</code></span>
-
                                 </div>
                             </div>
                             <div class="dealProduct">
@@ -122,9 +141,28 @@
                 <div class="section">
                     <ul class="contentS">
                         <li ng-repeat="x in flase |filter:{symbol:key1}">
-                            <div class="name">
-                                <span class="{{x.color}}">{{$index+1}}</span>
-                                <span><a ng-click="jump('SimRealTimeTrade',x._id)">{{x.name}}</a></span>
+                            <div>
+                                <div class="name">
+                                    <span class="{{x.color}}">{{$index+1}}</span>
+                                    <span>
+                                        <a ng-click="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
+                                        <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
+                                    </span>
+                                </div>
+                                <div class="drawEach">
+                                    <div class={{x._id}}>
+                                        <div class="loadEffect">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div>
                                 <div class="left">
@@ -149,7 +187,6 @@
                             <span>最新成交量：<code>{{volume1}}</code></span>
                         </div>
                         <div id="highchart_moni"></div>
-
                     </div>
                     <div id="container1">
                         <div class="stick"></div>
@@ -201,9 +238,28 @@
                     </div>
                     <ul class="contentS">
                         <li ng-repeat="x in histroy | filter:{symbol:key2}">
-                            <div class="name">
-                                <span class="{{x.color}}">{{$index+1}}</span>
-                                <span><a ng-click="jump('BackTest',x._id)">{{x.name}}</a></span>
+                            <div>
+                                <div class="name">
+                                    <span class="{{x.color}}">{{$index+1}}</span>
+                                    <span>
+                                        <a ng-click="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
+                                        <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
+                                    </span>
+                                </div>
+                                <div class="drawEach">
+                                    <div class={{x._id}}>
+                                        <div class="loadEffect">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div>
                                 <div class="left">
@@ -222,7 +278,6 @@
                         </li>
                     </ul>
                     <div class="draw">
-
                         <div id="highchart_his"></div>
                     </div>
                 </div>
@@ -230,7 +285,6 @@
             <div role="tabpanel" class="tab-pane" id="history_deal">
                 <div class="container-fluid">
                     <div class="row">
-
                         <div class="tip1">
                             <div class="tip1_1">
                                 <div class="ul1">
@@ -269,9 +323,28 @@
                     <div class="contentS">
                         <ul>
                             <li ng-repeat="x in histroyTrust |filter:{symbol:key4}">
-                                <div class="name">
-                                    <span class="{{x.color}}">{{$index+1}}</span>
-                                    <span><a ng-click="jump('AccountTrade',x._id)">{{x.name}}</a></span>
+                                <div>
+                                    <div class="name">
+                                        <span class="{{x.color}}">{{$index+1}}</span>
+                                        <span>
+                                            <a ng-click="drawEach(x,true)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
+                                            <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
+                                        </span>
+                                    </div>
+                                    <div class="drawEach">
+                                        <div class={{x._id}}>
+                                            <div class="loadEffect">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div>
                                     <div class="left">
@@ -295,9 +368,29 @@
                         </ul>
                         <ul>
                             <li ng-repeat="x in histroyFlase |filter:{symbol:key4}">
-                                <div class="name">
-                                    <span class="{{x.color}}">{{$index+1}}</span>
-                                    <span><a ng-click="jump('SimRealTimeTrade',x._id)">{{x.name}}</a></span>
+                                <div>
+                                    <div class="name">
+                                        <span class="{{x.color}}">{{$index+1}}</span>
+                                        <span>
+                                            <a ng-click="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
+                                            <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
+                                        </span>
+                                    </div>
+                                    <div class="drawEach">
+                                        <div class={{x._id}}>
+                                            <div class="loadEffect">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div>
                                     <div class="left">
