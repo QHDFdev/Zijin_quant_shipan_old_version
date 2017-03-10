@@ -141,6 +141,8 @@
         $scope.getAllUsers();
     }])
     .controller('homeController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl) {
+        window.b=0;
+        window.c=0;
         if ($cookieStore.get('user') == null) {
             $scope.aside = 'full';
         }
@@ -206,7 +208,8 @@
         };
     }])
     .controller('tableController', ['$scope', 'strategyResources', 'strategyResource', '$http', '$timeout', '$cookieStore', 'constantUrl', 'strategysValue', 'myStrategysValue', '$filter', function ($scope, strategyResourcess, strategyResource, $http, $timeout, $cookieStore, constantUrl, strategysValue, myStrategysValue, $filter) {
-
+        window.b=0;
+        window.c=0;
         $scope.func = function (e) {
             return e["status"] != -2;
         };
@@ -236,7 +239,7 @@
         var accounts = [];
         var strategyList=[];
         //策略代码渲染到页面
-       $scope.putScreen=function(page){
+        $scope.putScreen=function(page){
             $scope.page=page;
             $scope.mySourcingStrategy=[];
             $scope.mySourcingStrategy = strategyList[page];
@@ -257,7 +260,7 @@
             $scope.getFirmStrategys(); //显示实盘/回测列表
             $scope.getHisStrategys();
             $scope.gettrueStrategys();
-       };
+        };
         $scope.getSourcingStrategys = function () {
             $http.get(constantUrl + "classs/", {
                     headers: {
@@ -387,6 +390,7 @@
                         }
                     }
                     $scope.trueStrategy = data;
+
                     $scope.error = 0, $scope.loading = 0, $scope.loaded = 0, $scope.start = 0, $scope.stop = 0, $scope.over = 0, $scope.trust = 0;
                     for (var i = 0; i < data.length; i++) {
                         $scope.trueStrategy[i].class_name = "none"; //策略代码初始化
@@ -449,7 +453,7 @@
                         trueDelPageSize.push({
                             "page":q
                         });
-                       q++;
+                        q++;
                     }
                     $scope.trueDelPageSize =trueDelPageSize;
 
@@ -636,7 +640,7 @@
                         }
                     })
 
-                    var simStragey=[]
+                    var simStragey=[];
                     angular.forEach(data,function(item,index){
                         if(item.status !=-2){
                             simStragey.push(item)
@@ -670,7 +674,6 @@
                     $scope.putScreenSimDel(0);
                     //没有删除的实盘
                     var n= 0,simPageSize=[];
-
                     for(var i=0;i<simStragey.length;i=i+10){
                         var list = [];
                         for(var j=0;(i+j)<simStragey.length&&j<10;j++){
@@ -854,10 +857,10 @@
                 })
                 .success(function (data) {
                     setTimeout(function () {
-                        scope.gettrueStrategys();//真实交易
-                        scope.getFirmStrategys(); //刷新实盘
-                        scope.getHisStrategys();//回测列表
-                    }, 100)
+                        $scope.gettrueStrategys();//真实交易
+                        $scope.getFirmStrategys(); //刷新实盘
+                        $scope.getHisStrategys();//回测列表
+                    }, 100);
                     $('.zijin-table-mask').fadeOut();
                     Showbo.Msg.alert('添加成功');
                 })
@@ -922,16 +925,15 @@
                     }
                 })
                 .success(function (data) {
-                    $scope.gettrueStrategys();
-                    $scope.getFirmStrategys();
-                    $scope.addHisStrategy();
-
+                    setTimeout(function () {
+                        $scope.getFirmStrategys(); //刷新实盘
+                        $scope.getHisStrategys();//回测列表
+                        $scope.gettrueStrategys();//真实交易
+                    }, 100);
                     $('.zijin-table-mask').fadeOut();
                     Showbo.Msg.alert('添加成功');
                 })
                 .error(function (err, st) {
-                    //console.log(err);
-                    //console.log(st);
                     $('.zijin-table-mask').fadeOut();
                     Showbo.Msg.alert('添加失败，请稍后再试。');
                 });
@@ -1019,7 +1021,6 @@
             symbol = $scope.hisItem.symbol;
             exchange = $scope.hisItem.exchange;
             $http.get(constantUrl + "dates/", {
-                    //params: {type: ty, date_type: 'data',symbol:"D1_AG",exchange:"CSRPME"},
                     params: {
                         type: ty,
                         date_type: 'data',
@@ -1270,40 +1271,12 @@
                 .mouseout(function () {
                     $('#title').hide()
                 })
-        })
-
-
-
-        //$scope.allStrategys = allRecStrategys
-
-/*
-
-        var m= 0,stratgeListRec=[];
-
-        for(var i=0;i<allRecStrategys.length;i=i+10){
-            var list = [];
-            for(var j=0;(i+j)<allRecStrategys.length&&j<10;j++){
-                list.push(allRecStrategys[i+j]);
-            }
-            stratgeListRec[m]=list;
-
-            m++;
-        }
-
-
-        $scope.putScreenRec =function(page){
-            $scope.allStrategys=[];
-            $scope.allStrategys = stratgeListRec[page]
-        }
-        $scope.putScreenRec(0)
-*/
-
-
-
-
+        });
 
     }])
     .controller('userController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', 'myStrategysValue', '$q', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, myStrategysValue, $q) {
+        window.b=0;
+        window.c=0;
         $scope.adduser = function () {
             $http.post(constantUrl + 'users/', $scope.user)
                 .success(function (data) {
@@ -1311,8 +1284,6 @@
                     $location.path('/login');
                 })
                 .error(function (err, sta) {
-                    //console.log(err);
-                    //console.log(sta);
                     Showbo.Msg.alert('注册失败，请联系管理员。');
                 });
         };
@@ -1369,26 +1340,9 @@
             }, function () {
                 Showbo.Msg.alert('登录失败。');
             });
-            /*$http.post(constantUrl+'api-token-auth/',$scope.user)
-             .success(function(data){
-             $cookieStore.put('user',{
-             username:username,
-             password:password,
-             token:token
-             });
-             $rootScope.user=$cookieStore.get('user');
-             Showbo.Msg.alert('登录成功');
-             $location.path('/home');
-             //console.log($cookieStore.get('user'));
-             })
-             .error(function(err,sta){
-             //console.log(err);
-             //console.log(sta);
-             Showbo.Msg.alert('登录失败，请联系管理员。');
-             })*/
         };
     }])
-    .controller('runCenterController', ['$scope', '$http', 'constantUrl', '$cookieStore', '$filter', '$routeParams', '$q', '$timeout','$rootScope', function ($scope, $http, constantUrl, $cookieStore, $filter, $routeParams, $q, $timeout,$rootScope) {
+    .controller('runCenterController', ['$scope', '$http', 'constantUrl', '$cookieStore', '$filter', '$routeParams', '$q', '$timeout','$rootScope','averline', function ($scope, $http, constantUrl, $cookieStore, $filter, $routeParams, $q, $timeout,$rootScope,averline) {
         $rootScope.user = $cookieStore.get('user');
         var falsedata = [], truedata = [],delTrust=[],delFirm=[];
         var accounts = [];
@@ -1426,7 +1380,6 @@
                     }
                 })
                 .success(function (data) {
-
                     for (var i = 0; i < data.length; i++) {
                         data[i].account_id == null ? falsedata.push(data[i]) : truedata.push(data[i]);
                     }
@@ -1467,7 +1420,7 @@
                     })
                     .success(function (data) {
                         timeList[n++] = data[data.length - 1];
-                        truedata2[i].time=data[data.length-1]
+                        truedata2[i].time=data[data.length-1];
                         i++;
                         if (i == truedata2.length) {
                             getIdDate();
@@ -1564,10 +1517,8 @@
                     $timeout(function () {
                         putScreen();
                     }, 500);
-
                     return;
                 }
-
                 getAllNianHua(i);
             }
 
@@ -1638,89 +1589,8 @@
                     }
                 }
                 $scope.symbolList = symbolList1;
-                //asdfasf();
             }
         }
-
-        //MA5
-        function averline5(data){
-            var averline5 = [];
-            for (var i = data.length - 1; i >= 4; i--) {
-                var aver = data[i].close, n = 0;
-                for (var j = i; n < 4; j--) {
-                    aver = aver + data[j - 1].close;
-                    n++;
-                }
-                averline5.push({
-                    'average': aver / 5,
-                    "x": data[i].x,
-                    "y": aver / 5,
-                })
-            }
-            averline5 = $filter('orderBy')(averline5, 'x');
-            return averline5;
-        }
-
-        //MA10
-
-     function averline10(data){
-         var averline10 = [];
-         for (var i = data.length - 1; i >= 9; i--) {
-             var aver10 = data[i].close, n = 0;
-             for (var j = i; n < 9; j--) {
-                 aver10 = aver10 + data[j - 1].close;
-                 n++;
-             }
-             averline10.push({
-                 'average': aver10 / 10,
-                 "x": data[i].x,
-                 "y": aver10 / 10,
-             })
-         }
-
-         averline10 = $filter('orderBy')(averline10, 'x');
-         return averline10;
-     }
-
-        //MA30
-        function averline30(data){
-            var averline30 = [];
-            for (var i = data.length - 1; i >= 29; i--) {
-                var aver30 = data[i].close, n = 0;
-                for (var j = i; n < 29; j--) {
-                    aver30 = aver30 + data[j - 1].close;
-                    n++;
-                }
-                averline30.push({
-                    'average': aver30 / 30,
-                    "x": data[i].x,
-                    "y": aver30 / 30,
-                })
-            }
-            averline30 = $filter('orderBy')(averline30, 'x');
-            return averline30;
-        }
-
-          //MA60
-       function averline60(data){
-           var averline60 = [];
-           for (var i = data.length - 1; i >= 59; i--) {
-               var aver60 = data[i].close, n = 0;
-               for (var j = i; n < 59; j--) {
-                   aver60 = aver60 + data[j - 1].close;
-                   n++;
-               }
-               averline60.push({
-                   'average': aver60 / 60,
-                   "x": data[i].x,
-                   "y": aver60 / 60,
-               })
-           }
-           averline60 = $filter('orderBy')(averline60, 'x');
-           return averline60;
-       }
-
-
         $scope.key = 'D1_AG';var marketData=[]
         $scope.chartJson =function(){
             var exchagne1,key;
@@ -2018,13 +1888,13 @@
                                 enabled: false
                             },
                             scrollbar:{
-                              enabled:false
+                                enabled:false
                             },
                             navigator:{
-                              enabled:false
+                                enabled:false
                             },
                             rangeSelector:{
-                              enabled:false
+                                enabled:false
                             },
                             yAxis: [{
                                 lineWidth: 1
@@ -2107,10 +1977,10 @@
             latest[1]=charrJson1[volume.length-1].volume;
             $scope.close=latest[0];
             $scope.volume = latest[1]
-            line5=averline5(charrJson1);
-            line10=averline10(charrJson1);
-            line30=averline30(charrJson1);
-            line60=averline60(charrJson1);
+            line5=averline.averageLine(charrJson1,5);
+            line10=averline.averageLine(charrJson1,10);
+            line30=averline.averageLine(charrJson1,30);
+            line60=averline.averageLine(charrJson1,60);
             Highcharts.setOptions({
                 global: {
                     useUTC: false
@@ -2258,9 +2128,6 @@
         }
 
 
-
-
-
         //实盘模拟
         $scope.firm=function(){
             if(window.b ==1){
@@ -2269,7 +2136,7 @@
             $scope.key1 = "D1_AG";
             $scope.chartJson2 =function(){
                 var exchagne1,key,charrJson1=[],volume=[],latest=[],line5=[],line10=[],line30=[],line60=[];
-                var marketData1=[]
+                var marketData1=[];
                 key=$scope.key1[0]+$scope.key1[1];
                 if(key == "D1" || key == 'D6'){
                     exchagne1 = 'CSRPME'
@@ -2297,16 +2164,13 @@
                     .success(function (data) {
                         marketData1 = data;
                         draw1(marketData1)
-
                     })
                     .error(function(data){
                         $http.get(constantUrl + 'datas/', {
                                 params: {
                                     "type": 'bar',
                                     "exchange": exchagne1,
-                                    //"exchange": "CTP",
                                     "symbol": $scope.key1,
-                                    //"symbol": "IF",
                                     "start": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() - 1)), 'yyyy-MM-dd'),
                                     "end": getNowFormatDate()
                                 },
@@ -2316,7 +2180,6 @@
                             })
                             .success(function (data) {
                                 marketData1 = data;
-
                                 draw1(marketData1)
 
                             })
@@ -2353,12 +2216,11 @@
                 latest[0]=charrJson1[charrJson1.length-1].close;
                 latest[1]=charrJson1[volume.length-1].volume;
                 $scope.close1=latest[0];
-                $scope.volume1 = latest[1]
-
-                line5=averline5(charrJson1);
-                line10=averline10(charrJson1);
-                line30=averline30(charrJson1);
-                line60=averline60(charrJson1);
+                $scope.volume1 = latest[1];
+                line5=averline.averageLine(charrJson1,5);
+                line10=averline.averageLine(charrJson1,10);
+                line30=averline.averageLine(charrJson1,30);
+                line60=averline.averageLine(charrJson1,60);
                 Highcharts.setOptions({
                     global: {
                         useUTC: false
@@ -2969,10 +2831,8 @@
             var test;
             var symbol = s[0] + s[1];
             if (flag == "看多") {
-                //console.log("看多");
                 test = a - b;
             } else {
-                //console.log("看空");
                 test = b - a;
             }
             if(symbol == "bt"){
@@ -3011,17 +2871,17 @@
                     getTimes(0);
                     function getTimes(i){
                         $http.get(constantUrl + 'dates/', {
-                            params: {
-                                "date_type": 'transaction',
-                                "sty_id": histroy[i]._id
-                            },
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                                params: {
+                                    "date_type": 'transaction',
+                                    "sty_id": histroy[i]._id
+                                },
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
                             .success(function(data){
-                                 timeList[n++] = data[data.length-1];
-                                 histroy[i].time = data[data.length-1];
+                                timeList[n++] = data[data.length-1];
+                                histroy[i].time = data[data.length-1];
                                 i++;
                                 if (i >= histroy.length) {
                                     getIdDate();
@@ -3349,7 +3209,7 @@
                 }
                 getAllData2(0);
             }
-            console.log(IdDateList2)
+
             var i = 0;
             var allDataList2 = [];
             var p = 0;
@@ -3447,7 +3307,8 @@
             return currentdate;
         }
     }])
-    .controller('analyseController', ['$scope', '$rootScope', '$filter', '$http', 'constantUrl', '$cookieStore', 'myStrategysValue', '$q', function ($scope, $rootScope, $filter, $http, constantUrl, $cookieStore, myStrategysValue, $q) {
+    .controller('analyseController', ['$scope', '$rootScope', '$filter', '$http', 'constantUrl', '$cookieStore', 'myStrategysValue', '$q','averline', function ($scope, $rootScope, $filter, $http, constantUrl, $cookieStore, myStrategysValue, $q,averline) {
+        window.b=0;
         $scope.closeModal = function () {
             $('.analyse-modal-big').hide();
         };
@@ -4274,81 +4135,13 @@
                                 'open': data.open,
                                 'volume': data.volume
                             })
-                        })
+                        });
 
-                        // console.log(volume)
-
-
-                        //MA5
-                        var averline5 = [];
-                        for (var i = chartJsonDataArr.length - 1; i >= 4; i--) {
-                            var aver = chartJsonDataArr[i].close, n = 0;
-                            for (var j = i; n < 4; j--) {
-                                aver = aver + chartJsonDataArr[j - 1].close;
-                                n++;
-                            }
-                            averline5.push({
-                                'average': aver / 5,
-                                "x": chartJsonDataArr[i].x,
-                                "y": aver / 5,
-                            })
-                        }
-                        averline5 = $filter('orderBy')(averline5, 'x');
-
-
-                        //MA10
-
-                        var averline10 = [];
-                        for (var i = chartJsonDataArr.length - 1; i >= 9; i--) {
-                            var aver10 = chartJsonDataArr[i].close, n = 0;
-                            for (var j = i; n < 9; j--) {
-                                aver10 = aver10 + chartJsonDataArr[j - 1].close;
-                                n++;
-                            }
-                            averline10.push({
-                                'average': aver10 / 10,
-                                "x": chartJsonDataArr[i].x,
-                                "y": aver10 / 10,
-                            })
-                        }
-
-                        averline10 = $filter('orderBy')(averline10, 'x');
-
-                        //MA30
-                        var averline30 = [];
-                        for (var i = chartJsonDataArr.length - 1; i >= 29; i--) {
-                            var aver30 = chartJsonDataArr[i].close, n = 0;
-                            for (var j = i; n < 29; j--) {
-                                aver30 = aver30 + chartJsonDataArr[j - 1].close;
-                                n++;
-                            }
-                            averline30.push({
-                                'average': aver30 / 30,
-                                "x": chartJsonDataArr[i].x,
-                                "y": aver30 / 30,
-                            })
-                        }
-
-                        averline30 = $filter('orderBy')(averline30, 'x');
-
-                        //MA60
-                        var averline60 = [];
-                        for (var i = chartJsonDataArr.length - 1; i >= 59; i--) {
-                            var aver60 = chartJsonDataArr[i].close, n = 0;
-                            for (var j = i; n < 59; j--) {
-                                aver60 = aver60 + chartJsonDataArr[j - 1].close;
-                                n++;
-                            }
-                            averline60.push({
-                                'average': aver60 / 60,
-                                "x": chartJsonDataArr[i].x,
-                                "y": aver60 / 60,
-                            })
-                        }
-                        averline60 = $filter('orderBy')(averline60, 'x');
-
-
-
+                        var averline5=[],averline10=[],averline30=[],averline60=[];
+                        averline5=averline.averageLine(chartJsonDataArr,5);
+                        averline10=averline.averageLine(chartJsonDataArr,10);
+                        averline30=averline.averageLine(chartJsonDataArr,30);
+                        averline60=averline.averageLine(chartJsonDataArr,60);
                         $('#return_map_big').highcharts('StockChart', {
                             credits: {
                                 enabled: false
@@ -4925,7 +4718,9 @@
     }])
 
     // 历史/实盘测试
-    .controller('actualResController', ['$scope', '$rootScope', '$filter', '$http', 'constantUrl', '$cookieStore', 'myStrategysValue', '$q', function ($scope, $rootScope, $filter, $http, constantUrl, $cookieStore, myStrategysValue, $q) {
+    .controller('actualResController', ['$scope', '$rootScope', '$filter', '$http', 'constantUrl', '$cookieStore', 'myStrategysValue', '$q','averline', function ($scope, $rootScope, $filter, $http, constantUrl, $cookieStore, myStrategysValue, $q,averline) {
+        window.b=0;
+        window.c=0;
         $scope.closeModal = function () {
             $('.analyse-modal-big').hide();
         };
@@ -5804,67 +5599,14 @@
                             })
 
                         })
-                        //MA5
-                        var averline5 = [];
-                        for (var i = chartJsonDataArr.length - 1; i >= 4; i--) {
-                            var aver = chartJsonDataArr[i].close, n = 0;
-                            for (var j = i; n < 4; j--) {
-                                aver = aver + chartJsonDataArr[j - 1].close;
-                                n++;
-                            }
-                            averline5.push({
-                                'average': aver / 5,
-                                "x": chartJsonDataArr[i].x,
-                                "y": aver / 5,
-                            })
-                        }
-                        averline5 = $filter('orderBy')(averline5, 'x');
 
-                        //MA10
 
-                        var averline10 = [];
-                        for (var i = chartJsonDataArr.length - 1; i >= 9; i--) {
-                            var aver10 = chartJsonDataArr[i].close, n = 0;
-                            for (var j = i; n < 9; j--) {
-                                aver10 = aver10 + chartJsonDataArr[j - 1].close;
-                                n++;
-                            }
-                            averline10.push({
-                                'average': aver10 / 10,
-                                "x": chartJsonDataArr[i].x,
-                                "y": aver10 / 10,
-                            })
-                        }
-                        averline10 = $filter('orderBy')(averline10, 'x');
-                        //MA30
-                        var averline30 = [];
-                        for (var i = chartJsonDataArr.length - 1; i >= 29; i--) {
-                            var aver30 = chartJsonDataArr[i].close, n = 0;
-                            for (var j = i; n < 29; j--) {
-                                aver30 = aver30 + chartJsonDataArr[j - 1].close;
-                                n++;
-                            }
-                            averline30.push({
-                                'average': aver30 / 30,
-                                "x": chartJsonDataArr[i].x,
-                                "y": aver30 / 30,
-                            })
-                        }
-                        averline30 = $filter('orderBy')(averline30, 'x');
-                        //MA60
-                        var averline60 = [];
-                        for (var i = chartJsonDataArr.length - 1; i >= 59; i--) {
-                            var aver60 = chartJsonDataArr[i].close, n = 0;
-                            for (var j = i; n < 59; j--) {
-                                aver60 = aver60 + chartJsonDataArr[j - 1].close;
-                                n++;
-                            }
-                            averline60.push({
-                                'average': aver60 / 60,
-                                "x": chartJsonDataArr[i].x,
-                                "y": aver60 / 60,
-                            })
-                        }
+                        var averline5=[],averline10=[],averline30=[],averline60=[];
+                        averline5=averline.averageLine(chartJsonDataArr,5);
+                        averline10=averline.averageLine(chartJsonDataArr,10);
+                        averline30=averline.averageLine(chartJsonDataArr,30);
+                        averline60=averline.averageLine(chartJsonDataArr,60);
+
                         function nullToData(chartData11){
                             for (var i = 0; i < chartData11.length; i++) {
                                 var data = chartData11[i]; //保存开仓价信息
@@ -6496,6 +6238,8 @@
         };
     }])
     .controller('complieController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', '$route', '$timeout', '$q', '$interval', '$filter', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, $route, $timeout, $q, $interval, $filter) {
+        window.b=0;
+        window.c=0;
         $scope.fate = 0;
         var editor;
         var myClassId;
@@ -7780,7 +7524,8 @@
 
     .controller('modalResController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', 'modalResObjList0', 'modalResObjList1', 'modalResObjList2', 'modalResObjList3', 'modalResObjList4', 'storageModalRes', 'getModalResList', 'modalResObjItems', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, modalResObjList0, modalResObjList1, modalResObjList2, modalResObjList3, modalResObjList4, storageModalRes, getModalResList, modalResObjItems) {
 
-
+        window.b=0;
+        window.c=0;
         $scope.modalResObjItem = modalResObjItems;
         $scope.username = $cookieStore.get('user').username;
         $scope.getOpen = function () {
@@ -8055,9 +7800,9 @@
                 $scope.modalResObj.content = $("#content7").val();
                 //console.log($scope.modalResMet.content)
                 //setTimeout(function () {
-                    $('.image').hide();
-                    $('.col-sm-offset-2').fadeIn();
-                    $scope.loadStaus = "上传";
+                $('.image').hide();
+                $('.col-sm-offset-2').fadeIn();
+                $scope.loadStaus = "上传";
                 //}, 500)
             });
 
@@ -8142,6 +7887,27 @@
             /*$scope.hash=$scope.mydata._id;*/
         });
     }])
+    .factory('averline',function(){
+        var factory = {};
+        factory.averageLine = function(data,num) {
+            var averline=[];
+            for (var i = data.length - 1; i >= (num-1); i--) {
+                var aver = data[i].close, n = 0;
+                for (var j = i; n < (num-1); j--) {
+                    aver = aver + data[j - 1].close;
+                    n++;
+                }
+                averline.push({
+                    'average': aver / num,
+                    "x": data[i].x,
+                    "y": aver / num
+                })
+            }
+            averline.sort(function(a,b){return a.x- b.x;});
+            return averline;
+        }
+        return factory;
+    })
     .factory('storageModalRes', function () {
         return {
             data: [],
