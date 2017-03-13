@@ -24,8 +24,7 @@
                 templateUrl: 'tpls/trueRes.html'
             })
             .when('/AccountTrade/:id', {
-                templateUrl: 'tpls/trueRes.html',
-
+                templateUrl: 'tpls/trueRes.html'
             })
             .when('/StrategyRunPanel', {
                 templateUrl: 'tpls/study.html',
@@ -67,7 +66,6 @@
                 templateUrl: 'tpls/modalResTemplate.html',
                 controller: 'modalResItemController'
             })
-
             .when('/model_methods/:id', {
                 templateUrl: 'tpls/modalResTemplate.html',
                 controller: 'modalResItemController'
@@ -94,7 +92,6 @@
             tabReplace: '    '
         });
     }])
-
     .run(['$rootScope', '$location', '$window', '$route', '$templateCache', function ($rootScope, $location, $window, $route, $templateCache) {
         var wow = new WOW({
             boxClass: 'wow',
@@ -137,7 +134,7 @@
         };
         $scope.func = function (e) {
             return e["name"] != 'sv123321';
-        }
+        };
         $scope.getAllUsers();
     }])
     .controller('homeController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl) {
@@ -218,7 +215,6 @@
         };
         $scope.allStrategys = [];
         var allRecStrategys=[],c=0;
-
         /* 源策略 */
         $scope.openMaskSourcing = function () {
             $('.sourcing-mask').fadeIn();
@@ -234,7 +230,6 @@
             var sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1');
             return sortFun;
         }
-
         //获取所有策略信息保存到accounts数组里
         var accounts = [];
         var strategyList=[];
@@ -312,8 +307,6 @@
                     Showbo.Msg.alert('添加成功');
                 })
                 .error(function (err, st) {
-                    //console.log(err);
-                    //console.log(st);
                     $('.zijin-table-mask').fadeOut();
                     Showbo.Msg.alert('添加失败，请稍后再试。');
                 });
@@ -1331,8 +1324,6 @@
                             $("#nav-sidebar li.active").removeClass('active');
                             $("#nav-sidebar li:nth-child(1)").addClass('active');
                         }
-                        //$location.path('/home');
-
                     })
                     .error(function (err, sta) {
                         Showbo.Msg.alert('登录失败。');
@@ -1344,9 +1335,7 @@
     }])
     .controller('runCenterController', ['$scope', '$http', 'constantUrl', '$cookieStore', '$filter', '$routeParams', '$q', '$timeout','$rootScope','averline', function ($scope, $http, constantUrl, $cookieStore, $filter, $routeParams, $q, $timeout,$rootScope,averline) {
         $rootScope.user = $cookieStore.get('user');
-        var falsedata = [], truedata = [],delTrust=[],delFirm=[];
-        var accounts = [];
-        var nianHuaList = [];
+        var falsedata = [], truedata = [],delTrust=[],delFirm=[],accounts=[],nianHuaList = [];
         //策略代码渲染到页面
         $scope.getSourcingStrategys = function () {
             accounts = [];
@@ -1357,13 +1346,13 @@
                 })
                 .success(function (data) {
                     accounts = data;
+                    trustDeals()
                 })
                 .error(function (err, sta) {
                     Showbo.Msg.alert('网络错误，请稍后再试。');
                 });
         };
         $scope.getSourcingStrategys();
-
         function getcelve(class_id) {
             for (var i = 0; i < accounts.length; i++) {
                 if (accounts[i]._id == class_id) {
@@ -1371,8 +1360,7 @@
                 }
             }
         }
-        $scope.sRun = 0, $scope.sStop = 0, $scope.sHui = 0,$scope.fHui = 0;
-        //判断真实交易、实盘模拟
+
         function judge(){
             $http.get(constantUrl + "strategys/", {
                     headers: {
@@ -1389,8 +1377,169 @@
                 });
         }
         judge();
+        //操作
+       function deal(data1,flag,need){
+           var defer1 = $q.defer();
+           var newData = data1;
+           var timeList = [],n= 0,IdDateList=[],allDataList = [],m = 0;
+           getTimes(0);
+           function getTimes(i) {
+               $http.get(constantUrl + 'dates/', {
+                       params: {
+                           "date_type": 'transaction',
+                           "sty_id": newData[i]._id
+                       },
+                       headers: {
+                           'Authorization': 'token ' + $cookieStore.get('user').token
+                       }
+                   })
+                   .success(function (data) {
+                       timeList[n++] = data[data.length - 1];
+                       newData[i].time=data[data.length-1];
+                       i++;
+                       if (i == newData.length) {
+                           getIdDate();
+                           return;
+                       }
+                       getTimes(i);
+                   })
+                   .error(function(data){
+                       timeList[n++]=0;
+                       newData[i].time=data[data.length-1];
+                       i++;
+                       if (i == newData.length) {
+                           getIdDate();
+                           return;
+                       }
+                       getTimes(i);
+                   })
+           }
+           function getIdDate() {
+               for (var i = 0; i < newData.length; i++) {
+                   var id = newData[i]._id;
+                   var sDate = timeList[i];
+                   var eDate = $filter('date')(new Date((new Date(timeList[i])).setDate((new Date(timeList[i])).getDate() + 1)), 'yyyy-MM-dd');
+                   IdDateList.push({
+                       'id': id,
+                       'sDate': sDate,
+                       'eDate': eDate
+                   })
+               }
+               getAllData(0);
+           }
+           function getAllData(i) {
+               var nothing = new Array();
+               $http.get(constantUrl + 'transactions/', {
+                       params: {
+                           "sty_id": IdDateList[i].id,
+                           "start": IdDateList[i].sDate,
+                           "end": IdDateList[i].eDate
+                       },
+                       headers: {
+                           'Authorization': 'token ' + $cookieStore.get('user').token
+                       }
+                   })
+                   .success(function (data) {
+                       allDataList[m++] = data;
+                       i++;
+                       if (i >= IdDateList.length) {
+                           getAllNianHua(0);
+                           return;
+                       }
+                       getAllData(i);
+                   })
+                   .error(function(data){
+                       allDataList[m++] =nothing;
+                       i++;
+                       if (i >= IdDateList.length) {
+                           getAllNianHua(0);
+                           return;
+                       }
+                       getAllData(i);
+                   })
+           }
+           function getAllNianHua(i) {
+               var nowData = allDataList[i];
+               if(flag==true){
+                   handledata(true, nowData, timeList[i], IdDateList[i].id);
+               }
+               else{
+                   handledata(false, nowData, timeList[i], IdDateList[i].id);
+               }
+               i++;
+               if (i >= allDataList.length) {
+                   $timeout(function () {
+                       putScreen();
+                   }, 500);
+                   return;
+               }
+               getAllNianHua(i);
+           }
+           var newData1=[],d=0;
+           function putScreen() {
+               for (var i = 0; i < nianHuaList.length; i++) {
+                   var id = nianHuaList[i].nowId;
+                   var nianhua = nianHuaList[i].nianhua;
+                   var average_winrate = nianHuaList[i].average_winrate;
+                   for (j = 0; j < newData.length; j++) {
+                       if (newData[j]._id == id) {
+                           newData[j].yeild = nianhua;
+                           newData[j].average_winrate = average_winrate;
+                           newData[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
+                           newData[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
+
+                           newData[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
+                           newData[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
+                       }
+                   }
+               }
+               console.log(need);
+               if(need==1){
+                   var runStrategy=[],b= 0,stopStrategy=[],c=0;
+                   angular.forEach(newData, function (item, index) {
+                       if (item.status == 2) {
+                           runStrategy[b++]=item;
+                       }
+                       if (item.status == 3) {
+                           stopStrategy[c++]=item;
+                       }
+                   });
+                   runStrategy.sort(function(a,b){return b.yeild-a.yeild;});
+                   stopStrategy.sort(function(a,b){return b.yeild-a.yeild;});
+                   for(var i=0;i<runStrategy.length;i++){
+                       newData1[d++]=runStrategy[i];
+                   }
+                   for(var j=0;j<stopStrategy.length;j++){
+                       newData1[d++]=stopStrategy[j]
+                   }
+               }
+               else {
+                   newData1 = newData;
+                   console.log(newData1)
+               }
+               defer1.resolve(newData1);
+           }
+           return defer1.promise;
+       }
+
+        function productSymbol(data){
+            var symbolList = [];
+            for (var i = 0; i < data.length; i++) {
+                if (symbolList.indexOf(data[i].symbol) == -1) {
+                    symbolList.push(data[i].symbol)
+                }
+            }
+            var symbolList1=[];
+            for (var i = 0; i < symbolList.length; i++) {
+                if (symbolList1.indexOf(symbolList[i]) == -1) {
+                    symbolList1.push(symbolList[i])
+                }
+            }
+            return symbolList1;
+        }
         //真实交易
         function trustDeals(){
+            $scope.sRun = 0, $scope.sStop = 0
             var  truedata2=[];   /*存放没有被删除的策略*/
             for(var i=0; i<truedata.length; i++){
                 if(truedata[i].status!=-2){
@@ -1403,195 +1552,24 @@
             for (var i = 0; i < truedata2.length; i++) {
                 var class_id = truedata2[i].class_id;
                 truedata2[i].code_name = getcelve(class_id);
-            }
-            var n = 0,i=0;
-            var timeList = [];
-            getTimes(0);
-            //获取所有策略最后一天的时间
-            function getTimes(i) {
-                $http.get(constantUrl + 'dates/', {
-                        params: {
-                            "date_type": 'transaction',
-                            "sty_id": truedata2[i]._id
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
-                    .success(function (data) {
-                        timeList[n++] = data[data.length - 1];
-                        truedata2[i].time=data[data.length-1];
-                        i++;
-                        if (i == truedata2.length) {
-                            getIdDate();
-                            return;
-                        }
-                        getTimes(i);
-                    })
-                    .error(function(data){
-                        timeList[n++]=0;
-                        truedata2[i].time=data[data.length-1]
-                        i++;
-                        if (i == truedata2.length) {
-                            getIdDate();
-                            return;
-                        }
-                        getTimes(i);
-                    })
-            }
-            //console.log(timeList)
-
-            //把所有策略id、开始时间、结束时间放进一个数组
-            var IdDateList=[];
-            function getIdDate() {
-                for (var i = 0; i < truedata2.length; i++) {
-                    var id = truedata2[i]._id;
-                    var sDate = timeList[i];
-                    var eDate = $filter('date')(new Date((new Date(timeList[i])).setDate((new Date(timeList[i])).getDate() + 1)), 'yyyy-MM-dd');
-                    //console.log(id,sDate,eDate);
-                    IdDateList.push({
-                        'id': id,
-                        'sDate': sDate,
-                        'eDate': eDate
-                    })
+                if(truedata2[i].status ==2){
+                    truedata2[i].color='run';
+                    $scope.sRun++;
                 }
-                getAllData(0);
+                if(truedata2[i].status == 3){
+                    truedata2[i].color ='stop';
+                    $scope.sStop++;
+                }
             }
-            //console.log(IdDateList);
-            var i = 0;
-            var allDataList = [];
-            var m = 0;
-
-            /**
-             * 获取所有策略前一天的数据
-             * @param i
-             */
-
-            function getAllData(i) {
-                var nothing = new Array();
-                $http.get(constantUrl + 'transactions/', {
-                        params: {
-                            "sty_id": IdDateList[i].id,
-                            "start": IdDateList[i].sDate,
-                            "end": IdDateList[i].eDate
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
-                    .success(function (data) {
-                        allDataList[m++] = data;
-
-                        i++;
-                        if (i >= IdDateList.length) {
-                            getAllNianHua(0);
-                            return;
-                        }
-                        getAllData(i);
-                    })
-                    .error(function(data){
-                        allDataList[m++] =nothing;
-                        i++;
-                        if (i >= IdDateList.length) {
-                            getAllNianHua(0);
-                            return;
-                        }
-                        getAllData(i);
-                    })
-
-            }
-
-
-            /**
-             * 获取所有策略前一天的年化收益率
-             * @param i
-             */
-
-
-            function getAllNianHua(i) {
-                var shortYArr=[],buyYArr=[],buySellNum=1;
-                var nowData = allDataList[i];
-                handledata(true, nowData, timeList[i], IdDateList[i].id);
-                i++;
-                if (i >= allDataList.length) {
-                    $timeout(function () {
-                        putScreen();
-                    }, 500);
-                    return;
-                }
-                getAllNianHua(i);
-            }
-
-            function putScreen() {
-                //console.log(nianHuaList)
-                for (var i = 0; i < nianHuaList.length; i++) {
-                    var id = nianHuaList[i].nowId;
-                    var nianhua = nianHuaList[i].nianhua;
-                    var average_winrate = nianHuaList[i].average_winrate;
-                    //console.log(id,nianhua,average_winrate)
-                    for (j = 0; j < truedata2.length; j++) {
-                        if (truedata2[j]._id == id) {
-                            truedata2[j].yeild = nianhua;
-                            truedata2[j].average_winrate = average_winrate;
-                            truedata2[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
-                            truedata2[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
-
-                            truedata2[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
-                            truedata2[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
-                        }
-                    }
-                }
-                var delStrategy=[],a= 0,runStrategy=[],b= 0,stopStrategy=[],c=0;
-                angular.forEach(truedata2, function (item, index) {
-                    if (item.status == 2) {
-                        item.color = 'run';
-                        $scope.sRun++;
-                        item.a = 1;
-                        runStrategy[b++]=item;
-                    }
-                    if (item.status == 3) {
-                        item.color = 'stop';
-                        $scope.sStop++;
-                        item.a = 2;
-                        stopStrategy[c++]=item;
-                    }
-                })
-
-                runStrategy.sort(function(a,b){return b.yeild-a.yeild;});
-                stopStrategy.sort(function(a,b){return b.yeild-a.yeild;});
-
-                var truedata1=[],d=0;
-
-                for(var i=0;i<runStrategy.length;i++){
-                    truedata1[d++]=runStrategy[i];
-                }
-                for(var j=0;j<stopStrategy.length;j++){
-                    truedata1[d++]=stopStrategy[j]
-                }
-
-                $scope.trust=truedata1;
-                //console.log($scope.trust)
-
-
+            $scope.symbolList = productSymbol(truedata2);
+            deal(truedata2,true,1).then(function(data){
+                $scope.trust=data;
                 $('#container').hide();
-
-
-                var symbolList = [];
-                for (var i = 0; i < $scope.trust.length; i++) {
-                    if (symbolList.indexOf($scope.trust[i].symbol) == -1) {
-                        symbolList.push($scope.trust[i].symbol)
-                    }
-                }
-                var symbolList1=[];
-                for (var i = 0; i < symbolList.length; i++) {
-                    if (symbolList1.indexOf(symbolList[i]) == -1) {
-                        symbolList1.push(symbolList[i])
-                    }
-                }
-                $scope.symbolList = symbolList1;
-            }
+            });
+            $('#container').hide();
         }
-        $scope.key = 'D1_AG';var marketData=[]
+        $scope.key = 'D1_AG';
+        var marketData=[];
         $scope.chartJson =function(){
             var exchagne1,key;
             key=$scope.key[0]+$scope.key[1];
@@ -1618,7 +1596,7 @@
                 })
                 .success(function (data) {
                     marketData=data;
-                    draw(marketData);
+                    draw(marketData,'highchart_view',1);
                 })
                 .error(function(){
                     $http.get(constantUrl + 'datas/', {
@@ -1635,7 +1613,7 @@
                         })
                         .success(function (data) {
                             marketData=data;
-                            draw(marketData);
+                            draw(marketData,'highchart_view',1);
 
                         });
                 });
@@ -1644,10 +1622,8 @@
             },60000);
         }
         $scope.chartJson();
-
-
         $scope.drawEach =function(item,flag){
-            var beginData=[]
+            var beginData=[];
             function getFirmTime() {
                 var defer1 = $q.defer(); //通过$q服务注册一个延迟对象 defer1
                 $http.get(constantUrl + 'transactions/', {
@@ -1661,11 +1637,9 @@
                         }
                     })
                     .success(function (data) {
-
                         for(var i =0; i< data.length;i++) {
                             beginData[i] = data[i];
                         }
-
                         var nowdata=data;
                         if(flag){
                             handledata(true,nowdata,item.time,item._id)
@@ -1673,9 +1647,7 @@
                         else{
                             handledata(false,nowdata,item.time,item._id)
                         }
-
                         defer1.resolve(nowdata);
-
                     })
                     .error(function (err, sta) {
                         defer1.reject(err);
@@ -1685,9 +1657,7 @@
             //获取当前股价行情 时间根据交易时间的第一笔截至
             function getTransTime(chartData11) {
                 var defer2 = $q.defer();
-
                 var a = $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate())), 'yyyy-MM-dd');
-
                 var b = $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate() + 1)), 'yyyy-MM-dd');
                 if (chartData11.length == 0) {
                     b = $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate())), 'yyyy-MM-dd');
@@ -1712,7 +1682,6 @@
                         defer2.resolve(data); //返回需要显示的股价区间
                     })
                     .error(function (err, sta) {
-
                         $http.get(constantUrl + 'datas/', {
                                 params: {
                                     "type": 'bar',
@@ -1739,10 +1708,8 @@
             ///////////////////////////////////////////////////////////////////////////
             getFirmTime().then(function (data) {
                 var chartData11 = data; //保存去除异常数据的数据
-
                 getTransTime(chartData11).then(function (data) {
                     var chartJsonData = data; //data股价曲线数据
-
                     draws();
                     //画曲线图
                     function draws() {
@@ -1808,7 +1775,6 @@
                             buySellNum++;
                         }
                         var allPal=0;
-
                         var buy = [];
                         //封装的计算时间的方法，这里只需要传进毫秒数 自动return HH:MM:SS 格式的时间；
                         $scope.newTotalTime = function (time) {
@@ -1835,9 +1801,6 @@
                         var alldata3 = []; //为了持仓时间
                         var alldata2 = []; //开仓平仓合并后的数据
                         var del = [];
-
-
-
                         Highcharts.setOptions({
                             global: {
                                 useUTC: false
@@ -1858,7 +1821,6 @@
 
                         //修改的highchart1
                         //成交量图表
-
                         $("."+item._id).highcharts('StockChart', {
                             credits: {
                                 enabled: false
@@ -1934,23 +1896,16 @@
                                 name: '看多',
                             }]
                         });
-
-
                     };
                 });
             });
-
             $("."+item._id).css('display','block');
         }
-
         $scope.over1 = function(index){
             $("."+index).css('display','none');
         }
-
-
-        var charrJson1=[]
-        function draw(marketData){
-            var volume=[],latest=[],key,line5=[],line10=[],line30=[],line60=[];
+        function draw(marketData,who,flag){
+            var charrJson1=[],volume=[],latest=[],line5=[],line10=[],line30=[],line60=[];
             angular.forEach(marketData, function (data, index) {
                 charrJson1.push({
                     "x": data.datetime,
@@ -1971,12 +1926,16 @@
                     'volume': data.volume
                 })
             });
-
-
             latest[0]=charrJson1[charrJson1.length-1].close;
             latest[1]=charrJson1[volume.length-1].volume;
-            $scope.close=latest[0];
-            $scope.volume = latest[1]
+            if(flag==1){
+                $scope.close=latest[0];
+                $scope.volume = latest[1]
+            }
+            else {
+                $scope.close1=latest[0];
+                $scope.volume1 = latest[1];
+            }
             line5=averline.averageLine(charrJson1,5);
             line10=averline.averageLine(charrJson1,10);
             line30=averline.averageLine(charrJson1,30);
@@ -1986,7 +1945,7 @@
                     useUTC: false
                 }
             });
-            $('#highchart_view').highcharts('StockChart', {
+            $('#'+who).highcharts('StockChart', {
                 credits: {
                     enabled: false
                 },
@@ -2124,9 +2083,7 @@
 
                 }]
             });
-
         }
-
 
         //实盘模拟
         $scope.firm=function(){
@@ -2135,8 +2092,7 @@
             }
             $scope.key1 = "D1_AG";
             $scope.chartJson2 =function(){
-                var exchagne1,key,charrJson1=[],volume=[],latest=[],line5=[],line10=[],line30=[],line60=[];
-                var marketData1=[];
+                var exchagne1,key,marketData1=[];
                 key=$scope.key1[0]+$scope.key1[1];
                 if(key == "D1" || key == 'D6'){
                     exchagne1 = 'CSRPME'
@@ -2151,9 +2107,7 @@
                         params: {
                             "type": 'bar',
                             "exchange": exchagne1,
-                            //"exchange": "CTP",
                             "symbol": $scope.key1,
-                            //"symbol": "IF",
                             "start": getNowFormatDate(),
                             "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
                         },
@@ -2163,7 +2117,7 @@
                     })
                     .success(function (data) {
                         marketData1 = data;
-                        draw1(marketData1)
+                        draw(marketData1,'highchart_moni',0)
                     })
                     .error(function(data){
                         $http.get(constantUrl + 'datas/', {
@@ -2180,8 +2134,7 @@
                             })
                             .success(function (data) {
                                 marketData1 = data;
-                                draw1(marketData1)
-
+                                draw(marketData1,'highchart_moni',0);
                             })
                     })
                 $timeout(function(){
@@ -2190,180 +2143,6 @@
             }
             $scope.chartJson2();
 
-            function draw1(marketData1){
-                var charrJson1=[],volume=[],latest=[],line5=[],line10=[],line30=[],line60=[];
-                angular.forEach(marketData1, function (data, index) {
-                    charrJson1.push({
-                        "x": data.datetime,
-                        "y": data.close,
-                        'low': data.low,
-                        'high': data.high,
-                        'close': data.close,
-                        'open': data.open,
-                        'volume': data.volume
-                    });
-                    volume.push({
-                        "x": data.datetime,
-                        "y": data.volume,
-                        'low': data.low,
-                        'high': data.high,
-                        'close': data.close,
-                        'open': data.open,
-                        'volume': data.volume
-                    })
-                });
-
-                latest[0]=charrJson1[charrJson1.length-1].close;
-                latest[1]=charrJson1[volume.length-1].volume;
-                $scope.close1=latest[0];
-                $scope.volume1 = latest[1];
-                line5=averline.averageLine(charrJson1,5);
-                line10=averline.averageLine(charrJson1,10);
-                line30=averline.averageLine(charrJson1,30);
-                line60=averline.averageLine(charrJson1,60);
-                Highcharts.setOptions({
-                    global: {
-                        useUTC: false
-                    }
-                });
-                $('#highchart_moni').highcharts('StockChart', {
-                    credits: {
-                        enabled: false
-                    },
-                    exporting: {
-                        enabled: false
-                    },
-                    plotOptions: {
-                        series: {
-                            turboThreshold: 0,
-                        },
-                        candlestick: { //红涨绿跌
-                            color: '#33AA11',
-                            upColor: '#DD2200',
-                            lineColor: '#33AA11',
-                            upLineColor: '#DD2200',
-                            maker: {
-                                states: {
-                                    hover: {
-                                        enabled: false,
-                                    }
-                                }
-                            }
-                        },
-                    },
-                    tooltip: {
-                        useHTML: true,
-                        xDateFormat: "%Y-%m-%d %H:%M:%S",
-                        valueDecimals: 2,
-                        backgroundColor: '#eeeeee',   // 背景颜色
-                        borderColor: '#ccc',         // 边框颜色
-                        borderRadius: 10,             // 边框圆角
-                        borderWidth: 1,               // 边框宽度
-                        shadow: true,                 // 是否显示阴影
-                        animation: true,               // 是否启用动画效果
-                    },
-                    legend: {
-                        enabled: true,
-                        align: 'right',
-                        verticalAlign: 'top',
-                        x: 0,
-                        y: 0
-                    },
-                    yAxis: [{
-                        labels: {
-                            align: 'right',
-                            x: -3
-                        },
-                        title: {
-                            text: '价格'
-                        },
-                        lineWidth: 1,
-                        height:'55%'
-
-                    }, {
-                        labels: {
-                            align: 'right',
-                            x: -3
-                        },
-                        title: {
-                            text: '成交量'
-                        },
-                        opposite: true,
-                        offset: 0,
-                        height: '30%',
-                        top: '60%'
-                    }],
-                    rangeSelector: {
-                        buttons: [{
-                            type: 'minute',
-                            count: 10,
-                            text: '10m'
-                        }, {
-                            type: 'minute',
-                            count: 30,
-                            text: '30m'
-                        }, {
-                            type: 'hour',
-                            count: 1,
-                            text: '1h'
-                        }, {
-                            type: 'day',
-                            count: 1,
-                            text: '1d'
-                        }, {
-                            type: 'week',
-                            count: 1,
-                            text: '1w'
-                        }, {
-                            type: 'all',
-                            text: '所有'
-                        }],
-                        selected: 5,
-                        buttonSpacing: 2
-                    },
-                    series: [{
-                        type: 'spline',
-                        name: 'MA5',
-                        data: line5,
-                        lineWidth: 1,
-                        color: 'red',
-                        visible: false
-                    },{
-                        type: 'spline',
-                        name: 'MA10',
-                        data: line10,
-                        lineWidth: 1,
-                        color: 'yellow',
-                        visible: false
-                    },{
-                        type: 'spline',
-                        name: 'MA30',
-                        data: line30,
-                        lineWidth: 1,
-                        color: 'blue',
-                        visible: false
-                    },{
-                        type: 'spline',
-                        name: 'MA60',
-                        data: line60,
-                        lineWidth: 1,
-                        color: 'green',
-                        visible: false
-                    },{
-                        type:'candlestick',
-                        name: '价格',
-                        data: charrJson1,
-
-                    }, {
-                        type: 'column',
-                        data: volume,
-                        name: '成交量',
-                        yAxis: 1,
-                        color: '#e6e843'
-
-                    }]
-                });
-            }
             var falsedata2=[];   /*存放没有被删除的策略*/
             delFirm=[];
             for(var i=0; i<falsedata.length; i++){
@@ -2374,178 +2153,27 @@
                     delFirm.push(falsedata[i]);
                 }
             }
+            var symbolList2 = [];
+            $scope.fRun = 0, $scope.fStop = 0;
             for (var i = 0; i < falsedata2.length; i++) {
                 falsedata2[i].class_name = "none"; //策略代码初始化
+                falsedata2[i].color = "none"; //策略代码初始化
                 var class_id1 = falsedata2[i].class_id;
                 falsedata2[i].code_name = getcelve(class_id1);
+                if(falsedata2[i].status == 2){
+                    falsedata2[i].color='run';
+                    $scope.fRun++;
+                }
+                if(falsedata2[i].status == 3){
+                    falsedata2[i].color='stop';
+                    $scope.fStop++;
+                }
             }
-            var delStrategy1=[],a= 0,runStrategy1=[],b= 0,stopStrategy1=[];
-            $scope.fRun = 0, $scope.fStop = 0,
-                angular.forEach(falsedata2, function (item, index) {
-                    if (item.status == 2) {
-                        item.color = 'run';
-                        item.a = 1;
-                        $scope.fRun++;
-                        runStrategy1[b++]=item;
-                    }
-                    if (item.status == 3) {
-                        item.color = 'stop';
-                        item.a = 2;
-                        $scope.fStop++;
-                        stopStrategy1[b++]=item;
-                    }
-                })
-
-            var n2 = 0;
-            var i = 0;
-            var timeList2 = [];
-            getTimes2(0)
-            function getTimes2(i) {
-                $http.get(constantUrl + 'dates/', {
-                        params: {
-                            "date_type": 'transaction',
-                            "sty_id": falsedata2[i]._id
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
-                    .success(function (data) {
-                        //console.log(data)
-                        timeList2[n2++] = data[data.length - 1];
-                        falsedata2[i].time = data[data.length - 1];
-                        i++;
-                        if (i >= falsedata2.length) {
-                            getIdDate2();
-                            return;
-                        }
-                        getTimes2(i);
-                    })
-                    .error(function(data){
-                        timeList2[n2++]=0;
-                        i++;
-                        if (i >= falsedata2.length) {
-                            getIdDate2();
-                            return;
-                        }
-                        getTimes2(i)
-                    })
-            }
-            var IdDateList2 = [];
-            function getIdDate2() {
-                //console.log(timeList2)
-                for (var i = 0; i < falsedata2.length; i++) {
-                    var id = falsedata2[i]._id;
-                    var sDate = timeList2[i];
-                    var eDate = $filter('date')(new Date((new Date(timeList2[i])).setDate((new Date(timeList2[i])).getDate() + 1)), 'yyyy-MM-dd');
-                    IdDateList2.push({
-                        'id': id,
-                        'sDate': sDate,
-                        'eDate': eDate
-                    })
-                }
-                getAllData2(0);
-            }
-            var i = 0;
-            var allDataList2 = [];
-            var m = 0;
-            /**
-             * 获取所有策略前一天的数据
-             * @param i
-             */
-            function getAllData2(i) {
-                $http.get(constantUrl + 'transactions/', {
-                        params: {
-                            "sty_id": IdDateList2[i].id,
-                            "start": IdDateList2[i].sDate,
-                            "end": IdDateList2[i].eDate
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
-                    .success(function (data) {
-                        allDataList2[m++] = data;
-                        i++;
-                        if (i >= IdDateList2.length) {
-
-                            getAllNianHua2(0);
-                            return;
-                        }
-                        getAllData2(i);
-                    })
-                    .error(function(data){
-                        allDataList2[m++] = 0;
-                        i++;
-                        if (i >= IdDateList2.length) {
-                            getAllNianHua2(0);
-                            return;
-                        }
-                        getAllData2(i);
-                    })
-            }
-            function getAllNianHua2(i) {
-                var  a = new Array();
-                var nowData = allDataList2[i];
-                if(nowData == 0){
-                    nowData=a
-                }
-                handledata(false, nowData, timeList2[i], IdDateList2[i].id);
-                i++;
-                if (i >= allDataList2.length) {
-                    $timeout(function () {
-                        putScreen2();
-                    }, 1000);
-                    return;
-                }
-                getAllNianHua2(i);
-            }
-            function putScreen2() {
-                for (j = 0; j < falsedata2.length; j++) {
-                    falsedata2[j].yeild = 0.00;
-                    falsedata2[j].average_winrate = 0.00;
-                }
-                for (var i = 0; i < nianHuaList.length; i++) {
-                    var id = nianHuaList[i].nowId;
-                    var nianhua = nianHuaList[i].nianhua;
-                    var average_winrate = nianHuaList[i].average_winrate;
-                    for (j = 0; j < falsedata2.length; j++) {
-                        if (falsedata2[j]._id == id) {
-                            falsedata2[j].yeild = nianhua;
-                            falsedata2[j].average_winrate = average_winrate;
-                            falsedata2[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
-                            falsedata2[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
-                            falsedata2[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
-                            falsedata2[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
-                        }
-                    }
-                }
-                runStrategy1.sort(function(a,b){return b.yeild-a.yeild;});
-                stopStrategy1.sort(function(a,b){return b.yeild-a.yeild;});
-                var falsedata1=[],d=0;
-                for(var i=0;i<runStrategy1.length;i++){
-                    falsedata1[d++]=runStrategy1[i];
-                }
-                for(var j=0;j<stopStrategy1.length;j++){
-                    falsedata1[d++]=stopStrategy1[j]
-                }
-                $scope.flase=falsedata1;
-                //实盘过滤
-                var symbolList2 = [];
-                for (var i = 0; i <$scope.flase.length; i++) {
-                    if (symbolList2.indexOf( $scope.flase[i].symbol) == -1) {
-                        symbolList2.push( $scope.flase[i].symbol)
-                    }
-                }
-                var symbolList3=[];
-                for (var i = 0; i < symbolList2.length; i++) {
-                    if (symbolList3.indexOf(symbolList2[i]) == -1) {
-                        symbolList3.push(symbolList2[i])
-                    }
-                }
-                $scope.symbolList1 = symbolList3;
-                $("#container1").hide()
-            }
+            $scope.symbolList1 = productSymbol(falsedata2);
+            deal(falsedata2,false,1).then(function(data){
+                $scope.flase=data;
+                $("#container1").hide();
+            })
             window.b=1;
         }
 
@@ -2679,7 +2307,6 @@
                     trueRes(nowdata, nowId);
                 })
         }
-
         function trueRes(nowdata, nowId) {
             var alldata = [];
             var alldata2 = [];
@@ -2700,10 +2327,6 @@
             for (var i in data) {
                 alldata[i] = data[i];
             }
-            //console.log(alldata)
-            /**
-             *    删除"0"数据并保存
-             */
             function delzero(data) {
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].price == 0) {
@@ -2718,7 +2341,6 @@
                     }
                 }
             }
-
             delzero(data)
             //console.log("数据处理完成")
             if (data.length < 2) {
@@ -2791,7 +2413,7 @@
             nianHuaList.push({
                 'average_winrate': Number(average_winrate).toFixed(2),
                 'nowId': nowId,
-                'nianhua': Number(total_yeild * 250).toFixed(4)
+                'nianhua': Number(total_yeild/250*365*100).toFixed(4)
             })
         }
         function getPreDay(s) {
@@ -2848,7 +2470,7 @@
                 return;
             }
             $scope.hRun = 0, $scope.hStop = 0;
-            var histroy = []
+            var histroy = [];
             $http.get(constantUrl + "btstrategys/", {
                     headers: {
                         'Authorization': 'token ' + $cookieStore.get('user').token
@@ -2861,153 +2483,20 @@
                             $scope.hStop++;
                             histroy.push(item)
                         }
-                    })
+                    });
+                    $scope.histroySymbolList = productSymbol(histroy);
+                    $scope.key2 = $scope.histroySymbolList[0];
                     for (var i = 0; i < histroy.length; i++) {
                         var class_id = histroy[i].class_id;
-                        //var status = data[i].status;
                         histroy[i].code_name = getcelve(class_id);
                     }
-                    var timeList=[],n= 0,i=0;
-                    getTimes(0);
-                    function getTimes(i){
-                        $http.get(constantUrl + 'dates/', {
-                                params: {
-                                    "date_type": 'transaction',
-                                    "sty_id": histroy[i]._id
-                                },
-                                headers: {
-                                    'Authorization': 'token ' + $cookieStore.get('user').token
-                                }
-                            })
-                            .success(function(data){
-                                timeList[n++] = data[data.length-1];
-                                histroy[i].time = data[data.length-1];
-                                i++;
-                                if (i >= histroy.length) {
-                                    getIdDate();
-                                    return;
-                                }
-                                getTimes(i);
-                            })
-                            .error(function(data){
-                                timeList[n++]=0;
-                                i++;
-                                if (i >= histroy.length) {
-                                    getIdDate();
-                                    return;
-                                }
-                                getTimes(i);
-                            })
-                    }
-
-                    var IdDateList=[];
-                    function getIdDate() {
-                        for (var i = 0; i < histroy.length; i++) {
-                            var id = histroy[i]._id;
-                            var sDate = timeList[i];
-                            var eDate = $filter('date')(new Date((new Date(timeList[i])).setDate((new Date(timeList[i])).getDate() + 1)), 'yyyy-MM-dd');
-                            IdDateList.push({
-                                'id': id,
-                                'sDate': sDate,
-                                'eDate': eDate
-                            })
-                        }
-                        getAllData(0);
-                    }
-                    var i = 0;
-                    var allDataList = [];
-                    var m = 0;
-                    /**
-                     * 获取所有策略前一天的数据
-                     * @param i
-                     */
-                    function getAllData(i) {
-                        var nothing = new Array();
-                        $http.get(constantUrl + 'transactions/', {
-                                params: {
-                                    "sty_id": IdDateList[i].id,
-                                    "start": IdDateList[i].sDate,
-                                    "end": IdDateList[i].eDate
-                                },
-                                headers: {
-                                    'Authorization': 'token ' + $cookieStore.get('user').token
-                                }
-                            })
-                            .success(function (data) {
-                                //console.log(data)
-                                allDataList[m++] = data;
-                                i++;
-                                if (i >= IdDateList.length) {
-                                    getAllNianHua(0);
-                                    return;
-                                }
-                                getAllData(i);
-                            })
-                            .error(function(data){
-                                allDataList[m++] =nothing;
-                                i++;
-                                if (i >= IdDateList.length) {
-                                    getAllNianHua(0);
-                                    return;
-                                }
-                                getAllData(i);
-                            })
-                    }
-                    /**
-                     * 获取所有策略前一天的年化收益率
-                     * @param i
-                     */
-                    function getAllNianHua(i) {
-                        var nowData = allDataList[i];
-                        handledata(false, nowData, timeList[i], IdDateList[i].id);
-                        i++;
-                        if (i >= allDataList.length) {
-                            $timeout(function () {
-                                putScreen();
-                            }, 500);
-                            return;
-                        }
-                        getAllNianHua(i);
-                    }
-                    function putScreen() {
-                        for (var i = 0; i < nianHuaList.length; i++) {
-                            var id = nianHuaList[i].nowId;
-                            var nianhua = nianHuaList[i].nianhua;
-                            var average_winrate = nianHuaList[i].average_winrate;
-                            for (j = 0; j < histroy.length; j++) {
-                                if (histroy[j]._id == id) {
-                                    histroy[j].yeild = nianhua;
-                                    histroy[j].average_winrate = average_winrate;
-                                    histroy[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
-                                    histroy[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
-
-                                    histroy[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
-                                    histroy[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
-                                }
-                            }
-                        }
-
-                        histroy.sort(function(a,b){return b.yeild-a.yeild;});
-                        $scope.histroy = histroy;
+                    deal(histroy,false,0).then(function(data){
+                        data.sort(function(a,b){return b.yeild-a.yeild;});
+                        $scope.histroy = data;
                         $("#container3").hide()
-                    }
-                    var histroySymbolList = [];
-                    for (var i = 0; i < histroy.length; i++) {
-                        histroySymbolList.push(histroy[i].symbol)
-                    }
-                    var  histroySymbolList1=[];
-
-                    for (var i = 0; i < histroySymbolList.length; i++) {
-                        if (histroySymbolList1.indexOf(histroySymbolList[i]) == -1) {
-                            histroySymbolList1.push(histroySymbolList[i])
-                        }
-                    }
-                    $scope.histroySymbolList = histroySymbolList1;
-
-                    $scope.key2 = $scope.histroySymbolList[0];
+                    })
                     window.c=1;
                 });
-
         };
         //历史交易
         $scope.histroyDeals=function(){
@@ -3033,268 +2522,24 @@
                     delAllSymbol.push(delTrustSymbol[i])
                 }
             }
-            $scope.allSymbolList = delAllSymbol
-            var n = 0,i=0;
-            var timeList = [];
-            getTimes(0);
-            //获取所有策略最后一天的时间
-            function getTimes(i) {
-                $http.get(constantUrl + 'dates/', {
-                        params: {
-                            "date_type": 'transaction',
-                            "sty_id": delTrust[i]._id
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
-                    .success(function (data) {
-                        timeList[n++] = data[data.length - 1];
-                        delTrust[i].time = data[data.length - 1];
-                        i++;
-                        if (i >= delTrust.length) {
-                            getIdDate();
-                            return;
-                        }
-                        getTimes(i);
-                    })
-                    .error(function(data){
-                        timeList[n++]=0;
-                        i++;
-                        if (i >= delTrust.length) {
-                            getIdDate();
-                            return;
-                        }
-                        getTimes(i);
-                    })
-            }
-            //把所有策略id、开始时间、结束时间放进一个数组
-            var IdDateList=[];
-            function getIdDate() {
-                for (var i = 0; i < delTrust.length; i++) {
-                    var id = delTrust[i]._id;
-                    var sDate = timeList[i];
-                    var eDate = $filter('date')(new Date((new Date(timeList[i])).setDate((new Date(timeList[i])).getDate() + 1)), 'yyyy-MM-dd');
-                    //console.log(id,sDate,eDate);
-                    IdDateList.push({
-                        'id': id,
-                        'sDate': sDate,
-                        'eDate': eDate
-                    })
-                }
-                getAllData(0);
-            }
-            var i = 0;
-            var allDataList = [];
-            var m = 0;
-            /**
-             * 获取所有策略前一天的数据
-             * @param i
-             */
-            function getAllData(i) {
-                var nothing = new Array();
-                $http.get(constantUrl + 'transactions/', {
-                        params: {
-                            "sty_id": IdDateList[i].id,
-                            "start": IdDateList[i].sDate,
-                            "end": IdDateList[i].eDate
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
-                    .success(function (data) {
-                        allDataList[m++] = data;
-                        i++;
-                        if (i >= IdDateList.length) {
-                            getAllNianHua(0);
-                            return;
-                        }
-                        getAllData(i);
-                    })
-                    .error(function(data){
-                        allDataList[m++] =nothing;
-                        i++;
-                        if (i >= IdDateList.length) {
-                            getAllNianHua(0);
-                            return;
-                        }
-                        getAllData(i);
-                    })
-            }
-            /**
-             * 获取所有策略前一天的年化收益率
-             * @param i
-             */
-            function getAllNianHua(i) {
-                var nowData = allDataList[i];
-                handledata(true, nowData, timeList[i], IdDateList[i].id);
-                i++;
-                if (i >= allDataList.length) {
-                    $timeout(function () {
-                        putScreen();
-                    }, 500);
-                    return;
-                }
-                getAllNianHua(i);
-            }
-            function putScreen() {
-                for (var i = 0; i < nianHuaList.length; i++) {
-                    var id = nianHuaList[i].nowId;
-                    var nianhua = nianHuaList[i].nianhua;
-                    var average_winrate = nianHuaList[i].average_winrate;
-                    for (j = 0; j < delTrust.length; j++) {
-                        if (delTrust[j]._id == id) {
-                            delTrust[j].yeild = nianhua;
-                            delTrust[j].average_winrate = average_winrate;
-                            delTrust[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
-                            delTrust[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
-
-                            delTrust[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
-                            delTrust[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
-                        }
-                    }
-                }
-                delTrust.sort(function(a,b){return b.yeild-a.yeild;});
-                $scope.histroyTrust=delTrust;
-                $("#container2").hide()
-            }
-
-            var n2 = 0;
-            var i = 0;
-            var timeList2 = [];
-            getTimes2(0)
-            function getTimes2(i) {
-                $http.get(constantUrl + 'dates/', {
-                        params: {
-                            "date_type": 'transaction',
-                            "sty_id": delFirm[i]._id
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
-                    .success(function (data) {
-                        timeList2[n2++] = data[data.length - 1];
-                        delFirm[i].time = data[data.length - 1];
-                        i++;
-                        if (i >= delFirm.length) {
-                            getIdDate2();
-                            return;
-                        }
-                        getTimes2(i);
-                    })
-                    .error(function(data){
-                        timeList2[n2++]=0;
-                        i++;
-                        if (i >= delFirm.length) {
-                            getIdDate2();
-                            return;
-                        }
-                        getTimes2(i)
-                    })
-            }
-
-            var IdDateList2 = [];
-            function getIdDate2() {
-                for (var i = 0; i < delFirm.length; i++) {
-                    var id = delFirm[i]._id;
-                    var sDate = timeList2[i];
-                    var eDate = $filter('date')(new Date((new Date(timeList2[i])).setDate((new Date(timeList2[i])).getDate() + 1)), 'yyyy-MM-dd');
-                    IdDateList2.push({
-                        'id': id,
-                        'sDate': sDate,
-                        'eDate': eDate
-                    })
-                }
-                getAllData2(0);
-            }
-
-            var i = 0;
-            var allDataList2 = [];
-            var p = 0;
-            /**
-             * 获取所有策略前一天的数据
-             * @param i
-             */
-            function getAllData2(i) {
-                $http.get(constantUrl + 'transactions/', {
-                        params: {
-                            "sty_id": IdDateList2[i].id,
-                            "start": IdDateList2[i].sDate,
-                            "end": IdDateList2[i].eDate
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
-                    .success(function (data) {
-                        allDataList2[p++] = data;
-                        i++;
-                        if (i >= IdDateList2.length) {
-
-                            getAllNianHua2(0);
-                            return;
-                        }
-                        getAllData2(i);
-                    })
-                    .error(function(data){
-                        allDataList2[p++] = 0;
-                        i++;
-                        if (i >= IdDateList2.length) {
-
-                            getAllNianHua2(0);
-                            return;
-                        }
-                        getAllData2(i);
-                    })
-            }
-
-            function getAllNianHua2(i) {
-                var nowData = allDataList2[i];
-                handledata(false, nowData, timeList2[i], IdDateList2[i].id);
-                i++;
-                if (i >= allDataList2.length) {
-                    $timeout(function () {
-                        putScreen2();
-                    }, 800);
-                    return;
-                }
-                getAllNianHua2(i);
-            }
-            function putScreen2() {
-                for (j = 0; j < delFirm.length; j++) {
-                    delFirm[j].yeild = 0.00;
-                    delFirm[j].average_winrate = 0.00;
-                }
-                for (var i = 0; i < nianHuaList.length; i++) {
-                    var id = nianHuaList[i].nowId;
-                    var nianhua = nianHuaList[i].nianhua;
-                    var average_winrate = nianHuaList[i].average_winrate;
-                    for (j = 0; j < delFirm.length; j++) {
-                        if (delFirm[j]._id == id) {
-                            delFirm[j].yeild = nianhua;
-                            delFirm[j].average_winrate = average_winrate;
-                            delFirm[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
-                            delFirm[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
-                            delFirm[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
-                            delFirm[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
-
-                        }
-                    }
-                }
-                delFirm=$filter('orderBy')(delFirm,'-yeild');
-                $scope.histroyFlase=delFirm;
-            }
+            $scope.allSymbolList = delAllSymbol;
+            deal(delTrust,true,0).then(function(data){
+                data.sort(function(a,b){return b.yeild-a.yeild;});
+                $scope.histroyTrust=data;
+                $("#container2").hide();
+            })
+            deal(delFirm,false,0).then(function(data){
+                data.sort(function(a,b){return b.yeild-a.yeild;});
+                $scope.histroyFlase=data;
+            })
         }
 
         $scope.jump = function (classname, id) {
             window.location.href = '#/' + classname + '/id=' + id;
-        }
+        };
         function getNowFormatDate() {
             var date = new Date();
             var seperator1 = "-";
-            var seperator2 = ":";
             var month = date.getMonth() + 1;
             var strDate = date.getDate();
             if (month >= 1 && month <= 9) {
@@ -4017,7 +3262,7 @@
                             totaltestpal += $scope.analyseDataArr[i].testpal; //累加无手续费盈亏
                             //交易收益率输出
                             $scope.analyseDataArr[i].yeild = $scope.analyseDataArr[i].pal / $scope.analyseDataArr[i].openprice; //计算每笔收益率
-                            allTotalyeild += $scope.analyseDataArr[i].yeild; //累加收益率
+                            allTotalyeild +=($scope.analyseDataArr[i].yeild) ; //累加收益率
                             //持仓时间计算
                             $scope.analyseDataArr[i].totalTime = $scope.newTotalTime(alldata3[i].closetime - alldata3[i].opentime); //计算每笔持仓时间
                             allTotalTime1 += (alldata3[i].closetime - alldata3[i].opentime); //累加持仓时间
@@ -4075,7 +3320,7 @@
                         $scope.allTotalpal = totalpal;
                         $scope.allTotalyeild = allTotalyeild;
                         $scope.averTotalyeild = allTotalyeild / num;
-                        $scope.annualized_return = allTotalyeild * 250; //年化收益率
+                        $scope.annualized_return = allTotalyeild/250*365*100; //年化收益率
                         $scope.allTotalTime = $scope.newTotalTime(allTotalTime1); //alltotaltime是总持仓时间
                         $scope.averTotalTime = $scope.newTotalTime(allTotalTime1 / num); //averTotalTime是平均持仓时间
                         $scope.average_winrate = zheng / num * 100; //盈亏胜率
@@ -4096,16 +3341,11 @@
                         $scope.rate3 = (mean) / std; //sharpe就每天受益平均下除以std
                         $scope.errorYeild = mean / nianhua; //信息比率(策略每日收益 - 参考标准每日收益)的年化均值 / 年化标准差
                         $scope.rate4 = min / max - 1; //最大回撤率
-
-
                         Highcharts.setOptions({
                             global: {
                                 useUTC: false
                             }
                         });
-
-
-
                         angular.forEach(chartJsonData, function (data, index) {
                             chartJsonDataArr.push({
                                 "x": data.datetime,
@@ -4136,576 +3376,318 @@
                                 'volume': data.volume
                             })
                         });
-
                         var averline5=[],averline10=[],averline30=[],averline60=[];
                         averline5=averline.averageLine(chartJsonDataArr,5);
                         averline10=averline.averageLine(chartJsonDataArr,10);
                         averline30=averline.averageLine(chartJsonDataArr,30);
                         averline60=averline.averageLine(chartJsonDataArr,60);
-                        $('#return_map_big').highcharts('StockChart', {
-                            credits: {
-                                enabled: false
-                            },
-                            exporting: {
-                                enabled: false
-                            },
-                            plotOptions: {
-                                series: {
-                                    turboThreshold: 0,
+
+                        function drawDeal(who){
+                            $('#'+who).highcharts('StockChart', {
+                                credits: {
+                                    enabled: false
                                 },
-                                candlestick: { //红涨绿跌
-                                    color: '#33AA11',
-                                    upColor: '#DD2200',
-                                    lineColor: '#33AA11',
-                                    upLineColor: '#DD2200',
-                                    maker: {
-                                        states: {
-                                            hover: {
-                                                enabled: false,
+                                exporting: {
+                                    enabled: false
+                                },
+                                plotOptions: {
+                                    series: {
+                                        turboThreshold: 0,
+                                    },
+                                    candlestick: { //红涨绿跌
+                                        color: '#33AA11',
+                                        upColor: '#DD2200',
+                                        lineColor: '#33AA11',
+                                        upLineColor: '#DD2200',
+                                        maker: {
+                                            states: {
+                                                hover: {
+                                                    enabled: false,
+                                                }
                                             }
                                         }
-                                    }
+                                    },
                                 },
-                            },
-                            tooltip: {
-                                useHTML: true,
-                                xDateFormat: "%Y-%m-%d %H:%M:%S",
-                                valueDecimals: 2,
-                                backgroundColor: '#eeeeee',   // 背景颜色
-                                borderColor: '#ccc',         // 边框颜色
-                                borderRadius: 10,             // 边框圆角
-                                borderWidth: 1,               // 边框宽度
-                                shadow: true,                 // 是否显示阴影
-                                animation: true,               // 是否启用动画效果
-                            },
-                            legend: {
-                                enabled: true,
-                                align: 'right',
-                                verticalAlign: 'top',
-                                x: 0,
-                                y: 0
-                            },
-                            rangeSelector: {
-                                buttons: [{
-                                    type: 'minute',
-                                    count: 10,
-                                    text: '10m'
+                                tooltip: {
+                                    useHTML: true,
+                                    xDateFormat: "%Y-%m-%d %H:%M:%S",
+                                    valueDecimals: 2,
+                                    backgroundColor: '#eeeeee',   // 背景颜色
+                                    borderColor: '#ccc',         // 边框颜色
+                                    borderRadius: 10,             // 边框圆角
+                                    borderWidth: 1,               // 边框宽度
+                                    shadow: true,                 // 是否显示阴影
+                                    animation: true,               // 是否启用动画效果
+                                },
+                                legend: {
+                                    enabled: true,
+                                    align: 'right',
+                                    verticalAlign: 'top',
+                                    x: 0,
+                                    y: 0
+                                },
+                                rangeSelector: {
+                                    buttons: [{
+                                        type: 'minute',
+                                        count: 10,
+                                        text: '10m'
+                                    }, {
+                                        type: 'minute',
+                                        count: 30,
+                                        text: '30m'
+                                    }, {
+                                        type: 'hour',
+                                        count: 1,
+                                        text: '1h'
+                                    }, {
+                                        type: 'day',
+                                        count: 1,
+                                        text: '1d'
+                                    }, {
+                                        type: 'week',
+                                        count: 1,
+                                        text: '1w'
+                                    }, {
+                                        type: 'all',
+                                        text: '所有'
+                                    }],
+                                    selected: 5,
+                                    buttonSpacing: 2
+                                },
+                                yAxis: [{
+                                    labels: {
+                                        align: 'right',
+                                        x: -3
+                                    },
+                                    title: {
+                                        text: '价格'
+                                    },
+                                    lineWidth: 1,
+                                    height: '50%'
                                 }, {
-                                    type: 'minute',
-                                    count: 30,
-                                    text: '30m'
+                                    labels: {
+                                        align: 'right',
+                                        x: -3
+                                    },
+                                    title: {
+                                        text: '成交量'
+                                    },
+                                    opposite: true,
+                                    offset: 0,
+                                    height: '20%',
+                                    top: '52%'
                                 }, {
-                                    type: 'hour',
-                                    count: 1,
-                                    text: '1h'
-                                }, {
-                                    type: 'day',
-                                    count: 1,
-                                    text: '1d'
-                                }, {
-                                    type: 'week',
-                                    count: 1,
-                                    text: '1w'
-                                }, {
-                                    type: 'all',
-                                    text: '所有'
+                                    labels: {
+                                        align: 'right',
+                                        x: -3
+                                    },
+                                    title: {
+                                        text: '盈亏'
+                                    },
+                                    opposite: true,
+                                    offset: 0,
+                                    height: '20%',
+                                    top: '74%'
                                 }],
-                                selected: 5,
-                                buttonSpacing: 2
-                            },
-                            yAxis: [{
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '价格'
-                                },
-                                lineWidth: 1,
-                                height: '50%'
-                            }, {
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '成交量'
-                                },
-                                opposite: true,
-                                offset: 0,
-                                height: '20%',
-                                top: '52%'
-                            }, {
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '盈亏'
-                                },
-                                opposite: true,
-                                offset: 0,
-                                height: '20%',
-                                top: '74%'
-                            }],
-                            series: [{
-                                type: 'spline',
-                                name: 'MA5',
-                                data: averline5,
-                                lineWidth: 1,
-                                color: 'red',
-                                visible: false
-                            }, {
-                                type: 'spline',
-                                name: 'MA10',
-                                data: averline10,
-                                lineWidth: 1,
-                                color: 'yellow',
-                                visible: false
-                            }, {
-                                type: 'spline',
-                                name: 'MA30',
-                                data: averline30,
-                                lineWidth: 1,
-                                color: 'blue',
-                                visible: false
-                            }, {
-                                type: 'spline',
-                                name: 'MA60',
-                                data: averline60,
-                                lineWidth: 1,
-                                color: 'green',
-                                visible: false
-                            }, {
-                                type: 'candlestick',
-                                name: '价格',
-                                data: chartJsonDataArr,
-                                id: 'dataseries',
-                                color: 'green',
-                                upColor: 'red',
-                                showInLegend: false
-                            }, {
-                                type: 'flags',
-                                data: shortYArr,
-                                onSeries: "dataseries",
-                                shape: 'squarepin',
-                                width:60,
-                                color: '#ff9912',
-                                fillColor: 'transparent',
-                                style:{
-                                    color:'#ff9912'
-                                },
-                                y: -40,
-                                name: '看空',
-                            }, {
-                                type: 'flags',
-                                data: buyYArr,
-                                onSeries: "dataseries",
-                                shape: 'squarepin',
-                                width: 60,
-                                color: "#4169e1",
-                                fillColor: 'transparent',
-                                style: {
-                                    color: '#4169e1'
-                                },
-                                y: 20,
-                                name: '看多',
-                            }, {
-                                type: 'column',
-                                data: volume,
-                                name: '成交量',
-                                yAxis: 1,
-                                color: '#e6e843'
-
-                            }, {
-                                type: 'column',
-                                data: chartArr,
-                                name: '盈亏',
-                                yAxis: 2,
-                                threshold: 0,
-                                negativeColor: 'green',
-                                color: 'red'
-                            }]
-                        });
-
-                        $('#return_map_big_1').highcharts('StockChart', {
-                            credits: {
-                                enabled: false
-                            },
-                            exporting: {
-                                enabled: false
-                            },
-                            plotOptions: {
-                                series: {
-                                    turboThreshold: 0
-                                },
-                                candlestick: { //红涨绿跌
-                                    color: '#33AA11',
-                                    upColor: '#DD2200',
-                                    lineColor: '#33AA11',
-                                    upLineColor: '#DD2200',
-                                    maker: {
-                                        states: {
-                                            hover: {
-                                                enabled: false,
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            tooltip: {
-                                useHTML: true,
-                                xDateFormat: "%Y-%m-%d %H:%M:%S",
-                                valueDecimals: 2
-                            },
-                            legend: {
-                                enabled: true,
-                                align: 'right',
-                                verticalAlign: 'top',
-                                x: 0,
-                                y: 0
-                            },
-                            rangeSelector: {
-                                buttons: [{
-                                    type: 'minute',
-                                    count: 10,
-                                    text: '10m'
+                                series: [{
+                                    type: 'spline',
+                                    name: 'MA5',
+                                    data: averline5,
+                                    lineWidth: 1,
+                                    color: 'red',
+                                    visible: false
                                 }, {
-                                    type: 'minute',
-                                    count: 30,
-                                    text: '30m'
+                                    type: 'spline',
+                                    name: 'MA10',
+                                    data: averline10,
+                                    lineWidth: 1,
+                                    color: 'yellow',
+                                    visible: false
                                 }, {
-                                    type: 'hour',
-                                    count: 1,
-                                    text: '1h'
+                                    type: 'spline',
+                                    name: 'MA30',
+                                    data: averline30,
+                                    lineWidth: 1,
+                                    color: 'blue',
+                                    visible: false
                                 }, {
-                                    type: 'day',
-                                    count: 1,
-                                    text: '1d'
+                                    type: 'spline',
+                                    name: 'MA60',
+                                    data: averline60,
+                                    lineWidth: 1,
+                                    color: 'green',
+                                    visible: false
                                 }, {
-                                    type: 'week',
-                                    count: 1,
-                                    text: '1w'
+                                    type: 'candlestick',
+                                    name: '价格',
+                                    data: chartJsonDataArr,
+                                    id: 'dataseries',
+                                    color: 'green',
+                                    upColor: 'red',
+                                    showInLegend: false
                                 }, {
-                                    type: 'all',
-                                    text: '所有'
-                                }],
-                                selected: 5,
-                                buttonSpacing: 2
+                                    type: 'flags',
+                                    data: shortYArr,
+                                    onSeries: "dataseries",
+                                    shape: 'squarepin',
+                                    width:60,
+                                    color: '#ff9912',
+                                    fillColor: 'transparent',
+                                    style:{
+                                        color:'#ff9912'
+                                    },
+                                    y: -40,
+                                    name: '看空',
+                                }, {
+                                    type: 'flags',
+                                    data: buyYArr,
+                                    onSeries: "dataseries",
+                                    shape: 'squarepin',
+                                    width: 60,
+                                    color: "#4169e1",
+                                    fillColor: 'transparent',
+                                    style: {
+                                        color: '#4169e1'
+                                    },
+                                    y: 20,
+                                    name: '看多',
+                                }, {
+                                    type: 'column',
+                                    data: volume,
+                                    name: '成交量',
+                                    yAxis: 1,
+                                    color: '#e6e843'
 
-                            },
-                            yAxis: [{
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '价格'
-                                },
-                                lineWidth: 1,
-                                height: '50%'
-                            }, {
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '成交量'
-                                },
-                                opposite: true,
-                                offset: 0,
-                                height: '20%',
-                                top: '52%'
-                            }, {
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '盈亏'
-                                },
-                                opposite: true,
-                                offset: 0,
-                                height: '20%',
-                                top: '74%'
-                            }],
-                            series: [{
-                                type: 'line',
-                                name: '价格',
-                                data: chartJsonDataArr,
-                                lineWidth: 2,
-                                id: 'dataseries'
-                            }, {
-                                type: 'candlestick',
-                                name: '价格',
-                                data: chartJsonDataArr,
-
-                                id: 'dataseries'
-                            }, {
-                                type: 'flags',
-                                data: shortYArr,
-                                onSeries: "dataseries",
-                                shape: 'squarepin',
-                                width: 36,
-                                color: '#ff9912',
-                                fillColor: 'transparent',
-                                style: {
-                                    color: '#ff9912'
-                                },
-                                y: -40,
-                                name: '看空',
-                            }, {
-                                type: 'flags',
-                                data: buyYArr,
-                                onSeries: "dataseries",
-                                shape: 'squarepin',
-                                width: 36,
-                                color: "#4169e1",
-                                fillColor: 'transparent',
-                                style: {
-                                    color: '#4169e1'
-                                },
-                                y: 20,
-                                name: '看多',
-                            }, {
-                                type: 'column',
-                                data: volume,
-                                name: '成交量',
-                                yAxis: 1,
-                                color: '#e6e843'
-
-                            }, {
-                                type: 'column',
-                                data: chartArr,
-                                name: '盈亏',
-                                /*lineWidth:2,*/
-                                yAxis: 2,
-                                threshold: 0,
-                                negativeColor: 'green',
-                                color: 'red'
-                                /*color:'#e3170d',*/
-                                /*marker:{
-                                 enabled:true,
-                                 symbol:'circle',
-                                 fillColor:'#0b1746',
-                                 radius:5
-                                 }*/
-                            }]
-                        });
-                        //页面显示的收益曲线图
+                                }, {
+                                    type: 'column',
+                                    data: chartArr,
+                                    name: '盈亏',
+                                    yAxis: 2,
+                                    threshold: 0,
+                                    negativeColor: 'green',
+                                    color: 'red'
+                                }]
+                            });
+                        }
+                        drawDeal('return_map_big');
+                        drawDeal('return_map_big_1');
                         for (var i = 1; i < chartArr.length; i++) {
                             chartArr[i].Earn = chartArr[i - 1].Earn + chartArr[i].Earn;
                             chartArr[i].y = chartArr[i - 1].y + chartArr[i].y;
                         }
+                        function drawEarn(who){
+                            $('#'+who).highcharts('StockChart', {
+                                credits: {
+                                    enabled: false
+                                },
+                                exporting: {
+                                    enabled: false
+                                },
 
-                        $('#return_map_big1').highcharts('StockChart', {
-                            credits: {
-                                enabled: false
-                            },
-                            exporting: {
-                                enabled: false
-                            },
-
-                            xAxis: {
-                                tickInterval: 1
-                            },
-                            yAxis: [{
-                                type: '盈亏',
-                                minorTickInterval: 0.1,
-                                plotLines: [{
-                                    color: '#A25E6B', //线的颜色
-                                    dashStyle: 'solid', //默认值，这里定义为实线
-                                    value: 0, //定义在那个值上显示标示线，这里是在x轴上刻度为3的值处垂直化一条线
-                                    width: 2 //标示线的宽度，2px
+                                xAxis: {
+                                    tickInterval: 1
+                                },
+                                yAxis: [{
+                                    type: '盈亏',
+                                    minorTickInterval: 0.1,
+                                    plotLines: [{
+                                        color: '#A25E6B', //线的颜色
+                                        dashStyle: 'solid', //默认值，这里定义为实线
+                                        value: 0, //定义在那个值上显示标示线，这里是在x轴上刻度为3的值处垂直化一条线
+                                        width: 2 //标示线的宽度，2px
+                                    }],
                                 }],
-                            }],
-                            rangeSelector: {
-                                buttons: [{
-                                    type: 'minute',
-                                    count: 10,
-                                    text: '10m'
-                                }, {
-                                    type: 'minute',
-                                    count: 30,
-                                    text: '30m'
-                                }, {
-                                    type: 'hour',
-                                    count: 1,
-                                    text: '1h'
-                                }, {
-                                    type: 'day',
-                                    count: 1,
-                                    text: '1d'
-                                }, {
-                                    type: 'week',
-                                    count: 1,
-                                    text: '1w'
-                                }, {
-                                    type: 'all',
-                                    text: '所有'
-                                }],
-                                selected: 5,
-                                buttonSpacing: 2
-                            },
-                            plotOptions: {
-                                spline: {
-                                    lineWidth: 1.5,
-                                    fillOpacity: 0.1,
-                                    marker: {
-                                        enabled: false,
-                                        states: {
-                                            hover: {
-                                                enabled: true,
-                                                radius: 2
+                                rangeSelector: {
+                                    buttons: [{
+                                        type: 'minute',
+                                        count: 10,
+                                        text: '10m'
+                                    }, {
+                                        type: 'minute',
+                                        count: 30,
+                                        text: '30m'
+                                    }, {
+                                        type: 'hour',
+                                        count: 1,
+                                        text: '1h'
+                                    }, {
+                                        type: 'day',
+                                        count: 1,
+                                        text: '1d'
+                                    }, {
+                                        type: 'week',
+                                        count: 1,
+                                        text: '1w'
+                                    }, {
+                                        type: 'all',
+                                        text: '所有'
+                                    }],
+                                    selected: 5,
+                                    buttonSpacing: 2
+                                },
+                                plotOptions: {
+                                    spline: {
+                                        lineWidth: 1.5,
+                                        fillOpacity: 0.1,
+                                        marker: {
+                                            enabled: false,
+                                            states: {
+                                                hover: {
+                                                    enabled: true,
+                                                    radius: 2
+                                                }
                                             }
-                                        }
+                                        },
+                                        shadow: false
+                                    }
+                                },
+                                //收益曲线
+                                series: [{
+                                    data: chartArr,
+                                    name: '盈亏',
+                                    marker: {
+                                        enabled: true,
+                                        symbol: 'square',
+                                        fillColor: 'blue',
+                                        radius: 5
                                     },
-                                    shadow: false
-                                }
-                            },
-                            //收益曲线
-                            series: [{
-                                data: chartArr,
-                                name: '盈亏',
-                                marker: {
-                                    enabled: true,
-                                    symbol: 'square',
-                                    fillColor: 'blue',
-                                    radius: 5
-                                },
-                                id: "yingkui",
-                                color: '#eec710',
+                                    id: "yingkui",
+                                    color: '#eec710',
 
-                            }, {
-                                type: 'flags',
-                                data: chartArr1,
-                                onSeries: "yingkui",
-                                shape: 'squarepin',
-                                width: 36,
-                                color: "#4169e1",
-                                fillColor: 'transparent',
-                                style: {
-                                    color: '#4169e1'
-                                },
-                                name: "详情",
-                                y: -50,
-
-                            },
-                                {
+                                }, {
                                     type: 'flags',
-                                    data: chartArr2,
+                                    data: chartArr1,
                                     onSeries: "yingkui",
                                     shape: 'squarepin',
                                     width: 36,
-                                    color: "#ff9912",
+                                    color: "#4169e1",
                                     fillColor: 'transparent',
                                     style: {
-                                        color: '#ff9912'
+                                        color: '#4169e1'
                                     },
                                     name: "详情",
-                                    y: -50
-                                }
-                            ]
-                        });
+                                    y: -50,
 
-                        //打印中的收益曲线
-                        $('#return_map_big1_1').highcharts('StockChart', {
-                            credits: {
-                                enabled: false
-                            },
-                            exporting: {
-                                enabled: false
-                            },
-                            xAxis: {
-                                tickInterval: 1
-                            },
-                            yAxis: [{
-                                type: '盈亏',
-                                minorTickInterval: 0.1,
-                                plotLines: [{
-                                    color: '#A25E6B', //线的颜色
-                                    dashStyle: 'solid', //默认值，这里定义为实线
-                                    value: 0, //定义在那个值上显示标示线，这里是在x轴上刻度为3的值处垂直化一条线
-                                    width: 2 //标示线的宽度，2px
-                                }],
-                            }],
-
-                            rangeSelector: {
-                                buttons: [{
-                                    type: 'minute',
-                                    count: 10,
-                                    text: '10m'
-                                }, {
-                                    type: 'minute',
-                                    count: 30,
-                                    text: '30m'
-                                }, {
-                                    type: 'hour',
-                                    count: 1,
-                                    text: '1h'
-                                }, {
-                                    type: 'day',
-                                    count: 1,
-                                    text: '1d'
-                                }, {
-                                    type: 'week',
-                                    count: 1,
-                                    text: '1w'
-                                }, {
-                                    type: 'all',
-                                    text: '所有'
-                                }],
-                                selected: 5,
-                                buttonSpacing: 2
-                            },
-
-                            plotOptions: {
-                                spline: {
-                                    lineWidth: 1.5,
-                                    fillOpacity: 0.1,
-                                    marker: {
-                                        enabled: false,
-                                        states: {
-                                            hover: {
-                                                enabled: true,
-                                                radius: 2
-                                            }
-                                        }
-                                    },
-                                    shadow: false
-                                }
-                            },
-
-                            series: [{
-                                data: chartArr,
-                                name: '盈亏',
-                                marker: {
-                                    enabled: true,
-                                    symbol: 'square',
-                                    fillColor: 'blue',
-                                    radius: 5
                                 },
-                                id: "yingkui",
-                                color: '#eec710'
-                            }, {
-                                type: 'flags',
-                                data: chartArr1,
-                                onSeries: "yingkui",
-                                shape: 'squarepin',
-                                width: 36,
-                                color: "#4169e1",
-                                fillColor: 'transparent',
-                                style: {
-                                    color: '#333'
-                                },
-                                name: "详情",
-                                y: -50
-
-
-                            }
-
-                            ]
-                        });
+                                    {
+                                        type: 'flags',
+                                        data: chartArr2,
+                                        onSeries: "yingkui",
+                                        shape: 'squarepin',
+                                        width: 36,
+                                        color: "#ff9912",
+                                        fillColor: 'transparent',
+                                        style: {
+                                            color: '#ff9912'
+                                        },
+                                        name: "详情",
+                                        y: -50
+                                    }
+                                ]
+                            });
+                        }
+                        drawEarn('return_map_big1');
+                        drawEarn('return_map_big1_1');
                         $(".analyse .noprint  .remind span").show();
 
                     };
@@ -4713,7 +3695,6 @@
             }, function (err, sta) {
                 Showbo.Msg.alert('没有交易数据!');
             });
-
         }
     }])
 
@@ -4812,16 +3793,14 @@
                 $http.get(constantUrl + 'model_datas/', {
                         params: {
                             "id": str,
-                            "date": $scope.myFirmDate,
+                            "date": $scope.myFirmDate
                         },
                         headers: {
                             'Authorization': 'token ' + $cookieStore.get('user').token
                         }
                     })
                     .success(function (data) {
-
                         $scope.accuracy = data;
-
                     })
             }
             model();
@@ -5252,8 +4231,6 @@
                                     "symbol": myFirm.symbol
                                 })
                             }
-
-
                         }
                         /**
                          * 数组排序
@@ -5294,7 +4271,6 @@
                         var alldata3 = []; //为了持仓时间
                         var alldata2 = []; //开仓平仓合并后的数据
                         var del = [];
-
                         num = parseInt(alldata.length / 2);
                         for (var i = 0; i < num; i++) {
                             if (alldata[2 * i].trans_type == "short") { //看空
@@ -5385,13 +4361,8 @@
                          * @param sortBy 所要排序的字段
                          * @returns {*}
                          */
-                        function getSortFun(order, sortBy) {
-                            var ordAlpah = (order == 'desc') ? '>' : '<';
-                            var sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1');
-                            return sortFun;
-                        }
-                        alldata2.sort(getSortFun('desc', 'open'));
 
+                        alldata2.sort(getSortFun('desc', 'open'));
                         if(alldata2.length==0){
                             for (var i = 0; i < beginData.length; i++) {
                                 if(beginData[i].trans_type=='cover'){
@@ -5405,12 +4376,10 @@
 
                             }
                             $scope.analyseDataArr=beginData
-                            console.log($scope.analyseDataArr)
                         }
                         else{
                             $scope.analyseDataArr = alldata2;
                         }
-
                         /**封装计算手续费方法
                          *
                          * @param i
@@ -5547,7 +4516,7 @@
                         $scope.allTotalpal = totalpal;
                         $scope.allTotalyeild = allTotalyeild;
                         $scope.averTotalyeild = allTotalyeild / num;
-                        $scope.annualized_return = allTotalyeild * 250; //年化收益率
+                        $scope.annualized_return = allTotalyeild/250*365*100; //年化收益率
                         $scope.allTotalTime = $scope.newTotalTime(allTotalTime1); //alltotaltime是总持仓时间
                         $scope.averTotalTime = $scope.newTotalTime(allTotalTime1 / num); //averTotalTime是平均持仓时间
                         $scope.average_winrate = zheng / num * 100; //盈亏胜率
@@ -5597,16 +4566,12 @@
                                 'open': data.open,
                                 'volume': data.volume
                             })
-
-                        })
-
-
+                        });
                         var averline5=[],averline10=[],averline30=[],averline60=[];
                         averline5=averline.averageLine(chartJsonDataArr,5);
                         averline10=averline.averageLine(chartJsonDataArr,10);
                         averline30=averline.averageLine(chartJsonDataArr,30);
                         averline60=averline.averageLine(chartJsonDataArr,60);
-
                         function nullToData(chartData11){
                             for (var i = 0; i < chartData11.length; i++) {
                                 var data = chartData11[i]; //保存开仓价信息
@@ -5666,572 +4631,312 @@
                                 buySellNum++;
                             }
                         }
-                        averline60 = $filter('orderBy')(averline60, 'x');
-
                         if(buyYArr.length==0&&shortYArr.length==0){
                             nullToData(beginData);
                         }
-                        $('#return_map_big_1').highcharts('StockChart', {
-                            credits: {
-                                enabled: false
-                            },
-                            exporting: {
-                                enabled: false
-                            },
-                            plotOptions: {
-                                series: {
-                                    turboThreshold: 0
-                                },
-                                candlestick: { //红涨绿跌
-                                    color: '#33AA11',
-                                    upColor: '#DD2200',
-                                    lineColor: '#33AA11',
-                                    upLineColor: '#DD2200',
-                                    maker: {
-                                        states: {
-                                            hover: {
-                                                enabled: false,
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            tooltip: {
-                                useHTML: true,
-                                xDateFormat: "%Y-%m-%d %H:%M:%S",
-                                valueDecimals: 2,
-                                backgroundColor: '#eeeeee',   // 背景颜色
-                                borderColor: '#ccc',         // 边框颜色
-                                borderRadius: 10,             // 边框圆角
-                                borderWidth: 1,               // 边框宽度
-                                shadow: true,                 // 是否显示阴影
-                                animation: true,               // 是否启用动画效果
-                            },
-                            legend: {
-                                enabled: true,
-                                align: 'right',
-                                verticalAlign: 'top',
-                                x: 0,
-                                y: 0
-                            },
-                            rangeSelector: {
-                                buttons: [{
-                                    type: 'minute',
-                                    count: 10,
-                                    text: '10m'
-                                }, {
-                                    type: 'minute',
-                                    count: 30,
-                                    text: '30m'
-                                }, {
-                                    type: 'hour',
-                                    count: 1,
-                                    text: '1h'
-                                }, {
-                                    type: 'day',
-                                    count: 1,
-                                    text: '1d'
-                                }, {
-                                    type: 'week',
-                                    count: 1,
-                                    text: '1w'
-                                }, {
-                                    type: 'all',
-                                    text: '所有'
-                                }],
-                                selected: 5,
-                                buttonSpacing: 2
-                            },
-                            yAxis: [{
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '价格'
-                                },
-                                lineWidth: 1,
-                                height: '50%'
-                            }, {
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '成交量'
-                                },
-                                opposite: true,
-                                offset: 0,
-                                height: '20%',
-                                top: '52%'
-                            }, {
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '盈亏'
-                                },
-                                opposite: true,
-                                offset: 0,
-                                height: '20%',
-                                top: '74%'
-                            }],
-                            series: [{
-                                type: 'spline',
-                                name: 'MA5',
-                                data: averline5,
-                                lineWidth: 1,
-                                color: 'red',
-                                visible: false,
-                            }, {
-                                type: 'spline',
-                                name: 'MA10',
-                                data: averline10,
-                                lineWidth: 1,
-                                color: 'yellow',
-                                visible: false
-                            }, {
-                                type: 'spline',
-                                name: 'MA30',
-                                data: averline30,
-                                lineWidth: 1,
-                                color: 'blue',
-                                visible: false
-                            }, {
-                                type: 'spline',
-                                name: 'MA60',
-                                data: averline60,
-                                lineWidth: 1,
-                                color: 'green',
-                                visible: false
-                            }, {
-                                type: 'candlestick',
-                                name: '价格',
-                                data: chartJsonDataArr,
-                                id: 'dataseries',
-                                showInLegend: false
-                            }, {
-                                type: 'flags',
-                                data: shortYArr,
-                                onSeries: "dataseries",
-                                shape: 'squarepin',
-                                width: 60,
-                                color: '#ff9912',
-                                fillColor: 'transparent',
-                                style: {
-                                    color: '#ff9912'
-                                },
-                                y: -40,
-                                name: '看空',
-                            },{
-                                type: 'flags',
-                                data: buyYArr,
-                                onSeries: "dataseries",
-                                shape: 'squarepin',
-                                width: 60,
-                                color: "#4169e1",
-                                fillColor: 'transparent',
-                                style: {
-                                    color: '#4169e1'
-                                },
-                                y: 20,
-                                name: '看多',
-                            }, {
-                                type: 'column',
-                                data: volume,
-                                name: '成交量',
-                                yAxis: 1,
-                                color: '#e6e843'
+                       function drawHighchart(who){
+                           $('#'+who).highcharts('StockChart', {
+                               credits: {
+                                   enabled: false
+                               },
+                               exporting: {
+                                   enabled: false
+                               },
+                               plotOptions: {
+                                   series: {
+                                       turboThreshold: 0
+                                   },
+                                   candlestick: { //红涨绿跌
+                                       color: '#33AA11',
+                                       upColor: '#DD2200',
+                                       lineColor: '#33AA11',
+                                       upLineColor: '#DD2200',
+                                       maker: {
+                                           states: {
+                                               hover: {
+                                                   enabled: false,
+                                               }
+                                           }
+                                       }
+                                   }
+                               },
+                               tooltip: {
+                                   useHTML: true,
+                                   xDateFormat: "%Y-%m-%d %H:%M:%S",
+                                   valueDecimals: 2,
+                                   backgroundColor: '#eeeeee',   // 背景颜色
+                                   borderColor: '#ccc',         // 边框颜色
+                                   borderRadius: 10,             // 边框圆角
+                                   borderWidth: 1,               // 边框宽度
+                                   shadow: true,                 // 是否显示阴影
+                                   animation: true,               // 是否启用动画效果
+                               },
+                               legend: {
+                                   enabled: true,
+                                   align: 'right',
+                                   verticalAlign: 'top',
+                                   x: 0,
+                                   y: 0
+                               },
+                               rangeSelector: {
+                                   buttons: [{
+                                       type: 'minute',
+                                       count: 10,
+                                       text: '10m'
+                                   }, {
+                                       type: 'minute',
+                                       count: 30,
+                                       text: '30m'
+                                   }, {
+                                       type: 'hour',
+                                       count: 1,
+                                       text: '1h'
+                                   }, {
+                                       type: 'day',
+                                       count: 1,
+                                       text: '1d'
+                                   }, {
+                                       type: 'week',
+                                       count: 1,
+                                       text: '1w'
+                                   }, {
+                                       type: 'all',
+                                       text: '所有'
+                                   }],
+                                   selected: 5,
+                                   buttonSpacing: 2
+                               },
+                               yAxis: [{
+                                   labels: {
+                                       align: 'right',
+                                       x: -3
+                                   },
+                                   title: {
+                                       text: '价格'
+                                   },
+                                   lineWidth: 1,
+                                   height: '50%'
+                               }, {
+                                   labels: {
+                                       align: 'right',
+                                       x: -3
+                                   },
+                                   title: {
+                                       text: '成交量'
+                                   },
+                                   opposite: true,
+                                   offset: 0,
+                                   height: '20%',
+                                   top: '52%'
+                               }, {
+                                   labels: {
+                                       align: 'right',
+                                       x: -3
+                                   },
+                                   title: {
+                                       text: '盈亏'
+                                   },
+                                   opposite: true,
+                                   offset: 0,
+                                   height: '20%',
+                                   top: '74%'
+                               }],
+                               series: [{
+                                   type: 'spline',
+                                   name: 'MA5',
+                                   data: averline5,
+                                   lineWidth: 1,
+                                   color: 'red',
+                                   visible: false,
+                               }, {
+                                   type: 'spline',
+                                   name: 'MA10',
+                                   data: averline10,
+                                   lineWidth: 1,
+                                   color: 'yellow',
+                                   visible: false
+                               }, {
+                                   type: 'spline',
+                                   name: 'MA30',
+                                   data: averline30,
+                                   lineWidth: 1,
+                                   color: 'blue',
+                                   visible: false
+                               }, {
+                                   type: 'spline',
+                                   name: 'MA60',
+                                   data: averline60,
+                                   lineWidth: 1,
+                                   color: 'green',
+                                   visible: false
+                               }, {
+                                   type: 'candlestick',
+                                   name: '价格',
+                                   data: chartJsonDataArr,
+                                   id: 'dataseries',
+                                   showInLegend: false
+                               }, {
+                                   type: 'flags',
+                                   data: shortYArr,
+                                   onSeries: "dataseries",
+                                   shape: 'squarepin',
+                                   width: 60,
+                                   color: '#ff9912',
+                                   fillColor: 'transparent',
+                                   style: {
+                                       color: '#ff9912'
+                                   },
+                                   y: -40,
+                                   name: '看空',
+                               },{
+                                   type: 'flags',
+                                   data: buyYArr,
+                                   onSeries: "dataseries",
+                                   shape: 'squarepin',
+                                   width: 60,
+                                   color: "#4169e1",
+                                   fillColor: 'transparent',
+                                   style: {
+                                       color: '#4169e1'
+                                   },
+                                   y: 20,
+                                   name: '看多',
+                               }, {
+                                   type: 'column',
+                                   data: volume,
+                                   name: '成交量',
+                                   yAxis: 1,
+                                   color: '#e6e843'
 
-                            }, {
-                                type: 'column',
-                                data: chartArr,
-                                name: '盈亏',
-                                yAxis: 2,
-                                threshold: 0,
-                                negativeColor: 'green',
-                                color: 'red'
-                            }]
-                        });
+                               }, {
+                                   type: 'column',
+                                   data: chartArr,
+                                   name: '盈亏',
+                                   yAxis: 2,
+                                   threshold: 0,
+                                   negativeColor: 'green',
+                                   color: 'red'
+                               }]
+                           });
+                       }
+                        drawHighchart('return_map_big_1');
+                        drawHighchart('return_map_big_form');
 
-                        $('#return_map_big_form').highcharts('StockChart', {
-                            credits: {
-                                enabled: false
-                            },
-                            exporting: {
-                                enabled: false
-                            },
-                            plotOptions: {
-                                series: {
-                                    turboThreshold: 0
-                                },
-                                candlestick: { //红涨绿跌
-                                    color: '#33AA11',
-                                    upColor: '#DD2200',
-                                    lineColor: '#33AA11',
-                                    upLineColor: '#DD2200',
-                                    maker: {
-                                        states: {
-                                            hover: {
-                                                enabled: false,
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            tooltip: {
-                                useHTML: true,
-                                xDateFormat: "%Y-%m-%d %H:%M:%S",
-                                valueDecimals: 2
-                            },
-                            legend: {
-                                enabled: true,
-                                align: 'right',
-                                verticalAlign: 'top',
-                                x: 0,
-                                y: 0
-                            },
-                            rangeSelector: {
-                                buttons: [{
-                                    type: 'minute',
-                                    count: 10,
-                                    text: '10m'
-                                }, {
-                                    type: 'minute',
-                                    count: 30,
-                                    text: '30m'
-                                }, {
-                                    type: 'hour',
-                                    count: 1,
-                                    text: '1h'
-                                }, {
-                                    type: 'day',
-                                    count: 1,
-                                    text: '1d'
-                                }, {
-                                    type: 'week',
-                                    count: 1,
-                                    text: '1w'
-                                }, {
-                                    type: 'all',
-                                    text: '所有'
-                                }],
-                                selected: 5,
-                                buttonSpacing: 2
-
-                            },
-                            yAxis: [{
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '价格'
-                                },
-                                lineWidth: 1,
-                                height: '50%'
-                            }, {
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '成交量'
-                                },
-                                opposite: true,
-                                offset: 0,
-                                height: '20%',
-                                top: '52%'
-                            }, {
-                                labels: {
-                                    align: 'right',
-                                    x: -3
-                                },
-                                title: {
-                                    text: '盈亏'
-                                },
-                                opposite: true,
-                                offset: 0,
-                                height: '20%',
-                                top: '74%'
-                            }],
-                            series: [{
-                                type: 'line',
-                                name: '价格',
-                                data: chartJsonDataArr,
-                                lineWidth: 2,
-                                id: 'dataseries'
-                            }, {
-                                type: 'candlestick',
-                                name: '价格',
-                                data: chartJsonDataArr,
-
-                                id: 'dataseries'
-                            }, {
-                                type: 'flags',
-                                data: shortYArr,
-                                onSeries: "dataseries",
-                                shape: 'squarepin',
-                                width: 36,
-                                color: '#ff9912',
-                                fillColor: 'transparent',
-                                style: {
-                                    color: '#33x  3'
-                                },
-                                y: -40,
-                                name: '看空',
-                            }, {
-                                type: 'flags',
-                                data: buyYArr,
-                                onSeries: "dataseries",
-                                shape: 'squarepin',
-                                width: 36,
-                                color: "#4169e1",
-                                fillColor: 'transparent',
-                                style: {
-                                    color: '#333'
-                                },
-                                y: 20,
-                                name: '看多',
-                            }, {
-                                type: 'column',
-                                data: volume,
-                                name: '成交量',
-                                yAxis: 1,
-                                color: '#e6e843'
-
-                            }, {
-                                type: 'column',
-                                data: chartArr,
-                                name: '盈亏',
-                                /*lineWidth:2,*/
-                                yAxis: 2,
-                                threshold: 0,
-                                negativeColor: 'green',
-                                color: 'red'
-                                /*color:'#e3170d',*/
-                                /*marker:{
-                                 enabled:true,
-                                 symbol:'circle',
-                                 fillColor:'#0b1746',
-                                 radius:5
-                                 }*/
-                            }]
-                        });
                         for (var i = 1; i < chartArr.length; i++) {
                             chartArr[i].Earn = chartArr[i - 1].Earn + chartArr[i].Earn;
                             chartArr[i].y = chartArr[i - 1].y + chartArr[i].y;
                         }
-                        //页面显示的收益曲线图
-                        $('#return_map_big_2').highcharts('StockChart', {
-                            credits: {
-                                enabled: false
-                            },
-                            exporting: {
-                                enabled: false
-                            },
-                            xAxis: {
-                                tickInterval: 1
-                            },
-                            yAxis: [{
-                                type: '盈亏',
-                                minorTickInterval: 0.1,
-                                plotLines: [{
-                                    color: '#A25E6B', //线的颜色
-                                    dashStyle: 'solid', //默认值，这里定义为实线
-                                    value: 0, //定义在那个值上显示标示线，这里是在x轴上刻度为3的值处垂直化一条线
-                                    width: 2 //标示线的宽度，2px
+                        function drawEarn(who){
+                            $('#'+who).highcharts('StockChart', {
+                                credits: {
+                                    enabled: false
+                                },
+                                exporting: {
+                                    enabled: false
+                                },
+                                xAxis: {
+                                    tickInterval: 1
+                                },
+                                yAxis: [{
+                                    type: '盈亏',
+                                    minorTickInterval: 0.1,
+                                    plotLines: [{
+                                        color: '#A25E6B', //线的颜色
+                                        dashStyle: 'solid', //默认值，这里定义为实线
+                                        value: 0, //定义在那个值上显示标示线，这里是在x轴上刻度为3的值处垂直化一条线
+                                        width: 2 //标示线的宽度，2px
+                                    }],
                                 }],
-                            }],
-
-                            rangeSelector: {
-                                buttons: [{
-                                    type: 'minute',
-                                    count: 10,
-                                    text: '10m'
-                                }, {
-                                    type: 'minute',
-                                    count: 30,
-                                    text: '30m'
-                                }, {
-                                    type: 'hour',
-                                    count: 1,
-                                    text: '1h'
-                                }, {
-                                    type: 'day',
-                                    count: 1,
-                                    text: '1d'
-                                }, {
-                                    type: 'week',
-                                    count: 1,
-                                    text: '1w'
-                                }, {
-                                    type: 'all',
-                                    text: '所有'
-                                }],
-                                selected: 5,
-                                buttonSpacing: 2
-                            },
-
-                            plotOptions: {
-                                spline: {
-                                    lineWidth: 1.5,
-                                    fillOpacity: 0.1,
-                                    marker: {
-                                        enabled: false,
-                                        states: {
-                                            hover: {
-                                                enabled: true,
-                                                radius: 2
+                                rangeSelector: {
+                                    buttons: [{
+                                        type: 'minute',
+                                        count: 10,
+                                        text: '10m'
+                                    }, {
+                                        type: 'minute',
+                                        count: 30,
+                                        text: '30m'
+                                    }, {
+                                        type: 'hour',
+                                        count: 1,
+                                        text: '1h'
+                                    }, {
+                                        type: 'day',
+                                        count: 1,
+                                        text: '1d'
+                                    }, {
+                                        type: 'week',
+                                        count: 1,
+                                        text: '1w'
+                                    }, {
+                                        type: 'all',
+                                        text: '所有'
+                                    }],
+                                    selected: 5,
+                                    buttonSpacing: 2
+                                },
+                                plotOptions: {
+                                    spline: {
+                                        lineWidth: 1.5,
+                                        fillOpacity: 0.1,
+                                        marker: {
+                                            enabled: false,
+                                            states: {
+                                                hover: {
+                                                    enabled: true,
+                                                    radius: 2
+                                                }
                                             }
-                                        }
-                                    },
-                                    shadow: false
-                                }
-                            },
-                            //收益曲线
-                            series: [{
-                                data: chartArr,
-                                name: '盈亏',
-                                marker: {
-                                    enabled: true,
-                                    symbol: 'square',
-                                    fillColor: 'blue',
-                                    radius: 5
+                                        },
+                                        shadow: false
+                                    }
                                 },
-                                id: "yingkui",
-                                color: '#eec710',
-                            },
-                                {
-                                    type: 'flags',
-                                    data: chartArr2,
-                                    onSeries: "yingkui",
-                                    shape: 'squarepin',
-                                    width: 36,
-                                    color: "#ff9912",
-                                    fillColor: 'transparent',
-                                    style: {
-                                        color: '#ff9912'
-                                    },
-                                    name: "详情",
-                                    y: -50
-                                }
-                                , {
-                                    type: 'flags',
-                                    data: chartArr1,
-                                    onSeries: "yingkui",
-                                    shape: 'squarepin',
-                                    width: 36,
-                                    color: "#4169e1",
-                                    fillColor: 'transparent',
-                                    style: {
-                                        color: '#4169e1'
-                                    },
-                                    name: "详情",
-                                    y: -50
-                                }
-                            ]
-                        });
-                        //打印中的收益曲线
-                        $('#return_map_big_form1').highcharts('StockChart', {
-                            credits: {
-                                enabled: false
-                            },
-                            exporting: {
-                                enabled: false
-                            },
-                            xAxis: {
-                                tickInterval: 1
-                            },
-                            yAxis: [{
-                                type: '盈亏',
-                                minorTickInterval: 0.1,
-                                plotLines: [{
-                                    color: '#A25E6B', //线的颜色
-                                    dashStyle: 'solid', //默认值，这里定义为实线
-                                    value: 0, //定义在那个值上显示标示线，这里是在x轴上刻度为3的值处垂直化一条线
-                                    width: 2 //标示线的宽度，2px
-                                }],
-                            }],
-
-                            rangeSelector: {
-                                buttons: [{
-                                    type: 'minute',
-                                    count: 10,
-                                    text: '10m'
-                                }, {
-                                    type: 'minute',
-                                    count: 30,
-                                    text: '30m'
-                                }, {
-                                    type: 'hour',
-                                    count: 1,
-                                    text: '1h'
-                                }, {
-                                    type: 'day',
-                                    count: 1,
-                                    text: '1d'
-                                }, {
-                                    type: 'week',
-                                    count: 1,
-                                    text: '1w'
-                                }, {
-                                    type: 'all',
-                                    text: '所有'
-                                }],
-                                selected: 5,
-                                buttonSpacing: 2
-                            },
-
-                            plotOptions: {
-                                spline: {
-                                    lineWidth: 1.5,
-                                    fillOpacity: 0.1,
+                                series: [{
+                                    data: chartArr,
+                                    name: '盈亏',
                                     marker: {
-                                        enabled: false,
-                                        states: {
-                                            hover: {
-                                                enabled: true,
-                                                radius: 2
-                                            }
-                                        }
+                                        enabled: true,
+                                        symbol: 'square',
+                                        fillColor: 'blue',
+                                        radius: 5
                                     },
-                                    shadow: false
-                                }
-                            },
-
-                            series: [{
-                                data: chartArr,
-                                name: '盈亏',
-                                marker: {
-                                    enabled: true,
-                                    symbol: 'square',
-                                    fillColor: 'blue',
-                                    radius: 5
+                                    id: "yingkui",
+                                    color: '#eec710'
                                 },
-                                id: "yingkui",
-                                color: '#eec710'
-                            }, {
-                                type: 'flags',
-                                data: chartArr1,
-                                onSeries: "yingkui",
-                                shape: 'squarepin',
-                                width: 36,
-                                color: "#4169e1",
-                                fillColor: 'transparent',
-                                style: {
-                                    color: '#333'
-                                },
-                                name: "详情",
-                                y: -50
-                            }
-
-                            ]
-                        });
+                                    {
+                                        type: 'flags',
+                                        data: chartArr2,
+                                        onSeries: "yingkui",
+                                        shape: 'squarepin',
+                                        width: 36,
+                                        color: "#ff9912",
+                                        fillColor: 'transparent',
+                                        style: {
+                                            color: '#ff9912'
+                                        },
+                                        name: "详情",
+                                        y: -50
+                                    }
+                                    , {
+                                        type: 'flags',
+                                        data: chartArr1,
+                                        onSeries: "yingkui",
+                                        shape: 'squarepin',
+                                        width: 36,
+                                        color: "#4169e1",
+                                        fillColor: 'transparent',
+                                        style: {
+                                            color: '#4169e1'
+                                        },
+                                        name: "详情",
+                                        y: -50
+                                    }
+                                ]
+                            });
+                        }
+                        drawEarn('return_map_big_2');
+                        drawEarn('return_map_big_form1');
                         $(".analyse .noprint .remind span").show();
-
-
                     };
                 });
             });
@@ -6244,7 +4949,6 @@
         var editor;
         var myClassId;
         $scope.code = "# encoding: UTF-8\n" + "\"\"\"\n" + "这里的Demo是一个最简单的策略实现，并未考虑太多实盘中的交易细节，如：\n" + "1. 委托价格超出涨跌停价导致的委托失败\n" + "2. 委托未成交，需要撤单后重新委托\n" + "3. 断网后恢复交易状态\n" + "\"\"\"\n" + "from ctaBase import *\n" + "from ctaTemplate import CtaTemplate\n\n" + "########################################################################\n" + "class Demo(CtaTemplate):\n" + "    \"\"\"双指数均线策略Demo\"\"\"\n" + "    className = 'Demo'\n" + "    author = u'coder name'\n\n" + "    # 策略参数\n" + "    fastK = 0.9     # 快速EMA参数\n" + "    slowK = 0.1     # 慢速EMA参数\n" + "    initDays = 10   # 初始化数据所用的天数\n\n" + "    # 策略变量\n" + "    bar = None\n" + "    barMinute = EMPTY_STRING\n\n" + "    fastMa = []             # 快速EMA均线数组\n" + "    fastMa0 = EMPTY_FLOAT   # 当前最新的快速EMA\n" + "    fastMa1 = EMPTY_FLOAT   # 上一根的快速EMA\n\n" + "    slowMa = []             # 与上面相同\n" + "    slowMa0 = EMPTY_FLOAT\n" + "    slowMa1 = EMPTY_FLOAT\n\n" + "    # 参数列表，保存了参数的名称\n" + "    paramList = ['name',\n" + "                 'className',\n" + "                 'author',\n" + "                 'vtSymbol',\n" + "                 'fastK',\n" + "                 'slowK']\n\n" + "    # 变量列表，保存了变量的名称\n" + "    varList = ['inited',\n" + "               'trading',\n" + "               'pos',\n" + "               'fastMa0',\n" + "               'fastMa1',\n" + "               'slowMa0',\n" + "               'slowMa1']\n\n" + "    #----------------------------------------------------------------------\n" + "    def __init__(self, ctaEngine, setting):\n" + "        \"\"\"Constructor\"\"\"\n" + "        super(Demo, self).__init__(ctaEngine, setting)\n\n" + "       # 注意策略类中的可变对象属性（通常是list和dict等），在策略初始化时需要重新创建，\n" + "        # 否则会出现多个策略实例之间数据共享的情况，有可能导致潜在的策略逻辑错误风险，\n" + "        # 策略类中的这些可变对象属性可以选择不写，全都放在__init__下面，写主要是为了阅读\n" + "        # 策略时方便（更多是个编程习惯的选择）\n" + "        self.fastMa = []\n" + "        self.slowMa = []\n\n" + "    #----------------------------------------------------------------------\n" + "    def onInit(self):\n" + "        \"\"\"初始化策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略初始化')\n\n" + "        initData = self.loadBar(self.initDays)\n" + "        for bar in initData:\n" + "            self.onBar(bar)\n\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onStart(self):\n" + "        \"\"\"启动策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略启动')\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onStop(self):\n" + "        \"\"\"停止策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略停止')\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onTick(self, tick):\n" + "        \"\"\"收到行情TICK推送（必须由用户继承实现）\"\"\"\n" + "        # 计算K线\n" + "        tickMinute = tick.datetime.minute\n\n" + "        if tickMinute != self.barMinute:\n" + "            if self.bar:\n" + "                self.onBar(self.bar)\n\n" + "            bar = CtaBarData()\n" + "            bar.vtSymbol = tick.vtSymbol\n" + "            bar.symbol = tick.symbol\n" + "            bar.exchange = tick.exchange\n\n" + "            bar.open = tick.lastPrice\n" + "            bar.high = tick.lastPrice\n" + "            bar.low = tick.lastPrice\n" + "            bar.close = tick.lastPrice\n\n" + "            bar.date = tick.date\n" + "            bar.time = tick.time\n" + "            bar.datetime = tick.datetime    # K线的时间设为第一个Tick的时间\n\n" + "            # 实盘中用不到的数据可以选择不算，从而加快速度\n\n" + "            #bar.volume = tick.volume\n" + "            #bar.openInterest = tick.openInterest\n\n" + "            self.bar = bar                  # 这种写法为了减少一层访问，加快速度\n" + "            self.barMinute = tickMinute     # 更新当前的分钟\n\n" + "        else:                               # 否则继续累加新的K线\n\n" + "            bar = self.bar                  # 写法同样为了加快速度\n\n" + "            bar.high = max(bar.high, tick.lastPrice)\n" + "            bar.low = min(bar.low, tick.lastPrice)\n" + "            bar.close = tick.lastPrice\n\n" + "    #----------------------------------------------------------------------\n\n" + "    def onBar(self, bar):\n" + "        \"\"\"收到Bar推送（必须由用户继承实现）\"\"\"\n" + "		\"\"\"算法核心，接受到Bar数据后算法逻辑判断\"\"\"\n\n" + "		# 计算快慢均线\n" + "        if not self.fastMa0:\n" + "            self.fastMa0 = bar.close\n" + "            self.fastMa.append(self.fastMa0)\n" + "        else:\n" + "            self.fastMa1 = self.fastMa0\n" + "            self.fastMa0 = bar.close * self.fastK + self.fastMa0 * (1 - self.fastK)\n" + "            self.fastMa.append(self.fastMa0)\n\n" + "        if not self.slowMa0:\n" + "            self.slowMa0 = bar.close\n" + "            self.slowMa.append(self.slowMa0)\n" + "        else:\n" + "            self.slowMa1 = self.slowMa0\n" + "            self.slowMa0 = bar.close * self.slowK + self.slowMa0 * (1 - self.slowK)\n" + "            self.slowMa.append(self.slowMa0)\n\n" + "        # 判断买卖\n" + "        crossOver = self.fastMa0>self.slowMa0 and self.fastMa1<self.slowMa1     # 金叉上穿\n" + "        crossBelow = self.fastMa0<self.slowMa0 and self.fastMa1>self.slowMa1    # 死叉下穿\n\n" + "        # 金叉和死叉的条件是互斥\n" + "        # 所有的委托均以K线收盘价委托（这里有一个实盘中无法成交的风险，考虑添加对模拟市价单类型的支持）\n" + "        if crossOver:\n" + "            # 如果金叉时手头没有持仓，则直接做多\n" + "            if self.pos == 0:\n" + "                self.buy(bar.close, 1)\n" + "            # 如果有空头持仓，则先平空，再做多\n" + "            elif self.pos < 0:\n" + "                self.cover(bar.close, 1)\n" + "                self.buy(bar.close, 1)\n" + "        # 死叉和金叉相反\n" + "        elif crossBelow:\n" + "            if self.pos == 0:\n" + "                self.short(bar.close, 1)\n" + "            elif self.pos > 0:\n" + "                self.sell(bar.close, 1)\n" + "                self.short(bar.close, 1)\n\n" + "        # 发出状态更新事件\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onOrder(self, order):\n" + "        \"\"\"收到委托变化推送（必须由用户继承实现）\"\"\"\n" + "        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n" + "        pass\n\n" + "    #----------------------------------------------------------------------\n" + "    def onTrade(self, trade):\n" + "        \"\"\"收到成交推送（必须由用户继承实现）\"\"\"\n" + "        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n" + "        pass\n\n\n" + "########################################################################################\n" + "class OrderManagementDemo(CtaTemplate):\n" + "    \"\"\"基于tick级别细粒度撤单追单测试demo\"\"\"\n\n" + "    className = 'OrderManagementDemo'\n" + "    author = u'用Python的交易员'\n\n" + "    # 策略参数\n" + "    initDays = 10   # 初始化数据所用的天数\n\n" + "    # 策略变量\n" + "    bar = None\n" + "    barMinute = EMPTY_STRING\n\n\n" + "    # 参数列表，保存了参数的名称\n" + "    paramList = ['name',\n" + "                 'className',\n" + "                 'author',\n" + "                 'vtSymbol']\n\n" + "    # 变量列表，保存了变量的名称\n" + "    varList = ['inited',\n" + "               'trading',\n" + "               'pos']\n\n" + "    #----------------------------------------------------------------------\n" + "    def __init__(self, ctaEngine, setting):\n" + "        \"\"\"Constructor\"\"\"\n" + "        super(OrderManagementDemo, self).__init__(ctaEngine, setting)\n\n" + "        self.lastOrder = None\n" + "        self.orderType = ''\n\n" + "    #----------------------------------------------------------------------\n" + "    def onInit(self):\n" + "       \"\"\"初始化策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略初始化')\n\n" + "        initData = self.loadBar(self.initDays)\n" + "        for bar in initData:\n" + "            self.onBar(bar)\n\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onStart(self):\n" + "        \"\"\"启动策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略启动')\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onStop(self):\n" + "        \"\"\"停止策略（必须由用户继承实现）\"\"\"\n" + "        self.writeCtaLog(u'demo策略停止')\n" + "        self.putEvent()\n\n" + "    #----------------------------------------------------------------------\n" + "    def onTick(self, tick):\n" + "        \"\"\"收到行情TICK推送（必须由用户继承实现）\"\"\"\n\n" + "        # 建立不成交买单测试单\n" + "        if self.lastOrder == None:\n" + "            self.buy(tick.lastprice - 10.0, 1)\n\n" + "        # CTA委托类型映射\n" + "        if self.lastOrder != None and self.lastOrder.direction == u'多' and self.lastOrder.offset == u'开仓':\n" + "            self.orderType = u'买开'\n\n" + "        elif self.lastOrder != None and self.lastOrder.direction == u'多' and self.lastOrder.offset == u'平仓':\n" + "            self.orderType = u'买平'\n\n" + "        elif self.lastOrder != None and self.lastOrder.direction == u'空' and self.lastOrder.offset == u'开仓':\n" + "            self.orderType = u'卖开'\n\n" + "        elif self.lastOrder != None and self.lastOrder.direction == u'空' and self.lastOrder.offset == u'平仓':\n" + "            self.orderType = u'卖平'\n\n" + "        # 不成交，即撤单，并追单\n" + "        if self.lastOrder != None and self.lastOrder.status == u'未成交':\n\n" + "            self.cancelOrder(self.lastOrder.vtOrderID)\n" + "            self.lastOrder = None\n" + "        elif self.lastOrder != None and self.lastOrder.status == u'已撤销':\n" + "        # 追单并设置为不能成交\n\n" + "            self.sendOrder(self.orderType, self.tick.lastprice - 10, 1)\n" + "            self.lastOrder = None\n\n" + "    #----------------------------------------------------------------------\n" + "    def onBar(self, bar):\n" + "        \"\"\"收到Bar推送（必须由用户继承实现）\"\"\"\n" + "        pass\n\n" + "    #----------------------------------------------------------------------\n" + "    def onOrder(self, order):\n" + "        \"\"\"收到委托变化推送（必须由用户继承实现）\"\"\"\n" + "        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n" + "        self.lastOrder = order\n\n" + "    #----------------------------------------------------------------------\n\n" + "    def onTrade(self, trade):\n" + "        \"\"\"收到成交推送（必须由用户继承实现）\"\"\"\n" + "        # 对于无需做细粒度委托控制的策略，可以忽略onOrder\n" + "        pass";
-
 
         $scope.$watch('$viewContentLoaded', function () {
             editor = ace.edit("editor");
@@ -6259,17 +4963,6 @@
             editor.getSession().setMode("ace/mode/python");
             editor.setValue($scope.code);
         });
-        $scope.openMask = function () {
-            actualResController
-            if (!myClassId) {
-                Showbo.Msg.alert('先修改策略名（即策略类名），并保存策略。');
-                return;
-            }
-            $('.complie-mask').fadeIn();
-        };
-        $scope.closeMask = function () {
-            $('.complie-mask').fadeOut();
-        };
         $scope.hisItem = {};
         $scope.modeTickOptions = false;
         $scope.modeBarOptions = false;
@@ -6302,568 +4995,6 @@
             if (!$scope.modeTickOptions) return;
             $scope.getModeList('tick');
         };
-        $scope.addHisStrategy = function () {
-            var files = $scope.files;
-            var formdata = new FormData();
-            if ($scope.modeBarOptions) {
-                formdata.append('mode', 'bar');
-            } else {
-                formdata.append('mode', 'tick');
-            }
-            ;
-            formdata.append('name', $scope.hisItem.name);
-            formdata.append('start', $scope.hisItem.start);
-            formdata.append('end', $scope.hisItem.end);
-            formdata.append('class_id', myClassId);
-            if (($scope.files != undefined) && ($scope.files != null)) {
-                formdata.append('file', files);
-            };
-            function complieStep1() {
-                var defer = $q.defer();
-                $http.post(constantUrl + "btstrategys/", formdata, {
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': undefined,
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
-                    .success(function (data) {
-                        defer.resolve(data);
-                    })
-                    .error(function (err, st) {
-                        defer.reject(err);
-                    });
-                return defer.promise;
-            }
-            complieStep1().then(function (data) {
-                $('.complie-mask').fadeOut();
-                var id = data._id;
-                var mypromise = $interval(function () {
-                    $http.get(constantUrl + 'btstrategys/' + id + '/', {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
-                        .success(function (data) {
-
-                            console.log(data);
-                            if (data.status == '-2' || data.status == 2) {
-                                $interval.cancel(mypromise);
-                            }
-                            ;
-                            if (data.status == 2) {
-                                data.logs.push('push策略完成');
-                                $http.get(constantUrl + 'dates/', {
-                                        params: {
-                                            "date_type": 'transaction',
-                                            "sty_id": id
-                                        },
-                                        headers: {
-                                            'Authorization': 'token ' + $cookieStore.get('user').token
-                                        }
-                                    })
-                                    .success(function (data) {
-                                        console.log(data);
-                                        if (data != null) {
-                                            var mydate = $filter('date')(new Date((new Date(data[data.length - 1])).setDate((new Date(data[data.length - 1])).getDate() + 1)), 'yyyy-MM-dd');
-                                            $scope.getHisTime = function () {
-                                                var defer1 = $q.defer();
-                                                $http.get(constantUrl + 'transactions/', {
-                                                        params: {
-                                                            "sty_id": id,
-                                                            "start": data[0],
-                                                            "end": mydate
-                                                        },
-                                                        headers: {
-                                                            'Authorization': 'token ' + $cookieStore.get('user').token
-                                                        }
-                                                    })
-                                                    .success(function (data) {
-                                                        defer1.resolve(data);
-                                                    })
-                                                    .error(function (err, sta) {
-                                                        defer1.reject(err);
-                                                    });
-                                                return defer1.promise;
-                                            };
-                                            $scope.getHisTransTime = function () {
-                                                var defer2 = $q.defer();
-                                                $http.get(constantUrl + 'datas/', {
-                                                        params: {
-                                                            "type": 'bar',
-                                                            "start": data[0],
-                                                            "end": mydate
-                                                        },
-                                                        headers: {
-                                                            'Authorization': 'token ' + $cookieStore.get('user').token
-                                                        }
-                                                    })
-                                                    .success(function (data) {
-                                                        defer2.resolve(data);
-                                                    })
-                                                    .error(function (err, sta) {
-                                                        defer2.reject(err);
-                                                    });
-                                                return defer2.promise;
-                                            };
-                                            $scope.getHisTime().then(function (data) {
-                                                var chartData11 = data;
-                                                //console.log(data);
-                                                $scope.getHisTransTime().then(function (data) {
-
-                                                    var chartJsonData = data;
-                                                    draws1();
-                                                    function draws1() {
-                                                        var chartData1 = [];
-                                                        angular.forEach(chartData11, function (data, index) {
-                                                            var hour = parseInt($filter("date")(data["datetime"], "yyyy-MM-dd HH:mm:ss").slice(11, 13));
-                                                            var minute = parseInt($filter("date")(data["datetime"], "yyyy-MM-dd HH:mm:ss").slice(14, 16));
-                                                        }, chartData1);
-                                                        var chartJsonDataArr = [];
-                                                        var chartArr = [];
-                                                        var indexShortArr = [];
-                                                        var indexBuyArr = [];
-                                                        var buySellNum = 0;
-                                                        var buyYArr = [];
-                                                        var shortYArr = [];
-                                                        angular.forEach(chartData1, function (data, index) {
-                                                            if (index == 0 && ((data.trans_type == "cover") || (data.trans_type == "sell")))
-                                                                return;
-                                                            if (index == chartData1.length - 1) return;
-                                                            if ((data.trans_type == "cover") || (data.trans_type == "sell")) return;
-                                                            if (data.trans_type == "short") {
-
-                                                                outer: for (var i = 0; i < chartData1.length; i++) {
-                                                                    if (chartData1[i].trans_type == "cover") {
-                                                                        if (indexShortArr.length != 0) {
-                                                                            inter: for (var j = 0; j < indexShortArr.length; j++) {
-                                                                                if (indexShortArr[j] == i) {
-                                                                                    break inter;
-                                                                                } else if ((j == indexShortArr.length - 1) && (indexShortArr[j] != i)) {
-                                                                                    buySellNum++;
-                                                                                    buyYArr.push({
-                                                                                        "short": "short",
-                                                                                        "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
-                                                                                        "volume": data.volume,
-                                                                                        "pos": data.pos,
-                                                                                        "price": data.price,
-                                                                                        "x": data.datetime,
-                                                                                        "name": data.name,
-                                                                                        "symbol": data.symbol,
-                                                                                        "title": data.trans_type + ' ' + buySellNum
-                                                                                    });
-                                                                                    var Earn;
-                                                                                    var y;
-                                                                                    chartArr.push({
-                                                                                        "x": chartData1[i].datetime,
-                                                                                        "y": y,
-                                                                                        "volume": data.volume,
-                                                                                        "direction": data.pos,
-                                                                                        "Earn": Earn,
-                                                                                        "openprice": data.price,
-                                                                                        "closeprice": chartData1[i].price,
-                                                                                        "opentime": data.datetime,
-                                                                                        "closetime": chartData1[i].datetime,
-                                                                                        "present": chartData1[i].price,
-                                                                                        "name": data.name,
-                                                                                        "symbol": data.symbol
-                                                                                    });
-
-                                                                                    buyYArr.push({
-                                                                                        "short": "short",
-                                                                                        "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
-                                                                                        "volume": chartData1[i].volume,
-                                                                                        "pos": chartData1[i].pos,
-                                                                                        "price": chartData1[i].price,
-                                                                                        "x": chartData1[i].datetime,
-                                                                                        "name": chartData1[i].name,
-                                                                                        "symbol": chartData1[i].symbol,
-                                                                                        "title": chartData1[i].trans_type + ' ' + buySellNum
-                                                                                    });
-                                                                                    indexShortArr.push(i);
-                                                                                    break outer;
-                                                                                }
-                                                                                ;
-                                                                            }
-                                                                            ;
-                                                                        }
-                                                                        else {
-                                                                            buySellNum++;
-                                                                            buyYArr.push({
-                                                                                "short": "short",
-                                                                                "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
-                                                                                "volume": data.volume,
-                                                                                "pos": data.pos,
-                                                                                "price": data.price,
-                                                                                "x": data.datetime,
-                                                                                "name": data.name,
-                                                                                "symbol": data.symbol,
-                                                                                "title": data.trans_type + ' ' + buySellNum
-                                                                            });
-                                                                            var Earn;
-                                                                            var y;
-                                                                            chartArr.push({
-
-                                                                                "x": chartData1[i].datetime,
-                                                                                "y": y,
-                                                                                "volume": data.volume,
-                                                                                "direction": -1,
-                                                                                "Earn": Earn,
-                                                                                "openprice": data.price,
-                                                                                "closeprice": chartData1[i].price,
-                                                                                "opentime": data.datetime,
-                                                                                "closetime": chartData1[i].datetime,
-                                                                                "present": chartData1[i].price,
-                                                                                "name": data.name,
-                                                                                "symbol": data.symbol
-                                                                            });
-                                                                            buyYArr.push({
-                                                                                "short": "short",
-                                                                                "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
-                                                                                "volume": chartData1[i].volume,
-                                                                                "pos": chartData1[i].pos,
-                                                                                "price": chartData1[i].price,
-                                                                                "x": chartData1[i].datetime,
-                                                                                "name": chartData1[i].name,
-                                                                                "symbol": chartData1[i].symbol,
-                                                                                "title": chartData1[i].trans_type + ' ' + buySellNum
-                                                                            });
-                                                                            indexShortArr.push(i);
-                                                                            break outer;
-                                                                        }
-                                                                        ;
-                                                                    }
-                                                                    ;
-                                                                }
-                                                                ;
-                                                            }
-                                                            ;
-                                                            if (data.trans_type == "buy") {
-
-                                                                outer1: for (var i = 0; i < chartData1.length; i++) {
-                                                                    if (chartData1[i].trans_type == "sell") {
-                                                                        if (indexShortArr.length != 0) {
-                                                                            inter1: for (var j = 0; j < indexShortArr.length; j++) {
-                                                                                if (indexShortArr[j] == i) {
-                                                                                    break inter1;
-                                                                                } else if ((j == indexShortArr.length - 1) && (indexShortArr[j] != i)) {
-                                                                                    buySellNum++;
-                                                                                    shortYArr.push({
-                                                                                        "buy": 'buy',
-                                                                                        "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
-                                                                                        "volume": data.volume,
-                                                                                        "pos": data.pos,
-                                                                                        "price": data.price,
-                                                                                        "x": data.datetime,
-                                                                                        "name": data.name,
-                                                                                        "symbol": data.symbol,
-                                                                                        "title": data.trans_type + ' ' + buySellNum
-                                                                                    });
-                                                                                    var Earn;
-                                                                                    var y;
-                                                                                    chartArr.push({
-                                                                                        "x": chartData1[i].datetime,
-                                                                                        "y": y,
-                                                                                        "volume": data.volume,
-                                                                                        "direction": 1,
-                                                                                        "Earn": Earn,
-                                                                                        "openprice": data.price,
-                                                                                        "closeprice": chartData1[i].price,
-                                                                                        "opentime": data.datetime,
-                                                                                        "closetime": chartData1[i].datetime,
-                                                                                        "present": chartData1[i].price,
-                                                                                        "name": data.name,
-                                                                                        "symbol": data.symbol
-                                                                                    });
-                                                                                    shortYArr.push({
-                                                                                        "buy": 'buy',
-                                                                                        "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
-                                                                                        "volume": chartData1[i].volume,
-                                                                                        "pos": chartData1[i].pos,
-                                                                                        "price": chartData1[i].price,
-                                                                                        "x": chartData1[i].datetime,
-                                                                                        "name": chartData1[i].name,
-                                                                                        "symbol": chartData1[i].symbol,
-                                                                                        "title": chartData1[i].trans_type + ' ' + buySellNum
-                                                                                    });
-                                                                                    indexShortArr.push(i);
-                                                                                    break outer1;
-                                                                                }
-                                                                                ;
-                                                                            }
-                                                                            ;
-                                                                        }
-                                                                        else {
-                                                                            buySellNum++;
-                                                                            shortYArr.push({
-                                                                                "buy": 'buy',
-                                                                                "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
-                                                                                "volume": data.volume,
-                                                                                "pos": data.pos,
-                                                                                "price": data.price,
-                                                                                "x": data.datetime,
-                                                                                "name": data.name,
-                                                                                "symbol": data.symbol,
-                                                                                "title": data.trans_type + ' ' + buySellNum
-                                                                            });
-                                                                            var Earn;
-                                                                            var y;
-                                                                            chartArr.push({
-                                                                                "x": chartData1[i].datetime,
-                                                                                "y": y,
-                                                                                "volume": data.volume,
-                                                                                "direction": data.pos,
-                                                                                "Earn": Earn,
-                                                                                "openprice": data.price,
-                                                                                "closeprice": chartData1[i].price,
-                                                                                "opentime": data.datetime,
-                                                                                "closetime": chartData1[i].datetime,
-                                                                                "present": chartData1[i].price,
-                                                                                "name": data.name,
-                                                                                "symbol": data.symbol
-                                                                            });
-                                                                            shortYArr.push({
-                                                                                "buy": 'buy',
-                                                                                "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
-                                                                                "volume": chartData1[i].volume,
-                                                                                "pos": chartData1[i].pos,
-                                                                                "price": chartData1[i].price,
-                                                                                "x": chartData1[i].datetime,
-                                                                                "name": chartData1[i].name,
-                                                                                "symbol": chartData1[i].symbol,
-                                                                                "title": chartData1[i].trans_type + ' ' + buySellNum
-                                                                            });
-                                                                            indexShortArr.push(i);
-                                                                            break outer1;
-                                                                        }
-                                                                        ;
-                                                                    }
-                                                                    ;
-                                                                }
-                                                                ;
-                                                            }
-                                                            ;
-                                                        });
-
-                                                        shortYArr = $filter('orderBy')(shortYArr, 'x');
-                                                        buyYArr = $filter('orderBy')(buyYArr, 'x');
-                                                        chartArr = $filter('orderBy')(chartArr, 'x');
-                                                        var wealth = [];
-                                                        var buy = [];
-                                                        var tradeItem = [];
-                                                        var direction;
-                                                        var amount = 0;
-                                                        var total = 0;
-                                                        var winrate;
-                                                        var totalWinrate = 0;
-                                                        var totalProfit = 0;
-                                                        var totalRate1 = 0;
-                                                        var totalRate2 = 0;
-                                                        var totalRate3 = 0;
-                                                        var totalRate4 = [];
-                                                        var yeildAbs;
-                                                        var totalpal = 0;
-                                                        var allTotalpal = 0;
-                                                        var allTotalyeild = 0;
-                                                        var allTotalTime = 0; //总持仓时间r
-                                                        var averTotalTime = 0; //平均持仓时间
-                                                        var errorYeild = 0; //跟踪误差年化波动率
-                                                        var prof = 0;
-                                                        var loss = 0;
-                                                        var yeildArrs = [];
-                                                        Highcharts.setOptions({
-                                                            global: {
-                                                                useUTC: false
-                                                            }
-                                                        });
-
-                                                        angular.forEach(chartJsonData, function (data, index) {
-                                                            chartJsonDataArr.push({
-                                                                "x": data.datetime,
-                                                                "y": data.close,
-                                                                'low': data.low,
-                                                                'high': data.high,
-                                                                'close': data.close,
-                                                                'open': data.open,
-                                                                'volume': data.volume
-                                                            });
-                                                        });
-                                                        chartJsonDataArr = $filter('orderBy')(chartJsonDataArr, 'x');
-                                                        $('#complie-highcharts').highcharts('StockChart', {
-                                                            credits: {
-                                                                enabled: false
-                                                            },
-                                                            exporting: {
-                                                                enabled: false
-                                                            },
-                                                            plotOptions: {
-                                                                series: {
-                                                                    turboThreshold: 0
-                                                                }
-                                                            },
-                                                            tooltip: {
-                                                                useHTML: true,
-                                                                xDateFormat: "%Y-%m-%d %H:%M:%S",
-                                                                valueDecimals: 2
-                                                            },
-                                                            legend: {
-                                                                enabled: true,
-                                                                align: 'right',
-                                                                verticalAlign: 'top',
-                                                                x: 0,
-                                                                y: 0
-                                                            },
-                                                            rangeSelector: {
-                                                                buttons: [{
-                                                                    type: 'minute',
-                                                                    count: 10,
-                                                                    text: '10m'
-                                                                }, {
-                                                                    type: 'minute',
-                                                                    count: 30,
-                                                                    text: '30m'
-                                                                }, {
-                                                                    type: 'hour',
-                                                                    count: 1,
-                                                                    text: '1h'
-                                                                }, {
-                                                                    type: 'day',
-                                                                    count: 1,
-                                                                    text: '1d'
-                                                                }, {
-                                                                    type: 'week',
-                                                                    count: 1,
-                                                                    text: '1w'
-                                                                }, {
-                                                                    type: 'all',
-                                                                    text: '所有'
-                                                                }],
-                                                                selected: 5,
-                                                                buttonSpacing: 2
-
-                                                            },
-                                                            yAxis: [{
-                                                                labels: {
-                                                                    align: 'right',
-                                                                    x: -3
-                                                                },
-                                                                title: {
-                                                                    text: '价格'
-                                                                },
-                                                                lineWidth: 1,
-                                                                height: '60%'
-                                                            }, {
-                                                                labels: {
-                                                                    align: 'right',
-                                                                    x: -3
-                                                                },
-                                                                title: {
-                                                                    text: '盈亏'
-                                                                },
-                                                                opposite: true,
-                                                                offset: 0,
-                                                                height: '35%',
-                                                                top: '65%'
-                                                            }],
-                                                            series: [{
-                                                                type: 'line',
-                                                                name: '价格',
-                                                                data: chartJsonDataArr,
-                                                                lineWidth: 2,
-                                                                id: 'dataseries'
-                                                            }, {
-                                                                type: 'flags',
-                                                                data: shortYArr,
-                                                                onSeries: "dataseries",
-                                                                shape: 'squarepin',
-                                                                width: 36,
-                                                                color: "#4169e1",
-                                                                fillColor: 'transparent',
-                                                                style: {
-                                                                    color: '#333'
-                                                                },
-                                                                y: -40,
-                                                                name: '看多',
-                                                            }, {
-                                                                type: 'flags',
-                                                                data: buyYArr,
-                                                                onSeries: "dataseries",
-                                                                shape: 'squarepin',
-                                                                width: 36,
-                                                                color: '#ff9912',
-                                                                fillColor: 'transparent',
-                                                                style: {
-                                                                    color: '#333'
-                                                                },
-                                                                y: 20,
-                                                                name: '看空',
-                                                            }, {
-                                                                type: 'column',
-                                                                data: chartArr,
-                                                                name: '盈亏',
-                                                                /*lineWidth:2,*/
-                                                                yAxis: 1,
-                                                                threshold: 0,
-                                                                negativeColor: 'green',
-                                                                color: 'red'
-                                                            }]
-                                                        });
-                                                    };
-                                                });
-                                            }, function (err, sta) {
-                                                Showbo.Msg.alert('没有交易数据');
-                                            });
-                                        }
-                                        ;
-                                    })
-                                    .error(function (err, sta) {
-                                        if (sta == 400) {
-                                            Showbo.Msg.alert('没有交易数据');
-                                        }
-                                        ;
-                                    });
-
-
-                            }
-                            ;
-                            $scope.logs = data.logs;
-                            $scope.errors = data.error;
-                        })
-                        .error(function (err) {
-                            console.log(err);
-                        });
-                }, 500);
-            }, function (err) {
-                Showbo.Msg.alert(err.error);
-                $('.complie-mask').fadeOut();
-            });
-        };
-        $scope.$watch('name', function (nv, ov) {
-            if (nv != '新策略') {
-                $('.zijin-complie-head  img').hide()
-            }
-            ;
-        });
-        $scope.addNew = function () {
-            if ($scope.name == '新策略') {
-                Showbo.Msg.alert('请修改策略名(即策略类名)');
-                return;
-            }
-            var postInfo = 'class_name=' + encodeURIComponent($scope.name) + '&code=' + encodeURIComponent(editor.getValue());
-            $http.post(constantUrl + "classs/", postInfo, {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
-                .success(function (data) {
-                    Showbo.Msg.alert('添加成功,可以运行回测。');
-                    myClassId = data._id;
-                })
-                .error(function (err, st) {
-                    Showbo.Msg.alert(err.error);
-                });
-        };
     }])
     .controller('complieItemController', ['$scope', '$rootScope', '$http', '$location', '$cookieStore', 'constantUrl', '$routeParams', '$interval', '$q', '$filter', function ($scope, $rootScope, $http, $location, $cookieStore, constantUrl, $routeParams, $interval, $q, $filter) {
         var str = null;
@@ -6890,7 +5021,6 @@
                 })
                 .success(function (data) {
                     download(data.code, data.code_name, 'text/plain');
-                    //console.log(data)
                 })
                 .error(function (err, sta) {
                     console.log(err);
@@ -6959,566 +5089,6 @@
             $scope.modeBarOptions = !$scope.modeTickOptions;
             if (!$scope.modeTickOptions) return;
             $scope.getModeList('tick');
-        };
-        $scope.addHisStrategy = function () {
-            var files = $scope.files;
-            var formdata = new FormData();
-            if ($scope.modeBarOptions) {
-                formdata.append('mode', 'bar');
-            } else {
-                formdata.append('mode', 'tick');
-            };
-            formdata.append('name', $scope.hisItem.name);
-            formdata.append('start', $scope.hisItem.start);
-            formdata.append('end', $scope.hisItem.end);
-            formdata.append('class_id', myClassId);
-            if (($scope.files != undefined) && ($scope.files != null)) {
-                formdata.append('file', files);
-            };
-            function complieStep1() {
-                var defer = $q.defer();
-                $http.post(constantUrl + "btstrategys/", formdata, {
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': undefined,
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
-                    .success(function (data) {
-                        defer.resolve(data);
-                    })
-                    .error(function (err, st) {
-                        defer.reject(err);
-                    });
-                return defer.promise;
-            }
-            complieStep1().then(function (data) {
-                $('.complie-mask').fadeOut();
-                var id = data._id;
-                var mypromise = $interval(function () {
-                    $http.get(constantUrl + 'btstrategys/' + id + '/', {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
-                        .success(function (data) {
-
-                            console.log(data);
-                            if (data.status == '-2' || data.status == 2) {
-                                $interval.cancel(mypromise);
-                            }
-                            ;
-                            if (data.status == 2) {
-                                data.logs.push('push策略完成');
-                                $http.get(constantUrl + 'dates/', {
-                                        params: {
-                                            "date_type": 'transaction',
-                                            "sty_id": id
-                                        },
-                                        headers: {
-                                            'Authorization': 'token ' + $cookieStore.get('user').token
-                                        }
-                                    })
-                                    .success(function (data) {
-                                        console.log(data);
-                                        if (data != null) {
-                                            var mydate = $filter('date')(new Date((new Date(data[data.length - 1])).setDate((new Date(data[data.length - 1])).getDate() + 1)), 'yyyy-MM-dd');
-                                            $scope.getHisTime = function () {
-                                                var defer1 = $q.defer();
-                                                $http.get(constantUrl + 'transactions/', {
-                                                        params: {
-                                                            "sty_id": id,
-                                                            "start": data[0],
-                                                            "end": mydate
-                                                        },
-                                                        headers: {
-                                                            'Authorization': 'token ' + $cookieStore.get('user').token
-                                                        }
-                                                    })
-                                                    .success(function (data) {
-                                                        defer1.resolve(data);
-                                                    })
-                                                    .error(function (err, sta) {
-                                                        defer1.reject(err);
-                                                    });
-                                                return defer1.promise;
-                                            };
-                                            $scope.getHisTransTime = function () {
-                                                var defer2 = $q.defer();
-                                                $http.get(constantUrl + 'datas/', {
-                                                        params: {
-                                                            "type": 'bar',
-                                                            "start": data[0],
-                                                            "end": mydate
-                                                        },
-                                                        headers: {
-                                                            'Authorization': 'token ' + $cookieStore.get('user').token
-                                                        }
-                                                    })
-                                                    .success(function (data) {
-                                                        defer2.resolve(data);
-                                                    })
-                                                    .error(function (err, sta) {
-                                                        defer2.reject(err);
-                                                    });
-                                                return defer2.promise;
-                                            };
-                                            $scope.getHisTime().then(function (data) {
-                                                var chartData11 = data;
-                                                console.log(data);
-                                                $scope.getHisTransTime().then(function (data) {
-
-                                                    var chartJsonData = data;
-                                                    draws1();
-
-                                                    function draws1() {
-                                                        var chartData1 = [];
-                                                        angular.forEach(chartData11, function (data, index) {
-                                                            var hour = parseInt($filter("date")(data["datetime"], "yyyy-MM-dd HH:mm:ss").slice(11, 13));
-                                                            var minute = parseInt($filter("date")(data["datetime"], "yyyy-MM-dd HH:mm:ss").slice(14, 16));
-                                                        }, chartData1);
-                                                        var chartJsonDataArr = [];
-                                                        var chartArr = [];
-                                                        var indexShortArr = [];
-                                                        var indexBuyArr = [];
-                                                        var buySellNum = 0;
-                                                        var buyYArr = [];
-                                                        var shortYArr = [];
-                                                        angular.forEach(chartData1, function (data, index) {
-                                                            if (index == 0 && ((data.trans_type == "cover") || (data.trans_type == "sell")))
-                                                                return;
-                                                            if (index == chartData1.length - 1) return;
-                                                            if ((data.trans_type == "cover") || (data.trans_type == "sell")) return;
-                                                            if (data.trans_type == "short") {
-
-                                                                outer: for (var i = 0; i < chartData1.length; i++) {
-                                                                    if (chartData1[i].trans_type == "cover") {
-                                                                        if (indexShortArr.length != 0) {
-                                                                            inter: for (var j = 0; j < indexShortArr.length; j++) {
-                                                                                if (indexShortArr[j] == i) {
-                                                                                    break inter;
-                                                                                } else if ((j == indexShortArr.length - 1) && (indexShortArr[j] != i)) {
-                                                                                    buySellNum++;
-                                                                                    buyYArr.push({
-                                                                                        "short": "short",
-                                                                                        "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
-                                                                                        "volume": data.volume,
-                                                                                        "pos": data.pos,
-                                                                                        "price": data.price,
-                                                                                        "x": data.datetime,
-                                                                                        "name": data.name,
-                                                                                        "symbol": data.symbol,
-                                                                                        "title": data.trans_type + ' ' + buySellNum
-                                                                                    });
-                                                                                    var Earn;
-                                                                                    var y;
-                                                                                    chartArr.push({
-                                                                                        "x": chartData1[i].datetime,
-                                                                                        "y": y,
-                                                                                        "volume": data.volume,
-                                                                                        "direction": data.pos,
-                                                                                        "Earn": Earn,
-                                                                                        "openprice": data.price,
-                                                                                        "closeprice": chartData1[i].price,
-                                                                                        "opentime": data.datetime,
-                                                                                        "closetime": chartData1[i].datetime,
-                                                                                        "present": chartData1[i].price,
-                                                                                        "name": data.name,
-                                                                                        "symbol": data.symbol
-                                                                                    });
-
-                                                                                    buyYArr.push({
-                                                                                        "short": "short",
-                                                                                        "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
-                                                                                        "volume": chartData1[i].volume,
-                                                                                        "pos": chartData1[i].pos,
-                                                                                        "price": chartData1[i].price,
-                                                                                        "x": chartData1[i].datetime,
-                                                                                        "name": chartData1[i].name,
-                                                                                        "symbol": chartData1[i].symbol,
-                                                                                        "title": chartData1[i].trans_type + ' ' + buySellNum
-                                                                                    });
-                                                                                    indexShortArr.push(i);
-                                                                                    break outer;
-                                                                                }
-                                                                                ;
-                                                                            }
-                                                                            ;
-                                                                        }
-                                                                        else {
-                                                                            buySellNum++;
-                                                                            buyYArr.push({
-                                                                                "short": "short",
-                                                                                "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
-                                                                                "volume": data.volume,
-                                                                                "pos": data.pos,
-                                                                                "price": data.price,
-                                                                                "x": data.datetime,
-                                                                                "name": data.name,
-                                                                                "symbol": data.symbol,
-                                                                                "title": data.trans_type + ' ' + buySellNum
-                                                                            });
-                                                                            var Earn;
-                                                                            var y;
-                                                                            chartArr.push({
-
-                                                                                "x": chartData1[i].datetime,
-                                                                                "y": y,
-                                                                                "volume": data.volume,
-                                                                                "direction": -1,
-                                                                                "Earn": Earn,
-                                                                                "openprice": data.price,
-                                                                                "closeprice": chartData1[i].price,
-                                                                                "opentime": data.datetime,
-                                                                                "closetime": chartData1[i].datetime,
-                                                                                "present": chartData1[i].price,
-                                                                                "name": data.name,
-                                                                                "symbol": data.symbol
-                                                                            });
-                                                                            buyYArr.push({
-                                                                                "short": "short",
-                                                                                "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
-                                                                                "volume": chartData1[i].volume,
-                                                                                "pos": chartData1[i].pos,
-                                                                                "price": chartData1[i].price,
-                                                                                "x": chartData1[i].datetime,
-                                                                                "name": chartData1[i].name,
-                                                                                "symbol": chartData1[i].symbol,
-                                                                                "title": chartData1[i].trans_type + ' ' + buySellNum
-                                                                            });
-                                                                            indexShortArr.push(i);
-                                                                            break outer;
-                                                                        }
-                                                                        ;
-                                                                    }
-                                                                    ;
-                                                                }
-                                                                ;
-                                                            }
-                                                            ;
-                                                            if (data.trans_type == "buy") {
-
-                                                                outer1: for (var i = 0; i < chartData1.length; i++) {
-                                                                    if (chartData1[i].trans_type == "sell") {
-                                                                        if (indexShortArr.length != 0) {
-                                                                            inter1: for (var j = 0; j < indexShortArr.length; j++) {
-                                                                                if (indexShortArr[j] == i) {
-                                                                                    break inter1;
-                                                                                } else if ((j == indexShortArr.length - 1) && (indexShortArr[j] != i)) {
-                                                                                    buySellNum++;
-                                                                                    shortYArr.push({
-                                                                                        "buy": 'buy',
-                                                                                        "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
-                                                                                        "volume": data.volume,
-                                                                                        "pos": data.pos,
-                                                                                        "price": data.price,
-                                                                                        "x": data.datetime,
-                                                                                        "name": data.name,
-                                                                                        "symbol": data.symbol,
-                                                                                        "title": data.trans_type + ' ' + buySellNum
-                                                                                    });
-                                                                                    var Earn;
-                                                                                    var y;
-                                                                                    chartArr.push({
-
-                                                                                        "x": chartData1[i].datetime,
-                                                                                        "y": y,
-                                                                                        "volume": data.volume,
-                                                                                        "direction": 1,
-                                                                                        "Earn": Earn,
-                                                                                        "openprice": data.price,
-                                                                                        "closeprice": chartData1[i].price,
-                                                                                        "opentime": data.datetime,
-                                                                                        "closetime": chartData1[i].datetime,
-                                                                                        "present": chartData1[i].price,
-                                                                                        "name": data.name,
-                                                                                        "symbol": data.symbol
-                                                                                    });
-                                                                                    shortYArr.push({
-                                                                                        "buy": 'buy',
-                                                                                        "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
-                                                                                        "volume": chartData1[i].volume,
-                                                                                        "pos": chartData1[i].pos,
-                                                                                        "price": chartData1[i].price,
-                                                                                        "x": chartData1[i].datetime,
-                                                                                        "name": chartData1[i].name,
-                                                                                        "symbol": chartData1[i].symbol,
-                                                                                        "title": chartData1[i].trans_type + ' ' + buySellNum
-                                                                                    });
-                                                                                    indexShortArr.push(i);
-                                                                                    break outer1;
-                                                                                }
-                                                                                ;
-                                                                            }
-                                                                            ;
-                                                                        }
-                                                                        else {
-                                                                            buySellNum++;
-                                                                            shortYArr.push({
-                                                                                "buy": 'buy',
-                                                                                "text": '时间：' + $filter('date')(data.datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + data.price + '<br>成交量：' + data.volume,
-                                                                                "volume": data.volume,
-                                                                                "pos": data.pos,
-                                                                                "price": data.price,
-                                                                                "x": data.datetime,
-                                                                                "name": data.name,
-                                                                                "symbol": data.symbol,
-                                                                                "title": data.trans_type + ' ' + buySellNum
-                                                                            });
-                                                                            var Earn;
-                                                                            var y;
-                                                                            chartArr.push({
-
-                                                                                "x": chartData1[i].datetime,
-                                                                                "y": y,
-                                                                                "volume": data.volume,
-                                                                                "direction": data.pos,
-                                                                                "Earn": Earn,
-                                                                                "openprice": data.price,
-                                                                                "closeprice": chartData1[i].price,
-                                                                                "opentime": data.datetime,
-                                                                                "closetime": chartData1[i].datetime,
-                                                                                "present": chartData1[i].price,
-                                                                                "name": data.name,
-                                                                                "symbol": data.symbol
-                                                                            });
-                                                                            shortYArr.push({
-                                                                                "buy": 'buy',
-                                                                                "text": '时间：' + $filter('date')(chartData1[i].datetime, 'yyyy-MM-dd H:mm:ss') + '<br>成交价：￥' + chartData1[i].price + '<br>成交量：' + chartData1[i].volume,
-                                                                                "volume": chartData1[i].volume,
-                                                                                "pos": chartData1[i].pos,
-                                                                                "price": chartData1[i].price,
-                                                                                "x": chartData1[i].datetime,
-                                                                                "name": chartData1[i].name,
-                                                                                "symbol": chartData1[i].symbol,
-                                                                                "title": chartData1[i].trans_type + ' ' + buySellNum
-                                                                            });
-                                                                            indexShortArr.push(i);
-                                                                            break outer1;
-                                                                        }
-                                                                        ;
-                                                                    }
-                                                                    ;
-                                                                }
-                                                                ;
-                                                            }
-                                                            ;
-                                                        });
-
-                                                        shortYArr = $filter('orderBy')(shortYArr, 'x');
-                                                        buyYArr = $filter('orderBy')(buyYArr, 'x');
-                                                        chartArr = $filter('orderBy')(chartArr, 'x');
-                                                        var wealth = [];
-                                                        var buy = [];
-                                                        var tradeItem = [];
-                                                        var direction;
-                                                        var amount = 0;
-                                                        var total = 0;
-                                                        var winrate;
-                                                        var totalWinrate = 0;
-                                                        var totalProfit = 0;
-                                                        var totalRate1 = 0;
-                                                        var totalRate2 = 0;
-                                                        var totalRate3 = 0;
-                                                        var totalRate4 = [];
-                                                        var yeildAbs;
-                                                        var totalpal = 0;
-                                                        var allTotalpal = 0;
-                                                        var allTotalyeild = 0;
-                                                        var allTotalTime = 0; //总持仓时间r
-                                                        var averTotalTime = 0; //平均持仓时间
-                                                        var errorYeild = 0; //跟踪误差年化波动率
-                                                        var prof = 0;
-                                                        var loss = 0;
-                                                        var yeildArrs = [];
-                                                        Highcharts.setOptions({
-                                                            global: {
-                                                                useUTC: false
-                                                            }
-                                                        });
-                                                        angular.forEach(chartJsonData, function (data, index) {
-                                                            chartJsonDataArr.push({
-                                                                "x": data.datetime,
-                                                                "y": data.close,
-                                                                'low': data.low,
-                                                                'high': data.high,
-                                                                'close': data.close,
-                                                                'open': data.open,
-                                                                'volume': data.volume
-                                                            });
-                                                        });
-                                                        chartJsonDataArr = $filter('orderBy')(chartJsonDataArr, 'x');
-                                                        $('#complie-highcharts').highcharts('StockChart', {
-                                                            credits: {
-                                                                enabled: false
-                                                            },
-                                                            exporting: {
-                                                                enabled: false
-                                                            },
-                                                            plotOptions: {
-                                                                series: {
-                                                                    turboThreshold: 0
-                                                                }
-                                                            },
-                                                            tooltip: {
-                                                                useHTML: true,
-                                                                xDateFormat: "%Y-%m-%d %H:%M:%S",
-                                                                valueDecimals: 2
-                                                            },
-                                                            legend: {
-                                                                enabled: true,
-                                                                align: 'right',
-                                                                verticalAlign: 'top',
-                                                                x: 0,
-                                                                y: 0
-                                                            },
-                                                            rangeSelector: {
-                                                                buttons: [{
-                                                                    type: 'minute',
-                                                                    count: 10,
-                                                                    text: '10m'
-                                                                }, {
-                                                                    type: 'minute',
-                                                                    count: 30,
-                                                                    text: '30m'
-                                                                }, {
-                                                                    type: 'hour',
-                                                                    count: 1,
-                                                                    text: '1h'
-                                                                }, {
-                                                                    type: 'day',
-                                                                    count: 1,
-                                                                    text: '1d'
-                                                                }, {
-                                                                    type: 'week',
-                                                                    count: 1,
-                                                                    text: '1w'
-                                                                }, {
-                                                                    type: 'all',
-                                                                    text: '所有'
-                                                                }],
-                                                                selected: 5,
-                                                                buttonSpacing: 2
-
-                                                            },
-                                                            yAxis: [{
-                                                                labels: {
-                                                                    align: 'right',
-                                                                    x: -3
-                                                                },
-                                                                title: {
-                                                                    text: '价格'
-                                                                },
-                                                                lineWidth: 1,
-                                                                height: '60%'
-                                                            }, {
-                                                                labels: {
-                                                                    align: 'right',
-                                                                    x: -3
-                                                                },
-                                                                title: {
-                                                                    text: '盈亏'
-                                                                },
-                                                                opposite: true,
-                                                                offset: 0,
-                                                                height: '35%',
-                                                                top: '65%'
-                                                            }],
-                                                            series: [{
-                                                                type: 'line',
-                                                                name: '价格',
-                                                                data: chartJsonDataArr,
-                                                                lineWidth: 2,
-                                                                id: 'dataseries'
-                                                            }, {
-                                                                type: 'flags',
-                                                                data: shortYArr,
-                                                                onSeries: "dataseries",
-                                                                shape: 'squarepin',
-                                                                width: 36,
-                                                                color: "#4169e1",
-                                                                fillColor: 'transparent',
-                                                                style: {
-                                                                    color: '#333'
-                                                                },
-                                                                y: -40,
-                                                                name: '看多',
-                                                            }, {
-                                                                type: 'flags',
-                                                                data: buyYArr,
-                                                                onSeries: "dataseries",
-                                                                shape: 'squarepin',
-                                                                width: 36,
-                                                                color: '#ff9912',
-                                                                fillColor: 'transparent',
-                                                                style: {
-                                                                    color: '#333'
-                                                                },
-                                                                y: 20,
-                                                                name: '看空',
-                                                            }, {
-                                                                type: 'column',
-                                                                data: chartArr,
-                                                                name: '盈亏',
-                                                                /*lineWidth:2,*/
-                                                                yAxis: 1,
-                                                                threshold: 0,
-                                                                negativeColor: 'green',
-                                                                color: 'red'
-                                                                /*color:'#e3170d',*/
-                                                                /*marker:{
-                                                                 enabled:true,
-                                                                 symbol:'circle',
-                                                                 fillColor:'#0b1746',
-                                                                 radius:5
-                                                                 }*/
-                                                            }]
-                                                        });
-                                                    };
-                                                });
-                                            }, function (err, sta) {
-                                                Showbo.Msg.alert('没有交易数据!');
-                                            });
-                                        }
-                                        ;
-                                    })
-                                    .error(function (err, sta) {
-                                        if (sta == 400) {
-                                            Showbo.Msg.alert('没有交易数据!');
-                                        }
-                                        ;
-                                    });
-
-
-                            }
-                            ;
-                            $scope.logs = data.logs;
-                            $scope.errors = data.error;
-                        })
-                        .error(function (err) {
-                            console.log(err);
-                        });
-                }, 500);
-            }, function (err) {
-                Showbo.Msg.alert(err.error);
-                $('.complie-mask').fadeOut();
-            });
-        };
-        $scope.addNew = function () {
-            var postInfo = 'class_name=' + encodeURIComponent($scope.name) + '&code=' + encodeURIComponent(editor.getValue());
-            $http.post(constantUrl + "classs/", postInfo, {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
-                .success(function (data) {
-                    Showbo.Msg.alert('添加成功,可以运行回测。');
-                    myClassId = data._id;
-                })
-                .error(function (err, st) {
-                    Showbo.Msg.alert(err);
-                });
         };
     }])
 
@@ -7595,8 +5165,6 @@
         $scope.getExa();
         $scope.getMet();
         $scope.getRobot();
-        /*storageModalRes.storage(str1);*/
-
         $scope.start = function (id) {
             $('.modalRes-new').hide();
             $('.modalRes-method').hide();
@@ -7821,12 +5389,9 @@
             $scope.img0 = objUrl;
             $scope.image0 = true;
         };
-
-
         $scope.closeMask = function () {
             $('.modalRes-mask').fadeOut();
         };
-
         $scope.addModalResOpen = function () {
             var str = "title=" + encodeURIComponent($scope.modalResOpen.title) + "&content=" + encodeURIComponent($scope.modalResOpen.content) + "&code=" + encodeURIComponent($scope.modalResOpen.code);
 
@@ -7834,7 +5399,6 @@
                 $scope.getOpen();
                 $scope.closeMask();
             }, function (err) {
-                // console.log(err);
             });
         };
         $scope.addModalResObj = function () {
@@ -7856,8 +5420,6 @@
                 console.log(err);
             });
         };
-
-
         $scope.addModalResExa = function () {
             var str = "title=" + encodeURIComponent($scope.modalResExa.title) + "&content=" + encodeURIComponent($scope.modalResExa.content) + '&code=' + encodeURIComponent($scope.modalResExa.code);
             getModalResList.addItem(str, 'model_examples').then(function () {
@@ -7884,7 +5446,6 @@
         var url = str + '/' + id;
         getModalResList.getList(url).then(function (data) {
             $scope.mydata = data;
-            /*$scope.hash=$scope.mydata._id;*/
         });
     }])
     .factory('averline',function(){
@@ -7936,7 +5497,6 @@
             },
             addItem: function (obj, url) {
                 var defer = $q.defer();
-                // console.log(obj, url)
                 $http.post(constantUrl + url + '/', obj, {
                         headers: {
                             'Authorization': 'token ' + $cookieStore.get('user').token,
@@ -8532,9 +6092,8 @@
                                     }
                                 })
                                 .success(function () {
-                                    /*$route.reload();*/
                                     scope.gettrueStrategys();
-                                    /*Showbo.Msg.alert('删除成功。')*/
+                                    Showbo.Msg.alert('删除成功。');
                                 })
                                 .error(function (err, sta) {
                                     Showbo.Msg.alert('删除失败，请稍后再试。')
@@ -8557,12 +6116,10 @@
                                     }
                                 })
                                 .success(function () {
-
-                                    //scope.allStrategys = [];
                                     scope.gettrueStrategys();//真实交易
                                     scope.getFirmStrategys(); //刷新实盘
                                     scope.getHisStrategys();//回测列表
-                                    /*Showbo.Msg.alert('删除成功。')*/
+                                    Showbo.Msg.alert('删除成功。')
                                 })
                                 .error(function (err, sta) {
                                     Showbo.Msg.alert('删除失败，请稍后再试。')
@@ -8585,12 +6142,10 @@
                                     }
                                 })
                                 .success(function () {
-                                    /*$route.reload();*/
                                     scope.allStrategys = [];
                                     scope.gettrueStrategys();
                                     scope.getFirmStrategys(); //刷新实盘/回测列表/回收站
                                     scope.getHisStrategys();
-                                    /*Showbo.Msg.alert('删除成功。')*/
                                 })
                                 .error(function (err, sta) {
                                     Showbo.Msg.alert('删除失败，请稍后再试。')
@@ -8637,7 +6192,6 @@
                 scope.pausestrategy = function (a) {
                     i = a.$index; //点击的第几个
                     var url = scope.myHisStrategy[i]._id;
-                    //var url = $(this).closest('tr').children().eq(0).text();
                     $http.patch(constantUrl + "btstrategys/" + url + '/', {
                             status: 3
                         }, {
@@ -8873,7 +6427,6 @@
                 scope.openImage2 = function (a) {
                     window.test = a.$parent.$index;
                     window.type = scope.mydata.classify;
-                    //var test=$(".row #content8").eq(indexs)
                     $('.image9').fadeIn();
                     $('.col-sm-offset-2').hide();
                 };
@@ -8908,7 +6461,6 @@
                         } else {
                             scope.loadStaus = "上传成功"
                         }
-                        //console.log("上传成功")
                         var imageUrl = "![none](" + data.data.url + ")"; //![Alt text](./images/4.jpg)
                         $("#" + window.type + " #content8").eq(window.test).insertContent(imageUrl);
                         scope.mydata.content = $("#" + window.type + " #content8").eq(window.test).val();
@@ -8922,12 +6474,9 @@
                     });
 
                 };
-
                 scope.changeContent = function () { //jquery插入图片，angular获取不到
                     window.content = undefined;
-                    //console.log(scope.mydata.content)
-                }
-
+                };
                 ele.on('click', '.btn-success', function () {
                     var url = scope.mydata.classify + '/' + scope.mydata._id;
                     if (window.content != undefined) {
@@ -8963,11 +6512,8 @@
         return {
             link: function (scope, ele, attrs) {
                 ele.on('click', function () {
-                    //console.log(ele.parent().css('left'));
                     if (ele.parent().css('left') == '0px') {
                         ele.parent().removeClass('l0');
-
-                        //$(ele).css("class")
                     } else {
                         ele.parent().addClass('l0');
                     }
@@ -8983,13 +6529,6 @@
                     $('.printform').show();
                     window.print();
                     $('.printform').hide();
-                    /*var options = {
-                     pagesplit: true
-                     };
-                     var doc = new jsPDF('p','pt','a1');*/
-                    /*doc.addHTML($('.printform'),0,600,options,function(){
-                     doc.save('123.pdf');
-                     });*/
                 })
             }
         }
