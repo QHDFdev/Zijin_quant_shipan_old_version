@@ -372,6 +372,7 @@ em, i {
 	left: 0;
 	top: 3.7rem;
 	bottom: 0;
+	display: none;
 }
 
 #nav-sidebar ul li{

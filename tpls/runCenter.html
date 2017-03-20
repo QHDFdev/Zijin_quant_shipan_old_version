@@ -13,7 +13,7 @@
     </div>
     <div class="kind">
         <div class="tab-content" id="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="trust_deal">
+            <div role="tabpanel" class="tab-pane active" id="trust_deal" ng-show='user.is_admin==true'>
                 <div class="container-fluid">
                     <div class="row">
                         <div class="tip1">
@@ -288,7 +288,6 @@
                                 <div class="ul1">
                                     <span>[历史]真实交易：<code>{{sHui}}</code></span>
                                     <span>[历史]实盘模拟：<code>{{fHui}}</code></span>
-
                                 </div>
                             </div>
                             <div class="dealProduct">

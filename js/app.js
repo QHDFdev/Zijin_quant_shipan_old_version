@@ -105,6 +105,7 @@
         window.b=0;
         window.c=0;
         wow.init();
+
     }])
     .constant('constantUrl', 'http://114.55.238.82:81/')
     .value('strategysValue', {
@@ -145,6 +146,7 @@
         }
         else {
             $scope.aside = 'zijin-index';
+            $("#nav-sidebar").show()
         }
         $scope.$watch(function () {
             var str = null;
@@ -1086,8 +1088,8 @@
             $scope.modeBarOptions = "";
             $scope.modeTickOptions = "";
             $scope.hisItem.time = "";
-            $("#startTime").val("")
-            $("#endTime").val("")
+            $("#startTime").val("");
+            $("#endTime").val("");
             $("#startTime").attr("disabled", "true");
             $("#endTime").attr("disabled", "true");
             var url = "exchange/" + $scope.hisItem.exchange + ".json";
@@ -1138,7 +1140,6 @@
             if (($scope.files != undefined) && ($scope.files != null)) {
                 formdata.append('file', files);
             }
-            ;
             $http.post(constantUrl + "btstrategys/", formdata, {
                     transformRequest: angular.identity,
                     headers: {
@@ -1148,9 +1149,9 @@
                 })
                 .success(function (data) {
                     setTimeout(function () {
-                        scope.gettrueStrategys();//真实交易
-                        scope.getFirmStrategys(); //刷新实盘
-                        scope.getHisStrategys();//回测列表
+                        $scope.gettrueStrategys();//真实交易
+                        $scope.getFirmStrategys(); //刷新实盘
+                        $scope.getHisStrategys();//回测列表
                     }, 100)
                     $('.zijin-table-mask').fadeOut();
                     Showbo.Msg.alert('添加成功');
@@ -1183,48 +1184,95 @@
                     }
                 })
                 .success(function (data) {
-                    $scope.myHisStrategy = data;
-
-                    $scope.error2 = 0, $scope.loading2 = 0, $scope.loaded2 = 0, $scope.start2 = 0, $scope.stop2 = 0, $scope.over2 = 0, $scope.histroy = 0;
-                    for (var i = 0; i < data.length; i++) {
-                        var class_id = data[i].class_id;
-                        var status = data[i].status;
-                        if (status != -2) { //获取对应的策略代码
-                            $scope.myHisStrategy[i].class_name = getcelve(class_id);
+                    for (var i = 0; i < data.length; i++) { //去除不是真实交易的
+                        if (data[i].status ==-2) {
+                            data.splice(i, 1);
+                            i = -1;
                         }
-                        if (status == -1 && status != -2) {
-                            $scope.myHisStrategy[i].color = "error";
-                            $scope.myHisStrategy[i].status = "错误";
-                            $scope.geterror2($scope.myHisStrategy[i]._id, i);
+                    }
+                    $scope.error2 = 0, $scope.loading2 = 0, $scope.loaded2 = 0, $scope.start2 = 0, $scope.stop2 = 0, $scope.over2 = 0, $scope.histroy = 0;
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        if (data[i].status == -1 && data[i].status != -2) {
+                            data[i].color = "error";
+                            data[i].status = "错误";
+                            //$scope.geterror2($scope.myHisStrategy[i]._id, i);
                             $scope.error2++;
                         }
-                        if (status == 0) {
-                            $scope.myHisStrategy[i].status = "加载中";
-                            $scope.myHisStrategy[i].title = "加载中";
+                        if (data[i].status == 0) {
+                            data[i].status = "加载中";
+                            data[i].title = "加载中";
                             $scope.loading2++;
                         }
-                        if (status == 1) {
-                            $scope.myHisStrategy[i].status = "加载完成";
-                            $scope.myHisStrategy[i].title = "加载完成";
+                        if (data[i].status == 1) {
+                            data[i].status = "加载完成";
+                            data[i].title = "加载完成";
                             $scope.loaded2++;
                         }
-                        if (status == 2) {
-                            $scope.myHisStrategy[i].status = "开始加载";
-                            $scope.myHisStrategy[i].title = "开始加载";
+                        if (data[i].status == 2) {
+                            data[i].status = "开始加载";
+                            data[i].title = "开始加载";
                             $scope.start2++;
                         }
-                        if (status == 3) {
-                            $scope.myHisStrategy[i].status = "停止运行";
-                            $scope.myHisStrategy[i].title = "停止运行";
+                        if (data[i].status == 3) {
+                            data[i].status = "停止运行";
+                            data[i].title = "停止运行";
                             $scope.stop2++;
                         }
-                        if (status == 4) {
-                            $scope.myHisStrategy[i].status = "运行结束";
-                            $scope.myHisStrategy[i].title = "运行结束";
+                        if (data[i].status == 4) {
+                            data[i].status = "运行结束";
+                            data[i].title = "运行结束";
                             $scope.over2++;
                         }
-                        $scope.myHisStrategy[i].flag = false; //所有选择框默认不选择
+                        //$scope.myHisStrategy[i].flag = false; //所有选择框默认不选择
                     }
+
+
+
+
+                    var q= 0,hisStrategys=[],hisStrategysPageSize=[]
+                    for(var i=0;i<data.length;i=i+10){
+                        var list = [];
+                        for(var j=0;(i+j)<data.length&&j<10;j++){
+                            list.push(data[i+j]);
+                        }
+                        hisStrategys[q]=list;
+
+                        hisStrategysPageSize.push({
+                            "page":q
+                        });
+                        q++;
+                    }
+
+                    console.log(q)
+
+                    $scope.hisStrategysPageSize=hisStrategysPageSize;
+
+                    $scope.putScreenhisStrategys=function(page){
+                        $scope.hisStrategysDelPage=page;
+                        $scope.histroyTrue=[];
+                        $scope.myHisStrategy = hisStrategys[page];
+
+                        for (var i = 0; i < hisStrategys[page]; i++) {
+                            var class_id = hisStrategys[page].class_id;
+                            var status = hisStrategys[page].status;
+                            if (status != -2) { //获取对应的策略代码
+                                $scope.myHisStrategy[i].class_name = getcelve(class_id);
+                            }
+                            if (status == -1 && status != -2) {
+
+                                $scope.geterror2($scope.myHisStrategy[i]._id, i);
+                                $scope.error2++;
+                            }
+
+                            $scope.myHisStrategy[i].flag = false; //所有选择框默认不选择
+                        }
+                    }
+                    $scope.putScreenhisStrategys(0);
+
+
+
                     angular.forEach(data, function (item, index) {
                         if (item.status == -2) {
                             item.color = "his";
@@ -1238,8 +1286,7 @@
                 })
                 .error(function (err, sta) {
                     Showbo.Msg.alert('网络错误，请稍后再试。');
-                    //console.log(err);
-                    //console.log(sta);
+
                 });
         };
 
@@ -1311,8 +1358,6 @@
                             is_admin: data.is_admin,
                             is_zijin: data.is_zijin
                         });
-                        //console.log($cookieStore.get('user'));
-
                         if ($cookieStore.get('user').is_admin){
                             $location.path('/strategyruncenter');
                             $scope.aside = 'zijin-index';
@@ -1335,6 +1380,10 @@
     }])
     .controller('runCenterController', ['$scope', '$http', 'constantUrl', '$cookieStore', '$filter', '$routeParams', '$q', '$timeout','$rootScope','averline', function ($scope, $http, constantUrl, $cookieStore, $filter, $routeParams, $q, $timeout,$rootScope,averline) {
         $rootScope.user = $cookieStore.get('user');
+        //console.log($rootScope.user.username)
+        if($rootScope.user.username !=null){
+            $("#nav-sidebar").show()
+        }
         var falsedata = [], truedata = [],delTrust=[],delFirm=[],accounts=[],nianHuaList = [];
         //策略代码渲染到页面
         $scope.getSourcingStrategys = function () {
@@ -1346,7 +1395,7 @@
                 })
                 .success(function (data) {
                     accounts = data;
-                    trustDeals()
+                    trustDeals('no')
                 })
                 .error(function (err, sta) {
                     Showbo.Msg.alert('网络错误，请稍后再试。');
@@ -1360,7 +1409,6 @@
                 }
             }
         }
-
         function judge(){
             $http.get(constantUrl + "strategys/", {
                     headers: {
@@ -1372,152 +1420,157 @@
                         data[i].account_id == null ? falsedata.push(data[i]) : truedata.push(data[i]);
                     }
                     if ($cookieStore.get('user').is_admin) {
-                        trustDeals();
+                        trustDeals('yes');
                     }
                 });
         }
         judge();
         //操作
        function deal(data1,flag,need){
-           var defer1 = $q.defer();
-           var newData = data1;
-           var timeList = [],n= 0,IdDateList=[],allDataList = [],m = 0;
-           getTimes(0);
-           function getTimes(i) {
-               $http.get(constantUrl + 'dates/', {
-                       params: {
-                           "date_type": 'transaction',
-                           "sty_id": newData[i]._id
-                       },
-                       headers: {
-                           'Authorization': 'token ' + $cookieStore.get('user').token
-                       }
-                   })
-                   .success(function (data) {
-                       timeList[n++] = data[data.length - 1];
-                       newData[i].time=data[data.length-1];
-                       i++;
-                       if (i == newData.length) {
-                           getIdDate();
-                           return;
-                       }
-                       getTimes(i);
-                   })
-                   .error(function(data){
-                       timeList[n++]=0;
-                       newData[i].time=data[data.length-1];
-                       i++;
-                       if (i == newData.length) {
-                           getIdDate();
-                           return;
-                       }
-                       getTimes(i);
-                   })
-           }
-           function getIdDate() {
-               for (var i = 0; i < newData.length; i++) {
-                   var id = newData[i]._id;
-                   var sDate = timeList[i];
-                   var eDate = $filter('date')(new Date((new Date(timeList[i])).setDate((new Date(timeList[i])).getDate() + 1)), 'yyyy-MM-dd');
-                   IdDateList.push({
-                       'id': id,
-                       'sDate': sDate,
-                       'eDate': eDate
-                   })
-               }
-               getAllData(0);
-           }
-           function getAllData(i) {
-               var nothing = new Array();
-               $http.get(constantUrl + 'transactions/', {
-                       params: {
-                           "sty_id": IdDateList[i].id,
-                           "start": IdDateList[i].sDate,
-                           "end": IdDateList[i].eDate
-                       },
-                       headers: {
-                           'Authorization': 'token ' + $cookieStore.get('user').token
-                       }
-                   })
-                   .success(function (data) {
-                       allDataList[m++] = data;
-                       i++;
-                       if (i >= IdDateList.length) {
-                           getAllNianHua(0);
-                           return;
-                       }
-                       getAllData(i);
-                   })
-                   .error(function(data){
-                       allDataList[m++] =nothing;
-                       i++;
-                       if (i >= IdDateList.length) {
-                           getAllNianHua(0);
-                           return;
-                       }
-                       getAllData(i);
-                   })
-           }
-           function getAllNianHua(i) {
-               var nowData = allDataList[i];
-               if(flag==true){
-                   handledata(true, nowData, timeList[i], IdDateList[i].id);
-               }
-               else{
-                   handledata(false, nowData, timeList[i], IdDateList[i].id);
-               }
-               i++;
-               if (i >= allDataList.length) {
-                   $timeout(function () {
-                       putScreen();
-                   }, 500);
-                   return;
-               }
-               getAllNianHua(i);
-           }
-           var newData1=[],d=0;
-           function putScreen() {
-               for (var i = 0; i < nianHuaList.length; i++) {
-                   var id = nianHuaList[i].nowId;
-                   var nianhua = nianHuaList[i].nianhua;
-                   var average_winrate = nianHuaList[i].average_winrate;
-                   for (j = 0; j < newData.length; j++) {
-                       if (newData[j]._id == id) {
-                           newData[j].yeild = nianhua;
-                           newData[j].average_winrate = average_winrate;
-                           newData[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
-                           newData[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
 
-                           newData[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
-                           newData[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
+           var defer1 = $q.defer();
+           if(data1.length==0){
+               defer1.resolve(data1);
+           }
+           else {
+               var newData = data1;
+               var timeList = [],n= 0,IdDateList=[],allDataList = [],m = 0;
+               getTimes(0);
+               function getTimes(i) {
+                   $http.get(constantUrl + 'dates/', {
+                           params: {
+                               "date_type": 'transaction',
+                               "sty_id": newData[i]._id
+                           },
+                           headers: {
+                               'Authorization': 'token ' + $cookieStore.get('user').token
+                           }
+                       })
+                       .success(function (data) {
+                           timeList[n++] = data[data.length - 1];
+                           newData[i].time=data[data.length-1];
+                           i++;
+                           if (i == newData.length) {
+                               getIdDate();
+                               return;
+                           }
+                           getTimes(i);
+                       })
+                       .error(function(data){
+                           timeList[n++]=0;
+                           newData[i].time=data[data.length-1];
+                           i++;
+                           if (i == newData.length) {
+                               getIdDate();
+                               return;
+                           }
+                           getTimes(i);
+                       })
+               }
+
+               function getIdDate() {
+                   for (var i = 0; i < newData.length; i++) {
+                       var id = newData[i]._id;
+                       var sDate = timeList[i];
+                       var eDate = $filter('date')(new Date((new Date(timeList[i])).setDate((new Date(timeList[i])).getDate() + 1)), 'yyyy-MM-dd');
+                       IdDateList.push({
+                           'id': id,
+                           'sDate': sDate,
+                           'eDate': eDate
+                       })
+                   }
+                   getAllData(0);
+               }
+               function getAllData(i) {
+                   var nothing = new Array();
+                   $http.get(constantUrl + 'transactions/', {
+                           params: {
+                               "sty_id": IdDateList[i].id,
+                               "start": IdDateList[i].sDate,
+                               "end": IdDateList[i].eDate
+                           },
+                           headers: {
+                               'Authorization': 'token ' + $cookieStore.get('user').token
+                           }
+                       })
+                       .success(function (data) {
+                           allDataList[m++] = data;
+                           i++;
+                           if (i >= IdDateList.length) {
+                               getAllNianHua(0);
+                               return;
+                           }
+                           getAllData(i);
+                       })
+                       .error(function(data){
+                           allDataList[m++] =nothing;
+                           i++;
+                           if (i >= IdDateList.length) {
+                               getAllNianHua(0);
+                               return;
+                           }
+                           getAllData(i);
+                       })
+               }
+               function getAllNianHua(i) {
+                   var nowData = allDataList[i];
+                   if(flag==true){
+                       handledata(true, nowData, timeList[i], IdDateList[i].id);
+                   }
+                   else{
+                       handledata(false, nowData, timeList[i], IdDateList[i].id);
+                   }
+                   i++;
+                   if (i >= allDataList.length) {
+                       $timeout(function () {
+                           putScreen();
+                       }, 500);
+                       return;
+                   }
+                   getAllNianHua(i);
+               }
+               var newData1=[],d=0;
+               function putScreen() {
+                   for (var i = 0; i < nianHuaList.length; i++) {
+                       var id = nianHuaList[i].nowId;
+                       var nianhua = nianHuaList[i].nianhua;
+                       var average_winrate = nianHuaList[i].average_winrate;
+                       for (j = 0; j < newData.length; j++) {
+                           if (newData[j]._id == id) {
+                               newData[j].yeild = nianhua;
+                               newData[j].average_winrate = average_winrate;
+                               newData[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
+                               newData[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
+
+                               newData[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
+                               newData[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
+                           }
                        }
                    }
-               }
-               console.log(need);
-               if(need==1){
-                   var runStrategy=[],b= 0,stopStrategy=[],c=0;
-                   angular.forEach(newData, function (item, index) {
-                       if (item.status == 2) {
-                           runStrategy[b++]=item;
+                   if(need==1){
+                       var runStrategy=[],b= 0,stopStrategy=[],c=0;
+                       angular.forEach(newData, function (item, index) {
+                           if (item.status == 2) {
+                               runStrategy[b++]=item;
+                           }
+                           if (item.status == 3) {
+                               stopStrategy[c++]=item;
+                           }
+                       });
+                       runStrategy.sort(function(a,b){return b.yeild-a.yeild;});
+                       stopStrategy.sort(function(a,b){return b.yeild-a.yeild;});
+                       for(var i=0;i<runStrategy.length;i++){
+                           newData1[d++]=runStrategy[i];
                        }
-                       if (item.status == 3) {
-                           stopStrategy[c++]=item;
+                       for(var j=0;j<stopStrategy.length;j++){
+                           newData1[d++]=stopStrategy[j]
                        }
-                   });
-                   runStrategy.sort(function(a,b){return b.yeild-a.yeild;});
-                   stopStrategy.sort(function(a,b){return b.yeild-a.yeild;});
-                   for(var i=0;i<runStrategy.length;i++){
-                       newData1[d++]=runStrategy[i];
                    }
-                   for(var j=0;j<stopStrategy.length;j++){
-                       newData1[d++]=stopStrategy[j]
+                   else {
+                       newData1 = newData;
                    }
+                   defer1.resolve(newData1);
                }
-               else {
-                   newData1 = newData;
-                   console.log(newData1)
-               }
-               defer1.resolve(newData1);
            }
            return defer1.promise;
        }
@@ -1538,7 +1591,7 @@
             return symbolList1;
         }
         //真实交易
-        function trustDeals(){
+        function trustDeals(flag){
             $scope.sRun = 0, $scope.sStop = 0
             var  truedata2=[];   /*存放没有被删除的策略*/
             for(var i=0; i<truedata.length; i++){
@@ -1549,6 +1602,7 @@
                     delTrust.push(truedata[i]);
                 }
             }
+            //$scope.getSourcingStrategys();
             for (var i = 0; i < truedata2.length; i++) {
                 var class_id = truedata2[i].class_id;
                 truedata2[i].code_name = getcelve(class_id);
@@ -1562,11 +1616,12 @@
                 }
             }
             $scope.symbolList = productSymbol(truedata2);
-            deal(truedata2,true,1).then(function(data){
-                $scope.trust=data;
-                $('#container').hide();
-            });
-            $('#container').hide();
+            if(flag=='yes'){
+                deal(truedata2,true,1).then(function(data){
+                    $scope.trust=data;
+                    $('#container').hide();
+                });
+            }
         }
         $scope.key = 'D1_AG';
         var marketData=[];
@@ -2084,7 +2139,6 @@
                 }]
             });
         }
-
         //实盘模拟
         $scope.firm=function(){
             if(window.b ==1){
@@ -2149,7 +2203,7 @@
                 if(falsedata[i].status ==2 || falsedata[i].status == 3){
                     falsedata2.push(falsedata[i]);
                 }
-                else{
+                else if(falsedata[i].status ==-2){
                     delFirm.push(falsedata[i]);
                 }
             }
@@ -2176,7 +2230,6 @@
             })
             window.b=1;
         }
-
         function handledata(flag, nowdata, nowDay, nowId) {
             var aloneshort = [];
             var alonebuy = [];
@@ -2490,16 +2543,21 @@
                         var class_id = histroy[i].class_id;
                         histroy[i].code_name = getcelve(class_id);
                     }
+
                     deal(histroy,false,0).then(function(data){
                         data.sort(function(a,b){return b.yeild-a.yeild;});
                         $scope.histroy = data;
                         $("#container3").hide()
-                    })
+                    });
                     window.c=1;
                 });
         };
         //历史交易
         $scope.histroyDeals=function(){
+            if(window.b==0){
+                $scope.firm();
+            }
+            $scope.sHui=0,$scope.fHui=0;
             $scope.key4 = "D1_AG";
             var k= 0,n= 0,j= 0,delTrustSymbol=[],delFirmSymbol=[],delAllSymbol=[];
             $scope.sHui=delTrust.length;

@@ -118,9 +118,7 @@
                         </tbody>
                     </table>
                     <ul class="pagination" style="float: right;margin-top: 0">
-
                         <li class="active"><a  class="checked" ng-click="">1</a></li>
-
                     </ul>
                 </div>
             </div>
@@ -199,7 +197,6 @@
                         <li class="operation">
                             <input type="checkbox" ng-model="all3" ng-click="selectall3()">全选
                             <a class="btn btn-danger btn-sm" ng-click="delsel3()">删除选择</a>
-
                         </li>
                     </ul>
                 </div>
@@ -254,7 +251,9 @@
                         </table>
                         <ul class="pagination" style="float: right;margin-top: 0">
 
-                            <li class="active"><a  class="checked" ng-click="">1</a></li>
+                            <li ng-repeat="x in hisStrategysPageSize" ng-class="{active:x.page == hisStrategysDelPage}">
+                                <a ng-click="putScreenhisStrategys(x.page)">{{$index+1}}</a>
+                            </li>
 
                         </ul>
                     </div>
