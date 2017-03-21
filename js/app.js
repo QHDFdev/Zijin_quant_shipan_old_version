@@ -319,6 +319,7 @@
          * @returns {string|*}
          */
         function getcelve(class_id) {
+
             //console.log(accounts)
             for (var i = 0; i < accounts.length; i++) {
                 if (accounts[i]._id == class_id) {
@@ -1193,11 +1194,15 @@
                     $scope.error2 = 0, $scope.loading2 = 0, $scope.loaded2 = 0, $scope.start2 = 0, $scope.stop2 = 0, $scope.over2 = 0, $scope.histroy = 0;
 
                     for (var i = 0; i < data.length; i++) {
-
+                        var class_id = data[i].class_id;
+                        var status = data[i].status;
+                        if (status != -2) { //获取对应的策略代码
+                           data[i].class_name = getcelve(class_id);
+                        }
                         if (data[i].status == -1 && data[i].status != -2) {
                             data[i].color = "error";
                             data[i].status = "错误";
-                            //$scope.geterror2($scope.myHisStrategy[i]._id, i);
+                            $scope.geterror2(data[i]._id, i);
                             $scope.error2++;
                         }
                         if (data[i].status == 0) {
@@ -1225,13 +1230,9 @@
                             data[i].title = "运行结束";
                             $scope.over2++;
                         }
-                        //$scope.myHisStrategy[i].flag = false; //所有选择框默认不选择
                     }
 
-
-
-
-                    var q= 0,hisStrategys=[],hisStrategysPageSize=[]
+                    var q= 0,hisStrategys=[],hisStrategysPageSize=[];
                     for(var i=0;i<data.length;i=i+10){
                         var list = [];
                         for(var j=0;(i+j)<data.length&&j<10;j++){
@@ -1245,39 +1246,23 @@
                         q++;
                     }
 
-                    console.log(q)
-
                     $scope.hisStrategysPageSize=hisStrategysPageSize;
-
                     $scope.putScreenhisStrategys=function(page){
                         $scope.hisStrategysDelPage=page;
-                        $scope.histroyTrue=[];
+                        $scope.myHisStrategy=[];
                         $scope.myHisStrategy = hisStrategys[page];
 
-                        for (var i = 0; i < hisStrategys[page]; i++) {
-                            var class_id = hisStrategys[page].class_id;
-                            var status = hisStrategys[page].status;
-                            if (status != -2) { //获取对应的策略代码
-                                $scope.myHisStrategy[i].class_name = getcelve(class_id);
-                            }
-                            if (status == -1 && status != -2) {
-
-                                $scope.geterror2($scope.myHisStrategy[i]._id, i);
-                                $scope.error2++;
-                            }
-
+                        for (var i = 0; i < hisStrategys[page].length; i++) {
                             $scope.myHisStrategy[i].flag = false; //所有选择框默认不选择
                         }
+
                     }
                     $scope.putScreenhisStrategys(0);
-
-
 
                     angular.forEach(data, function (item, index) {
                         if (item.status == -2) {
                             item.color = "his";
                             item.type = "历史回测";
-                            //$scope.allStrategys.push(item);
                             allRecStrategys[c++]=item;
                             $scope.histroy++;
                         }
