@@ -19,14 +19,13 @@
                         <div class="tip1">
                             <div class="tip1_1">
                                 <div class="ul1">
-                                    <span>正在运行：<code>{{sRun}}</code></span>
-                                    <span>停止运行：<code>{{sStop}}</code></span>
+                                    <span>正在运行 <code>{{sRun}}</code></span>
+                                    <span>停止运行 <code>{{sStop}}</code></span>
                                 </div>
                             </div>
                             <div class="dealProduct">
                                 <div class="product">
-                                        交易产品：
-                                        <select class="common-select " ng-model="key"  ng-options="x for x in symbolList" name="country"  ng-change="chartJson()"></select>
+                                        交易产品 <select class="common-select " ng-model="key"  ng-options="x for x in symbolList" name="country"  ng-change="chartJson()"></select>
                                 </div>
                             </div>
                             <div class="intro">
@@ -56,7 +55,7 @@
                                 <div class="name">
                                     <span class="{{x.color}}">{{$index+1}}</span>
                                     <span>
-                                        <a ng-click="drawEach(x,true)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
+                                        <a ng-mouseover="drawEach(x,true)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
                                         <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
                                     </span>
                                     <!--<span class="time">交易时间：<e>{{x.time}}</e></span>-->
@@ -73,7 +72,6 @@
                                             <span></span>
                                             <span></span>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -115,14 +113,13 @@
                         <div class="tip1">
                             <div class="tip1_1">
                                 <div class="ul1">
-                                    <span>正在运行：<code>{{fRun}}</code></span>
-                                    <span>停止运行：<code>{{fStop}}</code></span>
+                                    <span>正在运行 <code>{{fRun}}</code></span>
+                                    <span>停止运行 <code>{{fStop}}</code></span>
                                 </div>
                             </div>
                             <div class="dealProduct">
                                 <div class="product">
-                                        交易产品：
-                                        <select  class="common-select" ng-options="x for x in symbolList1" ng-model="key1" class="form-control input-sm" ng-change='chartJson2()'></select>
+                                        交易产品 <select  class="common-select" ng-options="x for x in symbolList1" ng-model="key1" class="form-control input-sm" ng-change='chartJson2()'></select>
                                     </div>
                             </div>
                             <div class="intro">
@@ -143,7 +140,7 @@
                                 <div class="name">
                                     <span class="{{x.color}}">{{$index+1}}</span>
                                     <span>
-                                        <a ng-click="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
+                                        <a ng-mouseover="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
                                         <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
                                     </span>
                                 </div>
@@ -181,8 +178,8 @@
                     </ul>
                     <div class="draw">
                         <div class="latest">
-                            <span>最新价格：<code>{{close1}}</code></span>
-                            <span>最新成交量：<code>{{volume1}}</code></span>
+                            <span>最新价格 <code>{{close1}}</code></span>
+                            <span>最新成交量 <code>{{volume1}}</code></span>
                         </div>
                         <div id="highchart_moni"></div>
                     </div>
@@ -203,17 +200,12 @@
                         <div class="tip1">
                             <div class="tip1_1">
                                 <div class="ul1">
-                                    <span>停止运行：<code>{{hStop}}</code></span>
-
+                                    <span>停止运行 <code>{{hStop}}</code></span>
                                 </div>
                             </div>
                             <div class="dealProduct">
                                 <div class="product">
-                                    交易产品：
-                                    <select name="" id=""
-                                                                   ng-options="x for x in histroySymbolList"
-                                                                   ng-model="key2"
-                                                                   ng-change="chartJson3()"></select>
+                                    交易产品 <select  ng-options="x for x in histroySymbolList" ng-model="key2" ng-change="chartJson3()"></select>
                                 </div>
                             </div>
                             <div class="intro">
@@ -235,12 +227,12 @@
                         <h1>calculating...</h1>
                     </div>
                     <ul class="contentS">
-                        <li ng-repeat="x in histroy | filter:{symbol:key2}">
+                        <li ng-repeat="x in histroy | filter:fun">
                             <div>
                                 <div class="name">
                                     <span class="{{x.color}}">{{$index+1}}</span>
                                     <span>
-                                        <a ng-click="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
+                                        <a ng-mouseover="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
                                         <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
                                     </span>
                                 </div>
@@ -286,22 +278,21 @@
                         <div class="tip1">
                             <div class="tip1_1">
                                 <div class="ul1">
-                                    <span>[历史]真实交易：<code>{{sHui}}</code></span>
-                                    <span>[历史]实盘模拟：<code>{{fHui}}</code></span>
+                                    <span>历史真实交易 <code>{{sHui}}</code></span>
+                                    <span>历史实盘模拟 <code>{{fHui}}</code></span>
                                 </div>
                             </div>
                             <div class="dealProduct">
                                 <div class="product productMore">
-                                        交易产品：
-                                        <select ng-options="x for x in allSymbolList" ng-model="key4" ng-change="chartJson4()"></select>
+                                        交易产品 <select ng-options="x for x in allSymbolList" ng-model="key4" ng-change="chartJson4()"></select>
                                     </div>
                             </div>
                             <div class="intro">
                                 <div>
-                                    <em style="background-color: #f0ad4e;"></em><span>[历史]真实交易</span>
+                                    <em style="background-color: #f0ad4e;"></em><span>历史真实交易</span>
                                 </div>
                                 <div>
-                                    <em style="background-color: #5bc0de;"></em><span>[历史]实盘模拟</span>
+                                    <em style="background-color: #5bc0de;"></em><span>历史实盘模拟</span>
                                 </div>
                             </div>
                         </div>
@@ -324,7 +315,7 @@
                                     <div class="name">
                                         <span class="{{x.color}}">{{$index+1}}</span>
                                         <span>
-                                            <a ng-click="drawEach(x,true)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
+                                            <a ng-mouseover="drawEach(x,true)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
                                             <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
                                         </span>
                                     </div>
@@ -369,7 +360,7 @@
                                     <div class="name">
                                         <span class="{{x.color}}">{{$index+1}}</span>
                                         <span>
-                                            <a ng-click="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
+                                            <a ng-mouseover="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
                                             <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
                                         </span>
                                     </div>

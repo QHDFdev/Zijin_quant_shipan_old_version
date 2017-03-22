@@ -319,8 +319,6 @@
          * @returns {string|*}
          */
         function getcelve(class_id) {
-
-            //console.log(accounts)
             for (var i = 0; i < accounts.length; i++) {
                 if (accounts[i]._id == class_id) {
                     return accounts[i].class_name;
@@ -356,7 +354,6 @@
                 .success(function (data) {
                     $scope.myStrategy[i].title = "错误信息: " + data.error;
                 }).error(function (err, sta) {
-                //console.log(err, sta)
             })
         }
         $scope.geterror3 = function (id, i) {
@@ -1231,7 +1228,6 @@
                             $scope.over2++;
                         }
                     }
-
                     var q= 0,hisStrategys=[],hisStrategysPageSize=[];
                     for(var i=0;i<data.length;i=i+10){
                         var list = [];
@@ -1239,26 +1235,21 @@
                             list.push(data[i+j]);
                         }
                         hisStrategys[q]=list;
-
                         hisStrategysPageSize.push({
                             "page":q
                         });
                         q++;
                     }
-
                     $scope.hisStrategysPageSize=hisStrategysPageSize;
                     $scope.putScreenhisStrategys=function(page){
                         $scope.hisStrategysDelPage=page;
                         $scope.myHisStrategy=[];
                         $scope.myHisStrategy = hisStrategys[page];
-
                         for (var i = 0; i < hisStrategys[page].length; i++) {
                             $scope.myHisStrategy[i].flag = false; //所有选择框默认不选择
                         }
-
                     }
                     $scope.putScreenhisStrategys(0);
-
                     angular.forEach(data, function (item, index) {
                         if (item.status == -2) {
                             item.color = "his";
@@ -1267,11 +1258,9 @@
                             $scope.histroy++;
                         }
                     });
-
                 })
                 .error(function (err, sta) {
                     Showbo.Msg.alert('网络错误，请稍后再试。');
-
                 });
         };
 
@@ -1280,9 +1269,7 @@
         $http.get(url).success(function (response) {
             //console.log(response)
             $scope.titleQuick = response;
-        })
-
-
+        });
         $(function () {
             $('#downtxt').mousemove(function () {
                     $('#title').show();
@@ -1576,28 +1563,89 @@
             return symbolList1;
         }
         //真实交易
+        var  truedata2=[];   /*存放没有被删除的策略*/
         function trustDeals(flag){
-            $scope.sRun = 0, $scope.sStop = 0
-            var  truedata2=[];   /*存放没有被删除的策略*/
             for(var i=0; i<truedata.length; i++){
                 if(truedata[i].status!=-2){
                     truedata2.push(truedata[i]);
                 }
-                else {
+                else if(truedata[i].status ==-2){
                     delTrust.push(truedata[i]);
                 }
             }
-            //$scope.getSourcingStrategys();
+            $scope.key = 'D1_AG';
+            var marketData=[];
+            $scope.chartJson =function(){
+                $scope.sRun = 0, $scope.sStop = 0
+                for(var i=0;i<truedata2.length;i++){
+                    if(truedata2[i].symbol == $scope.key){
+                        if(truedata2[i].status == 2){
+                            $scope.sRun++;
+                        }
+                        else if(truedata2[i].status ==3){
+                            $scope.sStop++;
+                        }
+                    }
+                }
+                var exchagne1,key;
+                key=$scope.key[0]+$scope.key[1];
+                if(key == "D1" || key == 'D6'){
+                    exchagne1 = 'CSRPME'
+                }
+                else if(key == 'IF' || key == 'IC'){
+                    exchagne1 ='CTP'
+                }
+                else if(key == 'bt'){
+                    exchagne1 = 'OKCoin'
+                }
+                $http.get(constantUrl + 'datas/', {
+                        params: {
+                            "type": 'bar',
+                            "exchange": exchagne1,
+                            "symbol": $scope.key,
+                            "start": getNowFormatDate(),
+                            "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
+                        },
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
+                    .success(function (data) {
+                        marketData=data;
+                        draw(marketData,'highchart_view',1);
+                    })
+                    .error(function(){
+                        $http.get(constantUrl + 'datas/', {
+                                params: {
+                                    "type": 'bar',
+                                    "exchange": exchagne1,
+                                    "symbol": $scope.key,
+                                    "start": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() -1)), 'yyyy-MM-dd'),
+                                    "end":getNowFormatDate()
+                                },
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
+                            .success(function (data) {
+                                marketData=data;
+                                draw(marketData,'highchart_view',1);
+
+                            });
+                    });
+                $timeout(function(){
+                    $scope.chartJson();
+                },60000);
+            }
+            $scope.chartJson();
             for (var i = 0; i < truedata2.length; i++) {
                 var class_id = truedata2[i].class_id;
                 truedata2[i].code_name = getcelve(class_id);
                 if(truedata2[i].status ==2){
                     truedata2[i].color='run';
-                    $scope.sRun++;
                 }
                 if(truedata2[i].status == 3){
                     truedata2[i].color ='stop';
-                    $scope.sStop++;
                 }
             }
             $scope.symbolList = productSymbol(truedata2);
@@ -1608,60 +1656,6 @@
                 });
             }
         }
-        $scope.key = 'D1_AG';
-        var marketData=[];
-        $scope.chartJson =function(){
-            var exchagne1,key;
-            key=$scope.key[0]+$scope.key[1];
-            if(key == "D1" || key == 'D6'){
-                exchagne1 = 'CSRPME'
-            }
-            else if(key == 'IF' || key == 'IC'){
-                exchagne1 ='CTP'
-            }
-            else if(key == 'bt'){
-                exchagne1 = 'OKCoin'
-            }
-            $http.get(constantUrl + 'datas/', {
-                    params: {
-                        "type": 'bar',
-                        "exchange": exchagne1,
-                        "symbol": $scope.key,
-                        "start": getNowFormatDate(),
-                        "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
-                    },
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
-                .success(function (data) {
-                    marketData=data;
-                    draw(marketData,'highchart_view',1);
-                })
-                .error(function(){
-                    $http.get(constantUrl + 'datas/', {
-                            params: {
-                                "type": 'bar',
-                                "exchange": exchagne1,
-                                "symbol": $scope.key,
-                                "start": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() -1)), 'yyyy-MM-dd'),
-                                "end":getNowFormatDate()
-                            },
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
-                        .success(function (data) {
-                            marketData=data;
-                            draw(marketData,'highchart_view',1);
-
-                        });
-                });
-            $timeout(function(){
-                $scope.chartJson();
-            },60000);
-        }
-        $scope.chartJson();
         $scope.drawEach =function(item,flag){
             var beginData=[];
             function getFirmTime() {
@@ -2129,8 +2123,29 @@
             if(window.b ==1){
                 return;
             }
+            var falsedata2=[];   /*存放没有被删除的策略*/
+            delFirm=[];
+            for(var i=0; i<falsedata.length; i++){
+                if(falsedata[i].status ==2 || falsedata[i].status == 3){
+                    falsedata2.push(falsedata[i]);
+                }
+                else if(falsedata[i].status ==-2){
+                    delFirm.push(falsedata[i]);
+                }
+            }
             $scope.key1 = "D1_AG";
             $scope.chartJson2 =function(){
+                $scope.fRun = 0, $scope.fStop = 0;
+                for(var i=0;i<falsedata2.length;i++){
+                    if(falsedata2[i].symbol==$scope.key1){
+                        if(falsedata2[i].status ==2 ){
+                            $scope.fRun++;
+                        }
+                        else if(falsedata2[i].status ==3){
+                            $scope.fStop++;
+                        }
+                    }
+                }
                 var exchagne1,key,marketData1=[];
                 key=$scope.key1[0]+$scope.key1[1];
                 if(key == "D1" || key == 'D6'){
@@ -2179,21 +2194,9 @@
                 $timeout(function(){
                     $scope.chartJson2();
                 },60000);
-            }
+            };
             $scope.chartJson2();
 
-            var falsedata2=[];   /*存放没有被删除的策略*/
-            delFirm=[];
-            for(var i=0; i<falsedata.length; i++){
-                if(falsedata[i].status ==2 || falsedata[i].status == 3){
-                    falsedata2.push(falsedata[i]);
-                }
-                else if(falsedata[i].status ==-2){
-                    delFirm.push(falsedata[i]);
-                }
-            }
-            var symbolList2 = [];
-            $scope.fRun = 0, $scope.fStop = 0;
             for (var i = 0; i < falsedata2.length; i++) {
                 falsedata2[i].class_name = "none"; //策略代码初始化
                 falsedata2[i].color = "none"; //策略代码初始化
@@ -2201,18 +2204,16 @@
                 falsedata2[i].code_name = getcelve(class_id1);
                 if(falsedata2[i].status == 2){
                     falsedata2[i].color='run';
-                    $scope.fRun++;
                 }
                 if(falsedata2[i].status == 3){
                     falsedata2[i].color='stop';
-                    $scope.fStop++;
                 }
             }
             $scope.symbolList1 = productSymbol(falsedata2);
             deal(falsedata2,false,1).then(function(data){
                 $scope.flase=data;
                 $("#container1").hide();
-            })
+            });
             window.b=1;
         }
         function handledata(flag, nowdata, nowDay, nowId) {
@@ -2507,7 +2508,7 @@
             if(window.c==1){
                 return;
             }
-            $scope.hRun = 0, $scope.hStop = 0;
+
             var histroy = [];
             $http.get(constantUrl + "btstrategys/", {
                     headers: {
@@ -2518,17 +2519,27 @@
                     angular.forEach(data,function(item,index){
                         if(item.status == 4){
                             item.color='stop';
-                            $scope.hStop++;
                             histroy.push(item)
                         }
                     });
                     $scope.histroySymbolList = productSymbol(histroy);
                     $scope.key2 = $scope.histroySymbolList[0];
+                    $scope.fun = function(e){
+                        return e.symbol == $scope.key2
+                    };
                     for (var i = 0; i < histroy.length; i++) {
                         var class_id = histroy[i].class_id;
                         histroy[i].code_name = getcelve(class_id);
                     }
-
+                    $scope.chartJson3 = function(){
+                        $scope.hStop = 0;
+                        for(var i=0;i<histroy.length;i++){
+                            if(histroy[i].symbol == $scope.key2){
+                                $scope.hStop++;
+                            }
+                        }
+                    }
+                    $scope.chartJson3();
                     deal(histroy,false,0).then(function(data){
                         data.sort(function(a,b){return b.yeild-a.yeild;});
                         $scope.histroy = data;
@@ -2542,17 +2553,14 @@
             if(window.b==0){
                 $scope.firm();
             }
-            $scope.sHui=0,$scope.fHui=0;
             $scope.key4 = "D1_AG";
             var k= 0,n= 0,j= 0,delTrustSymbol=[],delFirmSymbol=[],delAllSymbol=[];
-            $scope.sHui=delTrust.length;
             for (var i = 0; i < delTrust.length; i++) {
                 delTrustSymbol[n++]=delTrust[i].symbol;
-                delTrust[i].color='tdel'
+                delTrust[i].color='tdel';
                 var class_id = delTrust[i].class_id;
                 delTrust[i].code_name = getcelve(class_id);
             }
-            $scope.fHui=delFirm.length;
             for(var i=0;i<delFirm.length;i++){
                 delFirmSymbol[j++]=delFirm[i].symbol;
                 delFirm[i].color='sdel';
@@ -2566,6 +2574,22 @@
                 }
             }
             $scope.allSymbolList = delAllSymbol;
+            $scope.chartJson4 =function(){
+                $scope.sHui=0,$scope.fHui=0;
+                for(var i=0;i<delTrust.length;i++){
+                    if(delTrust[i].symbol == $scope.key4){
+                        $scope.sHui++;
+                    }
+                }
+                for(var i=0;i<delFirm.length;i++){
+                    if(delFirm[i].symbol == $scope.key4){
+                        $scope.fHui++;
+                    }
+                }
+            };
+            $scope.chartJson4();
+
+
             deal(delTrust,true,0).then(function(data){
                 data.sort(function(a,b){return b.yeild-a.yeild;});
                 $scope.histroyTrust=data;
