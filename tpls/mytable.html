@@ -164,8 +164,8 @@
                                         <button class="btn btn-default dropdown-toggle" type="button" id="menu4" data-toggle="dropdown"><i class="fa fa-wrench"></i> 操作
                                             <span class="caret"></span></button>
                                         <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                                            <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="startstrategy(this)">启动 <i class="fa fa-play"></i></a></li>
-                                            <li role="presentation"><a role="menuitem" tabindex="-1"  ng-click="strategypause(this)">停止 <i class="fa fa-pause"></i></a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="startstrategy(this,d.page)">启动 <i class="fa fa-play"></i></a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1"  ng-click="strategypause(this,d.page)">停止 <i class="fa fa-pause"></i></a></li>
                                             <li role="presentation"><a role="menuitem" tabindex="-1"  ng-click="removeStrategy(this)">移至历史交易 <i class="fa fa-minus"></i></a></li>
                                             <li role="presentation"><a role="menuitem" tabindex="-1"  ng-click="delstrategy(this)">丢至回收站 <i class="fa fa-trash"></i></a></li>
                                             <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="log2(this)">显示运行日志 <i class="fa fa-desktop"></i></a></li>
@@ -181,7 +181,6 @@
                                 <a ng-click="putScreen1(x.page)">{{$index+1}}</a>
                             </li>
                         </ul>
-
                     </div>
                 </div>
             </div>
@@ -235,7 +234,7 @@
                                         <button class="btn btn-default dropdown-toggle" type="button" id="menu2" data-toggle="dropdown"><i class="fa fa-wrench"></i> 操作
                                             <span class="caret"></span></button>
                                         <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                                            <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="strategystart(this)">启动 <i
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="strategystart(this,d.page)">启动 <i
                                                     class="fa fa-play"></i></a></li>
                                             <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="pausestrategy(this)">停止 <i
                                                     class="fa fa-pause"></i></a></li>

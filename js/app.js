@@ -104,6 +104,8 @@
         window.a;
         window.b=0;
         window.c=0;
+        window.p=0;
+        window.h=0;
         wow.init();
 
     }])
@@ -575,7 +577,8 @@
         /* 创建实盘模拟 */ //加载策略页面
         //实盘列表渲染到页面
         var strategyList1=[];
-        $scope.getFirmStrategys = function () {
+
+        $scope.getFirmStrategys = function (page) {
             $http.get(constantUrl + "strategys/", {
                     headers: {
                         'Authorization': 'token ' + $cookieStore.get('user').token
@@ -631,8 +634,7 @@
                             //$scope.allStrategys.push(item)
                             histroySim.push(item);
                         }
-                    })
-
+                    });
                     var simStragey=[];
                     angular.forEach(data,function(item,index){
                         if(item.status !=-2){
@@ -680,20 +682,44 @@
                     }
                     $scope.simPageSize=simPageSize;
                     $scope.putScreen1=function(page){
-                        $scope.page1=page;
                         $scope.myStrategy = [];
-                        $scope.myStrategy = strategyList1[page];
-                        for (var i = 0; i < $scope.myStrategy.length; i++) {
-                            $scope.myStrategy[i].class_name = "none";  //策略代码初始化
-                            var class_id = $scope.myStrategy[i].class_id;
-                            var status = $scope.myStrategy[i].status;
-                            $scope.myStrategy[i].class_name = getcelve(class_id);
+                        if(window.p==0){
+                            $scope.page1=page;
+                            $scope.myStrategy = strategyList1[page];
+                            for (var i = 0; i < $scope.myStrategy.length; i++) {
+                                $scope.myStrategy[i].class_name = "none";  //策略代码初始化
+                                //$scope.myStrategy[i].page = "none";  //策略代码初始化
+                                //$scope.myStrategy[i].page = "none";  //策略代码初始化
+                                $scope.myStrategy[i].page=page
+                                var class_id = $scope.myStrategy[i].class_id;
+                                var status = $scope.myStrategy[i].status;
+                                $scope.myStrategy[i].class_name = getcelve(class_id);
 
-                            if($scope.myStrategy[i].status =="错误"){
-                                $scope.geterror($scope.myStrategy[i]._id, i);
+                                if($scope.myStrategy[i].status =="错误"){
+                                    $scope.geterror($scope.myStrategy[i]._id, i);
+                                }
+                            }
 
+                        }
+                        else{
+                            $scope.page1=window.p
+                            $scope.myStrategy = strategyList1[window.p];
+                            for (var i = 0; i < $scope.myStrategy.length; i++) {
+                                $scope.myStrategy[i].class_name = "none";  //策略代码初始化
+                                //$scope.myStrategy[i].page = "none";  //策略代码初始化
+                                //$scope.myStrategy[i].page = "none";  //策略代码初始化
+                                $scope.myStrategy[i].page=window.p
+                                var class_id = $scope.myStrategy[i].class_id;
+                                var status = $scope.myStrategy[i].status;
+                                $scope.myStrategy[i].class_name = getcelve(class_id);
+
+                                if($scope.myStrategy[i].status =="错误"){
+                                    $scope.geterror($scope.myStrategy[i]._id, i);
+                                }
                             }
                         }
+
+                        window.p=0
                     }
                     $scope.putScreen1(0);
 
@@ -1242,12 +1268,24 @@
                     }
                     $scope.hisStrategysPageSize=hisStrategysPageSize;
                     $scope.putScreenhisStrategys=function(page){
-                        $scope.hisStrategysDelPage=page;
                         $scope.myHisStrategy=[];
-                        $scope.myHisStrategy = hisStrategys[page];
-                        for (var i = 0; i < hisStrategys[page].length; i++) {
-                            $scope.myHisStrategy[i].flag = false; //所有选择框默认不选择
+                        if(window.h==0){
+                            $scope.hisStrategysDelPage=page;
+                            $scope.myHisStrategy = hisStrategys[page];
+                            for (var i = 0; i < hisStrategys[page].length; i++) {
+                                $scope.myHisStrategy[i].flag = false; //所有选择框默认不选择
+                                $scope.myHisStrategy[i].page=page
+                            }
                         }
+                        else{
+                            $scope.hisStrategysDelPage=window.h;
+                            $scope.myHisStrategy = hisStrategys[window.h];
+                            for (var i = 0; i < hisStrategys[page].length; i++) {
+                                $scope.myHisStrategy[i].flag = false; //所有选择框默认不选择
+                                $scope.myHisStrategy[i].page=window.h
+                            }
+                        }
+
                     }
                     $scope.putScreenhisStrategys(0);
                     angular.forEach(data, function (item, index) {
@@ -1262,6 +1300,7 @@
                 .error(function (err, sta) {
                     Showbo.Msg.alert('网络错误，请稍后再试。');
                 });
+            window.h=0
         };
 
         //注意把文本用utf-8格式保存不然会中文乱码 鼠标悬浮title
@@ -5883,8 +5922,9 @@
                 }
             },
             link: function (scope, ele, attrs) {
-                scope.startstrategy = function (a) {
+                scope.startstrategy = function (a,page) {
                     //var url = $(this).closest('tr').children().eq(0).text();
+                    window.p=page;
                     i = a.$index; //点击的第几个
                     var url = scope.myStrategy[i]._id;
                     $http.patch(constantUrl + "strategys/" + url + '/', {
@@ -5896,7 +5936,8 @@
                         })
                         .success(function () {
                             /*$route.reload();*/
-                            scope.getFirmStrategys();
+                            scope.getFirmStrategys(window.p);
+                            //scope.putScreen1(page);
 
                         })
                         .error(function (err, sta) {
@@ -5924,7 +5965,8 @@
                             Showbo.Msg.alert('启动失败，请检查当前状态')
                         });
                 }
-                scope.strategypause = function (a) {
+                scope.strategypause = function (a,page) {
+                   window.p=page;
                     i = a.$index; //点击的第几个
                     var url = scope.myStrategy[i]._id;
                     $http.patch(constantUrl + "strategys/" + url + '/', {
@@ -6239,7 +6281,9 @@
                     a[0].download = name;
                     a[0].click();
                 }
-                scope.strategystart = function (a) {
+                scope.strategystart = function (a,page) {
+
+                    window.h=page
                     i = a.$index; //点击的第几个
                     var url = scope.myHisStrategy[i]._id;
                     $http.patch(constantUrl + "btstrategys/" + url + '/', {
