@@ -29,76 +29,124 @@
 	<link rel="stylesheet" href="css/tutorial.css">
 	<link rel="stylesheet" href="css/common.min.css">
   <link rel="stylesheet" href="css/runCenter.css">
+	<link rel="stylesheet" href="css/algorithm.css">
 </head>
 <body ng-controller='homeController'>
 	<div class="zijin-main-wrapper">
 		<div class="main-navbar navbar-fixed-top noprint ">
 			<div class="">
-					<ul style="float: left">
-						<a ng-href="#" class="navbar-brand">
-							<img src="images/logo.png">
-						</a>
-						<a href="" style="display: block;width: 5rem;height: 4.5rem;background: url('images/beta3.png') no-repeat;background-size: 98%;margin: 0 0 0 2rem">
-						</a>
-					</ul>
-					<ul class="userLogin">
-						<li ng-hide='user.username!=null'>
-							<a ng-href="#/login" style="color: #fff;text-decoration: none">登录 &nbsp;</a>
-						</li>
-						<li ng-hide='user.username!=null'>
-							<a ng-href="#" class="reg-btn" style="color: #fff"> &nbsp;注册(暂未开放)</a>
-						</li>
-						<!-- <li class="dropdown" ng-show='user.username!=null'>
-							<a ng-href="" class="dropdown-toggle" data-toggle='dropdown'>
-								{{user.username}}<span class="caret"></span>
-							</a>
-							<ul class="dropdown-menu dropdown-menu-left">
-								<li><a ng-href="" ng-click='logout()'>退出</a></li>
-							</ul>
-						</li> -->
-						<li ng-show='user.username!=null' class="name" mouse-show>
-							<a ng-href="" ng-bind='user.username' style="color: #fff"></a>
-							<div class="list-group">
-								<a ng-href="#/adminCenter"  ng-show='user.is_admin==true' class="list-group-item"><i class='info-icon'></i><span>个人中心</span></a>
-								<a href="" ng-click='logout()' class="list-group-item"><i class="logout-icon"></i><span>退出</span></a>
-							</div>
-						</li>
-					</ul>
+				<ul style="float: left">
+					<a ng-href="#" class="navbar-brand">
+						<img src="images/logo.png">
+					</a>
+					<a href="" style="display: block;width: 5rem;height: 4.5rem;background: url('images/beta3.png') no-repeat;background-size: 98%;margin: 0 0 0 2rem">
+					</a>
+				</ul>
+				<ul class="userLogin">
+					<li ng-hide='user.username!=null'>
+						<a ng-href="#/login" style="color: #fff;text-decoration: none">登录 &nbsp;</a>
+					</li>
+					<li ng-hide='user.username!=null'>
+						<a ng-href="#" class="reg-btn" style="color: #fff"> &nbsp;注册(暂未开放)</a>
+					</li>
+					<!-- <li class="dropdown" ng-show='user.username!=null'>
+                        <a ng-href="" class="dropdown-toggle" data-toggle='dropdown'>
+                            {{user.username}}<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li><a ng-href="" ng-click='logout()'>退出</a></li>
+                        </ul>
+                    </li> -->
+
+
+					<li ng-show='user.username!=null' class="name" mouse-show>
+						<a class="username" ng-bind='user.username'></a>
+						<div class="list-group">
+							<a ng-href="#/adminCenter"  ng-show='user.is_admin==true' class="list-group-item"><i class='info-icon'></i><span>个人中心</span></a>
+							<a href="" ng-click='logout()' class="list-group-item"><i class="logout-icon"></i><span>退出</span></a>
+						</div>
+					</li>
+				</ul>
+				<button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" style="border:1px solid #ddd" id="show_mobile">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
 			</div>
 		</div>
 		<!--<div class="zijin-ngview" ng-view></div>-->
-		<aside id="nav-sidebar" class="noprint" ng-show='user.username!=null'>
-			<i class='mobile-action visible-xs fa fa-lg fa-arrow-circle-right' mobile-action></i>
-			<nav class="nav-main">
-				<ul class="list-unstyled">
-					<li class="active">
-						<a ng-click='hashLocation("/home")'>
-							<i class="glyphicon glyphicon-home"></i> 首页
-						</a>
-					</li>
-					<li class="dropdown-submenu ">
-						<a ng-click='hashLocation("/strategyconpanel")'>
-							<i class="glyphicon glyphicon-cog" ></i> 配置中心
-						</a>
-					</li>
-					<li class="dropdown-submenu">
-						<a ng-click="hashLocation('/strategyruncenter')">
-							<i class="glyphicon glyphicon-briefcase"></i> 交易中心
-						</a>
-					</li>
-					<li>
-						<a ng-click="hashLocation('/codeview')">
-							<i class="glyphicon glyphicon-edit"></i> 在线代码
-						</a>
-					</li>
-					<li>
-						<a ng-click="hashLocation('/quantmodelshare')">
-							<i class="glyphicon glyphicon-th"></i> 模型智库
-						</a>
-					</li>
-				</ul>
-			</nav>
-		</aside>
+		<div class="aside_container">
+			<aside id="nav-sidebar" class="noprint" ng-show='user.username!=null'>
+				<!--	<i class='mobile-action visible-xs fa fa-lg fa-arrow-circle-right' mobile-action></i>-->
+				<a class="username_mobile visible-xs" ng-bind='user.username'></a>
+				<nav class="nav-main">
+					<ul class="list-unstyled">
+						<li class="active">
+							<a ng-click='hashLocation("/home")'>
+								<i class="fa fa-home"></i> 首页
+							</a>
+						</li>
+						<li>
+							<a ng-click='hashLocation("/strategyconpanel")'>
+								<i class="fa fa-cog" ></i> 配置中心
+							</a>
+						</li>
+						<li >
+							<a ng-click="hashLocation('/strategyruncenter')">
+								<i class="fa fa-briefcase"></i> 交易中心
+							</a>
+						</li>
+						<li>
+							<a ng-click="hashLocation('/codeview')">
+								<i class="fa fa-desktop"></i> 在线代码
+							</a>
+						</li>
+						<li>
+							<a ng-click="hashLocation('/quantmodelshare')">
+								<i class="fa fa-th"></i> 模型智库
+							</a>
+						</li>
+						<!--<li>
+                            <a>
+                                <i class="iconYCJ icon-earth-ycj"></i> 模型竞赛
+                            </a>
+                        </li>-->
+						<li class="dropdown-submenu ">
+							<a>
+								<i class="fa fa-fire"></i> 紫金竞赛
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<a ng-click="hashLocation('/algorithm')" >算法竞赛</a>
+								</li>
+								<li>
+									<a ng-click="hashLocation('/dataset')">数据集</a>
+								</li>
+								<li>
+									<a ng-click="hashLocation('/kernel')">代码</a>
+								</li>
+							</ul>
+						</li>
+						<li class="line_admin"  ng-show='user.is_admin==true'></li>
+						<!--	<li  ng-show='user.is_admin==true'>
+                                <a ng-href="#/adminCenter">
+                                    <i class="glyphicon glyphicon-user"></i> 用户中心
+                                </a>
+                            </li>-->
+						<li  ng-show='user.is_admin==true'>
+							<a ng-click='hashLocation("/holdcompetition")'>
+								<i class="fa  fa-trophy" ></i> 举办竞赛
+							</a>
+						</li>
+						<li  ng-show='user.is_admin==true'>
+							<a ng-click="hashLocation('/createdata')">
+								<i class="fa fa-upload"></i> 上传数据集
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</aside>
+		</div>
 		<div class="zijin-ngview" ng-view></div>
 	</div>
 	<script src="lib/date/WdatePicker.js"></script>

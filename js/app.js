@@ -62,6 +62,10 @@
                 templateUrl: 'tpls/modalResTemplate.html',
                 controller: 'modalResItemController'
             })
+            .when('/model_information/:id', {
+                templateUrl: 'tpls/model_information.html',
+                controller: 'modalResItemController'
+            })
             .when('/model_objects/:id', {
                 templateUrl: 'tpls/modalResTemplate.html',
                 controller: 'modalResItemController'
@@ -84,6 +88,37 @@
             })
             .when('/strategyruncenter', {
                 templateUrl: 'tpls/runCenter.html'
+            })
+            .when('/algorithm', {
+                templateUrl: 'tpls/algorithm.html'
+            })
+            .when('/dataset', {
+                templateUrl: 'tpls/dataset.html'
+            })
+            .when('/kernel', {
+                templateUrl: 'tpls/kernel.html'
+            })
+            .when('/algorithmInformation', {
+                templateUrl: 'tpls/algorithmInformation.html'
+            })
+            .when('/algorithmInformation/:id', {
+                templateUrl: 'tpls/algorithmInformation.html'
+            })
+            .when('/datasetInformation', {
+                templateUrl: 'tpls/datasetInformation.html'
+            })
+            .when('/holdcompetition', {
+                templateUrl: 'tpls/holdcompetition.html'
+            })
+            .when('/createdata', {
+                templateUrl: 'tpls/createdata.html'
+            })
+            .when('/kernelInformation', {
+                templateUrl: 'tpls/kernelInformation.html'
+
+            })
+            .when('/kernelmine', {
+                templateUrl: 'tpls/kernelmine.html'
             })
             .otherwise({
                 redirectTo: '/home'
@@ -157,7 +192,6 @@
             if (index != -1) {
                 str = href.substring(index);
             }
-            ;
             $scope.natived = str;
         });
         $rootScope.user = $cookieStore.get('user');
@@ -190,6 +224,16 @@
         $('#nav-sidebar .nav-main ul li').click(function () {
             $('#nav-sidebar .nav-main ul li.active').removeClass('active');
             $(this).addClass('active');
+        })
+        $("#show_mobile").click(function () {
+            var left = $("#show_mobile").css("left");
+
+            if(left === '-300px'){
+                $("#nav-sidebar").css("left","0")
+            }
+            else{
+                $("#nav-sidebar").css("left","-300px")
+            }
         })
 
     }])
@@ -5084,11 +5128,8 @@
                 })
                 .success(function (data) {
                     $scope.hisItem.time = data;
-                    console.log(data)
                 })
                 .error(function (err, sta) {
-                    console.log(err);
-                    console.log(sta);
                 });
         };
         $scope.getBarList = function () {
@@ -5102,6 +5143,275 @@
             $scope.getModeList('tick');
         };
     }])
+    .controller('kernelInforController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', '$route', '$timeout', '$q', '$interval', '$filter', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, $route, $timeout, $q, $interval, $filter) {
+        window.b=0;
+        window.c=0;
+        $scope.fate = 0;
+        var editor;
+        var myClassId;
+        $scope.code = "# encoding: UTF-8\n\n\n" + "from ctaBase import *\n" + "from ctaTemplate import CtaTemplate\n\n" + "import time\n" + " import datetime\n" + " import numpy as np\n" + "import pandas as pd \n" + "import statsmodels.api as sm \n\n" + "from scipy import stats\n" + " from pandas import Series, DataFrame\n" + "from statsmodels.tsa.arima_model import ARIMA, ARMA \n" + " from statsmodels.tsa.stattools import acf, pacf\n" + "from statsmodels.tsa.stattools import adfuller  \n" + "                 'author',\n" + "                 'vtSymbol',\n" + "                 'fastK',\n" + "                 'slowK']\n\n" + "    # 变量列表，保存了变量的名称\n" + "    varList = ['inited',\n" + "               'trading',\n" + "               'pos',\n" + "               'fastMa0',\n" + "               'fastMa1',\n" + "               'slowMa0',\n" ;
+            editor = ace.edit("code_editor");
+            editor.$blockScrolling = Infinity;
+            editor.setFontSize(14);
+            editor.setOptions({
+                enableBasicAutocompletion: true,
+                enableSnippets: true,
+                enableLiveAutocompletion: true
+            });
+            editor.setTheme("ace/theme/chrome");
+            editor.getSession().setMode("ace/mode/python");
+            editor.setValue($scope.code);
+
+    }])
+    .controller('algorithmInforController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', '$route', '$timeout', '$q', '$interval', '$filter', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, $route, $timeout, $q, $interval, $filter) {
+        var str_img,str,img;
+        var hash = window.location.hash;
+        var index = hash.indexOf('id');
+        if (index !== -1) {
+            str = hash.substring(index+3,index+4);
+        }
+        if(str === 'a'){
+            str = hash.substring(index+4);
+            if(str === "2day"){
+                $scope.title="预测第二日股指价格涨跌"
+                img = 'images/thumb76_76_'+ str +'.png';
+            }
+            else{
+                $scope.title="预测"+ str +"分钟股指价格涨跌"
+                img = 'images/thumb76_76_'+ str +'min.png';
+            }
+        }
+        else if(str === 'b'){
+            str = hash.substring(index+6);
+            if(str === "2day"){
+                $scope.title="预测第二日股指最高价与最低价"
+                img = 'images/thumb76_76_2_'+ str +'.png';
+            }
+            else{
+                $scope.title="预测"+ str +"分钟股指最高价与最低价"
+                img = 'images/thumb76_76_2_'+ str +'min.png';
+            }
+        }
+        else if(str === 'c'){
+            str = hash.substring(index+6,index+8);
+            str_img = hash.substring(index+4)
+            console.log(str)
+            console.log(str_img)
+            if(str_img === "3_2day"){
+                $scope.title="第二日为周期趋势波动分类"
+            }
+            else{
+                $scope.title= str +"分钟为周期趋势波动分类"
+            }
+            img = 'images/thumb76_76_'+ str_img +'.png';
+
+        }
+        else if(str === 'd'){
+            $scope.title= "预测隔天涨跌幅度";
+            img = 'images/yesterday.png';
+        }
+        else if(str === 'e'){
+            str = hash.substring(index+4);
+            if(str === "1day"){
+                $scope.title="预测一天收益率"
+                img = 'images/rate_'+ str +'.png';
+            }
+            else{
+                $scope.title= "预测" + str + "分钟收益率";
+                img = 'images/rate_'+ str +'min.png';
+            }
+        }
+        $("#algorithm_information_img").attr('src',img);
+
+
+    }])
+    .controller('kernelController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', '$route', '$timeout', '$q', '$interval', '$filter','getModalResList', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, $route, $timeout, $q, $interval, $filter,getModalResList) {
+        window.b=0;
+        window.c=0;
+
+        $scope.loadStaus = "上传";
+        $scope.openImage = function () {
+            $('.image').fadeIn();
+        };
+        $scope.closeImage = function () {
+            $('.image').fadeOut();
+        };
+        $scope.delImage = function () {
+            $scope.image = "";
+            $scope.image0 = false;
+        };
+        $scope.addImage = function () {
+            if ($scope.image === undefined || $scope.image === "") {
+                Showbo.Msg.alert("未选择图片");
+                return;
+            }
+            $scope.loadStaus = "上传中...";
+            $http({
+                url: "https://sm.ms/api/upload",
+                method: 'POST',
+                headers: {
+                    'Content-Type': undefined
+                },
+                transformRequest: function () {
+                    var formData = new FormData();
+                    formData.append('smfile', $scope.image);
+                    return formData;
+                }
+            }).success(function (data) {
+                if (data.code === "error") {
+                    $scope.loadStaus = "上传";
+                    Showbo.Msg.alert("error:" + data.msg);
+                    return;
+                } else {
+                    $scope.loadStaus = "上传成功";
+                }
+                var imageUrl = "![none](" + data.data.url + ")";
+                $("#content3").insertContent(imageUrl);
+                $scope.modalResObj.content = $("#content3").val();
+                $('.image').fadeOut();
+                $scope.loadStaus = "上传";
+            });
+        };
+        $scope.changeImage0 = function (files) {
+            if (files[0] == undefined) {
+                $scope.image = "";
+                $scope.image0 = false;
+                return;
+            }
+            var objUrl = getObjectURL(files[0]);
+            $scope.img0 = objUrl;
+            $scope.image0 = true;
+        };
+
+        $scope.addModalResOpen = function () {
+            var str = "title=" + encodeURIComponent($scope.modalResOpen.title) + "&content=" + encodeURIComponent($scope.modalResOpen.content) + "&code=" + encodeURIComponent($scope.modalResOpen.code);
+            getModalResList.addItem(str, 'model_quants').then(function () {
+                $scope.getOpen();
+            }, function (err) {
+            });
+        };
+        $scope.getOpen = function () {
+            getModalResList.getList('model_quants').then(function (data) {
+                modalResObjList0 = [];
+                angular.forEach(data, function (data, index) {
+                    angular.extend(data, {
+                        "classify": 'model_quants'
+                    });
+                    this.push(data);
+                }, modalResObjList0);
+                $scope.modalResObjList0 = modalResObjList0;
+                console.log($scope.modalResObjList0)
+            });
+        };
+        $scope.getOpen()
+        $scope.toDetail = function (classify, id) {
+            console.log(classify,id)
+            window.flag = classify;
+            window.location.href = '#/' + classify + '/' + id;
+        }
+        $scope.model_del = function (id,title) {
+            var url = 'model_quants' + '/' + id;
+            Showbo.Msg.confirm('您确定删除' + title + '吗？', function (flag) {
+                if (flag == 'yes') {
+                    getModalResList.del(url).then(function () {
+                        $scope.getOpen()
+                    });
+
+                    ;
+                } else if (flag == 'no') {
+                }
+            });
+        }
+        $scope.model_edit = function (id) {
+            var url = 'model_quants' + '/' + id;
+            // $("#add_model").modal("toggle");
+            $http.get(constantUrl + url + '/', {
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
+                .success(function (data) {
+                    console.log(data)
+                    $scope.modalResOpenEdit=data
+                })
+                .error(function (err, sta) {
+
+                });
+
+        }
+        $scope.addModalResOpenEdit=function (id) {
+            var url = 'model_quants' + '/' + id;
+            var str = "title=" + encodeURIComponent($scope.modalResOpenEdit.title) + "&content=" + encodeURIComponent($scope.modalResOpenEdit.content) + "&code=" + encodeURIComponent($scope.modalResOpenEdit.code);
+            getModalResList.reviseItem(str, url).then(function () {
+                $scope.getOpen()
+
+            }, function (err) {
+            });
+        }
+
+
+
+    }])
+    .controller('holdController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', '$route', '$timeout', '$q', '$interval', '$filter', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, $route, $timeout, $q, $interval, $filter) {
+        $("#Train").click(function () {
+            console.log(this.value);
+            if(this.value===0){
+                $('.training_title').show();
+            }
+            else {
+                $('.training_title').hide();
+            }
+        })
+        $("#Test").click(function () {
+            console.log(this.value);
+            if(this.value===0){
+                $('.test_title').show();
+            }
+            else {
+                $('.test_title').hide();
+            }
+        })
+        $("#Sample").click(function () {
+            console.log(this.value);
+            if(this.value===0){
+                $('.sample_title').show();
+            }
+            else {
+                $('.sample_title').hide();
+            }
+        })
+    }])
+    .controller('createdataController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', '$route', '$timeout', '$q', '$interval', '$filter', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, $route, $timeout, $q, $interval, $filter) {
+        $("#Train").click(function () {
+            console.log(this.value);
+            if(this.value===0){
+                $('.training_title').show();
+            }
+            else {
+                $('.training_title').hide();
+            }
+        })
+        $("#Test").click(function () {
+            console.log(this.value);
+            if(this.value===0){
+                $('.test_title').show();
+            }
+            else {
+                $('.test_title').hide();
+            }
+        })
+        $("#Sample").click(function () {
+            console.log(this.value);
+            if(this.value===0){
+                $('.sample_title').show();
+            }
+            else {
+                $('.sample_title').hide();
+            }
+        })
+    }])
+
+
     .controller('complieItemController', ['$scope', '$rootScope', '$http', '$location', '$cookieStore', 'constantUrl', '$routeParams', '$interval', '$q', '$filter', function ($scope, $rootScope, $http, $location, $cookieStore, constantUrl, $routeParams, $interval, $q, $filter) {
         var str = null;
         var hash = window.location.hash;
@@ -5252,6 +5562,7 @@
                     this.push(data);
                 }, modalResObjList3);
                 $scope.modalResObjList3 = modalResObjList3;
+                console.log($scope.model)
             });
         };
         $scope.getRobot = function () {
@@ -5546,9 +5857,13 @@
         };
     }])
     .controller('modalResItemController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', '$routeParams', 'modalResObjList0', 'modalResObjList1', 'modalResObjList2', 'modalResObjList3', 'modalResObjList4', 'storageModalRes', 'getModalResList', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, $routeParams, modalResObjList0, modalResObjList1, modalResObjList2, modalResObjList3, modalResObjList4, storageModalRes, getModalResList) {
+
         /\/(\w*)\/(\w*)/i.exec($location.url());
         var id = RegExp.$2;
         var str = RegExp.$1;
+        if(str === 'model_information'){
+            str='model_quants'
+        }
         var url = str + '/' + id;
         getModalResList.getList(url).then(function (data) {
             $scope.mydata = data;
@@ -5594,6 +5909,7 @@
                         }
                     })
                     .success(function (data) {
+
                         defer.resolve(data);
                     })
                     .error(function (err, sta) {
@@ -6649,6 +6965,7 @@
             link: function (scope, ele, attrs) {
                 scope.$watch('mydata', function (nv, ov) {
                     if (nv != undefined) {
+                        console.log
                         ele.html(marked(scope.mydata.content));
                     }
                 })

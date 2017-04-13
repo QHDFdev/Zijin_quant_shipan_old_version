@@ -1,11 +1,8 @@
 
-.zijin-table,.analyse,.zijin-index,.zijin-complie,.modalRes,.runCenter,.trueR,.admincenter {
+.zijin-table,.analyse,.zijin-index,.zijin-complie,.modalRes,.runCenter,.trueR,.admincenter,.algorithm,.dataset,.kernel,
+.algorithm_information,.dataset_information,.hold_competition,.create_data,.kernel_information{
 	padding: 4.5rem 0 0 10rem;
-	/*background-color: rgb(233, 237, 239);*/
-	/*margin-top: 50px;
-	margin-bottom: 50px;*/
 }
-
 .zijin-table .zijin-table-body table td ,.zijin-table .zijin-table-body table th{
 	text-align: center;
 	vertical-align: middle;
@@ -27,9 +24,6 @@
 	font-size: 1rem;
 }
 .zijin-table .zijin-table-body table thead{
-	/*border:2px solid #707ea1;*/
-	/*font-size: 16px;*/
-	/*font-weight: 700;*/
 	font-family: "宋体";
 	font-size: 1rem;
 	background-color: #6e9cbd;
@@ -211,21 +205,11 @@
 }
 
  .guide ul .active{
-
-
 	color: #FF6100;
 	 font-weight: 700;
 	 border-bottom: solid 2px;
 	 transition: color .3s ease-in-out;
-	 /*transition: width .2s ease-in-out;*/
 }
-/* .guide ul .active:after{
-
-	 content: "";
-
-
-	 transition: width .2s ease-in-out;
- }*/
  .zijin-table .trading{
 	 margin: 0;
  }
