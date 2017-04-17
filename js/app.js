@@ -184,6 +184,8 @@
         else {
             $scope.aside = 'zijin-index';
             $("#nav-sidebar").show()
+
+
         }
         $scope.$watch(function () {
             var str = null;
@@ -226,7 +228,7 @@
             $(this).addClass('active');
         })
         $("#show_mobile").click(function () {
-            var left = $("#show_mobile").css("left");
+            var left = $("#nav-sidebar").css("left");
 
             if(left === '-300px'){
                 $("#nav-sidebar").css("left","0")
@@ -1437,7 +1439,10 @@
         $rootScope.user = $cookieStore.get('user');
         //console.log($rootScope.user.username)
         if($rootScope.user.username !=null){
-            $("#nav-sidebar").show()
+            $("#nav-sidebar").show();
+            // $("#show_mobile").show();
+
+
         }
         var falsedata = [], truedata = [],delTrust=[],delFirm=[],accounts=[],nianHuaList = [];
         //策略代码渲染到页面
@@ -5562,7 +5567,7 @@
                     this.push(data);
                 }, modalResObjList3);
                 $scope.modalResObjList3 = modalResObjList3;
-                console.log($scope.model)
+
             });
         };
         $scope.getRobot = function () {

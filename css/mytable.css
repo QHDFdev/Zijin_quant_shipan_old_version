@@ -295,8 +295,9 @@
 }
 
 @media (max-width: 767px){
-	.zijin-table,.analyse,.zijin-index,.zijin-complie,.modalRes,.runCenter,.trueR,.admincenter{
-		padding: 4.5rem 0 0 1.3rem;
+	.zijin-table,.analyse,.zijin-index,.zijin-complie,.modalRes,.runCenter,.trueR,.admincenter,.algorithm,.dataset,.kernel,
+	.algorithm_information,.dataset_information,.hold_competition,.create_data,.kernel_information{
+		padding: 4.5rem 0 0 0;
 	}
 	.zijin-table .guide{
 		height: 55px;

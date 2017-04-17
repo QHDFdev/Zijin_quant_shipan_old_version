@@ -145,13 +145,16 @@ ul li {
     width: 25%;
 }
 .banner_detail img{
-    height: 140px;
-    margin-bottom: 25px;
-    width: 140px;
+    height: 9.375rem;
+
+    width:  9.375rem;
+    margin: 0 auto 25px;
+
 }
 .banner_detailContent{
     line-height: 1.4;
     font-weight: bold;
+    font-size: 0.875rem;
 }
 
 .competition_list_wrapper{
@@ -162,7 +165,7 @@ ul li {
     background-color: #FFF;
     border-radius: 4px;
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: column wrap;
     margin: 50px 0 40px 0;
     min-height: 50px;
     position: relative;
@@ -328,7 +331,7 @@ ul li {
     text-decoration: none;
     color: #6F7175;
     outline: 0;
-    font-size: 16px;
+
 }
 /*.active{
     font-weight: 700
@@ -364,8 +367,8 @@ ul li {
 }
 .competition_card img{
     margin-right: 20px;
-    height: 80px;
-    width: 80px;
+    height: 5rem;
+    width: 5rem;
 }
 .competition_card_title{
     margin-right: 20px;
@@ -378,7 +381,7 @@ ul li {
     z-index: 2;
     pointer-events: auto;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 1.375rem;
     font-weight: 500;
     color: #47494D;
 }
@@ -407,7 +410,7 @@ ul li {
 }
 .competition_card_money{
     line-height: 1.2em;
-    font-size: 20px;
+    font-size: 1.375rem;
     font-weight: 500;
     color: #B3B3B3;
     min-width: 100px;
@@ -496,8 +499,8 @@ ul li {
 }
 .image_wrapper img{
     border-radius: 4px;
-    width: 90px;
-    height: 90px;
+    width: 5.75rem;
+    height: 5.75rem;
 }
 .datasets_item{
     align-self: flex-start;
@@ -915,8 +918,8 @@ ul li {
     padding: 20px 25px 15px;
 }
 .active_more_img img{
-    width: 150px;
-    height: 100px;
+    width: 9.375rem;
+    height: 6.25rem;
 }
 .active_more_detail{
     margin-left: 30px;
@@ -1224,4 +1227,43 @@ ul li {
     width:70%;
     border-radius: 4px;
     margin:10px 0;
+}
+@media (max-width: 767px){
+    .banner_details{
+
+    }
+    .content_box_selectGroup{
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        height: 90px;
+        line-height: 25px;
+        flex-wrap: wrap;
+        align-items: center;
+        margin: 0;
+        border-bottom: 1px solid rgb(222, 223, 224);
+    }
+    .competition_card{
+        border-left: 2px solid #FF625C;
+    }
+    .kernel_kinds{
+        height:40px;
+    }
+   /* .competition_card img {
+        margin-right: 20px;
+        height: 80px;
+        width: 80px;
+    }*/
+    .hold_competition_content{
+        width: 100%;
+        margin: 40px auto;
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        background-color: #f7f7f7;
+        padding: 20px;
+        border-radius: 4px;
+    }
+    .hold_competition_content .form-control{
+        width: 90%;
+    }
+
 }
