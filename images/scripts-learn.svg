@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="140px" height="140px" viewBox="0 0 140 140" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.7.2 (28276) - http://www.bohemiancoding.com/sketch -->
+    <title>Learn</title>
+    <defs>
+        <path d="M70,140 C108.659932,140 140,108.659932 140,70 C140,31.3400675 108.659932,0 70,0 C31.3400675,0 0,31.3400675 0,70 C0,108.659932 31.3400675,140 70,140 Z" id="path-1"></path>
+        <rect id="path-3" x="24" y="29" width="93" height="70" rx="1"></rect>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="93" height="70" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+        <rect id="path-5" x="68" y="23" width="5" height="8" rx="1"></rect>
+        <mask id="mask-6" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="5" height="8" fill="white">
+            <use xlink:href="#path-5"></use>
+        </mask>
+        <rect id="path-7" x="21" y="92" width="99" height="7" rx="1"></rect>
+        <mask id="mask-8" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="99" height="7" fill="white">
+            <use xlink:href="#path-7"></use>
+        </mask>
+        <rect id="path-9" x="29" y="34" width="83" height="60" rx="1"></rect>
+        <mask id="mask-10" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="83" height="60" fill="white">
+            <use xlink:href="#path-9"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ScriptCircle-Learn">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Mask" fill="#575F6B" xlink:href="#path-1"></use>
+            <rect id="Board-leg-L" fill="#60A3BC" mask="url(#mask-2)" transform="translate(54.975437, 119.063068) rotate(20.000000) translate(-54.975437, -119.063068) " x="52.4754367" y="93.665404" width="5" height="50.7953273" rx="1"></rect>
+            <rect id="Board-leg-R" fill="#60A3BC" mask="url(#mask-2)" transform="translate(84.975437, 119.063068) scale(-1, 1) rotate(20.000000) translate(-84.975437, -119.063068) " x="82.4754367" y="93.665404" width="5" height="50.7953273" rx="1"></rect>
+            <path d="M67,93.0007223 C67,92.4480386 67.4437166,92 67.9998075,92 L71.0001925,92 C71.5523709,92 72,92.4380275 72,93.0007223 L72,141.667246 C72,142.21993 71.5562834,142.667969 71.0001925,142.667969 L67.9998075,142.667969 C67.4476291,142.667969 67,142.229941 67,141.667246 L67,93.0007223 Z" id="Board-bar" fill="#60A3BC" mask="url(#mask-2)" transform="translate(69.500000, 117.333984) rotate(-90.000000) translate(-69.500000, -117.333984) "></path>
+            <g id="Board-outside" mask="url(#mask-2)" stroke="#60A3BC" stroke-width="4" fill="#575F6B" stroke-linecap="round" stroke-linejoin="round">
+                <use mask="url(#mask-4)" xlink:href="#path-3"></use>
+            </g>
+            <g id="Board-top" mask="url(#mask-2)" stroke-linecap="round" stroke-width="8" stroke="#60A3BC" stroke-linejoin="round">
+                <use mask="url(#mask-6)" xlink:href="#path-5"></use>
+            </g>
+            <g id="Board-bottom" mask="url(#mask-2)" stroke="#60A3BC" stroke-width="4" fill="#575F6B" stroke-linecap="round" stroke-linejoin="round">
+                <use mask="url(#mask-8)" xlink:href="#path-7"></use>
+            </g>
+            <g id="Board-inside" mask="url(#mask-2)" stroke="#60A3BC" stroke-width="4" fill="#575F6B" stroke-linecap="round" stroke-linejoin="round">
+                <use mask="url(#mask-10)" xlink:href="#path-9"></use>
+            </g>
+            <polyline id="Hat" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" mask="url(#mask-2)" points="94.1672107 67.9588089 94.1672107 58.6481685 69.5765756 45 45 58.6481685 53.5167335 63.3802814 53.5167335 76.3647468 69.5629745 85.263228 85.6092155 76.3399898 85.6092155 63.3980087 69.5663366 72.296337 58.1874122 65.9702975"></polyline>
+        </g>
+    </g>
+</svg>

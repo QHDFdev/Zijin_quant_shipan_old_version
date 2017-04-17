@@ -1,0 +1,69 @@
+<!--<div class='modalResDis' style="padding: 4.5rem 0 0 10rem;">
+    <div class="container-fluid">
+        <a class='back'>
+            <i class='fa fa-angle-double-left fa-lg'></i>
+            <span>返回模型列表</span>
+        </a>
+        &lt;!&ndash;	<a  class='back'>
+                <i class='fa fa-angle-double-left fa-lg'></i>
+                <span>返回模型列表</span>
+            </a>&ndash;&gt;
+        <h2 ng-bind='mydata.title' class='title'></h2>
+        <div ng-cloak class='time'>
+            <span class="author" ng-bind='mydata.author'></span>
+            <span class='text'>&nbsp;发布于</span>
+            <span class="date" ng-bind='mydata.date'></span>
+        </div>
+        <div markdown-compile class='content'></div>
+        <div class='text-right'>
+            <a ng-href="http://114.55.238.82/jupyter/notebooks/{{mydata._id}}.ipynb" target='_blank' class='btn btn-info'>notebook <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+        <div class='code' ng-show='mydata.code!=undefined' hljs-source='mydata.code' hljs hljs-no-escape></div>
+    </div>
+</div>-->
+
+
+
+<div class="kernel_information">
+    <div class="more_container">
+        <div class="active_more_container">
+            <div class="active_more">
+                <div class="active_more_header">
+                    <div class="active_more_img">
+                    </div>
+                    <div>
+                        <h3 ng-bind='mydata.title'></h3>
+                        <ul class="datasetmore_detail">
+                            <li>作者： {{mydata.author}}</li>
+                            <li class="li">时间： {{mydata.date}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="active_more_actice">
+                    <nav class="nav">
+                        <ul>
+                            <li class="active"><span data-target="#Code" role="tab" data-toggle="tab">模型分享</span></li>
+                            <li><span data-target="#Notebook" role="tab" data-toggle="tab">Notebook</span></li>
+                        </ul>
+                        <a class="submit" ng-href="http://114.55.238.82/jupyter/notebooks/{{mydata._id}}.ipynb" target='_blank'>编辑Notebook</a>
+                    </nav>
+                    <section class="tab-content active_more_content" id="tab-content">
+                        <div role="tabpanel" id="Code" class="tab-pane active padding">
+                            <div markdown-compile class='content'></div>
+                        </div>
+                        <div role="tabpanel" id="Notebook" class="tab-pane padding">
+                            <div class='code' ng-show='mydata.code!=undefined' hljs-source='mydata.code' hljs hljs-no-escape></div>
+                        </div>
+                    </section>
+                </div>
+                <!--<div class="Kerneluser_comment_result">
+                </div>
+                <div class="Kerneluser_comment">
+							<textarea class="Kerneluser_comment_text" id="textarea">
+							</textarea>
+                    <a class="post">发送</a>
+                </div>-->
+            </div>
+        </div>
+    </div>
+</div>

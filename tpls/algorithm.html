@@ -1,0 +1,823 @@
+<div class="algorithm">
+    <div class="banner_content">
+        <div class="banner_content_view">
+            <div class="banner">
+                <div class="banner_container">
+                    <div class="banner_section">
+                        <h1 class="banner_title">金融数据预测模型竞赛</h1>
+                        <hr class="banner_divider"/>
+                        <ul class="banner_details">
+                            <li class="banner_detail">
+                                <img src="images/comps-1-new.png"/>
+                                <p class="banner_detailContent">
+                                    金融场景所包含的时间序列原始行情数据，可分析过滤的多周期金融时间序列数据。
+                                </p>
+                            </li>
+                            <li class="banner_detail">
+                                <img src="images/comps-2-build.png"/>
+                                <p class="banner_detailContent">
+                                    使用各种你喜欢的算法，工具实现金融预测模型。
+                                </p>
+                            </li>
+                            <li class="banner_detail">
+                                <img src="images/comps-3-submit.png"/>
+                                <p class="banner_detailContent">
+                                    提交你的建模代码，数据集，测试结果，可查看你参赛的排名得分。
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="competition_list_wrapper">
+        <div class="content_box">
+            <div class="content_box_titleBar">
+                <div class="content_box_title">
+                    <span class="content_all">13 个正在进行的比赛</span>
+                </div>
+                <div class="content_box_title">
+                    <span class="content_join" ng-click='hashLocation("/holdcompetition")' ng-show='user.is_admin==true'>举办竞赛</span>
+                </div>
+            </div>
+            <div class="content_box_section">
+                <ul class="content_box_selectGroup">
+                    <li class="content_box_groundChlid active" >
+                        <a data-target="#Active" role="tab" data-toggle="tab">股指价格涨跌预测</a>
+                    </li>
+                    <li class="content_box_groundChlid">
+                        <a data-target="#All" role="tab" data-toggle="tab">股指最高价，最低价预测</a>
+                    </li>
+                    <li class="content_box_groundChlid">
+                        <a data-target="#Entered" role="tab" data-toggle="tab">股指趋势预测</a>
+                    </li>
+                    <li class="content_box_groundChlid">
+                        <a data-target="#Yesterday" role="tab" data-toggle="tab">隔天涨跌幅度预测</a>
+                    </li>
+                    <li class="content_box_groundChlid">
+                        <a data-target="#Rate" role="tab" data-toggle="tab">收益率预测</a>
+                    </li>
+                </ul>
+                <div class="small_list tab-content" id="tab-content">
+                    <div role="tabpanel" id="Active" class="tab-pane active" >
+                        <div class="block_link" >
+                            <a class="block_link_anchor"  href="#/algorithmInformation/id=a1"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_1min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link"  href="#/algorithmInformation/id=a1">预测1分钟股指价格涨跌</a>
+                                    </div>
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=a2"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_2min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=a2">预测2分钟股指价格涨跌</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=a3"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_3min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=a3">预测3分钟股指价格涨跌</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=a5"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_5min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=a5">预测5分钟股指价格涨跌</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=a8"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_8min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=a8">预测8分钟股指价格涨跌</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=a13"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_13min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=a13">预测13分钟股指价格涨跌</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=a21"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_21min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=a21">预测21分钟股指价格涨跌</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=a34"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_34min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=a34">预测34分钟股指价格涨跌</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=a55"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_55min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=a55">预测55分钟股指价格涨跌</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=a89"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_89min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=a89">预测89分钟股指价格涨跌</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=a144"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_144min.png" />
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=a144">预测144分钟股指价格涨跌</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=a233"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_233min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=a233">预测233分钟股指价格涨跌</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=a2day"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_2day.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=a2day">预测第二日股指价格涨跌</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="All" class="tab-pane">
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=b2_1"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_2_1min.png" />
+                                </div>
+                                <div class="competition_card_title" >
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=b2_1">预测1分钟股指最高价与最低价</a>
+                                    </div>
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>6,186 teams</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=b2_2"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_2_2min.png"/>
+                                </div>
+                                <div class="competition_card_title" >
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=b2_2">预测2分钟股指最高价与最低价</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>6,186 teams</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=b2_3"></a>
+                            <div class="competition_card" >
+                                <div>
+                                    <img src="images/thumb76_76_2_3min.png"/>
+                                </div>
+                                <div class="competition_card_title" >
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=b2_3">预测3分钟股指最高价与最低价</a>
+                                    </div>
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>6,186 teams</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=b2_5"></a>
+                            <div class="competition_card" >
+                                <div>
+                                    <img src="images/thumb76_76_2_5min.png"/>
+                                </div>
+                                <div class="competition_card_title" >
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=b2_5">预测5分钟股指最高价与最低价</a>
+                                    </div>
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>6,186 teams</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=b2_8"></a>
+                            <div class="competition_card" >
+                                <div>
+                                    <img src="images/thumb76_76_2_8min.png"/>
+                                </div>
+                                <div class="competition_card_title" >
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=b2_8">预测8分钟股指最高价与最低价</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>6,186 teams</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=b2_13"></a>
+                            <div class="competition_card" >
+                                <div>
+                                    <img src="images/thumb76_76_2_13min.png"/>
+                                </div>
+                                <div class="competition_card_title" >
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=b2_13">预测13分钟股指最高价与最低价</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>6,186 teams</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=b2_21"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_2_21min.png"/>
+                                </div>
+                                <div class="competition_card_title" >
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=b2_21">预测21分钟股指最高价与最低价</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>6,186 teams</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=b2_34"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_2_34min.png"/>
+                                </div>
+                                <div class="competition_card_title" >
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=b2_34">预测34分钟股指最高价与最低价</a>
+                                    </div>
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>6,186 teams</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=b2_55min"></a>
+                            <div class="competition_card" >
+                                <div>
+                                    <img src="images/thumb76_76_2_55min.png"/>
+                                </div>
+                                <div class="competition_card_title" >
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=b2_55min">预测55分钟股指最高价与最低价</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>6,186 teams</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link"  >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=b2_89min"></a>
+                            <div class="competition_card" >
+                                <div>
+                                    <img src="images/thumb76_76_2_89min.png"/>
+                                </div>
+                                <div class="competition_card_title" >
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=b2_89min">预测89分钟股指最高价与最低价</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>6,186 teams</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=b2_144min"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_2_144min.png"/>
+                                </div>
+                                <div class="competition_card_title" >
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=b2_144min">预测144分钟股指最高价与最低价</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>6,186 teams</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=b2_233min"></a>
+                            <div class="competition_card" >
+                                <div>
+                                    <img src="images/thumb76_76_2_233min.png"/>
+                                </div>
+                                <div class="competition_card_title" >
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=b2_233min">预测233分钟股指最高价与最低价</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>6,186 teams</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=b2_2day"></a>
+                            <div class="competition_card" >
+                                <div>
+                                    <img src="images/thumb76_76_2_2day.png"/>
+                                </div>
+                                <div class="competition_card_title" >
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=b2_2day">预测第二日股指最高价与最低价</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>6,186 teams</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="Entered" class="tab-pane">
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=c3_10min"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_3_10min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=c3_10min">10分钟为周期趋势波动分类</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor"  href="#/algorithmInformation/id=c3_30min"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_3_30min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link"  href="#/algorithmInformation/id=c3_30min">30分钟为周期趋势波动分类</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor"  href="#/algorithmInformation/id=c3_60min"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_3_60min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link"  href="#/algorithmInformation/id=c3_60min">60分钟为周期趋势波动分类</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor"  href="#/algorithmInformation/id=c3_2day"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/thumb76_76_3_2day.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link"  href="#/algorithmInformation/id=c3_2day">第二日为周期趋势波动分类</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="Yesterday" class="tab-pane" >
+                        <div class="block_link" >
+                            <a class="block_link_anchor"  href="#/algorithmInformation/id=dyesterday"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/yesterday.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div>
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=dyesterday">预测隔天涨跌幅度</a>
+                                    </div>
+
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="Rate" class="tab-pane">
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=e5"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/rate_5min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=e5">预测5分钟收益率</a>
+                                    </div>
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=e10"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/rate_10min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=e10">预测10分钟收益率</a>
+                                    </div>
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=e30"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/rate_30min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=e30">预测30分钟收益率</a>
+                                    </div>
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=e60"></a>
+                            <div class="competition_card">
+                                <div>
+                                    <img src="images/rate_60min.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=e60">预测60分钟收益率</a>
+                                    </div>
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured" >进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor" href="#/algorithmInformation/id=e1day"></a>
+                            <div class="competition_card" >
+                                <div>
+                                    <img src="images/rate_1day.png"/>
+                                </div>
+                                <div class="competition_card_title">
+                                    <div class="">
+                                        <a class="competition_card_title_link" href="#/algorithmInformation/id=e1day">预测一天收益率</a>
+                                    </div>
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">进行中</span>
+                                    </div>
+                                </div>
+                                <div class="competition_card_money">
+                                    <div>$1,000,000</div>
+                                </div>
+                            </div>
+                            <div class="competition_card_stats"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

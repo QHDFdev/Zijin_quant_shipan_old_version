@@ -1,0 +1,37 @@
+<div class="create_data" ng-controller='createdataController'>
+    <div class="hold_competition_content">
+        <h3 class="hold_competition_title">上传数据集 <span>( * 为必填内容)</span></h3>
+        <form name="holdForm" >
+            <ul>
+                <li>
+                    <span>数据集介绍</span>
+                    <div class="holdForm_form_control">
+                        <textarea class="form-control"></textarea>
+                    </div>
+                </li>
+                <li ng-class="{ 'has-error' : holdForm.train.$error}">
+                    <span>data_format1 <i class="must"> *</i></span>
+                    <div class="holdForm_form_control">
+                        <input type="file" name="train" ng-model='train' id="Train" required/>
+                        <span  ng-if="holdForm.train.$touched" class="help-block training_title">data_format1不能为空！</span>
+                    </div>
+                </li>
+                <li ng-class="{ 'has-error' : holdForm.test.$error}">
+                    <span>data_format2 <i class="must"> *</i></span>
+                    <div class="holdForm_form_control">
+                        <input type="file" name="test" ng-model="test" id="Test" required/>
+                        <span  ng-if="holdForm.test.$touched" class="help-block test_title">data_format2不能为空！</span>
+                    </div>
+                </li>
+                <li ng-class="{ 'has-error' : holdForm.sample.$error}">
+                    <span>sample_submission <i class="must"> *</i></span>
+                    <div class="holdForm_form_control">
+                        <input type="file" name="sample" ng-model="sample" id="Sample" required/>
+                        <span  ng-if="holdForm.sample.$touched" class="help-block sample_title">sample_submission不能为空！</span>
+                    </div>
+                </li>
+            </ul>
+            <button class="hold_competition_submit btn btn-primary" type="submit">提交</button>
+        </form>
+    </div>
+</div>

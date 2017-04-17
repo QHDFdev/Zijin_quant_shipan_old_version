@@ -1,0 +1,80 @@
+<div class="hold_competition" ng-controller='holdController'>
+    <div class="hold_competition_content">
+        <h3 class="hold_competition_title">举办竞赛 <span>( * 为必填内容)</span></h3>
+        <form name="holdForm" ng-submit="submitForm(holdForm.$valid)"  >
+            <ul>
+                <li ng-class="{ 'has-error' : holdForm.kind.$error.required && holdForm.kind.$touched}">
+                    <span>竞赛类别 <i class="must"> *</i></span>
+                    <div class="holdForm_form_control">
+                        <input class="form-control" style="width: 50%" name="kind" ng-model="kind" required/>
+                        <span ng-show="holdForm.kind.$error.required" class="help-block" ng-if='holdForm.kind.$touched'>竞赛类别不能为空！</span>
+                    </div>
+                </li>
+                <h4>赛制介绍</h4>
+                <li>
+                    <span>竞赛概况介绍</span>
+                    <div class="holdForm_form_control">
+                        <textarea class="form-control"></textarea>
+                    </div>
+                </li>
+                <li ng-class="{ 'has-error' : holdForm.start.$error.required && holdForm.start.$touched}">
+                    <span>开始时间 <i class="must"> *</i></span>
+                    <div class="holdForm_form_control">
+                        <input type="text" class="form-control" style="width: 20%" name="start" ng-model="start" required>
+                        <span ng-show="holdForm.start.$error.required" ng-if="holdForm.start.$touched" class="help-block">开始时间不能为空！</span>
+                    </div>
+                </li>
+                <li ng-class="{ 'has-error' : holdForm.end.$error.required && holdForm.end.$touched}">
+                    <span>结束时间 <i class="must"> *</i></span>
+                    <div class="holdForm_form_control">
+                        <input type="text" class="form-control" style="width: 20%" name="end" ng-model="end" required>
+                        <span ng-show="holdForm.end.$error.required" ng-if="holdForm.end.$touched" class="help-block">结束时间不能为空！</span>
+                    </div>
+                </li>
+                <li>
+                    <span>更多规则</span>
+                    <div class="holdForm_form_control">
+                        <textarea class="form-control"></textarea>
+                    </div>
+                </li>
+                <h4>赛题与数据</h4>
+                <li ng-class="{ 'has-error' : holdForm.title.$error.required && holdForm.title.$touched}">
+                    <span>竞赛题目 <i class="must"> *</i></span>
+                    <div class="holdForm_form_control">
+                        <input class="form-control" name="title" ng-model="title" required/>
+                        <span ng-show="holdForm.title.$error.required" ng-if="holdForm.title.$touched" class="help-block">竞赛题目不能为空！</span>
+                    </div>
+                </li>
+                <li>
+                    <span>评测指标</span>
+                    <div class="holdForm_form_control">
+                        <textarea class="form-control"></textarea>
+                    </div>
+                </li>
+                <li ng-class="{ 'has-error' : holdForm.train.$error}">
+                    <span>Training Set <i class="must"> *</i></span>
+                    <div class="holdForm_form_control">
+                        <input type="file" name="train" ng-model='train' id="Train" required/>
+                        <span  ng-if="holdForm.train.$touched" class="help-block training_title">Training Set不能为空！</span>
+                    </div>
+                </li>
+                <li ng-class="{ 'has-error' : holdForm.test.$error}">
+                    <span>Testing Set <i class="must"> *</i></span>
+                    <div class="holdForm_form_control">
+                        <input type="file" name="test" ng-model="test" id="Test" required/>
+                        <span  ng-if="holdForm.test.$touched" class="help-block test_title">Testing Set不能为空！</span>
+                    </div>
+                </li>
+                <li ng-class="{ 'has-error' : holdForm.sample.$error}">
+                    <span>Submission Sample <i class="must"> *</i></span>
+                    <div class="holdForm_form_control">
+                        <input type="file" name="sample" ng-model="sample" id="Sample" required/>
+                        <span  ng-if="holdForm.sample.$touched" class="help-block sample_title">Submission Sample不能为空！</span>
+                    </div>
+                </li>
+            </ul>
+            <button class="btn btn-primary hold_competition_submit" type="submit" >提交</button>
+
+        </form>
+    </div>
+</div>

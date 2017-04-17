@@ -1,0 +1,236 @@
+<div class="kernel"  ng-controller='kernelController'>
+    <div class="banner_content_view">
+        <div class="banner">
+            <div class="banner_container">
+                <div class="banner_section">
+                    <h1 class="banner_title">金融数据算法</h1>
+                    <hr class="banner_divider"/>
+                    <ul class="banner_details">
+                        <li class="banner_detail">
+                            <img src="images/scripts-code.png"/>
+                          <!--  <h3 class="banner_detailTitle">代码</h3>-->
+                            <p class="banner_detailContent">
+                                无需下载。直接支持算法开发，使用常见数据科学库，金融数据处理库，机器学习库。
+                            </p>
+                        </li>
+                        <li class="banner_detail">
+                            <img src="images/scripts-learn.png"/>
+                            <!--<h3 class="banner_detailTitle">学习</h3>-->
+                            <p class="banner_detailContent">
+                                你能学习基础的数据科学知识，机器学习知识，别人分享的优秀算法，新颖思路。
+                            </p>
+                        </li>
+                        <li class="banner_detail">
+                            <img src="images/scripts-mentor.png"/>
+                            <!--<h3 class="banner_detailTitle">指导</h3>-->
+                            <p class="banner_detailContent">
+                                大胆提出你的问题，需求，大牛的知识分享会变为你进步的阶梯。
+                            </p>
+                        </li>
+                    </ul>
+                    <div class="banner_create">
+                        <span class="add_model hover" data-toggle="modal" data-target="#add_model">添加模型分享</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="competition_list_wrapper">
+        <div class="content_box">
+            <div class="content_box_titleBar">
+                <div class="content_box_title">
+                    <span>46,771 核心</span>
+                </div>
+                <!--<div class="content_box_sort">
+                    <p class="content_box_label">排序</p>
+                    <div class="content_box_select">
+                        <div class="content_box_selectControl">
+                            <div class="content_box_selectValue">
+                                <span class="content_box_selectValueLable">价格</span>
+                            </div>
+                            <div class="content_box_input"></div>
+                            <span class="content_box_arrow">
+								<span class="content_box_arrowlitter"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+            <div class="content_box_section">
+                <div class="content_box_sectionBar">
+                    <div class="content_box_ground">
+                        <div class="content_box_X">
+                            <div class="content_box_overflow">
+                                <ul class="content_box_selectGroup">
+                                    <li class="content_box_groundChlid active" >
+                                        <a data-target="#Alllist" role="tab" data-toggle="tab" >所有</a>
+                                    </li>
+                                    <li class="content_box_groundChlid">
+                                        <a data-target="#Mine" role="tab" data-toggle="tab">我的</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="small_list tab-content" id="tab-content">
+                    <div role="tabpanel" id="Alllist" class="tab-pane active" >
+                        <div class="block_link" ng-repeat='x in modalResObjList0'>
+                            <a class="block_link_anchor" ng-click="toDetail('model_information',x._id)"></a>
+                            <div class="competition_vote">
+                                <div class="image_container">
+                                    <div class="vote_number">
+                                        <div class="vote_up">
+                                            <span class="fa fa-caret-up"></span>
+                                        </div>
+                                        <div class="vote_button">
+                                            <span class="vote_count">61</span>
+                                        </div>
+                                    </div>
+                                    <div class="kernels_image_wrapper">
+                                        <img src="images/906352-kg.jpg"/>
+                                    </div>
+                                </div>
+                                <div class="datasets_item">
+                                    <div class="">
+                                        <a class="kernels_card_title_link" ng-click="toDetail('model_information',x._id)">{{x.title}}</a>
+                                    </div>
+                                    <div class="kernels_card_description">
+                                        <span>作者：{{x.author}}</span>
+                                        <span class="li">创建时间： {{x.date}}</span>
+                                    </div>
+                                </div>
+                                <div class="kernels_blocks" ng-show="x.author==username||user.is_admin==true">
+                                    <span class="tooltips" data-tooltip="This script outputs 5 visualizations">
+                                        <a class="script_item" ng-click="model_edit(x._id)" data-toggle="modal" data-target="#model_edit">
+									         <span class="fa fa-edit" title="编辑" ></span>
+								        </a>
+                                    </span>
+                                    <span class="tooltips" data-tooltip="This script outputs 5 visualizations">
+                                        <a class="script_item" ng-click="model_del(x._id,x.title)">
+									         <span class="fa fa-trash" title="删除" ></span>
+                                        </a>
+							        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="Mine" class="tab-pane" >
+                        <div class="block_link" ng-repeat='x in modalResObjList0' ng-show="x.author==username||user.is_admin==true">
+                            <a class="block_link_anchor" ng-click="toDetail('model_information',x._id)"></a>
+                            <div class="competition_vote">
+                                <div class="image_container">
+                                    <div class="vote_number">
+                                        <div class="vote_up">
+                                            <span class="fa fa-caret-up"></span>
+                                        </div>
+                                        <div class="vote_button">
+                                            <span class="vote_count">61</span>
+                                        </div>
+                                    </div>
+                                    <div class="kernels_image_wrapper">
+                                        <img src="images/906352-kg.jpg"/>
+                                    </div>
+                                </div>
+                                <div class="datasets_item">
+                                    <div class="">
+                                        <a class="kernels_card_title_link" ng-click="toDetail('model_information',x._id)">{{x.title}}</a>
+                                    </div>
+                                    <div class="kernels_card_description">
+                                        <span>作者：{{x.author}}</span>
+                                        <span class="li">创建时间： {{x.date}}</span>
+                                    </div>
+                                </div>
+                                <div class="kernels_blocks" >
+                                    <span class="tooltips" data-tooltip="This script outputs 5 visualizations">
+                                        <a class="script_item" ng-click="model_edit(x._id)" data-toggle="modal" data-target="#model_edit">
+									         <span class="fa fa-edit" title="编辑" ></span>
+								        </a>
+                                    </span>
+                                    <span class="tooltips" data-tooltip="This script outputs 5 visualizations">
+                                        <a class="script_item" ng-click="model_del(x._id,x.title)">
+									         <span class="fa fa-trash" title="删除" ></span>
+                                        </a>
+							        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="add_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">模型分享</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="test1" id="test0">
+                        <form  name='modalResObjForm' novalidate="">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model='modalResOpen.title' placeholder="主题" required="">
+                            </div>
+                            <div class="form-group">
+                                <i class="fa fa-picture-o" title="插入图片" style="margin-left: 10px" ng-click="openImage()"></i>
+                                <textarea id="content3" class="form-control" style="height: 150px;" ng-model='modalResOpen.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" ng-model='modalResOpen.code' placeholder="代码" required style="height: 140px;"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addModalResOpen()">创建</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="model_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >模型分享</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="test1">
+                        <form  name='modalResObjForm' novalidate="">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model='modalResOpenEdit.title' placeholder="主题" required="">
+                            </div>
+                            <div class="form-group">
+                                <i class="fa fa-picture-o" title="插入图片" style="margin-left: 10px" ng-click="openImage()"></i>
+                                <textarea id="content_edit" class="form-control" style="height: 150px;" ng-model='modalResOpenEdit.content' placeholder="内容（ 支持markdown格式，参考网站：http://www.markdown.cn/）" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" ng-model='modalResOpenEdit.code' placeholder="代码" required style="height: 140px;"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addModalResOpenEdit(modalResOpenEdit._id)">提交修改</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="image" class="image">
+        <a style="float: right"  ng-click="closeImage()"><i class="fa fa-close"></i></a>
+        <a href="javascript:;" class="file">选择图片
+            <input type="file" name="" id="file0" onchange="angular.element(this).scope().changeImage0(this.files)" file-model="image" accept="image/gif,image/jpeg,image/jpg,image/png">
+        </a>
+        <a href=""  class="file" ng-click="delImage()">清空</a>
+        <a href="" id="upload" class="file" ng-click="addImage()" ng-bind="loadStaus"></a>
+        <div ng-if='image0'>
+            <img ng-src={{img0}} id="img0" style="width: 100%">
+        </div>
+    </div>
+</div>

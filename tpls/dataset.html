@@ -1,0 +1,175 @@
+<div class="dataset">
+    <div class="banner_content_view">
+        <div class="banner">
+            <div class="banner_container">
+                <div class="banner_section">
+                    <h1 class="banner_title">金融时间序列数据集</h1>
+                    <hr class="banner_divider"/>
+                    <ul class="banner_details">
+                        <li class="banner_detail">
+                            <img src="images/datasets-1-search@2x.png"/>
+                           <!-- <h3 class="banner_detailTitle">发现</h3>-->
+                            <p class="banner_detailContent">
+                                支持对金融时间序列数据，趋势序列数据，等各种数据进行发布或添加需求。
+                            </p>
+                        </li>
+                        <li class="banner_detail">
+                            <img src="images/datasets-2-explore@2x.png"/>
+                           <!-- <h3 class="banner_detailTitle">探索</h3>-->
+                            <p class="banner_detailContent">
+                                可下载使用别人发布的数据集，亦或提交你自己的数据集。
+                            </p>
+                        </li>
+                        <li class="banner_detail">
+                            <img src="images/datasets-3-create@2x.png"/>
+                           <!-- <h3 class="banner_detailTitle">建立数据集</h3>-->
+                            <p class="banner_detailContent">
+                                支持在线数据分析处理，创造优秀建模数据。
+
+                            </p>
+                        </li>
+                    </ul>
+                  <!--  <div class="datasets_learn">
+                        <a>学习更多...</a>
+                        <a>新数据集</a>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="competition_list_wrapper">
+        <div class="content_box">
+            <div class="content_box_titleBar">
+                <div class="content_box_title">
+                    <span>5 数据集</span>
+                </div>
+                <div class="content_box_title">
+                    <span class="content_join" ng-click='hashLocation("/createdata")' ng-show='user.is_admin==true'>上传数据集</span>
+                </div>
+               <!-- <div class="content_box_sort">
+                    <p class="content_box_label">排序</p>
+                    <div class="content_box_select">
+                        <div class="content_box_selectControl">
+                            <div class="content_box_selectValue">
+                                <span class="content_box_selectValueLable">价格</span>
+                            </div>
+                            <div class="content_box_input"></div>
+                            <span class="content_box_arrow">
+										<span class="content_box_arrowlitter"></span>
+									</span>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+            <div class="content_box_section">
+                <div class="content_box_sectionBar">
+                    <div class="content_box_ground">
+                        <div class="content_box_X">
+                            <div class="">
+                                <ul class="dataset_content_box">
+                                    <li class="content_box_groundChlid active">
+                                        <a data-target="#FeaTured" role="tab" data-toggle="tab">所有</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content small_list" id="tab-content">
+                    <div role="tabpanel" id="FeaTured" class="tab-pane active" >
+                        <div class="block_link" >
+                            <a class="block_link_anchor" ng-click="hashLocation('/datasetInformation')"></a>
+                            <div class="competition_vote">
+                                <div class="image_container">
+                                    <div class="vote_number">
+                                        <div class="vote_up">
+                                            <span class="fa fa-caret-up"></span>
+                                        </div>
+                                        <div class="vote_button">
+                                            <span class="vote_count">161</span>
+                                        </div>
+                                    </div>
+                                    <div class="image_wrapper">
+                                        <img src="images/dataset-thumbnail.jpg"/>
+                                    </div>
+                                </div>
+                                <div class="datasets_item">
+                                    <div>
+                                        <a class="competition_card_title_link" ng-click="hashLocation('/datasetInformation')">IJCAI-15 Competition</a>
+                                    </div>
+                                    <div class="competition_card_description">Explore country development indicators from around the world</div>
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">World Bank</span>
+                                    </div>
+                                </div>
+                                <div class="datasets_item_meta">
+                                    <div class="datasets_item_metalink">8,375 downloads</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor"></a>
+                            <div class="competition_vote">
+                                <div class="image_container">
+                                    <div class="vote_number">
+                                        <div class="vote_up">
+                                            <span class="fa fa-caret-up"></span>
+                                        </div>
+                                        <div class="vote_button">
+                                            <span class="vote_count">8</span>
+                                        </div>
+                                    </div>
+                                    <div class="image_wrapper">
+                                        <img src="images/dataset-thumbnail (1).jpg"/>
+                                    </div>
+                                </div>
+                                <div class="datasets_item">
+                                    <div class="">
+                                        <a class="competition_card_title_link">Text Similarity</a>
+                                    </div>
+                                    <div class="competition_card_description">Natural Language Processing on Stock data</div>
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">World Bank</span>
+                                    </div>
+                                </div>
+                                <div class="datasets_item_meta">
+                                    <div class="datasets_item_metalink">8,375 downloads</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block_link" >
+                            <a class="block_link_anchor"></a>
+                            <div class="competition_vote">
+                                <div class="image_container">
+                                    <div class="vote_number">
+                                        <div class="vote_up">
+                                            <span class="fa fa-caret-up"></span>
+                                        </div>
+                                        <div class="vote_button">
+                                            <span class="vote_count">8</span>
+                                        </div>
+                                    </div>
+                                    <div class="image_wrapper">
+                                        <img src="images/dataset-thumbnail (1).jpg"/>
+                                    </div>
+                                </div>
+                                <div class="datasets_item">
+                                    <div class="">
+                                        <a class="competition_card_title_link">Text Similarity</a>
+                                    </div>
+                                    <div class="competition_card_description">Natural Language Processing on Stock data</div>
+                                    <div class="competition_card_meta">
+                                        <span class="competition_card_featured">World Bank</span>
+                                    </div>
+                                </div>
+                                <div class="datasets_item_meta">
+                                    <div class="datasets_item_metalink">8,375 downloads</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

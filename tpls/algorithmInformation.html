@@ -1,0 +1,59 @@
+<div class="algorithm_information" ng-controller='algorithmInforController'>
+    <div class="active_more_container">
+        <div class="active_more">
+            <div class="active_more_header">
+                <div class="active_more_img">
+                    <a><img  id="algorithm_information_img"/></a>
+                </div>
+                <div class="active_more_detail">
+                    <h3>{{title}}<a class="fa fa-edit join hover" title="报名参赛"></a></h3>
+                    <ul>
+                        <li>状态</li>
+                        <li class="li">截止时间</li>
+                        <li class="li">参加人数</li>
+                    </ul>
+                    <ul>
+                        <li>进行中</li>
+                        <li class="li">2017/4/6</li>
+                        <li class="li">340</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="active_more_actice">
+                <nav class="nav">
+                    <ul>
+                        <li class="active"><span data-target="#Introduce" role="tab" data-toggle="tab">赛制介绍</span></li>
+                        <li><span data-target="#Dates" role="tab" data-toggle="tab">赛题与数据</span></li>
+                        <li><span data-target="#Ranke" role="tab" data-toggle="tab">排行榜</span></li>
+                        <li><span data-target="#People" role="tab" data-toggle="tab">参赛人员</span></li>
+                        <li class="submit hover" ng-show='user.username!=null'><span data-target="#Submit" role="tab" data-toggle="tab">提交结果</span></li>
+                    </ul>
+                    <!--<a class="submit">提交结果</a>-->
+                </nav>
+                <section class="tab-content active_more_content" id="tab-content">
+                    <div role="tabpanel" id="Introduce" class="tab-pane active padding">
+                        <h5>赛制介绍</h5>
+                    </div>
+                    <div role="tabpanel" id="Dates" class="tab-pane padding">
+                        <h5>赛题与数据</h5>
+                    </div>
+                    <div role="tabpanel" id="Ranke" class="tab-pane padding">
+                        <h5>排行榜</h5>
+                    </div>
+                    <div role="tabpanel" id="People" class="tab-pane padding">
+                        <h5>参赛人员</h5>
+                    </div>
+                    <div role="tabpanel" id="Submit" class="tab-pane padding">
+                        <div class="file-box">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                <input type='text' name='textfield' id='textfield' class='txt' placeholder="提交文件格式为csv"/>
+                                <input type="file" name="fileField" class="submit_file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value" />
+                                <input type="submit" name="submit" class="algorithm_information_btn" value="提交结果" />
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
