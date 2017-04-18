@@ -120,6 +120,15 @@
             .when('/kernelmine', {
                 templateUrl: 'tpls/kernelmine.html'
             })
+            .when('/predict', {
+                templateUrl: 'tpls/predict.html'
+            })
+            .when('/firmOffer', {
+                templateUrl: 'tpls/firmOffer.html'
+            })
+            .when('/personalCenter', {
+                templateUrl: 'tpls/personalCenter.html'
+            })
             .otherwise({
                 redirectTo: '/home'
             });
@@ -162,10 +171,10 @@
     .controller('adminCenterController', ['$scope', '$http', '$q', '$cookieStore', 'constantUrl', '$location', function ($scope, $http, $q, $cookieStore, constantUrl, $location) {
         $scope.getAllUsers = function () {
             $http.get(constantUrl + 'users/', {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     $scope.allUsers = data;
                 });
@@ -176,6 +185,21 @@
         $scope.getAllUsers();
     }])
     .controller('homeController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl) {
+
+        $(".menu li").each(function(index){
+            $(this).click(function(){
+
+                $(".menu li.menuacitve").removeClass("menuacitve");
+
+                $(this).addClass("menuacitve");
+
+            })
+        })
+
+
+       /* $(".menu li ").click(function () {
+            $(this).css({"background":"#000",})
+        })*/
         window.b=0;
         window.c=0;
         if ($cookieStore.get('user') == null) {
@@ -184,8 +208,6 @@
         else {
             $scope.aside = 'zijin-index';
             $("#nav-sidebar").show()
-
-
         }
         $scope.$watch(function () {
             var str = null;
@@ -213,15 +235,15 @@
             $location.path('/register');
         };
         $scope.hashLocation = function (x) {
-            if ($rootScope.user && $rootScope.user.is_zijin) {
+            // if ($rootScope.user && $rootScope.user.is_zijin) {
                 $location.path(x);
-            } else if ($rootScope.user && !$rootScope.user.is_zijin) {
-                Showbo.Msg.alert('未获得权限');
-                $location.path('/home');
-            } else if (!$rootScope.user) {
-                $location.path('/login');
-            }
-            ;
+            // } else if ($rootScope.user && !$rootScope.user.is_zijin) {
+            //     Showbo.Msg.alert('未获得权限');
+            //     $location.path('/home');
+            // } else if (!$rootScope.user) {
+            //     $location.path('/login');
+            // }
+            // ;
         };
         $('#nav-sidebar .nav-main ul li').click(function () {
             $('#nav-sidebar .nav-main ul li.active').removeClass('active');
@@ -308,10 +330,10 @@
         };
         $scope.getSourcingStrategys = function () {
             $http.get(constantUrl + "classs/", {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     data.sort(getSortFun('desc', 'class_name')); //按classname升序存放
                     accounts = data;
@@ -345,12 +367,12 @@
             formdata.append('code', file);
             formdata.append('class_name', $scope.itemSourcing.class_name);
             $http.post(constantUrl + "classs/", formdata, {
-                    transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined,
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                transformRequest: angular.identity,
+                headers: {
+                    'Content-Type': undefined,
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     $scope.getSourcingStrategys();
                     $('.zijin-table-mask').fadeOut();
@@ -380,10 +402,10 @@
          */
         $scope.geterror2 = function (id, i) {
             $http.get(constantUrl + "btstrategys/" + id + "/", {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     $scope.myHisStrategy[i].title = "错误信息: " + data.error;
                 })
@@ -395,10 +417,10 @@
          */
         $scope.geterror = function (id, i){
             $http.get(constantUrl + "strategys/" + id + "/", {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     $scope.myStrategy[i].title = "错误信息: " + data.error;
                 }).error(function (err, sta) {
@@ -406,10 +428,10 @@
         }
         $scope.geterror3 = function (id, i) {
             $http.get(constantUrl + "strategys/" + id + "/", {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     $scope.trueStrategy[i].title = "错误信息: " + data.error;
                 })
@@ -419,10 +441,10 @@
         $scope.gettrueStrategys = function () {
             c=0;
             $http.get(constantUrl + "strategys/", {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     for (var i = 0; i < data.length; i++) { //去除不是真实交易的
                         if (data[i].account_id == null) {
@@ -563,10 +585,10 @@
             Showbo.Msg.confirm("您需要下载" + name + "吗？", function (flag) {
                 if (flag == 'yes') {
                     $http.get(constantUrl + 'classs/' + id + '/', {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
                         .success(function (data) {
                             download(data.code, data.code_name, 'text/plain')
                         })
@@ -626,10 +648,10 @@
 
         $scope.getFirmStrategys = function (page) {
             $http.get(constantUrl + "strategys/", {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     for (var i = 0; i < data.length; i++) { //去除不是真实交易的
                         if (data[i].account_id != null) {
@@ -791,10 +813,10 @@
                     console.log(i, url)
                     return;
                     $http.delete(constantUrl + "strategys/" + url + '/', {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
                         .success(function () {
                             console.log('删除成功')
                         })
@@ -837,10 +859,10 @@
                             a = false //判断是否选择了 ture为选中
                             var url = $scope.myHisStrategy[i]._id; //遍历需要删除的id
                             $http.delete(constantUrl + "btstrategys/" + url + '/', {
-                                    headers: {
-                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                    }
-                                })
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
                                 .success(function () {
                                     //console.log('删除成功')
                                 })
@@ -914,12 +936,12 @@
                 formdata.append('file', files);
             }
             $http.post(constantUrl + "strategys/", formdata, {
-                    transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined,
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                transformRequest: angular.identity,
+                headers: {
+                    'Content-Type': undefined,
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     setTimeout(function () {
                         $scope.gettrueStrategys();//真实交易
@@ -983,12 +1005,12 @@
                 formdata.append('file', files);
             }
             $http.post(constantUrl + "strategys/", formdata, {
-                    transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined,
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                transformRequest: angular.identity,
+                headers: {
+                    'Content-Type': undefined,
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     setTimeout(function () {
                         $scope.getFirmStrategys(); //刷新实盘
@@ -1014,10 +1036,10 @@
         };
         $scope.new = function () {
             $http.get(constantUrl + "accounts/", {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     $scope.ids = data;
                 })
@@ -1086,16 +1108,16 @@
             symbol = $scope.hisItem.symbol;
             exchange = $scope.hisItem.exchange;
             $http.get(constantUrl + "dates/", {
-                    params: {
-                        type: ty,
-                        date_type: 'data',
-                        symbol: symbol,
-                        exchange: exchange
-                    },
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                params: {
+                    type: ty,
+                    date_type: 'data',
+                    symbol: symbol,
+                    exchange: exchange
+                },
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     loadtime(data)
                     $("#startTime").val("")
@@ -1211,12 +1233,12 @@
                 formdata.append('file', files);
             }
             $http.post(constantUrl + "btstrategys/", formdata, {
-                    transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined,
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                transformRequest: angular.identity,
+                headers: {
+                    'Content-Type': undefined,
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     setTimeout(function () {
                         $scope.gettrueStrategys();//真实交易
@@ -1249,10 +1271,10 @@
         //历史回测列表渲染到页面
         $scope.getHisStrategys = function () {
             $http.get(constantUrl + "btstrategys/", {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     for (var i = 0; i < data.length; i++) { //去除不是真实交易的
                         if (data[i].status ==-2) {
@@ -1266,7 +1288,7 @@
                         var class_id = data[i].class_id;
                         var status = data[i].status;
                         if (status != -2) { //获取对应的策略代码
-                           data[i].class_name = getcelve(class_id);
+                            data[i].class_name = getcelve(class_id);
                         }
                         if (data[i].status == -1 && data[i].status != -2) {
                             data[i].color = "error";
@@ -1357,14 +1379,14 @@
         });
         $(function () {
             $('#downtxt').mousemove(function () {
-                    $('#title').show();
-                })
+                $('#title').show();
+            })
                 .mouseout(function () {
                     $('#title').hide();
                 })
             $('#title').mousemove(function () {
-                    $('#title').show();
-                })
+                $('#title').show();
+            })
                 .mouseout(function () {
                     $('#title').hide()
                 })
@@ -1403,10 +1425,10 @@
             loginStep1().then(function (data) {
                 token = data.token;
                 $http.get(constantUrl + 'users/' + username + '/', {
-                        headers: {
-                            'Authorization': 'token ' + token
-                        }
-                    })
+                    headers: {
+                        'Authorization': 'token ' + token
+                    }
+                })
                     .success(function (data) {
                         $cookieStore.put('user', {
                             username: data.username,
@@ -1415,17 +1437,17 @@
                             is_admin: data.is_admin,
                             is_zijin: data.is_zijin
                         });
-                        if ($cookieStore.get('user').is_admin){
-                            $location.path('/strategyruncenter');
-                            $scope.aside = 'zijin-index';
-                            $("#nav-sidebar li.active").removeClass('active');
-                            $("#nav-sidebar li:nth-child(3)").addClass('active');
-                        }
-                        else{
+                        // if ($cookieStore.get('user').is_admin){
+                        //     $location.path('/strategyruncenter');
+                        //     $scope.aside = 'zijin-index';
+                        //     $("#nav-sidebar li.active").removeClass('active');
+                        //     $("#nav-sidebar li:nth-child(3)").addClass('active');
+                        // }
+                        // else{
                             $location.path('/home');
-                            $("#nav-sidebar li.active").removeClass('active');
-                            $("#nav-sidebar li:nth-child(1)").addClass('active');
-                        }
+                            // $("#nav-sidebar li.active").removeClass('active');
+                            // $("#nav-sidebar li:nth-child(1)").addClass('active');
+                        // }
                     })
                     .error(function (err, sta) {
                         Showbo.Msg.alert('登录失败。');
@@ -1449,10 +1471,10 @@
         $scope.getSourcingStrategys = function () {
             accounts = [];
             $http.get(constantUrl + "classs/", {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     accounts = data;
                     trustDeals('no')
@@ -1471,10 +1493,10 @@
         }
         function judge(){
             $http.get(constantUrl + "strategys/", {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     for (var i = 0; i < data.length; i++) {
                         data[i].account_id == null ? falsedata.push(data[i]) : truedata.push(data[i]);
@@ -1486,154 +1508,154 @@
         }
         judge();
         //操作
-       function deal(data1,flag,need){
+        function deal(data1,flag,need){
 
-           var defer1 = $q.defer();
-           if(data1.length==0){
-               defer1.resolve(data1);
-           }
-           else {
-               var newData = data1;
-               var timeList = [],n= 0,IdDateList=[],allDataList = [],m = 0;
-               getTimes(0);
-               function getTimes(i) {
-                   $http.get(constantUrl + 'dates/', {
-                           params: {
-                               "date_type": 'transaction',
-                               "sty_id": newData[i]._id
-                           },
-                           headers: {
-                               'Authorization': 'token ' + $cookieStore.get('user').token
-                           }
-                       })
-                       .success(function (data) {
-                           timeList[n++] = data[data.length - 1];
-                           newData[i].time=data[data.length-1];
-                           i++;
-                           if (i == newData.length) {
-                               getIdDate();
-                               return;
-                           }
-                           getTimes(i);
-                       })
-                       .error(function(data){
-                           timeList[n++]=0;
-                           newData[i].time=data[data.length-1];
-                           i++;
-                           if (i == newData.length) {
-                               getIdDate();
-                               return;
-                           }
-                           getTimes(i);
-                       })
-               }
+            var defer1 = $q.defer();
+            if(data1.length==0){
+                defer1.resolve(data1);
+            }
+            else {
+                var newData = data1;
+                var timeList = [],n= 0,IdDateList=[],allDataList = [],m = 0;
+                getTimes(0);
+                function getTimes(i) {
+                    $http.get(constantUrl + 'dates/', {
+                        params: {
+                            "date_type": 'transaction',
+                            "sty_id": newData[i]._id
+                        },
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
+                        .success(function (data) {
+                            timeList[n++] = data[data.length - 1];
+                            newData[i].time=data[data.length-1];
+                            i++;
+                            if (i == newData.length) {
+                                getIdDate();
+                                return;
+                            }
+                            getTimes(i);
+                        })
+                        .error(function(data){
+                            timeList[n++]=0;
+                            newData[i].time=data[data.length-1];
+                            i++;
+                            if (i == newData.length) {
+                                getIdDate();
+                                return;
+                            }
+                            getTimes(i);
+                        })
+                }
 
-               function getIdDate() {
-                   for (var i = 0; i < newData.length; i++) {
-                       var id = newData[i]._id;
-                       var sDate = timeList[i];
-                       var eDate = $filter('date')(new Date((new Date(timeList[i])).setDate((new Date(timeList[i])).getDate() + 1)), 'yyyy-MM-dd');
-                       IdDateList.push({
-                           'id': id,
-                           'sDate': sDate,
-                           'eDate': eDate
-                       })
-                   }
-                   getAllData(0);
-               }
-               function getAllData(i) {
-                   var nothing = new Array();
-                   $http.get(constantUrl + 'transactions/', {
-                           params: {
-                               "sty_id": IdDateList[i].id,
-                               "start": IdDateList[i].sDate,
-                               "end": IdDateList[i].eDate
-                           },
-                           headers: {
-                               'Authorization': 'token ' + $cookieStore.get('user').token
-                           }
-                       })
-                       .success(function (data) {
-                           allDataList[m++] = data;
-                           i++;
-                           if (i >= IdDateList.length) {
-                               getAllNianHua(0);
-                               return;
-                           }
-                           getAllData(i);
-                       })
-                       .error(function(data){
-                           allDataList[m++] =nothing;
-                           i++;
-                           if (i >= IdDateList.length) {
-                               getAllNianHua(0);
-                               return;
-                           }
-                           getAllData(i);
-                       })
-               }
-               function getAllNianHua(i) {
-                   var nowData = allDataList[i];
-                   if(flag==true){
-                       handledata(true, nowData, timeList[i], IdDateList[i].id);
-                   }
-                   else{
-                       handledata(false, nowData, timeList[i], IdDateList[i].id);
-                   }
-                   i++;
-                   if (i >= allDataList.length) {
-                       $timeout(function () {
-                           putScreen();
-                       }, 500);
-                       return;
-                   }
-                   getAllNianHua(i);
-               }
-               var newData1=[],d=0;
-               function putScreen() {
-                   for (var i = 0; i < nianHuaList.length; i++) {
-                       var id = nianHuaList[i].nowId;
-                       var nianhua = nianHuaList[i].nianhua;
-                       var average_winrate = nianHuaList[i].average_winrate;
-                       for (j = 0; j < newData.length; j++) {
-                           if (newData[j]._id == id) {
-                               newData[j].yeild = nianhua;
-                               newData[j].average_winrate = average_winrate;
-                               newData[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
-                               newData[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
+                function getIdDate() {
+                    for (var i = 0; i < newData.length; i++) {
+                        var id = newData[i]._id;
+                        var sDate = timeList[i];
+                        var eDate = $filter('date')(new Date((new Date(timeList[i])).setDate((new Date(timeList[i])).getDate() + 1)), 'yyyy-MM-dd');
+                        IdDateList.push({
+                            'id': id,
+                            'sDate': sDate,
+                            'eDate': eDate
+                        })
+                    }
+                    getAllData(0);
+                }
+                function getAllData(i) {
+                    var nothing = new Array();
+                    $http.get(constantUrl + 'transactions/', {
+                        params: {
+                            "sty_id": IdDateList[i].id,
+                            "start": IdDateList[i].sDate,
+                            "end": IdDateList[i].eDate
+                        },
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
+                        .success(function (data) {
+                            allDataList[m++] = data;
+                            i++;
+                            if (i >= IdDateList.length) {
+                                getAllNianHua(0);
+                                return;
+                            }
+                            getAllData(i);
+                        })
+                        .error(function(data){
+                            allDataList[m++] =nothing;
+                            i++;
+                            if (i >= IdDateList.length) {
+                                getAllNianHua(0);
+                                return;
+                            }
+                            getAllData(i);
+                        })
+                }
+                function getAllNianHua(i) {
+                    var nowData = allDataList[i];
+                    if(flag==true){
+                        handledata(true, nowData, timeList[i], IdDateList[i].id);
+                    }
+                    else{
+                        handledata(false, nowData, timeList[i], IdDateList[i].id);
+                    }
+                    i++;
+                    if (i >= allDataList.length) {
+                        $timeout(function () {
+                            putScreen();
+                        }, 500);
+                        return;
+                    }
+                    getAllNianHua(i);
+                }
+                var newData1=[],d=0;
+                function putScreen() {
+                    for (var i = 0; i < nianHuaList.length; i++) {
+                        var id = nianHuaList[i].nowId;
+                        var nianhua = nianHuaList[i].nianhua;
+                        var average_winrate = nianHuaList[i].average_winrate;
+                        for (j = 0; j < newData.length; j++) {
+                            if (newData[j]._id == id) {
+                                newData[j].yeild = nianhua;
+                                newData[j].average_winrate = average_winrate;
+                                newData[j].yeildColor = nianhua > 0 ? 'zheng' : 'fu';
+                                newData[j].yeildColor1 = average_winrate > 0 ? 'zheng' : 'fu';
 
-                               newData[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
-                               newData[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
-                           }
-                       }
-                   }
-                   if(need==1){
-                       var runStrategy=[],b= 0,stopStrategy=[],c=0;
-                       angular.forEach(newData, function (item, index) {
-                           if (item.status == 2) {
-                               runStrategy[b++]=item;
-                           }
-                           if (item.status == 3) {
-                               stopStrategy[c++]=item;
-                           }
-                       });
-                       runStrategy.sort(function(a,b){return b.yeild-a.yeild;});
-                       stopStrategy.sort(function(a,b){return b.yeild-a.yeild;});
-                       for(var i=0;i<runStrategy.length;i++){
-                           newData1[d++]=runStrategy[i];
-                       }
-                       for(var j=0;j<stopStrategy.length;j++){
-                           newData1[d++]=stopStrategy[j]
-                       }
-                   }
-                   else {
-                       newData1 = newData;
-                   }
-                   defer1.resolve(newData1);
-               }
-           }
-           return defer1.promise;
-       }
+                                newData[j].y = nianhua > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
+                                newData[j].y1 = average_winrate > 0 ? 'glyphicon glyphicon-arrow-up zheng' : 'glyphicon glyphicon-arrow-down fu';
+                            }
+                        }
+                    }
+                    if(need==1){
+                        var runStrategy=[],b= 0,stopStrategy=[],c=0;
+                        angular.forEach(newData, function (item, index) {
+                            if (item.status == 2) {
+                                runStrategy[b++]=item;
+                            }
+                            if (item.status == 3) {
+                                stopStrategy[c++]=item;
+                            }
+                        });
+                        runStrategy.sort(function(a,b){return b.yeild-a.yeild;});
+                        stopStrategy.sort(function(a,b){return b.yeild-a.yeild;});
+                        for(var i=0;i<runStrategy.length;i++){
+                            newData1[d++]=runStrategy[i];
+                        }
+                        for(var j=0;j<stopStrategy.length;j++){
+                            newData1[d++]=stopStrategy[j]
+                        }
+                    }
+                    else {
+                        newData1 = newData;
+                    }
+                    defer1.resolve(newData1);
+                }
+            }
+            return defer1.promise;
+        }
 
         function productSymbol(data){
             var symbolList = [];
@@ -1687,34 +1709,34 @@
                     exchagne1 = 'OKCoin'
                 }
                 $http.get(constantUrl + 'datas/', {
-                        params: {
-                            "type": 'bar',
-                            "exchange": exchagne1,
-                            "symbol": $scope.key,
-                            "start": getNowFormatDate(),
-                            "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
+                    params: {
+                        "type": 'bar',
+                        "exchange": exchagne1,
+                        "symbol": $scope.key,
+                        "start": getNowFormatDate(),
+                        "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
+                    },
+                    headers: {
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                    }
+                })
                     .success(function (data) {
                         marketData=data;
                         draw(marketData,'highchart_view',1);
                     })
                     .error(function(){
                         $http.get(constantUrl + 'datas/', {
-                                params: {
-                                    "type": 'bar',
-                                    "exchange": exchagne1,
-                                    "symbol": $scope.key,
-                                    "start": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() -1)), 'yyyy-MM-dd'),
-                                    "end":getNowFormatDate()
-                                },
-                                headers: {
-                                    'Authorization': 'token ' + $cookieStore.get('user').token
-                                }
-                            })
+                            params: {
+                                "type": 'bar',
+                                "exchange": exchagne1,
+                                "symbol": $scope.key,
+                                "start": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() -1)), 'yyyy-MM-dd'),
+                                "end":getNowFormatDate()
+                            },
+                            headers: {
+                                'Authorization': 'token ' + $cookieStore.get('user').token
+                            }
+                        })
                             .success(function (data) {
                                 marketData=data;
                                 draw(marketData,'highchart_view',1);
@@ -1749,15 +1771,15 @@
             function getFirmTime() {
                 var defer1 = $q.defer(); //通过$q服务注册一个延迟对象 defer1
                 $http.get(constantUrl + 'transactions/', {
-                        params: {
-                            "sty_id": item._id,
-                            "start": item.time,
-                            "end": $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate() + 1)), 'yyyy-MM-dd')
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
+                    params: {
+                        "sty_id": item._id,
+                        "start": item.time,
+                        "end": $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate() + 1)), 'yyyy-MM-dd')
+                    },
+                    headers: {
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                    }
+                })
                     .success(function (data) {
                         for(var i =0; i< data.length;i++) {
                             beginData[i] = data[i];
@@ -1785,18 +1807,18 @@
                     b = $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate())), 'yyyy-MM-dd');
                 }
                 $http.get(constantUrl + 'datas/', {
-                        params: {
-                            "type": 'bar',
-                            "start": a,
-                            "symbol": item.symbol,
-                            "exchange": item.exchange,
-                            "multiple": item.multiple,
-                            "end": b
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
+                    params: {
+                        "type": 'bar',
+                        "start": a,
+                        "symbol": item.symbol,
+                        "exchange": item.exchange,
+                        "multiple": item.multiple,
+                        "end": b
+                    },
+                    headers: {
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                    }
+                })
                     .success(function (data) {
                         if (chartData11.length == 0) {
                             defer2.resolve(data);
@@ -1805,18 +1827,18 @@
                     })
                     .error(function (err, sta) {
                         $http.get(constantUrl + 'datas/', {
-                                params: {
-                                    "type": 'bar',
-                                    "start": $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate()-1)), 'yyyy-MM-dd'),
-                                    "symbol": item.symbol,
-                                    "exchange": item.exchange,
-                                    "multiple": item.multiple,
-                                    "end": $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate())), 'yyyy-MM-dd')
-                                },
-                                headers: {
-                                    'Authorization': 'token ' + $cookieStore.get('user').token
-                                }
-                            })
+                            params: {
+                                "type": 'bar',
+                                "start": $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate()-1)), 'yyyy-MM-dd'),
+                                "symbol": item.symbol,
+                                "exchange": item.exchange,
+                                "multiple": item.multiple,
+                                "end": $filter('date')(new Date((new Date(item.time)).setDate((new Date(item.time)).getDate())), 'yyyy-MM-dd')
+                            },
+                            headers: {
+                                'Authorization': 'token ' + $cookieStore.get('user').token
+                            }
+                        })
                             .success(function (data) {
                                 if (chartData11.length == 0) {
                                     defer2.resolve(data);
@@ -2246,34 +2268,34 @@
                     exchagne1 = 'OKCoin'
                 }
                 $http.get(constantUrl + 'datas/', {
-                        params: {
-                            "type": 'bar',
-                            "exchange": exchagne1,
-                            "symbol": $scope.key1,
-                            "start": getNowFormatDate(),
-                            "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
+                    params: {
+                        "type": 'bar',
+                        "exchange": exchagne1,
+                        "symbol": $scope.key1,
+                        "start": getNowFormatDate(),
+                        "end": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() + 1)), 'yyyy-MM-dd')
+                    },
+                    headers: {
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                    }
+                })
                     .success(function (data) {
                         marketData1 = data;
                         draw(marketData1,'highchart_moni',0)
                     })
                     .error(function(data){
                         $http.get(constantUrl + 'datas/', {
-                                params: {
-                                    "type": 'bar',
-                                    "exchange": exchagne1,
-                                    "symbol": $scope.key1,
-                                    "start": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() - 1)), 'yyyy-MM-dd'),
-                                    "end": getNowFormatDate()
-                                },
-                                headers: {
-                                    'Authorization': 'token ' + $cookieStore.get('user').token
-                                }
-                            })
+                            params: {
+                                "type": 'bar',
+                                "exchange": exchagne1,
+                                "symbol": $scope.key1,
+                                "start": $filter('date')(new Date((new Date(getNowFormatDate())).setDate((new Date(getNowFormatDate())).getDate() - 1)), 'yyyy-MM-dd'),
+                                "end": getNowFormatDate()
+                            },
+                            headers: {
+                                'Authorization': 'token ' + $cookieStore.get('user').token
+                            }
+                        })
                             .success(function (data) {
                                 marketData1 = data;
                                 draw(marketData1,'highchart_moni',0);
@@ -2343,15 +2365,15 @@
             }
             var yesday = getPreDay(nowDay);
             $http.get(constantUrl + 'transactions/', {
-                    params: {
-                        "sty_id": nowId,
-                        "start": yesday,
-                        "end": nowDay
-                    },
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                params: {
+                    "sty_id": nowId,
+                    "start": yesday,
+                    "end": nowDay
+                },
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     if (data[0] != null) {
                         if (flag) {
@@ -2599,10 +2621,10 @@
 
             var histroy = [];
             $http.get(constantUrl + "btstrategys/", {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     angular.forEach(data,function(item,index){
                         if(item.status == 4){
@@ -2724,10 +2746,10 @@
         function getHisSelect() {
             var defer1 = $q.defer();
             $http.get(constantUrl + "btstrategys/" , {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     var data1=[];
                     angular.forEach(data,function(item,index){
@@ -2747,14 +2769,14 @@
         //回测时间根据所选策略获取
         $scope.selecteStrategy = function () {
             $http.get(constantUrl + 'dates/', {
-                    params: {
-                        "date_type": 'transaction',
-                        "sty_id": $scope.myFirmStrategy._id
-                    },
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                params: {
+                    "date_type": 'transaction',
+                    "sty_id": $scope.myFirmStrategy._id
+                },
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     $scope.myFirmStartDate = data[data.length - 1];
                     $scope.myFirmEndDate = data[data.length - 1];
@@ -2787,14 +2809,14 @@
             var etime = mydate;
             function model() {
                 $http.get(constantUrl + 'model_datas/', {
-                        params: {
-                            "id": str,
-                            "date": $scope.myFirmStartDate,
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
+                    params: {
+                        "id": str,
+                        "date": $scope.myFirmStartDate,
+                    },
+                    headers: {
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                    }
+                })
                     .success(function (data) {
                         $scope.accuracy = data;
                     })
@@ -2813,181 +2835,181 @@
                         'Authorization': 'token ' + $cookieStore.get('user').token
                     }
                 }).success(function (data) {
-                        function trueRes(nowdata) {
-                            var aloneshort = [];
-                            var alonebuy = [];
-                            var defer6 = $q.defer();
-                            if (nowdata.length == 0) {
-                                Showbo.Msg.alert("今天尚未有交易信号")
-                                defer6.reject(nowdata)
-                                return defer6.promise;
-                            }
-                            var hasNone = false; //判断今天是否有不配对平仓
-                            for (var i = 0; i < nowdata.length; i++) {
-                                if (nowdata[i].trans_type == "cover") {
-                                    if (i == 0 || nowdata[i - 1].trans_type != "short") {
-                                        hasNone = true;
-                                        break;
-                                    }
-                                }
-                                if (nowdata[i].trans_type == "sell") {
-                                    if (i == 0 || nowdata[i - 1].trans_type != "buy") {
-                                        hasNone = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (!hasNone) {
-                                //console.log("没有不配对平仓，不获取单独开仓");
-                                defer6.resolve(nowdata);
-                                return defer6.promise;
-                            }
-                            var sdate = $filter('date')(new Date((new Date($scope.myFirmStartDate)).setDate((new Date($scope.myFirmStartDate)).getDate() - 1)), 'yyyy-MM-dd');
-                            $http.get(constantUrl + 'transactions/', {
-                                    params: {
-                                        "sty_id": $scope.myFirmStrategy._id,
-                                        "start": sdate,
-                                        "end": $scope.myFirmStartDate
-                                    },
-                                    headers: {
-                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                    }
-                                })
-                                .success(function (data) {
-                                    if (data[0] != null) {
-                                        for (var i = 0; i < data.length; i++) { //获取前一天所有单独short
-                                            if (data[i].trans_type == "short") {
-                                                if (i + 1 >= data.length || data[i + 1].trans_type != "cover") {
-                                                    aloneshort.push(data[i])
-                                                }
-                                            }
-                                            if (data[i].trans_type == "buy") { //获取前一天所有单独buy
-                                                if (i + 1 >= data.length || data[i + 1].trans_type != "sell") {
-                                                    alonebuy.push(data[i])
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        console.log("前一天没有交易")
-                                    }
-                                    if (nowdata[nowdata.length - 1] == null) {
-                                        nowdata.splice(nowdata.length - 1, 1)
-                                    }
-                                    for (var i = 0; i < nowdata.length; i++) { //获取今天所有单独short
-                                        if (nowdata[i].trans_type == "short") {
-                                            if (i + 1 >= nowdata.length || nowdata[i + 1].trans_type != "cover") {
-                                                aloneshort.push(nowdata[i])
-                                            }
-                                        }
-                                        if (nowdata[i].trans_type == "buy") {
-                                            if (i + 1 >= nowdata.length || nowdata[i + 1].trans_type != "sell") {
-                                                alonebuy.push(nowdata[i])
-                                            }
-                                        }
-                                    }
-
-                                    for (var i = 0; i < nowdata.length; i++) {
-                                        if (nowdata[i].trans_type == "cover") {
-                                            if (i == 0 || nowdata[i - 1].trans_type != "short") {
-                                                var flag = false;
-                                                for (var j = aloneshort.length - 1; j >= 0; j--) {
-                                                    if (aloneshort[j].datetime < nowdata[i].datetime) { //截取这个时间之前最近的short
-                                                        flag = true;
-                                                        break;
-                                                    }
-                                                }
-                                                if (flag) {
-                                                    nowdata.splice(i, 0, aloneshort[j]);
-                                                    aloneshort.splice(j, 1);
-                                                } else {
-                                                    nowdata.splice(i, 1);
-                                                    //console.log("发现无配对平仓")
-                                                    i--;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    for (var i = 0; i < nowdata.length; i++) {
-                                        if (nowdata[i].trans_type == "sell") {
-                                            if (i == 0 || nowdata[i - 1].trans_type != "buy") {
-                                                var flag = false;
-                                                for (var j = alonebuy.length - 1; j >= 0; j--) {
-                                                    if (alonebuy[j].datetime < nowdata[i].datetime) { //截取这个时间之前最近的buy
-                                                        flag = true;
-                                                        break;
-                                                    }
-                                                }
-                                                if (flag) {
-                                                    nowdata.splice(i, 0, alonebuy[j]);
-                                                    alonebuy.splice(j, 1);
-                                                } else {
-                                                    nowdata.splice(i, 1);
-                                                    //console.log("发现无配对平仓")
-                                                    i--;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    defer6.resolve(nowdata);
-                                })
+                    function trueRes(nowdata) {
+                        var aloneshort = [];
+                        var alonebuy = [];
+                        var defer6 = $q.defer();
+                        if (nowdata.length == 0) {
+                            Showbo.Msg.alert("今天尚未有交易信号")
+                            defer6.reject(nowdata)
                             return defer6.promise;
                         }
-
-                        trueRes(data).then(function (nowdata) {
-                            for (var i = 0; i < nowdata.length; i++) { //清除未配对开仓
-                                if (nowdata[i].trans_type == "short") {
-                                    if (i == nowdata.length - 1 || nowdata[i + 1].trans_type != "cover") {
-                                        nowdata.splice(i, 1);
-                                        i--;
-                                    }
-                                } else if (nowdata[i].trans_type == "buy") {
-                                    if (i == nowdata.length - 1 || nowdata[i + 1].trans_type != "sell") {
-                                        nowdata.splice(i, 1);
-                                        i--;
-                                    }
+                        var hasNone = false; //判断今天是否有不配对平仓
+                        for (var i = 0; i < nowdata.length; i++) {
+                            if (nowdata[i].trans_type == "cover") {
+                                if (i == 0 || nowdata[i - 1].trans_type != "short") {
+                                    hasNone = true;
+                                    break;
                                 }
                             }
-                            data = nowdata;
-                            for (var i in data) {
-                                alldata[i] = data[i];
-                            }
-                            /**
-                             *    删除"0"数据并保存
-                             */
-                            function delzero(data) {
-                                for (var i = 0; i < data.length; i++) {
-                                    if (data[i].price == 0) {
-                                        var flag = data[i].trans_type;
-                                        data.splice(i);
-                                        if (flag == "cover" || flag == "sell") {
-                                            data.splice(i - 1);
-                                        } else {
-                                            data.splice(i);
-                                        }
-                                        i = -1;
-                                    }
+                            if (nowdata[i].trans_type == "sell") {
+                                if (i == 0 || nowdata[i - 1].trans_type != "buy") {
+                                    hasNone = true;
+                                    break;
                                 }
                             }
-                            delzero(data)
-                            if (data.length < 2) {
-                                Showbo.Msg.alert("今天尚未有交易信号")
-                            } else {
-                                var min = data[0].datetime;
-                                var max = data[0].datetime;
-                                for (var i = 0; i < data.length; i++) {
-                                    if (data[i].datetime > max) {
-                                        max = data[i].datetime
-                                    }
-                                    if (data[i].datetime < min) {
-                                        min = data[i].datetime
-                                    }
-                                }
-                                stime = min;
-                                etime = max;
+                        }
+                        if (!hasNone) {
+                            //console.log("没有不配对平仓，不获取单独开仓");
+                            defer6.resolve(nowdata);
+                            return defer6.promise;
+                        }
+                        var sdate = $filter('date')(new Date((new Date($scope.myFirmStartDate)).setDate((new Date($scope.myFirmStartDate)).getDate() - 1)), 'yyyy-MM-dd');
+                        $http.get(constantUrl + 'transactions/', {
+                            params: {
+                                "sty_id": $scope.myFirmStrategy._id,
+                                "start": sdate,
+                                "end": $scope.myFirmStartDate
+                            },
+                            headers: {
+                                'Authorization': 'token ' + $cookieStore.get('user').token
                             }
-                            defer1.resolve(data);
                         })
+                            .success(function (data) {
+                                if (data[0] != null) {
+                                    for (var i = 0; i < data.length; i++) { //获取前一天所有单独short
+                                        if (data[i].trans_type == "short") {
+                                            if (i + 1 >= data.length || data[i + 1].trans_type != "cover") {
+                                                aloneshort.push(data[i])
+                                            }
+                                        }
+                                        if (data[i].trans_type == "buy") { //获取前一天所有单独buy
+                                            if (i + 1 >= data.length || data[i + 1].trans_type != "sell") {
+                                                alonebuy.push(data[i])
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    console.log("前一天没有交易")
+                                }
+                                if (nowdata[nowdata.length - 1] == null) {
+                                    nowdata.splice(nowdata.length - 1, 1)
+                                }
+                                for (var i = 0; i < nowdata.length; i++) { //获取今天所有单独short
+                                    if (nowdata[i].trans_type == "short") {
+                                        if (i + 1 >= nowdata.length || nowdata[i + 1].trans_type != "cover") {
+                                            aloneshort.push(nowdata[i])
+                                        }
+                                    }
+                                    if (nowdata[i].trans_type == "buy") {
+                                        if (i + 1 >= nowdata.length || nowdata[i + 1].trans_type != "sell") {
+                                            alonebuy.push(nowdata[i])
+                                        }
+                                    }
+                                }
+
+                                for (var i = 0; i < nowdata.length; i++) {
+                                    if (nowdata[i].trans_type == "cover") {
+                                        if (i == 0 || nowdata[i - 1].trans_type != "short") {
+                                            var flag = false;
+                                            for (var j = aloneshort.length - 1; j >= 0; j--) {
+                                                if (aloneshort[j].datetime < nowdata[i].datetime) { //截取这个时间之前最近的short
+                                                    flag = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (flag) {
+                                                nowdata.splice(i, 0, aloneshort[j]);
+                                                aloneshort.splice(j, 1);
+                                            } else {
+                                                nowdata.splice(i, 1);
+                                                //console.log("发现无配对平仓")
+                                                i--;
+                                            }
+                                        }
+                                    }
+                                }
+                                for (var i = 0; i < nowdata.length; i++) {
+                                    if (nowdata[i].trans_type == "sell") {
+                                        if (i == 0 || nowdata[i - 1].trans_type != "buy") {
+                                            var flag = false;
+                                            for (var j = alonebuy.length - 1; j >= 0; j--) {
+                                                if (alonebuy[j].datetime < nowdata[i].datetime) { //截取这个时间之前最近的buy
+                                                    flag = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (flag) {
+                                                nowdata.splice(i, 0, alonebuy[j]);
+                                                alonebuy.splice(j, 1);
+                                            } else {
+                                                nowdata.splice(i, 1);
+                                                //console.log("发现无配对平仓")
+                                                i--;
+                                            }
+                                        }
+                                    }
+                                }
+                                defer6.resolve(nowdata);
+                            })
+                        return defer6.promise;
+                    }
+
+                    trueRes(data).then(function (nowdata) {
+                        for (var i = 0; i < nowdata.length; i++) { //清除未配对开仓
+                            if (nowdata[i].trans_type == "short") {
+                                if (i == nowdata.length - 1 || nowdata[i + 1].trans_type != "cover") {
+                                    nowdata.splice(i, 1);
+                                    i--;
+                                }
+                            } else if (nowdata[i].trans_type == "buy") {
+                                if (i == nowdata.length - 1 || nowdata[i + 1].trans_type != "sell") {
+                                    nowdata.splice(i, 1);
+                                    i--;
+                                }
+                            }
+                        }
+                        data = nowdata;
+                        for (var i in data) {
+                            alldata[i] = data[i];
+                        }
+                        /**
+                         *    删除"0"数据并保存
+                         */
+                        function delzero(data) {
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].price == 0) {
+                                    var flag = data[i].trans_type;
+                                    data.splice(i);
+                                    if (flag == "cover" || flag == "sell") {
+                                        data.splice(i - 1);
+                                    } else {
+                                        data.splice(i);
+                                    }
+                                    i = -1;
+                                }
+                            }
+                        }
+                        delzero(data)
+                        if (data.length < 2) {
+                            Showbo.Msg.alert("今天尚未有交易信号")
+                        } else {
+                            var min = data[0].datetime;
+                            var max = data[0].datetime;
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].datetime > max) {
+                                    max = data[i].datetime
+                                }
+                                if (data[i].datetime < min) {
+                                    min = data[i].datetime
+                                }
+                            }
+                            stime = min;
+                            etime = max;
+                        }
+                        defer1.resolve(data);
                     })
+                })
                     .error(function (err, sta) {
                         defer1.reject(err);
                     });
@@ -2999,17 +3021,17 @@
                 var a = $filter('date')(new Date((new Date(stime)).setDate((new Date(stime)).getDate())), 'yyyy-MM-dd');
                 var b = $filter('date')(new Date((new Date(etime)).setDate((new Date(etime)).getDate() + 1)), 'yyyy-MM-dd');
                 $http.get(constantUrl + 'datas/', {
-                        params: {
-                            "type": 'bar',
-                            "exchange": $scope.myFirmStrategy.exchange,
-                            "symbol": $scope.myFirmStrategy.symbol,
-                            "start": a,
-                            "end": b
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
+                    params: {
+                        "type": 'bar',
+                        "exchange": $scope.myFirmStrategy.exchange,
+                        "symbol": $scope.myFirmStrategy.symbol,
+                        "start": a,
+                        "end": b
+                    },
+                    headers: {
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                    }
+                })
                     .success(function (data) {
                         var data2 = [];
                         var j = 0;
@@ -3869,10 +3891,10 @@
         $scope.g = function () {
             var defer1 = $q.defer();
             $http.get(constantUrl + "strategys/", {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     var  data1=[];
                     angular.forEach(data,function(item,index){
@@ -3894,14 +3916,14 @@
         });
         $scope.p = function () {
             $http.get(constantUrl + 'dates/', {
-                    params: {
-                        "date_type": 'transaction',
-                        "sty_id": str
-                    },
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                params: {
+                    "date_type": 'transaction',
+                    "sty_id": str
+                },
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     $scope.my = data;
                     $scope.myFirmDate = data[data.length - 2];
@@ -3946,14 +3968,14 @@
             var etime = $scope.myFirmDate;
             function model() {
                 $http.get(constantUrl + 'model_datas/', {
-                        params: {
-                            "id": str,
-                            "date": $scope.myFirmDate
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
+                    params: {
+                        "id": str,
+                        "date": $scope.myFirmDate
+                    },
+                    headers: {
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                    }
+                })
                     .success(function (data) {
                         $scope.accuracy = data;
                     })
@@ -3962,15 +3984,15 @@
             function getFirmTime() {
                 var defer1 = $q.defer(); //通过$q服务注册一个延迟对象 defer1
                 $http.get(constantUrl + 'transactions/', {
-                        params: {
-                            "sty_id": myFirm._id,
-                            "start": $scope.myFirmDate,
-                            "end": mydate
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
+                    params: {
+                        "sty_id": myFirm._id,
+                        "start": $scope.myFirmDate,
+                        "end": mydate
+                    },
+                    headers: {
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                    }
+                })
                     .success(function (data) {
                         for(var i =0; i< data.length;i++) {
                             beginData[i] = data[i];
@@ -4013,15 +4035,15 @@
                             }
                             var sdate = $filter('date')(new Date((new Date($scope.myFirmDate)).setDate((new Date($scope.myFirmDate)).getDate() - 1)), 'yyyy-MM-dd');
                             $http.get(constantUrl + 'transactions/', {
-                                    params: {
-                                        "sty_id": $scope.myFirmStrategy._id,
-                                        "start": sdate,
-                                        "end": $scope.myFirmDate
-                                    },
-                                    headers: {
-                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                    }
-                                })
+                                params: {
+                                    "sty_id": $scope.myFirmStrategy._id,
+                                    "start": sdate,
+                                    "end": $scope.myFirmDate
+                                },
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
                                 .success(function (data) {
                                     if (data[0] != null) {
                                         if (window.location.hash[2] == "A") {
@@ -4181,19 +4203,19 @@
                     b = $filter('date')(new Date((new Date(etime)).setDate((new Date(etime)).getDate())), 'yyyy-MM-dd');
                 }
                 $http.get(constantUrl + 'datas/', {
-                        params: {
-                            //"type": 'tick',
-                            "type": 'bar',
-                            "start": a,
-                            "symbol": $scope.myFirmStrategy.symbol,
-                            "exchange": $scope.myFirmStrategy.exchange,
-                            "multiple": $scope.myFirmStrategy.multiple,
-                            "end": b
-                        },
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
+                    params: {
+                        //"type": 'tick',
+                        "type": 'bar',
+                        "start": a,
+                        "symbol": $scope.myFirmStrategy.symbol,
+                        "exchange": $scope.myFirmStrategy.exchange,
+                        "multiple": $scope.myFirmStrategy.multiple,
+                        "end": b
+                    },
+                    headers: {
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                    }
+                })
                     .success(function (data) {
                         if (chartData11.length == 0) {
                             defer2.resolve(data);
@@ -4789,191 +4811,191 @@
                         if(buyYArr.length==0&&shortYArr.length==0){
                             nullToData(beginData);
                         }
-                       function drawHighchart(who){
-                           $('#'+who).highcharts('StockChart', {
-                               credits: {
-                                   enabled: false
-                               },
-                               exporting: {
-                                   enabled: false
-                               },
-                               plotOptions: {
-                                   series: {
-                                       turboThreshold: 0
-                                   },
-                                   candlestick: { //红涨绿跌
-                                       color: '#33AA11',
-                                       upColor: '#DD2200',
-                                       lineColor: '#33AA11',
-                                       upLineColor: '#DD2200',
-                                       maker: {
-                                           states: {
-                                               hover: {
-                                                   enabled: false,
-                                               }
-                                           }
-                                       }
-                                   }
-                               },
-                               tooltip: {
-                                   useHTML: true,
-                                   xDateFormat: "%Y-%m-%d %H:%M:%S",
-                                   valueDecimals: 2,
-                                   backgroundColor: '#eeeeee',   // 背景颜色
-                                   borderColor: '#ccc',         // 边框颜色
-                                   borderRadius: 10,             // 边框圆角
-                                   borderWidth: 1,               // 边框宽度
-                                   shadow: true,                 // 是否显示阴影
-                                   animation: true,               // 是否启用动画效果
-                               },
-                               legend: {
-                                   enabled: true,
-                                   align: 'right',
-                                   verticalAlign: 'top',
-                                   x: 0,
-                                   y: 0
-                               },
-                               rangeSelector: {
-                                   buttons: [{
-                                       type: 'minute',
-                                       count: 10,
-                                       text: '10m'
-                                   }, {
-                                       type: 'minute',
-                                       count: 30,
-                                       text: '30m'
-                                   }, {
-                                       type: 'hour',
-                                       count: 1,
-                                       text: '1h'
-                                   }, {
-                                       type: 'day',
-                                       count: 1,
-                                       text: '1d'
-                                   }, {
-                                       type: 'week',
-                                       count: 1,
-                                       text: '1w'
-                                   }, {
-                                       type: 'all',
-                                       text: '所有'
-                                   }],
-                                   selected: 5,
-                                   buttonSpacing: 2
-                               },
-                               yAxis: [{
-                                   labels: {
-                                       align: 'right',
-                                       x: -3
-                                   },
-                                   title: {
-                                       text: '价格'
-                                   },
-                                   lineWidth: 1,
-                                   height: '50%'
-                               }, {
-                                   labels: {
-                                       align: 'right',
-                                       x: -3
-                                   },
-                                   title: {
-                                       text: '成交量'
-                                   },
-                                   opposite: true,
-                                   offset: 0,
-                                   height: '20%',
-                                   top: '52%'
-                               }, {
-                                   labels: {
-                                       align: 'right',
-                                       x: -3
-                                   },
-                                   title: {
-                                       text: '盈亏'
-                                   },
-                                   opposite: true,
-                                   offset: 0,
-                                   height: '20%',
-                                   top: '74%'
-                               }],
-                               series: [{
-                                   type: 'spline',
-                                   name: 'MA5',
-                                   data: averline5,
-                                   lineWidth: 1,
-                                   color: 'red',
-                                   visible: false,
-                               }, {
-                                   type: 'spline',
-                                   name: 'MA10',
-                                   data: averline10,
-                                   lineWidth: 1,
-                                   color: 'yellow',
-                                   visible: false
-                               }, {
-                                   type: 'spline',
-                                   name: 'MA30',
-                                   data: averline30,
-                                   lineWidth: 1,
-                                   color: 'blue',
-                                   visible: false
-                               }, {
-                                   type: 'spline',
-                                   name: 'MA60',
-                                   data: averline60,
-                                   lineWidth: 1,
-                                   color: 'green',
-                                   visible: false
-                               }, {
-                                   type: 'candlestick',
-                                   name: '价格',
-                                   data: chartJsonDataArr,
-                                   id: 'dataseries',
-                                   showInLegend: false
-                               }, {
-                                   type: 'flags',
-                                   data: shortYArr,
-                                   onSeries: "dataseries",
-                                   shape: 'squarepin',
-                                   width: 60,
-                                   color: '#ff9912',
-                                   fillColor: 'transparent',
-                                   style: {
-                                       color: '#ff9912'
-                                   },
-                                   y: -40,
-                                   name: '看空',
-                               },{
-                                   type: 'flags',
-                                   data: buyYArr,
-                                   onSeries: "dataseries",
-                                   shape: 'squarepin',
-                                   width: 60,
-                                   color: "#4169e1",
-                                   fillColor: 'transparent',
-                                   style: {
-                                       color: '#4169e1'
-                                   },
-                                   y: 20,
-                                   name: '看多',
-                               }, {
-                                   type: 'column',
-                                   data: volume,
-                                   name: '成交量',
-                                   yAxis: 1,
-                                   color: '#e6e843'
+                        function drawHighchart(who){
+                            $('#'+who).highcharts('StockChart', {
+                                credits: {
+                                    enabled: false
+                                },
+                                exporting: {
+                                    enabled: false
+                                },
+                                plotOptions: {
+                                    series: {
+                                        turboThreshold: 0
+                                    },
+                                    candlestick: { //红涨绿跌
+                                        color: '#33AA11',
+                                        upColor: '#DD2200',
+                                        lineColor: '#33AA11',
+                                        upLineColor: '#DD2200',
+                                        maker: {
+                                            states: {
+                                                hover: {
+                                                    enabled: false,
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    useHTML: true,
+                                    xDateFormat: "%Y-%m-%d %H:%M:%S",
+                                    valueDecimals: 2,
+                                    backgroundColor: '#eeeeee',   // 背景颜色
+                                    borderColor: '#ccc',         // 边框颜色
+                                    borderRadius: 10,             // 边框圆角
+                                    borderWidth: 1,               // 边框宽度
+                                    shadow: true,                 // 是否显示阴影
+                                    animation: true,               // 是否启用动画效果
+                                },
+                                legend: {
+                                    enabled: true,
+                                    align: 'right',
+                                    verticalAlign: 'top',
+                                    x: 0,
+                                    y: 0
+                                },
+                                rangeSelector: {
+                                    buttons: [{
+                                        type: 'minute',
+                                        count: 10,
+                                        text: '10m'
+                                    }, {
+                                        type: 'minute',
+                                        count: 30,
+                                        text: '30m'
+                                    }, {
+                                        type: 'hour',
+                                        count: 1,
+                                        text: '1h'
+                                    }, {
+                                        type: 'day',
+                                        count: 1,
+                                        text: '1d'
+                                    }, {
+                                        type: 'week',
+                                        count: 1,
+                                        text: '1w'
+                                    }, {
+                                        type: 'all',
+                                        text: '所有'
+                                    }],
+                                    selected: 5,
+                                    buttonSpacing: 2
+                                },
+                                yAxis: [{
+                                    labels: {
+                                        align: 'right',
+                                        x: -3
+                                    },
+                                    title: {
+                                        text: '价格'
+                                    },
+                                    lineWidth: 1,
+                                    height: '50%'
+                                }, {
+                                    labels: {
+                                        align: 'right',
+                                        x: -3
+                                    },
+                                    title: {
+                                        text: '成交量'
+                                    },
+                                    opposite: true,
+                                    offset: 0,
+                                    height: '20%',
+                                    top: '52%'
+                                }, {
+                                    labels: {
+                                        align: 'right',
+                                        x: -3
+                                    },
+                                    title: {
+                                        text: '盈亏'
+                                    },
+                                    opposite: true,
+                                    offset: 0,
+                                    height: '20%',
+                                    top: '74%'
+                                }],
+                                series: [{
+                                    type: 'spline',
+                                    name: 'MA5',
+                                    data: averline5,
+                                    lineWidth: 1,
+                                    color: 'red',
+                                    visible: false,
+                                }, {
+                                    type: 'spline',
+                                    name: 'MA10',
+                                    data: averline10,
+                                    lineWidth: 1,
+                                    color: 'yellow',
+                                    visible: false
+                                }, {
+                                    type: 'spline',
+                                    name: 'MA30',
+                                    data: averline30,
+                                    lineWidth: 1,
+                                    color: 'blue',
+                                    visible: false
+                                }, {
+                                    type: 'spline',
+                                    name: 'MA60',
+                                    data: averline60,
+                                    lineWidth: 1,
+                                    color: 'green',
+                                    visible: false
+                                }, {
+                                    type: 'candlestick',
+                                    name: '价格',
+                                    data: chartJsonDataArr,
+                                    id: 'dataseries',
+                                    showInLegend: false
+                                }, {
+                                    type: 'flags',
+                                    data: shortYArr,
+                                    onSeries: "dataseries",
+                                    shape: 'squarepin',
+                                    width: 60,
+                                    color: '#ff9912',
+                                    fillColor: 'transparent',
+                                    style: {
+                                        color: '#ff9912'
+                                    },
+                                    y: -40,
+                                    name: '看空',
+                                },{
+                                    type: 'flags',
+                                    data: buyYArr,
+                                    onSeries: "dataseries",
+                                    shape: 'squarepin',
+                                    width: 60,
+                                    color: "#4169e1",
+                                    fillColor: 'transparent',
+                                    style: {
+                                        color: '#4169e1'
+                                    },
+                                    y: 20,
+                                    name: '看多',
+                                }, {
+                                    type: 'column',
+                                    data: volume,
+                                    name: '成交量',
+                                    yAxis: 1,
+                                    color: '#e6e843'
 
-                               }, {
-                                   type: 'column',
-                                   data: chartArr,
-                                   name: '盈亏',
-                                   yAxis: 2,
-                                   threshold: 0,
-                                   negativeColor: 'green',
-                                   color: 'red'
-                               }]
-                           });
-                       }
+                                }, {
+                                    type: 'column',
+                                    data: chartArr,
+                                    name: '盈亏',
+                                    yAxis: 2,
+                                    threshold: 0,
+                                    negativeColor: 'green',
+                                    color: 'red'
+                                }]
+                            });
+                        }
                         drawHighchart('return_map_big_1');
                         drawHighchart('return_map_big_form');
 
@@ -5123,14 +5145,14 @@
         $scope.modeBarOptions = false;
         $scope.getModeList = function (ty) {
             $http.get(constantUrl + "dates/", {
-                    params: {
-                        type: ty,
-                        date_type: 'data'
-                    },
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                params: {
+                    type: ty,
+                    date_type: 'data'
+                },
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     $scope.hisItem.time = data;
                 })
@@ -5155,17 +5177,17 @@
         var editor;
         var myClassId;
         $scope.code = "# encoding: UTF-8\n\n\n" + "from ctaBase import *\n" + "from ctaTemplate import CtaTemplate\n\n" + "import time\n" + " import datetime\n" + " import numpy as np\n" + "import pandas as pd \n" + "import statsmodels.api as sm \n\n" + "from scipy import stats\n" + " from pandas import Series, DataFrame\n" + "from statsmodels.tsa.arima_model import ARIMA, ARMA \n" + " from statsmodels.tsa.stattools import acf, pacf\n" + "from statsmodels.tsa.stattools import adfuller  \n" + "                 'author',\n" + "                 'vtSymbol',\n" + "                 'fastK',\n" + "                 'slowK']\n\n" + "    # 变量列表，保存了变量的名称\n" + "    varList = ['inited',\n" + "               'trading',\n" + "               'pos',\n" + "               'fastMa0',\n" + "               'fastMa1',\n" + "               'slowMa0',\n" ;
-            editor = ace.edit("code_editor");
-            editor.$blockScrolling = Infinity;
-            editor.setFontSize(14);
-            editor.setOptions({
-                enableBasicAutocompletion: true,
-                enableSnippets: true,
-                enableLiveAutocompletion: true
-            });
-            editor.setTheme("ace/theme/chrome");
-            editor.getSession().setMode("ace/mode/python");
-            editor.setValue($scope.code);
+        editor = ace.edit("code_editor");
+        editor.$blockScrolling = Infinity;
+        editor.setFontSize(14);
+        editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true
+        });
+        editor.setTheme("ace/theme/chrome");
+        editor.getSession().setMode("ace/mode/python");
+        editor.setValue($scope.code);
 
     }])
     .controller('algorithmInforController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', '$route', '$timeout', '$q', '$interval', '$filter', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, $route, $timeout, $q, $interval, $filter) {
@@ -5436,10 +5458,10 @@
         }
         $scope.save = function () {
             $http.get(constantUrl + 'classs/' + str + '/', {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     download(data.code, data.code_name, 'text/plain');
                 })
@@ -5462,10 +5484,10 @@
             editor.setTheme("ace/theme/chrome");
             editor.getSession().setMode("ace/mode/python");
             $http.get(constantUrl + 'classs/' + $routeParams.id + '/', {
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     editor.setValue(data.code);
                     $scope.name = data.class_name;
@@ -5485,14 +5507,14 @@
         $scope.modeBarOptions = false;
         $scope.getModeList = function (ty) {
             $http.get(constantUrl + "dates/", {
-                    params: {
-                        type: ty,
-                        date_type: 'data'
-                    },
-                    headers: {
-                        'Authorization': 'token ' + $cookieStore.get('user').token
-                    }
-                })
+                params: {
+                    type: ty,
+                    date_type: 'data'
+                },
+                headers: {
+                    'Authorization': 'token ' + $cookieStore.get('user').token
+                }
+            })
                 .success(function (data) {
                     $scope.hisItem.time = data;
                 })
@@ -5518,7 +5540,10 @@
         window.b=0;
         window.c=0;
         $scope.modalResObjItem = modalResObjItems;
-        $scope.username = $cookieStore.get('user').username;
+        if($cookieStore.get('user')!=null){
+            $scope.username ="admin";
+        }
+        console.log($cookieStore.get('user'))
         $scope.getOpen = function () {
             getModalResList.getList('model_quants').then(function (data) {
                 modalResObjList0 = [];
@@ -5588,6 +5613,7 @@
         $scope.getMet();
         $scope.getRobot();
         $scope.start = function (id) {
+            console.log("aaaaaa")
             $('.modalRes-new').hide();
             $('.modalRes-method').hide();
             $('.modalRes-exa').hide();
@@ -5600,6 +5626,7 @@
             $('.nav-item' + b).find('span').addClass('sanjiao').prev('.nav-title').addClass('active');
         }
         var a, b;
+        console.log(window.flag)
         switch (window.flag) {
             case 'model_quants':
                 a = 'new';
@@ -5909,10 +5936,10 @@
             getList: function (url) {
                 var defer = $q.defer();
                 $http.get(constantUrl + url + '/', {
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
+                    headers: {
+                        'Authorization': 'token ' + "91aa354c022f7d7ba1fe541669b2b2db6bc3010f"
+                    }
+                })
                     .success(function (data) {
 
                         defer.resolve(data);
@@ -5925,11 +5952,11 @@
             addItem: function (obj, url) {
                 var defer = $q.defer();
                 $http.post(constantUrl + url + '/', obj, {
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token,
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        }
-                    })
+                    headers: {
+                        'Authorization': 'token ' + $cookieStore.get('user').token,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                })
                     .success(function (data) {
 
                         defer.resolve(data);
@@ -5942,11 +5969,11 @@
             reviseItem: function (obj, url) {
                 var defer = $q.defer();
                 $http.patch(constantUrl + url + '/', obj, {
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token,
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        }
-                    })
+                    headers: {
+                        'Authorization': 'token ' + $cookieStore.get('user').token,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                })
                     .success(function (data) {
                         defer.resolve(data);
                     })
@@ -5958,10 +5985,10 @@
             del: function (url) {
                 var defer = $q.defer();
                 $http.delete(constantUrl + url + '/', {
-                        headers: {
-                            'Authorization': 'token ' + $cookieStore.get('user').token
-                        }
-                    })
+                    headers: {
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                    }
+                })
                     .success(function (data) {
                         defer.resolve(data);
                     })
@@ -6071,10 +6098,10 @@
                     Showbo.Msg.confirm('您确定删除' + scope.mySourcingStrategy[i].class_name + "吗？", function (flag) {
                         if (flag == 'yes') {
                             $http.delete(constantUrl + "classs/" + url + '/', {
-                                    headers: {
-                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                    }
-                                })
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
                                 .success(function () {
                                     /*$route.reload();*/
                                     setTimeout(function () {
@@ -6101,12 +6128,12 @@
                     } else {
                         var name = $(this).closest('tr').children().eq(0).text();
                         $http.patch(constantUrl + 'users/' + name + '/', {
-                                zijin: '1'
-                            }, {
-                                headers: {
-                                    'Authorization': 'token ' + $cookieStore.get('user').token
-                                }
-                            })
+                            zijin: '1'
+                        }, {
+                            headers: {
+                                'Authorization': 'token ' + $cookieStore.get('user').token
+                            }
+                        })
                             .success(function (data) {
                                 scope.getAllUsers();
                             });
@@ -6119,12 +6146,12 @@
                     } else {
                         var name = $(this).closest('tr').children().eq(0).text();
                         $http.patch(constantUrl + 'users/' + name + '/', {
-                                zijin: '0'
-                            }, {
-                                headers: {
-                                    'Authorization': 'token ' + $cookieStore.get('user').token
-                                }
-                            })
+                            zijin: '0'
+                        }, {
+                            headers: {
+                                'Authorization': 'token ' + $cookieStore.get('user').token
+                            }
+                        })
                             .success(function (data) {
                                 scope.getAllUsers();
                             });
@@ -6138,10 +6165,10 @@
                         if (flag == 'yes') {
 
                             $http.delete(constantUrl + 'users/' + name + '/', {
-                                    headers: {
-                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                    }
-                                })
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
                                 .success(function (data) {
                                     scope.getAllUsers();
                                 });
@@ -6175,10 +6202,10 @@
                     i = a.$index; //点击的第几个
                     var url = $scope.trueStrategy[i]._id;
                     $http.get(constantUrl + "strategys/" + url + '/', {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
                         .success(function (data) {
                             $scope.put($scope.trueStrategy[i].name, data.logs)
                         })
@@ -6191,10 +6218,10 @@
                     i= a.$index;
                     var url = $scope.trueStrategy[i]._id;
                     $http.get(constantUrl + "strategys/" + url + '/', {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
                         .success(function (data) {
                             download(data.logs, $scope.trueStrategy[i].name, 'text/plain');
                         })
@@ -6208,10 +6235,10 @@
                     i = a.$index; //点击的第几个
                     var url = $scope.myStrategy[i]._id;
                     $http.get(constantUrl + "strategys/" + url + '/', {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
                         .success(function (data) {
                             $scope.put($scope.myStrategy[i].name, data.logs)
                         })
@@ -6225,10 +6252,10 @@
                     i= a.$index;
                     var url = $scope.myStrategy[i]._id;
                     $http.get(constantUrl + "strategys/" + url + '/', {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
                         .success(function (data) {
                             download(data.logs, $scope.myStrategy[i].name, 'text/plain');
                         })
@@ -6249,12 +6276,12 @@
                     i = a.$index; //点击的第几个
                     var url = scope.myStrategy[i]._id;
                     $http.patch(constantUrl + "strategys/" + url + '/', {
-                            status: 2
-                        }, {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                        status: 2
+                    }, {
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
                         .success(function () {
                             /*$route.reload();*/
                             scope.getFirmStrategys(window.p);
@@ -6271,12 +6298,12 @@
                     i = a.$index; //点击的第几个
                     var url = scope.trueStrategy[i]._id;
                     $http.patch(constantUrl + "strategys/" + url + '/', {
-                            status: 2
-                        }, {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                        status: 2
+                    }, {
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
                         .success(function () {
                             /*$route.reload();*/
                             scope.gettrueStrategys();
@@ -6287,16 +6314,16 @@
                         });
                 }
                 scope.strategypause = function (a,page) {
-                   window.p=page;
+                    window.p=page;
                     i = a.$index; //点击的第几个
                     var url = scope.myStrategy[i]._id;
                     $http.patch(constantUrl + "strategys/" + url + '/', {
-                            status: 3
-                        }, {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                        status: 3
+                    }, {
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
                         .success(function () {
                             /*$route.reload();*/
                             scope.getFirmStrategys();
@@ -6311,12 +6338,12 @@
                     i = a.$index; //点击的第几个
                     var url = scope.trueStrategy[i]._id;
                     $http.patch(constantUrl + "strategys/" + url + '/', {
-                            status: 3
-                        }, {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                        status: 3
+                    }, {
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
                         .success(function () {
                             /*$route.reload();*/
                             scope.gettrueStrategys();
@@ -6353,10 +6380,10 @@
                                         var url = scope.allStrategys[i]._id;
                                         if (scope.allStrategys[i].type != "历史回测") {
                                             $http.delete(constantUrl + "strategys/" + url + '/', { //先判断是不是实盘策略
-                                                    headers: {
-                                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                                    }
-                                                })
+                                                headers: {
+                                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                                }
+                                            })
                                                 .success(function () {
                                                     /*$route.reload();*/
 
@@ -6367,10 +6394,10 @@
                                                 })
                                         } else {
                                             $http.delete(constantUrl + "btstrategys/" + url + '/', {
-                                                    headers: {
-                                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                                    }
-                                                })
+                                                headers: {
+                                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                                }
+                                            })
                                                 .success(function () {
                                                     /*$route.reload();*/
 
@@ -6410,10 +6437,10 @@
                                 //console.log( scope.allStrategys[i].name,scope.allStrategys[i]._id);
                                 var url = scope.allStrategys[i]._id;
                                 $http.delete(constantUrl + "strategys/" + url + '/', {
-                                        headers: {
-                                            'Authorization': 'token ' + $cookieStore.get('user').token
-                                        }
-                                    })
+                                    headers: {
+                                        'Authorization': 'token ' + $cookieStore.get('user').token
+                                    }
+                                })
                                     .success(function () {
 
                                     })
@@ -6421,10 +6448,10 @@
                                         console.log(err, sta);
                                         if (sta == 400) {
                                             $http.delete(constantUrl + "btstrategys/" + url + '/', {
-                                                    headers: {
-                                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                                    }
-                                                })
+                                                headers: {
+                                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                                }
+                                            })
                                                 .success(function () {
                                                 })
                                                 .error(function (err, sta) {
@@ -6456,10 +6483,10 @@
                         if (flag == 'yes') {
                             if (scope.allStrategys[i].type != "历史回测") {
                                 $http.delete(constantUrl + "strategys/" + url + '/', { //先判断是不是实盘策略
-                                        headers: {
-                                            'Authorization': 'token ' + $cookieStore.get('user').token
-                                        }
-                                    })
+                                    headers: {
+                                        'Authorization': 'token ' + $cookieStore.get('user').token
+                                    }
+                                })
                                     .success(function () {
                                         scope.allStrategys.splice(i, 1)
                                     })
@@ -6467,10 +6494,10 @@
                                     })
                             } else {
                                 $http.delete(constantUrl + "btstrategys/" + url + '/', {
-                                        headers: {
-                                            'Authorization': 'token ' + $cookieStore.get('user').token
-                                        }
-                                    })
+                                    headers: {
+                                        'Authorization': 'token ' + $cookieStore.get('user').token
+                                    }
+                                })
                                     .success(function () {
                                         /*$route.reload();*/
                                         scope.allStrategys.splice(i, 1)
@@ -6490,10 +6517,10 @@
                     Showbo.Msg.confirm('您确定删除' + scope.trueStrategy[i].name + "吗？", function (flag) {
                         if (flag == 'yes') {
                             $http.delete(constantUrl + "strategys/" + url + '/', {
-                                    headers: {
-                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                    }
-                                })
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
                                 .success(function () {
                                     //scope.allStrategys = [];
                                     scope.gettrueStrategys();//真实交易
@@ -6517,10 +6544,10 @@
                     Showbo.Msg.confirm('将' + scope.trueStrategy[i].name + "移到历史交易中？", function (flag) {
                         if (flag == 'yes') {
                             $http.delete(constantUrl + "strategys/" + url + '/', {
-                                    headers: {
-                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                    }
-                                })
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
                                 .success(function () {
                                     scope.gettrueStrategys();
                                     Showbo.Msg.alert('删除成功。');
@@ -6541,10 +6568,10 @@
                     Showbo.Msg.confirm('您确定删除' + scope.myStrategy[i].name + "吗？", function (flag) {
                         if (flag == 'yes') {
                             $http.delete(constantUrl + "strategys/" + url + '/', {
-                                    headers: {
-                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                    }
-                                })
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
                                 .success(function () {
                                     scope.gettrueStrategys();//真实交易
                                     scope.getFirmStrategys(); //刷新实盘
@@ -6567,10 +6594,10 @@
                     Showbo.Msg.confirm('将' + scope.myStrategy[i].name + "移到历史交易中？", function (flag) {
                         if (flag == 'yes') {
                             $http.delete(constantUrl + "strategys/" + url + '/', {
-                                    headers: {
-                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                    }
-                                })
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
                                 .success(function () {
                                     scope.allStrategys = [];
                                     scope.gettrueStrategys();
@@ -6608,12 +6635,12 @@
                     i = a.$index; //点击的第几个
                     var url = scope.myHisStrategy[i]._id;
                     $http.patch(constantUrl + "btstrategys/" + url + '/', {
-                            status: 2
-                        }, {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                        status: 2
+                    }, {
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
                         .success(function () {
                             scope.getHisStrategys();
                         })
@@ -6625,12 +6652,12 @@
                     i = a.$index; //点击的第几个
                     var url = scope.myHisStrategy[i]._id;
                     $http.patch(constantUrl + "btstrategys/" + url + '/', {
-                            status: 3
-                        }, {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                        status: 3
+                    }, {
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
                         .success(function () {
                             scope.getHisStrategys();
 
@@ -6644,10 +6671,10 @@
                     i = a.$index; //点击的第几个
                     var url = scope.myHisStrategy[i]._id;
                     $http.get(constantUrl + "btstrategys/" + url + '/', {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
                         .success(function (data) {
                             scope.put(scope.myHisStrategy[i].name, data.logs)
                         })
@@ -6661,10 +6688,10 @@
                     i= a.$index;
                     var url = scope.myHisStrategy[i]._id;
                     $http.get(constantUrl + "btstrategys/" + url + '/', {
-                            headers: {
-                                'Authorization': 'token ' + $cookieStore.get('user').token
-                            }
-                        })
+                        headers: {
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
                         .success(function (data) {
                             download(data.logs, scope.myHisStrategy[i].name, 'text/plain');
                         })
@@ -6684,10 +6711,10 @@
                     Showbo.Msg.confirm('您确定删除' + scope.myHisStrategy[i].name + "吗？", function (flag) {
                         if (flag == 'yes') {
                             $http.delete(constantUrl + "btstrategys/" + url + '/', {
-                                    headers: {
-                                        'Authorization': 'token ' + $cookieStore.get('user').token
-                                    }
-                                })
+                                headers: {
+                                    'Authorization': 'token ' + $cookieStore.get('user').token
+                                }
+                            })
                                 .success(function () {
                                     /*$route.reload();*/
                                     scope.allStrategys = [];

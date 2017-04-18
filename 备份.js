@@ -136,6 +136,9 @@ angular.module('myapp',['ngRoute','ngAnimate','ngCookies','ngMessages','ngResour
 .value('modalResObjList3',[])
 .value('modalResObjList4',[])
 .controller('homeController',['$scope','$rootScope','$http','$location','$cookies','$cookieStore','constantUrl',function($scope,$rootScope,$http,$location,$cookies,$cookieStore,constantUrl){
+
+
+
 	$scope.$watch(function(){
 		var str=null;
 		var href=window.location.href;

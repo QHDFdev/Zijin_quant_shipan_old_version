@@ -34,39 +34,75 @@
 <body ng-controller='homeController'>
 	<div class="zijin-main-wrapper">
 		<div class="main-navbar navbar-fixed-top noprint ">
-			<div class="">
-				<ul style="float: left">
-					<a ng-href="#" class="navbar-brand">
-						<img src="images/logo.png">
-					</a>
-					<a href="" style="display: block;width: 5rem;height: 4.5rem;background: url('images/beta3.png') no-repeat;background-size: 98%;margin: 0 0 0 2rem">
-					</a>
-				</ul>
-				<ul class="userLogin 	">
-					<li ng-hide='user.username!=null'>
-						<a ng-href="#/login" style="color: #fff;text-decoration: none">登录 &nbsp;</a>
-					</li>
-					<li ng-hide='user.username!=null'>
-						<a ng-href="#" class="reg-btn" style="color: #fff"> &nbsp;注册(暂未开放)</a>
-					</li>
-					<!-- <li class="dropdown" ng-show='user.username!=null'>
-                        <a ng-href="" class="dropdown-toggle" data-toggle='dropdown'>
-                            {{user.username}}<span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-left">
-                            <li><a ng-href="" ng-click='logout()'>退出</a></li>
-                        </ul>
-                    </li> -->
-
-
-					<li ng-show='user.username!=null' class="name username" mouse-show>
-						<a class="username" ng-bind='user.username'></a>
-						<div class="list-group">
-							<a ng-href="#/adminCenter"  ng-show='user.is_admin==true' class="list-group-item"><i class='info-icon'></i><span>个人中心</span></a>
-							<a href="" ng-click='logout()' class="list-group-item"><i class="logout-icon"></i><span>退出</span></a>
+			<div class="container">
+				<div class="header">
+					<ul>
+						<a ng-href="#" class="navbar-brand">
+							<img src="images/logo.png">
+						</a>
+						<a href="" style="display: block;width: 5rem;height: 4.5rem;background: url('images/beta3.png') no-repeat;background-size: 98%;margin: 0 0 0 2rem">
+						</a>
+					</ul>
+					<ul class="menu">
+						<li class="menuacitve"><a ng-click='hashLocation("/home")' >首页</a></li>
+						<li><a ng-click="hashLocation('/algorithm')">紫金量化竞赛</a></li>
+						<li><a ng-click="hashLocation('/predict')">智能算法竞赛</a></li>
+						<li><a ng-click="hashLocation('/dataset')">数据集研究</a></li>
+						<li><a ng-click="hashLocation('/firmOffer')">参与实盘</a></li>
+						<li><a ng-click="hashLocation('/quantmodelshare')">量化课堂</a></li>
+					</ul>
+					<div class="userLogin">
+						<div ng-hide='user.username!=null'>
+							<a ng-href="#/login" style="color: #fff;text-decoration: none">登录 &nbsp;&nbsp;</a>
 						</div>
-					</li>
-				</ul>
+						<div ng-hide='user.username!=null' >
+							<a ng-href="#" class="reg-btn" style=""> 注册</a>
+						</div>
+						<!-- <li class="dropdown" ng-show='user.username!=null'>
+                            <a ng-href="" class="dropdown-toggle" data-toggle='dropdown'>
+                                {{user.username}}<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-left">
+                                <li><a ng-href="" ng-click='logout()'>退出</a></li>
+                            </ul>
+                        </li> -->
+						<div ng-show='user.username!=null' class="name username dropdown" mouse-show>
+							<p class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								<a ng-bind='user.username' class="username " ></a><span class="caret"></span>
+							</p>
+							<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+								<li role="presentation" >
+									<a ng-href="#/personalCenter" role="menuitem" tabindex="-1">个人中心</a>
+								</li>
+								<li role="presentation">
+									<a ng-href="#/adminCenter" role="menuitem" tabindex="-1" ng-show='user.is_admin==true'>用户管理</a>
+								</li>
+
+								<!--<li><a href="#">我的预测</a></li>
+								<li><a href="#">我的数据集</a></li>
+								<li><a href="#">我的分享</a></li>-->
+								<li role="separator" class="divider"></li>
+								<li><a ng-click='logout()'>退出</a></li>
+							</ul>
+						</div>
+						<!--<li ng-show='user.username!=null' class="name username" mouse-show>
+							<a ng-bind='user.username' class="username dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+								<li><a ng-href="#/adminCenter" ng-show='user.is_admin==true'>个人中心</a></li>
+								<li><a href="#">我的交易</a></li>
+								<li><a href="#">我的预测</a></li>
+								<li><a href="#">我的数据集</a></li>
+								<li><a href="#">我的分享</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a ng-click='logout()'>退出</a></li>
+							</ul>
+							&lt;!&ndash;<div class="list-group">
+								<a ng-href="#/adminCenter"  ng-show='user.is_admin==true' class="list-group-item"><i class='info-icon'></i><span>个人中心</span></a>
+								<a href="" ng-click='logout()' class="list-group-item"><i class="logout-icon"></i><span>退出</span></a>
+							</div>&ndash;&gt;
+						</li>-->
+					</div>
+				</div>
 				<a class=""  id="show_mobile">
 					<span class="bar"></span>
 					<span class="bar"></span>
@@ -75,9 +111,9 @@
 			</div>
 		</div>
 		<!--<div class="zijin-ngview" ng-view></div>-->
-		<div class="aside_container">
+		<!--<div class="aside_container">
 			<aside id="nav-sidebar" class="noprint" ng-show='user.username!=null'>
-				<!--	<i class='mobile-action visible-xs fa fa-lg fa-arrow-circle-right' mobile-action></i>-->
+				&lt;!&ndash;	<i class='mobile-action visible-xs fa fa-lg fa-arrow-circle-right' mobile-action></i>&ndash;&gt;
 
 
 				<ul class="userLogin username_mobile visible-xs">
@@ -87,14 +123,14 @@
 					<li ng-hide='user.username!=null'>
 						<a ng-href="#" class="reg-btn" style="color: #fff"> &nbsp;注册(暂未开放)</a>
 					</li>
-					<!-- <li class="dropdown" ng-show='user.username!=null'>
+					&lt;!&ndash; <li class="dropdown" ng-show='user.username!=null'>
                         <a ng-href="" class="dropdown-toggle" data-toggle='dropdown'>
                             {{user.username}}<span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-left">
                             <li><a ng-href="" ng-click='logout()'>退出</a></li>
                         </ul>
-                    </li> -->
+                    </li> &ndash;&gt;
 
 
 					<li ng-show='user.username!=null' class="name" mouse-show>
@@ -133,11 +169,11 @@
 								<i class="fa fa-th"></i> 模型智库
 							</a>
 						</li>
-						<!--<li>
+						&lt;!&ndash;<li>
                             <a>
                                 <i class="iconYCJ icon-earth-ycj"></i> 模型竞赛
                             </a>
-                        </li>-->
+                        </li>&ndash;&gt;
 						<li class="dropdown-submenu ">
 							<a>
 								<i class="fa fa-fire"></i> 紫金竞赛
@@ -155,11 +191,11 @@
 							</ul>
 						</li>
 						<li class="line_admin"  ng-show='user.is_admin==true'></li>
-						<!--	<li  ng-show='user.is_admin==true'>
+						&lt;!&ndash;	<li  ng-show='user.is_admin==true'>
                                 <a ng-href="#/adminCenter">
                                     <i class="glyphicon glyphicon-user"></i> 用户中心
                                 </a>
-                            </li>-->
+                            </li>&ndash;&gt;
 						<li  ng-show='user.is_admin==true'>
 							<a ng-click='hashLocation("/holdcompetition")'>
 								<i class="fa  fa-trophy" ></i> 举办竞赛
@@ -173,9 +209,51 @@
 					</ul>
 				</nav>
 			</aside>
-		</div>
+		</div>-->
 		<div class="zijin-ngview" ng-view></div>
 	</div>
+	<footer class="noprint">
+		<div class="container-fluid">
+			<div class='bill-footer row'>
+				<img src="images/footer_logo_3.png" alt="" class="visible-lg zijin-footer-logo">
+				<div class="col-sm-2 col-sm-offset-2 col-xs-6">
+					<div class="zijin-footer-itembox">
+						<p class="footer-text-head">关于</p>
+						<p><a href="">关于紫金量化</a></p>
+						<p><a ng-href="#/login">登录开发</a></p>
+						<p><a href="">联系我们</a></p>
+					</div>
+				</div>
+				<div class="col-sm-2 col-xs-6">
+					<div class="zijin-footer-itembox">
+						<p class="footer-text-head">数据</p>
+						<p><a href="">数据研究</a></p>
+						<p><a href="">金融期货数据</a></p>
+						<p><a href="">行业研究数据</a></p>
+					</div>
+				</div>
+				<div class="col-sm-2 col-xs-6">
+					<div class="zijin-footer-itembox">
+						<p class="footer-text-head">帮助</p>
+						<p><a ng-href='#/PlatformInfo'  ng-class="{active:natived=='#/introduce'}" >平台介绍</a></p>
+						<p><a href="">常见问题</a></p>
+					</div>
+				</div>
+
+				<div class="col-sm-2 col-xs-6">
+					<div class="zijin-footer-itembox">
+						<p class="footer-text-head">友情链接</p>
+						<p><a href="http://www.tuling.me">图灵科技集团</a></p>
+					</div>
+				</div>
+
+			</div>
+			<div class="copyright row">
+				<p>Copyright © 2017 图灵科技集团 , All Rights Reserved</p>
+				<p>隐私保护 图灵科技集团 版权所有 粤ICP备15034414号</p>
+			</div>
+		</div>
+	</footer>
 	<script src="lib/date/WdatePicker.js"></script>
 	<script src="http://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
 	<script src='js/jq-ease.js'></script>

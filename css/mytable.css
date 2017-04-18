@@ -1,7 +1,7 @@
 
 .zijin-table,.analyse,.zijin-index,.zijin-complie,.modalRes,.runCenter,.trueR,.admincenter,.algorithm,.dataset,.kernel,
-.algorithm_information,.dataset_information,.hold_competition,.create_data,.kernel_information{
-	padding: 4.5rem 0 0 10rem;
+.algorithm_information,.dataset_information,.hold_competition,.create_data,.kernel_information,.predict,.firmOffer,.personal_center{
+	padding: 4.5rem 0 0 0;
 }
 .zijin-table .zijin-table-body table td ,.zijin-table .zijin-table-body table th{
 	text-align: center;

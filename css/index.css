@@ -8,18 +8,24 @@ body, html {
 	-moz-osx-font-smoothing: grayscale;
 	height: 100%;
 	color:#555;
-	background-color: rgb(233, 237, 239);
+	/*background-color: rgb(233, 237, 239);*/
+	background-color: #F6F9FA;
 }
 a:focus,button:focus,input:focus{
 	outline: none;
+}
+
+.header{
+	display: flex;
+	justify-content: space-between;
 }
 /*新加的*/
 .main-navbar {
 	padding:0 2% 0 2%;
 	height: 4.5rem;
 	line-height: 4.5rem;
-	background-color: #262930;
-	border: 1px solid #262930;
+	background-color: rgba(0, 0, 0, 0.8);
+	border: 1px solid rgba(0, 0, 0, 0.8);
 	position: fixed;
 	z-index: 9999;
 	left: 0;
@@ -41,17 +47,20 @@ a:focus,button:focus,input:focus{
 	width: auto;
 	height: 100%;
 }
-.main-navbar .userLogin{
+/*.main-navbar .userLogin{
 	width: 180px;;
 	float: right;
+}*/
+.userLogin{
+	display: flex;
 }
-.main-navbar .userLogin li:nth-child(1){
+/*.main-navbar .userLogin li:nth-child(1){
 	float: left;
 
 }
 .main-navbar .userLogin li:nth-child(2){
 	float: left;
-}
+}*/
 .main-navbar .userLogin li.name{
 	float: right;
 }
@@ -64,15 +73,23 @@ a:focus,button:focus,input:focus{
 	font-size: 14px;
 	margin-left: 10px;
 }
-.main-navbar a.reg-btn:before {
+.reg-btn{
+	color: #fff;
+	background-color: #20BEFF;
+	padding: 10px 20px;
+	text-align: center;
+	border-radius: 4px;
+
+}
+/*.main-navbar a.reg-btn:before {
 	content: '|';
 	font-weight: bold;
 	color: #fff;
 	left: -15px;
-}
+}*/
 .zijin-ngview{
 	height: 100%;
-	background-color: rgb(233, 237, 239);
+	/*background-color: rgb(233, 237, 239);*/
 }
 
 .main-navbar .list-group{
@@ -156,7 +173,11 @@ a:focus,button:focus,input:focus{
 }
 .username{
 	color: #fff;
+	padding:0 10px;
+}
+.username:hover{
 
+	color: #fff;
 }
 /*.username:hover{
 	border-radius: 4px;
@@ -198,7 +219,7 @@ footer {
 	clear:both;
 	position:relative;
 	z-index:50;
-text-align: center;
+    text-align: center;
 	border-top: 2px solid #dcdcdc;
 }
 
@@ -263,9 +284,37 @@ footer .footer-text-head .glyphicon {
 	 margin-right: 20px;
 	 vertical-align: middle;
  }
-
 footer .footer-text-head span {
 	vertical-align: middle;
+}
+.menu{
+	display: flex;
+	color: #fff;
+
+	justify-content: space-between;
+}
+/*.menu li {*/
+	/*float: left;*/
+	/*color: #fff;*/
+	/*!*margin-left: 30px;*!*/
+/*}*/
+.menu li{
+	padding: 0 20px;
+}
+.menu li a{
+	color:#C4C9CD ;
+	font-size: 16px;
+}
+.menu li a:hover{
+	color: #fff;
+	font-weight: 700;
+}
+.menuacitve{
+	background-color: #000;
+
+}
+.menuacitve a{
+	color: #fff;
 }
 @media (max-width: 767px) {
 	.main-navbar .navbar-brand img {

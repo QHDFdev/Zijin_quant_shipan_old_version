@@ -86,7 +86,7 @@ ul li {
     text-decoration: none;
 }
 .arctice{
-    background-color: #F6F9FA;
+    /*background-color: #F6F9FA;*/
 }
 .banner_content{
     margin: 0;
@@ -171,6 +171,67 @@ ul li {
     position: relative;
     width: 100%;
 }
+.competition_content{
+    border-radius: 4px;
+    display: flex;
+    margin: 50px auto 40px  ;
+    position: relative;
+    width: 90%;
+    flex-flow: column nowrap;
+
+}
+.content_box_select{
+    width: 100%;
+    background-color: #eee;
+    min-height: 45px;
+    line-height: 45px;
+    margin-bottom: 20px;
+   /* width:100%;
+    display: flex;
+
+    background-color: #fff;
+    height: 170px;*/
+}
+
+.content_box_way{
+    display: flex;
+    /*cursor: pointer;
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    text-align: center;*/
+}
+.content_box_way li{
+    /*padding:15px;*/
+    width: 20%;
+    /*background-color: #fff;*/
+    /*margin-left: 10px;*/
+    text-align: center;
+    cursor: pointer;
+}
+.content_box_way .active{
+    background-color: #f2f5fa;
+    border-top:2px solid #20BEFF;
+    border-left: 1px solid #ddd;
+
+   /* background-color: #20BEFF;
+    color: #fff;*/
+}
+/*.content_box_way li:hover{
+    background-color: #20BEFF;
+    color: #fff;
+}*/
+.content_box_short{
+    width:100%;
+
+}
+.content_box_short .contentS{
+    width: 100%;
+}
+
+
+
+
 .content_box_titleBar{
     height: 50px;
     width: auto;
@@ -958,11 +1019,11 @@ ul li {
     border-top: none;
     position: relative;
 }
-.algorithm .active,.algorithm_information .active,.dataset_information .active,.kernel_information .active,.dataset .active,.kernel .active{
+/*.algorithm .active,.algorithm_information .active,.dataset_information .active,.kernel_information .active,.dataset .active,.kernel .active{
     font-weight: 700;
     border-bottom: 2px solid #2d78f5;
     color: #2d78f5;
-}
+}*/
 .tab-content>.active{
     border-bottom: none;
     color: #555;
@@ -1108,12 +1169,10 @@ ul li {
     color:#fff;
 }
 /*用户的下拉框*/
-.dropdown-menu{
-    min-width: 120px;
-}
+
 .dropdown-menu li a{
     font-size: 12px;
-    padding:5px 15px;
+    padding:8px 10px 8px 30px;
 }
 #dLabel{
     padding:10px;
@@ -1228,6 +1287,53 @@ ul li {
     border-radius: 4px;
     margin:10px 0;
 }
+
+
+.personal_center_container{
+    display: flex;
+    margin: 40px;
+    height: 500px;
+
+}
+.personal_center_left{
+    width: 25%;
+    background-color: #f0f0f2;
+
+}
+.personal_center_select ul li:hover{
+    background-color: #e6e7e6;
+    transition: all .3s;
+}
+
+.personal_center_left .active{
+    background-color: #fff;
+    border-left: 3px solid #20BEFF;
+}
+.personal_center_right{
+    width: 73%;
+    margin-left: 2%;
+    background-color: #fff;
+    padding: 30px;
+}
+
+.personal_center_name{
+    padding: 20px 35px;
+    width: 100%;
+    border-bottom: 1px dashed #d8d9da;
+}
+.personal_center_name div{
+    margin-top: 10px;
+}
+.personal_center_select ul li{
+    padding: 10px 35px;
+    cursor: pointer;
+}
+.admincenter_container{
+    margin:40px;
+}
+
+
+
 @media (max-width: 767px){
     .banner_details{
 
