@@ -21,12 +21,13 @@ a:focus,button:focus,input:focus{
 }
 /*新加的*/
 .main-navbar {
-	padding:0 2% 0 2%;
-	height: 4.5rem;
-	line-height: 4.5rem;
+
+	/*height: 4.5rem;
+	line-height: 4.5rem;*/
 	background-color: rgba(0, 0, 0, 0.8);
 	border: 1px solid rgba(0, 0, 0, 0.8);
 	position: fixed;
+	align-items: center;
 	z-index: 9999;
 	left: 0;
 	right: 0;
@@ -51,8 +52,13 @@ a:focus,button:focus,input:focus{
 	width: 180px;;
 	float: right;
 }*/
+.header_wrap{
+	max-width: 950px;
+	margin:0 auto;
+}
 .userLogin{
 	display: flex;
+	align-items: center;
 }
 /*.main-navbar .userLogin li:nth-child(1){
 	float: left;
@@ -290,6 +296,7 @@ footer .footer-text-head span {
 .menu{
 	display: flex;
 	color: #fff;
+	line-height: 45px;
 
 	justify-content: space-between;
 }
@@ -300,6 +307,8 @@ footer .footer-text-head span {
 /*}*/
 .menu li{
 	padding: 0 20px;
+	display: flex;
+	align-items: center;
 }
 .menu li a{
 	color:#C4C9CD ;
@@ -311,15 +320,20 @@ footer .footer-text-head span {
 }
 .menuacitve{
 	background-color: #000;
-
 }
 .menuacitve a{
 	color: #fff;
+}
+.mobile_wrap{
+	display: none;
 }
 @media (max-width: 767px) {
 	.main-navbar .navbar-brand img {
 		width: auto;
 		height: 80%;
+	}
+	.mobile{
+		display: none;
 	}
 	.username{
 		display: none;
@@ -332,6 +346,66 @@ footer .footer-text-head span {
 	}
 	.list-group-item span{
 		color: #000;
+	}
+	.mobile_wrap{
+		background-color: rgba(0,0,0,0.5);
+		position: fixed;
+		height: 100%;
+		width: 100%;
+		top:0;
+		left: 0;
+	}
+	.menu_mobile{
+		background-color:#fff;
+		height: 100%;
+		width: 75%;
+		position: absolute;
+		top:0;
+		left: 0;
+		padding: 20px;
+		box-shadow: 0 0 25px 0 rgba(0,0,0,.26);
+		min-width: 260px;
+		max-width: 320px;
+	}
+	.menu_mobile a{
+		color: #666;
+		font-size: 15px;
+		cursor: pointer;
+	}
+	.menu_mobile li{
+		padding: 5px ;
+	}
+	.menu_mobile li:hover{
+		background: #F0F0F0;
+	}
+	.menu_mobile_sign{
+		padding: 8px 15px;
+		background-color: #20BEFF	;
+		border-radius: 4px;
+		margin-left: 20px;
+	}
+	.menu_mobile_menu{
+		margin: 20px 0;
+	}
+	.menu_mobile_menu li{
+		margin-top: 15px;
+	}
+	.menu_mobile_close{
+		width: 40px;
+		height: 50px;
+		color: #fff;
+		position: absolute;
+		right: 0;
+		font-size: 30px;
+	}
+	.line{
+		border-top:1px solid #DEDFE0;
+	}
+	.menu_mobile_personal li{
+		margin-top: 15px;
+	}
+	.last{
+		line-height: 35px;
 	}
 
 }

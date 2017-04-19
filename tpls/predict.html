@@ -1,7 +1,7 @@
 <div class="predict">
     <div class="banner_content_view">
         <div class="banner">
-            <div class="banner_container">
+            <div class="banner_container" style="background:rgba(120,194,236,0.5);background-image:url(images/bgimg.png)">
                 <div class="banner_section">
                     <h1 class="banner_title">智能算法竞赛</h1>
                     <hr class="banner_divider"/>
@@ -72,13 +72,13 @@
                             </div>
                             <div>
                                 <div class="left">
-                                    <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
+                                    <span>预测代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
                                     <span class="span">作者：{{x.author}}</span>
                                     <span>交易产品：{{x.symbol}}</span>
-                                    <span class="span">交易手数：{{x.multiple}}</span>
+
                                 </div>
                                 <div class="right">
-                                    <p><span>策略得分：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
+                                    <p><span>算法得分：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
                                     <p><span>实盘累积收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
                                     <p><span>最新收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
                                 </div>
@@ -113,13 +113,13 @@
                             </div>
                             <div>
                                 <div class="left">
-                                    <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
+                                    <span>预测代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
                                     <span class="span">作者：{{x.author}}</span>
                                     <span>交易产品：{{x.symbol}}</span>
-                                    <span class="span">交易手数：{{x.multiple}}</span>
+
                                 </div>
                                 <div class="right">
-                                    <p><span>策略得分：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
+                                    <p><span>算法得分：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
                                     <p><span>实盘累积收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
                                     <p><span>最新收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
                                 </div>
@@ -135,7 +135,7 @@
                         <li >
                             <div>
                                 <div class="name">
-                                    <span class="run">3</span>
+                                    <span class="run">{{$index+1}}</span>
                                     <span>
                                     <a ng-mouseover="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
                                     <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
@@ -158,14 +158,15 @@
                             </div>
                             <div>
                                 <div class="left">
-                                    <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
+                                    <span>预测代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
                                     <span class="span">作者：{{x.author}}</span>
                                     <span>交易产品：{{x.symbol}}</span>
-                                    <span class="span">交易手数：{{x.multiple}}</span>
+
                                 </div>
                                 <div class="right">
-                                    <p><span>年化收益率：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
-                                    <p><span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
+                                    <p><span>算法得分：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
+                                    <p><span>实盘累积收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
+                                    <p><span>最新收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
                                 </div>
                             </div>
                             <div>
@@ -198,14 +199,15 @@
                             </div>
                             <div>
                                 <div class="left">
-                                    <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
+                                    <span>预测代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
                                     <span class="span">作者：{{x.author}}</span>
                                     <span>交易产品：{{x.symbol}}</span>
-                                    <span class="span">交易手数：{{x.multiple}}</span>
+
                                 </div>
                                 <div class="right">
-                                    <p><span>年化收益率：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
-                                    <p><span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
+                                    <p><span>算法得分：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
+                                    <p><span>实盘累积收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
+                                    <p><span>最新收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
                                 </div>
                             </div>
                             <div>
@@ -215,8 +217,6 @@
                     </ul>
                 </div>
             </div>
-
-
             <!--<div class="content_box_titleBar">
                 <div class="content_box_title">
                     <span class="content_all">13 个正在进行的比赛</span>

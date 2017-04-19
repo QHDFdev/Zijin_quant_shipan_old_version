@@ -139,17 +139,15 @@ ul li {
     padding-left: 0;
 }
 .banner_detail{
-    color: #B3B3B3;
+    color: #5d5d5d;
     font-family: 'Atlas Grotesk',sans-serif;
     text-align: center;
     width: 25%;
 }
 .banner_detail img{
     height: 9.375rem;
-
     width:  9.375rem;
     margin: 0 auto 25px;
-
 }
 .banner_detailContent{
     line-height: 1.4;
@@ -176,7 +174,7 @@ ul li {
     display: flex;
     margin: 50px auto 40px  ;
     position: relative;
-    width: 90%;
+    width: 100%;
     flex-flow: column nowrap;
 
 }
@@ -1024,6 +1022,11 @@ ul li {
     border-bottom: 2px solid #2d78f5;
     color: #2d78f5;
 }*/
+.kernel_information .active{
+    border-bottom: 2px solid #20BEFF;
+
+    font-weight: 700;
+}
 .tab-content>.active{
     border-bottom: none;
     color: #555;
@@ -1073,6 +1076,12 @@ ul li {
     font-size: 14px;
     border-left: 1px solid #ccc;
 }
+.edit:hover{
+    border-bottom:2px solid #2d78f5;
+    color: #2d78f5;
+    font-weight: 600;
+}
+
 .active_more_content{
     height: 700px;
     background-color: #fff;
@@ -1288,10 +1297,13 @@ ul li {
     margin:10px 0;
 }
 
-
+.personal_center_wrap{
+    max-width: 950px;
+    margin:0 auto;
+}
 .personal_center_container{
     display: flex;
-    margin: 40px;
+    margin: 40px auto;
     height: 500px;
 
 }
@@ -1328,16 +1340,32 @@ ul li {
     padding: 10px 35px;
     cursor: pointer;
 }
+.admincenter_wrap{
+    max-width: 950px;
+    margin: 0 auto;
+}
 .admincenter_container{
-    margin:40px;
+    margin: 40px auto 120px;
+    /* padding: 20px 20px 0; */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
+.admincenter_table{
+    padding: 20px 20px 0;
+    overflow-x: auto;
+}
+.admincenter_table table thead td{
+    font-weight: 500;
+    font-size: 15px;
+}
+.admincenter_name{
+    background: rgba(98,198,200,0.5);
+    padding: 13px 20px;
 
-
+}
 @media (max-width: 767px){
-    .banner_details{
-
-    }
     .content_box_selectGroup{
         width: 100%;
         display: flex;
@@ -1355,11 +1383,7 @@ ul li {
     .kernel_kinds{
         height:40px;
     }
-   /* .competition_card img {
-        margin-right: 20px;
-        height: 80px;
-        width: 80px;
-    }*/
+
     .hold_competition_content{
         width: 100%;
         margin: 40px auto;
@@ -1370,6 +1394,50 @@ ul li {
     }
     .hold_competition_content .form-control{
         width: 90%;
+    }
+    .content_box_way li{
+        width: 50%;
+    }
+    .personal_center_container{
+        display: block;
+    }
+    .personal_center_name{
+        display: flex;
+        padding: 15px ;
+        justify-content: space-between;
+    }
+    .personal_center_name div{
+        margin-top: 0;
+    }
+    .personal_center_select ul{
+        display: flex;
+    }
+    .personal_center_select ul li{
+        padding: 10px;
+    }
+    .personal_center_select ul li:hover{
+        background-color: #fff;
+    }
+    .personal_center_left{
+        width: 100%;
+    }
+    .personal_center_right{
+        width: 100%;
+        margin-left: 0;
+    }
+    .mobile_dataset{
+        display: flex;
+    }
+    .mobile_show a{
+        float: right;
+        margin-left: 5px;
+        padding: 6px 10px;
+        display: block;
+        background-color: #20BEFF;
+        border-radius:4px;
+    }
+    .mobile_show a i{
+        font-size: 18px;
     }
 
 }

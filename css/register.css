@@ -12,7 +12,7 @@
 }
 .zijin-login-register .zijin-reglog-box{
 	margin: 120px auto 0;
-	width: 400px;
+	max-width: 400px;
 }
 .zijin-login-register .zijin-reglog-box h1{
 	margin: 0;

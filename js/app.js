@@ -250,14 +250,13 @@
             $(this).addClass('active');
         })
         $("#show_mobile").click(function () {
-            var left = $("#nav-sidebar").css("left");
 
-            if(left === '-300px'){
-                $("#nav-sidebar").css("left","0")
-            }
-            else{
-                $("#nav-sidebar").css("left","-300px")
-            }
+            $(".mobile_wrap").show()
+        })
+
+        $(".menu_mobile_menu li,.menu_mobile_personal li,.menu_mobile_login,.menu_mobile_close").click(function () {
+
+            setTimeout($(".mobile_wrap").fadeOut(),90000)
         })
 
     }])
@@ -5543,7 +5542,7 @@
         if($cookieStore.get('user')!=null){
             $scope.username ="admin";
         }
-        console.log($cookieStore.get('user'))
+
         $scope.getOpen = function () {
             getModalResList.getList('model_quants').then(function (data) {
                 modalResObjList0 = [];
@@ -5613,7 +5612,7 @@
         $scope.getMet();
         $scope.getRobot();
         $scope.start = function (id) {
-            console.log("aaaaaa")
+
             $('.modalRes-new').hide();
             $('.modalRes-method').hide();
             $('.modalRes-exa').hide();
@@ -5626,7 +5625,7 @@
             $('.nav-item' + b).find('span').addClass('sanjiao').prev('.nav-title').addClass('active');
         }
         var a, b;
-        console.log(window.flag)
+
         switch (window.flag) {
             case 'model_quants':
                 a = 'new';

@@ -34,7 +34,7 @@
 <body ng-controller='homeController'>
 	<div class="zijin-main-wrapper">
 		<div class="main-navbar navbar-fixed-top noprint ">
-			<div class="container">
+			<div class="header_wrap">
 				<div class="header">
 					<ul>
 						<a ng-href="#" class="navbar-brand">
@@ -43,7 +43,7 @@
 						<a href="" style="display: block;width: 5rem;height: 4.5rem;background: url('images/beta3.png') no-repeat;background-size: 98%;margin: 0 0 0 2rem">
 						</a>
 					</ul>
-					<ul class="menu">
+					<ul class="menu mobile">
 						<li class="menuacitve"><a ng-click='hashLocation("/home")' >首页</a></li>
 						<li><a ng-click="hashLocation('/algorithm')">紫金量化竞赛</a></li>
 						<li><a ng-click="hashLocation('/predict')">智能算法竞赛</a></li>
@@ -51,7 +51,7 @@
 						<li><a ng-click="hashLocation('/firmOffer')">参与实盘</a></li>
 						<li><a ng-click="hashLocation('/quantmodelshare')">量化课堂</a></li>
 					</ul>
-					<div class="userLogin">
+					<div class="userLogin mobile">
 						<div ng-hide='user.username!=null'>
 							<a ng-href="#/login" style="color: #fff;text-decoration: none">登录 &nbsp;&nbsp;</a>
 						</div>
@@ -70,7 +70,7 @@
 							<p class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								<a ng-bind='user.username' class="username " ></a><span class="caret"></span>
 							</p>
-							<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+							<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="margin-top: 20px;">
 								<li role="presentation" >
 									<a ng-href="#/personalCenter" role="menuitem" tabindex="-1">个人中心</a>
 								</li>
@@ -108,6 +108,83 @@
 					<span class="bar"></span>
 					<span class="bar"></span>
 				</a>
+			</div>
+			<div class=" mobile_wrap">
+				<div class="menu_mobile">
+					<div class="menu_mobile_anonymous" >
+						<a class="menu_mobile_login" ng-href="#/login" ng-hide='user.username!=null'>登录</a>
+						<a class="menu_mobile_sign" ng-hide='user.username!=null'>注册</a>
+						<a ng-bind='user.username' class="" ng-show='user.username!=null'></a>
+					</div>
+
+					<ul class="menu_mobile_menu">
+						<li><a ng-click='hashLocation("/home")' >首页</a></li>
+						<li><a ng-click="hashLocation('/algorithm')">紫金量化竞赛</a></li>
+						<li><a ng-click="hashLocation('/predict')">智能算法竞赛</a></li>
+						<li><a ng-click="hashLocation('/dataset')">数据集研究</a></li>
+						<li><a ng-click="hashLocation('/firmOffer')">参与实盘</a></li>
+						<li><a ng-click="hashLocation('/quantmodelshare')">量化课堂</a></li>
+					</ul>
+					<ul class="menu_mobile_personal line"  ng-show='user.username!=null'>
+						<li><a ng-href="#/personalCenter" >个人中心</a></li>
+						<li ng-show='user.username=="admin"'><a ng-href="#/adminCenter" >用户管理</a></li>
+						<li class="line last" ng-click='logout()'>注销</li>
+					</ul>
+				</div>
+				<div class="menu_mobile_close">
+					<span class="fa fa-close"></span>
+				</div>
+				<!--<div class="userLogin">
+					<div ng-hide='user.username!=null'>
+						<a ng-href="#/login" style="color: #fff;text-decoration: none">登录 &nbsp;&nbsp;</a>
+					</div>
+					<div ng-hide='user.username!=null' >
+						<a ng-href="#" class="reg-btn" style=""> 注册</a>
+					</div>
+					&lt;!&ndash; <li class="dropdown" ng-show='user.username!=null'>
+                        <a ng-href="" class="dropdown-toggle" data-toggle='dropdown'>
+                            {{user.username}}<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li><a ng-href="" ng-click='logout()'>退出</a></li>
+                        </ul>
+                    </li> &ndash;&gt;
+					<div ng-show='user.username!=null' class="name username dropdown" mouse-show>
+						<p class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							<a ng-bind='user.username' class="username " ></a><span class="caret"></span>
+						</p>
+						<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="margin-top: 20px;">
+							<li role="presentation" >
+								<a ng-href="#/personalCenter" role="menuitem" tabindex="-1">个人中心</a>
+							</li>
+							<li role="presentation">
+								<a ng-href="#/adminCenter" role="menuitem" tabindex="-1" ng-show='user.is_admin==true'>用户管理</a>
+							</li>
+
+							&lt;!&ndash;<li><a href="#">我的预测</a></li>
+                            <li><a href="#">我的数据集</a></li>
+                            <li><a href="#">我的分享</a></li>&ndash;&gt;
+							<li role="separator" class="divider"></li>
+							<li><a ng-click='logout()'>退出</a></li>
+						</ul>
+					</div>
+					&lt;!&ndash;<li ng-show='user.username!=null' class="name username" mouse-show>
+                        <a ng-bind='user.username' class="username dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a ng-href="#/adminCenter" ng-show='user.is_admin==true'>个人中心</a></li>
+                            <li><a href="#">我的交易</a></li>
+                            <li><a href="#">我的预测</a></li>
+                            <li><a href="#">我的数据集</a></li>
+                            <li><a href="#">我的分享</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a ng-click='logout()'>退出</a></li>
+                        </ul>
+                        &lt;!&ndash;<div class="list-group">
+                            <a ng-href="#/adminCenter"  ng-show='user.is_admin==true' class="list-group-item"><i class='info-icon'></i><span>个人中心</span></a>
+                            <a href="" ng-click='logout()' class="list-group-item"><i class="logout-icon"></i><span>退出</span></a>
+                        </div>&ndash;&gt;
+                    </li>&ndash;&gt;
+				</div>-->
 			</div>
 		</div>
 		<!--<div class="zijin-ngview" ng-view></div>-->
