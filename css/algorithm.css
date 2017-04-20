@@ -1429,6 +1429,7 @@ ul li {
     letter-spacing: 3px;
     word-spacing: 5px;
     padding-left: 20px;
+    min-width: 800px;
 
 }
 .zijin_index_content{

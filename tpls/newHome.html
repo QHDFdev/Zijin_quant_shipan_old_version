@@ -9,7 +9,6 @@
 					<span class="light-font typed"></span>
 					<span class="light-font typed2"></span>
 					<span class="light-font typed3"></span>
-
 					<span class="cursor-blink">|</span>
 
 				</div>
@@ -147,12 +146,12 @@
               t.append(e.charAt(n)), n++ === i && (clearInterval(r), o())
           }, 100)
       }, o = function () {
-          var t = $(".typed2"), e = "Turing", n = 0, i = e.length, o = null;
+          var t = $(".typed2"), e = "Turing.AI", n = 0, i = e.length, o = null;
           t.text(""), o = setInterval(function () {
               t.append(e.charAt(n)), n++ === i && (clearInterval(o), t[0].style.color = "#415CAA", r())
           }, 100)
       }, r = function () {
-          var e = $(".typed3"), n = ".AI import FinTech, BigDataIndex", i = 0, o = n.length, r = null;
+          var e = $(".typed3"), n = "import FinTech, BigDataIndex", i = 0, o = n.length, r = null;
           e.text(""), r = setInterval(function () {
               " " == n.charAt(i) ? t = 1e3 : t = 80, e.append(n.charAt(i)), i++ === o && clearInterval(r)
           }, " " == n.charAt(i) ? 1e5 : 80)
