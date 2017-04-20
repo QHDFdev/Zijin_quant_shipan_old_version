@@ -1400,7 +1400,8 @@ ul li {
 }
 .header-bg{
     margin: 100px auto;
-    height: 400px
+    height: 400px;
+    position: relative;
 }
 .banner_content_home{
     width: 100%;
