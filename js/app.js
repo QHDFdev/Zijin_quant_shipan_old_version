@@ -89,7 +89,7 @@
             .when('/strategyruncenter', {
                 templateUrl: 'tpls/runCenter.html'
             })
-            .when('/algorithm', {
+            .when('/quant_contest', {
                 templateUrl: 'tpls/algorithm.html'
             })
             .when('/dataset', {
@@ -115,12 +115,11 @@
             })
             .when('/kernelInformation', {
                 templateUrl: 'tpls/kernelInformation.html'
-
             })
             .when('/kernelmine', {
                 templateUrl: 'tpls/kernelmine.html'
             })
-            .when('/predict', {
+            .when('/ai_contest', {
                 templateUrl: 'tpls/predict.html'
             })
             .when('/firmOffer', {
@@ -133,7 +132,7 @@
                 redirectTo: '/home'
             });
         hljsServiceProvider.setOptions({
-            tabReplace: '    '
+            tabReplace: '  '
         });
     }])
     .run(['$rootScope', '$location', '$window', '$route', '$templateCache', function ($rootScope, $location, $window, $route, $templateCache) {

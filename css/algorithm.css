@@ -102,7 +102,7 @@ ul li {
     flex-direction: column;
 }
 .banner_container{
-    background: #3D4045;
+    /*background: #3D4045;*/
     border-top: 1px solid #38393C;
     color: #FFF;
 }
@@ -119,6 +119,8 @@ ul li {
     margin: 0 0 30px;
     text-align: center;
     font-size: 1.8rem;
+    color: #ea9969;
+
 }
 .banner_divider{
     border: 0;
@@ -164,19 +166,20 @@ ul li {
     border-radius: 4px;
     display: flex;
     flex-flow: column wrap;
-    margin: 50px 0 40px 0;
+    margin: 50px 0 0 0;
     min-height: 50px;
     position: relative;
     width: 100%;
+    bottom: 40px;
 }
 .competition_content{
     border-radius: 4px;
     display: flex;
-    margin: 50px auto 40px  ;
+    margin: 50px auto 0;
     position: relative;
     width: 100%;
     flex-flow: column nowrap;
-
+    padding-bottom: 40px;
 }
 .content_box_select{
     width: 100%;
@@ -1364,6 +1367,118 @@ ul li {
     background: rgba(98,198,200,0.5);
     padding: 13px 20px;
 
+}
+/*.zijin-index{
+    background-image: linear-gradient(0deg,#1d1934,#1d122b,#111934,#1d122b,#1d1934,#1d122b,#111934,#1d122b,#1d1934);
+    background-size: 100% 400%;
+    height: 900px;
+    !*position: fixed;*!
+    left: 0;
+    opacity: 1;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+}*/
+.zijin-index{
+    position: relative;
+}
+.zijin_index_bg{
+    background-image: linear-gradient(0deg,#1d1934,#1d122b,#111934,#1d122b,#1d1934,#1d122b,#111934,#1d122b,#1d1934);
+    background-size: 100% 400%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    opacity: 1;
+    top: 0;
+    width: 100%;
+}
+.zijin_index_banner{
+    text-align: center;
+    height: 774px;
+    width: 100%;
+    top: 0;
+}
+.header-bg{
+    margin: 100px auto;
+    height: 400px
+}
+.banner_content_home{
+    width: 100%;
+    /*text-align: center;*/
+    /*padding: 0 50px;*/
+    /*top: 50%;*/
+    margin-top: -80px;
+}
+.banner_content_inner{
+    position: relative;
+    margin: 0 auto;
+    max-width: 1000px;
+    display: inline-block;
+    text-align: left;
+}
+.banner_name{
+    color: #fff;
+    font-weight: 700;
+    font-size: 40px;
+}
+.banner_sub{
+    color: #fff;
+    margin: 18px 20px 0 0;
+    font-weight: 400;
+    font-size: 20px;
+    letter-spacing: 3px;
+    word-spacing: 5px;
+    padding-left: 20px;
+
+}
+.zijin_index_content{
+    max-width: 950px;
+    margin:500px auto;
+    height: 500px;
+    border-radius: 4px;
+    background-color: #fff;
+}
+.cursor-blink{
+    animation: b .7s infinite ease-in;
+}
+.contact-us-section{
+    color: #fff;
+    position: relative;
+}
+.product-section{
+    margin: 50px 0;
+    background-color: #fff;
+    border: 2px solid #fff;
+    border-radius: 10px;
+}
+#cases-anchor, #partners-anchor, #scenario-anchor, #team-anchor, #technology-anchor{
+    margin: 42px;
+    margin-bottom: 0;
+}
+.title{
+    margin-top: 50px;
+    height: 24px;
+    font-size: 24px;
+    font-weight: 300;
+    color: #4a4a4a;
+}
+.is-grey{
+    background-color: #f5f5f5;
+}
+.scenario-row{
+    width: 100%;
+    margin: 0;
+}
+.firmOffer{
+    min-height: 600px;
+}
+@keyframes b {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
 }
 @media (max-width: 767px){
     .content_box_selectGroup{
