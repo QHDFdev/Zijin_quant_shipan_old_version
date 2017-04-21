@@ -312,7 +312,7 @@
             $scope.mySourcingStrategy = strategyList[page];
             for (var i = 0; i < $scope.mySourcingStrategy.length; i++) {
                 var status = $scope.mySourcingStrategy[i].status;
-                if (status == -1) {
+                if (status === -1) {
                     $scope.mySourcingStrategy[i].color = "error";
                     $scope.mySourcingStrategy[i].status = "错误";
                     $scope.mySourcingStrategy[i].title = $scope.mySourcingStrategy[i].error;
@@ -348,7 +348,6 @@
                         strategyList[count]=list;
                         count1.push({
                             'page':count,
-
                         })
                         count++;
                     }
@@ -5378,10 +5377,10 @@
 
     }])
     .controller('quantController',['$scope','$http','newConstantUrl','$cookieStore','$filter',function ($scope,$http,newConstantUrl,$cookieStore,$filter) {
-        var strategys=[],codeName=[]
+        var strategy=[],codeName=[]
 
         $scope.getStrategysCode = function () {
-            $http.get(newConstantUrl + "scripts" ,{
+            $http.get(newConstantUrl + "scripts/" ,{
                 headers:{
                     'Authorization':'token ' + $cookieStore.get('user').token
                 }
@@ -5410,15 +5409,15 @@
                     angular.forEach(data,function (item,index) {
                         if(item.mode === 'realtime'){
                             item.datetime = $filter("date")(item.datetime, "yyyy-MM-dd HH:mm:ss");
-
-                            item.code_name = getCodeName(item.script_id)
-                            strategys.push(item)
+                            item.code_name = getCodeName(item.script_id);
+                            strategy.push(item)
                         }
                     })
-
-                    $scope.strategys = strategys
+                    $scope.strategys = strategy;
+                    console.log($scope.strategys)
                 })
         }
+
 
 
     }])

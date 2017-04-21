@@ -1,4 +1,4 @@
-<div class="algorithm" style="background:rgba(98,198,200,0.5);background-image:url(images/bgimg.png)">
+<div class="algorithm" style="background:rgba(98,198,200,0.5);background-image:url(images/bgimg.png)" ng-controller="quantController">
     <div class="banner_content">
         <div class="banner_content_view">
             <div class="banner">
@@ -62,9 +62,9 @@
                                     <span class="span">交易手数：{{x.multiple}}</span>
                                 </div>
                                 <div class="right">
-                                    <p><span>策略得分：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
+                                    <!--<p><span>策略得分：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
                                     <p><span>实盘累积收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
-                                    <p><span>最新收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
+                                    <p><span>最新收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>-->
                                 </div>
                             </div>
                             <div>
@@ -76,37 +76,34 @@
                 </div>
                 <div class="tab-pane" role="tabpanel"  id="update" >
                     <ul class="contentS">
-                        <ul class="contentS">
-                            <li ng-repeat="x in strategys">
-                                <div>
-                                    <div class="name">
-                                        <span class="run">{{$index+1}}</span>
-                                        <span>
+                        <li ng-repeat="x in strategys">
+                            <div>
+                                <div class="name">
+                                    <span class="run">{{$index+1}}</span>
+                                    <span>
                                     <a ng-mouseover="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
                                     <em style="font-size: 0.9rem">(创建时间：{{x.datetime}})</em>
                                 </span>
-                                    </div>
+                                </div>
 
+                            </div>
+                            <div>
+                                <div class="left">
+                                    <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
+                                    <span class="span">作者：{{x.username}}</span>
+                                    <span>交易产品：{{x.symbol}}</span>
+                                    <span class="span">交易手数：{{x.multiple}}</span>
                                 </div>
-                                <div>
-                                    <div class="left">
-                                        <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                                        <span class="span">作者：{{x.username}}</span>
-                                        <span>交易产品：{{x.symbol}}</span>
-                                        <span class="span">交易手数：{{x.multiple}}</span>
-                                    </div>
-                                    <div class="right">
-                                        <p><span>策略得分：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
-                                        <p><span>实盘累积收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
-                                        <p><span>最新收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
-                                    </div>
+                                <div class="right">
+                                    <!--<p><span>策略得分：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>-->
+                                    <!--<p><span>实盘累积收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>-->
+                                    <!--<p><span>最新收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>-->
                                 </div>
-                                <div>
-                                    <a class="more" data-toggle="modal" data-target="#moreDetail">详情</a>
-                                </div>
-                            </li>
-
-                        </ul>
+                            </div>
+                            <div>
+                                <a class="more" data-toggle="modal" data-target="#moreDetail">详情</a>
+                            </div>
+                        </li>
 
                     </ul>
                 </div>
