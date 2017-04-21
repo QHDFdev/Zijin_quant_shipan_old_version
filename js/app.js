@@ -90,7 +90,8 @@
                 templateUrl: 'tpls/runCenter.html'
             })
             .when('/quant_contest', {
-                templateUrl: 'tpls/algorithm.html'
+                templateUrl: 'tpls/algorithm.html',
+                controller:'quantController'
             })
             .when('/dataset', {
                 templateUrl: 'tpls/dataset.html'
@@ -120,7 +121,7 @@
                 templateUrl: 'tpls/kernelmine.html'
             })
             .when('/ai_contest', {
-                templateUrl: 'tpls/predict.html'
+                templateUrl: 'tpls/predict.html',
             })
             .when('/firmOffer', {
                 templateUrl: 'tpls/firmOffer.html'
@@ -153,6 +154,7 @@
 
     }])
     .constant('constantUrl', 'http://114.55.238.82:81/')
+    .constant('newConstantUrl','http://120.27.140.211/api/')
     .value('strategysValue', {
         "id": 123,
         "author": 'abc'
@@ -1391,11 +1393,11 @@
         });
 
     }])
-    .controller('userController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', 'myStrategysValue', '$q', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, myStrategysValue, $q) {
+    .controller('userController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', 'myStrategysValue', '$q', 'newConstantUrl',function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, myStrategysValue, $q,newConstantUrl) {
         window.b=0;
         window.c=0;
         $scope.adduser = function () {
-            $http.post(constantUrl + 'users/', $scope.user)
+            $http.post(newConstantUrl + 'users/', $scope.user)
                 .success(function (data) {
                     Showbo.Msg.alert('注册成功');
                     $location.path('/login');
@@ -1408,7 +1410,7 @@
         $scope.userlogin = function () {
             function loginStep1() {
                 var defer = $q.defer();
-                $http.post(constantUrl + 'api-token-auth/', $scope.user)
+                $http.post(newConstantUrl + 'api-token-auth/', $scope.user)
                     .success(function (data) {
                         defer.resolve(data);
                     })
@@ -1422,7 +1424,7 @@
             var token = '';
             loginStep1().then(function (data) {
                 token = data.token;
-                $http.get(constantUrl + 'users/' + username + '/', {
+                $http.get(newConstantUrl + 'users/' + username + '/', {
                     headers: {
                         'Authorization': 'token ' + token
                     }
@@ -1461,8 +1463,6 @@
         if($rootScope.user.username !=null){
             $("#nav-sidebar").show();
             // $("#show_mobile").show();
-
-
         }
         var falsedata = [], truedata = [],delTrust=[],delFirm=[],accounts=[],nianHuaList = [];
         //策略代码渲染到页面
@@ -5374,6 +5374,51 @@
             });
         }
 
+
+
+    }])
+    .controller('quantController',['$scope','$http','newConstantUrl','$cookieStore','$filter',function ($scope,$http,newConstantUrl,$cookieStore,$filter) {
+        var strategys=[],codeName=[]
+
+        $scope.getStrategysCode = function () {
+            $http.get(newConstantUrl + "scripts" ,{
+                headers:{
+                    'Authorization':'token ' + $cookieStore.get('user').token
+                }
+            })
+                .success(function (data) {
+                    codeName = data;
+                    $scope.getStrategys()
+                })
+        }
+        $scope.getStrategysCode()
+
+        function getCodeName(id) {
+            for(var i=0;i<codeName.length;i++){
+                if(codeName[i].id === id){
+                    return codeName[i].name;
+                }
+            }
+        }
+        $scope.getStrategys = function () {
+            $http.get( newConstantUrl + "strategys/",{
+                headers:{
+                    'Authorization':'token ' + $cookieStore.get('user').token
+                }
+            })
+                .success(function (data) {
+                    angular.forEach(data,function (item,index) {
+                        if(item.mode === 'realtime'){
+                            item.datetime = $filter("date")(item.datetime, "yyyy-MM-dd HH:mm:ss");
+
+                            item.code_name = getCodeName(item.script_id)
+                            strategys.push(item)
+                        }
+                    })
+
+                    $scope.strategys = strategys
+                })
+        }
 
 
     }])

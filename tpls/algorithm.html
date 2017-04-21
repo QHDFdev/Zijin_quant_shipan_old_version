@@ -43,34 +43,21 @@
             <div class="content_box_short tab-content" id="tab-content">
                 <div class="tab-pane active" role="tabpanel"  id="score" >
                     <ul class="contentS">
-                        <li >
+                        <li ng-repeat="x in strategys">
                             <div>
                                 <div class="name">
                                     <span class="run">{{$index+1}}</span>
                                     <span>
                                     <a ng-mouseover="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
-                                    <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
+                                    <em style="font-size: 0.9rem">(创建时间：{{x.datetime}})</em>
                                 </span>
                                 </div>
-                                <div class="drawEach">
-                                    <div class={{x._id}}>
-                                        <div class="loadEffect">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                             <div>
                                 <div class="left">
                                     <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                                    <span class="span">作者：{{x.author}}</span>
+                                    <span class="span">作者：{{x.username}}</span>
                                     <span>交易产品：{{x.symbol}}</span>
                                     <span class="span">交易手数：{{x.multiple}}</span>
                                 </div>
@@ -81,135 +68,72 @@
                                 </div>
                             </div>
                             <div>
-                                <a class="more" ng-click="jump('SimRealTimeTrade',x._id)">详情</a>
+                                <a class="more" data-toggle="modal" data-target="#moreDetail">详情</a>
                             </div>
                         </li>
-                        <li >
-                            <div>
-                                <div class="name">
-                                    <span class="run">{{$index+1}}</span>
-                                    <span>
-                                    <a ng-mouseover="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
-                                    <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
-                                </span>
-                                </div>
-                                <div class="drawEach">
-                                    <div class={{x._id}}>
-                                        <div class="loadEffect">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="left">
-                                    <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                                    <span class="span">作者：{{x.author}}</span>
-                                    <span>交易产品：{{x.symbol}}</span>
-                                    <span class="span">交易手数：{{x.multiple}}</span>
-                                </div>
-                                <div class="right">
-                                    <p><span>策略得分：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
-                                    <p><span>实盘累积收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
-                                    <p><span>最新收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
-                                </div>
-                            </div>
-                            <div>
-                                <a class="more" ng-click="jump('SimRealTimeTrade',x._id)">详情</a>
-                            </div>
-                        </li>
+
                     </ul>
                 </div>
                 <div class="tab-pane" role="tabpanel"  id="update" >
                     <ul class="contentS">
-                        <li >
-                            <div>
-                                <div class="name">
-                                    <span class="run">3</span>
-                                    <span>
+                        <ul class="contentS">
+                            <li ng-repeat="x in strategys">
+                                <div>
+                                    <div class="name">
+                                        <span class="run">{{$index+1}}</span>
+                                        <span>
                                     <a ng-mouseover="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
-                                    <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
+                                    <em style="font-size: 0.9rem">(创建时间：{{x.datetime}})</em>
                                 </span>
+                                    </div>
+
                                 </div>
-                                <div class="drawEach">
-                                    <div class={{x._id}}>
-                                        <div class="loadEffect">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
+                                <div>
+                                    <div class="left">
+                                        <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
+                                        <span class="span">作者：{{x.username}}</span>
+                                        <span>交易产品：{{x.symbol}}</span>
+                                        <span class="span">交易手数：{{x.multiple}}</span>
+                                    </div>
+                                    <div class="right">
+                                        <p><span>策略得分：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
+                                        <p><span>实盘累积收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
+                                        <p><span>最新收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
                                     </div>
                                 </div>
-                            </div>
-                            <div>
-                                <div class="left">
-                                    <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                                    <span class="span">作者：{{x.author}}</span>
-                                    <span>交易产品：{{x.symbol}}</span>
-                                    <span class="span">交易手数：{{x.multiple}}</span>
+                                <div>
+                                    <a class="more" data-toggle="modal" data-target="#moreDetail">详情</a>
                                 </div>
-                                <div class="right">
-                                    <p><span>年化收益率：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
-                                    <p><span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
-                                </div>
-                            </div>
-                            <div>
-                                <a class="more" ng-click="jump('SimRealTimeTrade',x._id)">详情</a>
-                            </div>
-                        </li>
-                        <li >
-                            <div>
-                                <div class="name">
-                                    <span class="run">{{$index+1}}</span>
-                                    <span>
-                                    <a ng-mouseover="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
-                                    <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
-                                </span>
-                                </div>
-                                <div class="drawEach">
-                                    <div class={{x._id}}>
-                                        <div class="loadEffect">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="left">
-                                    <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                                    <span class="span">作者：{{x.author}}</span>
-                                    <span>交易产品：{{x.symbol}}</span>
-                                    <span class="span">交易手数：{{x.multiple}}</span>
-                                </div>
-                                <div class="right">
-                                    <p><span>年化收益率：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
-                                    <p><span>交易胜率：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
-                                </div>
-                            </div>
-                            <div>
-                                <a class="more" ng-click="jump('SimRealTimeTrade',x._id)">详情</a>
-                            </div>
-                        </li>
+                            </li>
+
+                        </ul>
+
                     </ul>
+                </div>
+            </div>
+            <div class="modal fade" id="moreDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4>策略评分项</h4>
+                        </div>
+                        <div class="modal-body">
+                            <ul>
+                                <li>总收益率：</li>
+                                <li>平均收益率：</li>
+                                <li>年化收益率：</li>
+                                <li>交易胜率：</li>
+                                <li>盈亏比：</li>
+                                <li>最大回撤：</li>
+                                <li>信息比率：</li>
+                                <li>收益波动率：</li>
+                                <li>平均持仓时间：</li>
+                                <li>交易方向胜率：</li>
+                            </ul>
+
+                        </div>
+                    </div>
                 </div>
             </div>
 
