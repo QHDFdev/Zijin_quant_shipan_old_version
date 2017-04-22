@@ -1,4 +1,4 @@
-<div class="predict" style="background:rgba(120,194,236,0.5);background-image:url(images/bgimg.png)">
+<div class="predict" style="background:rgba(120,194,236,0.5);background-image:url(images/bgimg.png)"  id="top">
     <div class="banner_content_view">
         <div class="banner">
             <div class="banner_container" >
@@ -46,34 +46,20 @@
             <div class="content_box_short tab-content" id="tab-content">
                 <div class="tab-pane active" role="tabpanel"  id="score" >
                     <ul class="contentS">
-                        <li >
+                        <li ng-repeat="x in strategys">
                             <div>
                                 <div class="name">
-                                    <span class="run">{{$index+1}}</span>
+                                    <span class="run">{{page*10+$index+1}}</span>
                                     <span>
-                                    <a ng-mouseover="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
-                                    <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
-                                </span>
-                                </div>
-                                <div class="drawEach">
-                                    <div class={{x._id}}>
-                                        <div class="loadEffect">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
-                                    </div>
+                                         <a>{{x.name}}</a>
+                                         <em style="font-size: 0.9rem">(交易时间：{{x.trade_time}})</em>
+                                     </span>
                                 </div>
                             </div>
                             <div>
                                 <div class="left">
                                     <span>预测代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                                    <span class="span">作者：{{x.author}}</span>
+                                    <span class="span">作者：{{x.username}}</span>
                                     <span>交易产品：{{x.symbol}}</span>
 
                                 </div>
@@ -83,83 +69,54 @@
                                     <p><span>最新收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
                                 </div>
                             </div>
-                            <div>
-                                <a class="more" ng-click="jump('SimRealTimeTrade',x._id)">详情</a>
+                            <div style="position: relative">
+                                <a class="dropdown-toggle more" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">详情</a>
+                                <ul class="dropdown-menu pull-right more_detail" aria-labelledby="dropdownMenu1" style="position: absolute;width: 35%; margin-top: -3px;">
+                                    <!--  <li role="presentation">
+                                          <a  role="menuitem" tabindex="-1" ng-show='user.is_admin==true'>平均收益率：</a>
+                                      </li>-->
+                                    <div style="padding: 10px;">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">总收益率得分：</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">平均收益率得分：</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">年化收益率得分：</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">交易胜率得分：</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">盈亏比得分：</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">收益波动率得分：</a></li>
+
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">最大回撤得分：</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">信息比率得分：</a></li>
+
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">平均持仓时间得分：</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">交易方向胜率得分：</a></li>
+                                    </div>
+                                </ul>
+
                             </div>
                         </li>
-                        <li >
-                            <div>
-                                <div class="name">
-                                    <span class="run">{{$index+1}}</span>
-                                    <span>
-                                    <a ng-mouseover="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
-                                    <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
-                                </span>
-                                </div>
-                                <div class="drawEach">
-                                    <div class={{x._id}}>
-                                        <div class="loadEffect">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="left">
-                                    <span>预测代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                                    <span class="span">作者：{{x.author}}</span>
-                                    <span>交易产品：{{x.symbol}}</span>
 
-                                </div>
-                                <div class="right">
-                                    <p><span>算法得分：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
-                                    <p><span>实盘累积收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
-                                    <p><span>最新收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
-                                </div>
-                            </div>
-                            <div>
-                                <a class="more" ng-click="jump('SimRealTimeTrade',x._id)">详情</a>
-                            </div>
+                    </ul>
+                    <ul class="pagination pagination-md" id="trustPage" style="float: right;margin:20px 0 30px">
+                        <li ng-repeat="x in count" ng-class="{active:x.page == page}">
+                            <a ng-click="putScreen(x.page)">{{$index+1}}</a>
                         </li>
                     </ul>
                 </div>
                 <div class="tab-pane" role="tabpanel"  id="update" >
                     <ul class="contentS">
-                        <li >
+                        <li ng-repeat="x in strategys">
                             <div>
                                 <div class="name">
-                                    <span class="run">{{$index+1}}</span>
+                                    <span class="run">{{page*10+$index+1}}</span>
                                     <span>
-                                    <a ng-mouseover="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
-                                    <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
-                                </span>
-                                </div>
-                                <div class="drawEach">
-                                    <div class={{x._id}}>
-                                        <div class="loadEffect">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
-                                    </div>
+                                         <a>{{x.name}}</a>
+                                         <em style="font-size: 0.9rem">(交易时间：{{x.trade_time}})</em>
+                                     </span>
                                 </div>
                             </div>
                             <div>
                                 <div class="left">
                                     <span>预测代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                                    <span class="span">作者：{{x.author}}</span>
+                                    <span class="span">作者：{{x.username}}</span>
                                     <span>交易产品：{{x.symbol}}</span>
 
                                 </div>
@@ -169,51 +126,31 @@
                                     <p><span>最新收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
                                 </div>
                             </div>
-                            <div>
-                                <a class="more" ng-click="jump('SimRealTimeTrade',x._id)">详情</a>
-                            </div>
-                        </li>
-                        <li >
-                            <div>
-                                <div class="name">
-                                    <span class="run">{{$index+1}}</span>
-                                    <span>
-                                    <a ng-mouseover="drawEach(x,false)" ng-mouseleave="over1(x._id)">{{x.name}}</a>
-                                    <em style="font-size: 0.9rem">(交易时间：{{x.time}})</em>
-                                </span>
-                                </div>
-                                <div class="drawEach">
-                                    <div class={{x._id}}>
-                                        <div class="loadEffect">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="left">
-                                    <span>预测代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                                    <span class="span">作者：{{x.author}}</span>
-                                    <span>交易产品：{{x.symbol}}</span>
+                            <div style="position: relative">
+                                <a class="dropdown-toggle more" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">详情</a>
+                                <ul class="dropdown-menu pull-right more_detail" aria-labelledby="dropdownMenu1" style="position: absolute;width: 35%; margin-top: -3px;">
+                                    <!--  <li role="presentation">
+                                          <a  role="menuitem" tabindex="-1" ng-show='user.is_admin==true'>平均收益率：</a>
+                                      </li>-->
+                                    <div style="padding: 10px;">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">总收益率得分：</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">平均收益率得分：</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">年化收益率得分：</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">交易胜率得分：</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">盈亏比得分：</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">收益波动率得分：</a></li>
 
-                                </div>
-                                <div class="right">
-                                    <p><span>算法得分：<e class={{x.yeildColor}}>{{x.yeild}}%</e></span><i class={{x.y}}></i></p>
-                                    <p><span>实盘累积收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
-                                    <p><span>最新收益：<e class={{x.yeildColor1}}>{{x.average_winrate}}% </e></span><i class="{{x.y1}}"></i></p>
-                                </div>
-                            </div>
-                            <div>
-                                <a class="more" ng-click="jump('SimRealTimeTrade',x._id)">详情</a>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">最大回撤得分：</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">信息比率得分：</a></li>
+
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">平均持仓时间得分：</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1">交易方向胜率得分：</a></li>
+                                    </div>
+                                </ul>
+
                             </div>
                         </li>
+
                     </ul>
                 </div>
             </div>

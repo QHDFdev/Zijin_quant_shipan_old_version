@@ -122,6 +122,7 @@
             })
             .when('/ai_contest', {
                 templateUrl: 'tpls/predict.html',
+                controller:'quantController'
             })
             .when('/firmOffer', {
                 templateUrl: 'tpls/firmOffer.html'
@@ -1506,7 +1507,6 @@
         judge();
         //操作
         function deal(data1,flag,need){
-
             var defer1 = $q.defer();
             if(data1.length==0){
                 defer1.resolve(data1);
@@ -5376,9 +5376,12 @@
 
 
     }])
-    .controller('quantController',['$scope','$http','newConstantUrl','$cookieStore','$filter',function ($scope,$http,newConstantUrl,$cookieStore,$filter) {
-        var strategy=[],codeName=[]
+    .controller('quantController',['$scope','$http','newConstantUrl','$cookieStore','$filter','$location','$timeout',function ($scope,$http,newConstantUrl,$cookieStore,$filter,$location,$timeout) {
 
+        var strategy=[],codeName=[],strategyList=[],tradeTimeList=[],tradeTime=[];
+
+
+        var url = $location.url();
         $scope.getStrategysCode = function () {
             $http.get(newConstantUrl + "scripts/" ,{
                 headers:{
@@ -5407,17 +5410,231 @@
             })
                 .success(function (data) {
                     angular.forEach(data,function (item,index) {
-                        if(item.mode === 'realtime'){
-                            item.datetime = $filter("date")(item.datetime, "yyyy-MM-dd HH:mm:ss");
-                            item.code_name = getCodeName(item.script_id);
-                            strategy.push(item)
+                        if(url === '/quant_contest'){
+                            if(item.mode === 'realtime'&&item.script_mode ==='trade'&&item.status === 2){
+                                item.datetime = $filter("date")(item.datetime, "yyyy-MM-dd HH:mm:ss");
+                                item.code_name = getCodeName(item.script_id);
+                                strategy.push(item)
+                            }
+                        }
+                        else if(url === '/ai_contest'){
+                            if(item.mode === 'realtime' && item.script_mode === 'predict' && item.status === 2){
+                                item.datetime = $filter("date")(item.datetime, "yyyy-MM-dd HH:mm:ss");
+                                item.code_name = getCodeName(item.script_id);
+                                strategy.push(item)
+                            }
                         }
                     })
-                    $scope.strategys = strategy;
-                    console.log($scope.strategys)
+                    $scope.time = "2017-04-22"
+                    $scope.changeTime=function () {
+                        $scope.strategys = deal(strategy);
+                    }
+                    $scope.changeTime()
+
+
+                   /* var count=0,count1=[];
+                    for(var i=0;i<strategy.length;i=i+10){
+                        var list=[];
+                        for(var j=0;(i+j)<strategy.length&&j<10;j++){
+                            list.push(strategy[i+j])
+                        }
+                        strategyList[count] = list;
+                        count1.push({
+                            'page':count
+                        })
+                        count++;
+                    }
+                    $scope.count = count1;
+                    $scope.putScreen(0);*/
                 })
         }
 
+       /* $scope.putScreen = function (page) {
+            $scope.page=page;
+            $scope.strategys = [];
+            $scope.strategys = deal(strategyList[page]);
+            $("html, body").animate({
+                scrollTop: $("#top").offset().top
+            },
+                {
+                    duration: 500,easing: "swing"
+                }
+                );
+        }*/
+
+        function deal(newData){
+            getTime(0);
+            function getTime(i) {
+                $http.get( newConstantUrl + "strategy_datas/",{
+                        params:{
+                            "type":'trade_date',
+                            "strategy_id":newData[i].id
+                        },
+                        headers:{
+                            'Authorization': 'token ' + $cookieStore.get('user').token
+                        }
+                    })
+                    .success(function (data) {
+                        for(var m=0;m<data.length;m++){
+                            data[m] = $filter("date")(data[m], "yyyy-MM-dd")
+                            tradeTime.push({
+                                'time':data[m]
+                            })
+                        }
+                        var time = data[data.length - 1];
+
+                        if(tradeTimeList.indexOf(tradeTime[i].time)===-1){
+                            tradeTimeList.push(tradeTime[i].time)
+                        }
+                        console.log(tradeTimeList)
+                        newData[i].trade_time = data;
+                        // console.log(newData[i].trade_time)
+                        i++;
+
+                        if(i === newData.length){
+                            getScore(0)
+                            console.log(tradeTime)
+                            $scope.tradeTimeList=tradeTimeList;
+
+                            // console.log($scope.tradeTimeList)
+                            /*for(var i in tradeTime){
+                                if(tradeTimeList.indexOf(tradeTime[i].time)===-1){
+                                    tradeTimeList.push(tradeTime[i].time)
+                                }
+                            }*/
+                            console.log(tradeTimeList)
+                            return;
+                        }
+                        getTime(i)
+                    })
+                    .error(function(data){
+                        newData[i].trade_time = 0;
+                        i++;
+                        if(i === newData.length){
+                            getScore(0)
+
+                            return;
+                        }
+                        getTime(i);
+                    })
+            }
+
+            function getScore(j){
+                $http.get(newConstantUrl + "strategy_datas/" ,{
+                    params:{
+                        "strategy_id":newData[j].id,
+                        "trade_date":newData[j].trade_time,
+                        "type":'statistics'
+                    },
+                    headers:{
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                    }
+                })
+                    .success(function(data){
+
+                       //收益评分项
+                       newData[j].rorScore = data.ror*0.2*100; //总收益率
+                                                               //平均收益率
+                                                               //年化收益率
+                       newData[j].rowScore = data.row *0.2*100; //交易胜率
+                       newData[j].roplScore = data.ropl *0.1*100;//盈亏比
+                       newData[j].rorfScore = data.rorf *0.1*100;//收益波动率
+
+
+                        newData[j].earnScore = newData[j].rorScore + newData[j].rowScore + newData[j].roplScore + newData[j].rorfScore;
+
+
+                        //风险评分项
+                       newData[j].modScore = data.mod *0.3*100;//最大回撤
+                        newData[j].roiScore = data.roi*0.2*100;//信息比率
+                        newData[j].rorfScore_rate = data.rorf*0.2*100;//收益波动率
+                                                                      //平均持仓时间
+                                                                      //交易方向胜率
+                        newData[j].rowScore_rate = data.row *0.1*100; //交易胜率
+
+                        newData[j].rateScore = newData[j].modScore + newData[j].roiScore + newData[j].rorfScore_rate + newData[j].rowScore_rate;
+
+                        newData[j].allScore = newData[j].earnScore / newData[j].rateScore *100;
+
+                        j++;
+
+                        if(j === newData.length){
+                            secondDeal(newData)
+                            return;
+                        }
+                        getScore(j)
+
+                    })
+                    .error(function (data) {
+                        newData[j].rorScore = 0; //总收益率
+                        //平均收益率
+                        //年化收益率
+                        newData[j].rowScore =0; //交易胜率
+                        newData[j].roplScore = 0;//盈亏比
+                        newData[j].rorfScore = 0;//收益波动率
+
+
+                        newData[j].earnScore = 0;
+
+
+                        //风险评分项
+                        newData[j].modScore = 0;//最大回撤
+                        newData[j].roiScore = 0;//信息比率
+                        newData[j].rorfScore_rate = 0;//收益波动率
+                                                                      //平均持仓时间
+                                                                      //交易方向胜率
+                        newData[j].rowScore_rate = 0; //交易胜率
+
+                        newData[j].rateScore = newData[j].modScore + newData[j].roiScore + newData[j].rorfScore_rate + newData[j].rowScore_rate;
+
+                        newData[j].allScore = 0;
+                        j++;
+                        if(j === newData.length){
+                            secondDeal(newData)
+                            return;
+                        }
+                        getScore(j)
+                       console.log(data)
+                    })
+            }
+
+            var newdata1=[]
+           function secondDeal(newdata) {
+               console.log(newdata)
+               for(var a=0;a<newdata.length;a++){
+                   console.log(newdata[a].trade_time)
+                   for(var b=0;b<newdata[a].trade_time.length;b++){
+                       if(newdata[a].trade_time[b]==$scope.time){
+                           newdata1.push(newdata[a])
+                       }
+
+                   }
+               }
+
+           }
+            return newdata1
+
+           /* for(var k=0;k<newData.length;k++){
+                // if(newData[i].)
+                console.log(newData[k].trade_time)
+            }*/
+
+            return newData
+    /*       $timeout(function(){
+
+
+            },60000);*/
+
+
+
+
+        }
+
+        $scope.showIf = function (id) {
+            $(".panel-collapse").removeClass("in")
+            $("#id").addClass("in")
+
+        }
 
 
     }])

@@ -224,7 +224,7 @@ a:focus,button:focus,input:focus{
 footer {
 	clear:both;
 	position:relative;
-	z-index:50;
+	/*z-index:50;*/
     text-align: center;
 	border-top: 2px solid #dcdcdc;
 }
