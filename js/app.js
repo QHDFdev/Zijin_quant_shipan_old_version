@@ -5425,7 +5425,7 @@
                             }
                         }
                     })
-                    $scope.time = "2017-04-22"
+                    $scope.time = "2017-04-24"
                     $scope.changeTime=function () {
                         $scope.strategys = deal(strategy);
                     }
