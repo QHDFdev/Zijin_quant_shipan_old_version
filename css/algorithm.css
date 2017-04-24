@@ -159,7 +159,11 @@ ul li {
 
 .competition_list_wrapper{
     margin: 0 auto;
-    max-width: 950px;
+    max-width: 1000px;
+    padding: 40px;
+    background: #f1f1f1;
+    border-radius: 10px;
+    margin-top: 40px;
 }
 .content_box{
     background-color: #FFF;
@@ -175,15 +179,15 @@ ul li {
 .competition_content{
     border-radius: 4px;
     display: flex;
-    margin: 50px auto 0;
+    margin: 0 auto;
     position: relative;
     width: 100%;
     flex-flow: column nowrap;
-    padding-bottom: 40px;
+
 }
 .content_box_select{
     width: 100%;
-    background-color: #eee;
+    background-color: #fff;
     min-height: 45px;
     line-height: 45px;
     margin-bottom: 20px;
@@ -209,6 +213,7 @@ ul li {
     /*margin-left: 10px;*/
     text-align: center;
     cursor: pointer;
+    font-size: 14px;
 }
 .content_box_way .active{
     background-color: #f2f5fa;
@@ -1400,7 +1405,7 @@ ul li {
 }
 .header-bg{
     margin: 100px auto;
-    height: 400px;
+    height: 450px;
     position: relative;
 }
 .banner_content_home{
@@ -1503,7 +1508,10 @@ ul li {
     margin-left: 2%;
 }
 .more_detail_table{
-    border: 1px solid #80c17e;
+    border: 1px solid #e9e9e9;
+    border-radius: 4px;
+    box-shadow: 0 0 3px #ccc;
+
 }
 .more_detail_table table{
     margin-bottom: 0;
@@ -1511,20 +1519,23 @@ ul li {
 .more_detail_table table caption{
     padding: 5px 10px;
     font-size: 13px;
+    background-color: #e5edfa;
 }
 .more_detail_table thead tr{
-    background: rgb(236,243,236);
+    /*background-color: #e5edfa;*/
+/*    background: rgb(236,243,236);
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
     background: -moz-linear-gradient(top, rgba(236,243,236,1) 0%, rgba(245,253,245,1) 50%, rgba(236,243,236,1) 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(236,243,236,1)), color-stop(50%,rgba(245,253,245,1)), color-stop(100%,rgba(236,243,236,1)));
     background: -webkit-linear-gradient(top, rgba(236,243,236,1) 0%,rgba(245,253,245,1) 50%,rgba(236,243,236,1) 100%);
     background: -o-linear-gradient(top, rgba(236,243,236,1) 0%,rgba(245,253,245,1) 50%,rgba(236,243,236,1) 100%);
     background: -ms-linear-gradient(top, rgba(236,243,236,1) 0%,rgba(245,253,245,1) 50%,rgba(236,243,236,1) 100%);
-    background: linear-gradient(to bottom, rgba(236,243,236,1) 0%,rgba(245,253,245,1) 50%,rgba(236,243,236,1) 100%);
+    background: linear-gradient(to bottom, rgba(236,243,236,1) 0%,rgba(245,253,245,1) 50%,rgba(236,243,236,1) 100%);*/
 }
-.more_detail_table table tr{
+/*.more_detail_table table tr{
     border-top: 1px solid #7fb97f;
-}
+
+}*/
 .more_detail_table table td{
     font-size: 11px;
 }
@@ -1533,11 +1544,14 @@ ul li {
     text-align: left;
     font-size: 11px;
     font-weight: normal;
-    border-left: 1px solid #7fb97f;
+    /*border-left: 1px solid #7fb97f;*/
     /*font-size: 12px;*/
-    color: #607e60;
+    /*color: #607e60;*/
 
     /*padding: 0 9px 2px 19px;*/
+}
+.table > thead > tr > th{
+    border-bottom: 2px solid transparent;
 }
 .more_detail_table table th:first-child{
     border-left: 0;
@@ -1547,7 +1561,7 @@ ul li {
     margin-left: 35%;
 }
 .select_time{
-    width: 70%;
+    width: 65%;
     margin-top: 6px;
     float: right;
 }

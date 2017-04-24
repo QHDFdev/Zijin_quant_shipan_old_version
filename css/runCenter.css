@@ -114,18 +114,15 @@
   display: flex;
 }
 .contentS li>div:first-of-type .name span{
-  font-size: 13px;
+  font-size: 14px;
+
 }
 .contentS  .span_1{
-  /*display: table-cell;*/
-  /*vertical-align: middle;*/
-  width: 30%;
 
-
-  padding-left: 5%;
-
+  width: 28%;
+  font-size: 16px;
+  padding-left: 4%;
   display: block;
-  height: 3.5rem;
 
 }
 .contentS .span_0{
@@ -134,24 +131,27 @@
 }
 .contentS .span_2{
   width: 20%;
+  font-size: 16px;
+  color: #666;
 }
-
 
 .contentS li >div:nth-of-type(2){
   width: 100%;
-  /*height: 60%;*/
   padding: 4% 0;
   display: flex;
+  align-items: center;
   border-bottom: 1px solid #ddd;
 }
+
 .contentS li >div:nth-of-type(2) .left{
   width: 60%;
   display: table-cell;
   vertical-align: middle;
   border-right: 1px solid #ddd;
-  /*background-color: #0a0a0a;*/
 }
-
+.allscore{
+  color: #20BEFF;
+}
 .contentS li >div:nth-of-type(2) .right{
   width: 40%;
   text-align: right;
