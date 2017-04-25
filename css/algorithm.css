@@ -158,12 +158,12 @@ ul li {
 }
 
 .competition_list_wrapper{
-    margin: 0 auto;
+    margin: 40px auto 0;
     max-width: 1000px;
     padding: 40px;
-    background: #f1f1f1;
+    background: #ececec;
     border-radius: 10px;
-    margin-top: 40px;
+
 }
 .content_box{
     background-color: #FFF;
@@ -208,7 +208,7 @@ ul li {
 }
 .content_box_way li{
     /*padding:15px;*/
-    width: 20%;
+    width: 22%;
     /*background-color: #fff;*/
     /*margin-left: 10px;*/
     text-align: center;
@@ -1388,7 +1388,8 @@ ul li {
     position: relative;
 }
 .zijin_index_bg{
-    background-image: linear-gradient(0deg,#1d1934,#1d122b,#111934,#1d122b,#1d1934,#1d122b,#111934,#1d122b,#1d1934);
+    /*background-image: linear-gradient(0deg,#6db5fe,#7ebefe,#90c7ff,#99ccfe,#9bc9f8,#abd5fd,#aacef3,#b7d3ee);*/
+    background: #62afff;
     background-size: 100% 400%;
     height: 100%;
     position: fixed;
@@ -1407,6 +1408,14 @@ ul li {
     margin: 100px auto;
     height: 450px;
     position: relative;
+}
+.header-bg:after{
+    display: block;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    box-shadow: 0 0 70px 30px rgb(249, 249, 249) inset;
 }
 .banner_content_home{
     width: 100%;
@@ -1557,8 +1566,8 @@ ul li {
     border-left: 0;
 }
 .select_time_li{
-    width: 30%;
-    margin-left: 35%;
+
+    margin-left: 10%;
 }
 .select_time{
     width: 65%;
