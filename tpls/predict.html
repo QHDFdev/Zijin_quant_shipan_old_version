@@ -41,8 +41,14 @@
                 <ul class="content_box_way">
                     <li class="active" data-target="#score" data-toggle="tab">按得分排</li>
                     <li data-target="#update" data-toggle="tab">按更新排</li>
-                    <li class="select_time_li">预测时间 <select class="form-control select_time" ng-options="x for x in tradeTimeList" ng-model="time" ng-change="changeTime()"></select></li>
+                    <li class="select_time_li hidden-xs">预测时间
+                        <select class="form-control select_time" ng-options="x for x in tradeTimeList" ng-model="time" ng-change="changeTime()"></select>
+                    </li>
                 </ul>
+            </div>
+            <div class="visible-xs tradeTime_mobile">
+                <span class="trade_time_mobile">预测时间</span>
+                <select class="form-control trade_time_select" ng-options="x for x in tradeTimeList" ng-model="time" ng-change="changeTime()"></select>
             </div>
             <div class="content_box_short tab-content" id="tab-content">
                 <div class="tab-pane active" role="tabpanel"  id="score" >

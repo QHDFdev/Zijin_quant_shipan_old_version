@@ -44,12 +44,12 @@
 						</a>
 					</ul>
 					<ul class="menu mobile">
-						<li class="menuacitve"><a ng-click='hashLocation("/home")' >首页</a></li>
-						<li><a ng-click="hashLocation('/quant_contest')">紫金量化竞赛</a></li>
-						<li><a ng-click="hashLocation('/ai_contest')">智能算法竞赛</a></li>
-						<li><a ng-click="hashLocation('/dataset')">数据集研究</a></li>
-						<li><a ng-click="hashLocation('/firmOffer')">参与实盘</a></li>
-						<li><a ng-click="hashLocation('/quantmodelshare')">量化课堂</a></li>
+						<li class="menuacitve" ng-click='hashLocation("/home")' ><a >首页</a></li>
+						<li ng-click="hashLocation('/quant_contest')"><a >紫金量化竞赛</a></li>
+						<li ng-click="hashLocation('/ai_contest')"><a >智能算法竞赛</a></li>
+						<li ng-click="hashLocation('/dataset')"><a>数据集研究</a></li>
+						<li ng-click="hashLocation('/firmOffer')"><a>参与实盘</a></li>
+						<li ng-click="hashLocation('/quantmodelshare')"><a>量化课堂</a></li>
 					</ul>
 					<div class="userLogin mobile">
 						<div ng-hide='user.username!=null'>
@@ -72,17 +72,17 @@
 							</p>
 							<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="margin-top: 20px;">
 								<li role="presentation" >
-									<a ng-href="#/personalCenter" role="menuitem" tabindex="-1">个人中心</a>
+									<a ng-href="#/personalCenter" role="menuitem" tabindex="-1"><i class="fa fa-user"></i> 个人中心</a>
 								</li>
 								<li role="presentation">
-									<a ng-href="#/adminCenter" role="menuitem" tabindex="-1" ng-show='user.is_admin==true'>用户管理</a>
+									<a ng-href="#/adminCenter" role="menuitem" tabindex="-1" ng-show='user.is_admin==true'><i class="fa fa-user-md"></i> 用户管理</a>
 								</li>
 
 								<!--<li><a href="#">我的预测</a></li>
 								<li><a href="#">我的数据集</a></li>
 								<li><a href="#">我的分享</a></li>-->
 								<li role="separator" class="divider"></li>
-								<li><a ng-click='logout()'>退出</a></li>
+								<li><a ng-click='logout()'><i class="fa fa-sign-out"></i> 注销</a></li>
 							</ul>
 						</div>
 						<!--<li ng-show='user.username!=null' class="name username" mouse-show>
@@ -103,7 +103,7 @@
 						</li>-->
 					</div>
 				</div>
-				<a class=""  id="show_mobile">
+				<a id="show_mobile">
 					<span class="bar"></span>
 					<span class="bar"></span>
 					<span class="bar"></span>
@@ -118,12 +118,12 @@
 					</div>
 
 					<ul class="menu_mobile_menu">
-						<li><a ng-click='hashLocation("/home")' >首页</a></li>
-						<li><a ng-click="hashLocation('/algorithm')">紫金量化竞赛</a></li>
-						<li><a ng-click="hashLocation('/predict')">智能算法竞赛</a></li>
-						<li><a ng-click="hashLocation('/dataset')">数据集研究</a></li>
-						<li><a ng-click="hashLocation('/firmOffer')">参与实盘</a></li>
-						<li><a ng-click="hashLocation('/quantmodelshare')">量化课堂</a></li>
+						<li ng-click='hashLocation("/home")'><a>首页</a></li>
+						<li  ng-click="hashLocation('/quant_contest')"><a>紫金量化竞赛</a></li>
+						<li  ng-click="hashLocation('/ai_contest')"><a>智能算法竞赛</a></li>
+						<li  ng-click="hashLocation('/dataset')"><a>数据集研究</a></li>
+						<li  ng-click="hashLocation('/firmOffer')"><a>参与实盘</a></li>
+						<li  ng-click="hashLocation('/quantmodelshare')"><a>量化课堂</a></li>
 					</ul>
 					<ul class="menu_mobile_personal line"  ng-show='user.username!=null'>
 						<li><a ng-href="#/personalCenter" >个人中心</a></li>
