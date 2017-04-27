@@ -15,13 +15,139 @@ ul li {
 /*首页*/
 .zijin_index_section1{
     text-align: center;
-    background-color: #e8e8e8;
-    padding: 30px 0;
-}
-.zijin_section1_title{
-    margin-bottom: 4.5rem;
+    padding: 50px 0 90px;
+
 }
 
+.start{
+    padding: 0;
+    border: none;
+    border-top: 2px dashed #ddd;
+    text-align: center;
+    max-width: 150px;
+    margin: 25px auto 40px;
+}
+.start:after{
+    content: "\f06c";
+    font-family: FontAwesome;
+    display: inline-block;
+    position: relative;
+    top: -0.8em;
+    font-size: 12px;
+    padding: 0 0.25em;
+    background-color: #f7f7f7;
+    color: #b7b7b7;
+}
+.trade_card{
+
+}
+.trade_card_img:hover{
+    transform: scale(1.04);
+    box-shadow: 0 1.25rem 2.5rem -0.625rem rgba(32,32,32,0.4);
+   /* padding: 40px 30px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    width: 70%;
+    margin: 0 auto;
+    min-width: 250px;
+    transition: all 50ms ease;*/
+}
+.trade_card_img{
+    border-radius: 4px;
+    transition: box-shadow .2s ease,-webkit-transform .2s ease;
+}
+.trade_card_title{
+    margin: 30px 0 0;
+    color: #333;
+}
+.zijin_index_section2_img{
+    background: url(../images/bdph.jpg) center top fixed;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 211px;
+}
+.section2_world{
+    z-index: 888;
+    position: relative;
+}
+
+.zijin_index_section2{
+    background-color: #f7f7f7;
+    padding: 60px;
+    text-align: center;
+    position: relative;
+    color: #fff;
+}
+.zijin_index_section2:before{
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #292929;
+    opacity: 0.3;
+    z-index: 2;
+}
+.zijin_index_section2_sub{
+    display: block;
+    max-width: 400px;
+    margin: 15px auto 0;
+    color: #fff;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+
+.zijin_index_section3{
+    text-align: center;
+    padding: 50px 0 90px;
+}
+
+
+.start2{
+    padding: 0;
+    border: none;
+    border-top: 2px dashed #ddd;
+    text-align: center;
+    max-width: 150px;
+    margin: 25px auto 40px;
+}
+.start2:after{
+    content: "\f06c";
+    font-family: FontAwesome;
+    display: inline-block;
+    position: relative;
+    top: -0.8em;
+    font-size: 12px;
+    padding: 0 0.25em;
+    background-color: #fff;
+    color: #b7b7b7;
+}
+.model_title{
+    margin: 30px 0;
+}
+.model_ul li{
+    margin-top:8px;
+}
+.model_left{
+    border-right: 1px solid #ccc;
+    padding: 60px;
+}
+.model_right{
+    padding: 60px;
+}
+
+
+/*.trade_card:hover{
+    border: 2px solid #ddd;
+}*/
+.trade_card_hr{
+    max-width: 50px;
+    border-color: #ddd;
+}
 .dataset_information{
     background-color: #F6F9FA;
 }
@@ -1410,7 +1536,7 @@ ul li {
 }
 .zijin_index_banner{
     text-align: center;
-    padding: 100px;
+    padding: 70px;
     width: 100%;
     top: 0;
     background: #62afff;

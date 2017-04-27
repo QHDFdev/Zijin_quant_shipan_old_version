@@ -98,6 +98,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>得分项</th>
+                                                    <th>实际值</th>
                                                     <th>分数</th>
                                                     <th>验证</th>
                                                 </tr>
@@ -105,36 +106,43 @@
                                             <tbody>
                                                 <tr>
                                                     <td>总收益率</td>
+                                                    <td>{{x.ror | number:3}}%</td>
                                                     <td>{{x.rorScore | number:3}}</td>
                                                     <td><img src="images/pass.png"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td>交易胜率</td>
+                                                    <td>{{x.row | number:3}}%</td>
                                                     <td>{{x.rowScore | number:3}}</td>
                                                     <td><img src="images/pass.png"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td>年化收益率</td>
+                                                    <td>{{x.aror | number:3}}%</td>
                                                     <td>{{x.arorScore | number:3}}</td>
                                                     <td><img src="images/pass.png"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td>平均收益率</td>
-                                                    <td></td>
+                                                    <td>{{x.aoror | number:3}}%</td>
+                                                    <td>{{x.aororScore | number:3}}</td>
                                                     <td><img src="images/pass.png"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td>交易方向胜率</td>
+                                                    <td>{{x.rodw | number:3}}%</td>
                                                     <td>{{x.rodwScore |number:3}}</td>
                                                     <td><img src="images/pass.png"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td>盈亏比</td>
+                                                    <td>{{x.ropl | number:3}}%</td>
                                                     <td>{{x.roplScore | number:3}}</td>
                                                     <td><img src="images/pass.png"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td>收益波动率</td>
+                                                    <td>{{x.rorf | number:3}}%</td>
                                                     <td>{{x.rorfScore | number:3}}</td>
                                                     <td><img src="images/pass.png"/></td>
                                                 </tr>
@@ -171,6 +179,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>得分项</th>
+                                                    <th>实际值</th>
                                                     <th>分数</th>
                                                     <th>验证</th>
                                                 </tr>
@@ -178,36 +187,43 @@
                                             <tbody>
                                                 <tr>
                                                     <td>最大回撤</td>
+                                                    <td>{{x.mod | number:3}}%</td>
                                                     <td>{{x.modScore |number:3}}</td>
                                                     <td><img src="images/pass.png"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td>夏普比率</td>
+                                                    <td>{{x.ros | number:3}}%</td>
                                                     <td>{{x.rosScore|number:3}}</td>
                                                     <td><img src="images/pass.png"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td>信息比率</td>
+                                                    <td>{{x.roi | number:3}}%</td>
                                                     <td>{{x.roiScore |number:3}}</td>
                                                     <td><img src="images/pass.png"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td>交易胜率</td>
+                                                    <td>{{x.row | number:3}}%</td>
                                                     <td>{{x.rowScore_rate |number:3}}</td>
                                                     <td><img src="images/pass.png"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td>收益波动率</td>
+                                                    <td>{{x.rorf | number:3}}%</td>
                                                     <td>{{x.rorfScore_rate |number:3}}</td>
                                                     <td><img src="images/pass.png"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td>平均持仓时间</td>
+                                                    <td>{{x.aopt}}</td>
                                                     <td>{{x.aoptScore |number:3}}</td>
                                                     <td><img src="images/pass.png"/></td>
                                                 </tr>
                                                 <tr>
                                                     <td>交易方向胜率</td>
+                                                    <td>{{x.rodw | number:3}}%</td>
                                                     <td>{{x.rodwScore_rate|number:3}}</td>
                                                     <td><img src="images/pass.png"/></td>
                                                 </tr>

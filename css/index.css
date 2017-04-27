@@ -95,7 +95,7 @@ a:focus,button:focus,input:focus{
 }*/
 .zijin-ngview{
 	height: 100%;
-	/*background-color: rgb(233, 237, 239);*/
+	background-color: #fff;
 }
 
 .main-navbar .list-group{

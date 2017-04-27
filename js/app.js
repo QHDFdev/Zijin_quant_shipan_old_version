@@ -262,6 +262,33 @@
             setTimeout($(".mobile_wrap").fadeOut(),90000)
         })
 
+      /*  $(".trade_card").hover(function () {
+            $(this).css("border","2px solid #ddd");
+            $(".trade_card_img").css("background-color","#20BEFF");
+            $(".trade_card_hr").css("border-color","#20BEFF");
+
+        })*/
+
+      /*  $("#menu li").each(function(index){
+            $(this).click(function(){
+//                    移除已经选中的样式
+                $("#menu li.tabFocus").removeClass("tabFocus");
+//                    增加当前选中项的样式
+                $(this).addClass("tabFocus");
+                $("#content li:eq("+index+")").show().siblings().hide();
+            })
+        })*/
+
+
+        /*$(".trade_card").each(function () {
+            $(this).hover(function () {
+                $(this).css("border","2px solid #ddd");
+                $(".trade_card_img").css("background-color","#20BEFF");
+
+            })
+
+        })*/
+
     }])
     .controller('studyController', ['$scope', 'strategyResources', 'strategyResource', '$http', '$timeout', '$cookieStore', 'constantUrl', '$location', '$rootScope', function ($scope, strategyResourcess, strategyResource, $http, $timeout, $cookieStore, constantUrl, $location, $rootScope) {
         $rootScope.user = $cookieStore.get('user');
@@ -5494,9 +5521,6 @@
                         getTime(i);
                     })
             }
-
-
-
             $scope.changeTime =  function(){
                 getScore(0);
                 function getScore(j){
@@ -5511,29 +5535,53 @@
                         }
                     })
                         .success(function(data){
-
+                            newData[j].ror= data.ror*100;
+                            newData[j].row = data.row*100;
+                            newData[j].aror = data.aror*100;
+                            newData[j].aoror = data.aoror*100;
+                            newData[j].rodw = data.rodw*100;
+                            newData[j].ropl = data.ropl*100;
+                            newData[j].rorf = data.rorf;
 
                             //收益评分项
-                            newData[j].rorScore = data.ror*100*1000*0.3*100; //总收益率
-                            newData[j].rowScore = data.row*100 *0.2*100; //交易胜率
-                            newData[j].arorScore = data.aror*100*1000*0.1*100;//年化收益率
-                            //平均收益率
-                            newData[j].rodwScore = data.rodw * 100 *0.1 *100;//交易方向胜率
-                            newData[j].roplScore = data.ropl*100 *0.1*100;//盈亏比
-                            newData[j].rorfScore = data.rorf *0.1*100;//收益波动率
+                            newData[j].rorScore = newData[j].ror/0.1*0.3*100; //总收益率
+                            newData[j].rowScore = data.row*0.2*100; //交易胜率
+                            newData[j].arorScore = newData[j].aror/0.1*0.1*100;//年化收益率
+                            newData[j].aororScore = newData[j].aoror/0.1*0.1*100;//平均收益率
+                            newData[j].rodwScore = data.rodw*0.1*100;//交易方向胜率
+                            newData[j].roplScore = data.ropl*0.1*100;//盈亏比
+                            newData[j].rorfScore = data.rorf /100*0.1*100;//收益波动率
 
 
-                            newData[j].earnScore = newData[j].rorScore + newData[j].rowScore + newData[j].arorScore + newData[j].rodwScore + newData[j].roplScore + newData[j].rorfScore;//收益评分
+                            newData[j].earnScore = newData[j].rorScore + newData[j].rowScore + newData[j].arorScore + newData[j].aororScore + newData[j].rodwScore + newData[j].roplScore + newData[j].rorfScore;//收益评分
+
+
 
                             //风险评分项
 
-                            newData[j].modScore = data.mod *0.2*100;//最大回撤
-                            newData[j].rosScore = data.ros*100*1000*0.2*100;//夏普比率
-                            newData[j].roiScore = data.roi*100*1000*0.2*100;//信息比率
-                            newData[j].rowScore_rate = data.row *100*0.1*100; //交易胜率
-                            newData[j].rorfScore_rate = data.rorf*0.1*100;//收益波动率
-                            newData[j].aoptScore = data.aopt/60/240*100*0.1*100;//平均持仓时间
-                            newData[j].rodwScore_rate = data.rodw *100*0.1*100;   //交易方向胜率
+                          /*  if(data.mod ===0 && data.ror !==0){
+                                if(data.ror <0){
+                                    newData[j].modScore = -1 *0.2*100;
+                                }
+                                else if(data.ror >0){
+                                    newData[j].modScore = 0.2*100;
+                                }
+                            }
+*/
+                          newData[j].mod = data.mod;
+                          newData[j].ros = data.ros*100;
+                          newData[j].roi = data.roi*100;
+                          newData[j].aopt = data.aopt;
+
+
+
+                            newData[j].modScore = data.mod /10*0.2*100;//最大回撤
+                            newData[j].rosScore = newData[j].ros/0.1*0.2*100;//夏普比率
+                            newData[j].roiScore = newData[j].roi/0.1*0.2*100;//信息比率
+                            newData[j].rowScore_rate = data.row *0.1*100; //交易胜率
+                            newData[j].rorfScore_rate = data.rorf/100*0.1*100;//收益波动率
+                            newData[j].aoptScore = data.aopt/60/240*0.1*100;//平均持仓时间
+                            newData[j].rodwScore_rate = data.rodw *0.1*100;   //交易方向胜率
 
 
                             newData[j].rateScore = newData[j].modScore + newData[j].rosScore + newData[j].roiScore + newData[j].rowScore_rate + newData[j].rorfScore_rate + newData[j].aoptScore + newData[j].rodwScore_rate;//风险评分
@@ -5553,7 +5601,6 @@
                                 newData[j].allScore = Math.abs(newData[j].earnScore) / Math.abs(newData[j].rateScore) *100;
                                 if(newData[j].earnScore<0){
                                     newData[j].allScore = - newData[j].allScore;
-
                                 }
                                 newData[j].trade_if = 'yes';
                             }
@@ -5588,7 +5635,7 @@
                             newData[j].rorScore = 0; //总收益率
                             newData[j].rowScore = 0; //交易胜率
                             newData[j].arorScore = 0;//年化收益率
-                            //平均收益率
+                            newData[j].aororScore = 0;//平均收益率
                             newData[j].rodwScore = 0;//交易方向胜率
                             newData[j].roplScore = 0;//盈亏比
                             newData[j].rorfScore = 0;//收益波动率
@@ -5597,6 +5644,7 @@
                             newData[j].earnScore = 0;//收益评分
 
                             //风险评分项
+
 
                             newData[j].modScore = 0;//最大回撤
                             newData[j].rosScore = 0;//夏普比率
