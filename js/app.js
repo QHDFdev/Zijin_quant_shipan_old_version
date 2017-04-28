@@ -122,7 +122,7 @@
             })
             .when('/ai_contest', {
                 templateUrl: 'tpls/predict.html',
-                controller:'quantController'
+                controller:'predictController'
             })
             .when('/firmOffer', {
                 templateUrl: 'tpls/firmOffer.html'
@@ -239,14 +239,14 @@
         };
         $scope.hashLocation = function (x) {
             if ($rootScope.user && $rootScope.user.is_zijin) {
-            $location.path(x);
+                $location.path(x);
             } else if ($rootScope.user && !$rootScope.user.is_zijin) {
                 Showbo.Msg.alert('未获得权限');
-               $location.path('/home');
+                $location.path('/home');
             } else if (!$rootScope.user) {
-               $location.path('/login');
+                $location.path('/login');
             }
-          ;
+            ;
         };
         $('#nav-sidebar .nav-main ul li').click(function () {
             $('#nav-sidebar .nav-main ul li.active').removeClass('active');
@@ -262,32 +262,32 @@
             setTimeout($(".mobile_wrap").fadeOut(),90000)
         })
 
-      /*  $(".trade_card").hover(function () {
-            $(this).css("border","2px solid #ddd");
-            $(".trade_card_img").css("background-color","#20BEFF");
-            $(".trade_card_hr").css("border-color","#20BEFF");
+        /*  $(".trade_card").hover(function () {
+         $(this).css("border","2px solid #ddd");
+         $(".trade_card_img").css("background-color","#20BEFF");
+         $(".trade_card_hr").css("border-color","#20BEFF");
 
-        })*/
+         })*/
 
-      /*  $("#menu li").each(function(index){
-            $(this).click(function(){
-//                    移除已经选中的样式
-                $("#menu li.tabFocus").removeClass("tabFocus");
-//                    增加当前选中项的样式
-                $(this).addClass("tabFocus");
-                $("#content li:eq("+index+")").show().siblings().hide();
-            })
-        })*/
+        /*  $("#menu li").each(function(index){
+         $(this).click(function(){
+         //                    移除已经选中的样式
+         $("#menu li.tabFocus").removeClass("tabFocus");
+         //                    增加当前选中项的样式
+         $(this).addClass("tabFocus");
+         $("#content li:eq("+index+")").show().siblings().hide();
+         })
+         })*/
 
 
         /*$(".trade_card").each(function () {
-            $(this).hover(function () {
-                $(this).css("border","2px solid #ddd");
-                $(".trade_card_img").css("background-color","#20BEFF");
+         $(this).hover(function () {
+         $(this).css("border","2px solid #ddd");
+         $(".trade_card_img").css("background-color","#20BEFF");
 
-            })
+         })
 
-        })*/
+         })*/
 
     }])
     .controller('studyController', ['$scope', 'strategyResources', 'strategyResource', '$http', '$timeout', '$cookieStore', 'constantUrl', '$location', '$rootScope', function ($scope, strategyResourcess, strategyResource, $http, $timeout, $cookieStore, constantUrl, $location, $rootScope) {
@@ -5400,16 +5400,13 @@
             }, function (err) {
             });
         }
-
-
-
     }])
     .controller('quantController',['$scope','$http','newConstantUrl','$cookieStore','$filter','$location','$timeout',function ($scope,$http,newConstantUrl,$cookieStore,$filter,$location,$timeout) {
 
         var strategy=[],codeName=[],strategyList=[],tradeTimeList=[],tradeTime=[];
 
-        var url = $location.url();
-        $scope.getStrategysCode = function () {
+        // var url = $location.url();
+       /* $scope.getStrategysCode = function () {
             $http.get(newConstantUrl + "scripts/" ,{
                 headers:{
                     'Authorization':'token ' + $cookieStore.get('user').token
@@ -5428,7 +5425,7 @@
                     return codeName[i].name;
                 }
             }
-        }
+        }*/
         $scope.getStrategys = function () {
             $http.get( newConstantUrl + "strategys/",{
                 headers:{
@@ -5437,24 +5434,26 @@
             })
                 .success(function (data) {
                     angular.forEach(data,function (item,index) {
-                        if(url === '/quant_contest'){
-                            if(item.mode === 'realtime'&&item.script_mode ==='trade'&&item.status === 2 &&item.exchange==='CTP'){
-                                item.datetime = $filter("date")(item.datetime, "yyyy-MM-dd HH:mm:ss");
-                                item.code_name = getCodeName(item.script_id);
-                                strategy.push(item)
-                            }
+                        // if(url === '/quant_contest'){
+                        if(item.mode === 'realtime'&&item.script_mode ==='trade'&&item.status === 2 &&item.exchange==='CTP'){
+                            item.datetime = $filter("date")(item.datetime, "yyyy-MM-dd HH:mm:ss");
+                            // item.code_name = getCodeName(item.script_id);
+                            strategy.push(item)
                         }
-                        else if(url === '/ai_contest'){
-                            if(item.mode === 'realtime' && item.script_mode === 'predict' && item.status === 2&&item.exchange==='CTP'){
-                                item.datetime = $filter("date")(item.datetime, "yyyy-MM-dd HH:mm:ss");
-                                item.code_name = getCodeName(item.script_id);
-                                strategy.push(item)
-                            }
-                        }
+                        // }
+                        /*else if(url === '/ai_contest'){
+                         if(item.mode === 'realtime' && item.script_mode === 'predict' && item.status === 2&&item.exchange==='CTP'){
+                         item.datetime = $filter("date")(item.datetime, "yyyy-MM-dd HH:mm:ss");
+                         item.code_name = getCodeName(item.script_id);
+                         strategy.push(item)
+                         }
+                         }*/
                     })
                     deal(strategy);
                 })
         }
+
+        $scope.getStrategys()
 
         /* $scope.putScreen = function (page) {
          $scope.page=page;
@@ -5470,7 +5469,6 @@
          }*/
         var dataList=[];
         function deal(newData){
-
             getTime(0);
             function getTime(i) {
                 $http.get( newConstantUrl + "strategy_datas/",{
@@ -5524,6 +5522,7 @@
             $scope.changeTime =  function(){
                 getScore(0);
                 function getScore(j){
+
                     $http.get(newConstantUrl + "strategy_datas/" ,{
                         params:{
                             "strategy_id":newData[j].id,
@@ -5559,19 +5558,19 @@
 
                             //风险评分项
 
-                          /*  if(data.mod ===0 && data.ror !==0){
-                                if(data.ror <0){
-                                    newData[j].modScore = -1 *0.2*100;
-                                }
-                                else if(data.ror >0){
-                                    newData[j].modScore = 0.2*100;
-                                }
-                            }
-*/
-                          newData[j].mod = data.mod;
-                          newData[j].ros = data.ros*100;
-                          newData[j].roi = data.roi*100;
-                          newData[j].aopt = data.aopt;
+                            /*  if(data.mod ===0 && data.ror !==0){
+                             if(data.ror <0){
+                             newData[j].modScore = -1 *0.2*100;
+                             }
+                             else if(data.ror >0){
+                             newData[j].modScore = 0.2*100;
+                             }
+                             }
+                             */
+                            newData[j].mod = data.mod;
+                            newData[j].ros = data.ros*100;
+                            newData[j].roi = data.roi*100;
+                            newData[j].aopt = data.aopt;
 
 
 
@@ -5586,13 +5585,13 @@
 
                             newData[j].rateScore = newData[j].modScore + newData[j].rosScore + newData[j].roiScore + newData[j].rowScore_rate + newData[j].rorfScore_rate + newData[j].aoptScore + newData[j].rodwScore_rate;//风险评分
                             /*if(newData[j].rateScore === 0 || newData[j].earnScore === 0){
-                                newData[j].allScore = 0;
-                                newData[j].trade_if = 'no';
-                            }*/
-                             /* else{
-                                newData[j].allScore = newData[j].earnScore / newData[j].rateScore *100;
-                                newData[j].trade_if = 'yes';
-                            }*/
+                             newData[j].allScore = 0;
+                             newData[j].trade_if = 'no';
+                             }*/
+                            /* else{
+                             newData[j].allScore = newData[j].earnScore / newData[j].rateScore *100;
+                             newData[j].trade_if = 'yes';
+                             }*/
                             if(newData[j].rateScore === 0 && newData[j].earnScore === 0){
                                 newData[j].allScore = 0;
                                 newData[j].trade_if = 'no';
@@ -5606,20 +5605,20 @@
                             }
 
 
-                          /*  if(newData[j].earnScore<0 && newData[j].rateScore<0){
-                                newData[j].allScore = Math.abs(newData[j].earnScore) / Math.abs(newData[j].rateScore) *100;
-                                newData[j].allScore = - newData[j].allScore;
-                                newData[j].trade_if = 'yes';
-                            }
-                            else if(newData[j].rateScore === 0 && newData[j].earnScore === 0){
-                                newData[j].allScore = 0;
-                                newData[j].trade_if = 'no';
-                            }
-                            else{
-                                newData[j].allScore = newData[j].earnScore / newData[j].rateScore *100;
-                                newData[j].trade_if = 'yes';
-                            }
-*/
+                            /*  if(newData[j].earnScore<0 && newData[j].rateScore<0){
+                             newData[j].allScore = Math.abs(newData[j].earnScore) / Math.abs(newData[j].rateScore) *100;
+                             newData[j].allScore = - newData[j].allScore;
+                             newData[j].trade_if = 'yes';
+                             }
+                             else if(newData[j].rateScore === 0 && newData[j].earnScore === 0){
+                             newData[j].allScore = 0;
+                             newData[j].trade_if = 'no';
+                             }
+                             else{
+                             newData[j].allScore = newData[j].earnScore / newData[j].rateScore *100;
+                             newData[j].trade_if = 'yes';
+                             }
+                             */
                             j++;
 
                             if(j === newData.length){
@@ -5631,6 +5630,14 @@
                         })
                         .error(function (data) {
                             newData[j].trade_if='no';
+                            newData[j].ror= 0;
+                            newData[j].row = 0;
+                            newData[j].aror = 0;
+                            newData[j].aoror = 0;
+                            newData[j].rodw = 0;
+                            newData[j].ropl = 0;
+                            newData[j].rorf = 0;
+
                             //收益评分项
                             newData[j].rorScore = 0; //总收益率
                             newData[j].rowScore = 0; //交易胜率
@@ -5644,7 +5651,10 @@
                             newData[j].earnScore = 0;//收益评分
 
                             //风险评分项
-
+                            newData[j].mod = 0;
+                            newData[j].ros = 0;
+                            newData[j].roi = 0;
+                            newData[j].aopt = 0;
 
                             newData[j].modScore = 0;//最大回撤
                             newData[j].rosScore = 0;//夏普比率
@@ -5673,6 +5683,7 @@
 
                     var count=[],newdata1=[],n=0,trade_yes=[],c=0,trade_no=[],d=0;
                     dataList=[];
+
                     for(var a=0;a<newData.length;a++){
                         for(var b=0;b<newData[a].trade_time.length;b++){
                             if(newData[a].trade_time[b] === $scope.time){
@@ -5736,6 +5747,261 @@
             $("#id").addClass("in")
 
         }
+
+
+    }])
+    .controller('predictController',['$scope','$http','$filter','newConstantUrl','$cookieStore','$timeout','$q',function ($scope,$http,$filter,newConstantUrl,$cookieStore,$timeout,$q) {
+        var strategy=[],codeName=[],strategyList=[],tradeTimeList=[],tradeTime=[];
+
+        // var url = $location.url();
+        /* $scope.getStrategysCode = function () {
+         $http.get(newConstantUrl + "scripts/" ,{
+         headers:{
+         'Authorization':'token ' + $cookieStore.get('user').token
+         }
+         })
+         .success(function (data) {
+         codeName = data;
+
+         $scope.getStrategys()
+         })
+         }
+         $scope.getStrategysCode();
+
+         function getCodeName(id) {
+         for(var i=0;i<codeName.length;i++){
+         if(codeName[i].id === id){
+
+         return codeName[i].predict_format;
+         }
+         }
+         }*/
+
+        $scope.getStrategys = function () {
+            $http.get( newConstantUrl + "strategys/",{
+                headers:{
+                    'Authorization':'token ' + $cookieStore.get('user').token
+                }
+            })
+                .success(function (data) {
+                    angular.forEach(data,function (item,index) {
+                        if(item.mode === 'realtime' && item.script_mode === 'predict' && item.status === 2&&item.exchange==='CTP'){
+                            item.datetime = $filter("date")(item.datetime, "yyyy-MM-dd HH:mm:ss");
+                            // item.predict_format = getCodeName(item.script_id);
+                            strategy.push(item)
+                        }
+
+                    })
+                    deal(strategy);
+                })
+        }
+        $scope.getStrategys()
+
+        var dataList=[];
+        function deal(newData){
+            getTime(0);
+            function getTime(i) {
+                $http.get( newConstantUrl + "strategy_datas/",{
+                    params:{
+                        "type":'trade_date',
+                        "strategy_id":newData[i].id
+                    },
+                    headers:{
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                    }
+                })
+                    .success(function (data) {
+                        for(var m=0;m<data.length;m++){
+                            data[m] = $filter("date")(data[m], "yyyy-MM-dd");
+                            tradeTime.push({
+                                'time':data[m]
+                            })
+                        }
+                        if(tradeTimeList.indexOf(tradeTime[i].time)===-1){
+                            tradeTimeList.push(tradeTime[i].time)
+                        }
+                        newData[i].trade_time = data;
+                        i++;
+                        if(i === newData.length){
+                            $scope.changeTime()
+                            tradeTimeList.sort(function(b, a) {
+                                return (new Date(b.replace(/-/g, '/')).getTime() - new Date(a.replace(/-/g, '/')).getTime());
+                            });
+
+                            $scope.tradeTimeList=tradeTimeList;
+                            $scope.time=tradeTimeList[tradeTimeList.length-2]
+                            return;
+                        }
+                        getTime(i)
+                    })
+                    .error(function(data){
+                        newData[i].trade_time = 0;
+                        i++;
+                        if(i === newData.length){
+                            $scope.changeTime()
+                            tradeTimeList.sort(function(b, a) {
+                                return (new Date(b.replace(/-/g, '/')).getTime() - new Date(a.replace(/-/g, '/')).getTime());
+                            });
+                            $scope.tradeTimeList=tradeTimeList;
+                            $scope.time=tradeTimeList[tradeTimeList.length-2];
+                            return;
+                        }
+                        getTime(i);
+                    })
+            }
+            $scope.changeTime =  function(){
+                /*getScore(0);
+                 function getScore(j){
+                 $http.get(newConstantUrl + "strategy_datas/" ,{
+                 params:{
+                 "strategy_id":newData[j].id,
+                 "trade_date":$scope.time,
+                 "type":'predict'
+                 },
+                 headers:{
+                 'Authorization': 'token ' + $cookieStore.get('user').token
+                 }
+                 })
+                 .success(function(data){
+                 console.log(data)
+                 data.datetime = $filter("date")(data.datetime, "yyyy-MM-dd HH:mm:ss");
+                 newData[j].predictInput =data;
+
+
+                 j++;
+
+                 if(j === newData.length){
+                 $scope.secondDeal(window.whichOne)
+                 return;
+                 }
+                 getScore(j)
+
+                 })
+                 .error(function (data) {
+
+                 j++;
+                 if(j === newData.length){
+                 $scope.secondDeal(window.whichOne);
+                 // $scope.changeTime()
+                 return;
+                 }
+                 getScore(j)
+
+                 })
+                 }*/
+                secondDeal(window.whichOne);
+
+                function secondDeal(which) {
+
+                    window.whichOne = which;
+
+                    var count=[],newdata1=[],n=0,trade_yes=[],c=0,trade_no=[],d=0;
+                    dataList=[];
+                    for(var a=0;a<newData.length;a++){
+                        for(var b=0;b<newData[a].trade_time.length;b++){
+                            if(newData[a].trade_time[b] === $scope.time){
+                                newdata1.push(newData[a])
+                            }
+                        }
+                    }
+
+                    angular.forEach(newdata1, function (item, index) {
+                        if (item.trade_if === 'yes') {
+                            trade_yes[c++]=item;
+                        }
+                        else{
+                            trade_no[d++]=item;
+                        }
+
+                    });
+                    if(window.whichOne==='allScore'){
+                        trade_yes.sort(function(a,b){return b.allScore-a.allScore;});
+                    }
+                    else if(window.whichOne ==='earnScore'){
+                        trade_yes.sort(function(a,b){return b.earnScore-a.earnScore;});
+                    }
+                    else if(window.whichOne === 'rateScore'){
+                        trade_yes.sort(function(a,b){return a.rateScore-b.rateScore;});
+                    }
+                    newdata1=[];
+                    newdata1 = trade_yes.concat(trade_no);
+                    for(var i=0;i<newdata1.length;i=i+10){
+                        var list=[];
+                        for(var j=0;(i+j)<newdata1.length&&j<10;j++){
+                            list.push(newdata1[i+j]);
+                        }
+                        dataList[n] = list;
+                        count.push({
+                            "page":n
+                        })
+                        n++;
+                    }
+                    $scope.count = count;
+                    $scope.countLength = count.length;
+                    $scope.putScreen(0)
+                }
+
+            }
+        }
+        $scope.putScreen = function (page) {
+            $scope.page=page;
+            $scope.strategys = [];
+            $scope.strategys = dataList[page];
+
+            $("html, body").animate({
+                    scrollTop: $("#top").offset().top
+                },
+                {
+                    duration: 500,easing: "swing"
+                }
+            );
+            $(".panel-collapse").removeClass("in")
+        }
+
+
+        $scope.showIf = function (script_id,id) {
+            $scope.predictInput='',$scope.predict_format=''
+            function predict_format() {
+                var defer = $q.defer();
+                $http.get(newConstantUrl + "scripts/" +script_id+'/' ,{
+                    headers:{
+                        'Authorization':'token ' + $cookieStore.get('user').token
+                    }
+                })
+                    .success(function (data) {
+                        $scope.predict_format = data.predict_format;
+                        console.log($scope.predict_format)
+                        defer.resolve();
+                    })
+                    .error(function () {
+                        defer.reject(err)
+                    })
+                return defer.promise;
+            }
+            predict_format().then(function () {
+                $http.get(newConstantUrl + "strategy_datas/" ,{
+                    params:{
+                        "strategy_id":id,
+                        "trade_date":$scope.time,
+                        "type":'predict'
+                    },
+                    headers:{
+                        'Authorization': 'token ' + $cookieStore.get('user').token
+                    }
+                })
+                    .success(function(data){
+                        $scope.predictInput = data;
+                        console.log(data)
+                    })
+                    .error(function (data) {
+                    })
+            })
+
+
+            $(".panel-collapse").removeClass("in")
+            $("#id").addClass("in")
+        }
+
 
 
     }])

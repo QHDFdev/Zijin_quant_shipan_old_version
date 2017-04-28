@@ -1,4 +1,4 @@
-<div class="predict" style="background:rgba(120,194,236,0.5);background-image:url(images/bgimg.png);padding-bottom:40px"  id="top">
+<div class="predict" style="background:rgba(120,194,236,0.5);background-image:url(images/bgimg.png);padding-bottom:40px"  ng-controller="predictController" id="top">
     <div class="banner_content_view">
         <div class="banner">
             <div class="banner_container" >
@@ -59,8 +59,154 @@
                                     <span class="run span_0">{{page*10+$index+1}}</span>
                                     <span class="span_1"></span>
                                     <span class="span_2">算法总得分</span>
-                                    <span class="span_2">收益评分</span>
-                                    <span class="span_2">风险评分</span>
+                                </div>
+                            </div>
+                            <div class="indicators">
+                                <span class="span_0"></span>
+                                <span class="span_1">{{x.name}}</span>
+                                <span class="span_2" style="color: #20BEFF">{{x.allScore | number:6}}</span>
+                                <span class="span_2">{{x.earnScore | number:6}}</span>
+                                <span class="span_2">{{x.rateScore | number:6}}</span>
+                                <!--<div class="left">
+                                    <span>创建时间:{{x.datetime}}</span>
+                                    <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
+                                    <span class="span">作者：{{x.username}}</span>
+                                    <span>交易产品：{{x.symbol}}</span>
+                                    <span class="span">交易手数：{{x.multiple}}</span>
+                                </div>
+                                <div class="right">
+                                    <p><span>策略总得分：<e>{{x.allScore | number:6}}</e></span><i class={{x.y}}></i></p>
+                                    <p><span>收益评分：<e class={{x.yeildColor}}>{{x.earnScore | number:6}}</e></span><i class={{x.y}}></i></p>
+                                    <p><span>风险评分：<e class={{x.yeildColor1}}>{{x.rateScore | number:6}} </e></span><i class="{{x.y1}}"></i></p>
+                                </div>-->
+                            </div>
+                            <div style="position: relative" >
+                                <a data-toggle="collapse" class="more"  data-target="#{{x.script_id}}" data-parent="#accordion" ng-click="showIf(x.script_id,x.id)">详情</a>
+                            </div>
+                            <div id="{{x.script_id}}" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="predict_detail_table">
+                                        <h5 class="more_detail_table_title">预测输出</h5>
+                                        <table class="table table-hover">
+                                            <!--<caption>收益得分</caption>-->
+                                            <thead>
+                                            <tr>
+                                                <th>datetime</th>
+                                                <th ng-repeat="b in predict_format">{{b.name}}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            <tr ng-repeat="y in predictInput">
+                                                <td >{{y.datetime.slice(0, 19)}}</td>
+                                                <td ng-repeat="b in predict_format">{{y[b.name]}}</td>
+                                            </tr>
+                                            <!--<tr>
+                                                <td>交易胜率</td>
+                                                <td>{{x.row | number:3}}%</td>
+                                                <td>{{x.rowScore | number:3}}</td>
+                                                <td><img src="images/pass.png"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>年化收益率</td>
+                                                <td>{{x.aror | number:3}}%</td>
+                                                <td>{{x.arorScore | number:3}}</td>
+                                                <td><img src="images/pass.png"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>平均收益率</td>
+                                                <td>{{x.aoror | number:3}}%</td>
+                                                <td>{{x.aororScore | number:3}}</td>
+                                                <td><img src="images/pass.png"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>交易方向胜率</td>
+                                                <td>{{x.rodw | number:3}}%</td>
+                                                <td>{{x.rodwScore |number:3}}</td>
+                                                <td><img src="images/pass.png"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>盈亏比</td>
+                                                <td>{{x.ropl | number:3}}%</td>
+                                                <td>{{x.roplScore | number:3}}</td>
+                                                <td><img src="images/pass.png"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>收益波动率</td>
+                                                <td>{{x.rorf | number:3}}%</td>
+                                                <td>{{x.rorfScore | number:3}}</td>
+                                                <td><img src="images/pass.png"/></td>
+                                            </tr>-->
+                                            </tbody>
+                                            <!-- <thead>
+                                                 <tr>
+                                                     <th>总收益率</th>
+                                                     <th>交易胜率</th>
+                                                     <th>年化收益率</th>
+                                                     <th>平均收益率</th>
+                                                     <th>交易方向胜率</th>
+                                                     <th>盈亏比</th>
+                                                     <th>收益波动率</th>
+                                                 </tr>
+                                             </thead>
+                                             <tbody>
+                                                  <tr>
+                                                      <td>{{x.rorScore | number:3}}</td>
+                                                      <td>{{x.rowScore | number:3}}</td>
+
+                                                      <td>{{x.arorScore | number:3}}</td>
+                                                      <td></td>
+                                                      <td>{{x.rodwScore |number:3}}</td>
+                                                      <td>{{x.roplScore | number:3}}</td>
+                                                      <td>{{x.rorfScore | number:3}}</td>
+                                                  </tr>
+                                             </tbody>-->
+                                        </table>
+                                    </div>
+
+                                    <!--<div class="more_detail_table table_rigth">
+                                        <table class="table table-hover">
+                                            <caption>风险评分项</caption>
+                                            <thead>
+                                            <tr>
+                                                <th>最大回撤</th>
+                                                <th>信息比率</th>
+                                                <th>收益波动率</th>
+                                                <th>平均持仓时间</th>
+                                                <th>交易方向胜率</th>
+                                                <th>交易胜率</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>{{x.modScore |number:6}}</td>
+                                                <td>{{x.roiScore|number:6}}</td>
+                                                <td>{{x.rorfScore_rate |number:6}}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>{{x.rowScore_rate|number:6}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>-->
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="pagination pagination-md" style="float: right;margin:20px 0 0">
+                        <li ng-repeat="x in count" ng-class="{active:x.page == page}">
+                            <a ng-click="putScreen(x.page)">{{$index+1}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-pane" role="tabpanel"  id="update" >
+                    <ul class="contentS">
+                        <li ng-repeat="x in strategys">
+                            <div>
+                                <div class="name">
+                                    <span class="run span_0">{{$index+1}}</span>
+                                    <span class="span_1"></span>
+                                    <span class="span_2">算法总得分</span>
                                 </div>
                             </div>
                             <div class="indicators">
@@ -83,37 +229,90 @@
                                 </div>-->
                             </div>
                             <div style="position: relative" id="accordion">
-                                <a data-toggle="collapse" class="more"  data-target="#{{x.id}}" data-parent="#accordion" ng-click="showIf(x.id)">详情</a>
+                                <a data-toggle="collapse" class="more"  data-target="#{{x.script_id-page}}" data-parent="#accordion" ng-click="showIf(x.script_id,x.id)">详情</a>
                             </div>
-                            <div id="{{x.id}}" class="panel-collapse collapse">
+                            <div id="{{x.script_id-page}}" class="panel-collapse collapse">
                                 <div class="panel-body">
-                                    <div class="more_detail_table">
+                                    <div class="predict_detail_table">
+                                        <h5 class="more_detail_table_title">预测输出</h5>
                                         <table class="table table-hover">
-                                            <caption>收益评分项</caption>
+                                            <!--<caption>收益得分</caption>-->
                                             <thead>
                                             <tr>
-                                                <th>总收益率</th>
-                                                <th>平均收益率</th>
-                                                <th>年化收益率</th>
-                                                <th>交易胜率</th>
-                                                <th>盈亏比</th>
-                                                <th>收益波动率</th>
+                                                <th>datetime</th>
+                                                <th ng-repeat="b in predict_format">{{b.name}}</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                                <td>{{x.rorScore | number:6}}</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>{{x.rowScore}}</td>
-                                                <td>{{x.roplScore}}</td>
-                                                <td>{{x.rorfScore | number:6}}</td>
+
+                                            <tr ng-repeat="y in predictInput">
+                                                <td >{{y.datetime.slice(0, 19)}}</td>
+                                                <td ng-repeat="z in predict_format">{{y[z.name]}}</td>
                                             </tr>
+                                            <!--<tr>
+                                                <td>交易胜率</td>
+                                                <td>{{x.row | number:3}}%</td>
+                                                <td>{{x.rowScore | number:3}}</td>
+                                                <td><img src="images/pass.png"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>年化收益率</td>
+                                                <td>{{x.aror | number:3}}%</td>
+                                                <td>{{x.arorScore | number:3}}</td>
+                                                <td><img src="images/pass.png"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>平均收益率</td>
+                                                <td>{{x.aoror | number:3}}%</td>
+                                                <td>{{x.aororScore | number:3}}</td>
+                                                <td><img src="images/pass.png"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>交易方向胜率</td>
+                                                <td>{{x.rodw | number:3}}%</td>
+                                                <td>{{x.rodwScore |number:3}}</td>
+                                                <td><img src="images/pass.png"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>盈亏比</td>
+                                                <td>{{x.ropl | number:3}}%</td>
+                                                <td>{{x.roplScore | number:3}}</td>
+                                                <td><img src="images/pass.png"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>收益波动率</td>
+                                                <td>{{x.rorf | number:3}}%</td>
+                                                <td>{{x.rorfScore | number:3}}</td>
+                                                <td><img src="images/pass.png"/></td>
+                                            </tr>-->
                                             </tbody>
+                                            <!-- <thead>
+                                                 <tr>
+                                                     <th>总收益率</th>
+                                                     <th>交易胜率</th>
+                                                     <th>年化收益率</th>
+                                                     <th>平均收益率</th>
+                                                     <th>交易方向胜率</th>
+                                                     <th>盈亏比</th>
+                                                     <th>收益波动率</th>
+                                                 </tr>
+                                             </thead>
+                                             <tbody>
+                                                  <tr>
+                                                      <td>{{x.rorScore | number:3}}</td>
+                                                      <td>{{x.rowScore | number:3}}</td>
+
+                                                      <td>{{x.arorScore | number:3}}</td>
+                                                      <td></td>
+                                                      <td>{{x.rodwScore |number:3}}</td>
+                                                      <td>{{x.roplScore | number:3}}</td>
+                                                      <td>{{x.rorfScore | number:3}}</td>
+                                                  </tr>
+                                             </tbody>-->
                                         </table>
                                     </div>
 
-                                    <div class="more_detail_table table_rigth">
+                                    <!--<div class="more_detail_table table_rigth">
                                         <table class="table table-hover">
                                             <caption>风险评分项</caption>
                                             <thead>
@@ -137,109 +336,12 @@
                                             </tr>
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                         </li>
                     </ul>
                     <ul class="pagination pagination-md" id="trustPage" style="float: right;margin:20px 0 0">
-                        <li ng-repeat="x in count" ng-class="{active:x.page == page}">
-                            <a ng-click="putScreen(x.page)">{{$index+1}}</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="tab-pane" role="tabpanel"  id="update" >
-                    <ul class="contentS">
-                        <li ng-repeat="x in strategys">
-                            <div>
-                                <div class="name">
-                                    <span class="run span_0">{{page*10+$index+1}}</span>
-                                    <span class="span_1"></span>
-                                    <span class="span_2">算法总得分</span>
-                                    <span class="span_2">收益评分</span>
-                                    <span class="span_2">风险评分</span>
-                                </div>
-                            </div>
-                            <div class="indicators">
-                                <span class="span_0"></span>
-                                <span class="span_1">{{x.name}}</span>
-                                <span class="span_2" style="color: #20BEFF">{{x.allScore | number:6}}</span>
-                                <span class="span_2">{{x.earnScore | number:6}}</span>
-                                <span class="span_2">{{x.rateScore | number:6}}</span>
-                                <!--<div class="left">
-                                    <span>创建时间:{{x.datetime}}</span>
-                                    <span>策略代码:<a href="#/codeview/{{x.class_id}}">{{x.code_name}}</a></span>
-                                    <span class="span">作者：{{x.username}}</span>
-                                    <span>交易产品：{{x.symbol}}</span>
-                                    <span class="span">交易手数：{{x.multiple}}</span>
-                                </div>
-                                <div class="right">
-                                    <p><span>策略总得分：<e>{{x.allScore | number:6}}</e></span><i class={{x.y}}></i></p>
-                                    <p><span>收益评分：<e class={{x.yeildColor}}>{{x.earnScore | number:6}}</e></span><i class={{x.y}}></i></p>
-                                    <p><span>风险评分：<e class={{x.yeildColor1}}>{{x.rateScore | number:6}} </e></span><i class="{{x.y1}}"></i></p>
-                                </div>-->
-                            </div>
-                            <div style="position: relative">
-                                <a data-toggle="collapse" class="more"  data-target="#{{x.id+page}}" data-parent="#accordion" ng-click="showIf(x.id)">详情</a>
-                            </div>
-                            <div id="{{x.id+page}}" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <div class="more_detail_table">
-                                        <table class="table table-hover">
-                                            <caption>收益评分项</caption>
-                                            <thead>
-                                            <tr>
-                                                <th>总收益率</th>
-                                                <th>平均收益率</th>
-                                                <th>年化收益率</th>
-                                                <th>交易胜率</th>
-                                                <th>盈亏比</th>
-                                                <th>收益波动率</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>{{x.rorScore | number:6}}</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>{{x.rowScore}}</td>
-                                                <td>{{x.roplScore}}</td>
-                                                <td>{{x.rorfScore | number:6}}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <div class="more_detail_table table_rigth">
-                                        <table class="table table-hover">
-                                            <caption>风险评分项</caption>
-                                            <thead>
-                                            <tr>
-                                                <th>最大回撤</th>
-                                                <th>信息比率</th>
-                                                <th>收益波动率</th>
-                                                <th>平均持仓时间</th>
-                                                <th>交易方向胜率</th>
-                                                <th>交易胜率</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>{{x.modScore |number:6}}</td>
-                                                <td>{{x.roiScore|number:6}}</td>
-                                                <td>{{x.rorfScore_rate |number:6}}</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>{{x.rowScore_rate|number:6}}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <ul class="pagination pagination-md"  style="float: right;margin:20px 0 0">
                         <li ng-repeat="x in count" ng-class="{active:x.page == page}">
                             <a ng-click="putScreen(x.page)">{{$index+1}}</a>
                         </li>
@@ -1033,7 +1135,4 @@
             </div>-->
         </div>
     </div>
-
-
-
 </div>
