@@ -87,15 +87,11 @@ a:focus,button:focus,input:focus{
 	border-radius: 4px;
 
 }
-/*.main-navbar a.reg-btn:before {
-	content: '|';
-	font-weight: bold;
-	color: #fff;
-	left: -15px;
-}*/
+
 .zijin-ngview{
 	height: 100%;
-	background-color: #fff;
+    margin-top: 50px;
+
 }
 
 .main-navbar .list-group{
@@ -224,41 +220,34 @@ a:focus,button:focus,input:focus{
 footer {
 	clear:both;
 	position:relative;
-	/*z-index:50;*/
     text-align: center;
-	border-top: 2px solid #dcdcdc;
 }
 
 footer .bill-footer {
 	position: relative;
 	padding-top: 30px;
 	padding-bottom: 30px;
-	color: #f5f5ff;
-	background: #292421;
+
+	background: #333;
 }
 @media (max-width:767px){
 	footer .bill-footer >.col-sm-4{margin-bottom:25px;}
 }
 footer .copyright {
-	padding-top: 20px;
-	padding-bottom: 10px;
-	color: #fffafa;
-	background: -webkit-linear-gradient(to right, #13285F 0%, #1C2C62 33%, #001641 66%,
-	#000A2E 100%);
-	background: -moz-linear-gradient(to right, #13285F 0%, #1C2C62 33%, #001641 66%,
-	#000A2E 100%);
-	background: -o-linear-gradient(to right, #13285F 0%, #1C2C62 33%, #001641 66%,
-	#000A2E 100%);
-	background: linear-gradient(to right, #13285F 0%, #1C2C62 33%, #001641 66%, #000A2E
-	100%);
+	padding-top: 5px;
+
+	color: #8f8e8e;
+	background: #DFDFDF;
+
 }
 footer .copyright p{
 	margin: 0;
+	font-size: 12px;
 }
 footer .footer-text-head {
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 	color: #fff;
-	font-size: 20px;
+	font-size: 13px;
 }
 footer .bill-footer p{
 	text-align: left;
@@ -268,7 +257,8 @@ footer .bill-footer p{
 	footer .bill-footer .col-sm-2{margin-bottom: 30px;}
 }
 footer .bill-footer p a{
-	color: #ccc;
+	color: #8F9195;
+	font-size: 13px;
 }
 footer .bill-footer p a:hover{
 	color:#fff;
@@ -279,9 +269,9 @@ footer .bill-footer .zijin-footer-itembox{
 }
 footer .bill-footer .zijin-footer-logo{
 	position: absolute;
-	top: 20px;
+	top: 30px;
 	left: 50px;
-	width: 150px;
+	width: 100px;
 	height: auto;
 }
 footer .footer-text-head .glyphicon {
@@ -296,15 +286,17 @@ footer .footer-text-head span {
 .menu{
 	display: flex;
 	color: #fff;
-	line-height: 45px;
-
 	justify-content: space-between;
 }
-/*.menu li {*/
-	/*float: left;*/
-	/*color: #fff;*/
-	/*!*margin-left: 30px;*!*/
-/*}*/
+.arrow_up{
+    background: url(../images/arrow-up.png) no-repeat;
+    width: 20px;
+    height: 11px;
+    position: absolute;
+    right: 20px;
+    top: -10px;
+}
+
 .menu li{
 	padding: 0 20px;
 	display: flex;

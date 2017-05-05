@@ -134,7 +134,7 @@
                 redirectTo: '/home'
             });
         hljsServiceProvider.setOptions({
-            tabReplace: '  '
+            tabReplace: ' '
         });
     }])
     .run(['$rootScope', '$location', '$window', '$route', '$templateCache', function ($rootScope, $location, $window, $route, $templateCache) {
@@ -191,32 +191,17 @@
 
         $(".menu li").each(function(index){
             $(this).click(function(){
-
                 $(".menu li.menuacitve").removeClass("menuacitve");
-
                 $(this).addClass("menuacitve");
-
             })
-        })
-
-
-        /* $(".menu li ").click(function () {
-         $(this).css({"background":"#000",})
-         })*/
+        });
         window.b=0;
         window.c=0;
-        if ($cookieStore.get('user') == null) {
-            $scope.aside = 'full';
-        }
-        else {
-            $scope.aside = 'zijin-index';
-            $("#nav-sidebar").show()
-        }
         $scope.$watch(function () {
             var str = null;
             var href = window.location.href;
             var index = href.indexOf('#/');
-            if (index != -1) {
+            if (index !== -1) {
                 str = href.substring(index);
             }
             $scope.natived = str;
@@ -226,17 +211,12 @@
         $rootScope.logout = function () {
             $cookieStore.remove('user');
             $rootScope.user = null;
-            if ($cookieStore.get('user') == null) {
-                $scope.aside = 'full';
-            }
-            else {
-                $scope.aside = 'zijin-index';
-            }
             $location.path('/home'); //页面跳转
         };
         $scope.complie = function () {
             $location.path('/register');
         };
+
         $scope.hashLocation = function (x) {
             if ($rootScope.user && $rootScope.user.is_zijin) {
                 $location.path(x);
@@ -261,36 +241,8 @@
 
             setTimeout($(".mobile_wrap").fadeOut(),90000)
         })
-
-        /*  $(".trade_card").hover(function () {
-         $(this).css("border","2px solid #ddd");
-         $(".trade_card_img").css("background-color","#20BEFF");
-         $(".trade_card_hr").css("border-color","#20BEFF");
-
-         })*/
-
-        /*  $("#menu li").each(function(index){
-         $(this).click(function(){
-         //                    移除已经选中的样式
-         $("#menu li.tabFocus").removeClass("tabFocus");
-         //                    增加当前选中项的样式
-         $(this).addClass("tabFocus");
-         $("#content li:eq("+index+")").show().siblings().hide();
-         })
-         })*/
-
-
-        /*$(".trade_card").each(function () {
-         $(this).hover(function () {
-         $(this).css("border","2px solid #ddd");
-         $(".trade_card_img").css("background-color","#20BEFF");
-
-         })
-
-         })*/
-
     }])
-    .controller('studyController', ['$scope', 'strategyResources', 'strategyResource', '$http', '$timeout', '$cookieStore', 'constantUrl', '$location', '$rootScope', function ($scope, strategyResourcess, strategyResource, $http, $timeout, $cookieStore, constantUrl, $location, $rootScope) {
+   /* .controller('studyController', ['$scope', 'strategyResources', 'strategyResource', '$http', '$timeout', '$cookieStore', 'constantUrl', '$location', '$rootScope', function ($scope, strategyResourcess, strategyResource, $http, $timeout, $cookieStore, constantUrl, $location, $rootScope) {
         $rootScope.user = $cookieStore.get('user');
         $scope.hisActtoryRes = function (x) {
             if ($rootScope.user && $rootScope.user.is_zijin) {
@@ -304,8 +256,8 @@
             }
             ;
         };
-    }])
-    .controller('tableController', ['$scope', 'strategyResources', 'strategyResource', '$http', '$timeout', '$cookieStore', 'constantUrl', 'strategysValue', 'myStrategysValue', '$filter', function ($scope, strategyResourcess, strategyResource, $http, $timeout, $cookieStore, constantUrl, strategysValue, myStrategysValue, $filter) {
+    }])*/
+   /* .controller('tableController', ['$scope', 'strategyResources', 'strategyResource', '$http', '$timeout', '$cookieStore', 'constantUrl', 'strategysValue', 'myStrategysValue', '$filter', function ($scope, strategyResourcess, strategyResource, $http, $timeout, $cookieStore, constantUrl, strategysValue, myStrategysValue, $filter) {
         window.b=0;
         window.c=0;
         $scope.func = function (e) {
@@ -316,16 +268,16 @@
         };
         $scope.allStrategys = [];
         var allRecStrategys=[],c=0;
-        /* 源策略 */
+        /!* 源策略 *!/
         $scope.openMaskSourcing = function () {
             $('.sourcing-mask').fadeIn();
         };
-        /**
+        /!**
          * 数组排序
          * @param order desc升序asc降序
          * @param sortBy 所要排序的字段
          * @returns {*}
-         */
+         *!/
         function getSortFun(order, sortBy) {
             var ordAlpah = (order == 'desc') ? '>' : '<';
             var sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1');
@@ -411,11 +363,11 @@
                     Showbo.Msg.alert('添加失败，请稍后再试。');
                 });
         };
-        /**
+        /!**
          * 根据id获取策略
          * @param class_id
          * @returns {string|*}
-         */
+         *!/
         function getcelve(class_id) {
             for (var i = 0; i < accounts.length; i++) {
                 if (accounts[i]._id == class_id) {
@@ -423,11 +375,11 @@
                 }
             }
         }
-        /**
+        /!**
          * 获取历史回测的错误信息
          * @param id 根据id获取错误信息
          * @param i 有错误信息的行数
-         */
+         *!/
         $scope.geterror2 = function (id, i) {
             $http.get(constantUrl + "btstrategys/" + id + "/", {
                 headers: {
@@ -438,11 +390,11 @@
                     $scope.myHisStrategy[i].title = "错误信息: " + data.error;
                 })
         }
-        /**
+        /!**
          * 获取实盘的错误信息
          * @param id
          * @param i
-         */
+         *!/
         $scope.geterror = function (id, i){
             $http.get(constantUrl + "strategys/" + id + "/", {
                 headers: {
@@ -584,12 +536,12 @@
         };
 
 
-        /**
+        /!**
          * 转义换行
          * @param content
          * @returns {*}
          * @constructor
-         */
+         *!/
         function TransferString(content) {
             var string = content;
             try {
@@ -629,20 +581,20 @@
                 }
             })
         }
-        /**
+        /!**
          * 日志初始化
-         */
+         *!/
         $scope.beginlog = function () {
             $("#log").html("");
             $("#logname").html("");
             $('.logs-mask').show();
             $('.loadEffect').show();
         }
-        /**
+        /!**
          * 日志输出
          * @param name
          * @param log
-         */
+         *!/
         $scope.put = function (name, logs) {
             var test = new Array();
             var p = 0,
@@ -670,7 +622,7 @@
             $('.loadEffect').hide();
             $scope.log = true;
         }
-        /* 创建实盘模拟 */ //加载策略页面
+        /!* 创建实盘模拟 *!/ //加载策略页面
         //实盘列表渲染到页面
         var strategyList1=[];
 
@@ -1101,7 +1053,7 @@
         $("#startTime").attr("disabled", "true");
         $("#endTime").attr("disabled", "true");
 
-        /* 创建历史回测 */
+        /!* 创建历史回测 *!/
         $scope.hisItem = {};
         $scope.modeTickOptions = false;
         $scope.modeBarOptions = false;
@@ -1420,7 +1372,7 @@
                 })
         });
 
-    }])
+    }])*/
     .controller('userController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', 'myStrategysValue', '$q', 'newConstantUrl',function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, myStrategysValue, $q,newConstantUrl) {
         window.b=0;
         window.c=0;
@@ -1485,7 +1437,7 @@
             });
         };
     }])
-    .controller('runCenterController', ['$scope', '$http', 'constantUrl', '$cookieStore', '$filter', '$routeParams', '$q', '$timeout','$rootScope','averline', function ($scope, $http, constantUrl, $cookieStore, $filter, $routeParams, $q, $timeout,$rootScope,averline) {
+    /*.controller('runCenterController', ['$scope', '$http', 'constantUrl', '$cookieStore', '$filter', '$routeParams', '$q', '$timeout','$rootScope','averline', function ($scope, $http, constantUrl, $cookieStore, $filter, $routeParams, $q, $timeout,$rootScope,averline) {
         $rootScope.user = $cookieStore.get('user');
         //console.log($rootScope.user.username)
         if($rootScope.user.username !=null){
@@ -1698,7 +1650,7 @@
             return symbolList1;
         }
         //真实交易
-        var  truedata2=[];   /*存放没有被删除的策略*/
+        var  truedata2=[];   /!*存放没有被删除的策略*!/
         function trustDeals(flag){
             for(var i=0; i<truedata.length; i++){
                 if(truedata[i].status!=-2){
@@ -2258,7 +2210,7 @@
             if(window.b ==1){
                 return;
             }
-            var falsedata2=[];   /*存放没有被删除的策略*/
+            var falsedata2=[];   /!*存放没有被删除的策略*!/
             delFirm=[];
             for(var i=0; i<falsedata.length; i++){
                 if(falsedata[i].status ==2 || falsedata[i].status == 3){
@@ -2753,8 +2705,8 @@
             var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
             return currentdate;
         }
-    }])
-    .controller('analyseController', ['$scope', '$rootScope', '$filter', '$http', 'constantUrl', '$cookieStore', 'myStrategysValue', '$q','averline', function ($scope, $rootScope, $filter, $http, constantUrl, $cookieStore, myStrategysValue, $q,averline) {
+    }])*/
+   /* .controller('analyseController', ['$scope', '$rootScope', '$filter', '$http', 'constantUrl', '$cookieStore', 'myStrategysValue', '$q','averline', function ($scope, $rootScope, $filter, $http, constantUrl, $cookieStore, myStrategysValue, $q,averline) {
         window.b=0;
         $scope.closeModal = function () {
             $('.analyse-modal-big').hide();
@@ -2998,9 +2950,9 @@
                         for (var i in data) {
                             alldata[i] = data[i];
                         }
-                        /**
+                        /!**
                          *    删除"0"数据并保存
-                         */
+                         *!/
                         function delzero(data) {
                             for (var i = 0; i < data.length; i++) {
                                 if (data[i].price == 0) {
@@ -3329,10 +3281,10 @@
                         }
 
 
-                        /**
+                        /!**
                          * 时间格式
                          * @returns {string}
-                         */
+                         *!/
                         Date.prototype.toLocaleString = function () {
                             var year, month, day, hour, min, sec;
                             year = this.getFullYear();
@@ -3358,11 +3310,11 @@
                             }
                             return year + "-" + month + "-" + day + " " + hour + ":" + min;
                         };
-                        /**
+                        /!**
                          * 毫秒时间戳转换普通时间
                          * @param time
                          * @returns {string}
-                         */
+                         *!/
                         function gettime(time) {
                             var unixTimestamp = new Date(time)
                             return unixTimestamp.toLocaleString();
@@ -3375,11 +3327,11 @@
                         }
 
                         $scope.analyseDataArr = alldata2;
-                        /**封装计算手续费方法
+                        /!**封装计算手续费方法
                          *
                          * @param i
                          * @returns {number}
-                         */
+                         *!/
                         function gettest(i) {
                             var symbol = $scope.myFirmStrategy.symbol[0] + $scope.myFirmStrategy.symbol[1];
                             var charge;
@@ -3403,11 +3355,11 @@
                         }
 
 
-                        /**无手续费盈亏
+                        /!**无手续费盈亏
                          *
                          * @param i
                          * @returns {number}
-                         */
+                         *!/
                         function notest(i) {
                             if ($scope.analyseDataArr[i].direction == "看多") {
                                 //console.log("看多");
@@ -3898,10 +3850,10 @@
                 Showbo.Msg.alert('没有交易数据!');
             });
         }
-    }])
+    }])*/
 
     // 历史/实盘测试
-    .controller('actualResController', ['$scope', '$rootScope', '$filter', '$http', 'constantUrl', '$cookieStore', 'myStrategysValue', '$q','averline', function ($scope, $rootScope, $filter, $http, constantUrl, $cookieStore, myStrategysValue, $q,averline) {
+   /* .controller('actualResController', ['$scope', '$rootScope', '$filter', '$http', 'constantUrl', '$cookieStore', 'myStrategysValue', '$q','averline', function ($scope, $rootScope, $filter, $http, constantUrl, $cookieStore, myStrategysValue, $q,averline) {
         window.b=0;
         window.c=0;
         $scope.closeModal = function () {
@@ -3979,9 +3931,9 @@
         var falsedata = [];
         var allStrategy = [];
         $scope.myFirmStrategyList = [];
-        /**
+        /!**
          * 实盘/真实交易数据处理
-         */
+         *!/
         $scope.makeChart1 = function () {
             var beginData = [];
             var myFirm = [];
@@ -4171,9 +4123,9 @@
                             for (var i in data) {
                                 alldata[i] = data[i];
                             }
-                            /**
+                            /!**
                              *    删除"0"数据并保存
-                             */
+                             *!/
                             function delzero(data) {
                                 for (var i = 0; i < data.length; i++) {
                                     if (data[i].price == 0) {
@@ -4434,12 +4386,12 @@
                                 })
                             }
                         }
-                        /**
+                        /!**
                          * 数组排序
                          * @param order desc升序asc降序
                          * @param sortBy 所要排序的字段
                          * @returns {*}
-                         */
+                         *!/
                         function getSortFun(order, sortBy) {
                             var ordAlpah = (order == 'desc') ? '>' : '<';
                             var sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1');
@@ -4514,10 +4466,10 @@
                             alldata3[i].opentime = (alldata2[i].opentime);
                             alldata3[i].closetime = (alldata2[i].closetime);
                         }
-                        /**
+                        /!**
                          * 时间格式
                          * @returns {string}
-                         */
+                         *!/
                         Date.prototype.toLocaleString = function () {
                             var year, month, day, hour, min, sec;
                             year = this.getFullYear();
@@ -4543,11 +4495,11 @@
                             }
                             return year + "-" + month + "-" + day + " " + hour + ":" + min;
                         };
-                        /**
+                        /!**
                          * 毫秒时间戳转换普通时间
                          * @param time
                          * @returns {string}
-                         */
+                         *!/
                         function gettime(time) {
                             var unixTimestamp = new Date(time)
                             return unixTimestamp.toLocaleString();
@@ -4557,12 +4509,12 @@
                             alldata2[i].closetime = gettime(alldata2[i].closetime);
                             alldata2[i].time = gettime(alldata2[i].time);
                         }
-                        /**
+                        /!**
                          * 数组排序
                          * @param order desc升序asc降序
                          * @param sortBy 所要排序的字段
                          * @returns {*}
-                         */
+                         *!/
 
                         alldata2.sort(getSortFun('desc', 'open'));
                         if(alldata2.length==0){
@@ -4582,11 +4534,11 @@
                         else{
                             $scope.analyseDataArr = alldata2;
                         }
-                        /**封装计算手续费方法
+                        /!**封装计算手续费方法
                          *
                          * @param i
                          * @returns {number}
-                         */
+                         *!/
                         function gettest(i) {
                             var symbol = $scope.myFirmStrategy.symbol[0] + $scope.myFirmStrategy.symbol[1];
                             var charge;
@@ -4608,11 +4560,11 @@
                             test = Number((test).toFixed(6));
                             return test;
                         }
-                        /**无手续费盈亏
+                        /!**无手续费盈亏
                          *
                          * @param i
                          * @returns {number}
-                         */
+                         *!/
                         function notest(i) {
                             if ($scope.analyseDataArr[i].direction == "看多") {
                                 //console.log("看多");
@@ -5143,7 +5095,7 @@
                 });
             });
         };
-    }])
+    }])*/
     .controller('complieController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', '$route', '$timeout', '$q', '$interval', '$filter', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, $route, $timeout, $q, $interval, $filter) {
         window.b=0;
         window.c=0;
@@ -5215,68 +5167,7 @@
         editor.setValue($scope.code);
 
     }])
-    .controller('algorithmInforController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', '$route', '$timeout', '$q', '$interval', '$filter', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, $route, $timeout, $q, $interval, $filter) {
-        var str_img,str,img;
-        var hash = window.location.hash;
-        var index = hash.indexOf('id');
-        if (index !== -1) {
-            str = hash.substring(index+3,index+4);
-        }
-        if(str === 'a'){
-            str = hash.substring(index+4);
-            if(str === "2day"){
-                $scope.title="预测第二日股指价格涨跌"
-                img = 'images/thumb76_76_'+ str +'.png';
-            }
-            else{
-                $scope.title="预测"+ str +"分钟股指价格涨跌"
-                img = 'images/thumb76_76_'+ str +'min.png';
-            }
-        }
-        else if(str === 'b'){
-            str = hash.substring(index+6);
-            if(str === "2day"){
-                $scope.title="预测第二日股指最高价与最低价"
-                img = 'images/thumb76_76_2_'+ str +'.png';
-            }
-            else{
-                $scope.title="预测"+ str +"分钟股指最高价与最低价"
-                img = 'images/thumb76_76_2_'+ str +'min.png';
-            }
-        }
-        else if(str === 'c'){
-            str = hash.substring(index+6,index+8);
-            str_img = hash.substring(index+4)
-            console.log(str)
-            console.log(str_img)
-            if(str_img === "3_2day"){
-                $scope.title="第二日为周期趋势波动分类"
-            }
-            else{
-                $scope.title= str +"分钟为周期趋势波动分类"
-            }
-            img = 'images/thumb76_76_'+ str_img +'.png';
 
-        }
-        else if(str === 'd'){
-            $scope.title= "预测隔天涨跌幅度";
-            img = 'images/yesterday.png';
-        }
-        else if(str === 'e'){
-            str = hash.substring(index+4);
-            if(str === "1day"){
-                $scope.title="预测一天收益率"
-                img = 'images/rate_'+ str +'.png';
-            }
-            else{
-                $scope.title= "预测" + str + "分钟收益率";
-                img = 'images/rate_'+ str +'min.png';
-            }
-        }
-        $("#algorithm_information_img").attr('src',img);
-
-
-    }])
     .controller('kernelController', ['$scope', '$rootScope', '$http', '$location', '$cookies', '$cookieStore', 'constantUrl', '$route', '$timeout', '$q', '$interval', '$filter','getModalResList', function ($scope, $rootScope, $http, $location, $cookies, $cookieStore, constantUrl, $route, $timeout, $q, $interval, $filter,getModalResList) {
         window.b=0;
         window.c=0;
@@ -5396,7 +5287,6 @@
             var str = "title=" + encodeURIComponent($scope.modalResOpenEdit.title) + "&content=" + encodeURIComponent($scope.modalResOpenEdit.content) + "&code=" + encodeURIComponent($scope.modalResOpenEdit.code);
             getModalResList.reviseItem(str, url).then(function () {
                 $scope.getOpen()
-
             }, function (err) {
             });
         }
@@ -5404,8 +5294,6 @@
     .controller('quantController',['$scope','$http','newConstantUrl','$cookieStore','$filter','$location','$timeout',function ($scope,$http,newConstantUrl,$cookieStore,$filter,$location,$timeout) {
 
         var strategy=[],codeName=[],strategyList=[],tradeTimeList=[],tradeTime=[];
-
-        // var url = $location.url();
        /* $scope.getStrategysCode = function () {
             $http.get(newConstantUrl + "scripts/" ,{
                 headers:{
@@ -5434,39 +5322,17 @@
             })
                 .success(function (data) {
                     angular.forEach(data,function (item,index) {
-                        // if(url === '/quant_contest'){
-                        if(item.mode === 'realtime'&&item.script_mode ==='trade'&&item.status === 2 &&item.exchange==='CTP'){
+                        if(item.mode === 'realtime'&&item.script_mode ==='trade'&&item.status === 2 &&item.exchange === 'CTP'){
                             item.datetime = $filter("date")(item.datetime, "yyyy-MM-dd HH:mm:ss");
-                            // item.code_name = getCodeName(item.script_id);
-                            strategy.push(item)
+                            strategy.push(item);
                         }
-                        // }
-                        /*else if(url === '/ai_contest'){
-                         if(item.mode === 'realtime' && item.script_mode === 'predict' && item.status === 2&&item.exchange==='CTP'){
-                         item.datetime = $filter("date")(item.datetime, "yyyy-MM-dd HH:mm:ss");
-                         item.code_name = getCodeName(item.script_id);
-                         strategy.push(item)
-                         }
-                         }*/
+
                     })
                     deal(strategy);
                 })
         }
+        $scope.getStrategys();
 
-        $scope.getStrategys()
-
-        /* $scope.putScreen = function (page) {
-         $scope.page=page;
-         $scope.strategys = [];
-         $scope.strategys = deal(strategyList[page]);
-         $("html, body").animate({
-         scrollTop: $("#top").offset().top
-         },
-         {
-         duration: 500,easing: "swing"
-         }
-         );
-         }*/
         var dataList=[];
         function deal(newData){
             getTime(0);
@@ -5493,18 +5359,18 @@
                         newData[i].trade_time = data;
                         i++;
                         if(i === newData.length){
-                            $scope.changeTime()
+                            $scope.changeTime();
                             tradeTimeList.sort(function(b, a) {
                                 return (new Date(b.replace(/-/g, '/')).getTime() - new Date(a.replace(/-/g, '/')).getTime());
                             });
 
                             $scope.tradeTimeList=tradeTimeList;
-                            $scope.time=tradeTimeList[tradeTimeList.length-2]
+                            $scope.time=tradeTimeList[tradeTimeList.length-2];
                             return;
                         }
                         getTime(i)
                     })
-                    .error(function(data){
+                    .error(function(err){
                         newData[i].trade_time = 0;
                         i++;
                         if(i === newData.length){
@@ -5522,7 +5388,6 @@
             $scope.changeTime =  function(){
                 getScore(0);
                 function getScore(j){
-
                     $http.get(newConstantUrl + "strategy_datas/" ,{
                         params:{
                             "strategy_id":newData[j].id,
@@ -5558,20 +5423,11 @@
 
                             //风险评分项
 
-                            /*  if(data.mod ===0 && data.ror !==0){
-                             if(data.ror <0){
-                             newData[j].modScore = -1 *0.2*100;
-                             }
-                             else if(data.ror >0){
-                             newData[j].modScore = 0.2*100;
-                             }
-                             }
-                             */
+
                             newData[j].mod = data.mod;
                             newData[j].ros = data.ros*100;
                             newData[j].roi = data.roi*100;
                             newData[j].aopt = data.aopt;
-
 
 
                             newData[j].modScore = data.mod /10*0.2*100;//最大回撤
@@ -5584,14 +5440,7 @@
 
 
                             newData[j].rateScore = newData[j].modScore + newData[j].rosScore + newData[j].roiScore + newData[j].rowScore_rate + newData[j].rorfScore_rate + newData[j].aoptScore + newData[j].rodwScore_rate;//风险评分
-                            /*if(newData[j].rateScore === 0 || newData[j].earnScore === 0){
-                             newData[j].allScore = 0;
-                             newData[j].trade_if = 'no';
-                             }*/
-                            /* else{
-                             newData[j].allScore = newData[j].earnScore / newData[j].rateScore *100;
-                             newData[j].trade_if = 'yes';
-                             }*/
+
                             if(newData[j].rateScore === 0 && newData[j].earnScore === 0){
                                 newData[j].allScore = 0;
                                 newData[j].trade_if = 'no';
@@ -5605,20 +5454,6 @@
                             }
 
 
-                            /*  if(newData[j].earnScore<0 && newData[j].rateScore<0){
-                             newData[j].allScore = Math.abs(newData[j].earnScore) / Math.abs(newData[j].rateScore) *100;
-                             newData[j].allScore = - newData[j].allScore;
-                             newData[j].trade_if = 'yes';
-                             }
-                             else if(newData[j].rateScore === 0 && newData[j].earnScore === 0){
-                             newData[j].allScore = 0;
-                             newData[j].trade_if = 'no';
-                             }
-                             else{
-                             newData[j].allScore = newData[j].earnScore / newData[j].rateScore *100;
-                             newData[j].trade_if = 'yes';
-                             }
-                             */
                             j++;
 
                             if(j === newData.length){
@@ -5669,7 +5504,7 @@
                             j++;
                             if(j === newData.length){
                                 $scope.secondDeal(window.whichOne);
-                                // $scope.changeTime()
+
                                 return;
                             }
                             getScore(j)
@@ -5959,7 +5794,8 @@
         }
 
 
-        $scope.showIf = function (script_id,id) {
+        $scope.showIf = function (script_id,id,index) {
+
             $scope.predictInput='',$scope.predict_format=''
             function predict_format() {
                 var defer = $q.defer();
@@ -5996,10 +5832,11 @@
                     .error(function (data) {
                     })
             })
+            $(".panel-collapse").removeClass("in");
+            $("#index").addClass("in");
 
 
-            $(".panel-collapse").removeClass("in")
-            $("#id").addClass("in")
+
         }
 
 

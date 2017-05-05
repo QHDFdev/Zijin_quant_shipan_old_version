@@ -81,7 +81,7 @@
                                 </div>-->
                             </div>
                             <div style="position: relative" >
-                                <a data-toggle="collapse" class="more"  data-target="#{{x.script_id}}" data-parent="#accordion" ng-click="showIf(x.script_id,x.id)">详情</a>
+                                <a data-toggle="collapse" class="more"  data-target="#{{x.script_id}}"  ng-click="showIf(x.script_id,x.id,x.script_id)">详情</a>
                             </div>
                             <div id="{{x.script_id}}" class="panel-collapse collapse">
                                 <div class="panel-body">
@@ -229,9 +229,9 @@
                                 </div>-->
                             </div>
                             <div style="position: relative" id="accordion">
-                                <a data-toggle="collapse" class="more"  data-target="#{{x.script_id-page}}" data-parent="#accordion" ng-click="showIf(x.script_id,x.id)">详情</a>
+                                <a data-toggle="collapse" class="more"  data-target="#{{x.id}}" data-parent="#accordion" ng-click="showIf(x.script_id,x.id,x.id)">详情</a>
                             </div>
-                            <div id="{{x.script_id-page}}" class="panel-collapse collapse">
+                            <div id="{{x.id}}" class="panel-collapse collapse">
                                 <div class="panel-body">
                                     <div class="predict_detail_table">
                                         <h5 class="more_detail_table_title">预测输出</h5>
