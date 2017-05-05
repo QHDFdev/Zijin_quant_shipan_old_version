@@ -5585,10 +5585,10 @@
 
 
     }])
+
     .controller('predictController',['$scope','$http','$filter','newConstantUrl','$cookieStore','$timeout','$q',function ($scope,$http,$filter,newConstantUrl,$cookieStore,$timeout,$q) {
         var strategy=[],codeName=[],strategyList=[],tradeTimeList=[],tradeTime=[];
 
-        // var url = $location.url();
         /* $scope.getStrategysCode = function () {
          $http.get(newConstantUrl + "scripts/" ,{
          headers:{
@@ -5781,6 +5781,7 @@
         $scope.putScreen = function (page) {
             $scope.page=page;
             $scope.strategys = [];
+            console.log($scope.strategys)
             $scope.strategys = dataList[page];
 
             $("html, body").animate({
@@ -5794,11 +5795,14 @@
         }
 
 
-        $scope.showIf = function (script_id,id,index) {
+        $scope.showIf = function (script_id,id) {
+            $scope.predictInput=null;
+            $scope.predictInput1=null;
+            $scope.predictInput2=null;
+            $scope.predictInpu3=null;
+            $scope.predict_format=null;
 
-            $scope.predictInput='',$scope.predict_format=''
-            function predict_format() {
-                var defer = $q.defer();
+
                 $http.get(newConstantUrl + "scripts/" +script_id+'/' ,{
                     headers:{
                         'Authorization':'token ' + $cookieStore.get('user').token
@@ -5806,15 +5810,12 @@
                 })
                     .success(function (data) {
                         $scope.predict_format = data.predict_format;
-                        console.log($scope.predict_format)
-                        defer.resolve();
+
+
                     })
-                    .error(function () {
-                        defer.reject(err)
-                    })
-                return defer.promise;
-            }
-            predict_format().then(function () {
+
+
+
                 $http.get(newConstantUrl + "strategy_datas/" ,{
                     params:{
                         "strategy_id":id,
@@ -5826,14 +5827,56 @@
                     }
                 })
                     .success(function(data){
-                        $scope.predictInput = data;
-                        console.log(data)
+
+                        for(var m=0;m<data.length;m++){
+                            data[m].datetime = data[m].datetime.slice(0, 19)
+                        }
+
+                        if(data.length>3){
+                            var data1=[],data2=[],data3=[],data4=[];
+
+                            for(var i=0;i<data.length/4;i++){
+                                data1.push(data[i])
+                            }
+                            console.log(i)
+                            for(var j=i;j<data.length/4+i;j++){
+                                data2.push(data[j])
+                            }
+                            for(var k=j;k<data.length/4+j;k++){
+                                data3.push(data[k])
+                            }
+                            for(var n=k;n<data.length;n++){
+                                data4.push(data[n])
+                            }
+
+                            $scope.predictInput = data1;
+                            $scope.predictInput1 = data2;
+                            $scope.predictInput2 = data3;
+                            $scope.predictInpu3 = data4;
+
+                        }else{
+                            var data1=[],data2=[];
+
+                            for(var i=0;i<data.length/2;i++){
+                                data1.push(data[i])
+                            }
+                            for(var j=i;j<data.length;j++){
+                                data2.push(data[j])
+                            }
+
+                            $scope.predictInput = data1;
+                            $scope.predictInput1 = data2;
+                        }
                     })
-                    .error(function (data) {
-                    })
-            })
+
+            /*$timeout(function(){
+                $(".panel-collapse").removeClass("in");
+                $("#index").addClass("in");
+            },2000);*/
             $(".panel-collapse").removeClass("in");
-            $("#index").addClass("in");
+            // $("#index").addClass("in");
+
+
 
 
 

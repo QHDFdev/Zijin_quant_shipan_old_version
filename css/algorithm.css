@@ -1817,7 +1817,47 @@ ul li {
     padding: 10px 20px;
     text-align: left;
 }
-
+/*#loading-center-absolute{
+    height: 60px;
+    width: 60px;
+    -webkit-animation: loading-center-absolute 1s infinite;
+    animation: loading-center-absolute 1s infinite;
+}
+.object{
+    width: 20px;
+    height: 20px;
+    background-color: #FFF;
+    float: left;
+    -moz-border-radius: 50% 50% 50% 50%;
+    -webkit-border-radius: 50% 50% 50% 50%;
+    border-radius: 50% 50% 50% 50%;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+#object_one {
+    -webkit-animation: object_one 1s infinite;
+    animation: object_one 1s infinite;
+}
+#object_two {
+    -webkit-animation: object_two 1s infinite;
+    animation: object_two 1s infinite;
+}
+.object:nth-child(2n+0) {
+    margin-right: 0px;
+}
+#object_three {
+    -webkit-animation: object_three 1s infinite;
+    animation: object_three 1s infinite;
+}
+#object_four {
+    -webkit-animation: object_four 1s infinite;
+    animation: object_four 1s infinite;
+}
+@keyframes loading-center-absolute{
+   !*transform: rotate(360deg);*!
+-webkit-transform: rotate(360deg);
+transform: rotate(360deg);
+}*/
 
 @keyframes b {
     0%{
