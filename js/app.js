@@ -121,8 +121,10 @@
                 templateUrl: 'tpls/kernelmine.html'
             })
             .when('/ai_contest', {
+                // templateUrl: 'tpls/predict.html',
                 templateUrl: 'tpls/predict.html',
                 controller:'predictController'
+
             })
             .when('/firmOffer', {
                 templateUrl: 'tpls/firmOffer.html'
@@ -3852,6 +3854,9 @@
         }
     }])*/
 
+
+
+
     // 历史/实盘测试
    /* .controller('actualResController', ['$scope', '$rootScope', '$filter', '$http', 'constantUrl', '$cookieStore', 'myStrategysValue', '$q','averline', function ($scope, $rootScope, $filter, $http, constantUrl, $cookieStore, myStrategysValue, $q,averline) {
         window.b=0;
@@ -5515,6 +5520,7 @@
                 $scope.secondDeal = function(which) {
 
                     window.whichOne = which;
+                    console.log($scope.time)
 
                     var count=[],newdata1=[],n=0,trade_yes=[],c=0,trade_no=[],d=0;
                     dataList=[];
@@ -5588,6 +5594,7 @@
 
     .controller('predictController',['$scope','$http','$filter','newConstantUrl','$cookieStore','$timeout','$q',function ($scope,$http,$filter,newConstantUrl,$cookieStore,$timeout,$q) {
         var strategy=[],codeName=[],strategyList=[],tradeTimeList=[],tradeTime=[];
+        console.log("jinr")
 
         /* $scope.getStrategysCode = function () {
          $http.get(newConstantUrl + "scripts/" ,{
@@ -5669,7 +5676,7 @@
                         }
                         getTime(i)
                     })
-                    .error(function(data){
+                    .error(function(err){
                         newData[i].trade_time = 0;
                         i++;
                         if(i === newData.length){
@@ -5726,12 +5733,15 @@
                  }*/
                 secondDeal(window.whichOne);
 
+
                 function secondDeal(which) {
 
                     window.whichOne = which;
 
                     var count=[],newdata1=[],n=0,trade_yes=[],c=0,trade_no=[],d=0;
                     dataList=[];
+
+                    console.log($scope.time)
                     for(var a=0;a<newData.length;a++){
                         for(var b=0;b<newData[a].trade_time.length;b++){
                             if(newData[a].trade_time[b] === $scope.time){
@@ -5781,7 +5791,7 @@
         $scope.putScreen = function (page) {
             $scope.page=page;
             $scope.strategys = [];
-            console.log($scope.strategys)
+            console.log(dataList)
             $scope.strategys = dataList[page];
 
             $("html, body").animate({
@@ -5791,7 +5801,7 @@
                     duration: 500,easing: "swing"
                 }
             );
-            $(".panel-collapse").removeClass("in")
+            // $(".panel-collapse").removeClass("in")
         }
 
 
@@ -5810,8 +5820,6 @@
                 })
                     .success(function (data) {
                         $scope.predict_format = data.predict_format;
-
-
                     })
 
 
