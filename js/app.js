@@ -86,12 +86,12 @@
                 templateUrl: 'tpls/adminCenter.html',
                 controller: 'adminCenterController'
             })
-            .when('/strategyruncenter', {
-                templateUrl: 'tpls/runCenter.html'
-            })
+            // .when('/strategyruncenter', {
+            //     templateUrl: 'tpls/runCenter.html'
+            // })
             .when('/quant_contest', {
-                templateUrl: 'tpls/algorithm.html',
-                controller:'quantController'
+                templateUrl: 'tpls/algorithm.html'
+                // controller:'quantController'
             })
             .when('/dataset', {
                 templateUrl: 'tpls/dataset.html'
@@ -121,10 +121,8 @@
                 templateUrl: 'tpls/kernelmine.html'
             })
             .when('/ai_contest', {
-                // templateUrl: 'tpls/predict.html',
-                templateUrl: 'tpls/predict.html',
-                controller:'predictController'
-
+                templateUrl: 'tpls/predict.html'
+                // controller:'predictController'
             })
             .when('/firmOffer', {
                 templateUrl: 'tpls/firmOffer.html'
@@ -5297,7 +5295,6 @@
         }
     }])
     .controller('quantController',['$scope','$http','newConstantUrl','$cookieStore','$filter','$location','$timeout',function ($scope,$http,newConstantUrl,$cookieStore,$filter,$location,$timeout) {
-
         var strategy=[],codeName=[],strategyList=[],tradeTimeList=[],tradeTime=[];
        /* $scope.getStrategysCode = function () {
             $http.get(newConstantUrl + "scripts/" ,{
@@ -5331,7 +5328,6 @@
                             item.datetime = $filter("date")(item.datetime, "yyyy-MM-dd HH:mm:ss");
                             strategy.push(item);
                         }
-
                     })
                     deal(strategy);
                 })
@@ -5368,7 +5364,6 @@
                             tradeTimeList.sort(function(b, a) {
                                 return (new Date(b.replace(/-/g, '/')).getTime() - new Date(a.replace(/-/g, '/')).getTime());
                             });
-
                             $scope.tradeTimeList=tradeTimeList;
                             $scope.time=tradeTimeList[tradeTimeList.length-2];
                             return;
@@ -5518,10 +5513,7 @@
                 }
 
                 $scope.secondDeal = function(which) {
-
                     window.whichOne = which;
-                    console.log($scope.time)
-
                     var count=[],newdata1=[],n=0,trade_yes=[],c=0,trade_no=[],d=0;
                     dataList=[];
 
@@ -5594,7 +5586,8 @@
 
     .controller('predictController',['$scope','$http','$filter','newConstantUrl','$cookieStore','$timeout','$q',function ($scope,$http,$filter,newConstantUrl,$cookieStore,$timeout,$q) {
         var strategy=[],codeName=[],strategyList=[],tradeTimeList=[],tradeTime=[];
-        console.log("jinr")
+
+
 
         /* $scope.getStrategysCode = function () {
          $http.get(newConstantUrl + "scripts/" ,{
@@ -5641,6 +5634,7 @@
 
         var dataList=[];
         function deal(newData){
+
             getTime(0);
             function getTime(i) {
                 $http.get( newConstantUrl + "strategy_datas/",{
@@ -5671,7 +5665,7 @@
                             });
 
                             $scope.tradeTimeList=tradeTimeList;
-                            $scope.time=tradeTimeList[tradeTimeList.length-2]
+                            $scope.time1=tradeTimeList[tradeTimeList.length-2]
                             return;
                         }
                         getTime(i)
@@ -5685,7 +5679,7 @@
                                 return (new Date(b.replace(/-/g, '/')).getTime() - new Date(a.replace(/-/g, '/')).getTime());
                             });
                             $scope.tradeTimeList=tradeTimeList;
-                            $scope.time=tradeTimeList[tradeTimeList.length-2];
+                            $scope.time1=tradeTimeList[tradeTimeList.length-2];
                             return;
                         }
                         getTime(i);
@@ -5744,7 +5738,7 @@
                     console.log($scope.time)
                     for(var a=0;a<newData.length;a++){
                         for(var b=0;b<newData[a].trade_time.length;b++){
-                            if(newData[a].trade_time[b] === $scope.time){
+                            if(newData[a].trade_time[b] === $scope.time1){
                                 newdata1.push(newData[a])
                             }
                         }
@@ -5788,10 +5782,12 @@
 
             }
         }
+
         $scope.putScreen = function (page) {
             $scope.page=page;
             $scope.strategys = [];
-            console.log(dataList)
+
+
             $scope.strategys = dataList[page];
 
             $("html, body").animate({

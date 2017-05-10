@@ -1606,42 +1606,7 @@ ul li {
     box-shadow: 0 2px 8px rgba(0,0,0,.16), 0 2px 20px rgba(0,0,0,.12);
     transition: all 0.4s ease;
 }
-.join_us:before{
-    content: '';
-    position: absolute;
-    left: 0;
-    top:0;
-    width: 160px;
-    height: 40px;
-    animation: btn_wave 3s infinite;
-    border-radius: 4px;
-    box-shadow: 0 0 0 0 #39a8d4;
-}
 
-@-webkit-keyframes btn_wave{
-    0%{
-        box-shadow:0 0 0 0 #39a8d4
-    }
-    0%,90%{
-        opacity:.8
-    }
-    to{
-        opacity:0;
-        box-shadow:0 0 0 7pt rgba(255,255,255,0)
-    }
-}
-@keyframes btn_wave{
-    0%{
-        box-shadow:0 0 0 0 #39a8d4
-    }
-    0%,90%{
-        opacity:.8
-    }
-    to{
-        opacity:0;
-        box-shadow:0 0 0 7pt rgba(255,255,255,0)
-    }
-}
 
 
 .join_us:hover{

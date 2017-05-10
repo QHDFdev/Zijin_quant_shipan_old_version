@@ -1,4 +1,4 @@
-<div class="algorithm" style="background:rgba(98,198,200,0.5);background-image:url(images/bgimg.png);padding-bottom: 40px" id="top">
+<div class="algorithm" style="background:rgba(98,198,200,0.5);background-image:url(images/bgimg.png);padding-bottom: 40px" ng-controller="quantController" id="top">
     <div class="banner_content">
         <div class="banner_content_view">
             <div class="banner">
@@ -34,23 +34,19 @@
     <div class="competition_list_wrapper" >
         <div class="competition_content">
             <div class="content_box_select">
-               <!-- <div class="content_box_ways">交易策略排行</div>-->
                 <ul class="content_box_way">
                     <li class="active" data-target="#score" data-toggle="tab" ng-click="secondDeal('allScore')">按总得分排</li>
                     <li data-target="#earn" data-toggle="tab" ng-click="secondDeal('earnScore')">按收益得分排</li>
                     <li data-target="#rate" data-toggle="tab" ng-click="secondDeal('rateScore')">按风险评分排</li>
                     <li class="select_time_li hidden-xs">交易时间
-                        <select class="form-control select_time" ng-options="x for x in tradeTimeList" ng-model="time" ng-change="changeTime()">
-                        </select>
+                        <select class="form-control select_time" ng-options="x for x in tradeTimeList" ng-model="time" ng-change="changeTime()"></select>
                     </li>
                 </ul>
             </div>
             <div class="visible-xs tradeTime_mobile">
                 <span class="trade_time_mobile">交易时间</span>
-                <select class="form-control trade_time_select" ng-options="x for x in tradeTimeList" ng-model="time" ng-change="changeTime()">
-                 </select>
+                <select class="form-control trade_time_select" ng-options="x for x in tradeTimeList" ng-model="time" ng-change="changeTime()"></select>
             </div>
-
 
             <div class="content_box_short tab-content" id="tab-content">
                 <div class="tab-pane active" role="tabpanel"  id="score">
@@ -82,12 +78,12 @@
                                 </div>
                                 <div class="right">
                                     <p><span>策略总得分：<e>{{x.allScore | number:6}}</e></span><i class={{x.y}}></i></p>
-                                    <p><span>收益评分：<e class={{x.yeildColor}}>{{x.earnScore | number:6}}</e></span><i class={{x.y}}></i></p>
+                                                         <p><span>收益评分：<e class={{x.yeildColor}}>{{x.earnScore | number:6}}</e></span><i class={{x.y}}></i></p>
                                     <p><span>风险评分：<e class={{x.yeildColor1}}>{{x.rateScore | number:6}} </e></span><i class="{{x.y1}}"></i></p>
                                 </div>-->
                             </div>
-                            <div style="position: relative" >
-                                <a data-toggle="collapse" class="more"  data-target="#{{x.id}}" data-parent="#accordion" ng-click="showIf(x.id)">策略得分详情</a>
+                            <div style="position: relative">
+                                <a data-toggle="collapse" class="more" data-target="#{{x.id}}" data-parent="#accordion" ng-click="showIf(x.id)">策略得分详情</a>
                             </div>
                             <div id="{{x.id}}" class="panel-collapse collapse">
                                 <div class="panel-body">
